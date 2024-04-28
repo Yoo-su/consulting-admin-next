@@ -9,7 +9,7 @@ import AppSidebar from './app-sidebar';
 type Props = {
   children: ReactNode;
 };
-const DefaultLayout = ({ children }: Props) => {
+const Layout = ({ children }: Props) => {
   return (
     <Fragment>
       <GlobalStyles
@@ -54,4 +54,4 @@ const DefaultLayout = ({ children }: Props) => {
   );
 };
 
-export default DefaultLayout;
+export default Layout;

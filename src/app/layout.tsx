@@ -1,7 +1,5 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import AppThemeProvider from '@/shared/components/providers/ThemeProvider';
-
-import DefaultLayout from '@/features/ui/components/layouts/DefaultLayout';
 import './reset.css';
 
 export const metadata = {
@@ -14,9 +12,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang='kor'>
       <body>
         <AppRouterCacheProvider>
-          <AppThemeProvider>
-            <DefaultLayout>{children}</DefaultLayout>
-          </AppThemeProvider>
+          <AppThemeProvider>{children}</AppThemeProvider>
         </AppRouterCacheProvider>
       </body>
     </html>

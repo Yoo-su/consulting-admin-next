@@ -9,49 +9,49 @@ import AddchartIcon from '@mui/icons-material/Addchart';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import { NavItemType } from './types';
+import { NavItemType } from '../../types';
 
 export const sideNavItems1: NavItemType[] = [
   {
     navkey: 'home',
     title: '홈',
-    href: '/',
+    href: '/dashboard',
     Icon: HomeIcon,
   },
   {
     navkey: 'service-setting',
     title: '서비스 설정',
-    href: '/service-setting',
+    href: '/dashboard/service-setting',
     Icon: SettingIcon,
   },
   {
     navkey: 'manage-consulting-files',
     title: '상담 자료 관리',
-    href: '/manage-consulting-files',
+    href: '/dashboard/consulting-files',
     Icon: DifferenceIcon,
   },
   {
     navkey: 'excel',
     title: '기초 엑셀 업로드',
-    href: '/excel',
+    href: '/dashboard/excel-upload',
     Icon: FileUploadIcon,
   },
   {
     navkey: 'mojip-setting',
     title: '모집요강 설정',
-    href: '/mojip-setting',
+    href: '/dashboard/mojip-setting',
     Icon: NoteAltIcon,
   },
   {
     navkey: 'chart-setting',
     title: '차트데이터 설정',
-    href: '/chart-setting',
+    href: '/dashboard/chart-setting',
     Icon: AddchartIcon,
   },
   {
     navkey: 'schedule-setting',
     title: '입시일정 설정',
-    href: '/schedule-setting',
+    href: '/dashboard/schedule-setting',
     Icon: EditCalendarIcon,
   },
 ];
@@ -60,13 +60,13 @@ export const sideNavItems2: NavItemType[] = [
   {
     navkey: 'consulting-statistic',
     title: '상담 통계',
-    href: '/consulting-statistic',
+    href: '/dashboard/consulting-statistic',
     Icon: AnalyticsIcon,
   },
   {
     navkey: 'excel-library',
     title: '기초 데이터 자료실',
-    href: '/excel-library',
+    href: '/dashboard/excel-library',
     Icon: BackupIcon,
   },
 ];
@@ -75,7 +75,7 @@ export const sideNavItems3: NavItemType[] = [
   {
     navkey: 'account-setting',
     title: '계정 관리',
-    href: '/account-setting',
+    href: '/dashboard/account-setting',
     Icon: ManageAccountsIcon,
   },
 ];

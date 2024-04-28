@@ -11,8 +11,8 @@ import Typography from '@mui/material/Typography';
 import UnivSelect from '@/shared/components/selects/univ';
 import ServiceSelect from '@/shared/components/selects/service';
 import { sideNavItems1, sideNavItems2, sideNavItems3 } from './side-nav-items';
-import { NavItemType } from './types';
-import { isNavItemActive } from '@/features/ui/services/isNavItemActive';
+import { NavItemType } from '../../types';
+import { isNavItemActive } from '../../services/isNavItemActive';
 
 const AppSidebar = () => {
   const pathname = usePathname();
@@ -42,7 +42,9 @@ const AppSidebar = () => {
           component='div'
           sx={{ display: 'inline-flex', justifyContent: 'center' }}
         >
-          <Typography variant='h5'>입학상담앱 관리자</Typography>
+          <Typography variant='h5' fontWeight={'bold'}>
+            입학상담앱 관리자
+          </Typography>
         </Box>
         <Box
           sx={{
