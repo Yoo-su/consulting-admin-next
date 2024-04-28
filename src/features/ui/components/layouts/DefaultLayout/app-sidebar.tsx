@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import RouterLink from 'next/link';
+import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -111,9 +111,18 @@ type NavItemProps = Omit<NavItemType, 'navkey'> & {
 };
 const NavItem = ({ title, href, pathname, Icon }: NavItemProps) => {
   const active = isNavItemActive({ pathname, href });
+  const router = useRouter();
+
+  const handleClick = (href: string) => {
+    router.push(href);
+  };
 
   return (
-    <li>
+    <li
+      onClick={() => {
+        handleClick(href);
+      }}
+    >
       <Box
         sx={{
           alignItems: 'center',

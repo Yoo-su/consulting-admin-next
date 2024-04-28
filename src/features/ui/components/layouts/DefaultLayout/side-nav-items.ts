@@ -27,7 +27,7 @@ export const sideNavItems1: NavItemType[] = [
   {
     navkey: 'manage-consulting-files',
     title: '상담 자료 관리',
-    href: 'consulting-files',
+    href: '/manage-consulting-files',
     Icon: DifferenceIcon,
   },
   {
@@ -75,7 +75,7 @@ export const sideNavItems3: NavItemType[] = [
   {
     navkey: 'account-setting',
     title: '계정 관리',
-    href: 'account-setting',
+    href: '/account-setting',
     Icon: ManageAccountsIcon,
   },
 ];

@@ -1,9 +1,9 @@
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
 const Home = () => {
   return (
-    <Grid container spacing={3} sx={{ bgcolor: '#F3F4F5' }}>
+    <Grid container spacing={3}>
       <Grid>
         <Typography variant='h3'>Main</Typography>
       </Grid>
