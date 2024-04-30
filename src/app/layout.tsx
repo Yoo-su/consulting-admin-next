@@ -1,6 +1,7 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import AppThemeProvider from '@/shared/components/providers/ThemeProvider';
-import './reset.css';
+import UserProvider from '@/features/auth/context/user-context';
+import '@/shared/style/reset.css';
 
 export const metadata = {
   title: 'Consulting-Admin',
@@ -11,9 +12,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='kor'>
       <body>
-        <AppRouterCacheProvider>
-          <AppThemeProvider>{children}</AppThemeProvider>
-        </AppRouterCacheProvider>
+        <UserProvider>
+          <AppRouterCacheProvider>
+            <AppThemeProvider>{children}</AppThemeProvider>
+          </AppRouterCacheProvider>
+        </UserProvider>
       </body>
     </html>
   );

@@ -1,3 +1,5 @@
+'use client';
+
 import { Fragment, ReactNode } from 'react';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';

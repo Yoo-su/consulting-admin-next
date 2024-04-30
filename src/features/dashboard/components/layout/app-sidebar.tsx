@@ -12,7 +12,7 @@ import UnivSelect from '@/shared/components/selects/univ';
 import ServiceSelect from '@/shared/components/selects/service';
 import { sideNavItems1, sideNavItems2, sideNavItems3 } from './side-nav-items';
 import { NavItemType } from '../../types';
-import { isNavItemActive } from '../../services/isNavItemActive';
+import { isNavItemActive } from '../../services/is-nav-item-active';
 
 const AppSidebar = () => {
   const pathname = usePathname();
@@ -141,6 +141,10 @@ const NavItem = ({ title, href, pathname, Icon }: NavItemProps) => {
             bgcolor: '#E0F3FF',
             color: '#5B64DA',
           }),
+          '&:hover': {
+            bgcolor: '#E0F3FF',
+            color: '#5B64DA',
+          },
         }}
       >
         <Box

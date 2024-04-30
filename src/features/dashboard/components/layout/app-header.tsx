@@ -9,7 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/material/Avatar';
 
 import UserPopover from './user-popover';
-import { usePopover } from '../../hooks/usePopover';
+import { usePopover } from '../../hooks/use-popover';
 
 const AppHeader = () => {
   const [openNav, setOpenNav] = useState<boolean>(false);
