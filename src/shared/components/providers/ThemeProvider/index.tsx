@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles';
-import theme from '../../style/theme';
+import theme from '../../../style/theme';
 
 type Props = {
   children: ReactNode;
