@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect, useState, Fragment, ReactNode } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState, Fragment, ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { useUser } from "../../hooks/use-user";
+import { useUser } from '../../hooks/use-user';
+import { paths } from '@/shared/constants/paths';
 
 export type AuthGuardProps = {
   children: ReactNode;
@@ -17,7 +18,7 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
   const checkUser = () => {
     if (isLoading) return;
     if (!user) {
-      router.replace("/auth/sign-in");
+      router.replace(paths.auth.signIn);
       return;
     }
     setIsChecking(false);
