@@ -1,12 +1,18 @@
-import { ReactNode } from 'react';
-import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles';
-import theme from '../../../style/theme';
+import { ReactNode, Fragment } from "react";
+import { Toaster } from "react-hot-toast";
+import { Experimental_CssVarsProvider as CssVarsProvider } from "@mui/material/styles";
+import theme from "../../../style/theme";
 
 type Props = {
   children: ReactNode;
 };
 const AppThemeProvider = ({ children }: Props) => {
-  return <CssVarsProvider theme={theme}>{children}</CssVarsProvider>;
+  return (
+    <Fragment>
+      <CssVarsProvider theme={theme}>{children}</CssVarsProvider>
+      <Toaster />
+    </Fragment>
+  );
 };
 
 export default AppThemeProvider;
