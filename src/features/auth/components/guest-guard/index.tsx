@@ -1,0 +1,41 @@
+'use client';
+
+import { useState, useEffect, Fragment, ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+
+import { paths } from '@/shared/constants/paths';
+import { useUser } from '../../hooks/use-user';
+
+export type GuestGuardProps = {
+  children: ReactNode;
+};
+
+const GuestGuard = ({ children }: GuestGuardProps) => {
+  const router = useRouter();
+  const { user, isLoading } = useUser();
+  const [isChecking, setIsChecking] = useState<boolean>(true);
+
+  const checkPermissions = () => {
+    if (isLoading) return;
+
+    if (user) {
+      router.replace(paths.dashboard.overview);
+      return;
+    }
+
+    setIsChecking(false);
+  };
+
+  useEffect(() => {
+    checkPermissions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
+  }, [user, isLoading]);
+
+  if (isChecking) {
+    return null;
+  }
+
+  return <Fragment>{children}</Fragment>;
+};
+
+export default GuestGuard;

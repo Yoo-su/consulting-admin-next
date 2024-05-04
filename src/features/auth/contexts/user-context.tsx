@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useState, useCallback, createContext } from "react";
-import { User } from "../types";
+import { useEffect, useState, useCallback, createContext } from 'react';
+import { User } from '../types';
 
 export type UserContextValue = {
   user: User | null;
@@ -14,9 +14,7 @@ export type UserProviderProps = {
   children: React.ReactNode;
 };
 const UserProvider = ({ children }: UserProviderProps) => {
-  const [state, setState] = useState<
-    Pick<UserContextValue, "user" | "isLoading">
-  >({
+  const [state, setState] = useState<Pick<UserContextValue, 'user' | 'isLoading'>>({
     user: null,
     isLoading: true,
   });
@@ -26,7 +24,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
   };
 
   const checkSession = useCallback(() => {
-    const user = sessionStorage.getItem("user");
+    const user = sessionStorage.getItem('user');
     user ? setUser(JSON.parse(user)) : setUser(null);
   }, []);
 
@@ -35,11 +33,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <UserContext.Provider value={{ ...state, setUser }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={{ ...state, setUser }}>{children}</UserContext.Provider>;
 };
 
 export default UserProvider;

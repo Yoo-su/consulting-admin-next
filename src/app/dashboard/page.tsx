@@ -1,13 +1,31 @@
-import Grid from '@mui/material/Unstable_Grid2';
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import ConsultingAppStateProvider from '@/features/dashboard/contexts/consultingapp-state-context';
+import ConsultingAppStateBoard from '@/features/dashboard/components/consultingapp-state-board';
 
 const Page = () => {
   return (
-    <Grid container spacing={3}>
-      <Grid>
-        <Typography variant='h3'>Main</Typography>
-      </Grid>
-    </Grid>
+    <ConsultingAppStateProvider>
+      <Container>
+        <Accordion slotProps={{ transition: { unmountOnExit: true } }} defaultExpanded>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="consultingapp-states-content"
+            id="consultingapp-states-content"
+          >
+            <Typography variant="h5">입학상담앱 담당자 및 현황</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <ConsultingAppStateBoard />
+          </AccordionDetails>
+        </Accordion>
+      </Container>
+    </ConsultingAppStateProvider>
   );
 };
 
