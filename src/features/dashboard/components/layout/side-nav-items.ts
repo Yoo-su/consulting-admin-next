@@ -10,7 +10,7 @@ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { paths } from '@/shared/constants/paths';
-import { NavItemType } from '../../types';
+import { NavItemType } from '../../types/nav-item.type';
 
 export const sideNavItems1: NavItemType[] = [
   {
@@ -26,7 +26,7 @@ export const sideNavItems1: NavItemType[] = [
     Icon: SettingIcon,
   },
   {
-    navkey: 'manage-consulting-files',
+    navkey: 'consulting-files-setting',
     title: '상담 자료 관리',
     href: paths.dashboard.consultingFilesSetting,
     Icon: DifferenceIcon,
