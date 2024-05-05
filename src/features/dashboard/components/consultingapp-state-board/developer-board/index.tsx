@@ -1,20 +1,35 @@
 'use client';
 
+import { DragEvent } from 'react';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 
 import StateCol from '../state-col';
-import { ConsultingAppState } from '@/features/dashboard/types/consultingapp-state.type';
+import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
+import { ConsultingAppState, CurrentState } from '@/features/dashboard/types/consultingapp-state.type';
 import { stateBoardDomainItems } from '../constants/state-board-domain-items';
 import { getGroupedStatesObject } from '../utils/get-grouped-states';
 
-type DeveloperBoardProps = {
-  consultingAppStates: ConsultingAppState[];
-};
-const DeveloperBoard = ({ consultingAppStates }: DeveloperBoardProps) => {
+const DeveloperBoard = () => {
+  const { consultingAppStates, setConsultingAppStates } = useConsultingAppState();
   const groupedByDeveloper = getGroupedStatesObject(consultingAppStates, 'developer');
+
+  const handleDrop = (e: DragEvent<HTMLDivElement>, currentState: CurrentState) => {
+    e.preventDefault();
+    const transferedData = e.dataTransfer.getData('text/plain');
+    const state: ConsultingAppState = JSON.parse(transferedData);
+
+    if (state.currentState === currentState) return;
+
+    state.currentState = currentState;
+    const newStates = consultingAppStates.map((item) => {
+      if (item.serviceID === state.serviceID) return state;
+      return item;
+    });
+    setConsultingAppStates(newStates);
+  };
 
   return (
     <Stack direction={'column'} spacing={3}>
@@ -42,10 +57,12 @@ const DeveloperBoard = ({ consultingAppStates }: DeveloperBoardProps) => {
               {Object.values(stateBoardDomainItems).map((item) => (
                 <StateCol
                   key={item.title}
+                  currentStateKey={item.key}
                   consultingAppStates={groupedByCurrentStates[item.key] ?? []}
                   title={item.title}
                   color={item.color}
                   bgcolor={item.bgcolor}
+                  handleDrop={handleDrop}
                 />
               ))}
             </Stack>

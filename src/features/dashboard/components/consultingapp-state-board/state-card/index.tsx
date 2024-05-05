@@ -1,22 +1,22 @@
 'use client';
 
+import { DragEvent } from 'react';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { ConsultingAppState } from '@/features/dashboard/types/consultingapp-state.type';
-import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
 
 export type StateCardProps = {
   state: ConsultingAppState;
 };
 const StateCard = ({ state }: StateCardProps) => {
-  const { setConsultingAppStates, consultingAppStates } = useConsultingAppState();
   const cardTitle = state.serviceYear + (state.serviceType === 'susi' ? '수시' : '정시') + ' ' + state.univName;
 
-  const handleClick = () => {
-    const filtered = consultingAppStates.filter((item) => item.serviceID !== state.serviceID);
-    setConsultingAppStates(filtered);
+  const handleClick = () => {};
+
+  const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
+    e.dataTransfer.setData('text/plain', JSON.stringify(state));
   };
 
   return (
@@ -30,6 +30,8 @@ const StateCard = ({ state }: StateCardProps) => {
         },
         transition: 'transform 0.1s ease-in-out',
       }}
+      onDragStart={handleDragStart}
+      draggable
     >
       <Stack direction={'column'} spacing={1.5}>
         <Typography variant="body2">{cardTitle}</Typography>
