@@ -1,17 +1,34 @@
+'use client';
+
+import { DragEvent, useState, memo } from 'react';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import StateCard from '../state-card';
-import { ConsultingAppState } from '@/features/dashboard/types/consultingapp-state.type';
+import { ConsultingAppState, CurrentState } from '@/features/dashboard/types/consultingapp-state.type';
 
 export type StateColProps = {
   consultingAppStates: ConsultingAppState[];
+  currentStateKey: CurrentState;
   title: string;
   color: string;
   bgcolor: string;
+  handleDrop: (e: DragEvent<HTMLDivElement>, currentState: CurrentState) => void;
 };
-const StateCol = ({ consultingAppStates, title, color, bgcolor }: StateColProps) => {
+const StateCol = ({ consultingAppStates, title, color, bgcolor, currentStateKey, handleDrop }: StateColProps) => {
+  const [isDragOver, setIsDragOver] = useState<boolean>(false);
+
+  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
   return (
     <Stack
       direction={'column'}
@@ -22,6 +39,15 @@ const StateCol = ({ consultingAppStates, title, color, bgcolor }: StateColProps)
         borderRadius: '0.5rem',
         flexGrow: 1,
         height: 'fit-content',
+        ...(isDragOver && {
+          animation: 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        }),
+      }}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={(e) => {
+        handleDrop(e, currentStateKey);
+        setIsDragOver(false);
       }}
     >
       <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
