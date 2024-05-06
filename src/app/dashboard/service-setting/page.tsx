@@ -5,7 +5,7 @@ const Page = () => {
   return (
     <Grid container spacing={3}>
       <Grid>
-        <Typography variant='h3'>Service Setting</Typography>
+        <Typography variant="h5">서비스 설정</Typography>
       </Grid>
     </Grid>
   );

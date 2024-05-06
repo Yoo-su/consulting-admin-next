@@ -6,21 +6,20 @@ import { ConsultingAppState } from '../types/consultingapp-state.type';
 import { toast } from 'react-hot-toast';
 
 export const useGetConsultingAppState = () => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<ConsultingAppState[]>([]);
 
   const execute = () => {
-    setLoading(true);
-
     getConsultingAppState()
       .then((response) => {
         setData(response.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
         toast.error('문제가 발생했습니다');
+        setLoading(false);
       });
-    setLoading(false);
   };
 
   useEffect(() => {

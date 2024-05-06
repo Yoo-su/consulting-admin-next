@@ -3,6 +3,7 @@
 import { useState, useEffect, Fragment, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 
+import AppBackdrop from '@/shared/components/loadings/app-backrdrop';
 import { paths } from '@/shared/constants/paths';
 import { useUser } from '../../hooks/use-user';
 
@@ -31,9 +32,7 @@ const GuestGuard = ({ children }: GuestGuardProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, [user, isLoading]);
 
-  if (isChecking) {
-    return null;
-  }
+  if (isChecking) return <AppBackdrop />;
 
   return <Fragment>{children}</Fragment>;
 };

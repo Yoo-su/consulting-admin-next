@@ -6,6 +6,7 @@ import { emphasize, styled } from '@mui/material/styles';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Chip from '@mui/material/Chip';
 import WindowIcon from '@mui/icons-material/Window';
+import AddIcon from '@mui/icons-material/Add';
 
 import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
 import { toolbarMenuItems } from '../constants/toolbar-menu-items';
@@ -13,7 +14,12 @@ import { ToolbarMenuItem } from '../types/toolbar-menu-item.type';
 import { BoardType } from '@/features/dashboard/contexts/consultingapp-state-context';
 
 const Toolbar = () => {
-  return <Stack direction={'row'}>{renderMenuItems(toolbarMenuItems)}</Stack>;
+  return (
+    <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+      {renderMenuItems(toolbarMenuItems)}
+      <Chip size="small" color="primary" icon={<AddIcon fontSize="small" />} label="새로 만들기" clickable />
+    </Stack>
+  );
 };
 
 const renderMenuItems = (items: ToolbarMenuItem[]) => {

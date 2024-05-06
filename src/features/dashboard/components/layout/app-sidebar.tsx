@@ -21,7 +21,7 @@ const AppSidebar = () => {
     <Box
       sx={{
         display: { xs: 'none', lg: 'flex' },
-        bgcolor: '#fff',
+        bgcolor: '#fefefa',
         color: '#343A40',
         flexDirection: 'column',
         height: '100%',

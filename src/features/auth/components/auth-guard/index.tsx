@@ -3,6 +3,7 @@
 import { useEffect, useState, Fragment, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 
+import AppBackdrop from '@/shared/components/loadings/app-backrdrop';
 import { useUser } from '../../hooks/use-user';
 import { paths } from '@/shared/constants/paths';
 
@@ -29,7 +30,7 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, isLoading]);
 
-  if (isChecking) return;
+  if (isChecking) return <AppBackdrop />;
   return <Fragment>{children}</Fragment>;
 };
 
