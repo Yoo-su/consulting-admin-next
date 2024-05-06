@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack';
 import Toolbar from './toolbar';
 import BasicBoard from './basic-board';
 import DeveloperBoard from './developer-board';
+import ConsultingAppStateDialog from './consultingapp-state-dialog';
 import ConsultingAppStateBoardSkeleton from './skeleton';
 import { useConsultingAppState } from '../../hooks/use-consultingapp-state';
 
@@ -17,6 +18,7 @@ const ConsultingAppStateBoard = () => {
       <Toolbar />
       {boardType === 'basic' && <BasicBoard />}
       {boardType === 'developer' && <DeveloperBoard />}
+      <ConsultingAppStateDialog />
     </Stack>
   );
 };

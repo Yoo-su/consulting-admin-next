@@ -3,6 +3,10 @@ export const apiUrls = {
     signin: '/user/signin',
   },
   dashboard: {
-    consultingAppState: '/dashboard/consultingapp-state',
+    getConsultingAppState: '/dashboard/consultingapp-state',
+  },
+  setup: {
+    getUnivList: '/setup/univ-list',
+    getServiceList: '/setup/service-list',
   },
 };

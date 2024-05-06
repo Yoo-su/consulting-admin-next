@@ -3,6 +3,7 @@ import MSWProvider from '@/shared/components/providers/MSWProvider';
 import QueryProvider from '@/shared/components/providers/QueryProvider';
 import AppThemeProvider from '@/shared/components/providers/ThemeProvider';
 import UserProvider from '@/features/auth/contexts/user-context';
+import UnivServiceProvider from '@/shared/contexts/univ-service-context';
 import '@/shared/style/css/reset.css';
 import '@/shared/style/css/animation.css';
 
@@ -18,9 +19,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <MSWProvider>
           <QueryProvider>
             <UserProvider>
-              <AppRouterCacheProvider>
-                <AppThemeProvider>{children}</AppThemeProvider>
-              </AppRouterCacheProvider>
+              <UnivServiceProvider>
+                <AppRouterCacheProvider>
+                  <AppThemeProvider>{children}</AppThemeProvider>
+                </AppRouterCacheProvider>
+              </UnivServiceProvider>
             </UserProvider>
           </QueryProvider>
         </MSWProvider>
