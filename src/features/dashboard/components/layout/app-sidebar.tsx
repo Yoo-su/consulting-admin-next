@@ -49,7 +49,7 @@ const AppSidebar = () => {
             display: 'flex',
           }}
         >
-          <Box sx={{ flex: '1 1 auto' }}>
+          <Box sx={{ width: '100%' }}>
             <UnivSelect />
             <ServiceSelect />
           </Box>
