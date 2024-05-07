@@ -17,8 +17,23 @@ const theme = extendTheme({
       fontFamily: ibm_kr.style.fontFamily,
       fontWeight: ibm_kr.style.fontWeight,
     },
+    h3: {
+      fontFamily: ibm_kr.style.fontFamily,
+      fontWeight: ibm_kr.style.fontWeight,
+    },
+    h2: {
+      fontFamily: ibm_kr.style.fontFamily,
+      fontWeight: ibm_kr.style.fontWeight,
+    },
+    h1: {
+      fontFamily: ibm_kr.style.fontFamily,
+      fontWeight: ibm_kr.style.fontWeight,
+    },
     body1: {
       fontFamily: gowun_dodum.style.fontFamily,
+    },
+    body2: {
+      fontFamily: hahmlet.style.fontFamily,
     },
   },
 });

@@ -12,6 +12,7 @@ export type UnivServiceContextValue = {
   currentService: Service | null;
   setCurrentUniv: (univ: Univ) => void;
   setCurrentService: (service: Service) => void;
+  setServiceList: (serviceList: Service[]) => void;
 };
 
 export const UnivServiceContext = createContext<UnivServiceContextValue | undefined>(undefined);
@@ -38,6 +39,10 @@ const UnivServiceProvider = ({ children }: UnivServiceProviderProps) => {
     setState((prev) => ({ ...prev, currentService: service }));
   };
 
+  const setServiceList = (serviceList: Service[]) => {
+    setState((prev) => ({ ...prev, serviceList: serviceList }));
+  };
+
   useEffect(() => {
     refetch().then((res) => {
       setState((prev) => ({ ...prev, univList: res?.data?.data ?? [] }));
@@ -46,7 +51,7 @@ const UnivServiceProvider = ({ children }: UnivServiceProviderProps) => {
   }, []);
 
   return (
-    <UnivServiceContext.Provider value={{ ...state, setCurrentService, setCurrentUniv }}>
+    <UnivServiceContext.Provider value={{ ...state, setCurrentService, setCurrentUniv, setServiceList }}>
       {children}
     </UnivServiceContext.Provider>
   );

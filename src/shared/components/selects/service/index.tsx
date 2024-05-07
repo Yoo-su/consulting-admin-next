@@ -4,24 +4,48 @@ import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
+import { useUnivService } from '@/shared/hooks/use-univ-service';
+import { Service } from '@/shared/types/service.type';
+
 const ServiceSelect = () => {
-  const [service, setService] = useState('');
+  const { setCurrentService, serviceList } = useUnivService();
+  const [selectServiceID, setSelectServiceID] = useState<string>('');
+
+  const getServiceMenuTitle = (service: Service) => {
+    return (
+      service.serviceYear +
+      '학년도' +
+      ' ' +
+      (service.serviceType === 'susi' ? '수시' : '정시') +
+      ' ' +
+      `(${service.serviceID})`
+    );
+  };
 
   const handleChange = (event: SelectChangeEvent) => {
-    setService(event.target.value);
+    const selectedServiceID = event.target.value;
+    setSelectServiceID(selectedServiceID);
+    const selectedService = serviceList.find((service) => service.serviceID === selectedServiceID);
+    if (selectedService) {
+      setCurrentService(selectedService);
+    }
   };
 
   return (
-    <FormControl sx={{ width: '100%' }} size='small'>
-      <InputLabel id='demo-select-small-label'>Service</InputLabel>
-      <Select
-        labelId='demo-select-small-label'
-        id='demo-select-small'
-        value={service}
-        label='서비스'
-        onChange={handleChange}
-      >
-        <MenuItem value={'999825'}>(999825) 2023학년도 수시</MenuItem>
+    <FormControl
+      sx={{
+        minWidth: '100%',
+        maxWidth: '100%',
+      }}
+      size="small"
+    >
+      <InputLabel id="demo-select-small-label">Service</InputLabel>
+      <Select labelId="service-select" id="service-select" value={selectServiceID} label="대학" onChange={handleChange}>
+        {serviceList.map((service) => (
+          <MenuItem key={service.serviceID} value={service.serviceID}>
+            {getServiceMenuTitle(service)}
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
   );

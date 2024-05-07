@@ -19,7 +19,7 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
   const checkUser = () => {
     if (isLoading) return;
     if (!user) {
-      router.replace(paths.auth.signIn);
+      router.replace(paths.auth.signIn, { scroll: false });
       return;
     }
     setIsChecking(false);

@@ -2,12 +2,12 @@ import { http, HttpHandler, HttpResponse } from 'msw';
 import { getUnivListUrl } from './get-univ-list';
 
 export const getUnivList: HttpHandler = http.get(getUnivListUrl, () => {
-  return HttpResponse.json(GET_UNIN_LIST.success.data);
+  return HttpResponse.json(GET_UNIN_LIST.success.univList);
 });
 
 export const GET_UNIN_LIST = {
   success: {
-    data: [
+    univList: [
       {
         univID: '9998',
         univName: '진학대학교',

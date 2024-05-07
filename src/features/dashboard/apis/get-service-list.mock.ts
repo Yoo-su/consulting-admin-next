@@ -2,12 +2,12 @@ import { http, HttpHandler, HttpResponse } from 'msw';
 import { getServiceListUrl } from './get-service-list';
 
 export const getServiceList: HttpHandler = http.get(getServiceListUrl, () => {
-  return HttpResponse.json(GET_SERVICE_LIST.success.data);
+  return HttpResponse.json(GET_SERVICE_LIST.success.serviceList);
 });
 
 export const GET_SERVICE_LIST = {
   success: {
-    data: [
+    serviceList: [
       {
         univID: '9998',
         serviceID: '999825',
@@ -34,6 +34,7 @@ export const GET_SERVICE_LIST = {
         univName: '진학대학교',
         serviceID: '999822',
         serviceType: 'jungsi',
+        serviceYear: '2024',
       },
     ],
   },

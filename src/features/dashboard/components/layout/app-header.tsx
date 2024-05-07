@@ -3,7 +3,6 @@
 import { useState, Fragment } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/material/Avatar';
@@ -17,18 +16,17 @@ const AppHeader = () => {
   return (
     <Fragment>
       <Box
-        component='header'
+        component="header"
         sx={{
           bgcolor: '#FAFBFC',
           position: 'sticky',
           top: 0,
           zIndex: 'var(--AppHeader-zIndex)',
-          boxShadow:
-            ' 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+          boxShadow: ' 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
         }}
       >
         <Stack
-          direction='row'
+          direction="row"
           spacing={2}
           sx={{
             alignItems: 'center',
@@ -37,30 +35,19 @@ const AppHeader = () => {
             px: 2,
           }}
         >
-          <Stack sx={{ alignItems: 'center' }} direction='row' spacing={2}>
-            <Tooltip title='sidenav'>
-              <IconButton
-                onClick={(): void => {
-                  setOpenNav(true);
-                }}
-              >
-                <MenuIcon />
-              </IconButton>
-            </Tooltip>
+          <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
+            <IconButton
+              onClick={(): void => {
+                setOpenNav(true);
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
           </Stack>
-          <Avatar
-            onClick={userPopover.handleOpen}
-            ref={userPopover.anchorRef}
-            src=''
-            sx={{ cursor: 'pointer' }}
-          />
+          <Avatar onClick={userPopover.handleOpen} ref={userPopover.anchorRef} src="" sx={{ cursor: 'pointer' }} />
         </Stack>
       </Box>
-      <UserPopover
-        anchorEl={userPopover.anchorRef.current}
-        onClose={userPopover.handleClose}
-        open={userPopover.open}
-      />
+      <UserPopover anchorEl={userPopover.anchorRef.current} onClose={userPopover.handleClose} open={userPopover.open} />
     </Fragment>
   );
 };

@@ -20,7 +20,7 @@ const GuestGuard = ({ children }: GuestGuardProps) => {
     if (isLoading) return;
 
     if (user) {
-      router.replace(paths.dashboard.overview);
+      router.replace(paths.dashboard.overview, { scroll: false });
       return;
     }
 
