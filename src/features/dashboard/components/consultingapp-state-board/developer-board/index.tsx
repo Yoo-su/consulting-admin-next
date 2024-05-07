@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
+import toast from 'react-hot-toast';
 
 import StateCol from '../state-col';
 import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
@@ -17,18 +18,24 @@ const DeveloperBoard = () => {
   const groupedByDeveloper = getGroupedStatesObject(consultingAppStates, 'developer');
 
   const handleDrop = (e: DragEvent<HTMLDivElement>, currentState: CurrentState) => {
-    e.preventDefault();
-    const transferedData = e.dataTransfer.getData('text/plain');
-    const state: ConsultingAppState = JSON.parse(transferedData);
+    try {
+      e.preventDefault();
+      const transferedData = e.dataTransfer.getData('text/plain');
+      const state: ConsultingAppState = JSON.parse(transferedData);
 
-    if (state.currentState === currentState) return;
+      if (state.currentState === currentState) return;
 
-    state.currentState = currentState;
-    const newStates = consultingAppStates.map((item) => {
-      if (item.serviceID === state.serviceID) return state;
-      return item;
-    });
-    setConsultingAppStates(newStates);
+      state.currentState = currentState;
+      const newStates = consultingAppStates.map((item) => {
+        if (item.serviceID === state.serviceID) return state;
+        return item;
+      });
+      setConsultingAppStates(newStates);
+    } catch (error) {
+      toast('비정상적인 카드입니다', {
+        icon: '🙅🏻‍♂️',
+      });
+    }
   };
 
   return (

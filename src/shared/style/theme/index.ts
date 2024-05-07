@@ -33,7 +33,7 @@ const theme = extendTheme({
       fontFamily: gowun_dodum.style.fontFamily,
     },
     body2: {
-      fontFamily: hahmlet.style.fontFamily,
+      fontFamily: gowun_dodum.style.fontFamily,
     },
   },
 });

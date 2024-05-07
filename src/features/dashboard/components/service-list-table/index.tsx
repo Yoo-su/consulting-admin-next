@@ -9,8 +9,7 @@ const ServiceListTable = () => {
 
   return (
     <Stack direction={'column'}>
-      <Typography variant="body1">{currentUniv?.univID}</Typography>
-      <Typography variant="body1">{currentUniv?.univName}</Typography>
+      <Typography variant="body1">{currentUniv?.univID} 서비스</Typography>
     </Stack>
   );
 };

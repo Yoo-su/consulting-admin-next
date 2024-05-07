@@ -35,8 +35,9 @@ const StateCard = ({ state }: StateCardProps) => {
         cursor: 'pointer',
         '&:hover': {
           transform: 'translateY(-3px)',
+          bgcolor: 'rgba(0,0,0,0.1)',
         },
-        transition: 'transform 0.1s ease-in-out',
+        transition: 'all 0.1s ease-in-out',
       }}
       onDragStart={handleDragStart}
       draggable={isDraggable}

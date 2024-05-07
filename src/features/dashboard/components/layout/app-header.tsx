@@ -7,11 +7,12 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/material/Avatar';
 
+import AppSideDrawer from './app-side-drawer';
 import UserPopover from './user-popover';
 import { usePopover } from '../../hooks/use-popover';
 
 const AppHeader = () => {
-  const [openNav, setOpenNav] = useState<boolean>(false);
+  const [openAppSideDrawer, setOpenAppSideDrawer] = useState<boolean>(false);
   const userPopover = usePopover<HTMLDivElement>();
   return (
     <Fragment>
@@ -38,8 +39,9 @@ const AppHeader = () => {
           <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
             <IconButton
               onClick={(): void => {
-                setOpenNav(true);
+                setOpenAppSideDrawer(true);
               }}
+              sx={{ display: { lg: 'none' } }}
             >
               <MenuIcon />
             </IconButton>
@@ -48,6 +50,12 @@ const AppHeader = () => {
         </Stack>
       </Box>
       <UserPopover anchorEl={userPopover.anchorRef.current} onClose={userPopover.handleClose} open={userPopover.open} />
+      <AppSideDrawer
+        open={openAppSideDrawer}
+        onClose={() => {
+          setOpenAppSideDrawer(false);
+        }}
+      />
     </Fragment>
   );
 };

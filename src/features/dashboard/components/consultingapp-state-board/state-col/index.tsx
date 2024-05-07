@@ -1,6 +1,6 @@
 'use client';
 
-import { DragEvent, useState, memo } from 'react';
+import { DragEvent, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
