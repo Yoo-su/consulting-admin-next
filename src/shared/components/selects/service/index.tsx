@@ -8,8 +8,7 @@ import { useUnivService } from '@/shared/hooks/use-univ-service';
 import { Service } from '@/shared/types/service.type';
 
 const ServiceSelect = () => {
-  const { setCurrentService, serviceList } = useUnivService();
-  const [selectServiceID, setSelectServiceID] = useState<string>('');
+  const { setCurrentService, serviceList, currentService, currentUniv } = useUnivService();
 
   const getServiceMenuTitle = (service: Service) => {
     return (
@@ -24,7 +23,6 @@ const ServiceSelect = () => {
 
   const handleChange = (event: SelectChangeEvent) => {
     const selectedServiceID = event.target.value;
-    setSelectServiceID(selectedServiceID);
     const selectedService = serviceList.find((service) => service.serviceID === selectedServiceID);
     if (selectedService) {
       setCurrentService(selectedService);
@@ -39,8 +37,15 @@ const ServiceSelect = () => {
       }}
       size="small"
     >
-      <InputLabel id="demo-select-small-label">Service</InputLabel>
-      <Select labelId="service-select" id="service-select" value={selectServiceID} label="대학" onChange={handleChange}>
+      <InputLabel id="service-select">Service</InputLabel>
+      <Select
+        labelId="service-select"
+        id="service-select"
+        value={currentService?.serviceID ?? ''}
+        label="서비스"
+        onChange={handleChange}
+        disabled={!currentUniv}
+      >
         {serviceList.map((service) => (
           <MenuItem key={service.serviceID} value={service.serviceID}>
             {getServiceMenuTitle(service)}
