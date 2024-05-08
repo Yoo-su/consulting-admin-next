@@ -20,7 +20,7 @@ const Layout = ({ children }: LayoutProps) => {
       <Box sx={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column' }}>
         <Box sx={{ p: 3 }}>
           <Box sx={{ display: 'inline-block', fontSize: 0 }}>
-            <Typography variant='h5'>입학상담앱 관리자</Typography>
+            <Typography variant="h5">입학상담앱 관리자</Typography>
           </Box>
         </Box>
         <Box

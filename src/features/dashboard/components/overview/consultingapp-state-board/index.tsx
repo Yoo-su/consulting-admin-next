@@ -7,7 +7,7 @@ import BasicBoard from './basic-board';
 import DeveloperBoard from './developer-board';
 import ConsultingAppStateDialog from './consultingapp-state-dialog';
 import ConsultingAppStateBoardSkeleton from './skeleton';
-import { useConsultingAppState } from '../../hooks/use-consultingapp-state';
+import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
 
 const ConsultingAppStateBoard = () => {
   const { isLoading, boardType } = useConsultingAppState();

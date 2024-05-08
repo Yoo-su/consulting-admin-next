@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import ServiceListTable from '@/features/dashboard/components/service-list-table';
+import ServiceListTable from '@/features/dashboard/components/service-setting/service-list-table';
 
 export const metadata = {
   title: '상담앱 관리자 | 서비스 설정',

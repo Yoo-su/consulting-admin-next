@@ -1,7 +1,8 @@
-import Grid from '@mui/material/Unstable_Grid2';
+import Container from '@mui/material/Container';
+
 import Typography from '@mui/material/Typography';
 
-import ExcelUploader from '@/features/dashboard/components/excel-uploader';
+import ExcelUploader from '@/features/dashboard/components/excel-upload/excel-uploader';
 
 export const metadata = {
   title: '상담앱 관리자 | 기초 엑셀 업로드',
@@ -10,12 +11,10 @@ export const metadata = {
 
 const Page = () => {
   return (
-    <Grid container spacing={3}>
-      <Grid>
-        <Typography variant="h5">기초 데이터 엑셀 업로드</Typography>
-        <ExcelUploader />
-      </Grid>
-    </Grid>
+    <Container>
+      <Typography variant="h5">기초 데이터 엑셀 업로드</Typography>
+      <ExcelUploader />
+    </Container>
   );
 };
 
