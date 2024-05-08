@@ -15,6 +15,7 @@ const ColorlibStepIcon = (props: StepIconProps) => {
             height: '83%',
             borderRadius: '50%',
             backgroundColor: '#45b6fe',
+            animation: 'circle-pulse 2.5s infinite',
           }}
         ></span>
       )}

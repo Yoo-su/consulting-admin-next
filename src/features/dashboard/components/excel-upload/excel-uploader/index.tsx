@@ -10,7 +10,6 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import PulseLoader from 'react-spinners/PulseLoader';
-import { toast } from 'react-hot-toast';
 
 import CheckIcon from '@mui/icons-material/Check';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
@@ -35,7 +34,7 @@ const ExcelUploader = () => {
     try {
       readExcel();
     } catch (error) {
-      setHelperText(error?.message ?? '에러가 발생했습니다');
+      setHelperText('에러가 발생했습니다');
     }
   };
 
@@ -79,15 +78,18 @@ const ExcelUploader = () => {
             alignItems: 'center',
             borderRadius: '1rem',
             position: 'relative',
-            width: '320px',
+            minWidth: '320px',
             height: '220px',
+            px: 1,
             boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
           }}
         >
+          <AttachFileIcon fontSize="large" />
+          <Typography variant="body2">{excel?.name ?? '기초데이터 엑셀을 올려주세요'}</Typography>
           {isVerifying && (
             <Box
               sx={{
-                position: 'absolute',
+                position: 'fixed',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -99,8 +101,6 @@ const ExcelUploader = () => {
               <PulseLoader color={'#36D7B7'} />
             </Box>
           )}
-          <AttachFileIcon fontSize="large" />
-          <Typography variant="body2">{excel?.name ?? '기초데이터 엑셀을 올려주세요'}</Typography>
         </Stack>
         {activeStep === 1 && (
           <Button variant="contained" onClick={handleClickVerify} disabled={isVerifying}>
