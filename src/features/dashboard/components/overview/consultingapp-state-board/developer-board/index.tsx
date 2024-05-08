@@ -1,42 +1,18 @@
 'use client';
 
-import { DragEvent } from 'react';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import toast from 'react-hot-toast';
 
 import StateCol from '../state-col';
 import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
-import { ConsultingAppState, CurrentState } from '@/features/dashboard/types/consultingapp-state.type';
 import { stateBoardDomainItems } from '../constants/state-board-domain-items';
 import { getGroupedStatesObject } from '../utils/get-grouped-states';
 
 const DeveloperBoard = () => {
-  const { consultingAppStates, setConsultingAppStates } = useConsultingAppState();
+  const { consultingAppStates } = useConsultingAppState();
   const groupedByDeveloper = getGroupedStatesObject(consultingAppStates, 'developer');
-
-  const handleDrop = (e: DragEvent<HTMLDivElement>, currentState: CurrentState) => {
-    try {
-      e.preventDefault();
-      const transferedData = e.dataTransfer.getData('text/plain');
-      const state: ConsultingAppState = JSON.parse(transferedData);
-
-      if (state.currentState === currentState) return;
-
-      state.currentState = currentState;
-      const newStates = consultingAppStates.map((item) => {
-        if (item.serviceID === state.serviceID) return state;
-        return item;
-      });
-      setConsultingAppStates(newStates);
-    } catch (error) {
-      toast('비정상적인 카드입니다', {
-        icon: '🙅🏻‍♂️',
-      });
-    }
-  };
 
   return (
     <Stack direction={'column'} spacing={3}>
@@ -65,11 +41,10 @@ const DeveloperBoard = () => {
                 <StateCol
                   key={item.title}
                   currentStateKey={item.key}
-                  consultingAppStates={groupedByCurrentStates[item.key] ?? []}
+                  groupedStates={groupedByCurrentStates[item.key] ?? []}
                   title={item.title}
                   color={item.color}
                   bgcolor={item.bgcolor}
-                  handleDrop={handleDrop}
                 />
               ))}
             </Stack>

@@ -4,19 +4,23 @@ import { DragEvent, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import toast from 'react-hot-toast';
 
 import StateCard from '../state-card';
+import { useUpdateConsultingAppStateMutation } from '@/features/dashboard/hooks/tanstack/use-update-consultingapp-state-mutation';
+import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
 import { ConsultingAppState, CurrentState } from '@/features/dashboard/types/consultingapp-state.type';
 
 export type StateColProps = {
-  consultingAppStates: ConsultingAppState[];
+  groupedStates: ConsultingAppState[];
   currentStateKey: CurrentState;
   title: string;
   color: string;
   bgcolor: string;
-  handleDrop: (e: DragEvent<HTMLDivElement>, currentState: CurrentState) => void;
 };
-const StateCol = ({ consultingAppStates, title, color, bgcolor, currentStateKey, handleDrop }: StateColProps) => {
+const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey }: StateColProps) => {
+  const { isPending, mutateAsync } = useUpdateConsultingAppStateMutation();
+  const { consultingAppStates, setConsultingAppStates } = useConsultingAppState();
   const [isDragOver, setIsDragOver] = useState<boolean>(false);
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -27,6 +31,33 @@ const StateCol = ({ consultingAppStates, title, color, bgcolor, currentStateKey,
   const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragOver(false);
+  };
+
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+    try {
+      e.preventDefault();
+      const transferedData = e.dataTransfer.getData('text/plain');
+      const state: ConsultingAppState = JSON.parse(transferedData);
+
+      if (state.currentState === currentStateKey) return;
+
+      state.currentState = currentStateKey;
+      mutateAsync(state)
+        .then(() => {
+          const newStates = consultingAppStates.map((item) => {
+            if (item.serviceID === state.serviceID) return state;
+            return item;
+          });
+          setConsultingAppStates(newStates);
+        })
+        .catch((error) => {
+          toast.error('상태 업데이트 중 오류가 발생했습니다');
+        });
+    } catch (error) {
+      toast('비정상적인 카드입니다', {
+        icon: '🙅🏻‍♂️',
+      });
+    }
   };
 
   return (
@@ -46,7 +77,7 @@ const StateCol = ({ consultingAppStates, title, color, bgcolor, currentStateKey,
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={(e) => {
-        handleDrop(e, currentStateKey);
+        handleDrop(e);
         setIsDragOver(false);
       }}
     >
@@ -95,12 +126,12 @@ const StateCol = ({ consultingAppStates, title, color, bgcolor, currentStateKey,
             marginLeft: 1,
           }}
         >
-          {consultingAppStates.length}
+          {groupedStates.length}
         </Typography>
       </Stack>
 
       <Stack component={'ul'} sx={{ listStyle: 'none', p: 0, m: 0 }} spacing={1}>
-        {consultingAppStates.map((consultingState) => (
+        {groupedStates.map((consultingState) => (
           <StateCard key={consultingState.serviceID} state={consultingState} />
         ))}
       </Stack>
