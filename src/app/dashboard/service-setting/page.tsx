@@ -1,4 +1,4 @@
-import Grid from '@mui/material/Unstable_Grid2';
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import ServiceListTable from '@/features/dashboard/components/service-setting/service-list-table';
 
@@ -9,12 +9,10 @@ export const metadata = {
 
 const Page = () => {
   return (
-    <Grid container spacing={3}>
-      <Grid>
-        <Typography variant="h5">서비스 설정</Typography>
-        <ServiceListTable />
-      </Grid>
-    </Grid>
+    <Container>
+      <Typography variant="h5">서비스 설정</Typography>
+      <ServiceListTable />
+    </Container>
   );
 };
 

@@ -47,13 +47,13 @@ const ExcelUploader = () => {
   return (
     <Card
       sx={{
-        p: 2,
+        p: 6,
         flexGrow: 1,
-        mt: 2,
+        mt: 5,
         position: 'relative',
       }}
     >
-      <Stepper alternativeLabel connector={<ColorlibConnector />} activeStep={activeStep} sx={{ my: 3 }}>
+      <Stepper alternativeLabel connector={<ColorlibConnector />} activeStep={activeStep} sx={{ my: 1.5 }}>
         {EXCEL_UPLOAD_STEPS.map((label, index) => (
           <Step key={label}>
             <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
@@ -66,7 +66,7 @@ const ExcelUploader = () => {
         alignItems={'center'}
         justifyContent={'center'}
         spacing={2}
-        sx={{ position: 'relative' }}
+        sx={{ position: 'relative', mt: 4 }}
       >
         <Stack
           onClick={handleClickUploadBtn}
