@@ -6,7 +6,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import ConsultingAppStateProvider from '@/features/dashboard/contexts/consultingapp-state-context';
-import ConsultingAppStateBoard from '@/features/dashboard/components/consultingapp-state-board';
+import ConsultingAppStateBoard from '@/features/dashboard/components/overview/consultingapp-state-board';
 
 export const metadata = {
   title: '상담앱 관리자 | 홈',
