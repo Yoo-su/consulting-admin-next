@@ -1,6 +1,6 @@
 import * as sheets from './index';
 
-export const EXCEL_LAYOUT = {
+export const EXCEL_LAYOUT: any = {
   Service: sheets.SERVICE_SHEET,
   Code: sheets.CODE_SHEET,
   Seltype: sheets.SELTYPE_SHEET,
