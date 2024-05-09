@@ -1,7 +1,7 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
-import { getServiceListUrl } from './get-service-list';
+import { GET_SERVICE_LIST_URL } from './get-service-list';
 
-export const getServiceList: HttpHandler = http.get(getServiceListUrl, () => {
+export const getServiceList: HttpHandler = http.get(GET_SERVICE_LIST_URL, () => {
   return HttpResponse.json(GET_SERVICE_LIST.success.serviceList);
 });
 

@@ -1,7 +1,7 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
-import { getUnivListUrl } from './get-univ-list';
+import { GET_UNIV_LIST_URL } from './get-univ-list';
 
-export const getUnivList: HttpHandler = http.get(getUnivListUrl, () => {
+export const getUnivList: HttpHandler = http.get(GET_UNIV_LIST_URL, () => {
   return HttpResponse.json(GET_UNIN_LIST.success.univList);
 });
 

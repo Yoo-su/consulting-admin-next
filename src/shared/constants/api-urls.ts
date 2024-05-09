@@ -4,6 +4,7 @@ export const apiUrls = {
   },
   dashboard: {
     consultingAppState: '/dashboard/consultingapp-state',
+    uploadExcel: '/dashboard/upload-excel',
   },
   setup: {
     getUnivList: '/setup/univ-list',
