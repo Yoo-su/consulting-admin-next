@@ -26,14 +26,13 @@ import { EXCEL_UPLOAD_STEPS } from '@/features/dashboard/constants/excel-upload-
 
 const ExcelUploader = () => {
   const { currentService } = useUnivService();
-  const { excel, setExcel, isVerifying, startVerify, isVerified, helperText, upload, isUploaded, clearVerifiedState } =
+  const { excel, setExcel, startVerify, isVerified, helperText, upload, isUploaded, clearVerifiedState } =
     useHandleExcel();
   const { activeStep, skipped, handleNext, handleBack, handleSkip, handleReset } = useStepper();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // 업로드 버튼 클릭 처리
   const handleClickUploadBtn = () => {
-    if (isVerifying) return;
     fileInputRef?.current?.click();
   };
 
@@ -95,7 +94,7 @@ const ExcelUploader = () => {
           direction={'column'}
           spacing={3}
           sx={{
-            ...(!isVerifying && { cursor: 'pointer' }),
+            cursor: 'pointer',
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: '1rem',
@@ -120,7 +119,7 @@ const ExcelUploader = () => {
           >
             {excel?.name ?? '기초데이터 엑셀을 올려주세요'}
           </Typography>
-          {isVerifying && (
+          {/* {isVerifying && (
             <Box
               sx={{
                 position: 'fixed',
@@ -134,12 +133,12 @@ const ExcelUploader = () => {
             >
               <PulseLoader color={'#36D7B7'} />
             </Box>
-          )}
+          )} */}
         </Stack>
         {excel && !isVerified && (
-          <Button variant="contained" onClick={handleClickVerify} disabled={isVerifying}>
+          <Button variant="contained" onClick={handleClickVerify}>
             <CheckIcon />
-            <Typography variant="body1">{isVerifying ? '엑셀 검증중 ..' : '데이터 검증하기'}</Typography>
+            <Typography variant="body1">데이터 검증하기</Typography>
           </Button>
         )}
 

@@ -14,7 +14,6 @@ export const useHandleExcel = () => {
   const { currentService } = useUnivService();
   const { mutateAsync } = useUploadExcelMutation();
   const [excel, setExcel] = useState<File | null>(null);
-  const [isVerifying, setIsVerifying] = useState<boolean>(false);
   const [isVerified, setIsVerified] = useState<boolean | undefined>(false);
   const [isUploaded, setIsUploaded] = useState<boolean>(false);
   const [helperText, setHelperText] = useState<{ text: string | null; color: AlertColor }>({
@@ -37,13 +36,11 @@ export const useHandleExcel = () => {
           validation(jsonExcel.data);
           setHelperText({ text: '데이터 검증이 완료되었습니다. 업로드를 진행해주세요', color: 'info' });
           setIsVerified(true);
-          setIsVerifying(false);
           resolve(true);
         } catch (error) {
           if (error instanceof Error) {
             setHelperText({ text: error.message, color: 'error' });
           }
-          setIsVerifying(false);
           setIsVerified(false);
           resolve(false);
         }
@@ -60,7 +57,6 @@ export const useHandleExcel = () => {
       setHelperText({ text: '엑셀 파일이 등록되지 않았습니다', color: 'error' });
       return;
     }
-    setIsVerifying(true);
     return await readExcelFile(excel);
   };
 
@@ -208,7 +204,6 @@ export const useHandleExcel = () => {
   return {
     excel,
     setExcel,
-    isVerifying,
     startVerify,
     helperText,
     isVerified,
