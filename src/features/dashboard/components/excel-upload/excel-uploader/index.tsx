@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, ChangeEvent } from 'react';
+import { useRef, ChangeEvent } from 'react';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -9,40 +9,54 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 import CheckIcon from '@mui/icons-material/Check';
+import UploadIcon from '@mui/icons-material/Upload';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 import { useStepper } from '@/shared/hooks/use-stepper';
 import ColorlibStepIcon from './stepper/color-lib-step-icon';
 import { ColorlibConnector } from './stepper/styled';
+import { useUnivService } from '@/shared/hooks/use-univ-service';
 import { useHandleExcel } from '@/features/dashboard/hooks/use-handle-excel';
 import { EXCEL_UPLOAD_STEPS } from '@/features/dashboard/constants/excel-upload-steps';
 
 const ExcelUploader = () => {
-  const { excel, setExcel, isVerifying, readExcel } = useHandleExcel();
+  const { currentService } = useUnivService();
+  const { excel, setExcel, isVerifying, startVerify, success, helperText, clearVerifiedState } = useHandleExcel();
   const { activeStep, skipped, handleNext, handleBack, handleSkip, handleReset } = useStepper();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [helperText, setHelperText] = useState<string>('');
 
   const handleClickUploadBtn = () => {
-    if (!isVerifying) fileInputRef?.current?.click();
+    if (isVerifying) return;
+    fileInputRef?.current?.click();
   };
 
-  const handleClickVerify = () => {
-    try {
-      readExcel();
-    } catch (error) {
-      setHelperText('에러가 발생했습니다');
+  const handleClickVerify = async () => {
+    const result = await startVerify();
+    if (result) {
+      handleNext();
     }
   };
 
   const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (activeStep === 0) handleNext();
+    else if (activeStep === 2) handleBack();
+
+    clearVerifiedState();
     const selectedFile = event.target.files?.[0] || null;
     setExcel(selectedFile);
-    if (activeStep === 0) handleNext();
   };
+
+  if (!currentService)
+    return (
+      <Alert sx={{ mt: 5 }} color="info" icon={<InfoOutlinedIcon />}>
+        서비스가 선택되지 않았습니다. 사이드바에서 서비스를 선택해주세요
+      </Alert>
+    );
 
   return (
     <Card
@@ -60,6 +74,12 @@ const ExcelUploader = () => {
           </Step>
         ))}
       </Stepper>
+
+      {helperText && (
+        <Alert color={success ? 'success' : 'error'} sx={{ my: 2 }} icon={<InfoOutlinedIcon />}>
+          {helperText}
+        </Alert>
+      )}
 
       <Stack
         direction={'column'}
@@ -93,8 +113,8 @@ const ExcelUploader = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '100%',
-                height: '100%',
+                width: '320px',
+                height: '220px',
                 bgcolor: 'rgba(255,255,255,0.5)',
               }}
             >
@@ -102,10 +122,17 @@ const ExcelUploader = () => {
             </Box>
           )}
         </Stack>
-        {activeStep === 1 && (
+        {activeStep === 1 && !success && (
           <Button variant="contained" onClick={handleClickVerify} disabled={isVerifying}>
             <CheckIcon />
             <Typography variant="body1">{isVerifying ? '엑셀 검증중 ..' : '데이터 검증하기'}</Typography>
+          </Button>
+        )}
+
+        {success && (
+          <Button color="success" variant="contained">
+            <UploadIcon />
+            <Typography variant="body1">엑셀 업로드</Typography>
           </Button>
         )}
         <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleFileInputChange} />
