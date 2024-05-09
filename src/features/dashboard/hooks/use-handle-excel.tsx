@@ -1,7 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { read, utils } from 'xlsx';
+import { AlertColor } from '@mui/material';
 
 import { useUnivService } from '@/shared/hooks/use-univ-service';
+import { useUploadExcelMutation } from './tanstack/use-upload-excel-mutation';
 import { EXCEL_LAYOUT, SHEET_FLAG } from '../constants/excel';
 
 type JsonExcel = {
@@ -10,45 +12,55 @@ type JsonExcel = {
 };
 export const useHandleExcel = () => {
   const { currentService } = useUnivService();
+  const { mutateAsync } = useUploadExcelMutation();
   const [excel, setExcel] = useState<File | null>(null);
   const [isVerifying, setIsVerifying] = useState<boolean>(false);
-  const [success, setSuccess] = useState<boolean | undefined>(false);
-  const [helperText, setHelperText] = useState<string>('');
+  const [isVerified, setIsVerified] = useState<boolean | undefined>(false);
+  const [isUploaded, setIsUploaded] = useState<boolean>(false);
+  const [helperText, setHelperText] = useState<{ text: string | null; color: AlertColor }>({
+    text: null,
+    color: 'info',
+  });
 
-  useEffect(() => {}, [success]);
-
+  /**
+   * 엑셀 read 비동기화
+   * @param excel
+   */
   const readExcelFile = async (excel: File): Promise<boolean> => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
 
       fileReader.onload = (e) => {
-        const buffer = e.target?.result;
-        const jsonExcel: JsonExcel = excelToJson(buffer);
         try {
+          const buffer = e.target?.result;
+          const jsonExcel: JsonExcel = excelToJson(buffer);
           validation(jsonExcel.data);
-          setHelperText('데이터 검증이 완료되었습니다.');
-          setSuccess(true);
+          setHelperText({ text: '데이터 검증이 완료되었습니다. 업로드를 진행해주세요', color: 'info' });
+          setIsVerified(true);
           setIsVerifying(false);
           resolve(true);
         } catch (error) {
           if (error instanceof Error) {
-            setHelperText(error.message);
+            setHelperText({ text: error.message, color: 'error' });
           }
           setIsVerifying(false);
-          setSuccess(false);
+          setIsVerified(false);
           resolve(false);
         }
       };
-
-      excel && fileReader.readAsArrayBuffer(excel);
+      fileReader.readAsArrayBuffer(excel);
     });
   };
 
+  /**
+   * 엑셀 검증 후 결과 반환 메서드
+   */
   const startVerify = async () => {
     if (!excel) {
-      setHelperText('엑셀 파일이 등록되지 않았습니다');
+      setHelperText({ text: '엑셀 파일이 등록되지 않았습니다', color: 'error' });
       return;
     }
+    setIsVerifying(true);
     return await readExcelFile(excel);
   };
 
@@ -120,6 +132,10 @@ export const useHandleExcel = () => {
     return returnVal;
   };
 
+  /**
+   * 엑셀 검증 메서드
+   * @param data json 엑셀
+   */
   const validation = (data: any) => {
     // Layout 맞춤
     for (let key in data) {
@@ -165,13 +181,29 @@ export const useHandleExcel = () => {
     }
   };
 
-  /**
-   * 데이터 검증 전 단계로 되돌리기
-   */
-  const clearVerifiedState = () => {
-    setHelperText('');
-    setSuccess(false);
+  const upload = () => {
+    if (!excel) return;
+
+    const formData = new FormData();
+    formData.append('file', excel);
+    mutateAsync(formData).then((res) => {
+      if (res.data.success) {
+        setHelperText({ text: res.data.message ?? '엑셀이 성공적으로 업로드되었습니다', color: 'success' });
+        setIsUploaded(true);
+      } else {
+        setHelperText({ text: res.data.message ?? '엑셀 업로드 중 문제가 발생했습니다', color: 'error' });
+      }
+    });
   };
+
+  /**
+   * 데이터 검증 전 단계로 리셋 메서드
+   */
+  const clearVerifiedState = useCallback(() => {
+    setHelperText({ text: null, color: 'info' });
+    setIsVerified(false);
+    setIsUploaded(false);
+  }, []);
 
   return {
     excel,
@@ -179,8 +211,10 @@ export const useHandleExcel = () => {
     isVerifying,
     startVerify,
     helperText,
-    success,
-    setSuccess,
+    isVerified,
+    upload,
+    isUploaded,
+    setIsVerified,
     setHelperText,
     clearVerifiedState,
   };

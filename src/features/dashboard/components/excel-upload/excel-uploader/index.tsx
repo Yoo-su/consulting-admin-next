@@ -26,27 +26,29 @@ import { EXCEL_UPLOAD_STEPS } from '@/features/dashboard/constants/excel-upload-
 
 const ExcelUploader = () => {
   const { currentService } = useUnivService();
-  const { excel, setExcel, isVerifying, startVerify, success, helperText, clearVerifiedState } = useHandleExcel();
+  const { excel, setExcel, isVerifying, startVerify, isVerified, helperText, upload, isUploaded, clearVerifiedState } =
+    useHandleExcel();
   const { activeStep, skipped, handleNext, handleBack, handleSkip, handleReset } = useStepper();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  // 업로드 버튼 클릭 처리
   const handleClickUploadBtn = () => {
     if (isVerifying) return;
     fileInputRef?.current?.click();
   };
 
+  // 데이터 검증 수행
   const handleClickVerify = async () => {
     const result = await startVerify();
-    if (result) {
-      handleNext();
-    }
+    if (result) handleNext();
   };
 
+  // file input 값 변경 처리
   const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (activeStep === 0) handleNext();
-    else if (activeStep === 2) handleBack();
-
     clearVerifiedState();
+    if (!excel) handleReset();
+    if (activeStep === 0) handleNext();
+    if (activeStep === 2) handleBack();
     const selectedFile = event.target.files?.[0] || null;
     setExcel(selectedFile);
   };
@@ -75,9 +77,9 @@ const ExcelUploader = () => {
         ))}
       </Stepper>
 
-      {helperText && (
-        <Alert color={success ? 'success' : 'error'} sx={{ my: 2 }} icon={<InfoOutlinedIcon />}>
-          {helperText}
+      {helperText.text && (
+        <Alert color={helperText.color} sx={{ my: 4 }} icon={<InfoOutlinedIcon />}>
+          {helperText.text}
         </Alert>
       )}
 
@@ -98,14 +100,26 @@ const ExcelUploader = () => {
             alignItems: 'center',
             borderRadius: '1rem',
             position: 'relative',
-            minWidth: '320px',
+            width: '320px',
             height: '220px',
             px: 1,
             boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
           }}
         >
           <AttachFileIcon fontSize="large" />
-          <Typography variant="body2">{excel?.name ?? '기초데이터 엑셀을 올려주세요'}</Typography>
+          <Typography
+            variant="body2"
+            color="grey.700"
+            sx={{
+              textAlign: 'center',
+              width: '100%',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {excel?.name ?? '기초데이터 엑셀을 올려주세요'}
+          </Typography>
           {isVerifying && (
             <Box
               sx={{
@@ -122,20 +136,26 @@ const ExcelUploader = () => {
             </Box>
           )}
         </Stack>
-        {activeStep === 1 && !success && (
+        {excel && !isVerified && (
           <Button variant="contained" onClick={handleClickVerify} disabled={isVerifying}>
             <CheckIcon />
             <Typography variant="body1">{isVerifying ? '엑셀 검증중 ..' : '데이터 검증하기'}</Typography>
           </Button>
         )}
 
-        {success && (
-          <Button color="success" variant="contained">
-            <UploadIcon />
-            <Typography variant="body1">엑셀 업로드</Typography>
+        {isVerified && (
+          <Button color="success" variant="contained" onClick={upload} disabled={isUploaded}>
+            {isUploaded ? <CheckIcon /> : <UploadIcon />}
+            <Typography variant="body1">{isUploaded ? '업로드 성공' : '엑셀 업로드'}</Typography>
           </Button>
         )}
-        <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleFileInputChange} />
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          onChange={handleFileInputChange}
+          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        />
       </Stack>
     </Card>
   );

@@ -5,6 +5,7 @@ import { getConsultingAppState } from '@/features/dashboard/apis/get-consultinga
 import { getUnivList } from '@/features/dashboard/apis/get-univ-list.mock';
 import { getServiceList } from '@/features/dashboard/apis/get-service-list.mock';
 import { updateConsultingAppState } from '@/features/dashboard/apis/update-consultingapp-state.mock';
+import { uploadExcel } from '@/features/dashboard/apis/upload-excel.mock';
 
 export const handlers: HttpHandler[] = [
   signin,
@@ -12,4 +13,5 @@ export const handlers: HttpHandler[] = [
   getUnivList,
   getServiceList,
   updateConsultingAppState,
+  uploadExcel,
 ];

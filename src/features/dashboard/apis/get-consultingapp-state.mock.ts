@@ -1,7 +1,7 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
-import { getConsultingAppStateUrl } from './get-consultingapp-state';
+import { GET_CONSULTINGAPP_STATE_URL } from './get-consultingapp-state';
 
-export const getConsultingAppState: HttpHandler = http.get(getConsultingAppStateUrl, () => {
+export const getConsultingAppState: HttpHandler = http.get(GET_CONSULTINGAPP_STATE_URL, () => {
   return HttpResponse.json(GET_CONSULTING_APP_STATE.success.data);
 });
 
