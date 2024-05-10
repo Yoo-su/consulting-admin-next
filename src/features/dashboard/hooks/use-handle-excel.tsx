@@ -12,7 +12,7 @@ type JsonExcel = {
 };
 export const useHandleExcel = () => {
   const { currentService } = useUnivService();
-  const { mutateAsync } = useUploadExcelMutation();
+  const { mutateAsync, isPending: isUploading } = useUploadExcelMutation();
   const [excel, setExcel] = useState<File | null>(null);
   const [isVerified, setIsVerified] = useState<boolean | undefined>(false);
   const [isUploaded, setIsUploaded] = useState<boolean>(false);
@@ -177,14 +177,17 @@ export const useHandleExcel = () => {
     }
   };
 
+  /**
+   *  엑셀 업로드
+   */
   const upload = () => {
     if (!excel) return;
 
     const formData = new FormData();
     formData.append('file', excel);
     mutateAsync(formData).then((res) => {
-      if (res.data.success) {
-        setHelperText({ text: res.data.message ?? '엑셀이 성공적으로 업로드되었습니다', color: 'success' });
+      if (res.data.statusCode === 200) {
+        setHelperText({ text: '성공적으로 업로드되었습니다', color: 'success' });
         setIsUploaded(true);
       } else {
         setHelperText({ text: res.data.message ?? '엑셀 업로드 중 문제가 발생했습니다', color: 'error' });
@@ -209,6 +212,7 @@ export const useHandleExcel = () => {
     isVerified,
     upload,
     isUploaded,
+    isUploading,
     setIsVerified,
     setHelperText,
     clearVerifiedState,
