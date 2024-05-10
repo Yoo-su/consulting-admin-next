@@ -20,12 +20,10 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { useStepper } from '@/shared/hooks/use-stepper';
 import ColorlibStepIcon from './stepper/color-lib-step-icon';
 import { ColorlibConnector } from './stepper/styled';
-import { useUnivService } from '@/shared/hooks/use-univ-service';
 import { useHandleExcel } from '@/features/dashboard/hooks/use-handle-excel';
 import { EXCEL_UPLOAD_STEPS } from '@/features/dashboard/constants/excel-upload-steps';
 
 const ExcelUploader = () => {
-  const { currentService } = useUnivService();
   const { excel, setExcel, startVerify, isVerified, helperText, upload, isUploaded, isUploading, clearVerifiedState } =
     useHandleExcel();
   const { activeStep, skipped, handleNext, handleBack, handleSkip, handleReset } = useStepper();
@@ -55,13 +53,6 @@ const ExcelUploader = () => {
     if (activeStep === 2) handleBack();
   };
 
-  if (!currentService)
-    return (
-      <Alert sx={{ mt: 5 }} color="info" icon={<InfoOutlinedIcon />}>
-        서비스가 선택되지 않았습니다. 사이드바에서 서비스를 선택해주세요
-      </Alert>
-    );
-
   return (
     <Card
       sx={{
@@ -80,7 +71,7 @@ const ExcelUploader = () => {
       </Stepper>
 
       {helperText.text && (
-        <Alert color={helperText.color} sx={{ my: 4 }} icon={<InfoOutlinedIcon />}>
+        <Alert color={helperText.color} sx={{ mt: 8 }} icon={<InfoOutlinedIcon />}>
           {helperText.text}
         </Alert>
       )}
@@ -90,7 +81,7 @@ const ExcelUploader = () => {
         alignItems={'center'}
         justifyContent={'center'}
         spacing={2}
-        sx={{ position: 'relative', mt: 4 }}
+        sx={{ position: 'relative', mt: 8 }}
       >
         <Stack
           onClick={handleClickUploadBtn}

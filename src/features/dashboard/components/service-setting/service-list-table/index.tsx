@@ -17,14 +17,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useUnivService } from '@/shared/hooks/use-univ-service';
 
 const ServiceListTable = () => {
-  const { currentUniv, serviceList } = useUnivService();
-
-  if (!currentUniv)
-    return (
-      <Alert sx={{ mt: 5 }} color="info" icon={<InfoOutlinedIcon />}>
-        대학교가 선택되지 않았습니다. 사이드바에서 대학교를 선택해주세요
-      </Alert>
-    );
+  const { serviceList } = useUnivService();
 
   return (
     <Stack direction={'column'} sx={{ mt: 5 }}>
