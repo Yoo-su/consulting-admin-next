@@ -9,6 +9,10 @@ const gowun_dodum = Gowun_Dodum({ subsets: ['latin'], weight: ['400'] });
 
 const theme = extendTheme({
   typography: {
+    h6: {
+      fontFamily: ibm_kr.style.fontFamily,
+      fontWeight: ibm_kr.style.fontWeight,
+    },
     h5: {
       fontFamily: ibm_kr.style.fontFamily,
       fontWeight: ibm_kr.style.fontWeight,

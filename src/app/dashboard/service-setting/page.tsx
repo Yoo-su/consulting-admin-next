@@ -1,6 +1,6 @@
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import ServiceListTable from '@/features/dashboard/components/service-setting/service-list-table';
+import ServiceSettingBox from '@/features/dashboard/components/service-setting/service-setting-box';
 
 export const metadata = {
   title: '상담앱 관리자 | 서비스 설정',
@@ -11,7 +11,7 @@ const Page = () => {
   return (
     <Container>
       <Typography variant="h5">서비스 설정</Typography>
-      <ServiceListTable />
+      <ServiceSettingBox />
     </Container>
   );
 };
