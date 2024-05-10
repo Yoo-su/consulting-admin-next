@@ -12,18 +12,20 @@ import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
-
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import AddServiceForm from '../add-service-form';
 import { useUnivService } from '@/shared/hooks/use-univ-service';
 
 const ServiceSettingBox = () => {
   const { serviceList, currentUniv } = useUnivService();
+  const theme = useTheme();
+  const downmd = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <Stack direction={'column'} sx={{ mt: 5 }} spacing={5}>
-      <AddServiceForm />
+      <AddServiceForm univID={currentUniv?.univID ?? ''} />
 
       <Divider sx={{ my: 3 }} />
       <Stack direction={'column'} spacing={2}>
@@ -51,6 +53,7 @@ const ServiceSettingBox = () => {
                     {service.serviceType === 'susi' ? (
                       <Chip
                         label="수시"
+                        size={downmd ? 'small' : 'medium'}
                         sx={{
                           color: 'white',
                           bgcolor: '#1C6A7D',
@@ -59,6 +62,7 @@ const ServiceSettingBox = () => {
                     ) : (
                       <Chip
                         label="정시"
+                        size={downmd ? 'small' : 'medium'}
                         sx={{
                           color: 'white',
                           bgcolor: '#E66245',

@@ -58,7 +58,7 @@ const AppSidebar = () => {
           </Box>
         </Box>
       </Stack>
-      <Divider sx={{ bgcolor: 'rgba(253,246,228,0.3)' }} />
+      <Divider sx={{ bgcolor: 'rgba(255,255,255,0.3)' }} />
       <Stack
         direction="column"
         sx={{
@@ -69,11 +69,11 @@ const AppSidebar = () => {
         <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
           {renderNavItems({ items: sideNavItems1, pathname })}
         </Box>
-        <Divider sx={{ marginTop: '12px', bgcolor: 'rgba(253,246,228,0.3)' }} />
+        <Divider sx={{ marginTop: '12px', bgcolor: 'rgba(255,255,255,0.3)' }} />
         <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
           {renderNavItems({ items: sideNavItems2, pathname })}
         </Box>
-        <Divider sx={{ marginTop: '12px', bgcolor: 'rgba(253,246,228,0.3)' }} />
+        <Divider sx={{ marginTop: '12px', bgcolor: 'rgba(255,255,255,0.3)' }} />
         <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
           {renderNavItems({ items: sideNavItems3, pathname })}
         </Box>

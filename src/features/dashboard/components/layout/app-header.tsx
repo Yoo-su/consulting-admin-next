@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, Fragment } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/material/Avatar';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import AppSideDrawer from './app-side-drawer';
 import UserPopover from './user-popover';
@@ -14,6 +16,13 @@ import { usePopover } from '../../hooks/use-popover';
 const AppHeader = () => {
   const [openAppSideDrawer, setOpenAppSideDrawer] = useState<boolean>(false);
   const userPopover = usePopover<HTMLDivElement>();
+  const theme = useTheme();
+  const uplg = useMediaQuery(theme.breakpoints.up('lg'));
+
+  useEffect(() => {
+    if (uplg) setOpenAppSideDrawer(false);
+  }, [uplg]);
+
   return (
     <Fragment>
       <Box
