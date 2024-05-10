@@ -9,12 +9,14 @@ import FormLabel from '@mui/material/FormLabel';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Chip from '@mui/material/Chip';
+import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z as zod } from 'zod';
 
 import AddIcon from '@mui/icons-material/Add';
-import { Typography } from '@mui/material';
 
 const schema = zod.object({
   serviceID: zod.string({ message: '서비스 ID를 입력해주세요' }),
@@ -38,6 +40,9 @@ const AddServiceForm = () => {
     setError,
     formState: { errors },
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
+  const theme = useTheme();
+  const upmd = useMediaQuery(theme.breakpoints.up('md'));
+  const downmd = useMediaQuery(theme.breakpoints.down('md'));
 
   const onSubmit = () => {};
 
@@ -55,7 +60,15 @@ const AddServiceForm = () => {
             name="serviceID"
             render={({ field }) => (
               <FormControl>
-                <FormLabel>서비스 ID</FormLabel>
+                <FormLabel
+                  sx={{
+                    ...(downmd && {
+                      fontSize: '14px',
+                    }),
+                  }}
+                >
+                  서비스 ID
+                </FormLabel>
                 <OutlinedInput type="text" size="small" />
               </FormControl>
             )}
@@ -65,7 +78,15 @@ const AddServiceForm = () => {
             name="serviceYear"
             render={({ field }) => (
               <FormControl>
-                <FormLabel>서비스 년도</FormLabel>
+                <FormLabel
+                  sx={{
+                    ...(downmd && {
+                      fontSize: '14px',
+                    }),
+                  }}
+                >
+                  서비스 년도
+                </FormLabel>
                 <OutlinedInput type="text" size="small" />
               </FormControl>
             )}
@@ -77,9 +98,10 @@ const AddServiceForm = () => {
               <FormControl>
                 <FormLabel
                   sx={{
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    oveflow: 'hidden',
+                    ...(downmd && {
+                      fontSize: '14px',
+                      whiteSpace: 'nowrap',
+                    }),
                   }}
                 >
                   서비스 유형(수시/정시)
@@ -90,15 +112,17 @@ const AddServiceForm = () => {
           />
           <Button variant="contained">
             <AddIcon />
-            <Typography
-              variant="button"
-              sx={{
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              서비스 추가
-            </Typography>
+            {upmd && (
+              <Typography
+                variant="button"
+                sx={{
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                서비스 추가
+              </Typography>
+            )}
           </Button>
         </Stack>
       </form>

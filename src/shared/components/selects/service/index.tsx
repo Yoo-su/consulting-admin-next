@@ -37,7 +37,17 @@ const ServiceSelect = () => {
       }}
       size="small"
     >
-      <InputLabel id="service-select">Service</InputLabel>
+      <InputLabel
+        id="service-select-input-label"
+        sx={{
+          color: '#FEF9F3',
+          '&.Mui-focused': {
+            color: '#FEF9F3',
+          },
+        }}
+      >
+        Service
+      </InputLabel>
       <Select
         labelId="service-select"
         id="service-select"
@@ -45,6 +55,30 @@ const ServiceSelect = () => {
         label="서비스"
         onChange={handleChange}
         disabled={!currentUniv}
+        sx={{
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#FEF9F3',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#FEF9F3',
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#FEF9F3',
+          },
+          '&.Mui-disabled .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#FEF9F3',
+          },
+          '& .MuiSvgIcon-root': {
+            color: '#FEF9F3', // 아이콘 색상
+          },
+          '&.MuiInputLabel-outlined': {
+            color: '#FEF9F3',
+          },
+          '& .MuiInputLabel-root': {
+            color: '#FEF9F3',
+          },
+          color: '#FEF9F3',
+        }}
       >
         {serviceList.map((service) => (
           <MenuItem key={service.serviceID} value={service.serviceID}>

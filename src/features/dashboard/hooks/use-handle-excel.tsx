@@ -186,8 +186,8 @@ export const useHandleExcel = () => {
     const formData = new FormData();
     formData.append('file', excel);
     mutateAsync(formData).then((res) => {
-      if (res.data.statusCode === 200) {
-        setHelperText({ text: '성공적으로 업로드되었습니다', color: 'success' });
+      if (res.data.statusCode === 201) {
+        setHelperText({ text: res.data.message ?? '파일 업로드를 성공적으로 마쳤습니다', color: 'success' });
         setIsUploaded(true);
       } else {
         setHelperText({ text: res.data.message ?? '엑셀 업로드 중 문제가 발생했습니다', color: 'error' });
