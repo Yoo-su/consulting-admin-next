@@ -24,7 +24,7 @@ const AppSidebar = () => {
       sx={{
         display: { xs: 'none', lg: 'flex' },
         bgcolor: '#2C4059',
-        color: '#fef9f3',
+        color: '#fdf6e4',
         flexDirection: 'column',
         height: '100%',
         left: 0,
@@ -34,7 +34,7 @@ const AppSidebar = () => {
         top: 0,
         width: 'var(--AppSidebar-width)',
         zIndex: 'var(--AppSidebar-zIndex)',
-        boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+        boxShadow: '4px 0 8px rgba(44, 64, 89, 0.3)',
         '&::-webkit-scrollbar': { display: 'none' },
       }}
     >
@@ -58,7 +58,7 @@ const AppSidebar = () => {
           </Box>
         </Box>
       </Stack>
-      <Divider sx={{ bgcolor: 'rgba(255,255,255,0.7)' }} />
+      <Divider sx={{ bgcolor: 'rgba(253,246,228,0.3)' }} />
       <Stack
         direction="column"
         sx={{
@@ -69,11 +69,11 @@ const AppSidebar = () => {
         <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
           {renderNavItems({ items: sideNavItems1, pathname })}
         </Box>
-        <Divider sx={{ marginTop: '12px', bgcolor: 'rgba(255,255,255,0.7)' }} />
+        <Divider sx={{ marginTop: '12px', bgcolor: 'rgba(253,246,228,0.3)' }} />
         <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
           {renderNavItems({ items: sideNavItems2, pathname })}
         </Box>
-        <Divider sx={{ marginTop: '12px', bgcolor: 'rgba(255,255,255,0.7)' }} />
+        <Divider sx={{ marginTop: '12px', bgcolor: 'rgba(253,246,228,0.3)' }} />
         <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
           {renderNavItems({ items: sideNavItems3, pathname })}
         </Box>
@@ -128,11 +128,11 @@ const NavItem = ({ title, href, pathname, Icon }: NavItemProps) => {
           textDecoration: 'none',
           whiteSpace: 'nowrap',
           ...(active && {
-            bgcolor: 'rgba(255,255,255,0.7)',
+            bgcolor: '#fffada',
             color: '#2C4059',
           }),
           '&:hover': {
-            bgcolor: 'rgba(255,255,255,0.5)',
+            bgcolor: 'rgba(253,246,228,0.8)',
             color: '#2C4059',
           },
         }}

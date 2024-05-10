@@ -9,6 +9,8 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+import CameraIcon from '@mui/icons-material/Camera';
+
 import UnivSelect from '@/shared/components/selects/univ';
 import ServiceSelect from '@/shared/components/selects/service';
 import { sideNavItems1, sideNavItems2, sideNavItems3 } from './side-nav-items';
@@ -28,8 +30,8 @@ const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
       onClose={onClose}
       PaperProps={{
         sx: {
-          bgcolor: '#fefefa',
-          color: '#343A40',
+          bgcolor: '#2C4059',
+          color: '#fdf6e4',
           flexDirection: 'column',
           height: '100%',
           left: 0,
@@ -46,6 +48,7 @@ const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
     >
       <Stack spacing={2} sx={{ p: 3 }}>
         <Box component="div" sx={{ display: 'inline-flex', justifyContent: 'center' }}>
+          <CameraIcon fontSize="large" sx={{ mr: '0.3rem' }} />
           <Typography variant="h5" fontWeight={'bold'}>
             입학상담앱 관리자
           </Typography>
@@ -63,7 +66,7 @@ const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
           </Box>
         </Box>
       </Stack>
-      <Divider />
+      <Divider sx={{ bgcolor: 'rgba(253,246,228,0.3)' }} />
       <Stack
         direction="column"
         sx={{
@@ -74,11 +77,11 @@ const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
         <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
           {renderNavItems({ items: sideNavItems1, pathname })}
         </Box>
-        <Divider sx={{ marginTop: '12px' }} />
+        <Divider sx={{ marginTop: '12px', bgcolor: 'rgba(253,246,228,0.3)' }} />
         <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
           {renderNavItems({ items: sideNavItems2, pathname })}
         </Box>
-        <Divider sx={{ marginTop: '12px' }} />
+        <Divider sx={{ marginTop: '12px', bgcolor: 'rgba(253,246,228,0.3)' }} />
         <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
           {renderNavItems({ items: sideNavItems3, pathname })}
         </Box>
@@ -133,12 +136,12 @@ const NavItem = ({ title, href, pathname, Icon }: NavItemProps) => {
           textDecoration: 'none',
           whiteSpace: 'nowrap',
           ...(active && {
-            bgcolor: '#E0F3FF',
-            color: '#5B64DA',
+            bgcolor: '#fffada',
+            color: '#2C4059',
           }),
           '&:hover': {
-            bgcolor: '#E0F3FF',
-            color: '#5B64DA',
+            bgcolor: 'rgba(253,246,228,0.8)',
+            color: '#2C4059',
           },
         }}
       >
