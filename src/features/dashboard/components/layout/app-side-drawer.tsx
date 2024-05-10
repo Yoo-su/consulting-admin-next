@@ -66,7 +66,7 @@ const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
           </Box>
         </Box>
       </Stack>
-      <Divider sx={{ bgcolor: 'rgba(253,246,228,0.3)' }} />
+      <Divider sx={{ bgcolor: 'rgba(255,255,255,0.3)' }} />
       <Stack
         direction="column"
         sx={{
@@ -77,11 +77,11 @@ const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
         <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
           {renderNavItems({ items: sideNavItems1, pathname })}
         </Box>
-        <Divider sx={{ marginTop: '12px', bgcolor: 'rgba(253,246,228,0.3)' }} />
+        <Divider sx={{ marginTop: '12px', bgcolor: 'rgba(255,255,255,0.3)' }} />
         <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
           {renderNavItems({ items: sideNavItems2, pathname })}
         </Box>
-        <Divider sx={{ marginTop: '12px', bgcolor: 'rgba(253,246,228,0.3)' }} />
+        <Divider sx={{ marginTop: '12px', bgcolor: 'rgba(255,255,255,0.3)' }} />
         <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
           {renderNavItems({ items: sideNavItems3, pathname })}
         </Box>
@@ -136,13 +136,10 @@ const NavItem = ({ title, href, pathname, Icon }: NavItemProps) => {
           textDecoration: 'none',
           whiteSpace: 'nowrap',
           ...(active && {
-            bgcolor: '#fffada',
+            bgcolor: '#FEF9F3',
             color: '#2C4059',
           }),
-          '&:hover': {
-            bgcolor: 'rgba(253,246,228,0.8)',
-            color: '#2C4059',
-          },
+          transition: 'all 0.1s linear',
         }}
       >
         <Box
