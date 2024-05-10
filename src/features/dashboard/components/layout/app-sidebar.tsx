@@ -128,13 +128,10 @@ const NavItem = ({ title, href, pathname, Icon }: NavItemProps) => {
           textDecoration: 'none',
           whiteSpace: 'nowrap',
           ...(active && {
-            bgcolor: '#fffada',
+            bgcolor: '#FEF9F3',
             color: '#2C4059',
           }),
-          '&:hover': {
-            bgcolor: 'rgba(253,246,228,0.8)',
-            color: '#2C4059',
-          },
+          transition: 'all 0.1s linear',
         }}
       >
         <Box
