@@ -26,7 +26,7 @@ import { EXCEL_UPLOAD_STEPS } from '@/features/dashboard/constants/excel-upload-
 
 const ExcelUploader = () => {
   const { currentService } = useUnivService();
-  const { excel, setExcel, startVerify, isVerified, helperText, upload, isUploaded, clearVerifiedState } =
+  const { excel, setExcel, startVerify, isVerified, helperText, upload, isUploaded, isUploading, clearVerifiedState } =
     useHandleExcel();
   const { activeStep, skipped, handleNext, handleBack, handleSkip, handleReset } = useStepper();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -45,11 +45,14 @@ const ExcelUploader = () => {
   // file input 값 변경 처리
   const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     clearVerifiedState();
-    if (!excel) handleReset();
-    if (activeStep === 0) handleNext();
-    if (activeStep === 2) handleBack();
     const selectedFile = event.target.files?.[0] || null;
     setExcel(selectedFile);
+    if (!selectedFile) {
+      handleReset();
+      return;
+    }
+    if (activeStep === 0) handleNext();
+    if (activeStep === 2) handleBack();
   };
 
   if (!currentService)
@@ -119,7 +122,7 @@ const ExcelUploader = () => {
           >
             {excel?.name ?? '기초데이터 엑셀을 올려주세요'}
           </Typography>
-          {/* {isVerifying && (
+          {isUploading && (
             <Box
               sx={{
                 position: 'fixed',
@@ -133,7 +136,7 @@ const ExcelUploader = () => {
             >
               <PulseLoader color={'#36D7B7'} />
             </Box>
-          )} */}
+          )}
         </Stack>
         {excel && !isVerified && (
           <Button variant="contained" onClick={handleClickVerify}>
@@ -143,9 +146,11 @@ const ExcelUploader = () => {
         )}
 
         {isVerified && (
-          <Button color="success" variant="contained" onClick={upload} disabled={isUploaded}>
+          <Button color="success" variant="contained" onClick={upload} disabled={isUploaded || isUploading}>
             {isUploaded ? <CheckIcon /> : <UploadIcon />}
-            <Typography variant="body1">{isUploaded ? '업로드 성공' : '엑셀 업로드'}</Typography>
+            <Typography variant="body1">
+              {isUploading ? '엑셀 업로드중..' : isUploaded ? '업로드 완료' : '엑셀 업로드'}
+            </Typography>
           </Button>
         )}
         <input

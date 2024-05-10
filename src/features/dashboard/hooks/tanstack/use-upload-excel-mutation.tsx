@@ -1,8 +1,18 @@
+'use client';
+
 import { useMutation } from '@tanstack/react-query';
-import { uploadExcel } from '../../apis/upload-excel';
+import { uploadFoundationLibrary } from '../../apis/upload-foundation-library';
+import { useUser } from '@/features/auth/hooks/use-user';
+import { useUnivService } from '@/shared/hooks/use-univ-service';
 
 export const useUploadExcelMutation = () => {
+  const { user } = useUser();
+  const { currentService } = useUnivService();
   return useMutation({
-    mutationFn: (formData: FormData) => uploadExcel(formData),
+    mutationFn: (formData: FormData) => {
+      formData.append('userID', user?.userID ?? '');
+      formData.append('serviceID', currentService?.serviceID ?? '');
+      return uploadFoundationLibrary(formData);
+    },
   });
 };

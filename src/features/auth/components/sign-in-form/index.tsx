@@ -27,7 +27,7 @@ const schema = zod.object({
 type Values = zod.infer<typeof schema>;
 
 const defaultValues = {
-  userID: 'yoosu',
+  userID: 'chess',
   password: '1234',
 } satisfies Values;
 
