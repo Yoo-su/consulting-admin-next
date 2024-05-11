@@ -1,5 +1,7 @@
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+
+import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 import ServiceSettingBox from '@/features/dashboard/components/service-setting/service-setting-box';
 
 export const metadata = {
@@ -9,10 +11,12 @@ export const metadata = {
 
 const Page = () => {
   return (
-    <Container>
-      <Typography variant="h5">서비스 설정</Typography>
-      <ServiceSettingBox />
-    </Container>
+    <UnivServiceCheckGuard>
+      <Container>
+        <Typography variant="h5">서비스 설정</Typography>
+        <ServiceSettingBox />
+      </Container>
+    </UnivServiceCheckGuard>
   );
 };
 
