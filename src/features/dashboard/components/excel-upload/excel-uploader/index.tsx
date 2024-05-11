@@ -71,7 +71,7 @@ const ExcelUploader = () => {
       </Stepper>
 
       {helperText.text && (
-        <Alert color={helperText.color} sx={{ mt: 8 }} icon={<InfoOutlinedIcon />}>
+        <Alert color={helperText.color} sx={{ mt: 4 }} icon={<InfoOutlinedIcon />}>
           {helperText.text}
         </Alert>
       )}
@@ -81,7 +81,7 @@ const ExcelUploader = () => {
         alignItems={'center'}
         justifyContent={'center'}
         spacing={2}
-        sx={{ position: 'relative', mt: 8 }}
+        sx={{ position: 'relative', mt: 4 }}
       >
         <Stack
           onClick={handleClickUploadBtn}

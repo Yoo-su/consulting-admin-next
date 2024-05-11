@@ -5,7 +5,7 @@ const Page = () => {
   return (
     <Grid container spacing={3}>
       <Grid>
-        <Typography variant='h3'>Mojip Setting</Typography>
+        <Typography variant="h3">Mojip Setting</Typography>
       </Grid>
     </Grid>
   );

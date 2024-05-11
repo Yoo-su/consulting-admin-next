@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -46,7 +45,7 @@ const ServiceSelect = () => {
           },
         }}
       >
-        Service
+        서비스
       </InputLabel>
       <Select
         labelId="service-select"

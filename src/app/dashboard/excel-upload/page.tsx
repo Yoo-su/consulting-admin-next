@@ -1,7 +1,7 @@
 import Container from '@mui/material/Container';
-
 import Typography from '@mui/material/Typography';
 
+import ServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 import ExcelUploader from '@/features/dashboard/components/excel-upload/excel-uploader';
 
 export const metadata = {
@@ -11,10 +11,12 @@ export const metadata = {
 
 const Page = () => {
   return (
-    <Container>
-      <Typography variant="h5">기초 데이터 엑셀 업로드</Typography>
-      <ExcelUploader />
-    </Container>
+    <ServiceCheckGuard>
+      <Container>
+        <Typography variant="h5">기초 데이터 엑셀 업로드</Typography>
+        <ExcelUploader />
+      </Container>
+    </ServiceCheckGuard>
   );
 };
 
