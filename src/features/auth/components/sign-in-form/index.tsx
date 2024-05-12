@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
@@ -32,7 +31,6 @@ const defaultValues = {
 } satisfies Values;
 
 const SignInForm = () => {
-  const router = useRouter();
   const { isPending, mutate } = useSigninMutation();
 
   const [showPassword, setShowPassword] = useState<boolean>();

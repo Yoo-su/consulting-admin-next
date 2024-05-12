@@ -10,7 +10,7 @@ import { useGetServiceList } from '@/shared/hooks/use-get-service-list';
 
 const UnivSelect = () => {
   const { univList, setCurrentUniv, setCurrentService, currentUniv } = useUnivService();
-  const { execute } = useGetServiceList();
+  const { execute: getServiceList } = useGetServiceList();
 
   const handleChange = (event: SelectChangeEvent) => {
     const selectedUnivID = event.target.value;
@@ -18,7 +18,7 @@ const UnivSelect = () => {
     if (selectedUniv) {
       setCurrentUniv(selectedUniv);
       setCurrentService(null);
-      execute(selectedUnivID);
+      getServiceList(selectedUnivID);
     }
   };
 

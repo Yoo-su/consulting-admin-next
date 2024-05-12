@@ -14,8 +14,8 @@ const theme = extendTheme({
       fontWeight: ibm_kr.style.fontWeight,
     },
     h5: {
-      fontFamily: ibm_kr.style.fontFamily,
-      fontWeight: ibm_kr.style.fontWeight,
+      fontFamily: gowun_dodum.style.fontFamily,
+      fontWeight: gowun_dodum.style.fontWeight,
     },
     h4: {
       fontFamily: ibm_kr.style.fontFamily,

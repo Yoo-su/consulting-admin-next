@@ -3,6 +3,14 @@
 import { useState, useEffect } from 'react';
 
 type StorageType = 'local' | 'session';
+
+/**
+ *
+ * @param initialState 이니셜 값
+ * @param storageType 저장소 유형 (로컬 스토리지, 세션 스토리지)
+ * @param key 값 저장,조회,삭제 시 사용할 키
+ * @returns
+ */
 export const usePersistedState = <T,>(
   initialState: T,
   storageType: StorageType,
