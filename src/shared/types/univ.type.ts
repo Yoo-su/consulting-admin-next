@@ -1,4 +1,4 @@
 export type Univ = {
-  univID: string;
+  univID: number;
   univName: string;
 };

@@ -1,7 +1,7 @@
 export type Service = {
-  univID: string;
+  univID: number;
   univName: string;
-  serviceID: string;
+  serviceID: number;
   serviceType: 'susi' | 'jungsi';
   serviceYear: string;
 };
