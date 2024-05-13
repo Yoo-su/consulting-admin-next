@@ -33,7 +33,7 @@ const defaultValues = {
 } satisfies Values;
 
 type AddServiceFormProps = {
-  univID: number | undefined;
+  univID: string;
 };
 const AddServiceForm = ({ univID }: AddServiceFormProps) => {
   const {

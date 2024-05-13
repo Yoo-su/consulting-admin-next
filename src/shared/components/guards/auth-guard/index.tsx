@@ -1,40 +1,37 @@
 'use client';
 
-import { useState, useEffect, Fragment, ReactNode } from 'react';
+import { useEffect, useState, Fragment, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 
 import AppBackdrop from '@/shared/components/loadings/app-backrdrop';
+import { useUser } from '../../../../features/auth/hooks/use-user';
 import { paths } from '@/shared/constants/paths';
-import { useUser } from '../../hooks/use-user';
 
-export type GuestGuardProps = {
+export type AuthGuardProps = {
   children: ReactNode;
 };
 
-const GuestGuard = ({ children }: GuestGuardProps) => {
+const AuthGuard = ({ children }: AuthGuardProps) => {
   const router = useRouter();
   const { user, isLoading } = useUser();
   const [isChecking, setIsChecking] = useState<boolean>(true);
 
-  const checkPermissions = () => {
+  const checkUser = () => {
     if (isLoading) return;
-
-    if (user) {
-      router.replace(paths.dashboard.overview, { scroll: false });
+    if (!user) {
+      router.replace(paths.auth.signIn, { scroll: false });
       return;
     }
-
     setIsChecking(false);
   };
 
   useEffect(() => {
-    checkPermissions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
+    checkUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, isLoading]);
 
   if (isChecking) return <AppBackdrop />;
-
   return <Fragment>{children}</Fragment>;
 };
 
-export default GuestGuard;
+export default AuthGuard;

@@ -25,7 +25,7 @@ const ServiceSettingBox = () => {
 
   return (
     <Stack direction={'column'} sx={{ mt: 5 }} spacing={5}>
-      <AddServiceForm univID={currentUniv?.univID} />
+      <AddServiceForm univID={currentUniv?.univID ?? ''} />
 
       <Divider sx={{ my: 3 }} />
       <Stack direction={'column'} spacing={2}>

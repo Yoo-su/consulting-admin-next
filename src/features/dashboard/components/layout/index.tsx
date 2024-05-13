@@ -5,7 +5,7 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
-import AuthGuard from '@/features/auth/components/auth-guard';
+import AuthGuard from '@/shared/components/guards/auth-guard';
 import AppHeader from './app-header';
 import AppSidebar from './app-sidebar';
 

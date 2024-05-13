@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, ChangeEvent } from 'react';
-import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Stepper from '@mui/material/Stepper';

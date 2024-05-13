@@ -1,6 +1,6 @@
 import Layout from '@/features/auth/components/layout';
 import SignInForm from '@/features/auth/components/sign-in-form';
-import GuestGuard from '@/features/auth/components/guest-guard';
+import GuestGuard from '@/shared/components/guards/guest-guard';
 
 export const metadata = {
   title: '상담앱 관리자 | 로그인',

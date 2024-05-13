@@ -4,7 +4,7 @@ import { Service } from '@/shared/types/service.type';
 
 export const GET_SERVICE_LIST_URL = apiUrls.setup.getServiceList;
 
-export const getServiceList = async (univID: number) => {
+export const getServiceList = async (univID: string) => {
   return await apiInstance.get<Service[]>(GET_SERVICE_LIST_URL, {
     params: {
       univID,

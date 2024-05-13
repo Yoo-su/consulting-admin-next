@@ -7,7 +7,7 @@ export const useUnivService = (): UnivServiceContextValue => {
   const context = useContext(UnivServiceContext);
 
   if (!context) {
-    throw new Error('useUnivServiec must be used within a Provider');
+    throw new Error('useUnivService must be used within a Provider');
   }
 
   return context;

@@ -26,17 +26,33 @@ export const sideNavItems1: NavItemType[] = [
     Icon: SettingIcon,
   },
   {
-    navkey: 'consulting-files-setting',
-    title: '상담 자료 관리',
-    href: paths.dashboard.consultingFilesSetting,
-    Icon: DifferenceIcon,
-  },
-  {
     navkey: 'excel',
     title: '기초 엑셀 업로드',
     href: paths.dashboard.excelUpload,
     Icon: FileUploadIcon,
   },
+  {
+    navkey: 'excel-library',
+    title: '기초 데이터 자료실',
+    href: paths.dashboard.excelLibrary,
+    Icon: BackupIcon,
+  },
+  {
+    navkey: 'consulting-files-setting',
+    title: '상담 자료 관리',
+    href: paths.dashboard.consultingFilesSetting,
+    Icon: DifferenceIcon,
+  },
+];
+
+export const sideNavItems2: NavItemType[] = [
+  {
+    navkey: 'consulting-statistic',
+    title: '상담 통계',
+    href: paths.dashboard.consultingStatistic,
+    Icon: AnalyticsIcon,
+  },
+
   {
     navkey: 'mojip-setting',
     title: '모집요강 설정',
@@ -54,21 +70,6 @@ export const sideNavItems1: NavItemType[] = [
     title: '입시일정 설정',
     href: paths.dashboard.scheduleSetting,
     Icon: EditCalendarIcon,
-  },
-];
-
-export const sideNavItems2: NavItemType[] = [
-  {
-    navkey: 'consulting-statistic',
-    title: '상담 통계',
-    href: paths.dashboard.consultingStatistic,
-    Icon: AnalyticsIcon,
-  },
-  {
-    navkey: 'excel-library',
-    title: '기초 데이터 자료실',
-    href: paths.dashboard.excelLibrary,
-    Icon: BackupIcon,
   },
 ];
 

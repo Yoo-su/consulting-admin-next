@@ -9,7 +9,7 @@ export const useGetServiceList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { setServiceList } = useUnivService();
 
-  const execute = (univID: number) => {
+  const execute = (univID: string) => {
     setIsLoading(true);
     getServiceList(univID)
       .then((res) => {

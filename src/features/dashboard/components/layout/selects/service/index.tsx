@@ -21,7 +21,7 @@ const ServiceSelect = () => {
   };
 
   const handleChange = (event: SelectChangeEvent) => {
-    const selectedServiceID = Number(event.target.value);
+    const selectedServiceID = event.target.value;
     const selectedService = serviceList.find((service) => service.serviceID === selectedServiceID);
     if (selectedService) {
       setCurrentService(selectedService);
@@ -50,7 +50,7 @@ const ServiceSelect = () => {
       <Select
         labelId="service-select"
         id="service-select"
-        value={String(currentService?.serviceID) ?? ''}
+        value={currentService?.serviceID ?? ''}
         label="서비스"
         onChange={handleChange}
         disabled={!currentUniv}

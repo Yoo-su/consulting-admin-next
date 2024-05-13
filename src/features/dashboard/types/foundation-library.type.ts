@@ -1,5 +1,5 @@
 export type FoundationLibrary = {
-  ServiceID: number;
+  ServiceID: string;
   FileName: string;
   UploadDate: string;
   ModifyUser: string;

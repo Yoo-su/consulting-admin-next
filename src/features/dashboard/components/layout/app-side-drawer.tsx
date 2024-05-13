@@ -11,8 +11,8 @@ import Typography from '@mui/material/Typography';
 
 import CameraIcon from '@mui/icons-material/Camera';
 
-import UnivSelect from '@/shared/components/selects/univ';
-import ServiceSelect from '@/shared/components/selects/service';
+import UnivSelect from '@/features/dashboard/components/layout/selects/univ';
+import ServiceSelect from '@/features/dashboard/components/layout/selects/service';
 import { sideNavItems1, sideNavItems2, sideNavItems3 } from './side-nav-items';
 import { NavItemType } from '../../types/nav-item.type';
 import { isNavItemActive } from '../../services/is-nav-item-active';
