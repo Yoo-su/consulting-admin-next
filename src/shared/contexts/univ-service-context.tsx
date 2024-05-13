@@ -6,6 +6,7 @@ import { useGetUnivListQuery } from '../hooks/tanstack/use-get-univ-list-query';
 import { usePersistedState } from '../hooks/use-persisted-state';
 import { Univ } from '../types/univ.type';
 import { Service } from '../types/service.type';
+import AppBackdrop from '../components/loadings/app-backrdrop';
 
 export type UnivServiceContextValue = {
   univList: Univ[];
@@ -23,7 +24,7 @@ type UnivServiceProviderProps = {
   children: ReactNode;
 };
 const UnivServiceProvider = ({ children }: UnivServiceProviderProps) => {
-  const { refetch } = useGetUnivListQuery();
+  const { refetch, isPending } = useGetUnivListQuery();
 
   const [univList, setUnivList] = usePersistedState<Univ[]>([], 'session', 'univ-list');
   const [serviceList, setServiceList] = usePersistedState<Service[]>([], 'session', 'service-list');
@@ -31,11 +32,17 @@ const UnivServiceProvider = ({ children }: UnivServiceProviderProps) => {
   const [currentService, setCurrentService] = usePersistedState<Service | null>(null, 'session', 'service');
 
   useEffect(() => {
-    refetch().then((res) => {
-      setUnivList(res?.data?.data ?? []);
-    });
+    refetch()
+      .then((res) => {
+        setUnivList(res?.data?.data ?? []);
+      })
+      .catch((error) => {
+        setUnivList([]);
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (isPending) return <AppBackdrop />;
 
   return (
     <UnivServiceContext.Provider
