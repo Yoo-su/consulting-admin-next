@@ -3,7 +3,7 @@ import { GET_SERVICE_LIST_URL } from './get-service-list';
 
 export const getServiceList: HttpHandler = http.get(GET_SERVICE_LIST_URL, async ({ request }) => {
   const url = new URL(request.url);
-  const univID = url.searchParams.get('univID') ?? '';
+  const univID = url.searchParams.get('univID');
 
   const result = GET_SERVICE_LIST.success.serviceList.filter((item) => item.univID === Number(univID));
   return HttpResponse.json(result);
