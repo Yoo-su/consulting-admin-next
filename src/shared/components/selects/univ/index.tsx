@@ -13,7 +13,7 @@ const UnivSelect = () => {
   const { execute: getServiceList } = useGetServiceList();
 
   const handleChange = (event: SelectChangeEvent) => {
-    const selectedUnivID = event.target.value;
+    const selectedUnivID = Number(event.target.value);
     const selectedUniv = univList.find((univ) => univ.univID === selectedUnivID);
     if (selectedUniv) {
       setCurrentUniv(selectedUniv);
@@ -38,7 +38,7 @@ const UnivSelect = () => {
       <Select
         labelId="univ-select"
         id="univ-select"
-        value={currentUniv?.univID ?? ''}
+        value={String(currentUniv?.univID) ?? ''}
         label="대학교"
         onChange={handleChange}
         sx={{
