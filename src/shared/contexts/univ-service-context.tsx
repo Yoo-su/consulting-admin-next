@@ -7,6 +7,7 @@ import { usePersistedState } from '../hooks/use-persisted-state';
 import { Univ } from '../types/univ.type';
 import { Service } from '../types/service.type';
 import AppBackdrop from '../components/loadings/app-backrdrop';
+import { dummyUnivList } from '../constants/dummies/univ-list.dummy';
 
 export type UnivServiceContextValue = {
   univList: Univ[];
@@ -34,10 +35,10 @@ const UnivServiceProvider = ({ children }: UnivServiceProviderProps) => {
   useEffect(() => {
     refetch()
       .then((res) => {
-        setUnivList(res?.data?.data ?? []);
+        setUnivList(res?.data?.data ?? dummyUnivList);
       })
       .catch((error) => {
-        setUnivList([]);
+        setUnivList(dummyUnivList);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
