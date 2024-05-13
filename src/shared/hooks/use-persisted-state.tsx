@@ -16,18 +16,25 @@ export const usePersistedState = <T,>(
   storageType: StorageType,
   key: string
 ): [T, (value: T) => void] => {
-  const storage = storageType === 'local' ? localStorage : sessionStorage;
   const [state, setState] = useState<T>(initialState);
 
   useEffect(() => {
-    const storageVal = storage.getItem(key);
-    if (storageVal) setState(JSON.parse(storageVal));
+    // 클라이언트 측에서만 실행되도록 조건문 추가
+    if (typeof window !== 'undefined') {
+      const storage = storageType === 'local' ? window.localStorage : window.sessionStorage;
+      const storageVal = storage.getItem(key);
+      if (storageVal) setState(JSON.parse(storageVal));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setPersistedState = (value: T) => {
-    setState(value);
-    storage.setItem(key, JSON.stringify(value));
+    // 클라이언트 측에서만 실행되도록 조건문 추가
+    if (typeof window !== 'undefined') {
+      const storage = storageType === 'local' ? window.localStorage : window.sessionStorage;
+      setState(value);
+      storage.setItem(key, JSON.stringify(value));
+    }
   };
 
   return [state, setPersistedState];

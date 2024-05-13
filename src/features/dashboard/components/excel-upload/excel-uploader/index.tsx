@@ -54,12 +54,14 @@ const ExcelUploader = () => {
   };
 
   return (
-    <Card
+    <Stack
       sx={{
         p: 6,
         flexGrow: 1,
         mt: 5,
         position: 'relative',
+        borderRadius: '1rem',
+        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
       }}
     >
       <Stepper alternativeLabel connector={<ColorlibConnector />} activeStep={activeStep} sx={{ my: 1.5 }}>
@@ -152,7 +154,7 @@ const ExcelUploader = () => {
           accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
         />
       </Stack>
-    </Card>
+    </Stack>
   );
 };
 

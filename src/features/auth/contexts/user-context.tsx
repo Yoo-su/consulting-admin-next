@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback, createContext } from 'react';
-import { User } from '../types';
+import { User } from '../types/user.type';
 
 export type UserContextValue = {
   user: User | null;

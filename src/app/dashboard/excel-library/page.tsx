@@ -1,13 +1,17 @@
-import Grid from '@mui/material/Unstable_Grid2';
+import FoundationLibraryListBox from '@/features/dashboard/components/excel-library';
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+
+import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 const Page = () => {
   return (
-    <Grid container spacing={3}>
-      <Grid>
-        <Typography variant='h3'>Excel Library</Typography>
-      </Grid>
-    </Grid>
+    <UnivServiceCheckGuard>
+      <Container>
+        <Typography variant="h5">기초데이터 엑셀 자료실</Typography>
+        <FoundationLibraryListBox />
+      </Container>
+    </UnivServiceCheckGuard>
   );
 };
 

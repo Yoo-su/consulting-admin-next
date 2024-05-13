@@ -9,6 +9,5 @@ export const useGetUnivListQuery = () => {
     queryFn: getUnivList,
     staleTime: Infinity,
     enabled: false,
-    retry: 0,
   });
 };
