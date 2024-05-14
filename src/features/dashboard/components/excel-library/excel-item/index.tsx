@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 
 import { FoundationLibrary } from '@/features/dashboard/types/foundation-library.type';
 import excelIcon from '@/shared/assets/images/xls_32.png';
+import { formatKoreanTextCompareDatesFromNow } from '@/shared/services/get-formatted-date';
 
 type ExcelItemProps = {
   item: FoundationLibrary;
@@ -47,22 +48,26 @@ const ExcelItem = ({ item }: ExcelItemProps) => {
         spacing={2}
         sx={{
           boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+          borderRadius: '0.5rem',
           cursor: 'pointer',
           p: 1,
           '&:hover': {
             transform: 'scale(1.05)',
+            bgcolor: 'rgba(0,0,0,0.1)',
           },
-          transition: 'transform 0.1s linear',
+          transition: 'all 0.1s linear',
         }}
         onClick={handleClick}
       >
         <Image src={excelIcon} width={'32'} height={'32'} alt={item.FileName} />
-        <Typography
-          variant="caption"
-          sx={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', width: '100%', overflowX: 'hidden' }}
-        >
-          {fileName}
-        </Typography>
+        <Stack direction={'column'} sx={{ overflow: 'hidden', justifyContent: 'space-between', flexGrow: 1 }}>
+          <Typography variant="caption" sx={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+            {fileName}
+          </Typography>
+          <Typography variant="caption" color="grey.500" textAlign="right">
+            {formatKoreanTextCompareDatesFromNow(item.UploadDate)}
+          </Typography>
+        </Stack>
       </Stack>
     </Tooltip>
   );

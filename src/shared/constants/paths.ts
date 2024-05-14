@@ -14,6 +14,7 @@ export const paths = {
     consultingStatistic: '/dashboard/consulting-statistic',
     excelLibrary: '/dashboard/excel-library',
     accountSetting: '/dashboard/account-setting',
+    appDeploy: '/dashboard/app-deploy',
   },
   errors: { notFound: '/errors/not-found' },
 } as const;

@@ -17,8 +17,8 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 import { useStepper } from '@/shared/hooks/use-stepper';
-import ColorlibStepIcon from './stepper/color-lib-step-icon';
-import { ColorlibConnector } from './stepper/styled';
+import ColorlibStepIcon from '@/shared/components/stepper/color-lib-step-icon';
+import { ColorlibConnector } from '@/shared/components/stepper/styled';
 import { useHandleExcel } from '@/features/dashboard/hooks/use-handle-excel';
 import { EXCEL_UPLOAD_STEPS } from '@/features/dashboard/constants/excel-upload-steps';
 

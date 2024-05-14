@@ -2,8 +2,10 @@
 import HomeIcon from '@mui/icons-material/Home';
 import SettingIcon from '@mui/icons-material/Settings';
 import DifferenceIcon from '@mui/icons-material/Difference';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
-import BackupIcon from '@mui/icons-material/Backup';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import UploadIcon from '@mui/icons-material/Upload';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import AddchartIcon from '@mui/icons-material/Addchart';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
@@ -29,19 +31,25 @@ export const sideNavItems1: NavItemType[] = [
     navkey: 'excel',
     title: '기초 엑셀 업로드',
     href: paths.dashboard.excelUpload,
-    Icon: FileUploadIcon,
+    Icon: UploadFileIcon,
   },
   {
     navkey: 'excel-library',
     title: '기초 데이터 자료실',
     href: paths.dashboard.excelLibrary,
-    Icon: BackupIcon,
+    Icon: LibraryBooksIcon,
   },
   {
     navkey: 'consulting-files-setting',
     title: '상담 자료 관리',
     href: paths.dashboard.consultingFilesSetting,
     Icon: DifferenceIcon,
+  },
+  {
+    navkey: 'app-deploy',
+    title: '상담앱 배포',
+    href: paths.dashboard.appDeploy,
+    Icon: CloudUploadIcon,
   },
 ];
 
