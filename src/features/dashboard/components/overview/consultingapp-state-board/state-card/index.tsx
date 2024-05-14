@@ -20,7 +20,7 @@ const StateCard = ({ state }: StateCardProps) => {
   const cardTitle = state.serviceYear + (state.serviceType === 'susi' ? '수시' : '정시') + ' ' + state.univName;
 
   const handleClick = () => {
-    openDialog('modify');
+    console.log('ENV VALUE TEST', process.env.NODE_ENV, process.env.NEXT_PUBLIC_BASE_URL, 'TEST END');
   };
 
   const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
