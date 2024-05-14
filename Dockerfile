@@ -11,14 +11,14 @@ RUN npm install
 # Copy the rest of the application code to the working directory
 COPY . .
 
-# Build the Next.js application
-RUN npm run build
-
 ARG NEXT_PUBLIC_BASE_URL
 ARG NEXT_PUBLIC_MOCKING
 
 ENV NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
 ENV NEXT_PUBLIC_MOCKING=${NEXT_PUBLIC_MOCKING}
+
+# Build the Next.js application
+RUN npm run build
 
 # Expose port
 EXPOSE 3000
