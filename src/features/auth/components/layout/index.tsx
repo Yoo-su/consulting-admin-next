@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import RouterLink from 'next/link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
@@ -7,7 +6,7 @@ export type LayoutProps = {
   children: ReactNode;
 };
 
-const Layout = ({ children }: LayoutProps) => {
+const AuthLayout = ({ children }: LayoutProps) => {
   return (
     <Box
       sx={{
@@ -39,4 +38,4 @@ const Layout = ({ children }: LayoutProps) => {
   );
 };
 
-export default Layout;
+export default AuthLayout;
