@@ -1,11 +1,10 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, Fragment } from 'react';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
-import AuthGuard from '@/shared/components/guards/auth-guard';
 import AppHeader from './app-header';
 import AppSidebar from './app-sidebar';
 
@@ -14,7 +13,7 @@ type Props = {
 };
 const Layout = ({ children }: Props) => {
   return (
-    <AuthGuard>
+    <Fragment>
       <GlobalStyles
         styles={{
           body: {
@@ -53,7 +52,7 @@ const Layout = ({ children }: Props) => {
           </main>
         </Box>
       </Box>
-    </AuthGuard>
+    </Fragment>
   );
 };
 

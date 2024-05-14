@@ -1,6 +1,4 @@
-import Layout from '@/features/auth/components/layout';
 import SignInForm from '@/features/auth/components/sign-in-form';
-import GuestGuard from '@/shared/components/guards/guest-guard';
 
 export const metadata = {
   title: '상담앱 관리자 | 로그인',
@@ -8,13 +6,7 @@ export const metadata = {
 };
 
 const Page = () => {
-  return (
-    <GuestGuard>
-      <Layout>
-        <SignInForm />
-      </Layout>
-    </GuestGuard>
-  );
+  return <SignInForm />;
 };
 
 export default Page;

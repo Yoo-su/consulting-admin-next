@@ -1,9 +1,9 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
+
 import MSWProvider from '@/shared/components/providers/MSWProvider';
 import QueryProvider from '@/shared/components/providers/QueryProvider';
 import AppThemeProvider from '@/shared/components/providers/ThemeProvider';
 import UserProvider from '@/features/auth/contexts/user-context';
-import UnivServiceProvider from '@/shared/contexts/univ-service-context';
 import '@/shared/style/css/reset.css';
 import '@/shared/style/css/animation.css';
 
@@ -18,13 +18,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <body>
         <MSWProvider>
           <QueryProvider>
-            <UserProvider>
-              <UnivServiceProvider>
-                <AppRouterCacheProvider>
-                  <AppThemeProvider>{children}</AppThemeProvider>
-                </AppRouterCacheProvider>
-              </UnivServiceProvider>
-            </UserProvider>
+            <AppRouterCacheProvider>
+              <AppThemeProvider>
+                <UserProvider>{children}</UserProvider>
+              </AppThemeProvider>
+            </AppRouterCacheProvider>
           </QueryProvider>
         </MSWProvider>
       </body>

@@ -8,5 +8,7 @@ export const useGetFoundationLibrariesQuery = (serviceID: string | undefined) =>
     queryKey: ['get-foundation-libraries', serviceID],
     queryFn: serviceID ? () => getFoundationLibraries(serviceID) : skipToken,
     enabled: !!serviceID,
+    refetchOnMount: true,
+    staleTime: 0,
   });
 };

@@ -4,7 +4,7 @@ export const paths = {
     signIn: '/auth/sign-in',
   },
   dashboard: {
-    overview: '/dashboard',
+    overview: '/dashboard/overview',
     serviceSetting: '/dashboard/service-setting',
     consultingFilesSetting: '/dashboard/consulting-files-setting',
     excelUpload: '/dashboard/excel-upload',

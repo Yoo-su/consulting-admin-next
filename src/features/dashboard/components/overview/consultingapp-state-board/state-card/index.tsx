@@ -19,9 +19,7 @@ const StateCard = ({ state }: StateCardProps) => {
   const isDraggable = user?.name === state.developer;
   const cardTitle = state.serviceYear + (state.serviceType === 'susi' ? '수시' : '정시') + ' ' + state.univName;
 
-  const handleClick = () => {
-    console.log('ENV VALUE TEST', process.env.NODE_ENV, process.env.NEXT_PUBLIC_BASE_URL, 'TEST END');
-  };
+  const handleClick = () => {};
 
   const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
     e.dataTransfer.setData('text/plain', JSON.stringify(state));
