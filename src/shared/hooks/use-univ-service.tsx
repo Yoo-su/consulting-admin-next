@@ -1,3 +1,5 @@
+'use client';
+
 import { useContext } from 'react';
 
 import { UnivServiceContext } from '../contexts/univ-service-context';
