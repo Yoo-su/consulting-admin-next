@@ -10,7 +10,6 @@ import ConsultingAppStateBoardSkeleton from './skeleton';
 import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
 
 const ConsultingAppStateBoard = () => {
-  console.log(process.env.NEXT_PUBLIC_BASE_URL);
   const { isLoading, boardType } = useConsultingAppState();
   if (isLoading) return <ConsultingAppStateBoardSkeleton />;
 
