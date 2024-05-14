@@ -33,5 +33,3 @@ export const formatKoreanTextCompareDatesFromNow = (compareISODateString: string
 
   return `${years}년 전`;
 };
-
-console.log(formatKoreanTextCompareDatesFromNow('2024-05-10T06:54:24.906Z'));
