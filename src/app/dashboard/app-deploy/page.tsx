@@ -1,6 +1,7 @@
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
+import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 import AppDeployer from '@/features/dashboard/components/app-deploy/app-deployer';
 
 export const metadata = {
@@ -10,10 +11,12 @@ export const metadata = {
 
 const Page = () => {
   return (
-    <Container>
-      <Typography variant="h5">상담앱 배포</Typography>
-      <AppDeployer />
-    </Container>
+    <UnivServiceCheckGuard>
+      <Container>
+        <Typography variant="h5">상담앱 배포</Typography>
+        <AppDeployer />
+      </Container>
+    </UnivServiceCheckGuard>
   );
 };
 
