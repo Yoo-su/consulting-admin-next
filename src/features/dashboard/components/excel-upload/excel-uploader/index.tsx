@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, ChangeEvent } from 'react';
+import { useRef, ChangeEvent, Fragment } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Stepper from '@mui/material/Stepper';
@@ -9,18 +9,21 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
+import Chip from '@mui/material/Chip';
 import PulseLoader from 'react-spinners/PulseLoader';
 
+import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import CheckIcon from '@mui/icons-material/Check';
 import UploadIcon from '@mui/icons-material/Upload';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 import { useStepper } from '@/shared/hooks/use-stepper';
 import ColorlibStepIcon from '@/shared/components/stepper/color-lib-step-icon';
 import { ColorlibConnector } from '@/shared/components/stepper/styled';
 import { useHandleExcel } from '@/features/dashboard/hooks/use-handle-excel';
 import { EXCEL_UPLOAD_STEPS } from '@/features/dashboard/constants/excel-upload-steps';
+import excelIcon from '@/shared/assets/images/xls_64.png';
+import Image from 'next/image';
 
 const ExcelUploader = () => {
   const { excel, setExcel, startVerify, isVerified, helperText, upload, isUploaded, isUploading, clearVerifiedState } =
@@ -54,107 +57,112 @@ const ExcelUploader = () => {
   };
 
   return (
-    <Stack
-      sx={{
-        p: 6,
-        flexGrow: 1,
-        mt: 5,
-        position: 'relative',
-        borderRadius: '1rem',
-        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-      }}
-    >
-      <Stepper alternativeLabel connector={<ColorlibConnector />} activeStep={activeStep} sx={{ my: 1.5 }}>
-        {EXCEL_UPLOAD_STEPS.map((label, index) => (
-          <Step key={label}>
-            <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-
-      {helperText.text && (
-        <Alert color={helperText.color} sx={{ mt: 4 }} icon={<InfoOutlinedIcon />}>
-          {helperText.text}
-        </Alert>
-      )}
-
+    <Fragment>
+      <Stack direction={'row'} justifyContent={'flex-end'} sx={{ flexGrow: 1, mt: 5 }}>
+        <Chip color="default" clickable icon={<ArrowCircleDownIcon />} label="기초 레이아웃 다운로드" />
+      </Stack>
       <Stack
-        direction={'column'}
-        alignItems={'center'}
-        justifyContent={'center'}
-        spacing={2}
-        sx={{ position: 'relative', mt: 4 }}
+        sx={{
+          p: 6,
+          mt: 2,
+          flexGrow: 1,
+          position: 'relative',
+          borderRadius: '1rem',
+          boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+        }}
       >
+        <Stepper alternativeLabel connector={<ColorlibConnector />} activeStep={activeStep} sx={{ my: 1.5 }}>
+          {EXCEL_UPLOAD_STEPS.map((label, index) => (
+            <Step key={label}>
+              <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+
+        {helperText.text && (
+          <Alert color={helperText.color} sx={{ mt: 4 }} icon={<InfoOutlinedIcon />}>
+            {helperText.text}
+          </Alert>
+        )}
+
         <Stack
-          onClick={handleClickUploadBtn}
           direction={'column'}
-          spacing={3}
-          sx={{
-            cursor: 'pointer',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: '1rem',
-            position: 'relative',
-            width: '320px',
-            height: '220px',
-            px: 1,
-            boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-          }}
+          alignItems={'center'}
+          justifyContent={'center'}
+          spacing={2}
+          sx={{ position: 'relative', mt: 4 }}
         >
-          <AttachFileIcon fontSize="large" />
-          <Typography
-            variant="body2"
-            color="grey.700"
+          <Stack
+            onClick={handleClickUploadBtn}
+            direction={'column'}
+            spacing={3}
             sx={{
-              textAlign: 'center',
-              width: '100%',
-              overflow: 'hidden',
-              whiteSpace: 'nowrap',
-              textOverflow: 'ellipsis',
+              cursor: 'pointer',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: '1rem',
+              position: 'relative',
+              width: '320px',
+              height: '220px',
+              px: 1,
+              boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
             }}
           >
-            {excel?.name ?? '기초데이터 엑셀을 올려주세요'}
-          </Typography>
-          {isUploading && (
-            <Box
+            <Image src={excelIcon} width={'48'} height={'48'} alt="excel-image" />
+            <Typography
+              variant="body2"
+              color="grey.700"
               sx={{
-                position: 'fixed',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '320px',
-                height: '220px',
-                bgcolor: 'rgba(255,255,255,0.5)',
+                textAlign: 'center',
+                width: '100%',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
               }}
             >
-              <PulseLoader color={'#36D7B7'} />
-            </Box>
-          )}
-        </Stack>
-        {excel && !isVerified && (
-          <Button variant="contained" onClick={handleClickVerify}>
-            <CheckIcon />
-            <Typography variant="body1">데이터 검증하기</Typography>
-          </Button>
-        )}
-
-        {isVerified && (
-          <Button color="success" variant="contained" onClick={upload} disabled={isUploaded || isUploading}>
-            {isUploaded ? <CheckIcon /> : <UploadIcon />}
-            <Typography variant="body1">
-              {isUploading ? '엑셀 업로드중..' : isUploaded ? '업로드 완료' : '엑셀 업로드'}
+              {excel?.name ?? '기초데이터 엑셀을 올려주세요'}
             </Typography>
-          </Button>
-        )}
-        <input
-          type="file"
-          ref={fileInputRef}
-          style={{ display: 'none' }}
-          onChange={handleFileInputChange}
-          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-        />
+            {isUploading && (
+              <Box
+                sx={{
+                  position: 'fixed',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '320px',
+                  height: '220px',
+                  bgcolor: 'rgba(255,255,255,0.5)',
+                }}
+              >
+                <PulseLoader color={'#36D7B7'} />
+              </Box>
+            )}
+          </Stack>
+          {excel && !isVerified && (
+            <Button variant="contained" onClick={handleClickVerify}>
+              <CheckIcon />
+              <Typography variant="body1">데이터 검증하기</Typography>
+            </Button>
+          )}
+
+          {isVerified && (
+            <Button color="success" variant="contained" onClick={upload} disabled={isUploaded || isUploading}>
+              {isUploaded ? <CheckIcon /> : <UploadIcon />}
+              <Typography variant="body1">
+                {isUploading ? '엑셀 업로드중..' : isUploaded ? '업로드 완료' : '엑셀 업로드'}
+              </Typography>
+            </Button>
+          )}
+          <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            onChange={handleFileInputChange}
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+          />
+        </Stack>
       </Stack>
-    </Stack>
+    </Fragment>
   );
 };
 

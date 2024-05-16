@@ -12,12 +12,10 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import Typography from '@mui/material/Typography';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
 import AdbIcon from '@mui/icons-material/Adb';
@@ -27,6 +25,8 @@ import { useStepper } from '@/shared/hooks/use-stepper';
 import ColorlibStepIcon from '@/shared/components/stepper/color-lib-step-icon';
 import { ColorlibConnector } from '@/shared/components/stepper/styled';
 import { APP_DEPLOY_STEPS } from '@/features/dashboard/constants/app-deploy-steps';
+import apkIcon from '@/shared/assets/images/apk_64.png';
+import Image from 'next/image';
 
 const AppDeployer = () => {
   const { appType, setAppType, appFile, setAppFile, helperText, deploy, isDeploying } = useHandleApp();
@@ -50,7 +50,6 @@ const AppDeployer = () => {
   return (
     <Stack direction={'column'} sx={{ mt: 5 }}>
       <FormControl sx={{ alignItems: 'center' }}>
-        <FormLabel>배포할 앱 유형</FormLabel>
         <RadioGroup
           row
           name="app-type-radio-group"
@@ -64,7 +63,7 @@ const AppDeployer = () => {
             label={
               <Stack direction={'row'} alignItems={'center'}>
                 <DesktopWindowsIcon fontSize="large" sx={{ color: '#1D2951', mr: '0.1rem' }} />
-                PC
+                데스크탑 APP
               </Stack>
             }
           />
@@ -75,7 +74,7 @@ const AppDeployer = () => {
             label={
               <Stack direction={'row'} alignItems={'center'}>
                 <AdbIcon fontSize="large" sx={{ color: '#7CB342', mr: '0.1rem' }} />
-                Android
+                안드로이드 APK
               </Stack>
             }
           />
@@ -127,7 +126,7 @@ const AppDeployer = () => {
               boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
             }}
           >
-            <AttachFileIcon fontSize="large" />
+            <Image src={apkIcon} width={'48'} height={'48'} alt="apk-image" />
             <Typography
               variant="body2"
               color="grey.700"

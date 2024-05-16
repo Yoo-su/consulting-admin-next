@@ -9,7 +9,6 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Divider from '@mui/material/Divider';
-import FormLabel from '@mui/material/FormLabel';
 
 import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
 import AdbIcon from '@mui/icons-material/Adb';
@@ -40,7 +39,7 @@ const AppHistoryListBox = () => {
         p: 2,
       }}
     >
-      <FormControl sx={{ alignItems: 'center', mt: 4 }}>
+      <FormControl sx={{ alignItems: 'center', mt: 2 }}>
         {/* <FormLabel>앱 유형</FormLabel> */}
         <RadioGroup
           row
@@ -56,7 +55,7 @@ const AppHistoryListBox = () => {
             label={
               <Stack direction={'row'} alignItems={'center'}>
                 <DesktopWindowsIcon fontSize="large" sx={{ color: '#1D2951', mr: '0.1rem' }} />
-                PC
+                데스크탑 APP
               </Stack>
             }
           />
@@ -67,14 +66,14 @@ const AppHistoryListBox = () => {
             label={
               <Stack direction={'row'} alignItems={'center'}>
                 <AdbIcon fontSize="large" sx={{ color: '#7CB342', mr: '0.1rem' }} />
-                Android
+                안드로이드 APK
               </Stack>
             }
           />
         </RadioGroup>
       </FormControl>
 
-      <Divider sx={{ my: 2 }} />
+      <Divider sx={{ my: 2, borderColor: 'rgba(0,0,0,0.05)' }} />
 
       <Suspense fallback={<AppVersionHistoryListBoxSkeleton />}>
         <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
