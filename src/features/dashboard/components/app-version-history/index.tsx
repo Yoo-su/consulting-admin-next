@@ -8,6 +8,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+import Divider from '@mui/material/Divider';
 import FormLabel from '@mui/material/FormLabel';
 
 import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
@@ -39,6 +40,42 @@ const AppHistoryListBox = () => {
         p: 2,
       }}
     >
+      <FormControl sx={{ alignItems: 'center', mt: 4 }}>
+        {/* <FormLabel>앱 유형</FormLabel> */}
+        <RadioGroup
+          row
+          name="app-type-radio-group"
+          onChange={(e) => {
+            setAppType(e.target.value as typeof appType);
+          }}
+          value={appType}
+        >
+          <FormControlLabel
+            value="P"
+            control={<Radio size="medium" />}
+            label={
+              <Stack direction={'row'} alignItems={'center'}>
+                <DesktopWindowsIcon fontSize="large" sx={{ color: '#1D2951', mr: '0.1rem' }} />
+                PC
+              </Stack>
+            }
+          />
+
+          <FormControlLabel
+            value="A"
+            control={<Radio size="medium" />}
+            label={
+              <Stack direction={'row'} alignItems={'center'}>
+                <AdbIcon fontSize="large" sx={{ color: '#7CB342', mr: '0.1rem' }} />
+                Android
+              </Stack>
+            }
+          />
+        </RadioGroup>
+      </FormControl>
+
+      <Divider sx={{ my: 2 }} />
+
       <Suspense fallback={<AppVersionHistoryListBoxSkeleton />}>
         <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
           <Typography variant="h6">{`${currentService?.univName}(${currentService?.serviceID}) 앱 버전 히스토리`}</Typography>
@@ -49,39 +86,6 @@ const AppHistoryListBox = () => {
             </Typography>
           )}
         </Stack>
-        <FormControl sx={{ alignItems: 'center', mt: 4 }}>
-          {/* <FormLabel>앱 유형</FormLabel> */}
-          <RadioGroup
-            row
-            name="app-type-radio-group"
-            onChange={(e) => {
-              setAppType(e.target.value as typeof appType);
-            }}
-            value={appType}
-          >
-            <FormControlLabel
-              value="P"
-              control={<Radio size="medium" />}
-              label={
-                <Stack direction={'row'} alignItems={'center'}>
-                  <DesktopWindowsIcon fontSize="large" sx={{ color: '#1D2951', mr: '0.1rem' }} />
-                  PC
-                </Stack>
-              }
-            />
-
-            <FormControlLabel
-              value="A"
-              control={<Radio size="medium" />}
-              label={
-                <Stack direction={'row'} alignItems={'center'}>
-                  <AdbIcon fontSize="large" sx={{ color: '#7CB342', mr: '0.1rem' }} />
-                  Android
-                </Stack>
-              }
-            />
-          </RadioGroup>
-        </FormControl>
 
         {histories?.data?.length ? (
           <Grid container spacing={3} sx={{ mt: 3 }}>
