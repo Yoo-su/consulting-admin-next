@@ -1,16 +1,19 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { read, utils } from 'xlsx';
 import { AlertColor } from '@mui/material';
 
 import { useUnivService } from '@/shared/hooks/use-univ-service';
 import { useUploadExcelMutation } from './tanstack/use-upload-excel-mutation';
 import { EXCEL_LAYOUT, SHEET_FLAG } from '../constants/excel';
+import { useUser } from '@/features/auth/hooks/use-user';
 
 type JsonExcel = {
   data: any;
   sheetCheck: any;
 };
 export const useHandleExcel = () => {
+  const [formData, setFormData] = useState<FormData>(new FormData());
+  const { user } = useUser();
   const { currentService } = useUnivService();
   const { mutateAsync, isPending: isUploading } = useUploadExcelMutation();
   const [excel, setExcel] = useState<File | null>(null);
@@ -20,6 +23,21 @@ export const useHandleExcel = () => {
     text: null,
     color: 'info',
   });
+
+  useEffect(() => {
+    if (currentService) formData.set('serviceID', currentService?.serviceID);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentService]);
+
+  useEffect(() => {
+    if (user) formData.set('userID', user?.userID);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  useEffect(() => {
+    if (excel) formData.set('file', excel);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [excel]);
 
   /**
    * 엑셀 read 비동기화
@@ -185,8 +203,6 @@ export const useHandleExcel = () => {
   const upload = () => {
     if (!excel) return;
 
-    const formData = new FormData();
-    formData.append('file', excel);
     mutateAsync(formData).then((res) => {
       if (res.data.statusCode === 201) {
         setHelperText({ text: res.data.message ?? '파일 업로드를 성공적으로 마쳤습니다', color: 'success' });

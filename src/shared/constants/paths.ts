@@ -15,6 +15,7 @@ export const paths = {
     excelLibrary: '/dashboard/excel-library',
     accountSetting: '/dashboard/account-setting',
     appDeploy: '/dashboard/app-deploy',
+    appVersionHistory: '/dashboard/app-version-history',
   },
   errors: { notFound: '/errors/not-found' },
 } as const;

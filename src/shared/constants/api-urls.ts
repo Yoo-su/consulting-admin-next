@@ -5,6 +5,8 @@ export const apiUrls = {
   dashboard: {
     consultingAppState: '/dashboard/consultingapp-state',
     foundationLibrary: '/file/foundation-library',
+    deployApp: '/deploy/deploy-app',
+    getAppVersionHistory: '/deploy/version-update-history',
   },
   setup: {
     getUnivList: '/setup/univ-list',

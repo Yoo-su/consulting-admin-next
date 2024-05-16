@@ -15,8 +15,6 @@ const FoundationLibraryListBox = () => {
   const { currentService } = useUnivService();
   const { data: libraries, isPending } = useGetFoundationLibrariesQuery(currentService?.serviceID);
 
-  if (isPending) return <FoundationLibraryListBoxSkeleton />;
-
   return (
     <Stack
       direction={'column'}

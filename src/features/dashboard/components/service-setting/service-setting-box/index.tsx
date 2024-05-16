@@ -27,7 +27,6 @@ const ServiceSettingBox = () => {
     <Stack direction={'column'} sx={{ mt: 5 }} spacing={5}>
       <AddServiceForm univID={currentUniv?.univID ?? ''} />
 
-      <Divider sx={{ my: 3 }} />
       <Stack direction={'column'} spacing={2}>
         <Typography variant="h6">
           {currentUniv?.univName}({currentUniv?.univID}) 서비스 목록

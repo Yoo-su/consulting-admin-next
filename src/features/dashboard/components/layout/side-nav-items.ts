@@ -3,7 +3,6 @@ import HomeIcon from '@mui/icons-material/Home';
 import SettingIcon from '@mui/icons-material/Settings';
 import DifferenceIcon from '@mui/icons-material/Difference';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import UploadIcon from '@mui/icons-material/Upload';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
@@ -11,6 +10,7 @@ import AddchartIcon from '@mui/icons-material/Addchart';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import HistoryIcon from '@mui/icons-material/History';
 import { paths } from '@/shared/constants/paths';
 import { NavItemType } from '../../types/nav-item.type';
 
@@ -50,6 +50,12 @@ export const sideNavItems1: NavItemType[] = [
     title: '상담앱 배포',
     href: paths.dashboard.appDeploy,
     Icon: CloudUploadIcon,
+  },
+  {
+    navkey: 'app-version-history',
+    title: '앱 버전 히스토리',
+    href: paths.dashboard.appVersionHistory,
+    Icon: HistoryIcon,
   },
 ];
 

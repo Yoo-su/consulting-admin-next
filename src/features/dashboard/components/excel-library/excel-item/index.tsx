@@ -6,7 +6,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
 import { FoundationLibrary } from '@/features/dashboard/types/foundation-library.type';
-import excelIcon from '@/shared/assets/images/xls_32.png';
+import excelIcon from '@/shared/assets/images/xls_64.png';
 import { formatKoreanTextCompareDatesFromNow } from '@/shared/services/get-formatted-date';
 
 type ExcelItemProps = {

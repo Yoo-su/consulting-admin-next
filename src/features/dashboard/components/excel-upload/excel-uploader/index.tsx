@@ -30,6 +30,7 @@ const ExcelUploader = () => {
 
   // 업로드 버튼 클릭 처리
   const handleClickUploadBtn = () => {
+    if (isUploading) return;
     fileInputRef?.current?.click();
   };
 

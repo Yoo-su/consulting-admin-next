@@ -5,6 +5,7 @@ import QueryProvider from '@/shared/components/providers/QueryProvider';
 import AppThemeProvider from '@/shared/components/providers/ThemeProvider';
 import UserProvider from '@/features/auth/contexts/user-context';
 import '@/shared/style/css/reset.css';
+import '@/shared/style/css/global.css';
 import '@/shared/style/css/animation.css';
 
 export const metadata = {
