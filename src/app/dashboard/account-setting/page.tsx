@@ -1,3 +1,4 @@
+import AccountSettingBox from '@/features/dashboard/components/account-setting';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
@@ -10,6 +11,7 @@ const Page = () => {
   return (
     <Container>
       <Typography variant="h5">계정 설정</Typography>
+      <AccountSettingBox />
     </Container>
   );
 };
