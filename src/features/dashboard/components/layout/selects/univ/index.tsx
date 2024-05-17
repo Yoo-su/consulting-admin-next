@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -17,17 +16,11 @@ const UnivSelect = () => {
     const selectedUnivID = event.target.value;
     const selectedUniv = univList.find((univ) => univ.univID === selectedUnivID);
     if (selectedUniv) {
+      setCurrentService(null);
       setCurrentUniv(selectedUniv);
+      getServiceList(selectedUniv.univID);
     }
   };
-
-  useEffect(() => {
-    if (currentUniv) {
-      setCurrentService(null);
-      getServiceList(currentUniv.univID);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUniv]);
 
   return (
     <FormControl sx={{ minWidth: '100%', maxWidth: '100%', my: 1.5 }} size="small">

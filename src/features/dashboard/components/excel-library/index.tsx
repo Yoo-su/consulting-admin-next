@@ -4,6 +4,8 @@ import { Suspense } from 'react';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import ExcelItem from './excel-item';
 import FoundationLibraryListBoxSkeleton from './skeleton';
@@ -12,6 +14,8 @@ import { useGetFoundationLibrariesQuery } from '../../hooks/tanstack/use-get-fou
 import EmptyContentBox from './empty-content-box';
 
 const FoundationLibraryListBox = () => {
+  const theme = useTheme();
+  const downmd = useMediaQuery(theme.breakpoints.down('md'));
   const { currentUniv, currentService } = useUnivService();
   const { data: libraries } = useGetFoundationLibrariesQuery(currentService?.serviceID);
 
@@ -26,11 +30,28 @@ const FoundationLibraryListBox = () => {
       }}
     >
       <Suspense fallback={<FoundationLibraryListBoxSkeleton />}>
-        <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
-          <Typography variant="h6">{`${currentUniv?.univName}(${currentService?.serviceID}) 기초데이터 엑셀 목록`}</Typography>
+        <Stack direction={'row'} alignItems={'flex-start'} justifyContent={'space-between'}>
+          <Typography
+            variant="h6"
+            sx={{
+              ...(downmd && {
+                width: '75%',
+                fontSize: '16px',
+              }),
+            }}
+          >{`${currentUniv?.univName}(${currentService?.serviceID}) 기초데이터 엑셀 목록`}</Typography>
 
           {!!libraries?.data?.length && (
-            <Typography variant="body1" color="grey.600">
+            <Typography
+              variant="body1"
+              color="grey.600"
+              whiteSpace={'nowrap'}
+              sx={{
+                ...(downmd && {
+                  fontSize: '14px',
+                }),
+              }}
+            >
               총 {libraries?.data.length}건
             </Typography>
           )}
