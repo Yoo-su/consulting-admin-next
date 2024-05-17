@@ -14,6 +14,8 @@ export type ConsultingAppStateContextValue = {
   isLoading: boolean;
   dialogType: DialogType | null;
   isDialogOpen: boolean;
+  dialogContentState: ConsultingAppState | null;
+  setDialogContentState: (state: ConsultingAppState) => void;
   openDialog: (dialogType: DialogType) => void;
   closeDialog: () => void;
 };
@@ -25,24 +27,29 @@ export type ConsultingAppStateProvider = {
 };
 const ConsultingAppStateProvider = ({ children }: ConsultingAppStateProvider) => {
   const { data, setData, loading } = useGetConsultingAppState();
-  const [state, setState] = useState<Pick<ConsultingAppStateContextValue, 'boardType' | 'dialogType' | 'isDialogOpen'>>(
-    {
-      boardType: 'basic',
-      dialogType: null,
-      isDialogOpen: false,
-    }
-  );
+  const [state, setState] = useState<
+    Pick<ConsultingAppStateContextValue, 'boardType' | 'dialogType' | 'isDialogOpen' | 'dialogContentState'>
+  >({
+    boardType: 'basic',
+    dialogType: null,
+    isDialogOpen: false,
+    dialogContentState: null,
+  });
 
   const setBoardType = (newType: BoardType) => {
-    setState((prev) => ({ ...state, boardType: newType }));
+    setState((prev) => ({ ...prev, boardType: newType }));
   };
 
   const openDialog = (dialogType: DialogType) => {
-    setState((prev) => ({ ...state, isDialogOpen: true, dialogType: dialogType }));
+    setState((prev) => ({ ...prev, isDialogOpen: true, dialogType: dialogType }));
   };
 
   const closeDialog = () => {
-    setState((prev) => ({ ...state, isDialogOpen: false }));
+    setState((prev) => ({ ...prev, isDialogOpen: false }));
+  };
+
+  const setDialogContentState = (state: ConsultingAppState) => {
+    setState((prev) => ({ ...prev, dialogContentState: state }));
   };
 
   return (
@@ -55,6 +62,7 @@ const ConsultingAppStateProvider = ({ children }: ConsultingAppStateProvider) =>
         setBoardType,
         openDialog,
         closeDialog,
+        setDialogContentState,
       }}
     >
       {children}

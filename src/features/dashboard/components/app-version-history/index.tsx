@@ -13,7 +13,7 @@ import Divider from '@mui/material/Divider';
 import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
 import AdbIcon from '@mui/icons-material/Adb';
 
-import { useUnivService } from '@/shared/hooks/use-univ-service';
+import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
 import { useGetAppVersionHistoryQuery } from '../../hooks/tanstack/use-get-app-version-history-query';
 import AppHistoryItem from './app-history-item';
 import EmptyContentBox from './empty-content-box';
@@ -21,7 +21,7 @@ import AppVersionHistoryListBoxSkeleton from './skeleton';
 
 const AppHistoryListBox = () => {
   const [appType, setAppType] = useState<'A' | 'P'>('P');
-  const { currentService } = useUnivService();
+  const { currentUniv, currentService } = useUnivService();
   const { data: histories, refetch, isPending } = useGetAppVersionHistoryQuery(currentService?.serviceID, appType);
 
   useEffect(() => {
@@ -77,7 +77,7 @@ const AppHistoryListBox = () => {
 
       <Suspense fallback={<AppVersionHistoryListBoxSkeleton />}>
         <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
-          <Typography variant="h6">{`${currentService?.univName}(${currentService?.serviceID}) 앱 버전 히스토리`}</Typography>
+          <Typography variant="h6">{`${currentUniv?.univName}(${currentService?.serviceID}) 앱 버전 히스토리`}</Typography>
 
           {!!histories?.data?.length && (
             <Typography variant="body1" color="grey.600">

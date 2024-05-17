@@ -99,7 +99,7 @@ const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey }: Sta
               width: '10px',
               height: '10px',
               bgcolor: color,
-              filter: 'saturate(150%) contrast(50%)',
+              filter: 'saturate(125%) contrast(125%)',
               borderRadius: '50%',
               marginRight: '10px',
             }}

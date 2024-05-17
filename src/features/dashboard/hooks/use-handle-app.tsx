@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { AlertColor } from '@mui/material';
 
-import { useUnivService } from '@/shared/hooks/use-univ-service';
+import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
 import { useDeployAppMutation } from './tanstack/use-deploy-app-mutation';
 
 export const useHandleApp = () => {
@@ -36,14 +36,12 @@ export const useHandleApp = () => {
   const deploy = async () => {
     mutateAsync(formData)
       .then((res) => {
-        console.log(res.data);
         setHelperText({
           text: '앱이 성공적으로 배포되었습니다',
           color: 'success',
         });
       })
       .catch((err) => {
-        console.log(err);
         setHelperText({
           text: '앱 배포 중 문제가 발생했습니다',
           color: 'error',

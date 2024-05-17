@@ -10,7 +10,7 @@ import ConsultingAppStateBoardSkeleton from './skeleton';
 import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
 
 const ConsultingAppStateBoard = () => {
-  const { isLoading, boardType } = useConsultingAppState();
+  const { isLoading, boardType, isDialogOpen } = useConsultingAppState();
   if (isLoading) return <ConsultingAppStateBoardSkeleton />;
 
   return (
@@ -18,7 +18,7 @@ const ConsultingAppStateBoard = () => {
       <Toolbar />
       {boardType === 'basic' && <BasicBoard />}
       {boardType === 'developer' && <DeveloperBoard />}
-      <ConsultingAppStateDialog />
+      {isDialogOpen && <ConsultingAppStateDialog />}
     </Stack>
   );
 };

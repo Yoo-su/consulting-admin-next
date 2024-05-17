@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import AuthGuard from '@/shared/components/guards/auth-guard';
-import UnivServiceProvider from '@/shared/contexts/univ-service-context';
+import UnivServiceProvider from '@/features/dashboard/contexts/univ-service-context';
 import DashboardLayout from '@/features/dashboard/components/layout';
 
 type Props = {

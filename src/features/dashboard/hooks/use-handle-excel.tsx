@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { read, utils } from 'xlsx';
 import { AlertColor } from '@mui/material';
 
-import { useUnivService } from '@/shared/hooks/use-univ-service';
+import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
 import { useUploadExcelMutation } from './tanstack/use-upload-excel-mutation';
 import { EXCEL_LAYOUT, SHEET_FLAG } from '../constants/excel';
 import { useUser } from '@/features/auth/hooks/use-user';

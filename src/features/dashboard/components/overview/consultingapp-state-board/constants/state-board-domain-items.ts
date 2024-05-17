@@ -19,8 +19,8 @@ export const stateBoardDomainItems: StateBoardDomainItems = {
   dataRequested: {
     key: 'dataRequested',
     title: '기초데이터 요청',
-    color: '#ffe584',
-    bgcolor: '#FBF3DB',
+    color: '#FDECC8',
+    bgcolor: '#FBF9F2',
   },
   developing: {
     key: 'developing',

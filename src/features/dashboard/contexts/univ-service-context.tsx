@@ -3,12 +3,10 @@
 import { createContext, ReactNode, useEffect } from 'react';
 
 import { useGetUnivListQuery } from '../hooks/tanstack/use-get-univ-list-query';
-import { usePersistedState } from '../hooks/use-persisted-state';
+import { usePersistedState } from '@/shared/hooks/use-persisted-state';
 import { Univ } from '../types/univ.type';
 import { Service } from '../types/service.type';
-import AppBackdrop from '../components/loadings/app-backrdrop';
-import { dummyUnivList } from '../constants/dummies/univ-list.dummy';
-
+import AppBackdrop from '@/shared/components/loadings/app-backrdrop';
 export type UnivServiceContextValue = {
   univList: Univ[];
   serviceList: Service[];
@@ -35,10 +33,23 @@ const UnivServiceProvider = ({ children }: UnivServiceProviderProps) => {
   useEffect(() => {
     refetch()
       .then((res) => {
-        setUnivList(res?.data?.data ?? dummyUnivList);
+        const refined: Univ[] =
+          res?.data?.data
+            .map((item) => {
+              return {
+                univID: item.UnivID,
+                univName: item.UnivName,
+                univAddress: item.UnivAddress,
+                longitude: item.Longitude,
+                latitude: item.Latitude,
+                isActive: item.isActive,
+              };
+            })
+            .filter((item) => item.isActive === true) ?? [];
+        setUnivList(refined);
       })
       .catch((error) => {
-        setUnivList(dummyUnivList);
+        setUnivList([]);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

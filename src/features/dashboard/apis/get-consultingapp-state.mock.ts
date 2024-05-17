@@ -45,7 +45,7 @@ export const GET_CONSULTING_APP_STATE = {
         univID: '8765',
         serviceID: '876543',
         univName: '서울대학교',
-        developer: '김철수',
+        developer: 'Kafka',
         manager: '박영희',
         serviceYear: '2024',
         serviceType: 'susi',

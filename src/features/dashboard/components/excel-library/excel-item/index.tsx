@@ -41,7 +41,7 @@ const ExcelItem = ({ item }: ExcelItemProps) => {
   };
 
   return (
-    <Tooltip title={item.FileName}>
+    <Tooltip title={<Typography>{fileName}</Typography>}>
       <Stack
         direction={'row'}
         alignItems={'center'}
@@ -59,14 +59,20 @@ const ExcelItem = ({ item }: ExcelItemProps) => {
         }}
         onClick={handleClick}
       >
-        <Image src={excelIcon} width={'32'} height={'32'} alt={item.FileName} />
+        <Image src={excelIcon} width={'32'} height={'32'} alt={fileName} />
         <Stack direction={'column'} sx={{ overflow: 'hidden', justifyContent: 'space-between', flexGrow: 1 }}>
           <Typography variant="caption" sx={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
             {fileName}
           </Typography>
-          <Typography variant="caption" color="grey.500" textAlign="right">
-            {formatKoreanTextCompareDatesFromNow(item.UploadDate)}
-          </Typography>
+
+          <Stack direction={'row'} justifyContent={'space-between'}>
+            <Typography variant="caption" color="grey.500" textAlign="right">
+              편집자: {modifyUser}
+            </Typography>
+            <Typography variant="caption" color="grey.500" textAlign="right">
+              {formatKoreanTextCompareDatesFromNow(uploadDate)}
+            </Typography>
+          </Stack>
         </Stack>
       </Stack>
     </Tooltip>

@@ -13,10 +13,23 @@ type AppHistoryItemProps = {
   item: AppHistory;
 };
 const AppHistoryItem = ({ item }: AppHistoryItemProps) => {
-  const { ServiceID: serviceID, PackageFileName: packageFileName, UploadTime: uploadTime, Version: version } = item;
+  const {
+    ServiceID: serviceID,
+    PackageFileName: packageFileName,
+    UploadTime: uploadTime,
+    Version: version,
+    ReleaseNote: releaseNote,
+  } = item;
 
   return (
-    <Tooltip title={packageFileName ?? 'unknown apk'}>
+    <Tooltip
+      title={
+        <Stack direction={'column'}>
+          <Typography>{packageFileName ?? 'unknown apk'}</Typography>
+          <Typography>Note: {releaseNote ?? '-'}</Typography>
+        </Stack>
+      }
+    >
       <Stack
         direction={'row'}
         alignItems={'center'}

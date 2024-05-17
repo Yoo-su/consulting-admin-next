@@ -15,8 +15,8 @@ import Chip from '@mui/material/Chip';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import AddServiceForm from '../add-service-form';
-import { useUnivService } from '@/shared/hooks/use-univ-service';
+import AddServiceForm from './add-service-form';
+import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
 
 const ServiceSettingBox = () => {
   const { serviceList, currentUniv } = useUnivService();
@@ -38,7 +38,8 @@ const ServiceSettingBox = () => {
                 <TableCell>서비스ID</TableCell>
                 <TableCell>서비스년도</TableCell>
                 <TableCell>서비스유형</TableCell>
-                <TableCell>-</TableCell>
+                <TableCell>담당 개발자</TableCell>
+                <TableCell>담당 운영자</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -47,9 +48,9 @@ const ServiceSettingBox = () => {
                   <TableCell component="th" scope="row">
                     {service.serviceID}
                   </TableCell>
-                  <TableCell>{service.serviceYear}</TableCell>
+                  <TableCell>{service.schoolYear}</TableCell>
                   <TableCell>
-                    {service.serviceType === 'susi' ? (
+                    {service.isSusi === '1' ? (
                       <Chip
                         label="수시"
                         size={downmd ? 'small' : 'medium'}
@@ -69,7 +70,8 @@ const ServiceSettingBox = () => {
                       />
                     )}
                   </TableCell>
-                  <TableCell>{service.univName}</TableCell>
+                  <TableCell>{service.developer ?? '미정'}</TableCell>
+                  <TableCell>{service.manager ?? '미정'}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

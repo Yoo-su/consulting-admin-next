@@ -6,7 +6,7 @@ import Alert from '@mui/material/Alert';
 
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
-import { useUnivService } from '@/shared/hooks/use-univ-service';
+import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
 
 type ServiceCheckGuardProps = {
   children: ReactNode;

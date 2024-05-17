@@ -5,9 +5,9 @@ export type ConsultingAppState = {
   univName: string;
   developer: string;
   manager: string;
+  salesPerson?: string;
   serviceYear: string;
   serviceType: 'susi' | 'jungsi';
-  salesPerson?: string;
   serialKey?: string;
   isNew?: boolean;
   currentState: CurrentState;

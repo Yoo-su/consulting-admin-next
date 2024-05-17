@@ -3,20 +3,15 @@ import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-import { useUnivService } from '@/shared/hooks/use-univ-service';
-import { Service } from '@/shared/types/service.type';
+import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
+import { Service } from '@/features/dashboard/types/service.type';
 
 const ServiceSelect = () => {
   const { setCurrentService, serviceList, currentService, currentUniv } = useUnivService();
 
   const getServiceMenuTitle = (service: Service) => {
     return (
-      service.serviceYear +
-      '학년도' +
-      ' ' +
-      (service.serviceType === 'susi' ? '수시' : '정시') +
-      ' ' +
-      `(${service.serviceID})`
+      service.schoolYear + '학년도' + ' ' + (service.isSusi === '1' ? '수시' : '정시') + ' ' + `(${service.serviceID})`
     );
   };
 
@@ -54,6 +49,9 @@ const ServiceSelect = () => {
         label="서비스"
         onChange={handleChange}
         disabled={!currentUniv}
+        MenuProps={{
+          sx: { height: '400px' },
+        }}
         sx={{
           '& .MuiOutlinedInput-notchedOutline': {
             borderColor: '#FEF9F3',

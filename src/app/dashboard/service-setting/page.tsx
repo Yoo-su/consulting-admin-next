@@ -2,7 +2,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
-import ServiceSettingBox from '@/features/dashboard/components/service-setting/service-setting-box';
+import ServiceSettingBox from '@/features/dashboard/components/service-setting';
 
 export const metadata = {
   title: '상담앱 관리자 | 서비스 설정',

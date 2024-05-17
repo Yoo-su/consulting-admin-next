@@ -12,6 +12,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import AppSideDrawer from './app-side-drawer';
 import UserPopover from './user-popover';
 import { usePopover } from '../../hooks/use-popover';
+import king2 from '@/shared/assets/images/king2.jpg';
 
 const AppHeader = () => {
   const [openAppSideDrawer, setOpenAppSideDrawer] = useState<boolean>(false);
@@ -55,7 +56,12 @@ const AppHeader = () => {
               <MenuIcon />
             </IconButton>
           </Stack>
-          <Avatar onClick={userPopover.handleOpen} ref={userPopover.anchorRef} src="" sx={{ cursor: 'pointer' }} />
+          <Avatar
+            src={king2.src}
+            onClick={userPopover.handleOpen}
+            ref={userPopover.anchorRef}
+            sx={{ cursor: 'pointer' }}
+          />
         </Stack>
       </Box>
       <UserPopover anchorEl={userPopover.anchorRef.current} onClose={userPopover.handleClose} open={userPopover.open} />

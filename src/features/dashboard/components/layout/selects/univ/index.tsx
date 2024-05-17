@@ -1,12 +1,13 @@
 'use client';
 
+import { useEffect } from 'react';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-import { useUnivService } from '@/shared/hooks/use-univ-service';
-import { useGetServiceList } from '@/shared/hooks/use-get-service-list';
+import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
+import { useGetServiceList } from '@/features/dashboard/hooks/use-get-service-list';
 
 const UnivSelect = () => {
   const { univList, setCurrentUniv, setCurrentService, currentUniv } = useUnivService();
@@ -17,10 +18,16 @@ const UnivSelect = () => {
     const selectedUniv = univList.find((univ) => univ.univID === selectedUnivID);
     if (selectedUniv) {
       setCurrentUniv(selectedUniv);
-      setCurrentService(null);
-      getServiceList(selectedUnivID);
     }
   };
+
+  useEffect(() => {
+    if (currentUniv) {
+      setCurrentService(null);
+      getServiceList(currentUniv.univID);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUniv]);
 
   return (
     <FormControl sx={{ minWidth: '100%', maxWidth: '100%', my: 1.5 }} size="small">
@@ -38,6 +45,9 @@ const UnivSelect = () => {
       <Select
         labelId="univ-select"
         id="univ-select"
+        MenuProps={{
+          sx: { height: '400px' },
+        }}
         value={currentUniv?.univID ?? ''}
         label="대학교"
         onChange={handleChange}

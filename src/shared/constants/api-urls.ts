@@ -8,8 +8,8 @@ export const apiUrls = {
     deployApp: '/deploy/deploy-app',
     getAppVersionHistory: '/deploy/version-update-history',
   },
-  setup: {
-    getUnivList: '/setup/univ-list',
-    getServiceList: '/setup/service-list',
+  admin: {
+    getUnivList: '/admin/univlist',
+    getServiceList: '/admin/service',
   },
 };
