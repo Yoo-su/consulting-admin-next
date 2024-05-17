@@ -14,7 +14,7 @@ type GetUnivListResponse = {
 };
 
 export const getUnivList = async () => {
-  return await apiInstance.get<Univ[]>(GET_UNIV_LIST_URL, {
+  const { data } = await apiInstance.get<Univ[]>(GET_UNIV_LIST_URL, {
     transformResponse: (data) => {
       const parsedData = JSON.parse(data) as GetUnivListResponse[];
       return parsedData.map((item) => ({
@@ -27,4 +27,5 @@ export const getUnivList = async () => {
       }));
     },
   });
+  return data;
 };

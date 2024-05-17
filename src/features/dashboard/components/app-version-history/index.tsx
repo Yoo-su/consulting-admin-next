@@ -9,6 +9,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Divider from '@mui/material/Divider';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
 import AdbIcon from '@mui/icons-material/Adb';
@@ -20,6 +22,8 @@ import EmptyContentBox from './empty-content-box';
 import AppVersionHistoryListBoxSkeleton from './skeleton';
 
 const AppHistoryListBox = () => {
+  const theme = useTheme();
+  const downmd = useMediaQuery(theme.breakpoints.down('md'));
   const [appType, setAppType] = useState<'A' | 'P'>('P');
   const { currentUniv, currentService } = useUnivService();
   const { data: histories, refetch, isPending } = useGetAppVersionHistoryQuery(currentService?.serviceID, appType);
@@ -40,7 +44,6 @@ const AppHistoryListBox = () => {
       }}
     >
       <FormControl sx={{ alignItems: 'center', mt: 2 }}>
-        {/* <FormLabel>앱 유형</FormLabel> */}
         <RadioGroup
           row
           name="app-type-radio-group"
@@ -77,10 +80,26 @@ const AppHistoryListBox = () => {
 
       <Suspense fallback={<AppVersionHistoryListBoxSkeleton />}>
         <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
-          <Typography variant="h6">{`${currentUniv?.univName}(${currentService?.serviceID}) 앱 버전 히스토리`}</Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              ...(downmd && {
+                width: '75%',
+                fontSize: '16px',
+              }),
+            }}
+          >{`${currentUniv?.univName}(${currentService?.serviceID}) 앱 버전 히스토리`}</Typography>
 
           {!!histories?.data?.length && (
-            <Typography variant="body1" color="grey.600">
+            <Typography
+              variant="body1"
+              color="grey.600"
+              sx={{
+                ...(downmd && {
+                  fontSize: '14px',
+                }),
+              }}
+            >
               총 {histories?.data.length}건
             </Typography>
           )}

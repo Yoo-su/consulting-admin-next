@@ -33,7 +33,7 @@ const UnivServiceProvider = ({ children }: UnivServiceProviderProps) => {
   useEffect(() => {
     refetch()
       .then((res) => {
-        const filtered: Univ[] = res?.data?.data.filter((item) => item.isActive === true) ?? [];
+        const filtered: Univ[] = res?.data?.filter((item) => item.isActive === true) ?? [];
         setUnivList(filtered);
       })
       .catch((error) => {

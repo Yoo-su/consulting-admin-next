@@ -1,4 +1,4 @@
-import Grid from '@mui/material/Unstable_Grid2';
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 export const metadata = {
@@ -8,11 +8,9 @@ export const metadata = {
 
 const Page = () => {
   return (
-    <Grid container spacing={3}>
-      <Grid>
-        <Typography variant="h3">Chart Setting</Typography>
-      </Grid>
-    </Grid>
+    <Container>
+      <Typography variant="h5">차트 설정</Typography>
+    </Container>
   );
 };
 
