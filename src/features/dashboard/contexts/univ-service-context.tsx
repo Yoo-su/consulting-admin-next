@@ -33,20 +33,8 @@ const UnivServiceProvider = ({ children }: UnivServiceProviderProps) => {
   useEffect(() => {
     refetch()
       .then((res) => {
-        const refined: Univ[] =
-          res?.data?.data
-            .map((item) => {
-              return {
-                univID: item.UnivID,
-                univName: item.UnivName,
-                univAddress: item.UnivAddress,
-                longitude: item.Longitude,
-                latitude: item.Latitude,
-                isActive: item.isActive,
-              };
-            })
-            .filter((item) => item.isActive === true) ?? [];
-        setUnivList(refined);
+        const filtered: Univ[] = res?.data?.data.filter((item) => item.isActive === true) ?? [];
+        setUnivList(filtered);
       })
       .catch((error) => {
         setUnivList([]);

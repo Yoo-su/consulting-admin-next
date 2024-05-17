@@ -9,8 +9,6 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import CameraIcon from '@mui/icons-material/Camera';
-
 import UnivSelect from '@/features/dashboard/components/layout/selects/univ';
 import ServiceSelect from '@/features/dashboard/components/layout/selects/service';
 import { sideNavItems1, sideNavItems2, sideNavItems3 } from './side-nav-items';
@@ -47,8 +45,7 @@ const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
       }}
     >
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Box component="div" sx={{ display: 'inline-flex', justifyContent: 'center' }}>
-          <CameraIcon fontSize="large" sx={{ mr: '0.3rem' }} />
+        <Box component="div" sx={{ display: 'inline-flex', justifyContent: 'center', whiteSpace: 'nowrap' }}>
           <Typography variant="h5" fontWeight={'bold'}>
             입학상담앱 관리자
           </Typography>

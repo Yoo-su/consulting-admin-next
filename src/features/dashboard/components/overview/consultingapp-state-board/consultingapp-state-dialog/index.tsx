@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
 
+import CheckIcon from '@mui/icons-material/Check';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import EggIcon from '@mui/icons-material/Egg';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
@@ -94,7 +95,11 @@ const ConsultingAppStateDialog = () => {
               <FiberNewIcon fontSize="small" />
               <Typography variant="body1">신규앱 여부</Typography>
             </Stack>
-            <Checkbox size="small" checked={dialogContentState.isNew ?? false} readOnly />
+            {dialogContentState.isNew ? (
+              <CheckIcon sx={{ color: '#1976D2' }} />
+            ) : (
+              <CloseIcon sx={{ color: '#FD5361' }} />
+            )}
           </Stack>
         </Stack>
       </DialogContent>

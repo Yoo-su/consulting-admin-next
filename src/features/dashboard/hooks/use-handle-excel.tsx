@@ -185,9 +185,8 @@ export const useHandleExcel = () => {
         });
     });
 
-    const excelServiceID = String(data.Service[1].B);
-    const excelUnivID = String(data.Service[1].A);
-
+    const excelUnivID = data.Service[1].A;
+    const excelServiceID = data.Service[1].B;
     if (excelServiceID !== currentService?.serviceID) {
       throw new Error('입력한 서비스 아이디와 엑셀 파일의 서비스 아이디가 다릅니다.');
     }
