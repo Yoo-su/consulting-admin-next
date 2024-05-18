@@ -2,8 +2,6 @@ import { apiInstance } from '@/shared/plugin/axios';
 import { apiUrls } from '@/shared/constants/api-urls';
 import { Service } from '../types/service.type';
 
-export const GET_SERVICE_LIST_URL = apiUrls.admin.getServiceList;
-
 type GetServiceListResponse = {
   ServiceID: string;
   SchoolYear: string;
@@ -15,7 +13,7 @@ type GetServiceListResponse = {
 };
 
 export const getServiceList = async (univID: string) => {
-  return await apiInstance.get<Service[]>(`${GET_SERVICE_LIST_URL}/${univID}`, {
+  return await apiInstance.get<Service[]>(`${apiUrls.admin.getServiceList}/${univID}`, {
     params: {
       univID,
     },

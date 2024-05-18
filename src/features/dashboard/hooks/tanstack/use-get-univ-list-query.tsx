@@ -6,7 +6,7 @@ import { getUnivList } from '@/features/dashboard/apis/get-univ-list';
 export const useGetUnivListQuery = () => {
   return useQuery({
     queryKey: ['univ-list'],
-    queryFn: () => getUnivList(),
+    queryFn: getUnivList,
     staleTime: Infinity,
     enabled: false,
   });

@@ -1,7 +1,7 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
-import { UPDATE_CONSULTINGAPP_STATE_URL } from './update-consultingapp-state';
+import { apiUrls } from '@/shared/constants/api-urls';
 
-export const updateConsultingAppState: HttpHandler = http.patch(UPDATE_CONSULTINGAPP_STATE_URL, () => {
+export const updateConsultingAppState: HttpHandler = http.patch(apiUrls.dashboard.consultingAppState, () => {
   return HttpResponse.json(UPDATE_CONSULGINGAPP_STATE.success.data);
 });
 

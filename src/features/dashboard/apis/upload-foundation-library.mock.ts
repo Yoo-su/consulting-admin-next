@@ -1,7 +1,7 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
-import { UPLOAD_FOUNDATION_LIBRARY_URL } from './upload-foundation-library';
+import { apiUrls } from '@/shared/constants/api-urls';
 
-export const uploadFoundationLibrary: HttpHandler = http.post(UPLOAD_FOUNDATION_LIBRARY_URL, () => {
+export const uploadFoundationLibrary: HttpHandler = http.post(apiUrls.dashboard.foundationLibrary, () => {
   return HttpResponse.json(UPLOAD_FOUNDATION_LIBRARY.success.result);
 });
 

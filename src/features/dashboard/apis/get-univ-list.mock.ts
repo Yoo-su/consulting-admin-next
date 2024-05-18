@@ -1,7 +1,7 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
-import { GET_UNIV_LIST_URL } from './get-univ-list';
+import { apiUrls } from '@/shared/constants/api-urls';
 
-export const getUnivList: HttpHandler = http.get(GET_UNIV_LIST_URL, () => {
+export const getUnivList: HttpHandler = http.get(apiUrls.admin.getUnivList, () => {
   return HttpResponse.json(GET_UNIN_LIST.success.univList);
 });
 
@@ -11,18 +11,10 @@ export const GET_UNIN_LIST = {
       {
         univID: '9998',
         univName: '진학대학교',
-      },
-      {
-        univID: '1359',
-        univName: '동국대학교',
-      },
-      {
-        univID: '1129',
-        univName: '건국대학교',
-      },
-      {
-        univID: '6121',
-        univName: '고려대학교',
+        univAddress: '서울특별시 종로구 경희궁길 12',
+        longitude: '32.12345',
+        latitude: '127.12598',
+        isActive: true,
       },
     ],
   },

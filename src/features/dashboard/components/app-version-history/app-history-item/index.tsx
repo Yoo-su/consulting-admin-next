@@ -13,20 +13,12 @@ type AppHistoryItemProps = {
   item: AppHistory;
 };
 const AppHistoryItem = ({ item }: AppHistoryItemProps) => {
-  const {
-    ServiceID: serviceID,
-    PackageFileName: packageFileName,
-    UploadTime: uploadTime,
-    Version: version,
-    ReleaseNote: releaseNote,
-  } = item;
-
   return (
     <Tooltip
       title={
         <Stack direction={'column'}>
-          <Typography>{packageFileName ?? 'unknown apk'}</Typography>
-          <Typography>Note: {releaseNote ?? '-'}</Typography>
+          <Typography>{item.packageFileName ?? 'unknown apk'}</Typography>
+          <Typography>Note: {item.releaseNote ?? '-'}</Typography>
         </Stack>
       }
     >
@@ -46,13 +38,13 @@ const AppHistoryItem = ({ item }: AppHistoryItemProps) => {
           transition: 'all 0.1s linear',
         }}
       >
-        <Image src={apkIcon} width={'32'} height={'32'} alt={packageFileName ?? 'apk'} />
+        <Image src={apkIcon} width={'32'} height={'32'} alt={item.packageFileName ?? 'apk'} />
         <Stack direction={'column'} sx={{ overflow: 'hidden', justifyContent: 'space-between', flexGrow: 1 }}>
           <Typography variant="caption" sx={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
-            {packageFileName ?? 'unknown apk'}
+            {item.packageFileName ?? 'unknown apk'}
           </Typography>
           <Typography variant="caption" color="grey.500" textAlign="right">
-            {formatKoreanTextCompareDatesFromNow(uploadTime)}
+            {formatKoreanTextCompareDatesFromNow(item.uploadTime)}
           </Typography>
         </Stack>
       </Stack>

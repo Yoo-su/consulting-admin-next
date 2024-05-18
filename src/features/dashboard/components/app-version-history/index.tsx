@@ -108,7 +108,7 @@ const AppHistoryListBox = () => {
         {histories?.data?.length ? (
           <Grid container spacing={3} sx={{ mt: 3 }}>
             {histories.data.map((history) => (
-              <Grid key={history.UploadTime} item xs={12} sm={6} md={6} lg={4} xl={3}>
+              <Grid key={history.uploadTime} item xs={12} sm={6} md={6} lg={4} xl={3}>
                 <AppHistoryItem item={history} />
               </Grid>
             ))}

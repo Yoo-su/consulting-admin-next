@@ -13,24 +13,16 @@ type ExcelItemProps = {
   item: FoundationLibrary;
 };
 const ExcelItem = ({ item }: ExcelItemProps) => {
-  const {
-    ServiceID: serviceID,
-    FileName: fileName,
-    UploadDate: uploadDate,
-    ModifyUser: modifyUser,
-    url: downloadUrl,
-  } = item;
-
   const handleClick = async () => {
     try {
-      const response = await fetch(downloadUrl);
+      const response = await fetch(item.url);
       const blob = await response.blob();
 
       // 파일 다운로드 트리거
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', fileName);
+      link.setAttribute('download', item.fileName);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -41,7 +33,7 @@ const ExcelItem = ({ item }: ExcelItemProps) => {
   };
 
   return (
-    <Tooltip title={<Typography>{fileName}</Typography>}>
+    <Tooltip title={<Typography>{item.fileName}</Typography>}>
       <Stack
         direction={'row'}
         alignItems={'center'}
@@ -59,18 +51,18 @@ const ExcelItem = ({ item }: ExcelItemProps) => {
         }}
         onClick={handleClick}
       >
-        <Image src={excelIcon} width={'32'} height={'32'} alt={fileName} />
+        <Image src={excelIcon} width={'32'} height={'32'} alt={item.fileName} />
         <Stack direction={'column'} sx={{ overflow: 'hidden', justifyContent: 'space-between', flexGrow: 1 }}>
           <Typography variant="caption" sx={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
-            {fileName}
+            {item.fileName}
           </Typography>
 
           <Stack direction={'row'} justifyContent={'space-between'}>
             <Typography variant="caption" color="grey.500" textAlign="right">
-              편집자: {modifyUser}
+              편집자: {item.modifyUser}
             </Typography>
             <Typography variant="caption" color="grey.500" textAlign="right">
-              {formatKoreanTextCompareDatesFromNow(uploadDate)}
+              {formatKoreanTextCompareDatesFromNow(item.uploadDate)}
             </Typography>
           </Stack>
         </Stack>

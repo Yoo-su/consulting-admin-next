@@ -60,7 +60,7 @@ const FoundationLibraryListBox = () => {
         {libraries?.data?.length ? (
           <Grid container spacing={3} sx={{ mt: 3 }}>
             {libraries.data.map((library) => (
-              <Grid key={library.FileName} item xs={12} sm={6} md={6} lg={4} xl={3}>
+              <Grid key={library.fileName} item xs={12} sm={6} md={6} lg={4} xl={3}>
                 <ExcelItem item={library} />
               </Grid>
             ))}

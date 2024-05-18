@@ -1,10 +1,10 @@
 export type AppHistory = {
-  ServiceID: string;
-  OsType: 'A' | 'P';
-  Version: number;
-  PackageFileName: string | null;
-  ProvisionFileName: string | null;
-  ReleaseNote: string | null;
-  UploadTime: string;
-  ManualFileName: string | null;
+  serviceID: string;
+  osType: 'A' | 'P';
+  version: number;
+  packageFileName: string | null;
+  provisionFileName: string | null;
+  releaseNote: string | null;
+  uploadTime: string;
+  manualFileName: string | null;
 };

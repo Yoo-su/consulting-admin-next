@@ -1,7 +1,7 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
-import { GET_CONSULTINGAPP_STATE_URL } from './get-consultingapp-state';
+import { apiUrls } from '@/shared/constants/api-urls';
 
-export const getConsultingAppState: HttpHandler = http.get(GET_CONSULTINGAPP_STATE_URL, () => {
+export const getConsultingAppState: HttpHandler = http.get(apiUrls.dashboard.consultingAppState, () => {
   return HttpResponse.json(GET_CONSULTING_APP_STATE.success.data);
 });
 
@@ -13,7 +13,7 @@ export const GET_CONSULTING_APP_STATE = {
         serviceID: '999825',
         univName: '진학대학교',
         developer: '유수현',
-        manager: '류수현',
+        manager: '수현',
         serviceYear: '2024',
         serviceType: 'susi',
         isNew: true,
