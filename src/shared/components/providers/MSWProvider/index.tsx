@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState, ReactNode } from 'react';
+
+import AppBackdrop from '../../loadings/app-backrdrop';
 import { isMocking } from '@/shared/mocks/constant';
 import { initMocking } from '@/shared/mocks';
 
@@ -17,7 +19,7 @@ const MSWProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [isReady]);
 
-  if (!isReady) return null;
+  if (!isReady) return <AppBackdrop />;
 
   return children;
 };

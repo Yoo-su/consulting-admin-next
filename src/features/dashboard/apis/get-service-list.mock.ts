@@ -39,13 +39,6 @@ export const GET_SERVICE_LIST = {
         developer: '민들레',
         manager: '월터',
       },
-      {
-        univID: '9998',
-        univName: '진학대학교',
-        serviceID: '999822',
-        serviceType: 'jungsi',
-        serviceYear: '2024',
-      },
     ],
   },
 };

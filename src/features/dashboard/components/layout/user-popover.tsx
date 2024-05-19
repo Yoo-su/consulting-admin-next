@@ -1,5 +1,7 @@
 'use client';
+
 import RouterLink from 'next/link';
+import { useRouter } from 'next/navigation';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -18,11 +20,13 @@ export type UserPopoverProps = {
 };
 
 const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
+  const router = useRouter();
   const { user, setUser } = useUser();
 
   const signout = () => {
     sessionStorage.clear();
     setUser(null);
+    router.replace('/auth/sign-in', { scroll: false });
   };
 
   return (

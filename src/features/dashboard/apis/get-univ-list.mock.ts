@@ -1,11 +1,11 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
 import { apiUrls } from '@/shared/constants/api-urls';
 
-export const getUnivList: HttpHandler = http.get(apiUrls.admin.getUnivList, () => {
-  return HttpResponse.json(GET_UNIN_LIST.success.univList);
+export const getUnivList: HttpHandler = http.get(apiUrls.admin.getUnivList, async () => {
+  return HttpResponse.json(GET_UNIV_LIST.success.univList);
 });
 
-export const GET_UNIN_LIST = {
+export const GET_UNIV_LIST = {
   success: {
     univList: [
       {
