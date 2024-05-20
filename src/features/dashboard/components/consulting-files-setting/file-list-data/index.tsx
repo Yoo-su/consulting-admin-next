@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, DragEvent, Fragment } from 'react';
+import { DragEvent, Fragment } from 'react';
 
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';

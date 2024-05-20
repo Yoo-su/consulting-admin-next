@@ -22,6 +22,8 @@ const EditFile = ({ file }: { file: UploadedFile }) => {
   const editFileTitle = (index: number) => {
     const currentStatus = editFileName[index];
     let newEditFileName = [...editFileName];
+
+    // currentStatus가 true일 때만 title을 저장
     if (currentStatus) {
       const title = (document.getElementById(`textField-${index + 1}`) as HTMLInputElement)?.value;
       if (title) {
@@ -30,6 +32,7 @@ const EditFile = ({ file }: { file: UploadedFile }) => {
         setFiles(newFiles);
       }
     } else {
+      // 현재 클릭한 index만 true로 변경하기 위해 false로 초기화
       newEditFileName = new Array(editFileName.length).fill(false);
     }
     newEditFileName[index] = !currentStatus;
