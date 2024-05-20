@@ -1,4 +1,4 @@
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 export const metadata = {
@@ -8,9 +8,9 @@ export const metadata = {
 
 const Page = () => {
   return (
-    <Container>
+    <Box>
       <Typography variant="h5">모집요강 설정</Typography>
-    </Container>
+    </Box>
   );
 };
 

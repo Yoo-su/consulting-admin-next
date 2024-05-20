@@ -1,7 +1,7 @@
-import FoundationLibraryListBox from '@/features/dashboard/components/excel-library';
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
+import FoundationLibraryListBox from '@/features/dashboard/components/excel-library';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {
@@ -12,10 +12,10 @@ export const metadata = {
 const Page = () => {
   return (
     <UnivServiceCheckGuard>
-      <Container>
+      <Box>
         <Typography variant="h5">기초데이터 엑셀 자료실</Typography>
         <FoundationLibraryListBox />
-      </Container>
+      </Box>
     </UnivServiceCheckGuard>
   );
 };

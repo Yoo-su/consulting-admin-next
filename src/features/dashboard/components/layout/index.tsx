@@ -46,7 +46,7 @@ const Layout = ({ children }: Props) => {
         >
           <AppHeader />
           <main>
-            <Container maxWidth="xl" sx={{ py: '32px' }}>
+            <Container maxWidth="lg" sx={{ py: '32px' }}>
               {children}
             </Container>
           </main>

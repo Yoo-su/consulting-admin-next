@@ -1,4 +1,4 @@
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
@@ -12,10 +12,10 @@ export const metadata = {
 const Page = () => {
   return (
     <UnivServiceCheckGuard>
-      <Container>
+      <Box>
         <Typography variant="h5">스케줄 설정</Typography>
         <CalendarBox />
-      </Container>
+      </Box>
     </UnivServiceCheckGuard>
   );
 };

@@ -1,5 +1,5 @@
+import Box from '@mui/material/Box';
 import AccountSettingBox from '@/features/dashboard/components/account-setting';
-import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 export const metadata = {
@@ -9,10 +9,10 @@ export const metadata = {
 
 const Page = () => {
   return (
-    <Container>
+    <Box>
       <Typography variant="h5">계정 설정</Typography>
       <AccountSettingBox />
-    </Container>
+    </Box>
   );
 };
 
