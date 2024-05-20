@@ -2,7 +2,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
-import ExcelUploader from '@/features/dashboard/components/excel-upload/excel-uploader';
+import ExcelUploadBox from '@/features/dashboard/components/excel-upload';
 
 export const metadata = {
   title: '상담앱 관리자 | 기초데이터 업로드',
@@ -14,7 +14,7 @@ const Page = () => {
     <UnivServiceCheckGuard>
       <Container>
         <Typography variant="h5">기초 데이터 엑셀 업로드</Typography>
-        <ExcelUploader />
+        <ExcelUploadBox />
       </Container>
     </UnivServiceCheckGuard>
   );

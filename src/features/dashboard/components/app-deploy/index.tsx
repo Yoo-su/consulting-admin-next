@@ -1,70 +1,88 @@
 'use client';
 
-import { useRef, ChangeEvent, Fragment } from 'react';
+import { useRef, ChangeEvent } from 'react';
 import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
-import Alert from '@mui/material/Alert';
-import Chip from '@mui/material/Chip';
 import PulseLoader from 'react-spinners/PulseLoader';
 
-import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
-import CheckIcon from '@mui/icons-material/Check';
-import UploadIcon from '@mui/icons-material/Upload';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
+import AdbIcon from '@mui/icons-material/Adb';
 
+import { useHandleApp } from '@/features/dashboard/hooks/use-handle-app';
 import { useStepper } from '@/shared/hooks/use-stepper';
 import ColorlibStepIcon from '@/shared/components/stepper/color-lib-step-icon';
 import { ColorlibConnector } from '@/shared/components/stepper/styled';
-import { useHandleExcel } from '@/features/dashboard/hooks/use-handle-excel';
-import { EXCEL_UPLOAD_STEPS } from '@/features/dashboard/constants/excel-upload-steps';
-import excelIcon from '@/shared/assets/images/xls_64.png';
+import { APP_DEPLOY_STEPS } from '@/features/dashboard/constants/app-deploy-steps';
+import apkIcon from '@/shared/assets/images/apk_64.png';
 import Image from 'next/image';
 
-const ExcelUploader = () => {
-  const { excel, setExcel, startVerify, isVerified, helperText, upload, isUploaded, isUploading, clearVerifiedState } =
-    useHandleExcel();
+const AppDeployBox = () => {
+  const { appType, setAppType, appFile, setAppFile, helperText, deploy, isDeploying } = useHandleApp();
   const { activeStep, skipped, handleNext, handleBack, handleSkip, handleReset } = useStepper();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // 업로드 버튼 클릭 처리
+  // 배포 버튼 클릭 처리
   const handleClickUploadBtn = () => {
-    if (isUploading) return;
+    if (isDeploying) return;
     fileInputRef?.current?.click();
   };
 
-  // 데이터 검증 수행
-  const handleClickVerify = async () => {
-    const result = await startVerify();
-    if (result) handleNext();
-  };
-
-  // file input 값 변경 처리
-  const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    clearVerifiedState();
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0] || null;
-    setExcel(selectedFile);
-    if (!selectedFile) {
-      handleReset();
-      return;
-    }
-    if (activeStep === 0) handleNext();
-    if (activeStep === 2) handleBack();
+    setAppFile(selectedFile);
+    if (selectedFile) {
+      if (activeStep === 0) handleNext();
+    } else handleBack();
   };
 
   return (
-    <Fragment>
-      <Stack direction={'row'} justifyContent={'flex-end'} sx={{ flexGrow: 1, mt: 5 }}>
-        <Chip color="default" clickable icon={<ArrowCircleDownIcon />} label="기초 레이아웃 다운로드" />
-      </Stack>
+    <Stack direction={'column'} sx={{ mt: 5 }}>
+      <FormControl sx={{ alignItems: 'center' }}>
+        <RadioGroup
+          row
+          name="app-type-radio-group"
+          onChange={(e) => {
+            setAppType(e.target.value as typeof appType);
+          }}
+        >
+          <FormControlLabel
+            value="P"
+            control={<Radio size="medium" />}
+            label={
+              <Stack direction={'row'} alignItems={'center'}>
+                <DesktopWindowsIcon fontSize="large" sx={{ color: '#1D2951', mr: '0.1rem' }} />
+                데스크탑 APP
+              </Stack>
+            }
+          />
+
+          <FormControlLabel
+            value="A"
+            control={<Radio size="medium" />}
+            label={
+              <Stack direction={'row'} alignItems={'center'}>
+                <AdbIcon fontSize="large" sx={{ color: '#7CB342', mr: '0.1rem' }} />
+                안드로이드 APK
+              </Stack>
+            }
+          />
+        </RadioGroup>
+      </FormControl>
       <Stack
         sx={{
           p: 6,
-          mt: 2,
           flexGrow: 1,
           position: 'relative',
           borderRadius: '1rem',
@@ -72,7 +90,7 @@ const ExcelUploader = () => {
         }}
       >
         <Stepper alternativeLabel connector={<ColorlibConnector />} activeStep={activeStep} sx={{ my: 1.5 }}>
-          {EXCEL_UPLOAD_STEPS.map((label, index) => (
+          {APP_DEPLOY_STEPS.map((label, index) => (
             <Step key={label}>
               <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
             </Step>
@@ -80,7 +98,7 @@ const ExcelUploader = () => {
         </Stepper>
 
         {helperText.text && (
-          <Alert color={helperText.color} sx={{ mt: 4 }} icon={<InfoOutlinedIcon />}>
+          <Alert color={helperText.color ?? 'error'} sx={{ mt: 4 }} icon={<InfoOutlinedIcon />}>
             {helperText.text}
           </Alert>
         )}
@@ -108,7 +126,7 @@ const ExcelUploader = () => {
               boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
             }}
           >
-            <Image src={excelIcon} width={'48'} height={'48'} alt="excel-image" />
+            <Image src={apkIcon} width={'48'} height={'48'} alt="apk-image" />
             <Typography
               variant="body2"
               color="grey.700"
@@ -120,9 +138,9 @@ const ExcelUploader = () => {
                 textOverflow: 'ellipsis',
               }}
             >
-              {excel?.name ?? '기초데이터 엑셀을 올려주세요'}
+              {appFile ? appFile.name : '배포할 애플리케이션을 올려주세요'}
             </Typography>
-            {isUploading && (
+            {isDeploying && (
               <Box
                 sx={{
                   position: 'fixed',
@@ -138,32 +156,24 @@ const ExcelUploader = () => {
               </Box>
             )}
           </Stack>
-          {excel && !isVerified && (
-            <Button variant="contained" onClick={handleClickVerify}>
-              <CheckIcon />
-              <Typography variant="body1">데이터 검증하기</Typography>
+          {appFile && appType && (
+            <Button variant="contained" onClick={deploy} disabled={isDeploying}>
+              <CloudUploadIcon sx={{ mr: '0.3rem' }} />
+              <Typography variant="body1">배포하기</Typography>
             </Button>
           )}
 
-          {isVerified && (
-            <Button color="success" variant="contained" onClick={upload} disabled={isUploaded || isUploading}>
-              {isUploaded ? <CheckIcon /> : <UploadIcon />}
-              <Typography variant="body1">
-                {isUploading ? '엑셀 업로드중..' : isUploaded ? '업로드 완료' : '엑셀 업로드'}
-              </Typography>
-            </Button>
-          )}
           <input
             type="file"
             ref={fileInputRef}
             style={{ display: 'none' }}
-            onChange={handleFileInputChange}
-            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            accept=".apk, .exe"
+            onChange={handleFileChange}
           />
         </Stack>
       </Stack>
-    </Fragment>
+    </Stack>
   );
 };
 
-export default ExcelUploader;
+export default AppDeployBox;
