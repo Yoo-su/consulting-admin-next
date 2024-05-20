@@ -5,7 +5,7 @@ export const dummyConsultingAppStates: ConsultingAppState[] = [
     univID: '9998',
     serviceID: '999825',
     univName: '진학대학교',
-    developer: '유수현',
+    developer: 'Kafka',
     manager: '류수현',
     serviceYear: '2024',
     serviceType: 'susi',
