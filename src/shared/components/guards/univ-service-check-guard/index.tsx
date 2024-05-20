@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -16,11 +16,11 @@ const UnivServiceCheckGuard = ({ children }: ServiceCheckGuardProps) => {
 
   if (!currentService)
     return (
-      <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Alert color="info" icon={<InfoOutlinedIcon />}>
           대학 및 서비스가 선택되지 않았습니다. 사이드바에서 값을 선택해주세요
         </Alert>
-      </Container>
+      </Box>
     );
 
   return children;

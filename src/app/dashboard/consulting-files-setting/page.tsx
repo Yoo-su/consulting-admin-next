@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import FileListTable from '@/features/dashboard/components/consulting-files-setting/file-list-table';
 import ConsultingFileSettingsProvider from '@/features/dashboard/contexts/consulting-file-settings-context';
 
@@ -13,10 +13,10 @@ const Page = () => {
   return (
     <UnivServiceCheckGuard>
       <ConsultingFileSettingsProvider>
-        <Container>
+        <Box>
           <Typography variant="h5">상담 자료 관리</Typography>
           <FileListTable />
-        </Container>
+        </Box>
       </ConsultingFileSettingsProvider>
     </UnivServiceCheckGuard>
   );

@@ -53,7 +53,9 @@ const SignInForm = () => {
   return (
     <Stack spacing={4} sx={{ mt: 8 }}>
       <Stack spacing={1}>
-        <Typography variant="h4">Sign in</Typography>
+        <Typography variant="h4" fontSize={28}>
+          관리자 로그인
+        </Typography>
       </Stack>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
@@ -101,7 +103,17 @@ const SignInForm = () => {
             )}
           />
           {errors.root ? <Alert color="error">{errors.root.message}</Alert> : null}
-          <Button disabled={isPending} type="submit" variant="contained">
+          <Button
+            disabled={isPending}
+            type="submit"
+            variant="contained"
+            sx={{
+              bgcolor: '#2C4059',
+              '&:hover': {
+                bgcolor: '#2c4059',
+              },
+            }}
+          >
             로그인
           </Button>
         </Stack>
