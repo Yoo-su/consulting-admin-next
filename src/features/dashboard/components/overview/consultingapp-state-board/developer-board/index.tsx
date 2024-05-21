@@ -60,8 +60,8 @@ const DeveloperBoard = () => {
                 </Typography>
               </Stack>
 
-              <Box sx={{ '&::-webkit-scrollbar': { display: 'none' }, overflow: 'scroll' }}>
-                <Grid container spacing={2} sx={{ '&::-webkit-scrollbar': { display: 'none' }, overflow: 'scroll' }}>
+              <Box>
+                <Grid container spacing={2}>
                   {Object.values(stateBoardDomainItems).map((item) => (
                     <Grid item key={item.title} xs={4} md={2} lg={2} xl={2}>
                       <StateCol
