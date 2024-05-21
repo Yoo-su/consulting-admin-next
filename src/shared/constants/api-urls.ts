@@ -1,6 +1,6 @@
 export const apiUrls = {
   user: {
-    signin: '/user/signin',
+    signin: '/auth/login',
   },
   dashboard: {
     consultingAppState: '/dashboard/consultingapp-state',

@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { signin, SigninParams } from '../../apis/sign-in';
 import { useUser } from '../use-user';
 import toast from 'react-hot-toast';
-import { dummyUser } from '../../constants/dummies/user.dummy';
+import { User } from '../../types/user.type';
 
 export const useSigninMutation = () => {
   const { setUser } = useUser();
@@ -10,19 +10,15 @@ export const useSigninMutation = () => {
   return useMutation({
     mutationFn: (params: SigninParams) => signin(params),
     onSuccess: async (response) => {
-      const { name, userID, role, token } = response.data;
-      const user = { name, userID, role };
+      const { access_token, token_type, expires_in } = response.data;
+      const user: User = { name: '유수현', userID: 'suhyun0871', role: 'developer' };
       setUser(user);
       sessionStorage.setItem('user', JSON.stringify(user));
-      sessionStorage.setItem('token', token);
+      sessionStorage.setItem('token', access_token);
       toast.success('로그인에 성공했습니다');
     },
     onError: (error) => {
-      //toast.error('로그인 정보를 확인해주세요');
-      setUser(dummyUser);
-      sessionStorage.setItem('user', JSON.stringify(dummyUser));
-      sessionStorage.setItem('token', dummyUser?.token ?? '');
-      toast.success('로그인에 성공했습니다');
+      toast.error('로그인 정보를 확인해주세요');
     },
   });
 };

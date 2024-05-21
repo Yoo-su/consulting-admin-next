@@ -20,13 +20,13 @@ const Toolbar = () => {
 
   return (
     <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
-      {renderMenuItems(toolbarMenuItems)}
+      {renderMenuItems(toolbarMenuItems, upmd)}
       {upmd && <Chip size="small" color="primary" icon={<AddIcon fontSize="small" />} label="새로 만들기" clickable />}
     </Stack>
   );
 };
 
-const renderMenuItems = (items: ToolbarMenuItem[]) => {
+const renderMenuItems = (items: ToolbarMenuItem[], upmd: boolean) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { boardType, setBoardType } = useConsultingAppState();
   const children = items.reduce((acc: ReactNode[], curr: ToolbarMenuItem): ReactNode[] => {
@@ -40,6 +40,7 @@ const renderMenuItems = (items: ToolbarMenuItem[]) => {
         boardType={boardType}
         setBoardType={setBoardType}
         Icon={Icon}
+        upmd={upmd}
       />
     );
 
@@ -56,8 +57,9 @@ const renderMenuItems = (items: ToolbarMenuItem[]) => {
 type MenuItemProps = ToolbarMenuItem & {
   boardType: BoardType;
   setBoardType: (newType: BoardType) => void;
+  upmd: boolean;
 };
-const MenuItem = ({ title, displayType, Icon, boardType, setBoardType }: MenuItemProps) => {
+const MenuItem = ({ title, displayType, Icon, boardType, setBoardType, upmd }: MenuItemProps) => {
   const isActive = displayType === boardType;
 
   const handleClick = () => {
@@ -69,7 +71,13 @@ const MenuItem = ({ title, displayType, Icon, boardType, setBoardType }: MenuIte
       size="small"
       color={displayType === boardType ? 'info' : 'default'}
       onClick={handleClick}
-      label={<Typography variant="caption">{title}</Typography>}
+      label={
+        upmd ? (
+          <Typography variant="caption">{title}</Typography>
+        ) : (
+          <Typography variant="caption">{title.split(' ')[0]}</Typography>
+        )
+      }
       icon={<Icon />}
       sx={{ display: 'flex', alignItems: 'center' }}
     />

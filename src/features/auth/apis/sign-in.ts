@@ -1,19 +1,18 @@
-import { apiInstance } from "@/shared/plugin/axios";
-export const signinUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/user/sign-in`;
+import { apiInstance } from '@/shared/plugin/axios';
+import { apiUrls } from '@/shared/constants/api-urls';
 
 export type SigninParams = {
   userID: string;
-  password: string;
+  userPassword: string;
 };
 export type SigninResponse = {
-  name: string;
-  userID: string;
-  role: "developer" | "manager";
-  token: string;
+  access_token: string;
+  token_type: string;
+  expires_in: number;
 };
-export const signin = ({ userID, password }: SigninParams) => {
-  return apiInstance.post<SigninResponse>(signinUrl, {
+export const signin = ({ userID, userPassword }: SigninParams) => {
+  return apiInstance.post<SigninResponse>(apiUrls.user.signin, {
     userID,
-    password,
+    userPassword,
   });
 };

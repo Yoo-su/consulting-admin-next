@@ -15,6 +15,7 @@ import { useConsultingAppState } from '@/features/dashboard/hooks/use-consulting
 import { stateBoardDomainItems } from '../constants/state-board-domain-items';
 import { getGroupedData } from '../services/get-grouped-data';
 import { currentStateList } from '../constants/current-states-list';
+import { CurrentState } from '@/features/dashboard/types/consultingapp-state.type';
 
 const DeveloperBoard = () => {
   const { consultingAppStates } = useConsultingAppState();
@@ -26,13 +27,38 @@ const DeveloperBoard = () => {
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
     const { source, destination, combine } = result;
-    const sourceDeveloper = source.droppableId.split('/')[0],
-      destinationDeveloper = destination?.droppableId.split('/')[0];
+    const [sourceDeveloper, sourceAreaState] = source.droppableId.split('/'),
+      [destinationDeveloper, destinationAreaState] = destination?.droppableId.split('/');
 
     if (sourceDeveloper !== destinationDeveloper) {
       toast.error('다른 개발자 영역입니다');
       return;
     }
+
+    const sourceDevList = groupedByDeveloper[sourceDeveloper];
+    const destinationDevList = groupedByDeveloper[destinationDeveloper];
+
+    const sourceDevStateList = sourceDevList.filter((item) => item.currentState === sourceAreaState);
+    const destinationDevStateList = destinationDevList.filter((item) => item.currentState === destinationAreaState);
+
+    // 같은 리스트 내에서 이동한 경우
+    if (sourceAreaState === destinationAreaState) {
+      const [removed] = sourceDevStateList.splice(source.index, 1);
+      sourceDevStateList.splice(destination.index, 0, removed);
+    }
+    // 다른 리스트 간 이동한 경우
+    else {
+      const [removed] = sourceDevStateList.splice(source.index, 1);
+      removed.currentState = destinationAreaState as CurrentState;
+      destinationDevStateList.splice(destination.index, 0, removed);
+    }
+
+    // 상태 업데이트
+    setGroupedByDeveloper((prevState) => ({
+      ...prevState,
+      [sourceDeveloper]: sourceDevStateList,
+      [destinationDeveloper]: destinationDevStateList,
+    }));
   };
 
   useEffect(() => {

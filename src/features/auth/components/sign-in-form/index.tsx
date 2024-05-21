@@ -20,14 +20,14 @@ import { useSigninMutation } from '../../hooks/tanstack/use-sign-in-mutation';
 
 const schema = zod.object({
   userID: zod.string().min(1, { message: '사용자 ID를 입력해주세요' }).max(20, { message: '20자 이내로 입력해주세요' }),
-  password: zod.string().min(1, { message: '패스워드를 입력해주세요' }),
+  userPassword: zod.string().min(1, { message: '패스워드를 입력해주세요' }),
 });
 
 type Values = zod.infer<typeof schema>;
 
 const defaultValues = {
-  userID: 'chess',
-  password: '1234',
+  userID: '',
+  userPassword: '',
 } satisfies Values;
 
 const SignInForm = () => {
@@ -46,7 +46,7 @@ const SignInForm = () => {
   const onSubmit = () => {
     mutate({
       userID: watch('userID'),
-      password: watch('password'),
+      userPassword: watch('userPassword'),
     });
   };
 
@@ -72,9 +72,9 @@ const SignInForm = () => {
           />
           <Controller
             control={control}
-            name="password"
+            name="userPassword"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.password)}>
+              <FormControl error={Boolean(errors.userPassword)}>
                 <InputLabel>Password</InputLabel>
                 <OutlinedInput
                   {...field}
@@ -98,7 +98,7 @@ const SignInForm = () => {
                   label="Password"
                   type={showPassword ? 'text' : 'password'}
                 />
-                {errors.password ? <FormHelperText>{errors.password.message}</FormHelperText> : null}
+                {errors.userPassword ? <FormHelperText>{errors.userPassword.message}</FormHelperText> : null}
               </FormControl>
             )}
           />
