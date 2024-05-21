@@ -46,6 +46,9 @@ const ServiceAutocomplete = () => {
           '&.Mui-focused fieldset': {
             borderColor: '#FEF9F3',
           },
+          '&.Mui-disabled fieldset': {
+            borderColor: '#FEF9F3', // disabled 상태일 때 테두리 색상 변경
+          },
           '& .MuiSvgIcon-root': {
             color: '#FEF9F3', // 아이콘 색상
           },

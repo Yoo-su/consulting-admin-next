@@ -46,9 +46,7 @@ const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
     >
       <Stack spacing={2} sx={{ p: 3 }}>
         <Box component="div" sx={{ display: 'inline-flex', justifyContent: 'center', whiteSpace: 'nowrap' }}>
-          <Typography variant="h5" fontWeight={'bold'}>
-            입학상담앱 관리자
-          </Typography>
+          <Typography variant="h5">입학상담앱 관리자</Typography>
         </Box>
         <Box
           sx={{

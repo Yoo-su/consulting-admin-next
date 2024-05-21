@@ -38,8 +38,11 @@ const DeveloperBoard = () => {
     const sourceDevList = groupedByDeveloper[sourceDeveloper];
     const destinationDevList = groupedByDeveloper[destinationDeveloper];
 
-    const sourceDevStateList = sourceDevList.filter((item) => item.currentState === sourceAreaState);
-    const destinationDevStateList = destinationDevList.filter((item) => item.currentState === destinationAreaState);
+    const sourceDevStateMap = getGroupedData(sourceDevList, 'currentState', currentStateList);
+    const destinationDevStateMap = getGroupedData(destinationDevList, 'currentState', currentStateList);
+
+    const sourceDevStateList = sourceDevStateMap[sourceAreaState as CurrentState];
+    const destinationDevStateList = destinationDevStateMap[destinationAreaState as CurrentState];
 
     // 같은 리스트 내에서 이동한 경우
     if (sourceAreaState === destinationAreaState) {
@@ -56,8 +59,8 @@ const DeveloperBoard = () => {
     // 상태 업데이트
     setGroupedByDeveloper((prevState) => ({
       ...prevState,
-      [sourceDeveloper]: sourceDevStateList,
-      [destinationDeveloper]: destinationDevStateList,
+      sourceDeveloper: sourceDevStateList,
+      destinationDeveloper: destinationDevStateList,
     }));
   };
 
