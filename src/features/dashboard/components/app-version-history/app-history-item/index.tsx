@@ -17,8 +17,8 @@ const AppHistoryItem = ({ item }: AppHistoryItemProps) => {
     <Tooltip
       title={
         <Stack direction={'column'}>
-          <Typography>{item.packageFileName ?? 'unknown apk'}</Typography>
-          <Typography>Note: {item.releaseNote ?? '-'}</Typography>
+          <Typography variant="caption">{item.packageFileName ?? 'unknown apk'}</Typography>
+          <Typography variant="caption">Note: {item.releaseNote ?? '-'}</Typography>
         </Stack>
       }
     >

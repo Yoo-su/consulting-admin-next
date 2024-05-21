@@ -1,59 +1,88 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import toast from 'react-hot-toast';
 
 import StateCol from '../state-col';
 import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
 import { stateBoardDomainItems } from '../constants/state-board-domain-items';
-import { getGroupedStatesObject } from '../utils/get-grouped-states';
+import { getGroupedData } from '../services/get-grouped-data';
+import { currentStateList } from '../constants/current-states-list';
 
 const DeveloperBoard = () => {
   const { consultingAppStates } = useConsultingAppState();
-  const groupedByDeveloper = getGroupedStatesObject(consultingAppStates, 'developer');
+  const [developers, setDevelopers] = useState<string[]>([]);
+  const [groupedByDeveloper, setGroupedByDeveloper] = useState(
+    getGroupedData(consultingAppStates, 'developer', developers)
+  );
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+    const { source, destination, combine } = result;
+    const sourceDeveloper = source.droppableId.split('/')[0],
+      destinationDeveloper = destination?.droppableId.split('/')[0];
+
+    if (sourceDeveloper !== destinationDeveloper) {
+      toast.error('다른 개발자 영역입니다');
+      return;
+    }
+  };
+
+  useEffect(() => {
+    const developerList = Array.from(consultingAppStates, (item) => item.developer);
+    const developerSet = Array.from(new Set(developerList));
+    setDevelopers(developerSet);
+  }, [consultingAppStates]);
 
   return (
-    <Stack direction={'column'} spacing={3}>
-      {Object.keys(groupedByDeveloper).map((developer) => {
-        const developerStates = groupedByDeveloper[developer];
-        const groupedByCurrentStates = getGroupedStatesObject(developerStates, 'currentState');
-        return (
-          <Stack key={developer} direction={'column'} spacing={1}>
-            <Stack direction={'row'} alignItems={'center'}>
-              <Chip
-                size="small"
-                label={developer}
-                sx={{ width: 'fit-content', bgcolor: 'rgba(0,0,0,0.75)', color: '#fff' }}
-              />
-              <Typography variant="caption" sx={{ marginLeft: 1 }}>
-                {developerStates.length}건
-              </Typography>
-            </Stack>
-
-            <Stack
-              direction={'row'}
-              spacing={2}
-              sx={{ '&::-webkit-scrollbar': { display: 'none' }, overflow: 'scroll' }}
-            >
-              {Object.values(stateBoardDomainItems).map((item) => (
-                <StateCol
-                  key={item.title}
-                  currentStateKey={item.key}
-                  groupedStates={groupedByCurrentStates[item.key] ?? []}
-                  title={item.title}
-                  color={item.color}
-                  bgcolor={item.bgcolor}
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Stack direction={'column'} spacing={3}>
+        {Object.keys(groupedByDeveloper).map((developer) => {
+          const developerStates = groupedByDeveloper[developer];
+          const groupedByCurrentStates = getGroupedData(developerStates, 'currentState', currentStateList);
+          return (
+            <Stack key={developer} direction={'column'} spacing={1}>
+              <Stack direction={'row'} alignItems={'center'}>
+                <Chip
+                  size="small"
+                  label={developer}
+                  sx={{ width: 'fit-content', bgcolor: 'rgba(0,0,0,0.75)', color: '#fff' }}
                 />
-              ))}
+                <Typography variant="caption" sx={{ marginLeft: 1 }}>
+                  {developerStates.length}건
+                </Typography>
+              </Stack>
+
+              <Box sx={{ '&::-webkit-scrollbar': { display: 'none' }, overflow: 'scroll' }}>
+                <Grid container spacing={2} sx={{ '&::-webkit-scrollbar': { display: 'none' }, overflow: 'scroll' }}>
+                  {Object.values(stateBoardDomainItems).map((item) => (
+                    <Grid item key={item.title} xs={4} md={2} lg={2} xl={2}>
+                      <StateCol
+                        currentStateKey={item.key}
+                        groupedStates={groupedByCurrentStates[item.key] ?? []}
+                        title={item.title}
+                        color={item.color}
+                        bgcolor={item.bgcolor}
+                        developer={developer}
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+              <div></div>
+              <Divider />
             </Stack>
-            <div></div>
-            <Divider />
-          </Stack>
-        );
-      })}
-    </Stack>
+          );
+        })}
+      </Stack>
+    </DragDropContext>
   );
 };
 
