@@ -1,27 +1,14 @@
 'use client';
 
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import Stack from '@mui/material/Stack';
-import Paper from '@mui/material/Paper';
-import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import Chip from '@mui/material/Chip';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
+import ServiceListTable from './service-table';
 import AddServiceForm from './add-service-form';
 import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
 
 const ServiceSettingBox = () => {
   const { serviceList, currentUniv } = useUnivService();
-  const theme = useTheme();
-  const downmd = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <Stack direction={'column'} sx={{ mt: 5 }} spacing={5}>
@@ -31,52 +18,7 @@ const ServiceSettingBox = () => {
         <Typography variant="h6">
           {currentUniv?.univName}({currentUniv?.univID}) 서비스 목록
         </Typography>
-        <TableContainer component={Paper}>
-          <Table aria-label="service-list-table">
-            <TableHead>
-              <TableRow>
-                <TableCell>서비스ID</TableCell>
-                <TableCell>서비스년도</TableCell>
-                <TableCell>서비스유형</TableCell>
-                <TableCell>담당 개발자</TableCell>
-                <TableCell>담당 운영자</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {serviceList.map((service) => (
-                <TableRow key={service.serviceID} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <TableCell component="th" scope="row">
-                    {service.serviceID}
-                  </TableCell>
-                  <TableCell>{service.schoolYear}</TableCell>
-                  <TableCell>
-                    {service.isSusi === '1' ? (
-                      <Chip
-                        label="수시"
-                        size={downmd ? 'small' : 'medium'}
-                        sx={{
-                          color: 'white',
-                          bgcolor: '#1C6A7D',
-                        }}
-                      />
-                    ) : (
-                      <Chip
-                        label="정시"
-                        size={downmd ? 'small' : 'medium'}
-                        sx={{
-                          color: 'white',
-                          bgcolor: '#E66245',
-                        }}
-                      />
-                    )}
-                  </TableCell>
-                  <TableCell>{service.developer ?? '미정'}</TableCell>
-                  <TableCell>{service.manager ?? '미정'}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <ServiceListTable serviceList={serviceList} />
       </Stack>
     </Stack>
   );
