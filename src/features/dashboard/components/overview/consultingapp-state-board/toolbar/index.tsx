@@ -7,6 +7,8 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Chip from '@mui/material/Chip';
 import WindowIcon from '@mui/icons-material/Window';
 import AddIcon from '@mui/icons-material/Add';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
 import { toolbarMenuItems } from '../constants/toolbar-menu-items';
@@ -14,10 +16,13 @@ import { ToolbarMenuItem } from '../types/toolbar-menu-item.type';
 import { BoardType } from '@/features/dashboard/contexts/consultingapp-state-context';
 
 const Toolbar = () => {
+  const theme = useTheme();
+  const upmd = useMediaQuery(theme.breakpoints.up('md'));
+
   return (
     <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
       {renderMenuItems(toolbarMenuItems)}
-      <Chip size="small" color="primary" icon={<AddIcon fontSize="small" />} label="새로 만들기" clickable />
+      {upmd && <Chip size="small" color="primary" icon={<AddIcon fontSize="small" />} label="새로 만들기" clickable />}
     </Stack>
   );
 };

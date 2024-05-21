@@ -9,8 +9,10 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
+
 import ProfileIcon from '@mui/icons-material/AccountBox';
 import SignoutIcon from '@mui/icons-material/ExitToApp';
+
 import { useUser } from '@/features/auth/hooks/use-user';
 
 export type UserPopoverProps = {

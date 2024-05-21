@@ -33,7 +33,7 @@ const ExcelItem = ({ item }: ExcelItemProps) => {
   };
 
   return (
-    <Tooltip title={<Typography>{item.fileName}</Typography>}>
+    <Tooltip title={<Typography variant="caption">{item.fileName}</Typography>}>
       <Stack
         direction={'row'}
         alignItems={'center'}

@@ -9,10 +9,11 @@ import Avatar from '@mui/material/Avatar';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+import PersonIcon from '@mui/icons-material/Person';
+
 import AppSideDrawer from './app-side-drawer';
 import UserPopover from './user-popover';
 import { usePopover } from '../../hooks/use-popover';
-import king2 from '@/shared/assets/images/king2.jpg';
 
 const AppHeader = () => {
   const [openAppSideDrawer, setOpenAppSideDrawer] = useState<boolean>(false);
@@ -57,11 +58,12 @@ const AppHeader = () => {
             </IconButton>
           </Stack>
           <Avatar
-            src={king2.src}
             onClick={userPopover.handleOpen}
             ref={userPopover.anchorRef}
-            sx={{ cursor: 'pointer' }}
-          />
+            sx={{ cursor: 'pointer', bgcolor: '#2C4059' }}
+          >
+            <PersonIcon />
+          </Avatar>
         </Stack>
       </Box>
       <UserPopover anchorEl={userPopover.anchorRef.current} onClose={userPopover.handleClose} open={userPopover.open} />
