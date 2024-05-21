@@ -14,39 +14,41 @@ import DoneIcon from '@mui/icons-material/Done';
 
 import { styled } from '@mui/material/styles';
 import { useConsultingFileSettings } from '@/features/dashboard/hooks/use-consulting-file-settings';
-import { UploadedFile } from '@/features/dashboard/contexts/consulting-file-settings-context';
+import { ConsultingFile } from '@/features/dashboard/types/consulting-file';
+import { getFileNoFromEvent } from '@/features/dashboard/services/get-replaced-string';
 
-const EditFile = ({ file }: { file: UploadedFile }) => {
-  const { files, setFiles, editFileName, setEditFileName } = useConsultingFileSettings();
+const EditFile = ({ file }: { file: ConsultingFile }) => {
+  const { files, setFiles, editFileIndex, setEditFileIndex, uploadFileList } = useConsultingFileSettings();
 
   const editFileTitle = (index: number) => {
-    const currentStatus = editFileName[index];
-    let newEditFileName = [...editFileName];
+    const currentStatus = editFileIndex[index];
+    let newEditFileIndex = [...editFileIndex];
 
     // currentStatus가 true일 때만 title을 저장
     if (currentStatus) {
       const title = (document.getElementById(`textField-${index + 1}`) as HTMLInputElement)?.value;
       if (title) {
         const newFiles = [...files];
-        newFiles[index].title = title;
-        setFiles(newFiles);
+        newFiles[index].RefTitle = title;
+        uploadFileList(newFiles);
+        setFiles(newFiles); // TODO: 나중에 setFiles 전부 삭제하기
       }
     } else {
       // 현재 클릭한 index만 true로 변경하기 위해 false로 초기화
-      newEditFileName = new Array(editFileName.length).fill(false);
+      newEditFileIndex = new Array(editFileIndex.length).fill(false);
     }
-    newEditFileName[index] = !currentStatus;
-    setEditFileName(newEditFileName);
+    newEditFileIndex[index] = !currentStatus;
+    setEditFileIndex(newEditFileIndex);
   };
   const handleEditFileName = (event: MouseEvent<HTMLElement> | FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const index = parseInt(event.currentTarget.id.replace('textField-', ''));
+    const index = getFileNoFromEvent(event.currentTarget.id);
     editFileTitle(index - 1);
   };
   const handleDeleteFile = (event: MouseEvent<HTMLElement>) => {
     const index = parseInt(event.currentTarget.id);
-    const newFiles = files.filter((file) => file.no !== index);
-
-    setFiles(newFiles.map((file, index) => ({ ...file, no: index + 1 })));
+    const newFiles = files.filter((file) => file.RefNo !== index).map((file, index) => ({ ...file, RefNo: index + 1 }));
+    // TODO: uploadFileList(newFiles);
+    setFiles(newFiles);
   };
 
   /* styled components */
@@ -88,19 +90,19 @@ const EditFile = ({ file }: { file: UploadedFile }) => {
           <DragHandleIcon fontSize="small" />
         </IconButton>
       </TableCell>
-      <TableCell align="center">{file.no}</TableCell>
+      <TableCell align="center">{file.RefNo}</TableCell>
       <TableCell>
         <StyledTextField
-          id={`textField-${file.no}`}
-          defaultValue={file.title}
+          id={`textField-${file.RefNo}`}
+          defaultValue={file.RefTitle}
           fullWidth
-          disabled={!editFileName[file.no - 1]}
+          disabled={!editFileIndex[file.RefNo - 1]}
           size="small"
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton disableRipple onClick={handleEditFileName} edge="start" id={file.no.toString()}>
-                  {editFileName[file.no - 1] ? <DoneIcon /> : <EditIcon />}
+                <IconButton disableRipple onClick={handleEditFileName} edge="start" id={`${file.RefNo}`}>
+                  {editFileIndex[file.RefNo - 1] ? <DoneIcon /> : <EditIcon />}
                 </IconButton>
               </InputAdornment>
             ),
@@ -109,9 +111,9 @@ const EditFile = ({ file }: { file: UploadedFile }) => {
           onBlur={handleEditFileName}
         />
       </TableCell>
-      <TableCell>{file.fileName}</TableCell>
+      <TableCell>{file.FileName}</TableCell>
       <TableCell align="center">
-        <IconButton disableRipple onClick={handleDeleteFile} id={file.no.toString()}>
+        <IconButton disableRipple onClick={handleDeleteFile} id={`${file.RefNo}`}>
           <ClearIcon color="warning" fontSize="small" />
         </IconButton>
       </TableCell>

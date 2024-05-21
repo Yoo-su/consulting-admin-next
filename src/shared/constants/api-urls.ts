@@ -7,7 +7,9 @@ export const apiUrls = {
     foundationLibrary: '/file/foundation-library',
     deployApp: '/deploy/deploy-app',
     getAppVersionHistory: '/deploy/version-update-history',
-    consultingFileList: 'file/consulting-file',
+    getConsultingFileList: 'reflibrary/',
+    downloadConsultingFile: 'reflibrary/download/',
+    uploadConsultingFile: 'reflibrary/upload',
   },
   admin: {
     getUnivList: '/admin/univlist',

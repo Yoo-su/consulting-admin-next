@@ -24,10 +24,11 @@ const DragSlot = ({ index }: { index: number }) => {
     if (selected === null || selected === undefined) return;
 
     const selectedFile = files[selected - 1];
-    const newFiles = files.filter((file) => file.no !== selected);
+    const newFiles = files.filter((file) => file.RefNo !== selected);
 
     newFiles.splice(index, 0, selectedFile);
-    setFiles(newFiles.map((file, index) => ({ ...file, no: index + 1 })));
+    setFiles(newFiles.map((file, index) => ({ ...file, refNo: index + 1 })));
+    // TODO: update api와 연결하기
     setIsDragging(false);
   };
   const handleDragOver = (e: DragEvent<HTMLTableCellElement>) => {

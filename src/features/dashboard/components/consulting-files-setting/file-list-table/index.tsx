@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,6 +9,20 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import FileUploader from '../file-uploader';
 import FileListData from '../file-list-data';
+
+const EmptyTableCell = () => {
+  return <TableCell sx={{ width: '16px' }} />;
+};
+const NarrowTableCell = ({ children }: { children: ReactNode }) => {
+  return (
+    <TableCell align="center" sx={{ width: '8%' }}>
+      {children}
+    </TableCell>
+  );
+};
+const WideTableCell = ({ children }: { children: ReactNode }) => {
+  return <TableCell sx={{ width: '50%' }}>{children}</TableCell>;
+};
 
 const FileListTable = () => {
   return (
@@ -21,15 +36,11 @@ const FileListTable = () => {
         >
           <TableHead>
             <TableRow>
-              <TableCell sx={{ width: '16px' }}></TableCell>
-              <TableCell align="center" sx={{ width: '8%' }}>
-                순서
-              </TableCell>
-              <TableCell sx={{ width: '35%' }}>자료명</TableCell>
-              <TableCell>파일명</TableCell>
-              <TableCell align="center" sx={{ width: '8%' }}>
-                삭제
-              </TableCell>
+              <EmptyTableCell />
+              <NarrowTableCell>순서</NarrowTableCell>
+              <WideTableCell>자료명</WideTableCell>
+              <WideTableCell>파일명</WideTableCell>
+              <NarrowTableCell>삭제</NarrowTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

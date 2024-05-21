@@ -10,6 +10,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 import { styled } from '@mui/material/styles';
 import { useConsultingFileSettings } from '@/features/dashboard/hooks/use-consulting-file-settings';
+import toast from 'react-hot-toast';
 
 const FileUploader = () => {
   const { fileEnter, setFileEnter, addToFiles } = useConsultingFileSettings();
@@ -25,15 +26,16 @@ const FileUploader = () => {
     setFileEnter(false);
     const items = event.dataTransfer.items;
     if (items) {
+      console.log('items:', items);
       for (let i = 0; i < items.length; i++) {
-        if (items[i].kind === 'file' && items[i].type === 'application/pdf') {
+        if (items[i].kind === 'file' && items[i].type !== '') {
           const file = items[i].getAsFile();
           if (file) {
-            // let blobUrl = URL.createObjectURL(file);
-            // setFile(blobUrl);
             addToFiles(file);
           }
           console.log(`items file[${i}].name = ${file?.name}`);
+        } else {
+          toast.error('개별 파일만 업로드 가능합니다.');
         }
       }
     }
