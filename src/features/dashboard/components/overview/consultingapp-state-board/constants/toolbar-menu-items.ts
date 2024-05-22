@@ -17,7 +17,7 @@ export const toolbarMenuItems: ToolbarMenuItem[] = [
   },
   {
     title: '전체 리스트',
-    displayType: 'whole',
+    displayType: 'table',
     Icon: TableChartIcon,
   },
 ];

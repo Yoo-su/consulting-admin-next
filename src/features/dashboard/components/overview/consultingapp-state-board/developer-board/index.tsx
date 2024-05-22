@@ -26,10 +26,11 @@ const DeveloperBoard = () => {
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
-    const { source, destination, combine } = result;
+    const { source, destination } = result;
     const [sourceDeveloper, sourceAreaState] = source.droppableId.split('/'),
-      [destinationDeveloper, destinationAreaState] = destination?.droppableId.split('/');
+      [destinationDeveloper, destinationAreaState] = destination.droppableId.split('/');
 
+    // 다른 개발자 영역으로 이동한 경우
     if (sourceDeveloper !== destinationDeveloper) {
       toast.error('다른 개발자 영역입니다');
       return;
@@ -44,23 +45,17 @@ const DeveloperBoard = () => {
     const sourceDevStateList = sourceDevStateMap[sourceAreaState as CurrentState];
     const destinationDevStateList = destinationDevStateMap[destinationAreaState as CurrentState];
 
-    // 같은 리스트 내에서 이동한 경우
-    if (sourceAreaState === destinationAreaState) {
-      const [removed] = sourceDevStateList.splice(source.index, 1);
-      sourceDevStateList.splice(destination.index, 0, removed);
-    }
     // 다른 리스트 간 이동한 경우
-    else {
-      const [removed] = sourceDevStateList.splice(source.index, 1);
-      removed.currentState = destinationAreaState as CurrentState;
-      destinationDevStateList.splice(destination.index, 0, removed);
-    }
+
+    const [removed] = sourceDevStateList.splice(source.index, 1);
+    removed.currentState = destinationAreaState as CurrentState;
+    destinationDevStateList.splice(destination.index, 0, removed);
 
     // 상태 업데이트
     setGroupedByDeveloper((prevState) => ({
       ...prevState,
-      sourceDeveloper: sourceDevStateList,
-      destinationDeveloper: destinationDevStateList,
+      [sourceDeveloper]: sourceDevList,
+      [destinationDeveloper]: destinationDevList,
     }));
   };
 

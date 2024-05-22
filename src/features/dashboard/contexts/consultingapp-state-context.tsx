@@ -4,7 +4,7 @@ import { createContext, ReactNode, useState, Dispatch, SetStateAction } from 're
 import { useGetConsultingAppState } from '../hooks/use-get-consultingapp-state';
 import { ConsultingAppState } from '../types/consultingapp-state.type';
 
-export type BoardType = 'basic' | 'developer' | 'whole';
+export type BoardType = 'basic' | 'developer' | 'table';
 export type DialogType = 'create' | 'modify';
 export type ConsultingAppStateContextValue = {
   boardType: BoardType;
