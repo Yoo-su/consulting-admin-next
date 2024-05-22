@@ -1,9 +1,6 @@
 'use client';
 
-import { DragEvent, ChangeEvent } from 'react';
-
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
+import { DragEvent, ChangeEvent, useState } from 'react';
 
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -11,9 +8,11 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 import { useConsultingFileSettings } from '@/features/dashboard/hooks/use-consulting-file-settings';
 import toast from 'react-hot-toast';
+import { CustomWidthBoxCell } from '../table-components/table-boxes';
 
 const FileUploader = () => {
-  const { fileEnter, setFileEnter, addToFiles } = useConsultingFileSettings();
+  const { addToFiles } = useConsultingFileSettings();
+  const [fileEnter, setFileEnter] = useState(false);
 
   /* event handlers */
   const handleDragEvent = (event: DragEvent<HTMLDivElement>) => {
@@ -64,27 +63,27 @@ const FileUploader = () => {
     width: 1,
   });
   return (
-    <TableRow>
-      <TableCell colSpan={5}>
-        <UploadDivWrapper
-          onDragOver={handleDragEvent}
-          onDragLeave={handleDragEvent}
-          onDragEnd={handleDragEvent}
-          onDrop={handleDropEvent}
+    <CustomWidthBoxCell justifyContent="center">
+      <UploadDivWrapper
+        onDragOver={handleDragEvent}
+        onDragLeave={handleDragEvent}
+        onDragEnd={handleDragEvent}
+        onDrop={handleDropEvent}
+      >
+        <Button
+          component="label"
+          role={undefined}
+          tabIndex={-1}
+          sx={{
+            width: '100%',
+          }}
+          startIcon={<CloudUploadIcon />}
         >
-          <Button
-            component="label"
-            role={undefined}
-            tabIndex={-1}
-            sx={{ width: '100%' }}
-            startIcon={<CloudUploadIcon />}
-          >
-            자료 업로드
-            <HiddenFileInput type="file" onChange={handleChangeEvent} />
-          </Button>
-        </UploadDivWrapper>
-      </TableCell>
-    </TableRow>
+          자료 업로드
+          <HiddenFileInput type="file" onChange={handleChangeEvent} />
+        </Button>
+      </UploadDivWrapper>
+    </CustomWidthBoxCell>
   );
 };
 

@@ -1,3 +1,5 @@
+import { User } from '@/features/auth/types/user.type';
+
 export type ConsultingFile = {
   ServiceID: string;
   DownloadURL: string;
@@ -11,4 +13,4 @@ export type ConsultingFile = {
   IsNew?: boolean | null;
 };
 
-export type UploadFile = Pick<ConsultingFile, 'ServiceID' | 'RefTitle' | 'FileName' | 'File'>;
+export type UploadFile = Pick<ConsultingFile, 'ServiceID' | 'RefTitle' | 'File'>;
