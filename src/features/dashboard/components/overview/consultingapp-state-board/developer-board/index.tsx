@@ -87,7 +87,7 @@ const DeveloperBoard = () => {
               <Box>
                 <Grid container spacing={2}>
                   {Object.values(stateBoardDomainItems).map((item) => (
-                    <Grid item key={item.title} xs={4} md={2} lg={2} xl={2}>
+                    <Grid item key={item.title} xs={6} md={2} lg={2} xl={2}>
                       <StateCol
                         currentStateKey={item.key}
                         groupedStates={groupedByCurrentStates[item.key] ?? []}

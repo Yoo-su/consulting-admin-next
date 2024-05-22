@@ -24,7 +24,7 @@ import AppVersionHistoryListBoxSkeleton from './skeleton';
 const AppHistoryListBox = () => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
-  const [appType, setAppType] = useState<'A' | 'P'>('P');
+  const [appType, setAppType] = useState<'A' | 'P'>('A');
   const { currentUniv, currentService } = useUnivService();
   const { data: histories, refetch, isPending } = useGetAppVersionHistoryQuery(currentService?.serviceID, appType);
 
@@ -53,23 +53,22 @@ const AppHistoryListBox = () => {
           value={appType}
         >
           <FormControlLabel
-            value="P"
-            control={<Radio size="medium" />}
-            label={
-              <Stack direction={'row'} alignItems={'center'}>
-                <DesktopWindowsIcon fontSize="large" sx={{ color: '#1D2951', mr: '0.1rem' }} />
-                데스크탑 APP
-              </Stack>
-            }
-          />
-
-          <FormControlLabel
             value="A"
             control={<Radio size="medium" />}
             label={
               <Stack direction={'row'} alignItems={'center'}>
                 <AdbIcon fontSize="large" sx={{ color: '#7CB342', mr: '0.1rem' }} />
-                안드로이드 APK
+                <Typography variant="body2">안드로이드 APK</Typography>
+              </Stack>
+            }
+          />
+          <FormControlLabel
+            value="P"
+            control={<Radio size="medium" />}
+            label={
+              <Stack direction={'row'} alignItems={'center'}>
+                <DesktopWindowsIcon fontSize="large" sx={{ color: '#1D2951', mr: '0.1rem' }} />
+                <Typography variant="body2">데스크탑 APP</Typography>
               </Stack>
             }
           />

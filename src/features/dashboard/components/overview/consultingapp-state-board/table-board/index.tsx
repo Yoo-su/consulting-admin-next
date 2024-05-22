@@ -9,19 +9,31 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
-
 import CheckIcon from '@mui/icons-material/Check';
+import TablePagination from '@mui/material/TablePagination';
+import { useState, ChangeEvent, MouseEvent } from 'react';
 
 import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
 import { stateBoardDomainItems } from '../constants/state-board-domain-items';
 
 const TableBoard = () => {
   const { consultingAppStates, setConsultingAppStates } = useConsultingAppState();
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 450 }}>
-        <Table stickyHeader aria-label="sticky table">
+    <Paper sx={{ width: '100%' }}>
+      <TableContainer>
+        <Table stickyHeader aria-label="consulting-app-state-table">
           <TableHead>
             <TableRow>
               <TableCell>대학명</TableCell>
@@ -33,7 +45,7 @@ const TableBoard = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {consultingAppStates.map((item) => {
+            {consultingAppStates.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item) => {
               const { color, title } = stateBoardDomainItems[item.currentState];
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={item.serviceID}>
@@ -61,6 +73,16 @@ const TableBoard = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={consultingAppStates.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        labelRowsPerPage={'페이지 당 아이템 수'}
+      />
     </Paper>
   );
 };
