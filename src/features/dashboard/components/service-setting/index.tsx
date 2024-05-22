@@ -11,7 +11,7 @@ const ServiceSettingBox = () => {
   const { serviceList, currentUniv } = useUnivService();
 
   return (
-    <Stack direction={'column'} sx={{ mt: 5 }} spacing={5}>
+    <Stack direction={'column'} sx={{ mt: { xs: 4, sm: 6, md: 6, lg: 6, xl: 8 } }} spacing={5}>
       <AddServiceForm univID={currentUniv?.univID ?? ''} />
 
       <Stack direction={'column'} spacing={2}>

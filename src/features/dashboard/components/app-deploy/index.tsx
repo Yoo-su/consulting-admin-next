@@ -48,7 +48,7 @@ const AppDeployBox = () => {
   };
 
   return (
-    <Stack direction={'column'} sx={{ mt: 5 }}>
+    <Stack direction={'column'} sx={{ mt: { xs: 4, sm: 6, md: 6, lg: 6, xl: 8 } }}>
       <FormControl sx={{ alignItems: 'center' }}>
         <RadioGroup
           row

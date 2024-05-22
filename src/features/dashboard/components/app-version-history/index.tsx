@@ -37,13 +37,13 @@ const AppHistoryListBox = () => {
     <Stack
       direction={'column'}
       sx={{
-        mt: 5,
+        mt: { xs: 4, sm: 6, md: 6, lg: 6, xl: 8 },
         boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
         borderRadius: '1rem',
         p: 2,
       }}
     >
-      <FormControl sx={{ alignItems: 'center', mt: 2 }}>
+      <FormControl sx={{ alignItems: 'center' }}>
         <RadioGroup
           row
           name="app-type-radio-group"

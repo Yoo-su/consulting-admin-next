@@ -58,7 +58,11 @@ const ExcelUploadBox = () => {
 
   return (
     <Fragment>
-      <Stack direction={'row'} justifyContent={'flex-end'} sx={{ flexGrow: 1, mt: 5 }}>
+      <Stack
+        direction={'row'}
+        justifyContent={'flex-end'}
+        sx={{ flexGrow: 1, mt: { xs: 4, sm: 6, md: 6, lg: 6, xl: 8 } }}
+      >
         <Chip color="default" clickable icon={<ArrowCircleDownIcon />} label="기초 레이아웃 다운로드" />
       </Stack>
       <Stack
