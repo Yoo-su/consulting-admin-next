@@ -1,18 +1,18 @@
 'use client';
 
-import { DragEvent, ChangeEvent } from 'react';
-
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
+import { DragEvent, ChangeEvent, useState } from 'react';
 
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-import { styled } from '@mui/material/styles';
 import { useConsultingFileSettings } from '@/features/dashboard/hooks/use-consulting-file-settings';
+import { CustomWidthBoxCell } from '../table-components/table-boxes';
+import { HiddenFileInput, UploadDivWrapper } from '../table-components/styled-component';
+import toast from 'react-hot-toast';
 
 const FileUploader = () => {
-  const { fileEnter, setFileEnter, addToFiles } = useConsultingFileSettings();
+  const { addToFiles } = useConsultingFileSettings();
+  const [fileEnter, setFileEnter] = useState(false);
 
   /* event handlers */
   const handleDragEvent = (event: DragEvent<HTMLDivElement>) => {
@@ -25,15 +25,16 @@ const FileUploader = () => {
     setFileEnter(false);
     const items = event.dataTransfer.items;
     if (items) {
+      console.log('items:', items);
       for (let i = 0; i < items.length; i++) {
-        if (items[i].kind === 'file' && items[i].type === 'application/pdf') {
+        if (items[i].kind === 'file' && items[i].type !== '') {
           const file = items[i].getAsFile();
           if (file) {
-            // let blobUrl = URL.createObjectURL(file);
-            // setFile(blobUrl);
             addToFiles(file);
           }
           console.log(`items file[${i}].name = ${file?.name}`);
+        } else {
+          toast.error('개별 파일만 업로드 가능합니다.');
         }
       }
     }
@@ -44,45 +45,32 @@ const FileUploader = () => {
   };
 
   /* styled components */
-  const UploadDivWrapper = styled('div')({
-    width: '100%',
-    textAlign: 'center',
-    backgroundColor: fileEnter ? '#E5F6FD' : 'white',
-  });
 
-  const HiddenFileInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    whiteSpace: 'nowrap',
-    width: 1,
-  });
   return (
-    <TableRow>
-      <TableCell colSpan={5}>
-        <UploadDivWrapper
-          onDragOver={handleDragEvent}
-          onDragLeave={handleDragEvent}
-          onDragEnd={handleDragEvent}
-          onDrop={handleDropEvent}
+    <CustomWidthBoxCell justifyContent="center">
+      <UploadDivWrapper
+        onDragOver={handleDragEvent}
+        onDragLeave={handleDragEvent}
+        onDragEnd={handleDragEvent}
+        onDrop={handleDropEvent}
+        sx={{
+          backgroundColor: fileEnter ? '#E5F6FD' : 'white',
+        }}
+      >
+        <Button
+          component="label"
+          role={undefined}
+          tabIndex={-1}
+          sx={{
+            width: '100%',
+          }}
+          startIcon={<CloudUploadIcon />}
         >
-          <Button
-            component="label"
-            role={undefined}
-            tabIndex={-1}
-            sx={{ width: '100%' }}
-            startIcon={<CloudUploadIcon />}
-          >
-            자료 업로드
-            <HiddenFileInput type="file" onChange={handleChangeEvent} />
-          </Button>
-        </UploadDivWrapper>
-      </TableCell>
-    </TableRow>
+          자료 업로드
+          <HiddenFileInput type="file" onChange={handleChangeEvent} />
+        </Button>
+      </UploadDivWrapper>
+    </CustomWidthBoxCell>
   );
 };
 

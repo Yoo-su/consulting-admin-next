@@ -2,8 +2,6 @@
 
 import { MouseEvent, FocusEvent } from 'react';
 
-import TableCell from '@mui/material/TableCell';
-import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import IconButton from '@mui/material/IconButton';
@@ -12,109 +10,96 @@ import DragHandleIcon from '@mui/icons-material/DragHandle';
 import ClearIcon from '@mui/icons-material/Clear';
 import DoneIcon from '@mui/icons-material/Done';
 
-import { styled } from '@mui/material/styles';
 import { useConsultingFileSettings } from '@/features/dashboard/hooks/use-consulting-file-settings';
-import { UploadedFile } from '@/features/dashboard/contexts/consulting-file-settings-context';
+import { ConsultingFile } from '@/features/dashboard/types/consulting-file';
+import { getFileNoFromEvent } from '@/features/dashboard/components/consulting-files-setting/services/get-replaced-string';
+import { CustomWidthBoxCell } from '../table-components/table-boxes';
+import { StyledTextField } from '../table-components/styled-component';
 
-const EditFile = ({ file }: { file: UploadedFile }) => {
-  const { files, setFiles, editFileName, setEditFileName } = useConsultingFileSettings();
+const EditFile = ({ file }: { file: ConsultingFile }) => {
+  const { files, setFiles, editFileIndex, setEditFileIndex, editFileName, deleteFile } = useConsultingFileSettings();
 
   const editFileTitle = (index: number) => {
-    const currentStatus = editFileName[index];
-    let newEditFileName = [...editFileName];
+    const currentStatus = editFileIndex[index];
+    let newEditFileIndex = [...editFileIndex];
 
     // currentStatus가 true일 때만 title을 저장
     if (currentStatus) {
       const title = (document.getElementById(`textField-${index + 1}`) as HTMLInputElement)?.value;
       if (title) {
-        const newFiles = [...files];
-        newFiles[index].title = title;
-        setFiles(newFiles);
+        const editedFile = { ...file, RefTitle: title };
+        editFileName(index, editedFile);
+        setFiles(files); // TODO: 나중에 setFiles 전부 삭제하기
       }
     } else {
       // 현재 클릭한 index만 true로 변경하기 위해 false로 초기화
-      newEditFileName = new Array(editFileName.length).fill(false);
+      newEditFileIndex = new Array(editFileIndex.length).fill(false);
     }
-    newEditFileName[index] = !currentStatus;
-    setEditFileName(newEditFileName);
+    newEditFileIndex[index] = !currentStatus;
+    setEditFileIndex(newEditFileIndex);
   };
   const handleEditFileName = (event: MouseEvent<HTMLElement> | FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const index = parseInt(event.currentTarget.id.replace('textField-', ''));
+    const index = getFileNoFromEvent(event.currentTarget.id);
     editFileTitle(index - 1);
   };
-  const handleDeleteFile = (event: MouseEvent<HTMLElement>) => {
-    const index = parseInt(event.currentTarget.id);
-    const newFiles = files.filter((file) => file.no !== index);
-
-    setFiles(newFiles.map((file, index) => ({ ...file, no: index + 1 })));
+  const handleChange = (event: FocusEvent<HTMLInputElement>) => {
+    const newFile = files.map((file) => {
+      if (file.RefNo === getFileNoFromEvent(event.currentTarget.id)) {
+        return { ...file, RefTitle: event.target.value };
+      }
+      return file;
+    });
+    setFiles(newFile);
   };
 
-  /* styled components */
-  const StyledTextField = styled(TextField)({
-    '& .MuiInput-root': {
-      '&.Mui-disabled:before': {
-        border: '0px solid black',
-      },
-      '&.Mui-disabled:hover:before': {
-        border: '0px solid black',
-      },
-      '&:before': {
-        borderBottom: '1px solid #1976d2',
-      },
-      '&:hover:not(.Mui-disabled):before': {
-        borderBottom: '2px solid #1976d2',
-      },
-    },
-    '& .MuiInput-input': {
-      fontSize: '0.875rem',
-    },
-    '& .Mui-disabled': {
-      WebkitTextFillColor: '#777 !important',
-      letterSpacing: '0.1rem',
-      '& .MuiSvgIcon-root': {
-        width: '.8rem',
-        color: '#9e9e9e',
-      },
-    },
-    '& .MuiSvgIcon-root': {
-      width: '1rem',
-      color: '#1976d2',
-    },
-  });
+  const handleDeleteFile = (event: MouseEvent<HTMLElement>) => {
+    const index = parseInt(event.currentTarget.id);
+
+    deleteFile(index);
+    // const newFiles = files.filter((file) => file.RefNo !== index).map((file, index) => ({ ...file, RefNo: index + 1 }));
+    // // TODO: deleteFile(newFiles);
+    // setFiles(newFiles);
+  };
+
   return (
     <>
-      <TableCell>
+      <CustomWidthBoxCell size="xs">
         <IconButton disableRipple sx={{ width: '5px' }}>
           <DragHandleIcon fontSize="small" />
         </IconButton>
-      </TableCell>
-      <TableCell align="center">{file.no}</TableCell>
-      <TableCell>
+      </CustomWidthBoxCell>
+      <CustomWidthBoxCell size="s" typo={true}>
+        {file.RefNo}
+      </CustomWidthBoxCell>
+      <CustomWidthBoxCell size="m">
         <StyledTextField
-          id={`textField-${file.no}`}
-          defaultValue={file.title}
+          id={`textField-${file.RefNo}`}
+          value={file.RefTitle}
           fullWidth
-          disabled={!editFileName[file.no - 1]}
+          disabled={!editFileIndex[file.RefNo - 1]}
           size="small"
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton disableRipple onClick={handleEditFileName} edge="start" id={file.no.toString()}>
-                  {editFileName[file.no - 1] ? <DoneIcon /> : <EditIcon />}
+                <IconButton disableRipple onClick={handleEditFileName} edge="start" id={`${file.RefNo}`}>
+                  {editFileIndex[file.RefNo - 1] ? <DoneIcon /> : <EditIcon />}
                 </IconButton>
               </InputAdornment>
             ),
           }}
           variant="standard"
           onBlur={handleEditFileName}
+          onChange={handleChange}
         />
-      </TableCell>
-      <TableCell>{file.fileName}</TableCell>
-      <TableCell align="center">
-        <IconButton disableRipple onClick={handleDeleteFile} id={file.no.toString()}>
+      </CustomWidthBoxCell>
+      <CustomWidthBoxCell size="m" typo={true}>
+        {file.FileName}
+      </CustomWidthBoxCell>
+      <CustomWidthBoxCell size="s">
+        <IconButton disableRipple onClick={handleDeleteFile} id={`${file.RefNo}`}>
           <ClearIcon color="warning" fontSize="small" />
         </IconButton>
-      </TableCell>
+      </CustomWidthBoxCell>
     </>
   );
 };

@@ -1,49 +1,59 @@
 'use client';
 
-import { DragEvent, Fragment } from 'react';
-
-import TableRow from '@mui/material/TableRow';
-import { styled } from '@mui/material/styles';
 import { useConsultingFileSettings } from '@/features/dashboard/hooks/use-consulting-file-settings';
 import EditFile from '../edit-file';
-import DragSlot from '../drag-slot';
+import { DragDropContext, Draggable, DropResult, Droppable } from 'react-beautiful-dnd';
+import Box from '@mui/material/Box';
+import { TableRowBox } from '../table-components/table-boxes';
+import { ConsultingFile } from '@/features/dashboard/types/consulting-file';
 
 const FileListData = () => {
-  const { files, setSelected } = useConsultingFileSettings();
+  const { files, setFiles, updateRefNo } = useConsultingFileSettings();
 
-  const handleDragStart = (event: DragEvent<HTMLTableRowElement>) => {
-    const id = parseInt(event.currentTarget.id.replace('tableRow-', ''));
-    setSelected(id);
-  };
-  const handleDragEnd = () => {
-    setSelected(null);
+  const reorder = (list: ConsultingFile[], startIndex: number, endIndex: number) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    return result;
   };
 
-  const DraggableTableRow = styled(TableRow)({
-    padding: '0px',
-    '&:active': {
-      backgroundColor: '#fafafa',
-    },
-  });
+  const handleDragEnd = (result: DropResult) => {
+    const { source, destination, type } = result;
+    if (!destination) return;
+    if (source.droppableId === destination.droppableId && source.index === destination.index) return;
+    if (type === 'group') {
+      updateRefNo(source.index + 1, destination.index + 1);
+      // 화면 용 변경
+      const newFiles = reorder(files, source.index, destination.index);
+      setFiles(newFiles);
+    }
+  };
+
   return (
-    <>
-      <DragSlot index={0} />
-      {files.map((file) => {
-        return (
-          <Fragment key={file.no}>
-            <DraggableTableRow
-              id={`tableRow-${file.no}`}
-              draggable={files.length > 1}
-              onDragStart={handleDragStart}
-              onDragEnd={handleDragEnd}
-            >
-              <EditFile file={file} />
-            </DraggableTableRow>
-            <DragSlot index={file.no} />
-          </Fragment>
-        );
-      })}
-    </>
+    <DragDropContext onDragEnd={handleDragEnd}>
+      <Droppable droppableId="ROOT" type="group">
+        {(provided) => (
+          <Box sx={{ width: '100%' }} {...provided.droppableProps} ref={provided.innerRef}>
+            <>
+              {files.map((file, index) => (
+                <Draggable key={file.RefNo} draggableId={`${file.RefNo}`} index={index}>
+                  {(provided) => (
+                    <TableRowBox
+                      draggableProps={provided.draggableProps}
+                      dragHandleProps={provided.dragHandleProps}
+                      innerRef={provided.innerRef}
+                    >
+                      <EditFile file={file} />
+                    </TableRowBox>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </>
+          </Box>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 };
 
