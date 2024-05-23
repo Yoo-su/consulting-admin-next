@@ -1,6 +1,6 @@
 'use client';
 
-import { MouseEvent, FocusEvent, useState } from 'react';
+import { MouseEvent, FocusEvent } from 'react';
 
 import InputAdornment from '@mui/material/InputAdornment';
 
@@ -17,8 +17,7 @@ import { CustomWidthBoxCell } from '../table-components/table-boxes';
 import { StyledTextField } from '../table-components/styled-component';
 
 const EditFile = ({ file }: { file: ConsultingFile }) => {
-  const { files, setFiles, editFileIndex, setEditFileIndex, editFileName } = useConsultingFileSettings();
-  const [currTitle, setCurrentTitle] = useState(file.RefTitle);
+  const { files, setFiles, editFileIndex, setEditFileIndex, editFileName, deleteFile } = useConsultingFileSettings();
 
   const editFileTitle = (index: number) => {
     const currentStatus = editFileIndex[index];
@@ -50,15 +49,16 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
       }
       return file;
     });
-    console.log('event.target.value', event.target.value);
     setFiles(newFile);
   };
 
   const handleDeleteFile = (event: MouseEvent<HTMLElement>) => {
     const index = parseInt(event.currentTarget.id);
-    const newFiles = files.filter((file) => file.RefNo !== index).map((file, index) => ({ ...file, RefNo: index + 1 }));
-    // TODO: uploadFileList(newFiles);
-    setFiles(newFiles);
+
+    deleteFile(index);
+    // const newFiles = files.filter((file) => file.RefNo !== index).map((file, index) => ({ ...file, RefNo: index + 1 }));
+    // // TODO: deleteFile(newFiles);
+    // setFiles(newFiles);
   };
 
   return (

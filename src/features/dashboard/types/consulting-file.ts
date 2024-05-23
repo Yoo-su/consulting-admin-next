@@ -1,5 +1,3 @@
-import { User } from '@/features/auth/types/user.type';
-
 export type ConsultingFile = {
   ServiceID: string;
   DownloadURL: string;
