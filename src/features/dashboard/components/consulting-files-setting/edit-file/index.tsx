@@ -1,6 +1,6 @@
 'use client';
 
-import { MouseEvent, FocusEvent } from 'react';
+import { MouseEvent, FocusEvent, KeyboardEvent } from 'react';
 
 import InputAdornment from '@mui/material/InputAdornment';
 
@@ -19,6 +19,7 @@ import { StyledTextField } from '../table-components/styled-component';
 const EditFile = ({ file }: { file: ConsultingFile }) => {
   const { files, setFiles, editFileIndex, setEditFileIndex, editFileName, deleteFile } = useConsultingFileSettings();
 
+  //#region textfield
   const editFileTitle = (index: number) => {
     const currentStatus = editFileIndex[index];
     let newEditFileIndex = [...editFileIndex];
@@ -51,6 +52,10 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
     });
     setFiles(newFile);
   };
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') (event.target as HTMLInputElement).blur();
+  };
+  //#endregion textfield
 
   const handleDeleteFile = (event: MouseEvent<HTMLElement>) => {
     const index = parseInt(event.currentTarget.id);
@@ -90,6 +95,7 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
           variant="standard"
           onBlur={handleEditFileName}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
         />
       </CustomWidthBoxCell>
       <CustomWidthBoxCell size="m" typo={true}>
