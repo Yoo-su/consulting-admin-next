@@ -24,7 +24,7 @@ export const useGetConsultingFileList = (serviceID: string) => {
 
   useEffect(() => {
     execute();
-  }, [serviceID]);
+  }, []);
 
   return { loading, files, setFiles, execute: useCallback(execute, [serviceID]) };
 };

@@ -5,10 +5,18 @@ import EditFile from '../edit-file';
 import { DragDropContext, Draggable, DropResult, Droppable } from 'react-beautiful-dnd';
 import Box from '@mui/material/Box';
 import { TableRowBox } from '../table-components/table-boxes';
+import { ConsultingFile } from '@/features/dashboard/types/consulting-file';
 
 const FileListData = () => {
   const { files, setFiles } = useConsultingFileSettings();
   console.log('files', files);
+
+  const reorder = (list: ConsultingFile[], startIndex: number, endIndex: number) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    return result.map((file, index) => ({ ...file, RefNo: index + 1 }));
+  };
 
   const handleDragEnd = (result: DropResult) => {
     console.log('result', result);
@@ -16,10 +24,7 @@ const FileListData = () => {
     if (!destination) return;
     if (source.droppableId === destination.droppableId && source.index === destination.index) return;
     if (type === 'group') {
-      let newFiles = [...files];
-      const [removed] = newFiles.splice(source.index, 1);
-      newFiles.splice(destination.index, 0, removed);
-      newFiles = newFiles.map((file, index) => ({ ...file, RefNo: index + 1 }));
+      const newFiles = reorder(files, source.index, destination.index);
       setFiles(newFiles);
     }
   };

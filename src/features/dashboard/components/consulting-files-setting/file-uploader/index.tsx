@@ -5,10 +5,10 @@ import { DragEvent, ChangeEvent, useState } from 'react';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-import { styled } from '@mui/material/styles';
 import { useConsultingFileSettings } from '@/features/dashboard/hooks/use-consulting-file-settings';
-import toast from 'react-hot-toast';
 import { CustomWidthBoxCell } from '../table-components/table-boxes';
+import { HiddenFileInput, UploadDivWrapper } from '../table-components/styled-component';
+import toast from 'react-hot-toast';
 
 const FileUploader = () => {
   const { addToFiles } = useConsultingFileSettings();
@@ -45,23 +45,7 @@ const FileUploader = () => {
   };
 
   /* styled components */
-  const UploadDivWrapper = styled('div')({
-    width: '100%',
-    textAlign: 'center',
-    backgroundColor: fileEnter ? '#E5F6FD' : 'white',
-  });
 
-  const HiddenFileInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    whiteSpace: 'nowrap',
-    width: 1,
-  });
   return (
     <CustomWidthBoxCell justifyContent="center">
       <UploadDivWrapper
@@ -69,6 +53,9 @@ const FileUploader = () => {
         onDragLeave={handleDragEvent}
         onDragEnd={handleDragEvent}
         onDrop={handleDropEvent}
+        sx={{
+          backgroundColor: fileEnter ? '#E5F6FD' : 'white',
+        }}
       >
         <Button
           component="label"

@@ -17,7 +17,7 @@ export type ConsultingFileSettingsContextValue = {
   setSelected: Dispatch<SetStateAction<number | null>>;
   addToFiles: (uploadedFile: File | undefined) => void;
   uploadFile: (newFile: ConsultingFile) => void;
-  editFileName: (editedFile: ConsultingFile) => void;
+  editFileName: (index: number, editedFile: ConsultingFile) => void;
 };
 
 export const ConsultingFileSettingsContext = createContext<ConsultingFileSettingsContextValue | null>(null);
@@ -30,7 +30,7 @@ const ConsultingFileSettingsProvider = ({ children }: ConsultingFileSettingsProv
   const { mutateAsync } = useUploadConsultingFileMutation();
   const { currentService } = useUnivService();
   const serviceID = currentService?.serviceID || '';
-  const { files, setFiles } = useGetConsultingFileList(serviceID);
+  const { files, setFiles, execute } = useGetConsultingFileList(serviceID);
 
   const [editFileIndex, setEditFileIndex] = useState<boolean[]>([false]);
 
@@ -41,12 +41,13 @@ const ConsultingFileSettingsProvider = ({ children }: ConsultingFileSettingsProv
     mutateAsync(newFile).then((res) => {
       if (res.data.statusCode === 200) {
         toast.success(`${newFile.File.name} 파일 업로드를 성공적으로 마쳤습니다`);
+        execute();
       } else {
         toast.error(`${newFile.File.name} 파일 업로드 중 문제가 발생했습니다`);
       }
     });
   };
-  const editFileName = (editedFile: ConsultingFile) => {};
+  const editFileName = (index: number, editedFile: ConsultingFile) => {};
 
   const addToFiles = (uploadedFile: File | undefined) => {
     if (uploadedFile) {

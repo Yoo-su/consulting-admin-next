@@ -10,9 +10,12 @@ type UploadConsultingFileResponse = {
 
 export const uploadConsultingFile = async (uploadFile: UploadFile) => {
   const refinedFileInfo = {
-    ...uploadFile,
+    serviceID: uploadFile.ServiceID,
+    file: uploadFile.File,
+    RefTitle: uploadFile.RefTitle,
     userID: 'chess',
   };
+
   return await apiInstance.post<UploadConsultingFileResponse>(apiUrls.dashboard.uploadConsultingFile, refinedFileInfo, {
     headers: {
       'Content-Type': 'multipart/form-data',

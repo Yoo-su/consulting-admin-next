@@ -1,6 +1,6 @@
 'use client';
 
-import { MouseEvent, FocusEvent } from 'react';
+import { MouseEvent, FocusEvent, useState } from 'react';
 
 import InputAdornment from '@mui/material/InputAdornment';
 
@@ -18,6 +18,7 @@ import { StyledTextField } from '../table-components/styled-component';
 
 const EditFile = ({ file }: { file: ConsultingFile }) => {
   const { files, setFiles, editFileIndex, setEditFileIndex, editFileName } = useConsultingFileSettings();
+  const [currTitle, setCurrentTitle] = useState(file.RefTitle);
 
   const editFileTitle = (index: number) => {
     const currentStatus = editFileIndex[index];
@@ -27,9 +28,8 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
     if (currentStatus) {
       const title = (document.getElementById(`textField-${index + 1}`) as HTMLInputElement)?.value;
       if (title) {
-        const editedFile = files[index];
-        editedFile.RefTitle = title;
-        editFileName(editedFile);
+        const editedFile = { ...file, RefTitle: title };
+        editFileName(index, editedFile);
         setFiles(files); // TODO: 나중에 setFiles 전부 삭제하기
       }
     } else {
@@ -43,6 +43,17 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
     const index = getFileNoFromEvent(event.currentTarget.id);
     editFileTitle(index - 1);
   };
+  const handleChange = (event: FocusEvent<HTMLInputElement>) => {
+    const newFile = files.map((file) => {
+      if (file.RefNo === getFileNoFromEvent(event.currentTarget.id)) {
+        return { ...file, RefTitle: event.target.value };
+      }
+      return file;
+    });
+    console.log('event.target.value', event.target.value);
+    setFiles(newFile);
+  };
+
   const handleDeleteFile = (event: MouseEvent<HTMLElement>) => {
     const index = parseInt(event.currentTarget.id);
     const newFiles = files.filter((file) => file.RefNo !== index).map((file, index) => ({ ...file, RefNo: index + 1 }));
@@ -63,7 +74,7 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
       <CustomWidthBoxCell size="m">
         <StyledTextField
           id={`textField-${file.RefNo}`}
-          defaultValue={file.RefTitle}
+          value={file.RefTitle}
           fullWidth
           disabled={!editFileIndex[file.RefNo - 1]}
           size="small"
@@ -78,6 +89,7 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
           }}
           variant="standard"
           onBlur={handleEditFileName}
+          onChange={handleChange}
         />
       </CustomWidthBoxCell>
       <CustomWidthBoxCell size="m" typo={true}>
