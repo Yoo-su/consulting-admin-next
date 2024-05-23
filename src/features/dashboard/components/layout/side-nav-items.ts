@@ -11,6 +11,7 @@ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import HistoryIcon from '@mui/icons-material/History';
+import LanIcon from '@mui/icons-material/Lan';
 import { paths } from '@/shared/constants/paths';
 import { NavItemType } from '../../types/nav-item.type';
 
@@ -60,6 +61,12 @@ export const sideNavItems1: NavItemType[] = [
 ];
 
 export const sideNavItems2: NavItemType[] = [
+  {
+    navkey: 'data-deploy',
+    title: '데이터 배포',
+    href: paths.dashboard.dataDeploy,
+    Icon: LanIcon,
+  },
   {
     navkey: 'consulting-statistic',
     title: '상담 통계',

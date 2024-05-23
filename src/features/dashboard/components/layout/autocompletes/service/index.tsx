@@ -2,9 +2,7 @@
 
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-
-import WidgetsIcon from '@mui/icons-material/Widgets';
+import Box from '@mui/material/Box';
 
 import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
 import { Service } from '@/features/dashboard/types/service.type';
@@ -28,9 +26,18 @@ const ServiceAutocomplete = () => {
     <Autocomplete
       size="small"
       disablePortal
+      autoHighlight
+      isOptionEqualToValue={(option, value) => {
+        return JSON.stringify(option) === JSON.stringify(value);
+      }}
       id="service-select"
       options={serviceList}
-      getOptionLabel={(option) => getServiceMenuTitle(option)}
+      getOptionLabel={(option) => option.serviceID.toString()}
+      renderOption={(props, option) => (
+        <Box component="li" {...props} key={option.serviceID}>
+          {getServiceMenuTitle(option)}
+        </Box>
+      )}
       value={currentService || null}
       onChange={handleChange}
       disabled={!currentUniv}
@@ -63,14 +70,9 @@ const ServiceAutocomplete = () => {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="서비스"
-          InputProps={{
-            ...params.InputProps,
-            startAdornment: (
-              <InputAdornment position="start">
-                <WidgetsIcon fontSize="small" sx={{ color: '#FEF9F3' }} />
-              </InputAdornment>
-            ),
+          label={currentService ? currentService.serviceName : '서비스'}
+          inputProps={{
+            ...params.inputProps,
           }}
           InputLabelProps={{
             style: {

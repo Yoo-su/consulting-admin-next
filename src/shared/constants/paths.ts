@@ -16,6 +16,7 @@ export const paths = {
     accountSetting: '/dashboard/account-setting',
     appDeploy: '/dashboard/app-deploy',
     appVersionHistory: '/dashboard/app-version-history',
+    dataDeploy: '/dashboard/data-deploy',
   },
   errors: { notFound: '/errors/not-found' },
 } as const;

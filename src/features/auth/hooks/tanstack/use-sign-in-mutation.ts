@@ -11,10 +11,9 @@ export const useSigninMutation = () => {
     mutationFn: (params: SigninParams) => signin(params),
     onSuccess: async (response) => {
       const { access_token, token_type, expires_in } = response.data;
-      const user: User = { name: '유수현', userID: 'suhyun0871', role: 'developer' };
+      const user: User = { name: '유수현', userID: 'suhyun0871', role: 'developer', token: access_token };
       setUser(user);
       sessionStorage.setItem('user', JSON.stringify(user));
-      sessionStorage.setItem('token', access_token);
       toast.success('로그인에 성공했습니다');
     },
     onError: (error) => {

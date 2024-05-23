@@ -16,7 +16,7 @@ const GuestGuard = ({ children }: GuestGuardProps) => {
   const { user, isLoading } = useUser();
   const [isChecking, setIsChecking] = useState<boolean>(true);
 
-  const checkPermissions = () => {
+  const checkUser = () => {
     if (isLoading) return;
 
     if (user) {
@@ -28,7 +28,7 @@ const GuestGuard = ({ children }: GuestGuardProps) => {
   };
 
   useEffect(() => {
-    checkPermissions();
+    checkUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, [user, isLoading]);
 

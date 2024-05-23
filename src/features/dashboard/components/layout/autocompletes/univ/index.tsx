@@ -1,10 +1,8 @@
 'use client';
 
+import { useEffect } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
 import { useGetServiceList } from '@/features/dashboard/hooks/use-get-service-list';
@@ -22,12 +20,22 @@ const UnivAutocomplete = () => {
     }
   };
 
+  useEffect(() => {
+    if (currentUniv) {
+      getServiceList(currentUniv.univID);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUniv]);
+
   return (
     <Autocomplete
       disablePortal
       id="univ-select"
       options={univList}
       getOptionLabel={(option) => option.univName}
+      isOptionEqualToValue={(option, value) => {
+        return JSON.stringify(option) === JSON.stringify(value);
+      }}
       value={currentUniv || null}
       onChange={handleChange}
       size="small"
@@ -59,14 +67,6 @@ const UnivAutocomplete = () => {
         <TextField
           {...params}
           label="대학교"
-          InputProps={{
-            ...params.InputProps,
-            startAdornment: (
-              <InputAdornment position="start">
-                <AccountBalanceIcon fontSize="small" sx={{ color: '#FEF9F3' }} />
-              </InputAdornment>
-            ),
-          }}
           InputLabelProps={{
             style: {
               color: '#FEF9F3',
