@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, ChangeEvent } from 'react';
+import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
@@ -22,13 +23,15 @@ import AdbIcon from '@mui/icons-material/Adb';
 
 import { useHandleApp } from '@/features/dashboard/hooks/use-handle-app';
 import { useStepper } from '@/shared/hooks/use-stepper';
+import { useUnivService } from '../../hooks/use-univ-service';
 import ColorlibStepIcon from '@/shared/components/stepper/color-lib-step-icon';
 import { ColorlibConnector } from '@/shared/components/stepper/styled';
 import { APP_DEPLOY_STEPS } from '@/features/dashboard/constants/app-deploy-steps';
 import apkIcon from '@/shared/assets/images/apk_64.png';
-import Image from 'next/image';
 
 const AppDeployBox = () => {
+  const { currentUniv, currentService } = useUnivService();
+  const title = `${currentUniv?.univName}(${currentService?.serviceID}) 앱 배포`;
   const { appType, setAppType, appFile, setAppFile, helperText, deploy, isDeploying } = useHandleApp();
   const { activeStep, skipped, handleNext, handleBack, handleSkip, handleReset } = useStepper();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -48,8 +51,18 @@ const AppDeployBox = () => {
   };
 
   return (
-    <Stack direction={'column'} sx={{ mt: { xs: 4, sm: 6, md: 6, lg: 6, xl: 8 } }}>
-      <FormControl sx={{ alignItems: 'center' }}>
+    <Stack
+      sx={{
+        p: 2,
+        mt: { xs: 4, sm: 4, md: 8, lg: 8, xl: 8 },
+        flexGrow: 1,
+        position: 'relative',
+        borderRadius: '1rem',
+        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+      }}
+    >
+      <Typography variant="h6">{title}</Typography>
+      <FormControl sx={{ alignItems: 'center', my: 4 }}>
         <RadioGroup
           row
           name="app-type-radio-group"
@@ -79,97 +92,88 @@ const AppDeployBox = () => {
           />
         </RadioGroup>
       </FormControl>
+
+      <Stepper alternativeLabel connector={<ColorlibConnector />} activeStep={activeStep} sx={{ my: 1.5 }}>
+        {APP_DEPLOY_STEPS.map((label, index) => (
+          <Step key={label}>
+            <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+
+      {helperText.text && (
+        <Alert color={helperText.color ?? 'error'} sx={{ mt: 4 }} icon={<InfoOutlinedIcon />}>
+          {helperText.text}
+        </Alert>
+      )}
+
       <Stack
-        sx={{
-          p: 6,
-          flexGrow: 1,
-          position: 'relative',
-          borderRadius: '1rem',
-          boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-        }}
+        direction={'column'}
+        alignItems={'center'}
+        justifyContent={'center'}
+        spacing={2}
+        sx={{ position: 'relative', mt: 4 }}
       >
-        <Stepper alternativeLabel connector={<ColorlibConnector />} activeStep={activeStep} sx={{ my: 1.5 }}>
-          {APP_DEPLOY_STEPS.map((label, index) => (
-            <Step key={label}>
-              <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-
-        {helperText.text && (
-          <Alert color={helperText.color ?? 'error'} sx={{ mt: 4 }} icon={<InfoOutlinedIcon />}>
-            {helperText.text}
-          </Alert>
-        )}
-
         <Stack
+          onClick={handleClickUploadBtn}
           direction={'column'}
-          alignItems={'center'}
-          justifyContent={'center'}
-          spacing={2}
-          sx={{ position: 'relative', mt: 4 }}
+          spacing={3}
+          sx={{
+            cursor: 'pointer',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: '1rem',
+            position: 'relative',
+            width: '320px',
+            height: '220px',
+            px: 1,
+            boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+          }}
         >
-          <Stack
-            onClick={handleClickUploadBtn}
-            direction={'column'}
-            spacing={3}
+          <Image src={apkIcon} width={'48'} height={'48'} alt="apk-image" />
+          <Typography
+            variant="body2"
+            color="grey.700"
             sx={{
-              cursor: 'pointer',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: '1rem',
-              position: 'relative',
-              width: '320px',
-              height: '220px',
-              px: 1,
-              boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+              textAlign: 'center',
+              width: '100%',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
             }}
           >
-            <Image src={apkIcon} width={'48'} height={'48'} alt="apk-image" />
-            <Typography
-              variant="body2"
-              color="grey.700"
+            {appFile ? appFile.name : '배포할 애플리케이션을 올려주세요'}
+          </Typography>
+          {isDeploying && (
+            <Box
               sx={{
-                textAlign: 'center',
-                width: '100%',
-                overflow: 'hidden',
-                whiteSpace: 'nowrap',
-                textOverflow: 'ellipsis',
+                position: 'fixed',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '320px',
+                height: '220px',
+                bgcolor: 'rgba(255,255,255,0.5)',
               }}
             >
-              {appFile ? appFile.name : '배포할 애플리케이션을 올려주세요'}
-            </Typography>
-            {isDeploying && (
-              <Box
-                sx={{
-                  position: 'fixed',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '320px',
-                  height: '220px',
-                  bgcolor: 'rgba(255,255,255,0.5)',
-                }}
-              >
-                <PulseLoader color={'#36D7B7'} />
-              </Box>
-            )}
-          </Stack>
-          {appFile && appType && (
-            <Button variant="contained" onClick={deploy} disabled={isDeploying}>
-              <CloudUploadIcon sx={{ mr: '0.3rem' }} />
-              <Typography variant="body1">배포하기</Typography>
-            </Button>
+              <PulseLoader color={'#36D7B7'} />
+            </Box>
           )}
-
-          <input
-            type="file"
-            ref={fileInputRef}
-            style={{ display: 'none' }}
-            accept=".apk, .exe"
-            onChange={handleFileChange}
-          />
         </Stack>
+        {appFile && appType && (
+          <Button variant="contained" onClick={deploy} disabled={isDeploying}>
+            <CloudUploadIcon sx={{ mr: '0.3rem' }} />
+            <Typography variant="body1">배포하기</Typography>
+          </Button>
+        )}
+
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          accept=".apk, .exe"
+          onChange={handleFileChange}
+        />
       </Stack>
     </Stack>
   );

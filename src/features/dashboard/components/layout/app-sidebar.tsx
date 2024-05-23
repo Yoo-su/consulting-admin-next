@@ -22,7 +22,7 @@ const AppSidebar = () => {
       sx={{
         display: { xs: 'none', lg: 'flex' },
         bgcolor: '#2C4059',
-        color: '#fdf6e4',
+        color: '#fafafa',
         flexDirection: 'column',
         height: '100%',
         left: 0,
@@ -123,7 +123,7 @@ const NavItem = ({ title, href, pathname, Icon }: NavItemProps) => {
           textDecoration: 'none',
           whiteSpace: 'nowrap',
           ...(active && {
-            bgcolor: '#FEF9F3',
+            bgcolor: '#fafafa',
             color: '#2C4059',
           }),
           transition: 'all 0.1s linear',

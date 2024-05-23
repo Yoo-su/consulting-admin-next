@@ -30,7 +30,7 @@ const AppHeader = () => {
       <Box
         component="header"
         sx={{
-          bgcolor: '#FAF5EF',
+          bgcolor: '#fafafa',
           position: 'sticky',
           top: 0,
           zIndex: 'var(--AppHeader-zIndex)',

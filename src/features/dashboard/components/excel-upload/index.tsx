@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, ChangeEvent, Fragment } from 'react';
+import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Stepper from '@mui/material/Stepper';
@@ -23,9 +24,11 @@ import { ColorlibConnector } from '@/shared/components/stepper/styled';
 import { useHandleExcel } from '@/features/dashboard/hooks/use-handle-excel';
 import { EXCEL_UPLOAD_STEPS } from '@/features/dashboard/constants/excel-upload-steps';
 import excelIcon from '@/shared/assets/images/xls_64.png';
-import Image from 'next/image';
+import { useUnivService } from '../../hooks/use-univ-service';
 
 const ExcelUploadBox = () => {
+  const { currentUniv, currentService } = useUnivService();
+  const title = `${currentUniv?.univName}(${currentService?.serviceID}) 기초데이터 업로드`;
   const { excel, setExcel, startVerify, isVerified, helperText, upload, isUploaded, isUploading, clearVerifiedState } =
     useHandleExcel();
   const { activeStep, skipped, handleNext, handleBack, handleSkip, handleReset } = useStepper();
@@ -67,7 +70,7 @@ const ExcelUploadBox = () => {
       </Stack>
       <Stack
         sx={{
-          p: 6,
+          p: 2,
           mt: 2,
           flexGrow: 1,
           position: 'relative',
@@ -75,7 +78,14 @@ const ExcelUploadBox = () => {
           boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
         }}
       >
-        <Stepper alternativeLabel connector={<ColorlibConnector />} activeStep={activeStep} sx={{ my: 1.5 }}>
+        <Typography variant="h6">{title}</Typography>
+
+        <Stepper
+          alternativeLabel
+          connector={<ColorlibConnector />}
+          activeStep={activeStep}
+          sx={{ mt: { xs: 4, sm: 4, md: 8, lg: 8, xl: 8 }, mb: 1.5 }}
+        >
           {EXCEL_UPLOAD_STEPS.map((label, index) => (
             <Step key={label}>
               <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
