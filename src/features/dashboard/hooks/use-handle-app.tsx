@@ -5,17 +5,15 @@ import { AlertColor } from '@mui/material';
 
 import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
 import { useDeployAppMutation } from './tanstack/use-deploy-app-mutation';
+import { useMuiAlert } from '@/shared/hooks/use-mui-alert';
 
 export const useHandleApp = () => {
   const { currentService } = useUnivService();
-  const [appType, setAppType] = useState<'P' | 'A' | null>(null);
+  const [appType, setAppType] = useState<'P' | 'A'>('A');
   const [appFile, setAppFile] = useState<File | null>(null);
   const [formData, setFormData] = useState<FormData>(new FormData());
-  const [helperText, setHelperText] = useState<{ text: string | null; color: AlertColor | null }>({
-    text: null,
-    color: null,
-  });
-  const { mutateAsync, isPending: isDeploying } = useDeployAppMutation();
+  const { alertData, setAlertData } = useMuiAlert();
+  const { mutateAsync, isPending: isDeploying, isSuccess: deploySuccess, reset } = useDeployAppMutation();
 
   useEffect(() => {
     if (currentService) formData.set('serviceID', currentService?.serviceID);
@@ -28,7 +26,8 @@ export const useHandleApp = () => {
   }, [appType]);
 
   useEffect(() => {
-    setHelperText({ text: null, color: null });
+    setAlertData(null);
+    reset();
     if (appFile) formData.set('file', appFile);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appFile]);
@@ -36,18 +35,18 @@ export const useHandleApp = () => {
   const deploy = async () => {
     mutateAsync(formData)
       .then((res) => {
-        setHelperText({
-          text: '앱이 성공적으로 배포되었습니다',
+        setAlertData({
+          message: '앱이 성공적으로 배포되었습니다',
           color: 'success',
         });
       })
       .catch((err) => {
-        setHelperText({
-          text: '앱 배포 중 문제가 발생했습니다',
+        setAlertData({
+          message: '앱 배포 중 문제가 발생했습니다',
           color: 'error',
         });
       });
   };
 
-  return { appType, setAppType, appFile, setAppFile, deploy, isDeploying, helperText };
+  return { appType, setAppType, appFile, setAppFile, deploy, isDeploying, alertData, deploySuccess };
 };

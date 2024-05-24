@@ -17,7 +17,6 @@ import Typography from '@mui/material/Typography';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
 import AdbIcon from '@mui/icons-material/Adb';
 
@@ -32,7 +31,7 @@ import apkIcon from '@/shared/assets/images/apk_64.png';
 const AppDeployBox = () => {
   const { currentUniv, currentService } = useUnivService();
   const title = `${currentUniv?.univName}(${currentService?.serviceID}) 앱 배포`;
-  const { appType, setAppType, appFile, setAppFile, helperText, deploy, isDeploying } = useHandleApp();
+  const { appType, setAppType, appFile, setAppFile, alertData, deploy, isDeploying, deploySuccess } = useHandleApp();
   const { activeStep, skipped, handleNext, handleBack, handleSkip, handleReset } = useStepper();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -65,6 +64,7 @@ const AppDeployBox = () => {
       <FormControl sx={{ alignItems: 'center', my: 4 }}>
         <RadioGroup
           row
+          value={appType}
           name="app-type-radio-group"
           onChange={(e) => {
             setAppType(e.target.value as typeof appType);
@@ -101,9 +101,9 @@ const AppDeployBox = () => {
         ))}
       </Stepper>
 
-      {helperText.text && (
-        <Alert color={helperText.color ?? 'error'} sx={{ mt: 4 }} icon={<InfoOutlinedIcon />}>
-          {helperText.text}
+      {alertData && (
+        <Alert severity={alertData.color} color={alertData.color} sx={{ mt: 4, mx: 'auto', minWidth: '55%' }}>
+          {alertData.message}
         </Alert>
       )}
 
@@ -112,7 +112,7 @@ const AppDeployBox = () => {
         alignItems={'center'}
         justifyContent={'center'}
         spacing={2}
-        sx={{ position: 'relative', mt: 4 }}
+        sx={{ position: 'relative', my: 2 }}
       >
         <Stack
           onClick={handleClickUploadBtn}
@@ -124,7 +124,7 @@ const AppDeployBox = () => {
             alignItems: 'center',
             borderRadius: '1rem',
             position: 'relative',
-            width: '320px',
+            minWidth: { xs: '90%', sm: '60%', md: '60%', lg: '60%', xl: '60%' },
             height: '220px',
             px: 1,
             boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
@@ -151,7 +151,7 @@ const AppDeployBox = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '320px',
+                minWidth: '60%',
                 height: '220px',
                 bgcolor: 'rgba(255,255,255,0.5)',
               }}
@@ -160,10 +160,10 @@ const AppDeployBox = () => {
             </Box>
           )}
         </Stack>
-        {appFile && appType && (
-          <Button variant="contained" onClick={deploy} disabled={isDeploying}>
+        {appFile && (
+          <Button variant="contained" onClick={deploy} disabled={isDeploying || deploySuccess}>
             <CloudUploadIcon sx={{ mr: '0.3rem' }} />
-            <Typography variant="body1">배포하기</Typography>
+            <Typography variant="body1">{deploySuccess ? '배포완료' : '배포하기'}</Typography>
           </Button>
         )}
 

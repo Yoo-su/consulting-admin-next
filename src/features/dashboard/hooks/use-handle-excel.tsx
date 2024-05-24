@@ -6,6 +6,7 @@ import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
 import { useUploadExcelMutation } from './tanstack/use-upload-excel-mutation';
 import { EXCEL_LAYOUT, SHEET_FLAG } from '../constants/excel';
 import { useUser } from '@/features/auth/hooks/use-user';
+import { useMuiAlert } from '@/shared/hooks/use-mui-alert';
 
 type JsonExcel = {
   data: any;
@@ -15,14 +16,10 @@ export const useHandleExcel = () => {
   const [formData, setFormData] = useState<FormData>(new FormData());
   const { user } = useUser();
   const { currentService } = useUnivService();
-  const { mutateAsync, isPending: isUploading } = useUploadExcelMutation();
+  const { mutateAsync, isPending: isUploading, isSuccess: uploadSuccess, reset } = useUploadExcelMutation();
   const [excel, setExcel] = useState<File | null>(null);
   const [isVerified, setIsVerified] = useState<boolean | undefined>(false);
-  const [isUploaded, setIsUploaded] = useState<boolean>(false);
-  const [helperText, setHelperText] = useState<{ text: string | null; color: AlertColor }>({
-    text: null,
-    color: 'info',
-  });
+  const { alertData, setAlertData } = useMuiAlert();
 
   useEffect(() => {
     if (currentService) formData.set('serviceID', currentService?.serviceID);
@@ -35,6 +32,7 @@ export const useHandleExcel = () => {
   }, [user]);
 
   useEffect(() => {
+    clearVerifiedState();
     if (excel) formData.set('file', excel);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [excel]);
@@ -52,12 +50,12 @@ export const useHandleExcel = () => {
           const buffer = e.target?.result;
           const jsonExcel: JsonExcel = excelToJson(buffer);
           validation(jsonExcel.data);
-          setHelperText({ text: '데이터 검증이 완료되었습니다. 업로드를 진행해주세요', color: 'info' });
+          setAlertData({ message: '데이터 검증이 완료되었습니다. 업로드를 진행해주세요', color: 'info' });
           setIsVerified(true);
           resolve(true);
         } catch (error) {
           if (error instanceof Error) {
-            setHelperText({ text: error.message, color: 'error' });
+            setAlertData({ message: error.message, color: 'error' });
           }
           setIsVerified(false);
           resolve(false);
@@ -72,7 +70,7 @@ export const useHandleExcel = () => {
    */
   const startVerify = async () => {
     if (!excel) {
-      setHelperText({ text: '엑셀 파일이 등록되지 않았습니다', color: 'error' });
+      setAlertData({ message: '엑셀 파일이 등록되지 않았습니다', color: 'error' });
       return;
     }
     return await readExcelFile(excel);
@@ -204,10 +202,9 @@ export const useHandleExcel = () => {
 
     mutateAsync(formData).then((res) => {
       if (res.data.statusCode === 201) {
-        setHelperText({ text: res.data.message ?? '파일 업로드를 성공적으로 마쳤습니다', color: 'success' });
-        setIsUploaded(true);
+        setAlertData({ message: res.data.message ?? '파일 업로드를 성공적으로 마쳤습니다', color: 'success' });
       } else {
-        setHelperText({ text: res.data.message ?? '엑셀 업로드 중 문제가 발생했습니다', color: 'error' });
+        setAlertData({ message: res.data.message ?? '엑셀 업로드 중 문제가 발생했습니다', color: 'error' });
       }
     });
   };
@@ -216,22 +213,23 @@ export const useHandleExcel = () => {
    * 데이터 검증 전 단계로 리셋 메서드
    */
   const clearVerifiedState = useCallback(() => {
-    setHelperText({ text: null, color: 'info' });
+    reset();
+    setAlertData(null);
     setIsVerified(false);
-    setIsUploaded(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {
     excel,
     setExcel,
     startVerify,
-    helperText,
+    alertData,
     isVerified,
     upload,
-    isUploaded,
+    uploadSuccess,
     isUploading,
     setIsVerified,
-    setHelperText,
+    setAlertData,
     clearVerifiedState,
   };
 };

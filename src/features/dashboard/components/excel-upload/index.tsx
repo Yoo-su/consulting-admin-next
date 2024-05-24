@@ -16,7 +16,6 @@ import PulseLoader from 'react-spinners/PulseLoader';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import CheckIcon from '@mui/icons-material/Check';
 import UploadIcon from '@mui/icons-material/Upload';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 import { useStepper } from '@/shared/hooks/use-stepper';
 import ColorlibStepIcon from '@/shared/components/stepper/color-lib-step-icon';
@@ -29,8 +28,17 @@ import { useUnivService } from '../../hooks/use-univ-service';
 const ExcelUploadBox = () => {
   const { currentUniv, currentService } = useUnivService();
   const title = `${currentUniv?.univName}(${currentService?.serviceID}) 기초데이터 업로드`;
-  const { excel, setExcel, startVerify, isVerified, helperText, upload, isUploaded, isUploading, clearVerifiedState } =
-    useHandleExcel();
+  const {
+    excel,
+    setExcel,
+    startVerify,
+    isVerified,
+    alertData,
+    upload,
+    uploadSuccess,
+    isUploading,
+    clearVerifiedState,
+  } = useHandleExcel();
   const { activeStep, skipped, handleNext, handleBack, handleSkip, handleReset } = useStepper();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -48,7 +56,6 @@ const ExcelUploadBox = () => {
 
   // file input 값 변경 처리
   const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    clearVerifiedState();
     const selectedFile = event.target.files?.[0] || null;
     setExcel(selectedFile);
     if (!selectedFile) {
@@ -93,9 +100,9 @@ const ExcelUploadBox = () => {
           ))}
         </Stepper>
 
-        {helperText.text && (
-          <Alert color={helperText.color} sx={{ mt: 4 }} icon={<InfoOutlinedIcon />}>
-            {helperText.text}
+        {alertData && (
+          <Alert severity={alertData.color} color={alertData.color} sx={{ mt: 4, mx: 'auto', minWidth: '65%' }}>
+            {alertData.message}
           </Alert>
         )}
 
@@ -104,7 +111,7 @@ const ExcelUploadBox = () => {
           alignItems={'center'}
           justifyContent={'center'}
           spacing={2}
-          sx={{ position: 'relative', mt: 4 }}
+          sx={{ position: 'relative', my: 2 }}
         >
           <Stack
             onClick={handleClickUploadBtn}
@@ -116,7 +123,7 @@ const ExcelUploadBox = () => {
               alignItems: 'center',
               borderRadius: '1rem',
               position: 'relative',
-              width: '320px',
+              minWidth: { xs: '90%', sm: '70%', md: '70%', lg: '70%', xl: '70%' },
               height: '220px',
               px: 1,
               boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
@@ -143,7 +150,7 @@ const ExcelUploadBox = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: '320px',
+                  minWidth: '70%',
                   height: '220px',
                   bgcolor: 'rgba(255,255,255,0.5)',
                 }}
@@ -160,10 +167,10 @@ const ExcelUploadBox = () => {
           )}
 
           {isVerified && (
-            <Button color="success" variant="contained" onClick={upload} disabled={isUploaded || isUploading}>
-              {isUploaded ? <CheckIcon /> : <UploadIcon />}
+            <Button color="success" variant="contained" onClick={upload} disabled={uploadSuccess || isUploading}>
+              {uploadSuccess ? <CheckIcon /> : <UploadIcon />}
               <Typography variant="body1">
-                {isUploading ? '엑셀 업로드중..' : isUploaded ? '업로드 완료' : '엑셀 업로드'}
+                {isUploading ? '엑셀 업로드중..' : uploadSuccess ? '업로드 완료' : '엑셀 업로드'}
               </Typography>
             </Button>
           )}
