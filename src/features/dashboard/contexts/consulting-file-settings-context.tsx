@@ -10,8 +10,10 @@ import { removeFileExtention } from '../components/consulting-files-setting/serv
 import {
   useDeleteConsultingFileMutation,
   useUpdateConsultingRefNoMutation,
+  useUpdateConsultingRefTitleMutation,
 } from '../hooks/tanstack/use-update-consulting-file-mutation';
 import { DeleteConsultingFileParams } from '../apis/delete-consulting-file';
+import { UpdateConsultingRefTitleParams } from '../apis/update-consulting-file-reftitle';
 
 export type ConsultingFileSettingsContextValue = {
   files: ConsultingFile[];
@@ -22,7 +24,7 @@ export type ConsultingFileSettingsContextValue = {
   setSelected: Dispatch<SetStateAction<number | null>>;
   addToFiles: (uploadedFile: File | undefined) => void;
   uploadFile: (newFile: ConsultingFile) => void;
-  editFileName: (index: number, editedFile: ConsultingFile) => void;
+  updateRefTitle: (refNo: number, refTitle: string, origTitle: string) => boolean;
   updateRefNo: (startIndex: number, endIndex: number) => void;
   deleteFile: (refNo: number) => void;
 };
@@ -38,6 +40,7 @@ const ConsultingFileSettingsProvider = ({ children }: ConsultingFileSettingsProv
   const { mutateAsync: uploadMutation } = useUploadConsultingFileMutation();
   const { mutateAsync: updateRefNoMutation } = useUpdateConsultingRefNoMutation();
   const { mutateAsync: deleteMutation } = useDeleteConsultingFileMutation();
+  const { mutateAsync: updateRefTitleMutation } = useUpdateConsultingRefTitleMutation();
 
   const { currentService } = useUnivService();
   const serviceID = currentService?.serviceID || '';
@@ -73,7 +76,33 @@ const ConsultingFileSettingsProvider = ({ children }: ConsultingFileSettingsProv
     }
   };
 
-  const editFileName = (index: number, editedFile: ConsultingFile) => {};
+  const updateRefTitle = (refNo: number, refTitle: string, origTitle: string) => {
+    const params: UpdateConsultingRefTitleParams = {
+      ServiceID: parseInt(serviceID),
+      RefNo: refNo,
+      RefTitle: refTitle,
+    };
+    const toastStyle = {
+      whiteSpace: 'nowrap',
+      maxWidth: 'none',
+      padding: '16px',
+    };
+    let result = false;
+    updateRefTitleMutation(params).then((res) => {
+      if (res.status === 200) {
+        execute();
+        toast(`자료명을 수정하였습니다\n\n이전 값:   ${origTitle}\n수정 값:   ${refTitle}`, {
+          style: toastStyle,
+          duration: 5000,
+        });
+        result = true;
+      } else {
+        toast.error(`자료명 [${origTitle}]을 변경 중 문제가 발생했습니다`, { style: toastStyle });
+        result = false;
+      }
+    });
+    return result;
+  };
 
   const updateRefNo = async (startIndex: number, endIndex: number) => {
     await updateRefNoMutation({ ServiceID: parseInt(serviceID), oldRefNo: startIndex, newRefNo: endIndex });
@@ -85,12 +114,13 @@ const ConsultingFileSettingsProvider = ({ children }: ConsultingFileSettingsProv
       ServiceID: parseInt(serviceID),
       RefNo: refNo,
     };
+    const fileName = files.find((file) => file.RefNo === refNo)?.RefTitle;
     deleteMutation(params).then((res) => {
       if (res.data.statusCode === 200) {
         execute();
-        toast.success(`${refNo} 파일 삭제를 성공적으로 마쳤습니다`);
+        toast.success(`${fileName} 파일 삭제를 성공적으로 마쳤습니다`);
       } else {
-        toast.error(`${refNo} 파일 삭제 중 문제가 발생했습니다`);
+        toast.error(`${fileName} 파일 삭제 중 문제가 발생했습니다`);
       }
     });
   };
@@ -106,7 +136,7 @@ const ConsultingFileSettingsProvider = ({ children }: ConsultingFileSettingsProv
         setSelected,
         addToFiles,
         uploadFile,
-        editFileName,
+        updateRefTitle,
         updateRefNo,
         deleteFile,
       }}

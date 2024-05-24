@@ -1,6 +1,6 @@
 'use client';
 
-import { MouseEvent, FocusEvent, KeyboardEvent } from 'react';
+import { MouseEvent, FocusEvent, KeyboardEvent, useState } from 'react';
 
 import InputAdornment from '@mui/material/InputAdornment';
 
@@ -15,55 +15,77 @@ import { ConsultingFile } from '@/features/dashboard/types/consulting-file';
 import { getFileNoFromEvent } from '@/features/dashboard/components/consulting-files-setting/services/get-replaced-string';
 import { CustomWidthBoxCell } from '../table-components/table-boxes';
 import { StyledTextField } from '../table-components/styled-component';
+import toast from 'react-hot-toast';
 
 const EditFile = ({ file }: { file: ConsultingFile }) => {
-  const { files, setFiles, editFileIndex, setEditFileIndex, editFileName, deleteFile } = useConsultingFileSettings();
+  const { files, setFiles, editFileIndex, setEditFileIndex, updateRefTitle, deleteFile } = useConsultingFileSettings();
+  const [origTitle, setOrigTitle] = useState<string>(file.RefTitle);
 
   //#region textfield
-  const editFileTitle = (index: number) => {
-    const currentStatus = editFileIndex[index];
-    let newEditFileIndex = [...editFileIndex];
+  const resetFileList = (fileIndex: number, title: string) => {
+    const newFileList = files.map((file) => {
+      if (file.RefNo === fileIndex) {
+        return { ...file, RefTitle: title };
+      } else {
+        return file;
+      }
+    });
+    setFiles(newFileList);
+  };
+
+  const editRefTitle = (fileIndex: number) => {
+    const currentStatus = editFileIndex[fileIndex - 1];
+    const newEditFileIndex = currentStatus ? [...editFileIndex] : new Array(editFileIndex.length).fill(false);
+    newEditFileIndex[fileIndex - 1] = !currentStatus;
+    setEditFileIndex(newEditFileIndex);
+
+    if (!currentStatus) return;
 
     // currentStatus가 true일 때만 title을 저장
     if (currentStatus) {
-      const title = (document.getElementById(`textField-${index + 1}`) as HTMLInputElement)?.value;
-      if (title) {
-        const editedFile = { ...file, RefTitle: title };
-        editFileName(index, editedFile);
-        setFiles(files); // TODO: 나중에 setFiles 전부 삭제하기
+      const title = (document.getElementById(`textField-${fileIndex}`) as HTMLInputElement)?.value;
+      const trimmedValue = title.trim();
+
+      let finalTitle = origTitle;
+      if (trimmedValue) {
+        if (trimmedValue.length > 30) {
+          toast.error('자료명은 30자 이내로 입력해주세요');
+        } else if (trimmedValue !== origTitle) {
+          setOrigTitle(trimmedValue);
+          if (updateRefTitle(fileIndex, trimmedValue, origTitle)) {
+            finalTitle = trimmedValue;
+          }
+        } else if (title !== trimmedValue) {
+          // title에 좌우공백만 추가된 경우 공백 없는 title로 변경
+          finalTitle = trimmedValue;
+        }
       }
-    } else {
-      // 현재 클릭한 index만 true로 변경하기 위해 false로 초기화
-      newEditFileIndex = new Array(editFileIndex.length).fill(false);
+      resetFileList(fileIndex, finalTitle);
     }
-    newEditFileIndex[index] = !currentStatus;
-    setEditFileIndex(newEditFileIndex);
   };
-  const handleEditFileName = (event: MouseEvent<HTMLElement> | FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const index = getFileNoFromEvent(event.currentTarget.id);
-    editFileTitle(index - 1);
+
+  const handleTextInput = (event: MouseEvent<HTMLElement> | FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const fileIndex = getFileNoFromEvent(event.currentTarget.id);
+    editRefTitle(fileIndex);
   };
+
   const handleChange = (event: FocusEvent<HTMLInputElement>) => {
-    const newFile = files.map((file) => {
-      if (file.RefNo === getFileNoFromEvent(event.currentTarget.id)) {
-        return { ...file, RefTitle: event.target.value };
-      }
-      return file;
-    });
-    setFiles(newFile);
+    const fileIndex = getFileNoFromEvent(event.currentTarget.id);
+    const newTitle = event.target.value;
+    resetFileList(fileIndex, newTitle);
   };
+
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') (event.target as HTMLInputElement).blur();
+    if (event.key === 'Enter') {
+      (event.target as HTMLInputElement).blur();
+    }
   };
   //#endregion textfield
 
   const handleDeleteFile = (event: MouseEvent<HTMLElement>) => {
-    const index = parseInt(event.currentTarget.id);
+    const fileIndex = getFileNoFromEvent(event.currentTarget.id);
 
-    deleteFile(index);
-    // const newFiles = files.filter((file) => file.RefNo !== index).map((file, index) => ({ ...file, RefNo: index + 1 }));
-    // // TODO: deleteFile(newFiles);
-    // setFiles(newFiles);
+    deleteFile(fileIndex);
   };
 
   return (
@@ -86,14 +108,14 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton disableRipple onClick={handleEditFileName} edge="start" id={`${file.RefNo}`}>
+                <IconButton disableRipple onClick={handleTextInput} edge="start" id={`${file.RefNo}`}>
                   {editFileIndex[file.RefNo - 1] ? <DoneIcon /> : <EditIcon />}
                 </IconButton>
               </InputAdornment>
             ),
           }}
           variant="standard"
-          onBlur={handleEditFileName}
+          onBlur={handleTextInput}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
         />
@@ -102,7 +124,7 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
         {file.FileName}
       </CustomWidthBoxCell>
       <CustomWidthBoxCell size="s">
-        <IconButton disableRipple onClick={handleDeleteFile} id={`${file.RefNo}`}>
+        <IconButton disableRipple onClick={handleDeleteFile} id={`deleteFile-${file.RefNo}`}>
           <ClearIcon color="warning" fontSize="small" />
         </IconButton>
       </CustomWidthBoxCell>
