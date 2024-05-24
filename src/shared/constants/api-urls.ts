@@ -10,7 +10,7 @@ export const apiUrls = {
     getConsultingFileList: 'reflibrary/',
     downloadConsultingFile: 'reflibrary/download/',
     uploadConsultingFile: 'reflibrary/upload',
-    // updateConsultingFile: 'reflibrary/mojip-status',
+    updateConsultingRefTitle: 'reflibrary/update-reftitle',
     updateConsultingRefNo: 'reflibrary/update-refno',
     deleteConsultingFile: 'reflibrary',
   },
