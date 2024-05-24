@@ -91,16 +91,38 @@ const DataDeployBox = () => {
         width={'100%'}
       >{`${currentUniv?.univName}(${currentService?.serviceID}) 데이터 배포`}</Typography>
       <Stack
-        direction={upsm ? 'row' : 'column'}
-        spacing={upsm ? 6 : 3}
+        direction={'column'}
+        spacing={3}
         sx={{
           mt: upsm ? 8 : 4,
           p: 4,
           justifyContent: 'center',
           alignItems: 'center',
-          width: { xs: '70%', sm: '70%', md: '65%', lg: '60%', xl: '60%' },
+          width: { xs: '70%', sm: '70%', md: '45%', lg: '40%', xl: '40%' },
         }}
       >
+        {alertData && (
+          <Alert
+            icon={
+              alertData.color === 'info' ? (
+                <HourglassTopIcon fontSize={'inherit'} />
+              ) : alertData.color === 'success' ? (
+                <CheckCircleIcon fontSize={'inherit'} />
+              ) : (
+                <ErrorIcon fontSize={'inherit'} />
+              )
+            }
+            color={alertData.color}
+            sx={{
+              my: upsm ? 2 : 0,
+              alignItems: 'center',
+              mx: 'auto',
+              flexGrow: 1,
+            }}
+          >
+            {alertData.message}
+          </Alert>
+        )}
         <StyledButton
           onClick={handleTestDeployBtnClick}
           bgcolor={'#C2E0AE'}
@@ -117,7 +139,6 @@ const DataDeployBox = () => {
             </Typography>
           )}
         </StyledButton>
-
         <StyledButton
           onClick={handleRealDeployBtnClick}
           bgcolor={'#94C0DD'}
@@ -134,26 +155,6 @@ const DataDeployBox = () => {
           )}
         </StyledButton>
       </Stack>
-      {alertData && (
-        <Alert
-          icon={
-            alertData.color === 'info' ? (
-              <HourglassTopIcon fontSize={'inherit'} />
-            ) : alertData.color === 'success' ? (
-              <CheckCircleIcon fontSize={'inherit'} />
-            ) : (
-              <ErrorIcon fontSize={'inherit'} />
-            )
-          }
-          color={alertData.color}
-          sx={{
-            my: upsm ? 2 : 0,
-            alignItems: 'center',
-          }}
-        >
-          {alertData.message}
-        </Alert>
-      )}
     </Stack>
   );
 };

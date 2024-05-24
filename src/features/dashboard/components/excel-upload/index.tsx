@@ -124,7 +124,7 @@ const ExcelUploadBox = () => {
               borderRadius: '1rem',
               position: 'relative',
               minWidth: { xs: '90%', sm: '70%', md: '70%', lg: '70%', xl: '70%' },
-              height: '220px',
+              height: '280px',
               px: 1,
               boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
             }}
@@ -151,7 +151,7 @@ const ExcelUploadBox = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   minWidth: '70%',
-                  height: '220px',
+                  height: '280px',
                   bgcolor: 'rgba(255,255,255,0.5)',
                 }}
               >
