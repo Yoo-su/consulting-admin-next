@@ -22,6 +22,12 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
       router.replace(paths.auth.signIn, { scroll: false });
       return;
     }
+
+    /**
+     * user 존재 시 token 값에 대한 verify를 수행해야 한다.
+     * token verify
+     */
+
     setIsChecking(false);
   };
 

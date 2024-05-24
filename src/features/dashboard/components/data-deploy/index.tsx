@@ -4,8 +4,8 @@ import { useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Button, { ButtonProps } from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Alert, { AlertColor } from '@mui/material/Alert';
-import CircleLoader from 'react-spinners/CircleLoader';
+import Alert from '@mui/material/Alert';
+import PuffLoader from 'react-spinners/PuffLoader';
 import { styled, useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
@@ -106,13 +106,14 @@ const DataDeployBox = () => {
           bgcolor={'#C2E0AE'}
           color="inherit"
           disabled={isTestDeploying || isRealDeploying}
-          startIcon={<ArrowCircleUpIcon />}
         >
           {isTestDeploying ? (
-            <CircleLoader color={'#fafafa'} size={30} />
+            <PuffLoader color={'#fff'} size={30} />
           ) : (
             <Typography variant="h6" fontWeight={'bold'}>
-              테스트 배포
+              <Stack direction={'row'} alignItems={'center'}>
+                <ArrowCircleUpIcon fontSize="inherit" sx={{ mr: 1 }} /> 테스트 배포
+              </Stack>
             </Typography>
           )}
         </StyledButton>
@@ -121,13 +122,14 @@ const DataDeployBox = () => {
           onClick={handleRealDeployBtnClick}
           bgcolor={'#94C0DD'}
           disabled={isTestDeploying || isRealDeploying}
-          startIcon={<ArrowCircleUpIcon />}
         >
           {isRealDeploying ? (
-            <CircleLoader color={'#fafafa'} size={30} />
+            <PuffLoader color={'#fff'} size={30} />
           ) : (
             <Typography variant="h6" fontWeight={'bold'}>
-              리얼 배포
+              <Stack direction={'row'} alignItems={'center'}>
+                <ArrowCircleUpIcon fontSize="inherit" sx={{ mr: 1 }} /> 리얼 배포
+              </Stack>
             </Typography>
           )}
         </StyledButton>
@@ -145,7 +147,7 @@ const DataDeployBox = () => {
           }
           color={alertData.color}
           sx={{
-            my: upsm ? 2 : 1,
+            my: upsm ? 2 : 0,
             alignItems: 'center',
           }}
         >
