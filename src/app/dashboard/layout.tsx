@@ -3,7 +3,7 @@ import AuthGuard from '@/shared/components/guards/auth-guard';
 import UnivServiceProvider from '@/features/dashboard/contexts/univ-service-context';
 import DashboardLayout from '@/features/dashboard/components/layout';
 import { Univ } from '@/features/dashboard/types/univ.type';
-import toast from 'react-hot-toast';
+import { apiUrls } from '@/shared/constants/api-urls';
 
 type Props = {
   children: ReactNode;
@@ -29,7 +29,7 @@ type GetUnivListResponse = {
 };
 async function getUnivList() {
   try {
-    const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/admin/univlist', {
+    const result = await fetch(`${process.env.BASE_URL}${apiUrls.admin.getUnivList}`, {
       next: { revalidate: false },
     });
     const jsonData = await result.json();
