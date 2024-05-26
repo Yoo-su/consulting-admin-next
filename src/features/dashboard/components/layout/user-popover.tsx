@@ -23,11 +23,10 @@ export type UserPopoverProps = {
 
 const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
   const router = useRouter();
-  const { user, setUser } = useUser();
+  const { user } = useUser();
 
   const signout = () => {
     sessionStorage.clear();
-    setUser(null);
     router.replace('/auth/sign-in', { scroll: false });
   };
 
@@ -41,12 +40,9 @@ const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
     >
       <Box sx={{ p: '16px 20px ' }}>
         <Typography variant="subtitle1">
-          {user?.name} / {user?.role === 'developer' ? '개발자' : '운영자'}
+          {user?.userName} / {user?.departmentID === '1' ? '개발자' : '운영자'}
         </Typography>
         <Typography variant="subtitle2">{user?.userID}</Typography>
-        <Typography color="text.secondary" variant="body2">
-          suhyun0871@jinhakapply.com
-        </Typography>
       </Box>
       <Divider />
       <MenuList disablePadding sx={{ p: '8px', '& .MuiMenuItem-root': { borderRadius: 1 } }}>

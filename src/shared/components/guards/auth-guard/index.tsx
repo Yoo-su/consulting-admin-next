@@ -23,11 +23,6 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
       return;
     }
 
-    /**
-     * user 존재 시 token 값에 대한 verify를 수행해야 한다.
-     * token verify
-     */
-
     setIsChecking(false);
   };
 
@@ -37,7 +32,7 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
   }, [user, isLoading]);
 
   if (isChecking) return <AppBackdrop />;
-  return <Fragment>{children}</Fragment>;
+  return children;
 };
 
 export default AuthGuard;

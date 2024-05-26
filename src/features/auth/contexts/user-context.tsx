@@ -1,7 +1,10 @@
 'use client';
 
-import { useEffect, useState, useCallback, createContext } from 'react';
+import { useEffect, useState, createContext } from 'react';
+import { getUserProfile } from '../apis/get-user-profile';
+import { apiInstance } from '@/shared/plugin/axios';
 import { User } from '../types/user.type';
+import toast from 'react-hot-toast';
 
 export type UserContextValue = {
   user: User | null;
@@ -20,16 +23,24 @@ const UserProvider = ({ children }: UserProviderProps) => {
   });
 
   const setUser = (user: User | null) => {
-    setState((prev) => ({ ...prev, user: user ?? null, isLoading: false }));
+    setState((prev) => ({ ...prev, user: user, isLoading: false }));
   };
 
-  const checkSession = useCallback(() => {
-    const user = sessionStorage.getItem('user');
-    user ? setUser(JSON.parse(user)) : setUser(null);
-  }, []);
-
   useEffect(() => {
-    checkSession();
+    const token = sessionStorage.getItem('token');
+    if (token) {
+      apiInstance.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+      getUserProfile()
+        .then((res) => {
+          setUser(res.data);
+        })
+        .catch((err) => {
+          delete apiInstance.defaults.headers.common['Authorization'];
+          sessionStorage.removeItem('token');
+          setUser(null);
+          toast.error('인증되지 않은 사용자입니다');
+        });
+    } else setUser(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
