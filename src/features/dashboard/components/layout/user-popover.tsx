@@ -37,10 +37,12 @@ const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
       slotProps={{ paper: { sx: { width: '240px' } } }}
     >
       <Box sx={{ p: '16px 20px ' }}>
-        <Typography variant="body1">
+        <Typography variant="body1" fontSize={20}>
           {user?.userName} | {user?.departmentID === 2 ? '개발자' : '운영자'}
         </Typography>
-        <Typography variant="body2">사용자ID: {user?.sub}</Typography>
+        <Typography variant="body2" sx={{ mt: 0.5 }}>
+          사용자ID: {user?.sub}
+        </Typography>
       </Box>
       <Divider />
       <MenuList disablePadding sx={{ p: '8px', '& .MuiMenuItem-root': { borderRadius: 1 } }}>
