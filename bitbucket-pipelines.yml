@@ -9,6 +9,7 @@ pipelines:
             - docker build --target production -t ${IMAGE_NAME} --build-arg NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL_REAL} --build-arg NEXT_PUBLIC_MOCKING=${NEXT_PUBLIC_MOCKING} .
             - echo $HARBOR_PASSWORD | docker login harbor-apply.jinhaksa.com/consulting --username $HARBOR_USERNAME --password-stdin
             - docker tag "${IMAGE_NAME}:latest" harbor-apply.jinhaksa.com/consulting/${IMAGE_NAME}:main
+            - docker push harbor-apply.jinhaksa.com/consulting/"${IMAGE_NAME}:main"
           services:
             - docker
           caches:
