@@ -7,6 +7,7 @@ export const apiUrls = {
     consultingAppState: '/dashboard/consultingapp-state',
     foundationLibrary: '/file/foundation-library',
     deployApp: '/deploy/deploy-app',
+    deployTestData: '/foundation/sync-from-test',
     getAppVersionHistory: '/deploy/version-update-history',
     getConsultingFileList: 'reflibrary/',
     downloadConsultingFile: 'reflibrary/download/',

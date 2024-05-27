@@ -14,6 +14,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 
+import { useDeployTestDataMutation } from '../../hooks/tanstack/use-deploy-test-data-mutation';
 import { useUnivService } from '../../hooks/use-univ-service';
 import { useMuiAlert } from '@/shared/hooks/use-mui-alert';
 
@@ -46,10 +47,13 @@ const StyledButton = styled(Button, {
 
 const DataDeployBox = () => {
   const { currentService, currentUniv } = useUnivService();
+  const { isPending: isRealDeploying, mutateAsync: deployToReal } = useDeployTestDataMutation(
+    currentService?.serviceID.toString() ?? ''
+  );
   const { alertData, setAlertData } = useMuiAlert();
 
   const [isTestDeploying, setIsTestDeploying] = useState(false);
-  const [isRealDeploying, setIsRealDeploying] = useState(false);
+  //const [isRealDeploying, setIsRealDeploying] = useState(false);
   const theme = useTheme();
   const upsm = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -64,13 +68,10 @@ const DataDeployBox = () => {
   };
 
   // 리얼 배포 버튼 클릭 처리
-  const handleRealDeployBtnClick = () => {
-    setIsRealDeploying(true);
+  const handleRealDeployBtnClick = async () => {
     setAlertData({ message: '리얼 환경에 데이터를 배포중입니다..', color: 'info' });
-    setTimeout(() => {
-      setIsRealDeploying(false);
-      setAlertData({ message: '성공적으로 데이터가 배포되었습니다', color: 'success' });
-    }, 3000);
+    await deployToReal();
+    setAlertData({ message: '성공적으로 데이터가 배포되었습니다', color: 'success' });
   };
 
   return (
