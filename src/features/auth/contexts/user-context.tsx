@@ -2,7 +2,7 @@
 
 import { useEffect, useState, createContext } from 'react';
 import { getUserProfile } from '../apis/get-user-profile';
-import { apiInstance } from '@/shared/plugin/axios';
+import { authInstance } from '@/shared/plugin/axios';
 import { User } from '../types/user.type';
 import toast from 'react-hot-toast';
 
@@ -29,13 +29,13 @@ const UserProvider = ({ children }: UserProviderProps) => {
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     if (token) {
-      apiInstance.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+      authInstance.defaults.headers.common['Authorization'] = 'Bearer ' + token;
       getUserProfile()
         .then((res) => {
           setUser(res.data);
         })
         .catch((err) => {
-          delete apiInstance.defaults.headers.common['Authorization'];
+          delete authInstance.defaults.headers.common['Authorization'];
           sessionStorage.removeItem('token');
           setUser(null);
           toast.error('인증되지 않은 사용자입니다');

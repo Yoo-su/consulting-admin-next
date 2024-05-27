@@ -4,6 +4,10 @@ const apiInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 });
 
+const authInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+});
+
 apiInstance.interceptors.response.use(
   (response) => {
     return response;
@@ -14,4 +18,14 @@ apiInstance.interceptors.response.use(
   }
 );
 
-export { apiInstance };
+authInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+export { apiInstance, authInstance };
