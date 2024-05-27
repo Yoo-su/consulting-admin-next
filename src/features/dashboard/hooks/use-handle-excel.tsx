@@ -27,7 +27,7 @@ export const useHandleExcel = () => {
   }, [currentService]);
 
   useEffect(() => {
-    if (user) formData.set('userID', user?.userID);
+    if (user) formData.set('userID', user?.sub);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
