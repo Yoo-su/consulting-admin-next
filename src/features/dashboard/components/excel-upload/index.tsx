@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, ChangeEvent, Fragment } from 'react';
+import { useRef, useState, ChangeEvent, Fragment } from 'react';
 import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -11,7 +11,11 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import Chip from '@mui/material/Chip';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 import PulseLoader from 'react-spinners/PulseLoader';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import CheckIcon from '@mui/icons-material/Check';
@@ -28,23 +32,16 @@ import { useUnivService } from '../../hooks/use-univ-service';
 const ExcelUploadBox = () => {
   const { currentUniv, currentService } = useUnivService();
   const title = `${currentUniv?.univName}(${currentService?.serviceID}) 기초데이터 업로드`;
-  const {
-    excel,
-    setExcel,
-    startVerify,
-    isVerified,
-    alertData,
-    upload,
-    uploadSuccess,
-    isUploading,
-    clearVerifiedState,
-  } = useHandleExcel();
+  const { excel, setExcel, startVerify, isVerified, alertData, upload, success, uploading, fileOnly, setFileOnly } =
+    useHandleExcel();
   const { activeStep, skipped, handleNext, handleBack, handleSkip, handleReset } = useStepper();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const theme = useTheme();
+  const downsm = useMediaQuery(theme.breakpoints.down('sm'));
 
   // 업로드 버튼 클릭 처리
   const handleClickUploadBtn = () => {
-    if (isUploading) return;
+    if (uploading) return;
     fileInputRef?.current?.click();
   };
 
@@ -70,15 +67,37 @@ const ExcelUploadBox = () => {
     <Fragment>
       <Stack
         direction={'row'}
-        justifyContent={'flex-end'}
+        justifyContent={'space-between'}
         sx={{ flexGrow: 1, mt: { xs: 4, sm: 6, md: 6, lg: 6, xl: 8 } }}
       >
-        <Chip color="default" clickable icon={<ArrowCircleDownIcon />} label="기초 레이아웃 다운로드" />
+        <FormControlLabel
+          control={
+            <Switch
+              size={downsm ? 'small' : 'medium'}
+              value={fileOnly}
+              onChange={(e) => {
+                setFileOnly(!fileOnly);
+              }}
+            />
+          }
+          label={<Typography fontSize={downsm ? '12px' : '16px'}>파일만 업로드하기</Typography>}
+        />
+        <Chip
+          color="default"
+          size={downsm ? 'small' : 'medium'}
+          clickable
+          icon={<ArrowCircleDownIcon />}
+          label={
+            <Typography fontSize={downsm ? '12px' : '16px'} variant="body1">
+              기초 레이아웃 다운로드
+            </Typography>
+          }
+        />
       </Stack>
       <Stack
         sx={{
           p: 2,
-          mt: 2,
+          mt: 1,
           flexGrow: 1,
           position: 'relative',
           borderRadius: '1rem',
@@ -143,7 +162,7 @@ const ExcelUploadBox = () => {
             >
               {excel?.name ?? '기초데이터 엑셀을 올려주세요'}
             </Typography>
-            {isUploading && (
+            {uploading && (
               <Box
                 sx={{
                   position: 'fixed',
@@ -167,10 +186,10 @@ const ExcelUploadBox = () => {
           )}
 
           {isVerified && (
-            <Button color="success" variant="contained" onClick={upload} disabled={uploadSuccess || isUploading}>
-              {uploadSuccess ? <CheckIcon /> : <UploadIcon />}
+            <Button color="success" variant="contained" onClick={upload} disabled={success || uploading}>
+              {success ? <CheckIcon /> : <UploadIcon />}
               <Typography variant="body1">
-                {isUploading ? '엑셀 업로드중..' : uploadSuccess ? '업로드 완료' : '엑셀 업로드'}
+                {uploading ? '엑셀 업로드중..' : success ? '업로드 완료' : '엑셀 업로드'}
               </Typography>
             </Button>
           )}

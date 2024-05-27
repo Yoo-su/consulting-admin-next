@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack';
 import Button, { ButtonProps } from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 import PuffLoader from 'react-spinners/PuffLoader';
 import { styled, useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -106,7 +107,7 @@ const DataDeployBox = () => {
           <Alert
             icon={
               alertData.color === 'info' ? (
-                <HourglassTopIcon fontSize={'inherit'} />
+                <CircularProgress size={16} />
               ) : alertData.color === 'success' ? (
                 <CheckCircleIcon fontSize={'inherit'} />
               ) : (

@@ -3,7 +3,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { uploadFoundationLibrary } from '../../apis/upload-foundation-library';
 
-export const useUploadExcelMutation = () => {
+export const useUploadFoundationLibraryMutation = () => {
   return useMutation({
     mutationFn: (formData: FormData) => {
       return uploadFoundationLibrary(formData);

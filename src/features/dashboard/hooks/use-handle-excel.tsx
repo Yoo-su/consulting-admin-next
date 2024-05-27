@@ -1,9 +1,9 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { read, utils } from 'xlsx';
-import { AlertColor } from '@mui/material';
 
 import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
-import { useUploadExcelMutation } from './tanstack/use-upload-excel-mutation';
+import { useUploadFoundationLibraryMutation } from './tanstack/use-upload-foundation-library-mutation';
+import { useUploadFoundationLibraryFileOnlyMutation } from './tanstack/use-upload-foundation-library-fileonly-mutation';
 import { EXCEL_LAYOUT, SHEET_FLAG } from '../constants/excel';
 import { useUser } from '@/features/auth/hooks/use-user';
 import { useMuiAlert } from '@/shared/hooks/use-mui-alert';
@@ -16,10 +16,30 @@ export const useHandleExcel = () => {
   const [formData, setFormData] = useState<FormData>(new FormData());
   const { user } = useUser();
   const { currentService } = useUnivService();
-  const { mutateAsync, isPending: isUploading, isSuccess: uploadSuccess, reset } = useUploadExcelMutation();
+  const {
+    mutateAsync: basicUpload,
+    isPending: isUploading,
+    isSuccess: uploadSuccess,
+    reset,
+  } = useUploadFoundationLibraryMutation();
+  const {
+    mutateAsync: fileOnlyUpload,
+    isPending: isUploadingFileOnly,
+    isSuccess: uploadFileOnlySuccess,
+    reset: resetFileOnly,
+  } = useUploadFoundationLibraryFileOnlyMutation();
   const [excel, setExcel] = useState<File | null>(null);
   const [isVerified, setIsVerified] = useState<boolean | undefined>(false);
   const { alertData, setAlertData } = useMuiAlert();
+
+  const uploading = useMemo(() => {
+    return isUploading || isUploadingFileOnly;
+  }, [isUploading, isUploadingFileOnly]);
+
+  const success = useMemo(() => {
+    return uploadSuccess || uploadFileOnlySuccess;
+  }, [uploadSuccess, uploadFileOnlySuccess]);
+  const [fileOnly, setFileOnly] = useState<boolean>(false);
 
   useEffect(() => {
     if (currentService) formData.set('serviceID', currentService?.serviceID);
@@ -199,8 +219,9 @@ export const useHandleExcel = () => {
    */
   const upload = () => {
     if (!excel) return;
+    const mutationFunc = fileOnly ? fileOnlyUpload : basicUpload;
 
-    mutateAsync(formData).then((res) => {
+    mutationFunc(formData).then((res) => {
       if (res.data.statusCode === 201) {
         setAlertData({ message: res.data.message ?? '파일 업로드를 성공적으로 마쳤습니다', color: 'success' });
       } else {
@@ -214,6 +235,7 @@ export const useHandleExcel = () => {
    */
   const clearVerifiedState = useCallback(() => {
     reset();
+    resetFileOnly();
     setAlertData(null);
     setIsVerified(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -226,8 +248,10 @@ export const useHandleExcel = () => {
     alertData,
     isVerified,
     upload,
-    uploadSuccess,
-    isUploading,
+    success,
+    uploading,
+    fileOnly,
+    setFileOnly,
     setIsVerified,
     setAlertData,
     clearVerifiedState,
