@@ -12,7 +12,9 @@ export const useSigninMutation = () => {
       const { access_token, token_type, expires_in } = response.data;
       sessionStorage.setItem('token', access_token);
       toast.success('로그인에 성공했습니다');
-      location.reload();
+      setTimeout(() => {
+        location.reload();
+      }, 500);
     },
     onError: (error) => {
       toast.error('로그인 정보를 확인해주세요');
