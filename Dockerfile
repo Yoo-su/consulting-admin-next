@@ -2,25 +2,41 @@
 FROM node:20 AS base
 
 # Create app directory
-RUN mkdir /consulting-admin
 WORKDIR /consulting-admin
 
-COPY package*.json .
-RUN npm install
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Copy the rest of the application code to the working directory
+# Install dependencies
+RUN npm ci
+
+# Copy the rest of the application code
 COPY . .
 
-ARG BASE_URL
+# Build the Next.js application
+FROM base AS build
+
 ARG NEXT_PUBLIC_BASE_URL
 ARG NEXT_PUBLIC_MOCKING
 
-ENV BASE_URL=${BASE_URL}
 ENV NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
 ENV NEXT_PUBLIC_MOCKING=${NEXT_PUBLIC_MOCKING}
 
 # Build the Next.js application
 RUN npm run build
+
+# Production stage
+FROM node:20-alpine AS production
+
+WORKDIR /consulting-admin
+
+# Copy built assets from the build stage
+COPY --from=build /consulting-admin/.next ./.next
+COPY --from=build /consulting-admin/public ./public
+COPY --from=build /consulting-admin/package*.json ./
+
+# Install production dependencies
+RUN npm ci --omit=dev
 
 # Expose port
 EXPOSE 3000
