@@ -1,7 +1,6 @@
 'use client';
 
 import RouterLink from 'next/link';
-import { useRouter } from 'next/navigation';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -22,12 +21,11 @@ export type UserPopoverProps = {
 };
 
 const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
-  const router = useRouter();
-  const { user } = useUser();
+  const { user, setUser } = useUser();
 
   const signout = () => {
     sessionStorage.clear();
-    router.replace('/auth/sign-in', { scroll: false });
+    setUser(null);
   };
 
   return (
@@ -39,10 +37,10 @@ const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
       slotProps={{ paper: { sx: { width: '240px' } } }}
     >
       <Box sx={{ p: '16px 20px ' }}>
-        <Typography variant="subtitle1">
-          {user?.userName} / {user?.departmentID === '1' ? '개발자' : '운영자'}
+        <Typography variant="body1">
+          {user?.userName} | {user?.departmentID === 2 ? '개발자' : '운영자'}
         </Typography>
-        <Typography variant="subtitle2">{user?.userID}</Typography>
+        <Typography variant="body2">사용자ID: {user?.sub}</Typography>
       </Box>
       <Divider />
       <MenuList disablePadding sx={{ p: '8px', '& .MuiMenuItem-root': { borderRadius: 1 } }}>

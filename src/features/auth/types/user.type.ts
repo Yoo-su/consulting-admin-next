@@ -1,7 +1,9 @@
 export type User = {
-  userID: string;
+  sub: string;
   userName: string;
-  departmentID: '1' | '2';
+  departmentID: 1 | 2;
+  iat: number;
+  exp: number;
   profileImage?: string;
   lastAccessDate?: string;
 };
