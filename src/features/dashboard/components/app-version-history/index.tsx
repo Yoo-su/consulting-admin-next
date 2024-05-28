@@ -12,6 +12,7 @@ import Divider from '@mui/material/Divider';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+import FiberManualRecordRoundedIcon from '@mui/icons-material/FiberManualRecordRounded';
 import AlternateEmailRoundedIcon from '@mui/icons-material/AlternateEmailRounded';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
@@ -40,6 +41,9 @@ const AppHistoryListBox = () => {
   }, [appType]);
 
   const handleClickCopy = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (!currentService?.serialNo) return;
+
     const target = document.getElementById(
       `${currentService?.serviceID}-${event.currentTarget.id}` || ''
     ) as HTMLInputElement;
@@ -123,13 +127,17 @@ const AppHistoryListBox = () => {
               disabled
               size="small"
               label="시리얼번호"
-              sx={{ minWidth: '250px', '& .Mui-disabled': { color: 'black' } }}
-              value={'1324-4562-4652'}
+              sx={{
+                minWidth: '350px',
+                textWrap: 'noWrap',
+                '& .Mui-disabled': { color: 'black !important' },
+              }}
+              value={`${currentService?.serialNo || '시리얼번호가 존재하지 않습니다.'}`}
               id={`${currentService?.serviceID}-serialnumber`}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton aria-label="copy text" onClick={handleClickCopy} id="serialnumber">
+                    <IconButton disableRipple aria-label="copy text" onClick={handleClickCopy} id="serialnumber">
                       <ContentCopyIcon />
                     </IconButton>
                   </InputAdornment>
@@ -142,13 +150,12 @@ const AppHistoryListBox = () => {
             <TextField
               disabled
               fullWidth
-              sx={{ '& .Mui-disabled': { color: 'black' } }}
               id={`${currentService?.serviceID}-testPwa`}
-              value={`https://vapplytest.jinhakapply.com/consultinghtmlv4/hknu.html`}
+              value={`https://vapplytest.jinhakapply.com/consultinghtmlv4/${currentUniv?.univEngName}.html`}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton aria-label="copy text" onClick={handleClickCopy} id="testPwa">
+                    <IconButton disableRipple aria-label="copy text" onClick={handleClickCopy} id="testPwa">
                       <ContentCopyIcon />
                     </IconButton>
                   </InputAdornment>
@@ -161,13 +168,12 @@ const AppHistoryListBox = () => {
             <TextField
               disabled
               fullWidth
-              sx={{ '& .Mui-disabled': { color: 'black' } }}
               id={`${currentService?.serviceID}-realPwa`}
-              value={`https://consultingapp.jinhakapply.com/ConsultingHtml/kku-pwa.html`}
+              value={`https://consultingapp.jinhakapply.com/ConsultingHtml/${currentUniv?.univEngName}-pwa.html`}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton aria-label="copy text" onClick={handleClickCopy} id="realPwa">
+                    <IconButton disableRipple aria-label="copy text" onClick={handleClickCopy} id="realPwa">
                       <ContentCopyIcon />
                     </IconButton>
                   </InputAdornment>

@@ -6,4 +6,5 @@ export type Service = {
   serviceName: string;
   developer: string | null;
   manager: string | null;
+  serialNo?: string;
 };

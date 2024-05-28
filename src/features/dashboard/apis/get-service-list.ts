@@ -10,6 +10,7 @@ type GetServiceListResponse = {
   ServiceName: string;
   Developer: string | null;
   Manager: string | null;
+  SerialNo?: string | null;
 };
 
 export const getServiceList = async (univID: string) => {
@@ -27,6 +28,7 @@ export const getServiceList = async (univID: string) => {
         serviceName: item.ServiceName,
         developer: item.Developer,
         manager: item.Manager,
+        serialNo: item.SerialNo,
       }));
     },
   });

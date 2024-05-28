@@ -9,6 +9,7 @@ type GetUnivListResponse = {
   Longitude: string;
   Latitude: string;
   isActive: boolean;
+  UnivEngName: string | null;
 };
 
 export const getUnivList = async () => {
@@ -22,6 +23,7 @@ export const getUnivList = async () => {
         longitude: item.Longitude,
         latitude: item.Latitude,
         isActive: item.isActive,
+        univEngName: item.UnivEngName,
       }));
     },
   });

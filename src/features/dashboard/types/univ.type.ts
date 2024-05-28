@@ -5,4 +5,5 @@ export type Univ = {
   longitude: string;
   latitude: string;
   isActive: boolean;
+  univEngName: string;
 };
