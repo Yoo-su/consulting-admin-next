@@ -33,7 +33,11 @@ const AppHistoryListBox = () => {
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
   const [appType, setAppType] = useState<'O' | 'A' | 'P'>('O');
   const { currentUniv, currentService } = useUnivService();
-  const { data: histories, refetch, isPending } = useGetAppVersionHistoryQuery(currentService?.serviceID, appType);
+  const {
+    data: histories,
+    refetch,
+    isPending,
+  } = useGetAppVersionHistoryQuery(currentService?.serviceID, appType === 'O' ? null : appType);
 
   useEffect(() => {
     refetch();

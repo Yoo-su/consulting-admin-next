@@ -4,7 +4,7 @@ import { AppHistory } from '../types/app-history.type';
 
 export type GetAppVersionHistoryResponse = {
   ServiceID: string;
-  OsType: 'O' | 'A' | 'P';
+  OsType: 'A' | 'P';
   Version: number;
   PackageFileName: string | null;
   ProvisionFileName: string | null;
@@ -13,7 +13,7 @@ export type GetAppVersionHistoryResponse = {
   ManualFileName: string | null;
 };
 
-export const getAppVersionHistory = async (serviceID: string, osType: 'O' | 'P' | 'A') => {
+export const getAppVersionHistory = async (serviceID: string, osType: 'P' | 'A') => {
   return await apiInstance.get<AppHistory[]>(`${apiUrls.dashboard.getAppVersionHistory}/${serviceID}/${osType}`, {
     transformResponse: (data) => {
       const parsedData = JSON.parse(data) as GetAppVersionHistoryResponse[];
