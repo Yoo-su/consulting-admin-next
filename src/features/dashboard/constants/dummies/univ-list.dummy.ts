@@ -8,5 +8,6 @@ export const dummyUnivList: Univ[] = [
     longitude: '32.12345',
     latitude: '127.12598',
     isActive: true,
+    univEngName: 'jinhak',
   },
 ];
