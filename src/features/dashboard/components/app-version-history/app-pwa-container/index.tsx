@@ -1,0 +1,115 @@
+'use client';
+
+import { MouseEvent } from 'react';
+
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import toast from 'react-hot-toast';
+
+import FiberManualRecordRoundedIcon from '@mui/icons-material/FiberManualRecordRounded';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+
+import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
+
+const AppPWAContainer = () => {
+  const theme = useTheme();
+  const downmd = useMediaQuery(theme.breakpoints.down('md'));
+  const { currentUniv, currentService } = useUnivService();
+
+  const handleClickCopy = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (!currentService?.serialNo) return;
+
+    const target = document.getElementById(
+      `${currentService?.serviceID}-${event.currentTarget.id}` || ''
+    ) as HTMLInputElement;
+    try {
+      navigator.clipboard.writeText(target?.value || '');
+      toast.success('복사되었습니다');
+    } catch (e) {
+      toast.error('복사에 실패했습니다');
+    }
+  };
+
+  return (
+    <Stack direction={'column'} spacing={4} sx={{ paddingBottom: '.5rem' }}>
+      <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
+        <Typography
+          variant="h6"
+          sx={{
+            ...(downmd && {
+              width: '75%',
+              fontSize: '16px',
+            }),
+          }}
+        >
+          {`${currentUniv?.univName}(${currentService?.serviceID}) PWA 앱 주소`}
+        </Typography>
+        <TextField
+          disabled
+          size="small"
+          label="시리얼번호"
+          sx={{
+            minWidth: '350px',
+            textWrap: 'noWrap',
+            '& .Mui-disabled': { color: 'black !important' },
+          }}
+          value={`${currentService?.serialNo || '시리얼번호가 존재하지 않습니다.'}`}
+          id={`${currentService?.serviceID}-serialnumber`}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton disableRipple aria-label="copy text" onClick={handleClickCopy} id="serialnumber">
+                  <ContentCopyIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Stack>
+      <Stack direction={'column'} spacing={1}>
+        <Typography variant="overline">Test</Typography>
+        <TextField
+          disabled
+          fullWidth
+          id={`${currentService?.serviceID}-testPwa`}
+          value={`https://vapplytest.jinhakapply.com/consultinghtmlv4/${currentUniv?.univEngName}.html`}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton disableRipple aria-label="copy text" onClick={handleClickCopy} id="testPwa">
+                  <ContentCopyIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Stack>
+      <Stack direction={'column'} spacing={1}>
+        <Typography variant="overline">Real</Typography>
+        <TextField
+          disabled
+          fullWidth
+          id={`${currentService?.serviceID}-realPwa`}
+          value={`https://consultingapp.jinhakapply.com/ConsultingHtml/${currentUniv?.univEngName}-pwa.html`}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton disableRipple aria-label="copy text" onClick={handleClickCopy} id="realPwa">
+                  <ContentCopyIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Stack>
+    </Stack>
+  );
+};
+
+export default AppPWAContainer;
