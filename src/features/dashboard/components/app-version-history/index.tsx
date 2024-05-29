@@ -2,10 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Divider from '@mui/material/Divider';
 
@@ -17,6 +14,7 @@ import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
 import { useGetAppVersionHistoryQuery } from '../../hooks/tanstack/use-get-app-version-history-query';
 import AppPWAContainer from './app-pwa-container';
 import AppProgContainer from './app-prog-container';
+import RadioIconLabel from './radio-icon-label';
 
 const AppHistoryListBox = () => {
   const [appType, setAppType] = useState<'O' | 'A' | 'P'>('O');
@@ -51,35 +49,20 @@ const AppHistoryListBox = () => {
           }}
           value={appType}
         >
-          <FormControlLabel
+          <RadioIconLabel
+            label="PWA 주소"
             value="O"
-            control={<Radio size="medium" />}
-            label={
-              <Stack direction={'row'} alignItems={'center'}>
-                <AlternateEmailRoundedIcon fontSize="large" sx={{ color: '#2C4059', mr: '0.2rem' }} />
-                <Typography variant="body2">PWA 주소</Typography>
-              </Stack>
-            }
+            Icon={<AlternateEmailRoundedIcon fontSize="large" sx={{ color: '#2C4059', mr: '0.2rem' }} />}
           />
-          <FormControlLabel
+          <RadioIconLabel
+            label="안드로이드 APK"
             value="A"
-            control={<Radio size="medium" />}
-            label={
-              <Stack direction={'row'} alignItems={'center'}>
-                <AdbIcon fontSize="large" sx={{ color: '#7CB342', mr: '0.1rem' }} />
-                <Typography variant="body2">안드로이드 APK</Typography>
-              </Stack>
-            }
+            Icon={<AdbIcon fontSize="large" sx={{ color: '#7CB342', mr: '0.1rem' }} />}
           />
-          <FormControlLabel
+          <RadioIconLabel
+            label="데스크탑 APP"
             value="P"
-            control={<Radio size="medium" />}
-            label={
-              <Stack direction={'row'} alignItems={'center'}>
-                <DesktopWindowsIcon fontSize="large" sx={{ color: '#1D2951', mr: '0.1rem' }} />
-                <Typography variant="body2">데스크탑 APP</Typography>
-              </Stack>
-            }
+            Icon={<DesktopWindowsIcon fontSize="large" sx={{ color: '#1D2951', mr: '0.1rem' }} />}
           />
         </RadioGroup>
       </FormControl>
