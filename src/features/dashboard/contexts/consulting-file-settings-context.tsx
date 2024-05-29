@@ -5,7 +5,7 @@ import { useGetConsultingFileList } from '../hooks/use-get-consulting-file-list'
 import { ConsultingFile, UploadFile } from '../types/consulting-file';
 import { useUnivService } from '../hooks/use-univ-service';
 import { useUploadConsultingFileMutation } from '@/features/dashboard/hooks/tanstack/use-upload-consulting-file-mutation';
-import toast from 'react-hot-toast';
+import toast, { Toast } from 'react-hot-toast';
 import { removeFileExtention } from '../components/consulting-files-setting/services/get-replaced-string';
 import {
   useDeleteConsultingFileMutation,
@@ -14,7 +14,7 @@ import {
 } from '../hooks/tanstack/use-update-consulting-file-mutation';
 import { DeleteConsultingFileParams } from '../apis/delete-consulting-file';
 import { UpdateConsultingRefTitleParams } from '../apis/update-consulting-file-reftitle';
-import { Box, Button, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Stack, TextField, Typography, styled } from '@mui/material';
 
 export type ConsultingFileSettingsContextValue = {
   files: ConsultingFile[];
@@ -82,48 +82,47 @@ const ConsultingFileSettingsProvider = ({ children }: ConsultingFileSettingsProv
       RefNo: refNo,
       RefTitle: refTitle,
     };
-    const toastStyle = {
-      whiteSpace: 'nowrap',
-      maxWidth: 'none',
-      padding: '16px',
+    const StyledTextField = ({ title }: { title: string }) => {
+      return (
+        <TextField
+          variant="standard"
+          disabled
+          value={title}
+          size="small"
+          sx={{
+            '& .Mui-disabled': { color: 'black !important' },
+            marginLeft: '1rem',
+            '& input': { fontSize: '.8rem', textAlign: 'center' },
+          }}
+        />
+      );
+    };
+    const customToast = (t: Toast) => {
+      return (
+        <Stack direction={'column'} spacing={2} sx={{ padding: '0 16px 8px 16px' }}>
+          <Typography variant="subtitle1">자료명을 수정하였습니다.</Typography>
+          <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
+            <Typography variant="subtitle2">이전 값: </Typography>
+            <StyledTextField title={origTitle} />
+          </Stack>
+          <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
+            <Typography variant="subtitle2">수정 값: </Typography>
+            <StyledTextField title={refTitle} />
+          </Stack>
+        </Stack>
+      );
     };
     // `자료명을 수정하였습니다\n\n이전 값: ${origTitle}\n수정 값: ${refTitle}`
     let result = false;
     updateRefTitleMutation(params).then((res) => {
       if (res.status === 200) {
         execute();
-        toast(
-          (t) => (
-            <Stack direction={'column'} spacing={2}>
-              <Typography variant="h6">자료명을 수정하였습니다.</Typography>
-              <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
-                <Typography variant="subtitle1">이전 값:</Typography>
-                <TextField
-                  disabled
-                  value={origTitle}
-                  size="small"
-                  sx={{ '& .Mui-disabled': { color: 'black !important' } }}
-                />
-              </Stack>
-              <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
-                <Typography variant="subtitle1">수정 값: </Typography>
-                <TextField
-                  disabled
-                  value={refTitle}
-                  size="small"
-                  sx={{ '& .Mui-disabled': { color: 'black !important' } }}
-                />
-              </Stack>
-            </Stack>
-          ),
-          {
-            style: toastStyle,
-            duration: 500000,
-          }
-        );
+        toast((t) => customToast(t), {
+          duration: 5000,
+        });
         result = true;
       } else {
-        toast.error(`자료명 [${origTitle}]을 변경 중 문제가 발생했습니다`, { style: toastStyle });
+        toast.error(`자료명 [${origTitle}]을 변경 중 문제가 발생했습니다`);
         result = false;
       }
     });
