@@ -11,15 +11,15 @@ import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-co
 import TableBoard from './table-board';
 
 const ConsultingAppStateBoard = () => {
-  const { isLoading, boardType, isDialogOpen } = useConsultingAppState();
+  const { isLoading, boardType, viewOption, isDialogOpen } = useConsultingAppState();
   if (isLoading) return <ConsultingAppStateBoardSkeleton />;
 
   return (
     <Stack direction={'column'} spacing={3}>
-      <Toolbar />
-      {boardType === 'basic' && <BasicBoard />}
-      {boardType === 'developer' && <DeveloperBoard />}
-      {boardType === 'table' && <TableBoard />}
+      <Toolbar boardType={boardType} />
+      {viewOption === 'basic' && <BasicBoard boardType={boardType} />}
+      {viewOption === 'separated' && <DeveloperBoard />}
+      {viewOption === 'table' && <TableBoard />}
       {isDialogOpen && <ConsultingAppStateDialog />}
     </Stack>
   );
