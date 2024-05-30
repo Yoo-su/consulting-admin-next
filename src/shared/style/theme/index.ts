@@ -1,12 +1,14 @@
 'use client';
 
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
-import { Gowun_Batang, Hahmlet, IBM_Plex_Sans_KR, Gowun_Dodum } from 'next/font/google';
+import { Gowun_Batang, Hahmlet, IBM_Plex_Sans_KR, Gowun_Dodum, Nanum_Gothic, Nanum_Myeongjo } from 'next/font/google';
 
 const gowun_batang = Gowun_Batang({ subsets: ['latin'], weight: ['400'] });
 const hahmlet = Hahmlet({ subsets: ['latin'], weight: ['400'] });
 const ibm_kr = IBM_Plex_Sans_KR({ subsets: ['latin'], weight: ['200'] });
 const gowun_dodum = Gowun_Dodum({ subsets: ['latin'], weight: ['400'] });
+const nanum_gothic = Nanum_Gothic({ subsets: ['latin'], weight: ['400'] });
+const nanum_myeongjo = Nanum_Myeongjo({ subsets: ['latin'], weight: ['400'] });
 
 const theme = extendTheme({
   typography: {
@@ -39,6 +41,12 @@ const theme = extendTheme({
     },
     body2: {
       fontFamily: gowun_dodum.style.fontFamily,
+    },
+    caption: {
+      fontFamily: nanum_gothic.style.fontFamily,
+    },
+    button: {
+      fontFamily: nanum_myeongjo.style.fontFamily,
     },
   },
 });

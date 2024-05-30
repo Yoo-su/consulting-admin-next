@@ -1,40 +1,27 @@
 'use client';
 
-import { useMemo, useState, SyntheticEvent } from 'react';
+import { useState } from 'react';
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
-import { TreeItem2 } from '@mui/x-tree-view/TreeItem2';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import { useTreeViewApiRef } from '@mui/x-tree-view/hooks';
+import Chip from '@mui/material/Chip';
+import Fab from '@mui/material/Fab';
+
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import ModelLevelTable from './model-level-table';
 import { useUnivService } from '../../hooks/context/use-univ-service';
 import { useChartSetting } from '../../hooks/context/use-chart-setting';
-import { getGroupedData } from '../overview/consultingapp-state-board/services/get-grouped-data';
 import ModelChartBox from './model-chart-box';
 
 const ChartSettingBox = () => {
   const { currentUniv, currentService } = useUnivService();
-  const { chartData, setChartData } = useChartSetting();
-  const [selectedModel, setSelectedModel] = useState<string | null>(null);
-  const apiRef = useTreeViewApiRef();
-
-  const groupedByModelNum = useMemo(() => {
-    const modelNums = Array.from(new Set(chartData.map((item) => item.modelNum)));
-    return getGroupedData(chartData, 'modelNum', modelNums);
-  }, [chartData]);
-
-  const modelNumbers = useMemo(() => Object.keys(groupedByModelNum), [groupedByModelNum]);
-
-  const handleModelSelectionToggle = (event: SyntheticEvent, itemId: string, isSelected: boolean) => {
-    if (isSelected) {
-      setSelectedModel(itemId);
-    }
-  };
-
-  const getModelLevels = (modelNumber: number) => {
-    return Array.from(new Set(groupedByModelNum[Number(modelNumber)].map((item) => item.level)));
-  };
+  const { chartData, groupedByModelNum, modelNumbers, getModelLevels, addNewModel } = useChartSetting();
+  const [selectedModel, setSelectedModel] = useState<number | null>(null);
 
   return (
     <Stack
@@ -46,8 +33,18 @@ const ChartSettingBox = () => {
         p: 2,
       }}
     >
-      <Typography variant="h6">{`${currentUniv?.univName}(${currentService?.serviceID}) 차트 데이터 설정`}</Typography>
-      {!!selectedModel && (
+      <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
+        <Typography variant="h6">{`${currentUniv?.univName}(${currentService?.serviceID}) 차트 데이터 설정`}</Typography>
+        <Chip
+          color="info"
+          size="small"
+          icon={<AddCircleIcon fontSize="inherit" />}
+          label={<Typography variant="button">모델 추가</Typography>}
+          clickable
+          onClick={addNewModel}
+        />
+      </Stack>
+      {selectedModel !== null && (
         <ModelChartBox
           selectedModel={Number(selectedModel)}
           modelChartData={groupedByModelNum[Number(selectedModel)]}
@@ -55,24 +52,37 @@ const ChartSettingBox = () => {
         />
       )}
 
-      <SimpleTreeView
-        sx={{ mt: 4 }}
-        onItemSelectionToggle={handleModelSelectionToggle}
-        apiRef={apiRef}
-        expandedItems={[selectedModel!]}
-      >
+      <Box sx={{ mt: 4 }}>
         {modelNumbers.map((mn) => {
           const modelLevels = getModelLevels(Number(mn));
           return (
-            <TreeItem2 key={`model-${mn}`} itemId={mn} label={`모델 ${Number(mn) + 1}`}>
-              {modelLevels.map((ml) => {
-                const filterByLevel = groupedByModelNum[Number(mn)].filter((item) => item.level === ml);
-                return <ModelLevelTable key={`model-${mn}-level-${ml}-table`} chartData={filterByLevel} />;
-              })}
-            </TreeItem2>
+            <Accordion
+              key={`model-${mn}`}
+              expanded={selectedModel === mn}
+              onClick={() => {
+                setSelectedModel(mn);
+              }}
+            >
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="chart-model-accordion">
+                <Typography variant="h6">{`단계 ${Number(mn) + 1}`}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                {modelLevels.map((ml) => {
+                  const filterByLevel = groupedByModelNum[mn].filter((item) => item.level === ml);
+                  return (
+                    <ModelLevelTable
+                      key={`model-${mn}-level-${ml}-table`}
+                      chartData={filterByLevel}
+                      modelNum={Number(mn)}
+                      level={Number(ml)}
+                    />
+                  );
+                })}
+              </AccordionDetails>
+            </Accordion>
           );
         })}
-      </SimpleTreeView>
+      </Box>
     </Stack>
   );
 };

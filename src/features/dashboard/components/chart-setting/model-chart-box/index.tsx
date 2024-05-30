@@ -1,14 +1,10 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { Accordion, Stack, Typography, Button, styled } from '@mui/material';
+import { Stack, Typography, Chip } from '@mui/material';
 import { PieChart } from '@mui/x-charts/PieChart';
 
 import { ChartData } from '@/features/dashboard/types/chart-data.type';
-
-const StyledButton = styled(Button)({
-  borderRadius: '0.5rem',
-});
 
 type ModelChartBoxProps = {
   selectedModel: number;
@@ -26,7 +22,8 @@ const ModelChartBox = ({ selectedModel, modelChartData, modelLevels }: ModelChar
   }, [modelChartData, selectedLevel]);
 
   useEffect(() => {
-    setSelectedLevel(modelLevels.length ? modelLevels[0] : null);
+    if (selectedLevel) setSelectedLevel(selectedLevel);
+    else setSelectedLevel(modelLevels.length ? modelLevels[0] : null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modelChartData]);
 
@@ -55,18 +52,19 @@ const ModelChartBox = ({ selectedModel, modelChartData, modelLevels }: ModelChar
 
       <Stack direction={'row'} spacing={3}>
         {modelLevels.map((level) => (
-          <StyledButton
+          <Chip
             key={level}
             size="small"
-            variant="outlined"
+            label={
+              <Typography variant="body1" fontSize={14}>
+                단계{level}
+              </Typography>
+            }
+            color={selectedLevel === level ? 'info' : 'default'}
             onClick={() => {
               setSelectedLevel(level);
             }}
-          >
-            <Typography variant="body1" fontSize={14}>
-              단계{level}
-            </Typography>
-          </StyledButton>
+          />
         ))}
       </Stack>
 
