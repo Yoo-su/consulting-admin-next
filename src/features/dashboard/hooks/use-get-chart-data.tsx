@@ -6,6 +6,7 @@ export const useGetChartData = (serviceID: string) => {
   const [chartData, setChartData] = useState<ChartData[]>([]);
 
   const execute = useCallback(() => {
+    if (!serviceID) return;
     getChartData(serviceID).then((res) => {
       setChartData(res.data);
     });

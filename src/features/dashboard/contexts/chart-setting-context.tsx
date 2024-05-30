@@ -18,7 +18,7 @@ export type ChartSettingProviderProps = {
 };
 const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
   const { currentService } = useUnivService();
-  const { chartData, setChartData } = useGetChartData(currentService?.serviceID!);
+  const { chartData, setChartData } = useGetChartData(currentService?.serviceID ?? '');
 
   return (
     <ChartSettingContext.Provider
