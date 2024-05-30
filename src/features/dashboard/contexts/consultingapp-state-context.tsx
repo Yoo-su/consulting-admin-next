@@ -3,6 +3,7 @@
 import { createContext, ReactNode, useState, Dispatch, SetStateAction } from 'react';
 import { useGetConsultingAppState } from '../hooks/use-get-consultingapp-state';
 import { ConsultingAppState } from '../types/consultingapp-state.type';
+import { useUser } from '@/features/auth/hooks/use-user';
 
 export type BoardType = 'mainUser' | 'all';
 export type ViewOption = 'basic' | 'separated' | 'table';
@@ -29,7 +30,11 @@ export type ConsultingAppStateProvider = {
   children: ReactNode;
 };
 const ConsultingAppStateProvider = ({ children }: ConsultingAppStateProvider) => {
-  const { data, setData, loading } = useGetConsultingAppState();
+  const { user } = useUser();
+  const { data, setData, loading } = useGetConsultingAppState({
+    userID: user?.sub || '',
+    departmentID: user?.departmentID,
+  });
   const [state, setState] = useState<
     Pick<
       ConsultingAppStateContextValue,

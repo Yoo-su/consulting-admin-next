@@ -19,6 +19,7 @@ export type StateColProps = {
   developer?: string;
 };
 const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey, developer }: StateColProps) => {
+  console.log('developer', developer, groupedStates, currentStateKey);
   return (
     <Stack
       direction={'column'}
@@ -94,7 +95,12 @@ const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey, devel
             spacing={1}
           >
             {groupedStates.map((consultingState, index) => (
-              <StateCard key={consultingState.serviceID} state={consultingState} index={index} developer={developer} />
+              <StateCard
+                key={consultingState.serviceID ? consultingState.serviceID : `${consultingState.univID}${index}`}
+                state={consultingState}
+                index={index}
+                developer={developer}
+              />
             ))}
             {provided.placeholder}
           </Stack>
