@@ -4,11 +4,14 @@ import { createContext, ReactNode, useState, Dispatch, SetStateAction } from 're
 import { useGetConsultingAppState } from '../hooks/use-get-consultingapp-state';
 import { ConsultingAppState } from '../types/consultingapp-state.type';
 
-export type BoardType = 'basic' | 'developer' | 'table';
+export type BoardType = 'mainUser' | 'all';
+export type ViewOption = 'basic' | 'separated' | 'table';
 export type DialogType = 'create' | 'modify';
 export type ConsultingAppStateContextValue = {
   boardType: BoardType;
   setBoardType: (newType: BoardType) => void;
+  viewOption: ViewOption;
+  setViewOption: (newOption: ViewOption) => void;
   consultingAppStates: ConsultingAppState[];
   setConsultingAppStates: Dispatch<SetStateAction<ConsultingAppState[]>>;
   isLoading: boolean;
@@ -28,9 +31,13 @@ export type ConsultingAppStateProvider = {
 const ConsultingAppStateProvider = ({ children }: ConsultingAppStateProvider) => {
   const { data, setData, loading } = useGetConsultingAppState();
   const [state, setState] = useState<
-    Pick<ConsultingAppStateContextValue, 'boardType' | 'dialogType' | 'isDialogOpen' | 'dialogContentState'>
+    Pick<
+      ConsultingAppStateContextValue,
+      'boardType' | 'viewOption' | 'dialogType' | 'isDialogOpen' | 'dialogContentState'
+    >
   >({
-    boardType: 'basic',
+    boardType: 'mainUser',
+    viewOption: 'basic',
     dialogType: null,
     isDialogOpen: false,
     dialogContentState: null,
@@ -38,6 +45,10 @@ const ConsultingAppStateProvider = ({ children }: ConsultingAppStateProvider) =>
 
   const setBoardType = (newType: BoardType) => {
     setState((prev) => ({ ...prev, boardType: newType }));
+  };
+
+  const setViewOption = (newOption: ViewOption) => {
+    setState((prev) => ({ ...prev, viewOption: newOption }));
   };
 
   const openDialog = (dialogType: DialogType) => {
@@ -60,6 +71,7 @@ const ConsultingAppStateProvider = ({ children }: ConsultingAppStateProvider) =>
         isLoading: loading,
         setConsultingAppStates: setData,
         setBoardType,
+        setViewOption,
         openDialog,
         closeDialog,
         setDialogContentState,

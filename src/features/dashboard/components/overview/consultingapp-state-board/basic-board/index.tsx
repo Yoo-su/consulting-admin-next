@@ -12,8 +12,13 @@ import { getGroupedData } from '../services/get-grouped-data';
 import { ConsultingAppState, CurrentState } from '@/features/dashboard/types/consultingapp-state.type';
 import { currentStateList } from '../constants/current-states-list';
 import { useUser } from '@/features/auth/hooks/use-user';
+import { BoardType } from '@/features/dashboard/contexts/consultingapp-state-context';
 
-const BasicBoard = () => {
+type BasicBoardProps = {
+  boardType: BoardType;
+};
+
+const BasicBoard = ({ boardType }: BasicBoardProps) => {
   const { user } = useUser();
   console.log('user', user);
   const { consultingAppStates, setConsultingAppStates } = useConsultingAppState();
@@ -21,16 +26,16 @@ const BasicBoard = () => {
     getGroupedData(consultingAppStates, 'currentState', currentStateList)
   );
 
-  const filteredGroupedState = Object.keys(groupedByCurrentState).reduce<Record<CurrentState, ConsultingAppState[]>>(
-    (acc, key) => {
-      const filteredValue = groupedByCurrentState[key as CurrentState].filter((item) => {
-        if (user?.departmentID === 1) return item.manager === user?.userName;
-        else if (user?.departmentID === 2) return item.developer === user?.userName;
-      });
-      return { ...acc, [key]: filteredValue };
-    },
-    {} as Record<CurrentState, ConsultingAppState[]>
-  );
+  const filteredGroupedState =
+    boardType === 'all'
+      ? groupedByCurrentState
+      : Object.keys(groupedByCurrentState).reduce<Record<CurrentState, ConsultingAppState[]>>((acc, key) => {
+          const filteredValue = groupedByCurrentState[key as CurrentState].filter((item) => {
+            if (user?.departmentID === 1) return item.manager === user?.userName;
+            else if (user?.departmentID === 2) return item.developer === user?.userName;
+          });
+          return { ...acc, [key]: filteredValue };
+        }, {} as Record<CurrentState, ConsultingAppState[]>);
 
   const onDragEnd = useCallback(
     (result: DropResult) => {

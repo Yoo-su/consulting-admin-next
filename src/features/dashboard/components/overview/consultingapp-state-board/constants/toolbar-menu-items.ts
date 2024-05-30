@@ -1,23 +1,38 @@
-import LanguageIcon from '@mui/icons-material/Language';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import PeopleIcon from '@mui/icons-material/People';
-import TableChartIcon from '@mui/icons-material/TableChart';
+import ViewWeekRoundedIcon from '@mui/icons-material/ViewWeekRounded';
+import SplitscreenRoundedIcon from '@mui/icons-material/SplitscreenRounded';
+import TableRowsRoundedIcon from '@mui/icons-material/TableRowsRounded';
 
-import { ToolbarMenuItem } from '../types/toolbar-menu-item.type';
+import { ToolbarMenuItem, ToolbarViewOption } from '../types/toolbar-menu-item.type';
 
 export const toolbarMenuItems: ToolbarMenuItem[] = [
   {
-    title: '진행현황',
-    displayType: 'basic',
-    Icon: LanguageIcon,
+    title: '나의 진행현황',
+    displayType: 'mainUser',
+    Icon: PersonRoundedIcon,
   },
   {
-    title: '개발자별 진행현황',
-    displayType: 'developer',
+    title: '전체 진행현황',
+    displayType: 'all',
     Icon: PeopleIcon,
   },
+];
+
+export const viewOptions: ToolbarViewOption[] = [
   {
-    title: '전체 리스트',
+    title: '기본',
+    displayType: 'basic',
+    Icon: ViewWeekRoundedIcon,
+  },
+  {
+    title: '개발자별',
+    displayType: 'separated',
+    Icon: SplitscreenRoundedIcon,
+  },
+  {
+    title: '목록',
     displayType: 'table',
-    Icon: TableChartIcon,
+    Icon: TableRowsRoundedIcon,
   },
 ];
