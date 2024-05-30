@@ -1,9 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { AlertColor } from '@mui/material';
 
-import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
+import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { useDeployAppMutation } from './tanstack/use-deploy-app-mutation';
 import { useMuiAlert } from '@/shared/hooks/use-mui-alert';
 

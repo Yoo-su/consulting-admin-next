@@ -1,6 +1,6 @@
 'use client';
 
-import { useConsultingFileSettings } from '@/features/dashboard/hooks/use-consulting-file-settings';
+import { useConsultingFileSettings } from '@/features/dashboard/hooks/context/use-consulting-file-settings';
 import EditFile from '../edit-file';
 import { DragDropContext, Draggable, DropResult, Droppable } from 'react-beautiful-dnd';
 import Box from '@mui/material/Box';

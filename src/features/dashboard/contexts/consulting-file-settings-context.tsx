@@ -3,7 +3,7 @@
 import { createContext, ReactNode, useState, Dispatch, SetStateAction } from 'react';
 import { useGetConsultingFileList } from '../hooks/use-get-consulting-file-list';
 import { ConsultingFile, UploadFile } from '../types/consulting-file';
-import { useUnivService } from '../hooks/use-univ-service';
+import { useUnivService } from '../hooks/context/use-univ-service';
 import { useUploadConsultingFileMutation } from '@/features/dashboard/hooks/tanstack/use-upload-consulting-file-mutation';
 import toast from 'react-hot-toast';
 import { removeFileExtention } from '../components/consulting-files-setting/services/get-replaced-string';

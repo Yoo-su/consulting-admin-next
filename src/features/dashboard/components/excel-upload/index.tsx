@@ -27,7 +27,7 @@ import { ColorlibConnector } from '@/shared/components/stepper/styled';
 import { useHandleExcel } from '@/features/dashboard/hooks/use-handle-excel';
 import { EXCEL_UPLOAD_STEPS } from '@/features/dashboard/constants/excel-upload-steps';
 import excelIcon from '@/shared/assets/images/xls_64.png';
-import { useUnivService } from '../../hooks/use-univ-service';
+import { useUnivService } from '../../hooks/context/use-univ-service';
 
 const ExcelUploadBox = () => {
   const { currentUniv, currentService } = useUnivService();

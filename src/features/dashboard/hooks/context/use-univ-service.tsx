@@ -2,8 +2,8 @@
 
 import { useContext } from 'react';
 
-import { UnivServiceContext } from '../contexts/univ-service-context';
-import { UnivServiceContextValue } from '../contexts/univ-service-context';
+import { UnivServiceContext } from '../../contexts/univ-service-context';
+import { UnivServiceContextValue } from '../../contexts/univ-service-context';
 
 export const useUnivService = (): UnivServiceContextValue => {
   const context = useContext(UnivServiceContext);

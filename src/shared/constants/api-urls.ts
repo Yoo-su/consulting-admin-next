@@ -16,6 +16,7 @@ export const apiUrls = {
     updateConsultingRefTitle: 'reflibrary/update-reftitle',
     updateConsultingRefNo: 'reflibrary/update-refno',
     deleteConsultingFile: 'reflibrary',
+    chartData: '/app-setup/chartdata',
   },
   admin: {
     getUnivList: '/admin/univlist',

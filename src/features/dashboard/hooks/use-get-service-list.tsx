@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { getServiceList } from '@/features/dashboard/apis/get-service-list';
-import { useUnivService } from './use-univ-service';
+import { useUnivService } from './context/use-univ-service';
 
 export const useGetServiceList = () => {
   const [isLoading, setIsLoading] = useState(false);

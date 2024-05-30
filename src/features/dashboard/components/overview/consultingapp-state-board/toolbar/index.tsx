@@ -9,7 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
+import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-consultingapp-state';
 import { toolbarMenuItems } from '../constants/toolbar-menu-items';
 import { ToolbarMenuItem } from '../types/toolbar-menu-item.type';
 import { BoardType } from '@/features/dashboard/contexts/consultingapp-state-context';

@@ -4,7 +4,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 
-import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
+import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { Service } from '@/features/dashboard/types/service.type';
 
 const ServiceAutocomplete = () => {

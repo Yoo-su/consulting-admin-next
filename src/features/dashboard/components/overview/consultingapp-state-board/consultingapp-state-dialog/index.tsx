@@ -21,7 +21,7 @@ import AccessibilityIcon from '@mui/icons-material/Accessibility';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import SportsMartialArtsIcon from '@mui/icons-material/SportsMartialArts';
 
-import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
+import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-consultingapp-state';
 import { stateBoardDomainItems } from '../constants/state-board-domain-items';
 
 const ConsultingAppStateDialog = () => {

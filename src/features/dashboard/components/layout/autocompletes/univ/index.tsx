@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
-import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
+import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { useGetServiceList } from '@/features/dashboard/hooks/use-get-service-list';
 import { Univ } from '@/features/dashboard/types/univ.type';
 

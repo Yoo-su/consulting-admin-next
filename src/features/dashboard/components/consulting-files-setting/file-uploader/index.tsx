@@ -5,7 +5,7 @@ import { DragEvent, ChangeEvent, useState } from 'react';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-import { useConsultingFileSettings } from '@/features/dashboard/hooks/use-consulting-file-settings';
+import { useConsultingFileSettings } from '@/features/dashboard/hooks/context/use-consulting-file-settings';
 import { CustomWidthBoxCell } from '../table-components/table-boxes';
 import { HiddenFileInput, UploadDivWrapper } from '../table-components/styled-component';
 import toast from 'react-hot-toast';

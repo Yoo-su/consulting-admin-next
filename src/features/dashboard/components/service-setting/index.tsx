@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 
 import ServiceListTable from './service-table';
 import AddServiceForm from './add-service-form';
-import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
+import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 
 const ServiceSettingBox = () => {
   const { serviceList, currentUniv } = useUnivService();

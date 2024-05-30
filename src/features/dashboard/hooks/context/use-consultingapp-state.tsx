@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
-import { ConsultingAppStateContext } from '../contexts/consultingapp-state-context';
-import { ConsultingAppStateContextValue } from '../contexts/consultingapp-state-context';
+import { ConsultingAppStateContext } from '../../contexts/consultingapp-state-context';
+import { ConsultingAppStateContextValue } from '../../contexts/consultingapp-state-context';
 
 export const useConsultingAppState = (): ConsultingAppStateContextValue => {
   const context = useContext(ConsultingAppStateContext);

@@ -16,7 +16,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 
 import { useDeployTestDataMutation } from '../../hooks/tanstack/use-deploy-test-data-mutation';
-import { useUnivService } from '../../hooks/use-univ-service';
+import { useUnivService } from '../../hooks/context/use-univ-service';
 import { useMuiAlert } from '@/shared/hooks/use-mui-alert';
 
 interface StyledButtonProps extends ButtonProps {

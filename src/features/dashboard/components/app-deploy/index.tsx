@@ -22,7 +22,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 
 import { useHandleApp } from '@/features/dashboard/hooks/use-handle-app';
 import { useStepper } from '@/shared/hooks/use-stepper';
-import { useUnivService } from '../../hooks/use-univ-service';
+import { useUnivService } from '../../hooks/context/use-univ-service';
 import ColorlibStepIcon from '@/shared/components/stepper/color-lib-step-icon';
 import { ColorlibConnector } from '@/shared/components/stepper/styled';
 import { APP_DEPLOY_STEPS } from '@/features/dashboard/constants/app-deploy-steps';

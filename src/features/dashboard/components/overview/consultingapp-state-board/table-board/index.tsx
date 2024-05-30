@@ -13,7 +13,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import TablePagination from '@mui/material/TablePagination';
 import { useState, ChangeEvent, MouseEvent } from 'react';
 
-import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
+import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-consultingapp-state';
 import { stateBoardDomainItems } from '../constants/state-board-domain-items';
 
 const TableBoard = () => {

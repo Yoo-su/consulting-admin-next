@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { read, utils } from 'xlsx';
 
-import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
+import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { useUploadFoundationLibraryMutation } from './tanstack/use-upload-foundation-library-mutation';
 import { useUploadFoundationLibraryFileOnlyMutation } from './tanstack/use-upload-foundation-library-fileonly-mutation';
 import { EXCEL_LAYOUT, SHEET_FLAG } from '../constants/excel';

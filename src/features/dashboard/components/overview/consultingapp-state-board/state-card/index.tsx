@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Draggable } from 'react-beautiful-dnd';
 
-import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
+import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-consultingapp-state';
 import { ConsultingAppState } from '@/features/dashboard/types/consultingapp-state.type';
 
 export type StateCardProps = {

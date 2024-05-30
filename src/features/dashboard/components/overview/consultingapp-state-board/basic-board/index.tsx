@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 import StateCol from '../state-col';
-import { useConsultingAppState } from '@/features/dashboard/hooks/use-consultingapp-state';
+import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-consultingapp-state';
 import { stateBoardDomainItems } from '../constants/state-board-domain-items';
 import { getGroupedData } from '../services/get-grouped-data';
 import { ConsultingAppState, CurrentState } from '@/features/dashboard/types/consultingapp-state.type';

@@ -17,6 +17,8 @@
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@mui/material-nextjs": "^5.15.11",
+    "@mui/x-charts": "^7.5.1",
+    "@mui/x-tree-view": "^7.5.1",
     "@next/env": "^14.2.3",
     "@tanstack/react-query": "^5.32.0",
     "@tanstack/react-query-devtools": "^5.32.1",

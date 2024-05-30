@@ -10,7 +10,7 @@ import DragHandleIcon from '@mui/icons-material/DragHandle';
 import ClearIcon from '@mui/icons-material/Clear';
 import DoneIcon from '@mui/icons-material/Done';
 
-import { useConsultingFileSettings } from '@/features/dashboard/hooks/use-consulting-file-settings';
+import { useConsultingFileSettings } from '@/features/dashboard/hooks/context/use-consulting-file-settings';
 import { ConsultingFile } from '@/features/dashboard/types/consulting-file';
 import { getFileNoFromEvent } from '@/features/dashboard/components/consulting-files-setting/services/get-replaced-string';
 import { CustomWidthBoxCell } from '../table-components/table-boxes';
