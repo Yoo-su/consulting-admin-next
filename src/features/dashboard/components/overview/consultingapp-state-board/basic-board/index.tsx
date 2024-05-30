@@ -11,11 +11,25 @@ import { stateBoardDomainItems } from '../constants/state-board-domain-items';
 import { getGroupedData } from '../services/get-grouped-data';
 import { ConsultingAppState, CurrentState } from '@/features/dashboard/types/consultingapp-state.type';
 import { currentStateList } from '../constants/current-states-list';
+import { useUser } from '@/features/auth/hooks/use-user';
 
 const BasicBoard = () => {
+  const { user } = useUser();
+  console.log('user', user);
   const { consultingAppStates, setConsultingAppStates } = useConsultingAppState();
   const [groupedByCurrentState, setGroupedByCurrentState] = useState<Record<CurrentState, ConsultingAppState[]>>(
     getGroupedData(consultingAppStates, 'currentState', currentStateList)
+  );
+
+  const filteredGroupedState = Object.keys(groupedByCurrentState).reduce<Record<CurrentState, ConsultingAppState[]>>(
+    (acc, key) => {
+      const filteredValue = groupedByCurrentState[key as CurrentState].filter((item) => {
+        if (user?.departmentID === 1) return item.manager === user?.userName;
+        else if (user?.departmentID === 2) return item.developer === user?.userName;
+      });
+      return { ...acc, [key]: filteredValue };
+    },
+    {} as Record<CurrentState, ConsultingAppState[]>
   );
 
   const onDragEnd = useCallback(
@@ -23,8 +37,8 @@ const BasicBoard = () => {
       if (!result.destination) return;
 
       const { source, destination } = result;
-      const sourceList = groupedByCurrentState[source.droppableId as CurrentState];
-      const destinationList = groupedByCurrentState[destination.droppableId as CurrentState];
+      const sourceList = filteredGroupedState[source.droppableId as CurrentState];
+      const destinationList = filteredGroupedState[destination.droppableId as CurrentState];
 
       // 같은 리스트 내에서 이동한 경우
       if (source.droppableId === destination.droppableId) {
@@ -57,7 +71,7 @@ const BasicBoard = () => {
             <Grid item key={item.title} xs={6} md={2} lg={2} xl={2}>
               <StateCol
                 currentStateKey={item.key}
-                groupedStates={groupedByCurrentState[item.key] ?? []}
+                groupedStates={filteredGroupedState[item.key] ?? []}
                 title={item.title}
                 color={item.color}
                 bgcolor={item.bgcolor}
