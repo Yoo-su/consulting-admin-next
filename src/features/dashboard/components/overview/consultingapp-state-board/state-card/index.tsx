@@ -8,6 +8,7 @@ import { Draggable } from 'react-beautiful-dnd';
 
 import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-consultingapp-state';
 import { ConsultingAppState } from '@/features/dashboard/types/consultingapp-state.type';
+import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 
 export type StateCardProps = {
   state: ConsultingAppState;
@@ -15,16 +16,21 @@ export type StateCardProps = {
   developer?: string;
 };
 const StateCard = ({ state, index, developer }: StateCardProps) => {
+  const { univList } = useUnivService();
   const { openDialog, setDialogContentState } = useConsultingAppState();
-  const cardTitle = state.serviceYear + (state.serviceType === 'susi' ? '수시' : '정시') + ' ' + state.univName;
+
+  const serviceInfo = state.serviceYear + (state.serviceType === 'S_A' ? '수시' : '정시');
+  const univName = univList.filter((univ) => univ.univID == state.univID)[0].univName;
+  const serviceID = state.serviceID ? state.serviceID : `${state.univID}-미정`;
+  console.log('state', state);
 
   const handleClick = () => {
-    setDialogContentState(state);
+    setDialogContentState({ ...state, univName, serviceID });
     openDialog('modify');
   };
 
   return (
-    <Draggable draggableId={developer ? developer + '/' + state.serviceID : state.serviceID} index={index}>
+    <Draggable draggableId={developer ? developer + '/' + serviceID : serviceID} index={index}>
       {(provided) => (
         <Box
           ref={provided.innerRef}
@@ -43,11 +49,19 @@ const StateCard = ({ state, index, developer }: StateCardProps) => {
             transition: 'all 0.1s ease-in-out',
           }}
         >
-          <Stack direction={'column'} spacing={1.5}>
-            <Typography variant="body2">{cardTitle}</Typography>
-            <Box sx={{ bgcolor: '#f3f4f6', borderRadius: '5px', px: 1, py: 0.5, width: 'fit-content' }}>
-              <Typography variant="caption">{state.developer}</Typography>
-            </Box>
+          <Stack direction={'column'} spacing={1}>
+            <Stack direction={'column'}>
+              <Typography variant="caption">{serviceInfo}</Typography>
+              <Typography variant="body2">{univName}</Typography>
+            </Stack>
+            <Stack direction={'row'} justifyContent={'space-between'}>
+              <Box sx={{ bgcolor: '#f3f4f6', borderRadius: '5px', padding: 0.5, width: 'fit-content' }}>
+                <Typography variant="caption">{state.developerName}</Typography>
+              </Box>
+              <Box sx={{ bgcolor: '#f3f4f6', borderRadius: '5px', padding: 0.5, width: 'fit-content' }}>
+                <Typography variant="caption">{state.managerName || '김미정'}</Typography>
+              </Box>
+            </Stack>
           </Stack>
         </Box>
       )}

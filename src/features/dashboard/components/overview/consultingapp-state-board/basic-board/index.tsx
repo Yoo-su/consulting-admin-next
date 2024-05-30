@@ -26,16 +26,7 @@ const BasicBoard = ({ boardType }: BasicBoardProps) => {
     getGroupedData(consultingAppStates, 'currentState', currentStateList)
   );
 
-  const filteredGroupedState =
-    boardType === 'all'
-      ? groupedByCurrentState
-      : Object.keys(groupedByCurrentState).reduce<Record<CurrentState, ConsultingAppState[]>>((acc, key) => {
-          const filteredValue = groupedByCurrentState[key as CurrentState].filter((item) => {
-            if (user?.departmentID === 1) return item.manager === user?.userName;
-            else if (user?.departmentID === 2) return item.developer === user?.userName;
-          });
-          return { ...acc, [key]: filteredValue };
-        }, {} as Record<CurrentState, ConsultingAppState[]>);
+  const filteredGroupedState = boardType === 'mainUser' ? groupedByCurrentState : groupedByCurrentState;
 
   const onDragEnd = useCallback(
     (result: DropResult) => {

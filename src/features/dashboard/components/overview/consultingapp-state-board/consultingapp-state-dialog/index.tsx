@@ -86,19 +86,19 @@ const ConsultingAppStateDialog = () => {
             <Chip size="small" label={title} sx={{ bgcolor: color }} />
           </StackContainer>
 
-          <StackContainer typo={dialogContentState.developer}>
+          <StackContainer typo={dialogContentState.developerName}>
             <StackLabelContainer label="담당 개발자">
               <AccessibilityIcon />
             </StackLabelContainer>
           </StackContainer>
 
-          <StackContainer typo={dialogContentState.manager}>
+          <StackContainer typo={dialogContentState.managerName ?? '미정'}>
             <StackLabelContainer label="담당 운영자">
               <EmojiPeopleIcon />
             </StackLabelContainer>
           </StackContainer>
 
-          <StackContainer typo={dialogContentState.salesPerson ?? '미정'}>
+          <StackContainer typo={dialogContentState.salesPersonName ?? '미정'}>
             <StackLabelContainer label="담당 영업자">
               <SportsMartialArtsIcon />
             </StackLabelContainer>

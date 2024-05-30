@@ -4,7 +4,7 @@ export const apiUrls = {
     profile: '/auth/profile',
   },
   dashboard: {
-    consultingAppState: '/dashboard/consultingapp-state',
+    consultingAppState: '/admin/service-detail',
     foundationLibrary: '/file/foundation-library',
     foundationLibraryFileOnly: '/file/foundation-library-file-only',
     deployApp: '/deploy/deploy-app',
