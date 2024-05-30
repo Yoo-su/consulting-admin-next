@@ -14,7 +14,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 
-import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
+import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 
 const AppPWAContainer = () => {
   const theme = useTheme();

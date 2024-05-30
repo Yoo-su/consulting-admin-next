@@ -11,7 +11,7 @@ import AppHistoryItem from '../app-history-item';
 import EmptyContentBox from '../empty-content-box';
 import AppVersionHistoryListBoxSkeleton from '../skeleton';
 
-import { useUnivService } from '@/features/dashboard/hooks/use-univ-service';
+import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { AxiosResponse } from 'axios';
 import { AppHistory } from '@/features/dashboard/types/app-history.type';
 
