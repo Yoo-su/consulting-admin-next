@@ -5,7 +5,7 @@ import { useGetConsultingFileList } from '../hooks/use-get-consulting-file-list'
 import { ConsultingFile, UploadFile } from '../types/consulting-file';
 import { useUnivService } from '../hooks/context/use-univ-service';
 import { useUploadConsultingFileMutation } from '@/features/dashboard/hooks/tanstack/use-upload-consulting-file-mutation';
-import toast from 'react-hot-toast';
+import toast, { Toast } from 'react-hot-toast';
 import { removeFileExtention } from '../components/consulting-files-setting/services/get-replaced-string';
 import {
   useDeleteConsultingFileMutation,
@@ -14,6 +14,7 @@ import {
 } from '../hooks/tanstack/use-update-consulting-file-mutation';
 import { DeleteConsultingFileParams } from '../apis/delete-consulting-file';
 import { UpdateConsultingRefTitleParams } from '../apis/update-consulting-file-reftitle';
+import { Stack, TextField, Typography } from '@mui/material';
 
 export type ConsultingFileSettingsContextValue = {
   files: ConsultingFile[];
@@ -52,13 +53,12 @@ const ConsultingFileSettingsProvider = ({ children }: ConsultingFileSettingsProv
   //#endregion hooks
 
   const uploadFile = (newFile: UploadFile) => {
-    console.log('newFile:', newFile);
     uploadMutation(newFile).then((res) => {
       if (res.data.statusCode === 200) {
-        toast.success(`${newFile.File.name} 파일 업로드를 성공적으로 마쳤습니다`);
+        toast.success(`${newFile.File.name}를 성공적으로 업로드하였습니다`);
         execute();
       } else {
-        toast.error(`${newFile.File.name} 파일 업로드 중 문제가 발생했습니다`);
+        toast.error(`${newFile.File.name} 업로드 중 문제가 발생했습니다`);
       }
     });
   };
@@ -82,22 +82,47 @@ const ConsultingFileSettingsProvider = ({ children }: ConsultingFileSettingsProv
       RefNo: refNo,
       RefTitle: refTitle,
     };
-    const toastStyle = {
-      whiteSpace: 'nowrap',
-      maxWidth: 'none',
-      padding: '16px',
+    const StyledTextField = ({ title }: { title: string }) => {
+      return (
+        <TextField
+          variant="standard"
+          disabled
+          value={title}
+          size="small"
+          sx={{
+            '& .Mui-disabled': { color: 'black !important' },
+            marginLeft: '1rem',
+            '& input': { fontSize: '.8rem', textAlign: 'center' },
+          }}
+        />
+      );
     };
+    const customToast = (t: Toast) => {
+      return (
+        <Stack direction={'column'} spacing={2} sx={{ padding: '0 16px 8px 16px' }}>
+          <Typography variant="subtitle1">자료명을 수정하였습니다.</Typography>
+          <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
+            <Typography variant="subtitle2">이전 값: </Typography>
+            <StyledTextField title={origTitle} />
+          </Stack>
+          <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
+            <Typography variant="subtitle2">수정 값: </Typography>
+            <StyledTextField title={refTitle} />
+          </Stack>
+        </Stack>
+      );
+    };
+    // `자료명을 수정하였습니다\n\n이전 값: ${origTitle}\n수정 값: ${refTitle}`
     let result = false;
     updateRefTitleMutation(params).then((res) => {
       if (res.status === 200) {
         execute();
-        toast(`자료명을 수정하였습니다\n\n이전 값:   ${origTitle}\n수정 값:   ${refTitle}`, {
-          style: toastStyle,
+        toast((t) => customToast(t), {
           duration: 5000,
         });
         result = true;
       } else {
-        toast.error(`자료명 [${origTitle}]을 변경 중 문제가 발생했습니다`, { style: toastStyle });
+        toast.error(`자료명 [${origTitle}]을 변경 중 문제가 발생했습니다`);
         result = false;
       }
     });
@@ -114,13 +139,13 @@ const ConsultingFileSettingsProvider = ({ children }: ConsultingFileSettingsProv
       ServiceID: parseInt(serviceID),
       RefNo: refNo,
     };
-    const fileName = files.find((file) => file.RefNo === refNo)?.RefTitle;
+    const fileName = files.find((file) => file.RefNo === refNo)?.FileName;
     deleteMutation(params).then((res) => {
-      if (res.data.statusCode === 200) {
+      if (res.status === 204) {
+        toast.success(`${fileName} 삭제를 성공적으로 마쳤습니다`);
         execute();
-        toast.success(`${fileName} 파일 삭제를 성공적으로 마쳤습니다`);
       } else {
-        toast.error(`${fileName} 파일 삭제 중 문제가 발생했습니다`);
+        toast.error(`${fileName} 삭제 중 문제가 발생했습니다`);
       }
     });
   };

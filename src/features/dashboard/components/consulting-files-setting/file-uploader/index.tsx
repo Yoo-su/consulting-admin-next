@@ -25,16 +25,15 @@ const FileUploader = () => {
     setFileEnter(false);
     const items = event.dataTransfer.items;
     if (items) {
-      console.log('items:', items);
       for (let i = 0; i < items.length; i++) {
-        if (items[i].kind === 'file' && items[i].type !== '') {
+        if (items[i].kind === 'file' && items[i].type === 'application/pdf') {
           const file = items[i].getAsFile();
           if (file) {
             addToFiles(file);
           }
           console.log(`items file[${i}].name = ${file?.name}`);
         } else {
-          toast.error('개별 파일만 업로드 가능합니다.');
+          toast.error('pdf 파일만 업로드 가능합니다.');
         }
       }
     }

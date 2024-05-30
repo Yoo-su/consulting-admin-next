@@ -145,7 +145,7 @@ export const useHandleExcel = () => {
   const excelToJson = (buffer: string | ArrayBuffer | null | undefined) => {
     let sheetCheck: typeof SHEET_FLAG = SHEET_FLAG;
     let tmpResult: any = {};
-    let returnVal: any = {};
+    const returnVal: any = {};
 
     const data = read(buffer, { type: 'buffer' });
     data.SheetNames.forEach((sheetName) => {

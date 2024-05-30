@@ -8,8 +8,8 @@ npm-debug.log
 yarn-error.log
 
 # Next.js
-.next
-out
+# .next
+# out
 
 # Tests
 __tests__
