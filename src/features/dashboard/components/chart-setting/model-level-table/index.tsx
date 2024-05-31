@@ -28,7 +28,7 @@ type ModelLevelTableProps = {
 };
 const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) => {
   const { currentService } = useUnivService();
-  const { shiftModelRows } = useChartSetting();
+  const { shiftModelRows, deleteModelLevel } = useChartSetting();
   const [tmpChartData, setTmpChartData] = useState<ChartData[]>(chartData);
   const [editMode, setEditMode] = useState<boolean>(false);
 
@@ -47,14 +47,47 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
     setEditMode(false);
   };
 
+  const handleDeleteLevelBtnClick = (modelNum: number, level: number) => {
+    toast((t) => (
+      <Stack direction={'column'} justifyContent={'center'} alignItems={'center'} spacing={1}>
+        <Typography variant="body2">
+          모델{modelNum + 1}의 {level}단계를 제거하시겠습니까?
+        </Typography>
+        <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} spacing={0.2}>
+          <Button
+            variant="text"
+            color="error"
+            size="small"
+            sx={{ width: 'fit-content' }}
+            onClick={() => {
+              deleteModelLevel(modelNum, level);
+              toast.dismiss(t.id);
+            }}
+          >
+            예
+          </Button>
+          <Button
+            variant="text"
+            color="inherit"
+            size="small"
+            sx={{ width: 'fit-content' }}
+            onClick={() => toast.dismiss(t.id)}
+          >
+            아니오
+          </Button>
+        </Stack>
+      </Stack>
+    ));
+  };
+
   /**
    * 특정 모델의 특정 단계에 새로운 행을 추가합니다
    * @param modelNum
    * @param level
    */
   const addNewModelLevelRow = (modelNum: number, level: number) => {
-    if (tmpChartData.length > 5) {
-      toast.error('최대 다섯개까지 추가 가능합니다');
+    if ([...tmpChartData].length >= 5) {
+      toast.error(<Typography variant="body2">최대 다섯개까지 추가 가능합니다</Typography>);
       return;
     }
     const newItem: ChartData = {
@@ -85,9 +118,9 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
 
   return (
     <Stack sx={{ my: 2 }}>
-      <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
+      <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ mb: 1 }}>
         <Stack direction={'row'} spacing={1} alignItems="center">
-          <Typography variant="caption">{`단계 ${chartData[0].level}`}</Typography>
+          <Typography variant="body2">{`단계 ${chartData[0].level}`}</Typography>
         </Stack>
         {editMode ? (
           <Stack direction={'row'} spacing={0.5}>
@@ -103,11 +136,25 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
             </Button>
           </Stack>
         ) : (
-          <Button size="small" variant="outlined" color="primary" onClick={enterEditMode}>
-            <Typography variant="body1" fontSize={12}>
-              편집모드
-            </Typography>
-          </Button>
+          <Stack direction={'row'} spacing={0.5}>
+            <Button size="small" variant="outlined" color="primary" onClick={enterEditMode}>
+              <Typography variant="body1" fontSize={12}>
+                편집모드
+              </Typography>
+            </Button>
+
+            <Button size="small" variant="outlined" color="error">
+              <Typography
+                variant="body1"
+                fontSize={12}
+                onClick={() => {
+                  handleDeleteLevelBtnClick(modelNum, level);
+                }}
+              >
+                단계삭제
+              </Typography>
+            </Button>
+          </Stack>
         )}
       </Stack>
       <TableContainer component={Paper} sx={{ mt: 0.1 }}>
@@ -196,7 +243,10 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
                       addNewModelLevelRow(modelNum, level);
                     }}
                   >
-                    <AddCircleIcon sx={{ mt: 1 }} />
+                    <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} sx={{ py: 1 }}>
+                      <AddCircleIcon sx={{ color: '#0069A0', mr: 1 }} />
+                      <Typography variant="body2">행추가</Typography>
+                    </Stack>
                   </Box>
                 </TableCell>
               </TableRow>

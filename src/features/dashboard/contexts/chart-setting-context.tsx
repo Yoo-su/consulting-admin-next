@@ -22,6 +22,8 @@ export type ChartSettingContextValue = {
   setIsEditing: Dispatch<SetStateAction<boolean>>;
   setSelectedModel: Dispatch<SetStateAction<number | null>>;
   syncOriginData: () => void;
+  addNewModelLevel: (modelNum: number) => void;
+  deleteModelLevel: (modelNum: number, level: number) => void;
 };
 
 export const ChartSettingContext = createContext<ChartSettingContextValue | undefined>(undefined);
@@ -51,6 +53,11 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
 
   const modelNumbers = useMemo(() => Object.keys(groupedByModelNum).map(Number), [groupedByModelNum]);
 
+  /**
+   * 특정 모델의 단계 Array를 반환합니다
+   * @param modelNum
+   * @returns
+   */
   const getModelLevels = (modelNum: number) => {
     return Array.from(new Set(groupedByModelNum[Number(modelNum)].map((item) => item.level)));
   };
@@ -102,6 +109,34 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
     setChartData([...filtered, ...newItems].sort((a, b) => a.level - b.level));
   };
 
+  /**
+   * 특정 모델에 새로운 단계를 추가합니다
+   * @param modelNum
+   */
+  const addNewModelLevel = (modelNum: number) => {
+    const modelLevels = getModelLevels(modelNum);
+    const newLevel = Math.max(...modelLevels) + 1;
+    const newLevelItem: ChartData = {
+      serviceID: currentService?.serviceID!,
+      modelNum: modelNum,
+      label: '새 레이블',
+      chartLabel: '새 차트 레이블',
+      percentage: 100,
+      level: newLevel,
+    };
+    setChartData([...chartData, newLevelItem]);
+  };
+
+  /**
+   * 특정 모델의 특정 단계를 제거합니다
+   * @param modelNum
+   * @param level
+   */
+  const deleteModelLevel = (modelNum: number, level: number) => {
+    const filtered = chartData.filter((item) => !(item.modelNum !== modelNum && item.level !== level));
+    setChartData([...filtered]);
+  };
+
   useEffect(() => {
     if (!originChartData.length) setOriginChartData(chartData);
   }, [chartData]);
@@ -123,6 +158,8 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
         setIsEditing,
         setSelectedModel,
         syncOriginData,
+        addNewModelLevel,
+        deleteModelLevel,
       }}
     >
       {children}

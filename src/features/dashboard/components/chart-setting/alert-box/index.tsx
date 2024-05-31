@@ -16,9 +16,9 @@ const AlertBox = () => {
 
   const handleBtnClick = () => {
     toast.promise(mutateAsync(), {
-      loading: <Typography variant="caption">차트 정보를 업데이트하는 중입니다...</Typography>,
-      success: <Typography variant="caption">차트정보 업데이트 완료!</Typography>,
-      error: <Typography variant="caption">error</Typography>,
+      loading: <Typography variant="body2">차트 정보를 업데이트하는 중입니다...</Typography>,
+      success: <Typography variant="body2">차트정보 업데이트 완료!</Typography>,
+      error: <Typography variant="body2">차트정보 업데이트 중 문제가 발생했습니다</Typography>,
     });
   };
 
