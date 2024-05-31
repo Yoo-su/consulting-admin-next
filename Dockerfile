@@ -14,7 +14,7 @@ FROM base AS dependencies
 RUN npm ci
 
 # Build the Next.js application
-FROM base AS build
+FROM dependencies AS build
 
 ARG NEXT_PUBLIC_BASE_URL
 ARG NEXT_PUBLIC_MOCKING
