@@ -15,14 +15,13 @@ export type StateCardProps = {
   index: number;
   developer?: string;
 };
-const StateCard = ({ state, index, developer }: StateCardProps) => {
+const StateCard = ({ state, index }: StateCardProps) => {
   const { univList } = useUnivService();
   const { openDialog, setDialogContentState } = useConsultingAppState();
 
   const serviceInfo = state.serviceYear + (state.serviceType === 'S_A' ? '수시' : '정시');
   const univName = univList.filter((univ) => univ.univID == state.univID)[0].univName;
   const serviceID = state.serviceID ? state.serviceID : `${state.univID}-미정`;
-  console.log('state', state);
 
   const handleClick = () => {
     setDialogContentState({ ...state, univName, serviceID });
@@ -30,7 +29,7 @@ const StateCard = ({ state, index, developer }: StateCardProps) => {
   };
 
   return (
-    <Draggable draggableId={developer ? developer + '/' + serviceID : serviceID} index={index}>
+    <Draggable key={`${state.currentState}${index}`} draggableId={`${state.currentState}${index}`} index={index}>
       {(provided) => (
         <Box
           ref={provided.innerRef}

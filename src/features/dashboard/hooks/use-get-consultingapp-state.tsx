@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
-import { GetConsultingAppStateProps, getConsultingAppState } from '../apis/get-consultingapp-state';
+import { GetConsultingAppStateParams, getConsultingAppState } from '../apis/get-consultingapp-state';
 import { ConsultingAppState } from '../types/consultingapp-state.type';
 import { toast } from 'react-hot-toast';
 
 import { dummyConsultingAppStates } from '../constants/dummies/consultingapp-states.dummy';
 
-export const useGetConsultingAppState = (params: GetConsultingAppStateProps) => {
+export const useGetConsultingAppState = (params: GetConsultingAppStateParams) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<ConsultingAppState[]>([]);
 

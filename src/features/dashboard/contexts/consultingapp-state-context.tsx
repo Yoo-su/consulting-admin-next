@@ -4,6 +4,9 @@ import { createContext, ReactNode, useState, Dispatch, SetStateAction } from 're
 import { useGetConsultingAppState } from '../hooks/use-get-consultingapp-state';
 import { ConsultingAppState } from '../types/consultingapp-state.type';
 import { useUser } from '@/features/auth/hooks/use-user';
+import { useUpdateConsultingAppStateMutation } from '../hooks/tanstack/use-update-consultingapp-state-mutation';
+import toast from 'react-hot-toast';
+import { UpdateConsultingAppStateParams } from '../apis/update-consultingapp-state';
 
 export type BoardType = 'mainUser' | 'all';
 export type ViewOption = 'basic' | 'separated' | 'table';
@@ -22,6 +25,7 @@ export type ConsultingAppStateContextValue = {
   setDialogContentState: (state: ConsultingAppState) => void;
   openDialog: (dialogType: DialogType) => void;
   closeDialog: () => void;
+  updateConsultingAppState: (newState: UpdateConsultingAppStateParams) => boolean;
 };
 
 export const ConsultingAppStateContext = createContext<ConsultingAppStateContextValue | undefined>(undefined);
@@ -31,7 +35,7 @@ export type ConsultingAppStateProvider = {
 };
 const ConsultingAppStateProvider = ({ children }: ConsultingAppStateProvider) => {
   const { user } = useUser();
-  const { data, setData, loading } = useGetConsultingAppState({
+  const { data, setData, loading, execute } = useGetConsultingAppState({
     userID: user?.sub || '',
     departmentID: user?.departmentID,
   });
@@ -47,6 +51,7 @@ const ConsultingAppStateProvider = ({ children }: ConsultingAppStateProvider) =>
     isDialogOpen: false,
     dialogContentState: null,
   });
+  const { mutateAsync: updateConsultingAppStateMutation } = useUpdateConsultingAppStateMutation();
 
   const setBoardType = (newType: BoardType) => {
     setState((prev) => ({ ...prev, boardType: newType }));
@@ -68,6 +73,21 @@ const ConsultingAppStateProvider = ({ children }: ConsultingAppStateProvider) =>
     setState((prev) => ({ ...prev, dialogContentState: state }));
   };
 
+  const updateConsultingAppState = (newState: UpdateConsultingAppStateParams) => {
+    let isSuccess = false;
+    updateConsultingAppStateMutation(newState).then((res) => {
+      if (res.status === 200) {
+        execute();
+        toast.success('상태가 성공적으로 업데이트 되었습니다');
+        isSuccess = true;
+      } else {
+        toast.error('상태 업데이트 중 문제가 발생했습니다');
+        isSuccess = false;
+      }
+    });
+    return isSuccess;
+  };
+
   return (
     <ConsultingAppStateContext.Provider
       value={{
@@ -80,6 +100,7 @@ const ConsultingAppStateProvider = ({ children }: ConsultingAppStateProvider) =>
         openDialog,
         closeDialog,
         setDialogContentState,
+        updateConsultingAppState,
       }}
     >
       {children}

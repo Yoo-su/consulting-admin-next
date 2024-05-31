@@ -10,8 +10,9 @@ export type ConsultingAppState = {
   salesPerson?: string;
   salesPersonName?: string;
   serviceYear: string;
-  serviceType: 'S_A' | 'J_A'; //'susi' | 'jungsi';
+  serviceType: ServiceType; //'susi' | 'jungsi';
   serialKey?: string;
   isNew?: boolean;
   currentState: CurrentState;
 };
+export type ServiceType = 'S_A' | 'J_A';

@@ -9,9 +9,8 @@ import StateCol from '../state-col';
 import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-consultingapp-state';
 import { stateBoardDomainItems } from '../constants/state-board-domain-items';
 import { getGroupedData } from '../services/get-grouped-data';
-import { ConsultingAppState, CurrentState } from '@/features/dashboard/types/consultingapp-state.type';
+import { ConsultingAppState, CurrentState, ServiceType } from '@/features/dashboard/types/consultingapp-state.type';
 import { currentStateList } from '../constants/current-states-list';
-import { useUser } from '@/features/auth/hooks/use-user';
 import { BoardType } from '@/features/dashboard/contexts/consultingapp-state-context';
 
 type BasicBoardProps = {
@@ -19,9 +18,7 @@ type BasicBoardProps = {
 };
 
 const BasicBoard = ({ boardType }: BasicBoardProps) => {
-  const { user } = useUser();
-  console.log('user', user);
-  const { consultingAppStates, setConsultingAppStates } = useConsultingAppState();
+  const { consultingAppStates, updateConsultingAppState } = useConsultingAppState();
   const [groupedByCurrentState, setGroupedByCurrentState] = useState<Record<CurrentState, ConsultingAppState[]>>(
     getGroupedData(consultingAppStates, 'currentState', currentStateList)
   );
@@ -37,23 +34,26 @@ const BasicBoard = ({ boardType }: BasicBoardProps) => {
       const destinationList = filteredGroupedState[destination.droppableId as CurrentState];
 
       // 같은 리스트 내에서 이동한 경우
-      if (source.droppableId === destination.droppableId) {
-        const [removed] = sourceList.splice(source.index, 1);
-        sourceList.splice(destination.index, 0, removed);
-      }
+      if (source.droppableId === destination.droppableId) return;
       // 다른 리스트 간 이동한 경우
-      else {
-        const [removed] = sourceList.splice(source.index, 1);
-        removed.currentState = destination.droppableId as CurrentState;
-        destinationList.splice(destination.index, 0, removed);
+      const [removed] = sourceList.splice(source.index, 1);
+      const updateParams = {
+        serviceYear: Number(removed.serviceYear),
+        univID: Number(removed.univID),
+        serviceType: removed.serviceType as ServiceType,
+        currentState: destination.droppableId as CurrentState,
+      };
+      const isSuccess = updateConsultingAppState(updateParams);
+      removed.currentState = destination.droppableId as CurrentState;
+      destinationList.splice(destination.index, 0, removed);
+      if (isSuccess) {
+        // 상태 업데이트
+        setGroupedByCurrentState((prevState) => ({
+          ...prevState,
+          [source.droppableId]: sourceList,
+          [destination.droppableId]: destinationList,
+        }));
       }
-
-      // 상태 업데이트
-      setGroupedByCurrentState((prevState) => ({
-        ...prevState,
-        [source.droppableId]: sourceList,
-        [destination.droppableId]: destinationList,
-      }));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [consultingAppStates]
