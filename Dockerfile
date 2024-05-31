@@ -7,11 +7,14 @@ WORKDIR /consulting-admin
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
+# Dependencies stage
+FROM base AS dependencies
+
 # Install dependencies
 RUN npm ci
 
 # Build the Next.js application
-FROM base AS build
+FROM dependencies AS build
 
 ARG NEXT_PUBLIC_BASE_URL
 ARG NEXT_PUBLIC_MOCKING
@@ -36,7 +39,7 @@ COPY --from=build /consulting-admin/public ./public
 COPY --from=build /consulting-admin/package*.json ./
 
 # Install production dependencies
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 # Expose port
 EXPOSE 3000

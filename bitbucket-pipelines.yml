@@ -9,7 +9,7 @@ pipelines:
           deployment: Production
           script:
             - export IMAGE_NAME="${BITBUCKET_REPO_SLUG}"
-            - docker build --target production -t ${IMAGE_NAME} --build-arg NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL_REAL} --build-arg NEXT_PUBLIC_MOCKING=${NEXT_PUBLIC_MOCKING} .
+            - docker build -t ${IMAGE_NAME} --build-arg NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL_REAL} --build-arg NEXT_PUBLIC_MOCKING=${NEXT_PUBLIC_MOCKING} .
             - echo $HARBOR_PASSWORD | docker login harbor-apply.jinhaksa.com/consulting --username $HARBOR_USERNAME --password-stdin
             - docker tag "${IMAGE_NAME}:latest" harbor-apply.jinhaksa.com/consulting/${IMAGE_NAME}:main
             - docker push harbor-apply.jinhaksa.com/consulting/"${IMAGE_NAME}:main"
@@ -20,15 +20,35 @@ pipelines:
 
     develop:
       - step:
-          name: Build and Push to Harbor (Develop Branch)
-          deployment: Staging
+          name: Build (Develop Branch)
+          caches:
+            - docker
           script:
             - export IMAGE_NAME="${BITBUCKET_REPO_SLUG}"
-            - docker build --target production -t ${IMAGE_NAME} --build-arg NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL_TEST} --build-arg NEXT_PUBLIC_MOCKING=${NEXT_PUBLIC_MOCKING} .
+            - docker build --target build -t ${IMAGE_NAME}_build --build-arg NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL_TEST} --build-arg NEXT_PUBLIC_MOCKING=${NEXT_PUBLIC_MOCKING} .
+            - docker create --name extract ${IMAGE_NAME}_build
+            - docker cp extract:/consulting-admin/.next ./.next
+            - docker cp extract:/consulting-admin/public ./public
+            - docker rm -f extract
+          services:
+            - docker
+          artifacts:
+            - ./.next
+            - ./public
+
+      - step:
+          name: Push to Harbor (Develop Branch)
+          deployment: Staging
+          caches:
+            - docker
+          script:
+            - export IMAGE_NAME="${BITBUCKET_REPO_SLUG}"
+            - docker build --target production -t ${IMAGE_NAME} .
             - echo $HARBOR_PASSWORD | docker login harbor-apply.jinhaksa.com/consulting --username $HARBOR_USERNAME --password-stdin
             - docker tag "${IMAGE_NAME}:latest" harbor-apply.jinhaksa.com/consulting/${IMAGE_NAME}:develop
             - docker push harbor-apply.jinhaksa.com/consulting/"${IMAGE_NAME}:develop"
           services:
             - docker
-          caches:
-            - docker
+          artifacts:
+            - ./.next
+            - ./public

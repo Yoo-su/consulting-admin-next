@@ -8,7 +8,7 @@ import { useUpdateConsultingAppStateMutation } from '../hooks/tanstack/use-updat
 import toast from 'react-hot-toast';
 import { UpdateConsultingAppStateParams } from '../apis/update-consultingapp-state';
 
-export type BoardType = 'mainUser' | 'all';
+export type BoardType = 'mainUser'; //| 'all';
 export type ViewOption = 'basic' | 'separated' | 'table';
 export type DialogType = 'create' | 'modify';
 export type ConsultingAppStateContextValue = {
