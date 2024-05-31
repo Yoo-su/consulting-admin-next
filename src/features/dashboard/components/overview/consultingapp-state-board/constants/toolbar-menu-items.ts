@@ -12,11 +12,11 @@ export const toolbarMenuItems: ToolbarMenuItem[] = [
     displayType: 'mainUser',
     Icon: PersonRoundedIcon,
   },
-  {
-    title: '전체 진행현황',
-    displayType: 'all',
-    Icon: PeopleIcon,
-  },
+  // {
+  //   title: '전체 진행현황',
+  //   displayType: 'all',
+  //   Icon: PeopleIcon,
+  // },
 ];
 
 export const viewOptions: ToolbarViewOption[] = [

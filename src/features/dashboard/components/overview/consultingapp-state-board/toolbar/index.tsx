@@ -24,8 +24,7 @@ const Toolbar = ({ boardType }: ToolbarProps) => {
   return (
     <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
       {renderMenuItems(toolbarMenuItems, upmd)}
-
-      {boardType === 'all' && renderViewOptions(viewOptions, upmd)}
+      {/* {boardType === 'all' && renderViewOptions(viewOptions, upmd)} */}
     </Stack>
   );
 };
