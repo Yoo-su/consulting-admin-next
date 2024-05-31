@@ -3,12 +3,19 @@
 import { createContext, ReactNode, useState, Dispatch, SetStateAction } from 'react';
 import { useGetConsultingAppState } from '../hooks/use-get-consultingapp-state';
 import { ConsultingAppState } from '../types/consultingapp-state.type';
+import { useUser } from '@/features/auth/hooks/use-user';
+import { useUpdateConsultingAppStateMutation } from '../hooks/tanstack/use-update-consultingapp-state-mutation';
+import toast from 'react-hot-toast';
+import { UpdateConsultingAppStateParams } from '../apis/update-consultingapp-state';
 
-export type BoardType = 'basic' | 'developer' | 'table';
+export type BoardType = 'mainUser' | 'all';
+export type ViewOption = 'basic' | 'separated' | 'table';
 export type DialogType = 'create' | 'modify';
 export type ConsultingAppStateContextValue = {
   boardType: BoardType;
   setBoardType: (newType: BoardType) => void;
+  viewOption: ViewOption;
+  setViewOption: (newOption: ViewOption) => void;
   consultingAppStates: ConsultingAppState[];
   setConsultingAppStates: Dispatch<SetStateAction<ConsultingAppState[]>>;
   isLoading: boolean;
@@ -18,6 +25,7 @@ export type ConsultingAppStateContextValue = {
   setDialogContentState: (state: ConsultingAppState) => void;
   openDialog: (dialogType: DialogType) => void;
   closeDialog: () => void;
+  updateConsultingAppState: (newState: UpdateConsultingAppStateParams) => boolean;
 };
 
 export const ConsultingAppStateContext = createContext<ConsultingAppStateContextValue | undefined>(undefined);
@@ -26,18 +34,31 @@ export type ConsultingAppStateProvider = {
   children: ReactNode;
 };
 const ConsultingAppStateProvider = ({ children }: ConsultingAppStateProvider) => {
-  const { data, setData, loading } = useGetConsultingAppState();
+  const { user } = useUser();
+  const { data, setData, loading, execute } = useGetConsultingAppState({
+    userID: user?.sub || '',
+    departmentID: user?.departmentID,
+  });
   const [state, setState] = useState<
-    Pick<ConsultingAppStateContextValue, 'boardType' | 'dialogType' | 'isDialogOpen' | 'dialogContentState'>
+    Pick<
+      ConsultingAppStateContextValue,
+      'boardType' | 'viewOption' | 'dialogType' | 'isDialogOpen' | 'dialogContentState'
+    >
   >({
-    boardType: 'basic',
+    boardType: 'mainUser',
+    viewOption: 'basic',
     dialogType: null,
     isDialogOpen: false,
     dialogContentState: null,
   });
+  const { mutateAsync: updateConsultingAppStateMutation } = useUpdateConsultingAppStateMutation();
 
   const setBoardType = (newType: BoardType) => {
     setState((prev) => ({ ...prev, boardType: newType }));
+  };
+
+  const setViewOption = (newOption: ViewOption) => {
+    setState((prev) => ({ ...prev, viewOption: newOption }));
   };
 
   const openDialog = (dialogType: DialogType) => {
@@ -52,6 +73,21 @@ const ConsultingAppStateProvider = ({ children }: ConsultingAppStateProvider) =>
     setState((prev) => ({ ...prev, dialogContentState: state }));
   };
 
+  const updateConsultingAppState = (newState: UpdateConsultingAppStateParams) => {
+    let isSuccess = false;
+    updateConsultingAppStateMutation(newState).then((res) => {
+      if (res.status === 200) {
+        execute();
+        toast.success('상태가 성공적으로 업데이트 되었습니다');
+        isSuccess = true;
+      } else {
+        toast.error('상태 업데이트 중 문제가 발생했습니다');
+        isSuccess = false;
+      }
+    });
+    return isSuccess;
+  };
+
   return (
     <ConsultingAppStateContext.Provider
       value={{
@@ -60,9 +96,11 @@ const ConsultingAppStateProvider = ({ children }: ConsultingAppStateProvider) =>
         isLoading: loading,
         setConsultingAppStates: setData,
         setBoardType,
+        setViewOption,
         openDialog,
         closeDialog,
         setDialogContentState,
+        updateConsultingAppState,
       }}
     >
       {children}

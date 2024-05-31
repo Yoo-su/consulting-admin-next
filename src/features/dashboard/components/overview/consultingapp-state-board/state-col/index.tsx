@@ -18,7 +18,7 @@ export type StateColProps = {
   bgcolor: string;
   developer?: string;
 };
-const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey, developer }: StateColProps) => {
+const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey }: StateColProps) => {
   return (
     <Stack
       direction={'column'}
@@ -84,7 +84,7 @@ const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey, devel
         </Stack>
       </Stack>
 
-      <Droppable droppableId={developer ? developer + '/' + currentStateKey : currentStateKey} isCombineEnabled>
+      <Droppable droppableId={currentStateKey} isCombineEnabled>
         {(provided) => (
           <Stack
             ref={provided.innerRef}
@@ -94,7 +94,7 @@ const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey, devel
             spacing={1}
           >
             {groupedStates.map((consultingState, index) => (
-              <StateCard key={consultingState.serviceID} state={consultingState} index={index} developer={developer} />
+              <StateCard key={`${consultingState.univID}${index}`} state={consultingState} index={index} />
             ))}
             {provided.placeholder}
           </Stack>

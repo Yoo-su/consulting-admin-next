@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -20,6 +20,7 @@ import SpokeIcon from '@mui/icons-material/Spoke';
 import AccessibilityIcon from '@mui/icons-material/Accessibility';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import SportsMartialArtsIcon from '@mui/icons-material/SportsMartialArts';
+import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
 
 import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-consultingapp-state';
 import { stateBoardDomainItems } from '../constants/state-board-domain-items';
@@ -29,6 +30,30 @@ const ConsultingAppStateDialog = () => {
   if (!dialogContentState) return null;
 
   const { bgcolor, color, title } = stateBoardDomainItems[dialogContentState.currentState];
+
+  const StackContainer = ({ children, typo }: { children: ReactNode; typo?: string }) => {
+    return (
+      <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
+        {children}
+        {typo && <Typography variant="body2">{typo}</Typography>}
+      </Stack>
+    );
+  };
+
+  const StackLabelContainer = ({ children, label }: { children: ReactNode; label: string }) => {
+    return (
+      <Stack
+        direction={'row'}
+        alignItems={'center'}
+        spacing={1}
+        flexGrow={1}
+        sx={{ '& .MuiSvgIcon-root': { fontSize: 'small' } }}
+      >
+        {children}
+        <Typography variant="body1">{label}</Typography>
+      </Stack>
+    );
+  };
 
   return (
     <Dialog open={isDialogOpen} onClose={closeDialog} maxWidth="sm" fullWidth>
@@ -41,66 +66,60 @@ const ConsultingAppStateDialog = () => {
       </DialogTitle>
 
       <DialogContent>
-        <Stack direction={'column'} spacing={3} px={6}>
-          <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
-            <Stack direction={'row'} alignItems={'center'} spacing={1} flexGrow={1}>
-              <AccountBalanceIcon fontSize="small" />
-              <Typography variant="body1">대학교</Typography>
-            </Stack>
-            <Typography variant="body2">{dialogContentState.univName}</Typography>
-          </Stack>
+        <Stack direction={'column'} spacing={3} px={6} sx={{ paddingBottom: '1rem' }}>
+          <StackContainer typo={dialogContentState.univName}>
+            <StackLabelContainer label="대학교">
+              <AccountBalanceIcon />
+            </StackLabelContainer>
+          </StackContainer>
 
-          <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
-            <Stack direction={'row'} alignItems={'center'} spacing={1} flexGrow={1}>
-              <EggIcon fontSize="small" />
-              <Typography variant="body1">서비스ID</Typography>
-            </Stack>
-            <Typography variant="body2">{dialogContentState.serviceID}</Typography>
-          </Stack>
+          <StackContainer typo={dialogContentState.serviceID}>
+            <StackLabelContainer label="서비스ID">
+              <EggIcon />
+            </StackLabelContainer>
+          </StackContainer>
 
-          <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
-            <Stack direction={'row'} alignItems={'center'} spacing={1} flexGrow={1}>
-              <SpokeIcon fontSize="small" />
-              <Typography variant="body1">현재 상태</Typography>
-            </Stack>
+          <StackContainer>
+            <StackLabelContainer label="현재 상태">
+              <SpokeIcon />
+            </StackLabelContainer>
             <Chip size="small" label={title} sx={{ bgcolor: color }} />
-          </Stack>
+          </StackContainer>
 
-          <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
-            <Stack direction={'row'} alignItems={'center'} spacing={1} flexGrow={1}>
-              <AccessibilityIcon fontSize="small" />
-              <Typography variant="body1">담당 개발자</Typography>
-            </Stack>
-            <Typography variant="body2">{dialogContentState.developer}</Typography>
-          </Stack>
+          <StackContainer typo={dialogContentState.developerName}>
+            <StackLabelContainer label="담당 개발자">
+              <AccessibilityIcon />
+            </StackLabelContainer>
+          </StackContainer>
 
-          <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
-            <Stack direction={'row'} alignItems={'center'} spacing={1} flexGrow={1}>
-              <EmojiPeopleIcon fontSize="small" />
-              <Typography variant="body1">담당 운영자</Typography>
-            </Stack>
-            <Typography variant="body2">{dialogContentState.manager}</Typography>
-          </Stack>
+          <StackContainer typo={dialogContentState.managerName ?? '미정'}>
+            <StackLabelContainer label="담당 운영자">
+              <EmojiPeopleIcon />
+            </StackLabelContainer>
+          </StackContainer>
 
-          <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
-            <Stack direction={'row'} alignItems={'center'} spacing={1} flexGrow={1}>
-              <SportsMartialArtsIcon fontSize="small" />
-              <Typography variant="body1">담당 영업자</Typography>
-            </Stack>
-            <Typography variant="body2">{dialogContentState.salesPerson ?? '미정'}</Typography>
-          </Stack>
+          <StackContainer typo={dialogContentState.salesPersonName ?? '미정'}>
+            <StackLabelContainer label="담당 영업자">
+              <SportsMartialArtsIcon />
+            </StackLabelContainer>
+          </StackContainer>
 
-          <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
-            <Stack direction={'row'} alignItems={'center'} spacing={1} flexGrow={1}>
-              <FiberNewIcon fontSize="small" />
-              <Typography variant="body1">신규앱 여부</Typography>
-            </Stack>
+          <StackContainer>
+            <StackLabelContainer label="신규앱 여부">
+              <FiberNewIcon />
+            </StackLabelContainer>
             {dialogContentState.isNew ? (
               <CheckIcon sx={{ color: '#1976D2' }} />
             ) : (
               <CloseIcon sx={{ color: '#FD5361' }} />
             )}
-          </Stack>
+          </StackContainer>
+
+          <StackContainer typo={dialogContentState.serialKey ?? '미정'}>
+            <StackLabelContainer label="시리얼넘버">
+              <VpnKeyRoundedIcon />
+            </StackLabelContainer>
+          </StackContainer>
         </Stack>
       </DialogContent>
     </Dialog>

@@ -4,11 +4,15 @@ export type ConsultingAppState = {
   serviceID: string;
   univName: string;
   developer: string;
-  manager: string;
+  developerName: string;
+  manager: string | null;
+  managerName: string;
   salesPerson?: string;
+  salesPersonName?: string;
   serviceYear: string;
-  serviceType: 'susi' | 'jungsi';
+  serviceType: ServiceType; //'susi' | 'jungsi';
   serialKey?: string;
   isNew?: boolean;
   currentState: CurrentState;
 };
+export type ServiceType = 'S_A' | 'J_A';
