@@ -7,6 +7,9 @@ WORKDIR /consulting-admin
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
+# Dependencies stage
+FROM base AS dependencies
+
 # Install dependencies
 RUN npm ci
 
