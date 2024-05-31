@@ -174,6 +174,7 @@ export const useHandleExcel = () => {
 
   const validation = (data: ExcelData) => {
     Object.entries(data).forEach(([key, sheet]) => {
+      if ( key.match(/^(레이아웃|기본자료)$/) ) return;
       const layoutKeys = Object.keys(EXCEL_LAYOUT);
       if (!layoutKeys.includes(key)) {
         throw new Error(
