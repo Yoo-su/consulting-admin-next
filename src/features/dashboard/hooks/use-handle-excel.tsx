@@ -75,10 +75,18 @@ export const useHandleExcel = () => {
           resolve(true);
         } catch (error) {
           if (error instanceof Error) {
-            setAlertData({ message: error.message, color: 'error' });
+            if ( fileOnly ) {
+              setAlertData({ message: error.message + '단, 파일만 업로드는 가능합니다.', color: 'warning' });
+              setIsVerified(true);
+              resolve(true);
+            } else {
+              setAlertData({ message: error.message, color: 'error' });
+            }
           }
-          setIsVerified(false);
-          resolve(false);
+          if (!fileOnly) {
+            setIsVerified(false);
+            resolve(false);  
+          }
         }
       };
       fileReader.readAsArrayBuffer(excel);
