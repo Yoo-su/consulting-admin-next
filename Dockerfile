@@ -36,7 +36,7 @@ COPY --from=build /consulting-admin/public ./public
 COPY --from=build /consulting-admin/package*.json ./
 
 # Install production dependencies
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 # Expose port
 EXPOSE 3000
