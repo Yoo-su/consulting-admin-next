@@ -20,9 +20,7 @@ pipelines:
 
     develop:
       - step:
-          name: Build (Main Branch)
-          caches:
-            - docker
+          name: Build (Develop Branch)
           script:
             - export IMAGE_NAME="${BITBUCKET_REPO_SLUG}"
             - docker build --target build -t ${IMAGE_NAME}_build --build-arg NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL_REAL} --build-arg NEXT_PUBLIC_MOCKING=${NEXT_PUBLIC_MOCKING} .
@@ -30,6 +28,10 @@ pipelines:
             - docker cp extract:/consulting-admin/.next ./.next
             - docker cp extract:/consulting-admin/public ./public
             - docker rm -f extract
+          services:
+            - docker
+          caches:
+            - docker
 
       - step:
           name: Push to Harbor (Develop Branch)
@@ -41,4 +43,6 @@ pipelines:
             - docker tag "${IMAGE_NAME}:latest" harbor-apply.jinhaksa.com/consulting/${IMAGE_NAME}:develop
             - docker push harbor-apply.jinhaksa.com/consulting/"${IMAGE_NAME}:develop"
           services:
+            - docker
+          caches:
             - docker
