@@ -5,7 +5,6 @@ import { ChartData } from '../types/chart-data.type';
 type GetChartDataResponse = {
   ServiceID: number;
   ModelNum: number;
-  RowNum: number;
   Label: string;
   Percentage: number;
   Level: number;
@@ -19,7 +18,6 @@ export const getChartData = async (serviceID: string) => {
       return parsedData.map((item) => ({
         serviceID: item.ServiceID.toString(),
         modelNum: item.ModelNum,
-        rowNum: item.RowNum,
         label: item.Label,
         percentage: item.Percentage,
         level: item.Level,

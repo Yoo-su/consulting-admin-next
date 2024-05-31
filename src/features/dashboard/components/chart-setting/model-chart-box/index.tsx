@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, memo } from 'react';
 import { Stack, Typography, Chip } from '@mui/material';
 import { PieChart } from '@mui/x-charts/PieChart';
 
@@ -21,12 +21,6 @@ const ModelChartBox = ({ selectedModel, modelChartData, modelLevels }: ModelChar
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modelChartData, selectedLevel]);
 
-  useEffect(() => {
-    if (selectedLevel) setSelectedLevel(selectedLevel);
-    else setSelectedLevel(modelLevels.length ? modelLevels[0] : null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modelChartData]);
-
   function transformDataForChart(chartData: ChartData[]) {
     return chartData.map((data) => {
       return {
@@ -41,12 +35,18 @@ const ModelChartBox = ({ selectedModel, modelChartData, modelLevels }: ModelChar
     return modelChartData.filter((data) => data.level === level);
   }
 
+  useEffect(() => {
+    if (selectedLevel) setSelectedLevel(selectedLevel);
+    else setSelectedLevel(modelLevels.length ? modelLevels[0] : null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modelChartData]);
+
   return (
     <Stack
       direction={'column'}
       spacing={2}
       alignItems={'center'}
-      sx={{ p: 2, mt: 4, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)' }}
+      sx={{ py: 4, mt: 4, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)' }}
     >
       <Typography variant="h6">모델{selectedModel + 1}</Typography>
 
@@ -87,4 +87,4 @@ const ModelChartBox = ({ selectedModel, modelChartData, modelLevels }: ModelChar
   );
 };
 
-export default ModelChartBox;
+export default memo(ModelChartBox);

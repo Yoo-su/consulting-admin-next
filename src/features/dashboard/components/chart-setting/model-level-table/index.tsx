@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent, Fragment } from 'react';
+import { useState, useEffect, ChangeEvent, memo } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -13,10 +13,13 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
+import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
+import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { useChartSetting } from '@/features/dashboard/hooks/context/use-chart-setting';
 import { ChartData } from '@/features/dashboard/types/chart-data.type';
+import toast from 'react-hot-toast';
 
 type ModelLevelTableProps = {
   chartData: ChartData[];
@@ -24,24 +27,56 @@ type ModelLevelTableProps = {
   level: number;
 };
 const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) => {
-  const { shiftModelRows, addNewModelLevelRow } = useChartSetting();
+  const { currentService } = useUnivService();
+  const { shiftModelRows } = useChartSetting();
   const [tmpChartData, setTmpChartData] = useState<ChartData[]>(chartData);
   const [editMode, setEditMode] = useState<boolean>(false);
 
+  // 편집 모드에 진입합니다
   const enterEditMode = () => {
     setEditMode(true);
   };
+  // 편집 내용을 저장하고 편집모드를 종료합니다
   const saveEditContent = () => {
-    shiftModelRows(tmpChartData, modelNum, level);
+    if (JSON.stringify(chartData) !== JSON.stringify(tmpChartData)) shiftModelRows(tmpChartData, modelNum, level);
     setEditMode(false);
   };
+  // 편집 내용을 취소하고 편집모드를 종료합니다
   const cancleEdit = () => {
+    setTmpChartData(chartData);
     setEditMode(false);
+  };
+
+  /**
+   * 특정 모델의 특정 단계에 새로운 행을 추가합니다
+   * @param modelNum
+   * @param level
+   */
+  const addNewModelLevelRow = (modelNum: number, level: number) => {
+    if (tmpChartData.length > 5) {
+      toast.error('최대 다섯개까지 추가 가능합니다');
+      return;
+    }
+    const newItem: ChartData = {
+      serviceID: currentService?.serviceID!,
+      modelNum: modelNum,
+      label: '새 레이블',
+      chartLabel: '새 차트 레이블',
+      percentage: 100,
+      level: level,
+    };
+    const newChartData = [...tmpChartData, newItem];
+    setTmpChartData(newChartData);
   };
 
   const handleFieldChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
     const { name, value } = event.target;
     setTmpChartData((prevData) => prevData.map((item, i) => (i === index ? { ...item, [name]: value } : item)));
+  };
+
+  const handleClickDeleteBtn = (deleteIdx: number) => {
+    const newItems = tmpChartData.filter((_, idx) => idx !== deleteIdx);
+    setTmpChartData(newItems);
   };
 
   useEffect(() => {
@@ -56,7 +91,7 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
         </Stack>
         {editMode ? (
           <Stack direction={'row'} spacing={0.5}>
-            <Button size="small" color="success" variant="outlined" onClick={saveEditContent}>
+            <Button size="small" color="success" variant="contained" onClick={saveEditContent} sx={{ color: 'white' }}>
               <Typography variant="body1" fontSize={12}>
                 완료
               </Typography>
@@ -86,7 +121,7 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
             </TableRow>
           </TableHead>
           <TableBody>
-            {chartData.map((data, idx) => (
+            {tmpChartData.map((data, idx) => (
               <TableRow key={idx} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell component="th" scope="row">
                   {editMode ? (
@@ -129,7 +164,17 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
                   )}
                 </TableCell>
                 <TableCell align="right">
-                  <Stack>🗑️</Stack>
+                  {editMode ? (
+                    <DeleteIcon
+                      fontSize="small"
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => {
+                        handleClickDeleteBtn(idx);
+                      }}
+                    />
+                  ) : (
+                    '-'
+                  )}
                 </TableCell>
               </TableRow>
             ))}
@@ -163,4 +208,4 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
   );
 };
 
-export default ModelLevelTable;
+export default memo(ModelLevelTable);
