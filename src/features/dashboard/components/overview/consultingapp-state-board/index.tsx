@@ -12,6 +12,7 @@ import TableBoard from './table-board';
 
 const ConsultingAppStateBoard = () => {
   const { isLoading, boardType, viewOption, isDialogOpen } = useConsultingAppState();
+
   if (isLoading) return <ConsultingAppStateBoardSkeleton />;
 
   return (

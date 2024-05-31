@@ -5,6 +5,7 @@ import { getUserProfile } from '../apis/get-user-profile';
 import { authInstance } from '@/shared/plugin/axios';
 import { User } from '../types/user.type';
 import toast from 'react-hot-toast';
+import { syncMoaNesinService } from '@/features/dashboard/apis/sync-moa-nesin-service';
 
 export type UserContextValue = {
   user: User | null;
@@ -33,6 +34,10 @@ const UserProvider = ({ children }: UserProviderProps) => {
       getUserProfile()
         .then((res) => {
           setUser(res.data);
+          // moa 정보 업데이트
+          syncMoaNesinService({ userID: res.data.sub, departmentID: res.data.departmentID }).then((res) => {
+            console.log('sync with Moa :\n', res.data.message);
+          });
         })
         .catch((err) => {
           delete authInstance.defaults.headers.common['Authorization'];

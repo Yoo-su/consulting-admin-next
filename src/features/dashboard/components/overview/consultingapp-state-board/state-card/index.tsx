@@ -20,7 +20,7 @@ const StateCard = ({ state, index }: StateCardProps) => {
   const { openDialog, setDialogContentState } = useConsultingAppState();
 
   const serviceInfo = state.serviceYear + (state.serviceType === 'S_A' ? '수시' : '정시');
-  const univName = univList.filter((univ) => univ.univID == state.univID)[0].univName;
+  const univName = univList.filter((univ) => univ.univID == state.univID)[0]?.univName || '새대학';
   const serviceID = state.serviceID ? state.serviceID : `${state.univID}-미정`;
 
   const handleClick = () => {
