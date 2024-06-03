@@ -9,7 +9,7 @@ export const useUpdateChartDataMutation = () => {
   const { currentService } = useUnivService();
   const { chartData, syncOriginData } = useChartSetting();
   return useMutation({
-    mutationFn: () => updateChartData(currentService?.serviceID!, chartData),
+    mutationFn: () => updateChartData(currentService?.serviceID ?? '', chartData),
     onSuccess: () => {
       syncOriginData();
     },

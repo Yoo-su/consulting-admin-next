@@ -39,7 +39,7 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const hasChanges = useMemo(() => {
-    if (!!!originChartData.length) return false;
+    if (!originChartData.length) return false;
     return JSON.stringify(originChartData) !== JSON.stringify(chartData);
   }, [originChartData, chartData]);
 
@@ -70,7 +70,7 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
     const newChartData: ChartData[] = [
       ...chartData,
       {
-        serviceID: currentService?.serviceID!,
+        serviceID: currentService?.serviceID ?? '',
         modelNum: newModelNum,
         label: '새 레이블',
         chartLabel: '새 차트 레이블',
@@ -117,7 +117,7 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
     const modelLevels = getModelLevels(modelNum);
     const newLevel = Math.max(...modelLevels) + 1;
     const newLevelItem: ChartData = {
-      serviceID: currentService?.serviceID!,
+      serviceID: currentService?.serviceID ?? '',
       modelNum: modelNum,
       label: '새 레이블',
       chartLabel: '새 차트 레이블',
@@ -139,7 +139,7 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
 
   useEffect(() => {
     if (!originChartData.length) setOriginChartData(chartData);
-  }, [chartData]);
+  }, [chartData, originChartData.length]);
 
   return (
     <ChartSettingContext.Provider
