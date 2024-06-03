@@ -1,5 +1,5 @@
 # Base Node.js image
-FROM node:20 AS base
+FROM node:20 AS builder
 
 # Create app directory
 WORKDIR /consulting-admin
@@ -8,7 +8,7 @@ WORKDIR /consulting-admin
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm install
 
 ARG NEXT_PUBLIC_BASE_URL
 ARG NEXT_PUBLIC_MOCKING
@@ -21,6 +21,20 @@ COPY . .
 
 # Build the Next.js application
 RUN npm run build
+
+# Production stage
+FROM node:20-alpine AS production
+
+WORKDIR /consulting-admin
+
+# Copy built assets from the build stage
+COPY --from=builder /consulting-admin/.next ./.next
+
+COPY public ./public
+COPY package*.json ./
+
+# Install production dependencies
+RUN npm ci --omit=dev
 
 # Expose port
 EXPOSE 3000
