@@ -30,6 +30,8 @@ const AppHistoryListBox = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appType]);
 
+  console.log('currentService', currentService);
+
   return (
     <Stack
       direction={'column'}

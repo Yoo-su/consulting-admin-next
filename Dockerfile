@@ -1,5 +1,5 @@
 # Base Node.js image
-FROM node:20 AS base
+FROM node:20 AS builder
 
 # Create app directory
 WORKDIR /consulting-admin
@@ -7,14 +7,8 @@ WORKDIR /consulting-admin
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Dependencies stage
-FROM base AS dependencies
-
 # Install dependencies
-RUN npm ci
-
-# Build the Next.js application
-FROM dependencies AS build
+RUN npm install
 
 ARG NEXT_PUBLIC_BASE_URL
 ARG NEXT_PUBLIC_MOCKING
@@ -34,9 +28,10 @@ FROM node:20-alpine AS production
 WORKDIR /consulting-admin
 
 # Copy built assets from the build stage
-COPY --from=build /consulting-admin/.next ./.next
-COPY --from=build /consulting-admin/public ./public
-COPY --from=build /consulting-admin/package*.json ./
+COPY --from=builder /consulting-admin/.next ./.next
+
+COPY public ./public
+COPY package*.json ./
 
 # Install production dependencies
 RUN npm ci --omit=dev

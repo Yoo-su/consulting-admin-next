@@ -98,7 +98,7 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
       return;
     }
     const newItem: ChartData = {
-      serviceID: currentService?.serviceID!,
+      serviceID: currentService?.serviceID ?? '',
       modelNum: modelNum,
       label: `새 레이블${[...tmpChartData].length + 1}`,
       chartLabel: '새 차트 레이블',
