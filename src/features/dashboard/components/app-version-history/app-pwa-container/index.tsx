@@ -15,6 +15,7 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
+import { isCurrentServiceYear } from '@/features/dashboard/services/is-current-service-year';
 
 const AppPWAContainer = () => {
   const theme = useTheme();
@@ -34,6 +35,38 @@ const AppPWAContainer = () => {
     } catch (e) {
       toast.error('복사에 실패했습니다');
     }
+  };
+
+  // 현 서비스학년도와 비교하여 현재 서비스 중인지 확인
+
+  const isCurrentYear = isCurrentServiceYear(currentService?.schoolYear || '');
+  const URLTextField = ({ id }: { id: string }) => {
+    const currentEngName = currentUniv?.univEngName;
+    const domain = id.includes('test') ? 'vapplytest' : 'consultingapp';
+    const location = id.includes('test') ? 'consultinghtmlv4' : 'ConsultingHtml';
+    const prevLocation = isCurrentYear
+      ? ''
+      : `/${currentService?.schoolYear}/${currentService?.isSusi == 1 ? 'susi' : 'jungsi'}`;
+    const pwa = id.includes('test') ? '' : '-pwa';
+    const url = `https://${domain}.jinhakapply.com/${location}${prevLocation}/${currentEngName}${pwa}.html`;
+
+    return (
+      <TextField
+        disabled
+        fullWidth
+        id={`${currentService?.serviceID}-${id}`}
+        value={url}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton disableRipple aria-label="copy text" onClick={handleClickCopy} id={id}>
+                <ContentCopyIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
+    );
   };
 
   return (
@@ -74,40 +107,14 @@ const AppPWAContainer = () => {
       </Stack>
       <Stack direction={'column'} spacing={1}>
         <Typography variant="overline">Test</Typography>
-        <TextField
-          disabled
-          fullWidth
-          id={`${currentService?.serviceID}-testPwa`}
-          value={`https://vapplytest.jinhakapply.com/consultinghtmlv4/${currentUniv?.univEngName}.html`}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton disableRipple aria-label="copy text" onClick={handleClickCopy} id="testPwa">
-                  <ContentCopyIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+        <URLTextField id="testPwa" />
       </Stack>
-      <Stack direction={'column'} spacing={1}>
-        <Typography variant="overline">Real</Typography>
-        <TextField
-          disabled
-          fullWidth
-          id={`${currentService?.serviceID}-realPwa`}
-          value={`https://consultingapp.jinhakapply.com/ConsultingHtml/${currentUniv?.univEngName}-pwa.html`}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton disableRipple aria-label="copy text" onClick={handleClickCopy} id="realPwa">
-                  <ContentCopyIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Stack>
+      {isCurrentYear && (
+        <Stack direction={'column'} spacing={1}>
+          <Typography variant="overline">Real</Typography>
+          <URLTextField id="realPwa" />
+        </Stack>
+      )}
     </Stack>
   );
 };
