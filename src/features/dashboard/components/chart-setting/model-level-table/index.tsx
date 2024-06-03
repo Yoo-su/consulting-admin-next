@@ -38,6 +38,15 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
   };
   // 편집 내용을 저장하고 편집모드를 종료합니다
   const saveEditContent = () => {
+    const labelsSet = new Set();
+
+    for (const item of tmpChartData) {
+      if (labelsSet.has(item.label)) {
+        toast.error(<Typography variant="body2">[{item.label}] label이 중복되었습니다</Typography>);
+        return;
+      }
+      labelsSet.add(item.label);
+    }
     if (JSON.stringify(chartData) !== JSON.stringify(tmpChartData)) shiftModelRows(tmpChartData, modelNum, level);
     setEditMode(false);
   };
@@ -47,12 +56,10 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
     setEditMode(false);
   };
 
-  const handleDeleteLevelBtnClick = (modelNum: number, level: number) => {
+  const showConfirmToast = (message: string, callback: () => void) => {
     toast((t) => (
       <Stack direction={'column'} justifyContent={'center'} alignItems={'center'} spacing={1}>
-        <Typography variant="body2">
-          모델{modelNum + 1}의 {level}단계를 제거하시겠습니까?
-        </Typography>
+        <Typography variant="body2">{message}</Typography>
         <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} spacing={0.2}>
           <Button
             variant="text"
@@ -60,7 +67,7 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
             size="small"
             sx={{ width: 'fit-content' }}
             onClick={() => {
-              deleteModelLevel(modelNum, level);
+              callback();
               toast.dismiss(t.id);
             }}
           >
@@ -93,7 +100,7 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
     const newItem: ChartData = {
       serviceID: currentService?.serviceID!,
       modelNum: modelNum,
-      label: '새 레이블',
+      label: `새 레이블${[...tmpChartData].length + 1}`,
       chartLabel: '새 차트 레이블',
       percentage: 100,
       level: level,
@@ -107,11 +114,6 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
     setTmpChartData((prevData) => prevData.map((item, i) => (i === index ? { ...item, [name]: value } : item)));
   };
 
-  const handleClickDeleteBtn = (deleteIdx: number) => {
-    const newItems = tmpChartData.filter((_, idx) => idx !== deleteIdx);
-    setTmpChartData(newItems);
-  };
-
   useEffect(() => {
     setTmpChartData(chartData);
   }, [chartData]);
@@ -120,7 +122,7 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
     <Stack sx={{ my: 2 }}>
       <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ mb: 1 }}>
         <Stack direction={'row'} spacing={1} alignItems="center">
-          <Typography variant="body2">{`단계 ${chartData[0].level}`}</Typography>
+          <Typography variant="body2" fontSize={16}>{`단계 ${chartData[0].level}`}</Typography>
         </Stack>
         {editMode ? (
           <Stack direction={'row'} spacing={0.5}>
@@ -148,7 +150,9 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
                 variant="body1"
                 fontSize={12}
                 onClick={() => {
-                  handleDeleteLevelBtnClick(modelNum, level);
+                  showConfirmToast(`모델${modelNum + 1}의 ${level}단계를 삭제하시겠습니까?`, () =>
+                    deleteModelLevel(modelNum, level)
+                  );
                 }}
               >
                 단계삭제
@@ -169,7 +173,10 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
           </TableHead>
           <TableBody>
             {tmpChartData.map((data, idx) => (
-              <TableRow key={idx} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+              <TableRow
+                key={`model-${data.modelNum}-level-${data.level}-row-${idx}`}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
                 <TableCell component="th" scope="row">
                   {editMode ? (
                     <TextField
@@ -211,12 +218,23 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
                   )}
                 </TableCell>
                 <TableCell align="right">
-                  {editMode ? (
+                  {!editMode ? (
                     <DeleteIcon
                       fontSize="small"
-                      sx={{ cursor: 'pointer' }}
+                      sx={{
+                        cursor: 'pointer',
+                        color: 'rgba(0,0,0,0.6)',
+                        ':hover': { color: '#BC544B' },
+                        transition: 'all 0.2s linear',
+                      }}
                       onClick={() => {
-                        handleClickDeleteBtn(idx);
+                        showConfirmToast(
+                          `모델${modelNum + 1} 단계${data.level}의 [${data.label}]행을 삭제하시겠습니까?`,
+                          () => {
+                            const newItems = tmpChartData.filter((item, idx) => item.label !== data.label);
+                            setTmpChartData(newItems);
+                          }
+                        );
                       }}
                     />
                   ) : (

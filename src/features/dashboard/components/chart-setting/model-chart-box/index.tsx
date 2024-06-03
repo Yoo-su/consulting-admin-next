@@ -9,10 +9,12 @@ import { ChartData } from '@/features/dashboard/types/chart-data.type';
 type ModelChartBoxProps = {
   selectedModel: number;
   modelChartData: ChartData[];
-  modelLevels: number[];
 };
-const ModelChartBox = ({ selectedModel, modelChartData, modelLevels }: ModelChartBoxProps) => {
+const ModelChartBox = ({ selectedModel, modelChartData }: ModelChartBoxProps) => {
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
+  const modelLevels = useMemo(() => {
+    return Array.from(new Set(modelChartData.map((item) => item.level)));
+  }, [modelChartData]);
 
   const displayingData = useMemo(() => {
     if (!selectedLevel) return [];
@@ -36,10 +38,13 @@ const ModelChartBox = ({ selectedModel, modelChartData, modelLevels }: ModelChar
   }
 
   useEffect(() => {
-    if (selectedLevel) setSelectedLevel(selectedLevel);
-    else setSelectedLevel(modelLevels.length ? modelLevels[0] : null);
+    if (selectedLevel) {
+      modelLevels.findIndex((ml) => ml === selectedLevel) === -1
+        ? setSelectedLevel(modelLevels[0])
+        : setSelectedLevel(selectedLevel);
+    } else setSelectedLevel(modelLevels[0]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modelChartData]);
+  }, [modelLevels]);
 
   return (
     <Stack
@@ -69,7 +74,7 @@ const ModelChartBox = ({ selectedModel, modelChartData, modelLevels }: ModelChar
       </Stack>
 
       <PieChart
-        key={selectedModel}
+        key={`model-${selectedModel}-level-${selectedLevel}-chart`}
         series={[
           {
             data: displayingData,

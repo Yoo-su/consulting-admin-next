@@ -8,6 +8,7 @@ import { getGroupedData } from '../components/overview/consultingapp-state-board
 import { ChartData } from '../types/chart-data.type';
 
 export type ChartSettingContextValue = {
+  isLoading: boolean;
   chartData: ChartData[];
   groupedByModelNum: Record<number, ChartData[]>;
   modelNumbers: number[];
@@ -17,7 +18,7 @@ export type ChartSettingContextValue = {
   addNewModel: () => void;
   deleteModel: (modelNum: number) => void;
   getModelLevels: (modelNum: number) => number[];
-  setChartData: (chartData: ChartData[]) => void;
+  setChartData: (newItems: ChartData[]) => void;
   shiftModelRows: (newItems: ChartData[], modelNum: number, level: number) => void;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
   setSelectedModel: Dispatch<SetStateAction<number | null>>;
@@ -33,7 +34,7 @@ export type ChartSettingProviderProps = {
 };
 const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
   const { currentService } = useUnivService();
-  const { chartData, setChartData } = useGetChartData(currentService?.serviceID ?? '');
+  const { chartData, setChartData, isLoading } = useGetChartData(currentService?.serviceID ?? '');
   const [originChartData, setOriginChartData] = useState<ChartData[]>([]);
   const [selectedModel, setSelectedModel] = useState<number | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -43,15 +44,18 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
     return JSON.stringify(originChartData) !== JSON.stringify(chartData);
   }, [originChartData, chartData]);
 
+  const modelNumbers = useMemo(
+    () => Array.from(new Set(chartData.map((item) => item.modelNum))).sort((a, b) => a - b),
+    [chartData]
+  );
+
   /**
    *  모델 번호로 그룹핑된 데이터
    */
   const groupedByModelNum = useMemo(() => {
-    const modelNums = Array.from(new Set(chartData.map((item) => item.modelNum)));
-    return getGroupedData(chartData, 'modelNum', modelNums);
+    const modelNumbers = Array.from(new Set(chartData.map((item) => item.modelNum)));
+    return getGroupedData(chartData, 'modelNum', modelNumbers);
   }, [chartData]);
-
-  const modelNumbers = useMemo(() => Object.keys(groupedByModelNum).map(Number), [groupedByModelNum]);
 
   /**
    * 특정 모델의 단계 Array를 반환합니다
@@ -59,7 +63,7 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
    * @returns
    */
   const getModelLevels = (modelNum: number) => {
-    return Array.from(new Set(groupedByModelNum[Number(modelNum)].map((item) => item.level)));
+    return Array.from(new Set(groupedByModelNum[modelNum].map((item) => item.level)));
   };
 
   /**
@@ -133,8 +137,11 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
    * @param level
    */
   const deleteModelLevel = (modelNum: number, level: number) => {
-    const filtered = chartData.filter((item) => !(item.modelNum !== modelNum && item.level !== level));
-    setChartData([...filtered]);
+    const filtered = chartData.filter((item) => !(item.modelNum === modelNum && item.level === level));
+    setChartData(filtered);
+
+    const isRemaining = filtered.find((item) => item.modelNum === modelNum);
+    if (!isRemaining) setSelectedModel(null);
   };
 
   useEffect(() => {
@@ -144,6 +151,7 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
   return (
     <ChartSettingContext.Provider
       value={{
+        isLoading,
         chartData,
         groupedByModelNum,
         modelNumbers,

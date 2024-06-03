@@ -3,12 +3,15 @@ import { getChartData } from '../apis/get-chart-data';
 import { ChartData } from '../types/chart-data.type';
 
 export const useGetChartData = (serviceID: string) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [chartData, setChartData] = useState<ChartData[]>([]);
 
   const execute = useCallback(() => {
     if (!serviceID) return;
+    setIsLoading(true);
     getChartData(serviceID).then((res) => {
       setChartData(res.data);
+      setIsLoading(false);
     });
   }, [serviceID]);
 
@@ -18,5 +21,5 @@ export const useGetChartData = (serviceID: string) => {
   }, [serviceID]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  return { chartData, setChartData };
+  return { chartData, setChartData, isLoading };
 };
