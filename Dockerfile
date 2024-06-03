@@ -22,6 +22,9 @@ COPY . .
 # Build the Next.js application
 RUN npm run build
 
+# Check if .next directory exists in the builder stage
+RUN echo "Checking .next directory in builder stage:" && ls -la .next
+
 # Production stage
 FROM node:20-alpine AS production
 
@@ -29,15 +32,19 @@ WORKDIR /consulting-admin
 
 # Copy built assets from the build stage
 COPY --from=builder /consulting-admin/.next ./.next
+RUN echo "Checking .next directory in production stage after COPY:" && ls -la .next
 
-COPY public ./public
-COPY package*.json ./
+COPY --from=builder /consulting-admin/public ./public
+COPY --from=builder /consulting-admin/package*.json ./
 
 # Install production dependencies
 RUN npm ci --omit=dev
 
+# Check if .next directory exists after dependency installation
+RUN echo "Checking .next directory in production stage after npm ci:" && ls -la .next
+
 # Expose port
 EXPOSE 3000
 
-# Start Nginx server
-CMD ["npm", "start"]
+# Start the application
+CMD ["/bin/sh", "-c", "echo 'Listing files in /consulting-admin:' && ls -la && echo 'Starting Next.js...' && npm start"]
