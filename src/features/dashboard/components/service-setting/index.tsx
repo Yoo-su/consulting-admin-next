@@ -12,8 +12,10 @@ const ServiceSettingBox = () => {
 
   return (
     <Stack direction={'column'} sx={{ mt: { xs: 4, sm: 6, md: 6, lg: 6, xl: 8 } }} spacing={5}>
-      <AddServiceForm univID={currentUniv?.univID ?? ''} />
-
+      <Stack direction={'column'} spacing={2}>
+        <Typography variant="h6">서비스 추가</Typography>
+        <AddServiceForm univID={currentUniv?.univID ?? ''} />
+      </Stack>
       <Stack direction={'column'} spacing={2}>
         <Typography variant="h6">
           {currentUniv?.univName}({currentUniv?.univID}) 서비스 목록

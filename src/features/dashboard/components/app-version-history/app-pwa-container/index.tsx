@@ -46,9 +46,8 @@ const AppPWAContainer = () => {
     const location = id.includes('test') ? 'consultinghtmlv4' : 'ConsultingHtml';
     const prevLocation = isCurrentYear
       ? ''
-      : `/${currentService?.schoolYear}/${currentService?.isSusi == 1 ? 'susi' : 'jungsi'}`;
-    const pwa = id.includes('test') ? '' : '-pwa';
-    const url = `https://${domain}.jinhakapply.com/${location}${prevLocation}/${currentEngName}${pwa}.html`;
+      : `/${currentService?.schoolYear}${currentService?.isSusi === '1' ? 'susi' : 'jungsi'}`;
+    const url = `https://${domain}.jinhakapply.com/${location}${prevLocation}/${currentEngName}-pwa.html`;
 
     return (
       <TextField

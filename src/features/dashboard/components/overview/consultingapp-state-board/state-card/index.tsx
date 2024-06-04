@@ -91,7 +91,7 @@ const StateCard = ({ state, index }: StateCardProps) => {
             position: 'relative',
           }}
         >
-          <Tooltip title="자세히">
+          <Tooltip title="자세히" placement="top">
             <IconButton sx={{ ...iconDetailStyle }} onClick={handleIconClick} disableRipple>
               <MoreVertSharpIcon />
             </IconButton>

@@ -10,7 +10,7 @@ import AddchartIcon from '@mui/icons-material/Addchart';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import HistoryIcon from '@mui/icons-material/History';
+import DownloadIcon from '@mui/icons-material/Download';
 import LanIcon from '@mui/icons-material/Lan';
 import { paths } from '@/shared/constants/paths';
 import { NavItemType } from '../../types/nav-item.type';
@@ -54,9 +54,9 @@ export const sideNavItems1: NavItemType[] = [
   },
   {
     navkey: 'app-version-history',
-    title: '앱 버전 히스토리',
+    title: '앱 다운로드 정보',
     href: paths.dashboard.appVersionHistory,
-    Icon: HistoryIcon,
+    Icon: DownloadIcon,
   },
 ];
 

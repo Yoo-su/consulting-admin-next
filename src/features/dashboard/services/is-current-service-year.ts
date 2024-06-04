@@ -1,5 +1,6 @@
+import { getCurrentServiceYear } from './get-current-service-year';
+
 export const isCurrentServiceYear = (selectedServiceYear: string) => {
-  const currentDate = new Date();
-  const currentSchoolYear = currentDate.getMonth() + 1 < 4 ? currentDate.getFullYear() : currentDate.getFullYear() + 1;
+  const currentSchoolYear = getCurrentServiceYear();
   return Number(selectedServiceYear) === currentSchoolYear;
 };
