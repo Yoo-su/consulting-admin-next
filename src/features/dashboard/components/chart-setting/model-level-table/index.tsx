@@ -56,6 +56,11 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
     setEditMode(false);
   };
 
+  /**
+   * confirm toast를 띄웁니다
+   * @param message 메시지
+   * @param callback 실행할 콜백함수
+   */
   const showConfirmToast = (message: string, callback: () => void) => {
     toast((t) => (
       <Stack direction={'column'} justifyContent={'center'} alignItems={'center'} spacing={1}>
@@ -92,7 +97,7 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
    * @param modelNum
    * @param level
    */
-  const addNewModelLevelRow = (modelNum: number, level: number) => {
+  const handleClickAddLevelRowBtn = (modelNum: number, level: number) => {
     if ([...tmpChartData].length >= 5) {
       toast.error(<Typography variant="body2">최대 다섯개까지 추가 가능합니다</Typography>);
       return;
@@ -109,6 +114,20 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
     setTmpChartData(newChartData);
   };
 
+  /**
+   * 단계 테이블의 특정 행을 삭제합니다
+   * @param deleteRowLabel 삭제할 행 label
+   */
+  const handleClickDeleteLevelRowBtn = (deleteRowLabel: string) => {
+    const newItems = tmpChartData.filter((item, idx) => item.label !== deleteRowLabel);
+    shiftModelRows(newItems, modelNum, level);
+  };
+
+  /**
+   * 입력 필드 값 변경 처리
+   * @param event
+   * @param index
+   */
   const handleFieldChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
     const { name, value } = event.target;
     setTmpChartData((prevData) => prevData.map((item, i) => (i === index ? { ...item, [name]: value } : item)));
@@ -231,8 +250,7 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
                         showConfirmToast(
                           `모델${modelNum + 1} 단계${data.level}의 [${data.label}]행을 삭제하시겠습니까?`,
                           () => {
-                            const newItems = tmpChartData.filter((item, idx) => item.label !== data.label);
-                            setTmpChartData(newItems);
+                            handleClickDeleteLevelRowBtn(data.label);
                           }
                         );
                       }}
@@ -258,7 +276,7 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
                       borderRadius: '0.5rem',
                     }}
                     onClick={() => {
-                      addNewModelLevelRow(modelNum, level);
+                      handleClickAddLevelRowBtn(modelNum, level);
                     }}
                   >
                     <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} sx={{ py: 1 }}>
