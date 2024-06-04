@@ -164,4 +164,6 @@ const MemoizedModelLevelTable = ({ groupedByModelNum, modelNum, level }: Memoize
   return <ModelLevelTable chartData={filterByLevel} modelNum={modelNum} level={Number(level)} />;
 };
 
+MemoizedModelLevelTable.displayName = 'MemoizedModelLevelTable';
+
 export default ChartSettingBox;
