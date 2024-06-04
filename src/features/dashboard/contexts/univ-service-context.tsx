@@ -44,17 +44,15 @@ const UnivServiceProvider = ({ children }: UnivServiceProviderProps) => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const updateServiceList = (newService: CreateNewServiceParams) => {
+  const updateServiceList = async (newService: CreateNewServiceParams) => {
     try {
-      createNewService(newService).then((res) => {
+      await createNewService(newService).then((res) => {
         if (res.status === 201) {
           toast.success('서비스가 추가되었습니다.');
-        } else {
-          toast.error('서비스 추가에 실패했습니다.');
         }
       });
-    } catch (e) {
-      console.log('error', e);
+    } catch (e: any) {
+      toast.error(e.response.data.message);
     }
   };
   if (isPending) return <AppBackdrop />;

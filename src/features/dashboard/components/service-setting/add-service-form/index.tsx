@@ -24,7 +24,7 @@ const AddServiceForm = ({ univID }: { univID: string }) => {
   };
   const handleSubmit = () => {
     const params = {
-      SchoolYear: 2023, //currentServiceYear,
+      SchoolYear: currentServiceYear,
       IsSusi: serviceType,
       UnivID: univID,
     };
