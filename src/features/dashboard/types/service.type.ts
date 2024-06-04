@@ -1,7 +1,7 @@
 export type Service = {
   serviceID: string;
   schoolYear: string;
-  isSusi: number;
+  isSusi: string;
   univID: string;
   serviceName: string;
   developer: string | null;

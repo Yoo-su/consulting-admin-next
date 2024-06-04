@@ -1,223 +1,82 @@
-'use client';
-
-import Accordion from '@mui/material/Accordion';
-
+import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import FormHelperText from '@mui/material/FormHelperText';
-import InputAdornment from '@mui/material/InputAdornment';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { Controller, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z as zod } from 'zod';
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
+import { getCurrentServiceYear } from '@/features/dashboard/services/get-current-service-year';
+import { ChangeEvent, useState } from 'react';
+import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 
-const schema = zod.object({
-  serviceID: zod.string({ message: '서비스 ID를 입력해주세요' }).length(2, { message: '서비스ID 길이를 확인해주세요' }),
-  serviceYear: zod
-    .string({ message: '서비스년도를 입력해주세요' })
-    .length(4, { message: '올바른 서비스년도를 입력해주세요' }),
-  serviceType: zod.enum(['수시', '정시'], { message: '수시 또는 정시만 가능합니다' }),
-  developer: zod.string({ message: '담당 개발자를 입력하세요' }),
-  manager: zod.string({ message: '담당 운영자를 입력하세요' }),
-});
+const serviceTypeList = [
+  { label: '수시', value: '1' },
+  { label: '정시', value: '0' },
+];
 
-type Values = zod.infer<typeof schema>;
+const AddServiceForm = ({ univID }: { univID: string }) => {
+  const { updateServiceList } = useUnivService();
+  const [serviceType, setServiceType] = useState('1');
+  const currentServiceYear = getCurrentServiceYear();
 
-const defaultValues = {
-  serviceID: '',
-  serviceYear: '',
-  serviceType: '수시',
-  developer: '',
-  manager: '',
-} satisfies Values;
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setServiceType(event.target.value);
+  };
+  const handleSubmit = () => {
+    const params = {
+      SchoolYear: currentServiceYear,
+      IsSusi: serviceType,
+      UnivID: univID,
+    };
+    updateServiceList(params);
+  };
 
-type AddServiceFormProps = {
-  univID: string;
-};
-const AddServiceForm = ({ univID }: AddServiceFormProps) => {
-  const {
-    control,
-    watch,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
-  const theme = useTheme();
-  const upmd = useMediaQuery(theme.breakpoints.up('md'));
-  const downmd = useMediaQuery(theme.breakpoints.down('md'));
-
-  const onSubmit = () => {};
+  const textFieldStyle = {
+    '& .MuiInputBase-root': {
+      '&:before': {
+        borderBottomStyle: 'hidden !important',
+      },
+    },
+    '& .MuiInputBase-input': {
+      maxWidth: '80px',
+      padding: '0 .5rem',
+      backgroundColor: '#fafafa',
+      borderRadius: '.3rem',
+      WebkitTextFillColor: '#424242 !important',
+    },
+  };
 
   return (
-    <Accordion>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="consultingapp-states-content"
-        id="consultingapp-states-content"
-      >
-        <Typography variant="h6">서비스 추가</Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Stack direction={'column'}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack direction={'row'} spacing={2} justifyContent={'center'} alignItems={'flex-start'}>
-              <Stack direction={'column'} justifyContent={'flex-start'}>
-                <Controller
-                  control={control}
-                  name="serviceID"
-                  render={({ field }) => (
-                    <FormControl>
-                      <FormLabel
-                        sx={{
-                          ...(downmd && {
-                            fontSize: '14px',
-                          }),
-                        }}
-                      >
-                        서비스 ID
-                      </FormLabel>
-                      <OutlinedInput
-                        {...field}
-                        type="text"
-                        size="small"
-                        startAdornment={<InputAdornment position="start">{univID}</InputAdornment>}
-                        sx={{
-                          '& .MuiInputAdornment-root': {
-                            marginRight: 0, // InputAdornment의 marginRight 제거
-                          },
-                        }}
-                      />
-                      {errors.serviceID ? (
-                        <FormHelperText sx={{ color: '#D32F2F', ml: 0 }}>{errors.serviceID.message}</FormHelperText>
-                      ) : (
-                        <FormHelperText>&nbsp;</FormHelperText>
-                      )}
-                    </FormControl>
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="serviceYear"
-                  render={({ field }) => (
-                    <FormControl>
-                      <FormLabel
-                        sx={{
-                          ...(downmd && {
-                            fontSize: '14px',
-                          }),
-                        }}
-                      >
-                        서비스 년도
-                      </FormLabel>
-                      <OutlinedInput {...field} type="text" size="small" />
-                      {errors.serviceYear ? (
-                        <FormHelperText sx={{ color: '#D32F2F', ml: 0 }}>{errors.serviceYear.message}</FormHelperText>
-                      ) : (
-                        <FormHelperText>&nbsp;</FormHelperText>
-                      )}
-                    </FormControl>
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="serviceType"
-                  render={({ field }) => (
-                    <FormControl>
-                      <FormLabel
-                        sx={{
-                          ...(downmd && {
-                            fontSize: '14px',
-                            whiteSpace: 'nowrap',
-                          }),
-                        }}
-                      >
-                        서비스 유형(수시/정시)
-                      </FormLabel>
-                      <OutlinedInput {...field} type="text" size="small" />
-                      {errors.serviceType ? (
-                        <FormHelperText sx={{ color: '#D32F2F', ml: 0 }}>{errors.serviceType.message}</FormHelperText>
-                      ) : (
-                        <FormHelperText>&nbsp;</FormHelperText>
-                      )}
-                    </FormControl>
-                  )}
-                />
-              </Stack>
-              <Stack direction={'column'} justifyContent={'flex-start'}>
-                <Controller
-                  control={control}
-                  name="developer"
-                  render={({ field }) => (
-                    <FormControl>
-                      <FormLabel
-                        sx={{
-                          ...(downmd && {
-                            fontSize: '14px',
-                            whiteSpace: 'nowrap',
-                          }),
-                        }}
-                      >
-                        담당 개발자
-                      </FormLabel>
-                      <OutlinedInput {...field} type="text" size="small" />
-                      {errors.developer ? (
-                        <FormHelperText sx={{ color: '#D32F2F', ml: 0 }}>{errors.developer.message}</FormHelperText>
-                      ) : (
-                        <FormHelperText>&nbsp;</FormHelperText>
-                      )}
-                    </FormControl>
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="manager"
-                  render={({ field }) => (
-                    <FormControl>
-                      <FormLabel
-                        sx={{
-                          ...(downmd && {
-                            fontSize: '14px',
-                            whiteSpace: 'nowrap',
-                          }),
-                        }}
-                      >
-                        담당 운영자
-                      </FormLabel>
-                      <OutlinedInput {...field} type="text" size="small" />
-                      {errors.manager ? (
-                        <FormHelperText sx={{ color: '#D32F2F', ml: 0 }}>{errors.manager.message}</FormHelperText>
-                      ) : (
-                        <FormHelperText>&nbsp;</FormHelperText>
-                      )}
-                    </FormControl>
-                  )}
-                />
-              </Stack>
-            </Stack>
-            <Stack direction={'row'} sx={{ flexGrow: 1, justifyContent: 'flex-end' }}>
-              <Button
-                variant="contained"
-                type="submit"
-                sx={{ height: 'fit-content' }}
-                size={downmd ? 'small' : 'medium'}
-              >
-                <AddIcon />
-              </Button>
-            </Stack>
-          </form>
+    <Paper sx={{ padding: '1rem' }}>
+      <Stack direction={'row'} justifyContent={'space-evenly'} alignItems={'center'}>
+        <Stack direction={'row'} alignItems={'center'} spacing={2}>
+          <InputLabel>서비스 년도</InputLabel>
+          <TextField disabled variant="standard" value={currentServiceYear} sx={{ ...textFieldStyle }} size="small" />
         </Stack>
-      </AccordionDetails>
-    </Accordion>
+        <Stack direction={'row'} alignItems={'center'} spacing={2}>
+          <InputLabel>서비스 유형</InputLabel>
+          <TextField select value={serviceType} size="small" sx={{ minWidth: '150px' }} onChange={handleChange}>
+            {serviceTypeList.map((option) => (
+              <MenuItem key={option.label} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Stack>
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: '#2C4059',
+            color: '#fafafa',
+          }}
+          type="submit"
+          disableElevation
+          onClick={handleSubmit}
+        >
+          <AddIcon />
+        </Button>
+      </Stack>
+    </Paper>
   );
 };
 

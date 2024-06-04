@@ -12,13 +12,16 @@ import { getGroupedData } from '../services/get-grouped-data';
 import { ConsultingAppState, CurrentState, ServiceType } from '@/features/dashboard/types/consultingapp-state.type';
 import { currentStateList } from '../constants/current-states-list';
 import { BoardType } from '@/features/dashboard/contexts/consultingapp-state-context';
+import { useUpdateConsultingAppStateMutation } from '@/features/dashboard/hooks/tanstack/use-update-consultingapp-state-mutation';
+import toast from 'react-hot-toast';
 
 type BasicBoardProps = {
   boardType: BoardType;
 };
 
 const BasicBoard = ({ boardType }: BasicBoardProps) => {
-  const { consultingAppStates, updateConsultingAppState } = useConsultingAppState();
+  const { mutateAsync: updateConsultingAppStateMutation } = useUpdateConsultingAppStateMutation();
+  const { consultingAppStates } = useConsultingAppState();
   const [groupedByCurrentState, setGroupedByCurrentState] = useState<Record<CurrentState, ConsultingAppState[]>>(
     getGroupedData(consultingAppStates, 'currentState', currentStateList)
   );
@@ -43,17 +46,22 @@ const BasicBoard = ({ boardType }: BasicBoardProps) => {
         serviceType: removed.serviceType as ServiceType,
         currentState: destination.droppableId as CurrentState,
       };
-      const isSuccess = updateConsultingAppState(updateParams);
-      removed.currentState = destination.droppableId as CurrentState;
-      destinationList.splice(destination.index, 0, removed);
-      if (isSuccess) {
-        // 상태 업데이트
-        setGroupedByCurrentState((prevState) => ({
-          ...prevState,
-          [source.droppableId]: sourceList,
-          [destination.droppableId]: destinationList,
-        }));
-      }
+      updateConsultingAppStateMutation(updateParams).then((res) => {
+        if (res.status === 200) {
+          toast.success('상태가 성공적으로 업데이트 되었습니다');
+
+          removed.currentState = destination.droppableId as CurrentState;
+          destinationList.splice(destination.index, 0, removed);
+
+          setGroupedByCurrentState((prevState) => ({
+            ...prevState,
+            [source.droppableId]: sourceList,
+            [destination.droppableId]: destinationList,
+          }));
+        } else {
+          toast.error('상태 업데이트 중 문제가 발생했습니다');
+        }
+      });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [consultingAppStates]

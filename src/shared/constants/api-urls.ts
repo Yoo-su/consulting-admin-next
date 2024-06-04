@@ -7,6 +7,7 @@ export const apiUrls = {
     getConsultingAppState: '/admin/service-detail',
     updateConsultingAppState: '/admin/service-detail/current-state',
     syncMoaNesinService: '/admin/sync-moa-nesin-service',
+    createService: '/foundation/service/create',
     foundationLibrary: '/file/foundation-library',
     foundationLibraryFileOnly: '/file/foundation-library-file-only',
     deployApp: '/deploy/deploy-app',
