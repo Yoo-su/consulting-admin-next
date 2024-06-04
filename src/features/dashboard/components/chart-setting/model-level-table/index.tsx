@@ -19,6 +19,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { useChartSetting } from '@/features/dashboard/hooks/context/use-chart-setting';
 import { ChartData } from '@/features/dashboard/types/chart-data.type';
+import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
 import toast from 'react-hot-toast';
 
 type ModelLevelTableProps = {
@@ -30,6 +31,7 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
   const { currentService } = useUnivService();
   const { shiftModelRows, deleteModelLevel } = useChartSetting();
   const [tmpChartData, setTmpChartData] = useState<ChartData[]>(chartData);
+  const { openConfirmToast } = useConfirmToast();
   const [editMode, setEditMode] = useState<boolean>(false);
 
   // 편집 모드에 진입합니다
@@ -54,42 +56,6 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
   const cancleEdit = () => {
     setTmpChartData(chartData);
     setEditMode(false);
-  };
-
-  /**
-   * confirm toast를 띄웁니다
-   * @param message 메시지
-   * @param callback 실행할 콜백함수
-   */
-  const showConfirmToast = (message: string, callback: () => void) => {
-    toast((t) => (
-      <Stack direction={'column'} justifyContent={'center'} alignItems={'center'} spacing={1}>
-        <Typography variant="body2">{message}</Typography>
-        <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} spacing={0.2}>
-          <Button
-            variant="text"
-            color="error"
-            size="small"
-            sx={{ width: 'fit-content' }}
-            onClick={() => {
-              callback();
-              toast.dismiss(t.id);
-            }}
-          >
-            예
-          </Button>
-          <Button
-            variant="text"
-            color="inherit"
-            size="small"
-            sx={{ width: 'fit-content' }}
-            onClick={() => toast.dismiss(t.id)}
-          >
-            아니오
-          </Button>
-        </Stack>
-      </Stack>
-    ));
   };
 
   /**
@@ -137,6 +103,10 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
     setTmpChartData(chartData);
   }, [chartData]);
 
+  useEffect(() => {
+    console.log('table rendered');
+  }, []);
+
   return (
     <Stack sx={{ my: 2 }}>
       <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ mb: 1 }}>
@@ -169,7 +139,7 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
                 variant="body1"
                 fontSize={12}
                 onClick={() => {
-                  showConfirmToast(`모델${modelNum + 1}의 ${level}단계를 삭제하시겠습니까?`, () =>
+                  openConfirmToast(`모델${modelNum + 1}의 ${level}단계를 삭제하시겠습니까?`, () =>
                     deleteModelLevel(modelNum, level)
                   );
                 }}
@@ -247,7 +217,7 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
                         transition: 'all 0.2s linear',
                       }}
                       onClick={() => {
-                        showConfirmToast(
+                        openConfirmToast(
                           `모델${modelNum + 1} 단계${data.level}의 [${data.label}]행을 삭제하시겠습니까?`,
                           () => {
                             handleClickDeleteLevelRowBtn(data.label);

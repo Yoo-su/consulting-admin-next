@@ -12,7 +12,6 @@ import Chip from '@mui/material/Chip';
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import toast from 'react-hot-toast';
 
 import ModelLevelTable from './model-level-table';
 import { useUnivService } from '../../hooks/context/use-univ-service';
@@ -22,8 +21,10 @@ import AlertBox from './alert-box';
 import EmptyBox from '@/shared/components/empty-box';
 import ContentLoadingSkeleton from '@/shared/components/loadings/skeleton';
 import { ChartData } from '../../types/chart-data.type';
+import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
 
 const ChartSettingBox = () => {
+  const { openConfirmToast } = useConfirmToast();
   const { currentUniv, currentService } = useUnivService();
   const {
     isLoading,
@@ -36,37 +37,6 @@ const ChartSettingBox = () => {
     setSelectedModel,
     addNewModelLevel,
   } = useChartSetting();
-
-  const handleDeleteModelBtnClick = (modelNum: number) => {
-    toast((t) => (
-      <Stack direction={'column'} justifyContent={'center'} alignItems={'center'} spacing={1}>
-        <Typography variant="body2">{modelNum + 1}번 모델을 제거하시겠습니까?</Typography>
-        <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} spacing={0.2}>
-          <Button
-            variant="text"
-            color="error"
-            size="small"
-            sx={{ width: 'fit-content' }}
-            onClick={() => {
-              deleteModel(modelNum);
-              toast.dismiss(t.id);
-            }}
-          >
-            예
-          </Button>
-          <Button
-            variant="text"
-            color="inherit"
-            size="small"
-            sx={{ width: 'fit-content' }}
-            onClick={() => toast.dismiss(t.id)}
-          >
-            아니오
-          </Button>
-        </Stack>
-      </Stack>
-    ));
-  };
 
   if (isLoading) return <ContentLoadingSkeleton />;
 
@@ -93,9 +63,6 @@ const ChartSettingBox = () => {
         />
       </Stack>
       <AlertBox />
-      {selectedModel !== null && (
-        <ModelChartBox selectedModel={selectedModel} modelChartData={groupedByModelNum[selectedModel]} />
-      )}
 
       {modelNumbers.length ? (
         <Box sx={{ mt: 4 }}>
@@ -129,11 +96,17 @@ const ChartSettingBox = () => {
                       label={<Typography variant="body2">모델삭제</Typography>}
                       size="small"
                       clickable
-                      onClick={() => handleDeleteModelBtnClick(mn)}
+                      onClick={() =>
+                        openConfirmToast(`${mn + 1}번 모델을 삭제하시겠습니까?`, () => {
+                          deleteModel(mn);
+                        })
+                      }
                     />
                   </Stack>
                 </AccordionSummary>
                 <AccordionDetails>
+                  <ModelChartBox selectedModel={selectedModel!} modelChartData={groupedByModelNum[selectedModel!]} />
+
                   {modelLevels.map((ml) => (
                     <MemoizedModelLevelTable
                       key={`model-${mn}-level-${ml}-table`}
@@ -182,13 +155,13 @@ type MemoizedModelLevelTableProps = {
   modelNum: number;
   level: number;
 };
-const MemoizedModelLevelTable = memo(({ groupedByModelNum, modelNum, level }: MemoizedModelLevelTableProps) => {
+const MemoizedModelLevelTable = ({ groupedByModelNum, modelNum, level }: MemoizedModelLevelTableProps) => {
   const filterByLevel = useMemo(
     () => groupedByModelNum[modelNum].filter((item) => item.level === level),
     [groupedByModelNum, modelNum, level]
   );
 
   return <ModelLevelTable chartData={filterByLevel} modelNum={modelNum} level={Number(level)} />;
-});
+};
 
 export default ChartSettingBox;

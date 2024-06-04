@@ -1,4 +1,4 @@
-import { apiInstance } from '@/shared/plugin/axios';
+import { authInstance } from '@/shared/plugin/axios';
 import { apiUrls } from '@/shared/constants/api-urls';
 import { Univ } from '../types/univ.type';
 
@@ -13,7 +13,7 @@ type GetUnivListResponse = {
 };
 
 export const getUnivList = async () => {
-  const { data } = await apiInstance.get<Univ[]>(apiUrls.admin.getUnivList, {
+  const { data } = await authInstance.get<Univ[]>(apiUrls.admin.getUnivList, {
     transformResponse: (data) => {
       const parsedData = JSON.parse(data) as GetUnivListResponse[];
       return parsedData.map((item) => ({
