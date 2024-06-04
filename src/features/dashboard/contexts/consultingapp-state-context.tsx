@@ -3,7 +3,6 @@
 import { createContext, ReactNode, useState, Dispatch, SetStateAction } from 'react';
 import { useGetConsultingAppState } from '../hooks/use-get-consultingapp-state';
 import { ConsultingAppState } from '../types/consultingapp-state.type';
-import { useUser } from '@/features/auth/hooks/use-user';
 import { useUpdateConsultingAppStateMutation } from '../hooks/tanstack/use-update-consultingapp-state-mutation';
 import toast from 'react-hot-toast';
 import { UpdateConsultingAppStateParams } from '../apis/update-consultingapp-state';
@@ -34,11 +33,7 @@ export type ConsultingAppStateProvider = {
   children: ReactNode;
 };
 const ConsultingAppStateProvider = ({ children }: ConsultingAppStateProvider) => {
-  const { user } = useUser();
-  const { data, setData, loading, execute } = useGetConsultingAppState({
-    userID: user?.sub || '',
-    departmentID: user?.departmentID,
-  });
+  const { data, setData, loading, execute } = useGetConsultingAppState();
   const [state, setState] = useState<
     Pick<
       ConsultingAppStateContextValue,
