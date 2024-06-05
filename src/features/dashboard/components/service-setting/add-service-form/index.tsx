@@ -7,7 +7,8 @@ import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
 import { getCurrentServiceYear } from '@/features/dashboard/services/get-current-service-year';
 import { ChangeEvent, useState } from 'react';
-import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
+import { createNewService } from '@/features/dashboard/apis/create-new-service';
+import toast from 'react-hot-toast';
 
 const serviceTypeList = [
   { label: '수시', value: '1' },
@@ -15,20 +16,27 @@ const serviceTypeList = [
 ];
 
 const AddServiceForm = ({ univID }: { univID: string }) => {
-  const { updateServiceList } = useUnivService();
   const [serviceType, setServiceType] = useState('1');
   const currentServiceYear = getCurrentServiceYear();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setServiceType(event.target.value);
   };
-  const handleSubmit = () => {
-    const params = {
+  const handleSubmit = async () => {
+    const newService = {
       SchoolYear: currentServiceYear,
       IsSusi: serviceType,
       UnivID: univID,
     };
-    updateServiceList(params);
+    try {
+      await createNewService(newService).then((res) => {
+        if (res.status === 201) {
+          toast.success('서비스가 추가되었습니다.');
+        }
+      });
+    } catch (e: any) {
+      toast.error(e.response.data.message);
+    }
   };
 
   const textFieldStyle = {
