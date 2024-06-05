@@ -105,9 +105,11 @@ const StateCard = ({ state, index }: StateCardProps) => {
               <Box sx={{ bgcolor: '#f3f4f6', borderRadius: '5px', padding: 0.5, width: 'fit-content' }}>
                 <Typography variant="caption">{state.developerName}</Typography>
               </Box>
-              <Box sx={{ bgcolor: '#f3f4f6', borderRadius: '5px', padding: 0.5, width: 'fit-content' }}>
-                <Typography variant="caption">{state.managerName || '김미정'}</Typography>
-              </Box>
+              {state.managerName && (
+                <Box sx={{ bgcolor: '#f3f4f6', borderRadius: '5px', padding: 0.5, width: 'fit-content' }}>
+                  <Typography variant="caption">{state.managerName}</Typography>
+                </Box>
+              )}
             </Stack>
             <Divider sx={{ display: isHover || snapshot.isDragging ? 'block' : 'none' }} />
             <Stack
