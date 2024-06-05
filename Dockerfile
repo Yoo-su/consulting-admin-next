@@ -19,14 +19,19 @@ ENV NEXT_PUBLIC_MOCKING=${NEXT_PUBLIC_MOCKING}
 # Copy the rest of the application code
 COPY . .
 
-# Build the Next.js application
-RUN npm run build
+RUN npx next telemetry disable
+
+# Build the Next.js application with stdbuf to ensure all output is visible
+RUN stdbuf -oL npm run build
 
 # Check if .next directory exists in the builder stage
 RUN echo "Checking .next directory in builder stage:" && ls -la .next
 
 # Production stage
-FROM node:20 AS production
+FROM node:20-alpine AS production
+
+# Install coreutils for stdbuf
+RUN apk add --no-cache coreutils
 
 WORKDIR /consulting-admin
 
