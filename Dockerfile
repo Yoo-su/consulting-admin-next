@@ -26,10 +26,7 @@ RUN npm run build
 RUN echo "Checking .next directory in builder stage:" && ls -la .next
 
 # Production stage
-FROM node:20-alpine AS production
-
-# Install coreutils for stdbuf
-RUN apk add --no-cache coreutils
+FROM node:20 AS production
 
 WORKDIR /consulting-admin
 
