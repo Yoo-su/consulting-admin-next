@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, ChangeEvent, Fragment } from 'react';
+import { useRef, useState, ChangeEvent, Fragment, DragEvent } from 'react';
 import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -61,6 +61,34 @@ const ExcelUploadBox = () => {
     }
     if (activeStep === 0) handleNext();
     if (activeStep === 2) handleBack();
+  };
+
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleDragEnter = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
+  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(false);
+
+    const droppedFile = event.dataTransfer.files[0];
+    if (droppedFile) {
+      setExcel(droppedFile);
+      if (activeStep === 0) handleNext();
+      if (activeStep === 2) handleBack();
+    }
   };
 
   return (
@@ -134,6 +162,10 @@ const ExcelUploadBox = () => {
         >
           <Stack
             onClick={handleClickUploadBtn}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
             direction={'column'}
             spacing={3}
             sx={{
