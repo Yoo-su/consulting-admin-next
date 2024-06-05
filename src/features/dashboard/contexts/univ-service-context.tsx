@@ -7,8 +7,6 @@ import { usePersistedState } from '@/shared/hooks/use-persisted-state';
 import { Univ } from '../types/univ.type';
 import { Service } from '../types/service.type';
 import AppBackdrop from '@/shared/components/loadings/app-backrdrop';
-import { createNewService, CreateNewServiceParams } from '../apis/create-new-service';
-import toast from 'react-hot-toast';
 export type UnivServiceContextValue = {
   univList: Univ[];
   serviceList: Service[];
@@ -17,7 +15,6 @@ export type UnivServiceContextValue = {
   setCurrentUniv: (univ: Univ) => void;
   setCurrentService: (service: Service | null) => void;
   setServiceList: (serviceList: Service[]) => void;
-  updateServiceList: (newService: CreateNewServiceParams) => void;
 };
 
 export const UnivServiceContext = createContext<UnivServiceContextValue | undefined>(undefined);
@@ -44,17 +41,7 @@ const UnivServiceProvider = ({ children }: UnivServiceProviderProps) => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const updateServiceList = async (newService: CreateNewServiceParams) => {
-    try {
-      await createNewService(newService).then((res) => {
-        if (res.status === 201) {
-          toast.success('서비스가 추가되었습니다.');
-        }
-      });
-    } catch (e: any) {
-      toast.error(e.response.data.message);
-    }
-  };
+
   if (isPending) return <AppBackdrop />;
 
   return (
@@ -67,7 +54,6 @@ const UnivServiceProvider = ({ children }: UnivServiceProviderProps) => {
         setCurrentService,
         setCurrentUniv,
         setServiceList,
-        updateServiceList,
       }}
     >
       {children}
