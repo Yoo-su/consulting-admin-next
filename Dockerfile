@@ -26,7 +26,7 @@ RUN npm run build
 RUN echo "Checking .next directory in builder stage:" && ls -la .next
 
 # Production stage
-FROM node:20-alpine AS production
+FROM node:20 AS production
 
 WORKDIR /consulting-admin
 
@@ -46,5 +46,5 @@ RUN echo "Checking .next directory in production stage after npm ci:" && ls -la 
 # Expose port
 EXPOSE 3000
 
-# Start the application
-CMD ["/bin/sh", "-c", "echo 'Listing files in /consulting-admin:' && ls -la && echo 'Starting Next.js...' && npm start"]
+# Start the application with unbuffer to ensure logs are flushed
+CMD ["/bin/sh", "-c", "echo 'Listing files in current directory:' && ls -la && echo 'Listing files in .next directory:' && ls -la .next && echo 'Starting Next.js...' && stdbuf -oL npm run start"]
