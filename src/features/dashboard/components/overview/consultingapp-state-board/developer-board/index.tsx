@@ -18,10 +18,10 @@ import { currentStateList } from '../constants/current-states-list';
 import { CurrentState } from '@/features/dashboard/types/consultingapp-state.type';
 
 const DeveloperBoard = () => {
-  const { consultingAppStates } = useConsultingAppState();
+  const { consultingAppStatesAll } = useConsultingAppState();
   const [developers, setDevelopers] = useState<string[]>([]);
   const [groupedByDeveloper, setGroupedByDeveloper] = useState(
-    getGroupedData(consultingAppStates, 'developer', developers)
+    getGroupedData(consultingAppStatesAll, 'developer', developers)
   );
 
   const onDragEnd = (result: DropResult) => {
@@ -60,10 +60,10 @@ const DeveloperBoard = () => {
   };
 
   useEffect(() => {
-    const developerList = Array.from(consultingAppStates, (item) => item.developer);
+    const developerList = Array.from(consultingAppStatesAll, (item) => item.developer);
     const developerSet = Array.from(new Set(developerList));
     setDevelopers(developerSet);
-  }, [consultingAppStates]);
+  }, [consultingAppStatesAll]);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -76,7 +76,7 @@ const DeveloperBoard = () => {
               <Stack direction={'row'} alignItems={'center'}>
                 <Chip
                   size="small"
-                  label={developer}
+                  label={developerStates[0].developerName}
                   sx={{ width: 'fit-content', bgcolor: 'rgba(0,0,0,0.75)', color: '#fff' }}
                 />
                 <Typography variant="caption" sx={{ marginLeft: 1 }}>

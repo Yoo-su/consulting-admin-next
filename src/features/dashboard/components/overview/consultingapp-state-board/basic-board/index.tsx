@@ -11,31 +11,23 @@ import { stateBoardDomainItems } from '../constants/state-board-domain-items';
 import { getGroupedData } from '../services/get-grouped-data';
 import { ConsultingAppState, CurrentState, ServiceType } from '@/features/dashboard/types/consultingapp-state.type';
 import { currentStateList } from '../constants/current-states-list';
-import { BoardType } from '@/features/dashboard/contexts/consultingapp-state-context';
 import { useUpdateConsultingAppStateMutation } from '@/features/dashboard/hooks/tanstack/use-update-consultingapp-state-mutation';
 import toast from 'react-hot-toast';
-import { set } from 'react-hook-form';
 
-type BasicBoardProps = {
-  boardType: BoardType;
-};
-
-const BasicBoard = ({ boardType }: BasicBoardProps) => {
+const BasicBoard = () => {
   const { mutateAsync: updateConsultingAppStateMutation } = useUpdateConsultingAppStateMutation();
-  const { consultingAppStates } = useConsultingAppState();
+  const { consultingAppStates, executeConsultingAppStateAll } = useConsultingAppState();
   const [groupedByCurrentState, setGroupedByCurrentState] = useState<Record<CurrentState, ConsultingAppState[]>>(
     getGroupedData(consultingAppStates, 'currentState', currentStateList)
   );
-
-  const filteredGroupedState = boardType === 'mainUser' ? groupedByCurrentState : groupedByCurrentState;
 
   const onDragEnd = useCallback(
     (result: DropResult) => {
       if (!result.destination) return;
 
       const { source, destination } = result;
-      const sourceList = filteredGroupedState[source.droppableId as CurrentState];
-      const destinationList = filteredGroupedState[destination.droppableId as CurrentState];
+      const sourceList = groupedByCurrentState[source.droppableId as CurrentState];
+      const destinationList = groupedByCurrentState[destination.droppableId as CurrentState];
       const prevStateBackup = { ...groupedByCurrentState };
 
       // 같은 리스트 내에서 이동한 경우
@@ -61,6 +53,7 @@ const BasicBoard = ({ boardType }: BasicBoardProps) => {
       updateConsultingAppStateMutation(updateParams).then((res) => {
         if (res.status === 200) {
           toast.success('상태가 성공적으로 업데이트 되었습니다');
+          executeConsultingAppStateAll();
         } else {
           toast.error('상태 업데이트 중 문제가 발생했습니다');
           setGroupedByCurrentState(prevStateBackup);
@@ -78,7 +71,7 @@ const BasicBoard = ({ boardType }: BasicBoardProps) => {
             <Grid item key={item.title} xs={6} md={2} lg={2} xl={2}>
               <StateCol
                 currentStateKey={item.key}
-                groupedStates={filteredGroupedState[item.key] ?? []}
+                groupedStates={groupedByCurrentState[item.key] ?? []}
                 title={item.title}
                 color={item.color}
                 bgcolor={item.bgcolor}

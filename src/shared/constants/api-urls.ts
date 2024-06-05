@@ -5,6 +5,7 @@ export const apiUrls = {
   },
   dashboard: {
     getConsultingAppState: '/admin/service-detail',
+    getConsultingAppStateAll: '/admin/service-detail-all',
     updateConsultingAppState: '/admin/service-detail/current-state',
     syncMoaNesinService: '/admin/sync-moa-nesin-service',
     createService: '/foundation/service/create',

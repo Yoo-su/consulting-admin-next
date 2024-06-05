@@ -9,22 +9,28 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-consultingapp-state';
-import { toolbarMenuItems, viewOptions } from '../constants/toolbar-menu-items';
+import { toolbarMenuItems, viewOptions as toolbarViewOption } from '../constants/toolbar-menu-items';
 import { ToolbarMenuItem, ToolbarViewOption } from '../types/toolbar-menu-item.type';
 import { BoardType, ViewOption } from '@/features/dashboard/contexts/consultingapp-state-context';
 import { IconButton } from '@mui/material';
+import { useUser } from '@/features/auth/hooks/use-user';
+import { AdminGroup } from '@/features/auth/types/user.type';
 
 type ToolbarProps = {
   boardType: BoardType;
 };
 const Toolbar = ({ boardType }: ToolbarProps) => {
+  const { viewOption, setViewOption } = useConsultingAppState();
+  const { user } = useUser();
   const theme = useTheme();
   const upmd = useMediaQuery(theme.breakpoints.up('md'));
+
+  const isAdmin = user?.groupIdList.includes(AdminGroup['ConsultingAdminDeveloper']);
 
   return (
     <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
       {renderMenuItems(toolbarMenuItems, upmd)}
-      {/* {boardType === 'all' && renderViewOptions(viewOptions, upmd)} */}
+      {isAdmin && boardType === 'all' && renderViewOptions(toolbarViewOption, upmd, viewOption, setViewOption)}
     </Stack>
   );
 };
@@ -90,9 +96,15 @@ const MenuItem = ({ title, displayType, Icon, boardType, setBoardType, setViewOp
   );
 };
 
-const renderViewOptions = (options: ToolbarViewOption[], upmd: boolean) => {
+const renderViewOptions = (
+  options: ToolbarViewOption[],
+  upmd: boolean,
+  viewOption: ViewOption,
+  setViewOption: (newOption: ViewOption) => void
+) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { viewOption, setViewOption } = useConsultingAppState();
+  // const { viewOption, setViewOption } = useConsultingAppState();
+
   const children = options.reduce((acc: ReactNode[], curr: ToolbarViewOption): ReactNode[] => {
     const { displayType, Icon } = curr;
 
