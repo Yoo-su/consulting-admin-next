@@ -7,11 +7,8 @@ import { useChartSetting } from '../context/use-chart-setting';
 
 export const useUpdateChartDataMutation = () => {
   const { currentService } = useUnivService();
-  const { chartData, syncOriginData } = useChartSetting();
+  const { chartData } = useChartSetting();
   return useMutation({
-    mutationFn: () => updateChartData(currentService?.serviceID ?? '', chartData),
-    onSuccess: () => {
-      syncOriginData();
-    },
+    mutationFn: () => updateChartData(currentService?.serviceID!, chartData),
   });
 };
