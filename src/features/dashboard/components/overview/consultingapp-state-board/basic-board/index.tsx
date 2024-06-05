@@ -14,6 +14,7 @@ import { currentStateList } from '../constants/current-states-list';
 import { BoardType } from '@/features/dashboard/contexts/consultingapp-state-context';
 import { useUpdateConsultingAppStateMutation } from '@/features/dashboard/hooks/tanstack/use-update-consultingapp-state-mutation';
 import toast from 'react-hot-toast';
+import { set } from 'react-hook-form';
 
 type BasicBoardProps = {
   boardType: BoardType;
@@ -35,6 +36,7 @@ const BasicBoard = ({ boardType }: BasicBoardProps) => {
       const { source, destination } = result;
       const sourceList = filteredGroupedState[source.droppableId as CurrentState];
       const destinationList = filteredGroupedState[destination.droppableId as CurrentState];
+      const prevStateBackup = { ...groupedByCurrentState };
 
       // 같은 리스트 내에서 이동한 경우
       if (source.droppableId === destination.droppableId) return;
@@ -46,20 +48,22 @@ const BasicBoard = ({ boardType }: BasicBoardProps) => {
         serviceType: removed.serviceType as ServiceType,
         currentState: destination.droppableId as CurrentState,
       };
+
+      removed.currentState = destination.droppableId as CurrentState;
+      destinationList.splice(destination.index, 0, removed);
+
+      setGroupedByCurrentState((prevState) => ({
+        ...prevState,
+        [source.droppableId]: sourceList,
+        [destination.droppableId]: destinationList,
+      }));
+
       updateConsultingAppStateMutation(updateParams).then((res) => {
         if (res.status === 200) {
           toast.success('상태가 성공적으로 업데이트 되었습니다');
-
-          removed.currentState = destination.droppableId as CurrentState;
-          destinationList.splice(destination.index, 0, removed);
-
-          setGroupedByCurrentState((prevState) => ({
-            ...prevState,
-            [source.droppableId]: sourceList,
-            [destination.droppableId]: destinationList,
-          }));
         } else {
           toast.error('상태 업데이트 중 문제가 발생했습니다');
+          setGroupedByCurrentState(prevStateBackup);
         }
       });
     },
