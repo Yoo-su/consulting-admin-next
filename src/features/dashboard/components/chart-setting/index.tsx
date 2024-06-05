@@ -1,9 +1,9 @@
 'use client';
 
-import { memo, useMemo } from 'react';
+import { useMemo, Fragment } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -19,16 +19,16 @@ import { useChartSetting } from '../../hooks/context/use-chart-setting';
 import ModelChartBox from './model-chart-box';
 import AlertBox from './alert-box';
 import EmptyBox from '@/shared/components/empty-box';
-import ContentLoadingSkeleton from '@/shared/components/loadings/skeleton';
 import { ChartData } from '../../types/chart-data.type';
 import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
+import { getGroupedData } from '../overview/consultingapp-state-board/services/get-grouped-data';
 
 const ChartSettingBox = () => {
   const { openConfirmToast } = useConfirmToast();
   const { currentUniv, currentService } = useUnivService();
   const {
     isLoading,
-    groupedByModelNum,
+    chartData,
     modelNumbers,
     getModelLevels,
     addNewModel,
@@ -38,7 +38,13 @@ const ChartSettingBox = () => {
     addNewModelLevel,
   } = useChartSetting();
 
-  if (isLoading) return <ContentLoadingSkeleton />;
+  /**
+   *  모델 번호로 그룹핑된 데이터
+   */
+  const groupedByModelNum = useMemo(() => {
+    const modelNumbers = Array.from(new Set(chartData.map((item) => item.modelNum)));
+    return getGroupedData(chartData, 'modelNum', modelNumbers);
+  }, [chartData]);
 
   return (
     <Stack
@@ -62,87 +68,91 @@ const ChartSettingBox = () => {
           onClick={addNewModel}
         />
       </Stack>
-      <AlertBox />
 
-      {modelNumbers.length ? (
-        <Box sx={{ mt: 4 }}>
-          {modelNumbers.map((mn) => {
-            const modelLevels = getModelLevels(mn);
-            return (
-              <Accordion
-                key={`model-${mn}`}
-                expanded={selectedModel === mn}
-                slotProps={{ transition: { unmountOnExit: true } }}
-              >
-                <AccordionSummary aria-controls="chart-model-accordion">
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      ':hover': {
-                        bgcolor: 'rgba(0,0,0,0.04)',
-                      },
-                      flexGrow: 1,
-                      borderRadius: '0.3rem',
-                      px: 1,
-                    }}
-                    onClick={() => {
-                      setSelectedModel(mn);
-                    }}
-                  >{`모델 ${mn + 1}`}</Typography>
+      {isLoading ? (
+        <></>
+      ) : chartData.length ? (
+        <Fragment>
+          <AlertBox />
+          <Box sx={{ mt: 4 }}>
+            {modelNumbers.map((mn) => {
+              const modelLevels = getModelLevels(mn);
+              return (
+                <Accordion
+                  key={`model-${mn}`}
+                  expanded={selectedModel === mn}
+                  slotProps={{ transition: { unmountOnExit: true } }}
+                >
+                  <AccordionSummary aria-controls="chart-model-accordion">
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        ':hover': {
+                          bgcolor: 'rgba(0,0,0,0.04)',
+                        },
+                        flexGrow: 1,
+                        borderRadius: '0.3rem',
+                        px: 1,
+                      }}
+                      onClick={() => {
+                        setSelectedModel(mn);
+                      }}
+                    >{`모델 ${mn + 1}`}</Typography>
 
-                  <Stack direction={'row'} sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
-                    <Chip
-                      icon={<DeleteIcon />}
-                      label={<Typography variant="body2">모델삭제</Typography>}
-                      size="small"
-                      clickable
-                      onClick={() =>
-                        openConfirmToast(`${mn + 1}번 모델을 삭제하시겠습니까?`, () => {
-                          deleteModel(mn);
-                        })
-                      }
-                    />
-                  </Stack>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <ModelChartBox selectedModel={selectedModel!} modelChartData={groupedByModelNum[selectedModel!]} />
+                    <Stack direction={'row'} sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
+                      <Chip
+                        icon={<DeleteIcon />}
+                        label={<Typography variant="body2">모델삭제</Typography>}
+                        size="small"
+                        clickable
+                        onClick={() =>
+                          openConfirmToast(`${mn + 1}번 모델을 삭제하시겠습니까?`, () => {
+                            deleteModel(mn);
+                          })
+                        }
+                      />
+                    </Stack>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <ModelChartBox selectedModel={mn} modelChartData={groupedByModelNum[mn]} />
 
-                  {modelLevels.map((ml) => (
-                    <MemoizedModelLevelTable
-                      key={`model-${mn}-level-${ml}-table`}
-                      groupedByModelNum={groupedByModelNum}
-                      modelNum={mn}
-                      level={ml}
-                    />
-                  ))}
-                  <Box
-                    sx={{
-                      flexGrow: 1,
-                      borderRadius: '0.5rem',
-                      display: 'flex',
-                      py: 2,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      ':hover': {
-                        bgcolor: '#E3F2FD',
-                      },
-                      transition: 'all 0.2s linear',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => {
-                      addNewModelLevel(mn);
-                    }}
-                  >
-                    <AddCircleIcon sx={{ mr: 1, color: '#0069A0' }} />
-                    <Typography variant="body2" sx={{ color: '#0069A0' }}>
-                      단계 추가
-                    </Typography>
-                  </Box>
-                </AccordionDetails>
-              </Accordion>
-            );
-          })}
-        </Box>
+                    {modelLevels.map((ml) => (
+                      <MemoizedModelLevelTable
+                        key={`model-${mn}-level-${ml}-table`}
+                        groupedByModelNum={groupedByModelNum}
+                        modelNum={mn}
+                        level={ml}
+                      />
+                    ))}
+                    <Box
+                      sx={{
+                        flexGrow: 1,
+                        borderRadius: '0.5rem',
+                        display: 'flex',
+                        py: 2,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        ':hover': {
+                          bgcolor: '#E3F2FD',
+                        },
+                        transition: 'all 0.2s linear',
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => {
+                        addNewModelLevel(mn);
+                      }}
+                    >
+                      <AddCircleIcon sx={{ mr: 1, color: '#0069A0' }} />
+                      <Typography variant="body2" sx={{ color: '#0069A0' }}>
+                        단계 추가
+                      </Typography>
+                    </Box>
+                  </AccordionDetails>
+                </Accordion>
+              );
+            })}
+          </Box>
+        </Fragment>
       ) : (
         <EmptyBox text={'등록된 모델이 없습니다'} />
       )}

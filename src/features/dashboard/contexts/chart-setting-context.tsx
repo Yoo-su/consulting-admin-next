@@ -4,13 +4,11 @@ import { createContext, ReactNode, useState, useMemo, useEffect, Dispatch, SetSt
 
 import { useUnivService } from '../hooks/context/use-univ-service';
 import { useGetChartData } from '../hooks/use-get-chart-data';
-import { getGroupedData } from '../components/overview/consultingapp-state-board/services/get-grouped-data';
 import { ChartData } from '../types/chart-data.type';
 
 export type ChartSettingContextValue = {
   isLoading: boolean;
   chartData: ChartData[];
-  groupedByModelNum: Record<number, ChartData[]>;
   modelNumbers: number[];
   selectedModel: number | null;
   hasChanges: boolean;
@@ -20,7 +18,6 @@ export type ChartSettingContextValue = {
   setChartData: (newItems: ChartData[]) => void;
   shiftModelRows: (newItems: ChartData[], modelNum: number, level: number) => void;
   setSelectedModel: Dispatch<SetStateAction<number | null>>;
-  syncOriginData: () => void;
   addNewModelLevel: (modelNum: number) => void;
   deleteModelLevel: (modelNum: number, level: number) => void;
 };
@@ -32,26 +29,17 @@ export type ChartSettingProviderProps = {
 };
 const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
   const { currentService } = useUnivService();
-  const { chartData, setChartData, isLoading } = useGetChartData(currentService?.serviceID ?? '');
-  const [originChartData, setOriginChartData] = useState<ChartData[]>([]);
+  const { chartData, originalData, setChartData, isLoading, execute } = useGetChartData();
   const [selectedModel, setSelectedModel] = useState<number | null>(null);
 
+  // 차트데이터의 변경 여부
   const hasChanges = useMemo(() => {
-    if (!originChartData.length) return false;
-    return JSON.stringify(originChartData) !== JSON.stringify(chartData);
-  }, [originChartData, chartData]);
-
-  /**
-   *  모델 번호로 그룹핑된 데이터
-   */
-  const groupedByModelNum = useMemo(() => {
-    const modelNumbers = Array.from(new Set(chartData.map((item) => item.modelNum)));
-    return getGroupedData(chartData, 'modelNum', modelNumbers);
+    return JSON.stringify(originalData) !== JSON.stringify(chartData);
   }, [chartData]);
 
   const modelNumbers = useMemo(
     () => Array.from(new Set(chartData.map((item) => item.modelNum))).sort((a, b) => a - b),
-    [groupedByModelNum]
+    [chartData]
   );
 
   /**
@@ -60,7 +48,8 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
    * @returns
    */
   const getModelLevels = (modelNum: number) => {
-    return Array.from(new Set(groupedByModelNum[modelNum].map((item) => item.level)));
+    const modelItems = chartData.filter((item) => item.modelNum === modelNum);
+    return Array.from(new Set(modelItems.map((item) => item.level)));
   };
 
   /**
@@ -93,13 +82,6 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
   };
 
   /**
-   * 변경 여부 감지를 위한 origin-data를 현재 chartData와 동기화합니다.
-   */
-  const syncOriginData = () => {
-    setOriginChartData(chartData);
-  };
-
-  /**
    * 특정 모델에 포함된 특정 단계의 행들을 새로운 행들로 치환합니다
    * @param newItems 치환할 새로운 행들
    * @param modelNum 모델 번호
@@ -118,7 +100,7 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
     const modelLevels = getModelLevels(modelNum);
     const newLevel = Math.max(...modelLevels) + 1;
     const newLevelItem: ChartData = {
-      serviceID: currentService?.serviceID ?? '',
+      serviceID: currentService?.serviceID!,
       modelNum: modelNum,
       label: '새 레이블',
       chartLabel: '새 차트 레이블',
@@ -142,15 +124,15 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
   };
 
   useEffect(() => {
-    if (!originChartData.length) setOriginChartData(chartData);
-  }, [chartData, originChartData]);
+    execute(currentService?.serviceID!);
+    setSelectedModel(null);
+  }, [currentService]);
 
   return (
     <ChartSettingContext.Provider
       value={{
         isLoading,
         chartData,
-        groupedByModelNum,
         modelNumbers,
         hasChanges,
         selectedModel,
@@ -160,7 +142,6 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
         setChartData,
         shiftModelRows,
         setSelectedModel,
-        syncOriginData,
         addNewModelLevel,
         deleteModelLevel,
       }}

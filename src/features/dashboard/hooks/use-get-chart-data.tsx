@@ -1,25 +1,20 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { getChartData } from '../apis/get-chart-data';
 import { ChartData } from '../types/chart-data.type';
 
-export const useGetChartData = (serviceID: string) => {
-  const [isLoading, setIsLoading] = useState(false);
+export const useGetChartData = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [originalData, setOriginalData] = useState<ChartData[]>([]);
   const [chartData, setChartData] = useState<ChartData[]>([]);
 
-  const execute = useCallback(() => {
-    if (!serviceID) return;
-    setIsLoading(true);
+  const execute = (serviceID: string) => {
     getChartData(serviceID).then((res) => {
+      setOriginalData(res.data);
       setChartData(res.data);
       setIsLoading(false);
     });
-  }, [serviceID]);
-
-  useEffect(() => {
-    if (serviceID) execute();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [serviceID]);
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  return { chartData, setChartData, isLoading };
+  return { chartData, setChartData, originalData, isLoading, execute: useCallback(execute, []) };
 };

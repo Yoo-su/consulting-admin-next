@@ -53,8 +53,6 @@ const ModelChartBox = ({ selectedModel, modelChartData }: ModelChartBoxProps) =>
       alignItems={'center'}
       sx={{ py: 4, mt: 4, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)' }}
     >
-      <Typography variant="h6">모델{selectedModel + 1}</Typography>
-
       <Stack direction={'row'} spacing={3}>
         {modelLevels.map((level) => (
           <Chip

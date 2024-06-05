@@ -103,10 +103,6 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
     setTmpChartData(chartData);
   }, [chartData]);
 
-  useEffect(() => {
-    console.log('table rendered');
-  }, []);
-
   return (
     <Stack sx={{ my: 2 }}>
       <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ mb: 1 }}>
@@ -251,7 +247,9 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
                   >
                     <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} sx={{ py: 1 }}>
                       <AddCircleIcon sx={{ color: '#0069A0', mr: 1 }} />
-                      <Typography variant="body2">행추가</Typography>
+                      <Typography variant="body2" sx={{ color: '#0069A0' }}>
+                        행추가
+                      </Typography>
                     </Stack>
                   </Box>
                 </TableCell>
