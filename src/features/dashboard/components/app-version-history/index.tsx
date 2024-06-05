@@ -25,6 +25,8 @@ const AppHistoryListBox = () => {
     isPending,
   } = useGetAppVersionHistoryQuery(currentService?.serviceID, appType === 'O' ? null : appType);
 
+  console.log('currentService', currentService);
+
   useEffect(() => {
     refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
