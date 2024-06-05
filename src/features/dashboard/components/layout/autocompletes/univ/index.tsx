@@ -24,7 +24,6 @@ const UnivAutocomplete = () => {
     if (currentUniv) {
       getServiceList(currentUniv.univID);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUniv]);
 
   return (

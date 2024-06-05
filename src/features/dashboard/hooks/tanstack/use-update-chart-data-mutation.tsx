@@ -9,6 +9,6 @@ export const useUpdateChartDataMutation = () => {
   const { currentService } = useUnivService();
   const { chartData } = useChartSetting();
   return useMutation({
-    mutationFn: () => updateChartData(currentService?.serviceID!, chartData),
+    mutationFn: () => updateChartData(currentService?.serviceID ?? '', chartData),
   });
 };

@@ -25,7 +25,6 @@ export const usePersistedState = <T,>(
       const storageVal = storage.getItem(key);
       if (storageVal) setState(JSON.parse(storageVal));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setPersistedState = (value: T) => {

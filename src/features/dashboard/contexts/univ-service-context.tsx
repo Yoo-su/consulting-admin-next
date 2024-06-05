@@ -42,7 +42,6 @@ const UnivServiceProvider = ({ children }: UnivServiceProviderProps) => {
       .catch((error) => {
         setUnivList([]);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const updateServiceList = async (newService: CreateNewServiceParams) => {
     try {

@@ -15,6 +15,5 @@ export const useGetChartData = () => {
     });
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   return { chartData, setChartData, originalData, isLoading, execute: useCallback(execute, []) };
 };

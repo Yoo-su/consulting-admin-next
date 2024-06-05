@@ -43,18 +43,15 @@ export const useHandleExcel = () => {
 
   useEffect(() => {
     if (currentService) formData.set('serviceID', currentService?.serviceID);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentService]);
 
   useEffect(() => {
     if (user) formData.set('userID', user?.sub);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   useEffect(() => {
     clearVerifiedState();
     if (excel) formData.set('file', excel);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [excel]);
 
   /**
@@ -75,7 +72,7 @@ export const useHandleExcel = () => {
           resolve(true);
         } catch (error) {
           if (error instanceof Error) {
-            if ( fileOnly ) {
+            if (fileOnly) {
               setAlertData({ message: error.message + '단, 파일만 업로드는 가능합니다.', color: 'warning' });
               setIsVerified(true);
               resolve(true);
@@ -85,7 +82,7 @@ export const useHandleExcel = () => {
           }
           if (!fileOnly) {
             setIsVerified(false);
-            resolve(false);  
+            resolve(false);
           }
         }
       };
@@ -182,7 +179,7 @@ export const useHandleExcel = () => {
 
   const validation = (data: ExcelData) => {
     Object.entries(data).forEach(([key, sheet]) => {
-      if ( key.match(/^(레이아웃|기본자료)$/) ) return;
+      if (key.match(/^(레이아웃|기본자료)$/)) return;
       const layoutKeys = Object.keys(EXCEL_LAYOUT);
       if (!layoutKeys.includes(key)) {
         throw new Error(
@@ -247,7 +244,6 @@ export const useHandleExcel = () => {
     resetFileOnly();
     setAlertData(null);
     setIsVerified(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {

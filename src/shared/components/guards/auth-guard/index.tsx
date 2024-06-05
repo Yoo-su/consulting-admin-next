@@ -28,7 +28,6 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
 
   useEffect(() => {
     checkUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, isLoading]);
 
   if (isChecking) return <AppBackdrop />;

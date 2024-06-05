@@ -67,7 +67,6 @@ const BasicBoard = ({ boardType }: BasicBoardProps) => {
         }
       });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [consultingAppStates]
   );
 

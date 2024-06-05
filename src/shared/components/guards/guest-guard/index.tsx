@@ -29,7 +29,6 @@ const GuestGuard = ({ children }: GuestGuardProps) => {
 
   useEffect(() => {
     checkUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, [user, isLoading]);
 
   if (isChecking) return <AppBackdrop />;

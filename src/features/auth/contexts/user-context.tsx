@@ -46,7 +46,6 @@ const UserProvider = ({ children }: UserProviderProps) => {
           toast.error('인증되지 않은 사용자입니다');
         });
     } else setUser(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <UserContext.Provider value={{ ...state, setUser }}>{children}</UserContext.Provider>;

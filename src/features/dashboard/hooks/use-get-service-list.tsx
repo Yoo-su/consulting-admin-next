@@ -21,6 +21,5 @@ export const useGetServiceList = () => {
       });
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   return { isLoading, execute: useCallback(execute, []) };
 };

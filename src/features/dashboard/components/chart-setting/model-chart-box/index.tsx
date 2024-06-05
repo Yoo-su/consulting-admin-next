@@ -20,7 +20,6 @@ const ModelChartBox = ({ selectedModel, modelChartData }: ModelChartBoxProps) =>
     if (!selectedLevel) return [];
     const filtered = getLevelFilteredData(selectedLevel);
     return transformDataForChart(filtered);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modelChartData, selectedLevel]);
 
   function transformDataForChart(chartData: ChartData[]) {
@@ -43,7 +42,6 @@ const ModelChartBox = ({ selectedModel, modelChartData }: ModelChartBoxProps) =>
         ? setSelectedLevel(modelLevels[0])
         : setSelectedLevel(selectedLevel);
     } else setSelectedLevel(modelLevels[0]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modelLevels]);
 
   return (

@@ -17,7 +17,6 @@ export const useStepper = () => {
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 이전 step 이동
@@ -25,7 +24,6 @@ export const useStepper = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   }, []);
 
-  //
   const handleSkip = useCallback(() => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped((prevSkipped) => {
@@ -33,7 +31,6 @@ export const useStepper = () => {
       newSkipped.add(activeStep);
       return newSkipped;
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 리셋

@@ -16,19 +16,16 @@ export const useHandleApp = () => {
 
   useEffect(() => {
     if (currentService) formData.set('serviceID', currentService?.serviceID);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentService]);
 
   useEffect(() => {
     if (appType) formData.set('osType', appType);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appType]);
 
   useEffect(() => {
     setAlertData(null);
     reset();
     if (appFile) formData.set('file', appFile);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appFile]);
 
   const deploy = async () => {
