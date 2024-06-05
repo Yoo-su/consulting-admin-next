@@ -15,9 +15,11 @@ import { useState, ChangeEvent, MouseEvent } from 'react';
 
 import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-consultingapp-state';
 import { stateBoardDomainItems } from '../constants/state-board-domain-items';
+import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 
 const TableBoard = () => {
-  const { consultingAppStates, setConsultingAppStates } = useConsultingAppState();
+  const { univList } = useUnivService();
+  const { consultingAppStatesAll } = useConsultingAppState();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -45,15 +47,17 @@ const TableBoard = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {consultingAppStates.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item) => {
+            {consultingAppStatesAll.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item) => {
               const { color, title } = stateBoardDomainItems[item.currentState];
+              const currentUniv = univList.filter((univ) => univ.univID == item.univID)[0];
+              const univName = currentUniv?.univName || '새대학';
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={item.serviceID}>
+                <TableRow hover role="checkbox" tabIndex={-1} key={univName}>
                   <TableCell component="th" scope="row">
-                    {item.univName}
+                    {univName}
                   </TableCell>
                   <TableCell align="right">{item.serviceID}</TableCell>
-                  <TableCell align="right">{item.developer}</TableCell>
+                  <TableCell align="right">{item.developerName}</TableCell>
                   <TableCell align="right">{item.manager}</TableCell>
                   <TableCell align="right">
                     <Chip
@@ -76,7 +80,7 @@ const TableBoard = () => {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={consultingAppStates.length}
+        count={consultingAppStatesAll.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
