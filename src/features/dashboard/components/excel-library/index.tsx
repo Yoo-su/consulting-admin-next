@@ -8,10 +8,10 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import ExcelItem from './excel-item';
-import FoundationLibraryListBoxSkeleton from './skeleton';
+import ContentLoadingSkeleton from '@/shared/components/loadings/skeleton';
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { useGetFoundationLibrariesQuery } from '../../hooks/tanstack/use-get-foudation-libraries-query';
-import EmptyContentBox from './empty-content-box';
+import EmptyBox from '@/shared/components/empty-box';
 
 const FoundationLibraryListBox = () => {
   const theme = useTheme();
@@ -29,7 +29,7 @@ const FoundationLibraryListBox = () => {
         p: 2,
       }}
     >
-      <Suspense fallback={<FoundationLibraryListBoxSkeleton />}>
+      <Suspense fallback={<ContentLoadingSkeleton />}>
         <Stack direction={'row'} alignItems={'flex-start'} justifyContent={'space-between'}>
           <Typography
             variant="h6"
@@ -66,7 +66,7 @@ const FoundationLibraryListBox = () => {
             ))}
           </Grid>
         ) : (
-          <EmptyContentBox />
+          <EmptyBox text="업로드된 엑실이 없습니다" />
         )}
       </Suspense>
     </Stack>

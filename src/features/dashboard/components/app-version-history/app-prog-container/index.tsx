@@ -8,8 +8,8 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import AppHistoryItem from '../app-history-item';
-import EmptyContentBox from '../empty-content-box';
-import AppVersionHistoryListBoxSkeleton from '../skeleton';
+import EmptyBox from '@/shared/components/empty-box';
+import ContentLoadingSkeleton from '@/shared/components/loadings/skeleton';
 
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { AxiosResponse } from 'axios';
@@ -21,7 +21,7 @@ const AppProgContainer = ({ histories }: { histories: AxiosResponse<AppHistory[]
   const { currentUniv, currentService } = useUnivService();
 
   return (
-    <Suspense fallback={<AppVersionHistoryListBoxSkeleton />}>
+    <Suspense fallback={<ContentLoadingSkeleton />}>
       <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
         <Typography
           variant="h6"
@@ -55,7 +55,7 @@ const AppProgContainer = ({ histories }: { histories: AxiosResponse<AppHistory[]
           ))}
         </Grid>
       ) : (
-        <EmptyContentBox />
+        <EmptyBox text="앱 히스토리가 없습니다" />
       )}
     </Suspense>
   );

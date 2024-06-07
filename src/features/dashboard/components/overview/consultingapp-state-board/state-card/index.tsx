@@ -63,13 +63,15 @@ const StateCard = ({ state, index }: StateCardProps) => {
   const iconToGoStyle = {
     cursor: 'pointer',
     margin: 0,
+    py: 0.5,
     borderRadius: '.2rem',
     '& .MuiSvgIcon-root': {
       fontSize: '.9rem',
     },
     '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.1)',
+      backgroundColor: '#EBFADB',
     },
+    transition: 'all 0.1s ease-in-out',
   };
   return (
     <Draggable key={`${state.currentState}${index}`} draggableId={`${state.currentState}${index}`} index={index}>
@@ -85,10 +87,12 @@ const StateCard = ({ state, index }: StateCardProps) => {
             cursor: 'pointer',
             bgcolor: '#fff',
             borderRadius: '.3rem',
+            borderColor: 'transparent',
             '&:hover': {
-              border: '2px solid #bdbdbd',
+              border: '2px solid rgba(0,0,0,0.2)',
             },
             position: 'relative',
+            transition: 'border-color 0.3s ease-in-out',
           }}
         >
           <Tooltip title="자세히" placement="top">
@@ -111,19 +115,34 @@ const StateCard = ({ state, index }: StateCardProps) => {
                 </Box>
               )}
             </Stack>
-            <Divider sx={{ display: isHover || snapshot.isDragging ? 'block' : 'none' }} />
+
             <Stack
-              direction={'row'}
-              alignItems={'center'}
-              justifyContent={'center'}
+              direction={'column'}
               spacing={1}
-              sx={{ ...iconToGoStyle, display: isHover || snapshot.isDragging ? 'flex' : 'none' }}
-              onClick={handleCardClick}
+              sx={{
+                display: isHover || snapshot.isDragging ? 'block' : 'none',
+                ...((isHover || snapshot.isDragging ? 'block' : 'none') && {
+                  animation: 'fadein 0.3s ease-in-out',
+                }),
+              }}
             >
-              <Typography variant="caption" sx={{ paddingTop: '1px' }}>
-                서비스 선택
-              </Typography>
-              <CheckIcon />
+              <Divider sx={{ display: isHover || snapshot.isDragging ? 'block' : 'none' }} />
+              <Stack
+                direction={'row'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                spacing={1}
+                sx={{
+                  ...iconToGoStyle,
+                  display: isHover || snapshot.isDragging ? 'flex' : 'none',
+                }}
+                onClick={handleCardClick}
+              >
+                <Typography variant="caption" sx={{ paddingTop: '1px' }}>
+                  서비스 선택
+                </Typography>
+                <CheckIcon />
+              </Stack>
             </Stack>
           </Stack>
         </Box>

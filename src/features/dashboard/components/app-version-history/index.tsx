@@ -25,13 +25,9 @@ const AppHistoryListBox = () => {
     isPending,
   } = useGetAppVersionHistoryQuery(currentService?.serviceID, appType === 'O' ? null : appType);
 
-  console.log('currentService', currentService);
-
   useEffect(() => {
     refetch();
   }, [appType]);
-
-  console.log('currentService', currentService);
 
   return (
     <Stack

@@ -10,9 +10,10 @@ export const useGetServiceList = () => {
 
   const execute = (univID: string) => {
     setIsLoading(true);
+    setServiceList([]);
     getServiceList(univID)
       .then((res) => {
-        setServiceList(res.data ?? []);
+        setServiceList(res.data);
         setIsLoading(false);
       })
       .catch((error) => {
