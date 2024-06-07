@@ -14,6 +14,7 @@ export const apiUrls = {
     foundationLibraryFileOnly: '/file/foundation-library-file-only',
     deployApp: '/deploy/deploy-app',
     deployTestData: '/foundation/sync-from-test',
+    syncFromTestToDev: '/foundation/sync-from-test-to-dev',
     getAppVersionHistory: '/deploy/version-update-history',
     getConsultingFileList: 'reflibrary/',
     downloadConsultingFile: 'reflibrary/download/',

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Button, { ButtonProps } from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -10,14 +9,16 @@ import PuffLoader from 'react-spinners/PuffLoader';
 import { styled, useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import HourglassTopIcon from '@mui/icons-material/HourglassTop';
+import SyncIcon from '@mui/icons-material/Sync';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 
 import { useDeployTestDataMutation } from '../../hooks/tanstack/use-deploy-test-data-mutation';
+import { useSyncTestDevMutation } from '../../hooks/tanstack/use-sync-test-dev-mutation';
 import { useUnivService } from '../../hooks/context/use-univ-service';
 import { useMuiAlert } from '@/shared/hooks/use-mui-alert';
+import { AxiosError } from 'axios';
 
 interface StyledButtonProps extends ButtonProps {
   bgcolor?: string;
@@ -48,31 +49,45 @@ const StyledButton = styled(Button, {
 
 const DataDeployBox = () => {
   const { currentService, currentUniv } = useUnivService();
-  const { isPending: isRealDeploying, mutateAsync: deployToReal } = useDeployTestDataMutation(
-    currentService?.serviceID.toString() ?? ''
-  );
+  const { isPending: isRealDeploying, mutateAsync: deployToReal } = useDeployTestDataMutation();
+  const { isPending: isSynchronizingTestDev, mutateAsync: syncFromTestToDev } = useSyncTestDevMutation();
   const { alertData, setAlertData } = useMuiAlert();
 
-  const [isTestDeploying, setIsTestDeploying] = useState(false);
-  //const [isRealDeploying, setIsRealDeploying] = useState(false);
   const theme = useTheme();
   const upsm = useMediaQuery(theme.breakpoints.up('sm'));
 
-  // 테스트 배포 버튼 클릭 처리
+  // 테스트 환경 동기화 버튼 클릭 처리
   const handleTestDeployBtnClick = () => {
-    setIsTestDeploying(true);
-    setAlertData({ message: '테스트 환경에 데이터를 배포중입니다..', color: 'info' });
-    setTimeout(() => {
-      setIsTestDeploying(false);
-      setAlertData({ message: '성공적으로 데이터가 배포되었습니다', color: 'success' });
-    }, 3000);
+    setAlertData({ message: 'DB 동기화 중입니다..', color: 'info' });
+    syncFromTestToDev(currentService?.serviceID.toString() ?? '')
+      .then((res) => {
+        setAlertData({ message: '성공적으로 동기화되었습니다', color: 'success' });
+      })
+      .catch((err) => {
+        if (err instanceof AxiosError) {
+          setAlertData({
+            message: err?.response?.data?.errorMessage,
+            color: 'error',
+          });
+        } else {
+          setAlertData({
+            message: `데이터 동기화 중 에러가 발생했습니다`,
+            color: 'error',
+          });
+        }
+      });
   };
 
   // 리얼 배포 버튼 클릭 처리
-  const handleRealDeployBtnClick = async () => {
+  const handleRealDeployBtnClick = () => {
     setAlertData({ message: '리얼 환경에 데이터를 배포중입니다..', color: 'info' });
-    await deployToReal();
-    setAlertData({ message: '성공적으로 데이터가 배포되었습니다', color: 'success' });
+    deployToReal(currentService?.serviceID.toString() ?? '')
+      .then((res) => {
+        setAlertData({ message: '성공적으로 데이터가 배포되었습니다', color: 'success' });
+      })
+      .catch((err) => {
+        setAlertData({ message: '리얼 환경에 데이터를 배포하던 중 에러가 발생했습니다', color: 'error' });
+      });
   };
 
   return (
@@ -129,14 +144,15 @@ const DataDeployBox = () => {
           onClick={handleTestDeployBtnClick}
           bgcolor={'#C2E0AE'}
           color="inherit"
-          disabled={isTestDeploying || isRealDeploying}
+          disabled={isSynchronizingTestDev || isRealDeploying}
         >
-          {isTestDeploying ? (
+          {isSynchronizingTestDev ? (
             <PuffLoader color={'#fff'} size={30} />
           ) : (
             <Typography variant="h6" fontWeight={'bold'}>
               <Stack direction={'row'} alignItems={'center'}>
-                <ArrowCircleUpIcon fontSize="inherit" sx={{ mr: 1 }} /> 테스트 배포
+                <SyncIcon fontSize="inherit" sx={{ mr: 1 }} />
+                DB 동기화 (TEST → DEV)
               </Stack>
             </Typography>
           )}
@@ -144,7 +160,7 @@ const DataDeployBox = () => {
         <StyledButton
           onClick={handleRealDeployBtnClick}
           bgcolor={'#94C0DD'}
-          disabled={isTestDeploying || isRealDeploying}
+          disabled={isSynchronizingTestDev || isRealDeploying}
         >
           {isRealDeploying ? (
             <PuffLoader color={'#fff'} size={30} />
