@@ -1,21 +1,26 @@
 'use client';
 
-import { useRef, useState, ChangeEvent } from 'react';
+import { useRef, useState, useEffect, ChangeEvent } from 'react';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 
 import { useUser } from '@/features/auth/hooks/use-user';
+import { useUpdateProfileImageMutation } from '../../hooks/tanstack/use-update-profile-image-mutation';
 import { useMuiAlert } from '@/shared/hooks/use-mui-alert';
+import toast from 'react-hot-toast';
 
 const AccountSettingBox = () => {
   const { user } = useUser();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreviewPath, setImagePreviewPath] = useState<string>('');
+  const [formData, setFormData] = useState<FormData>(new FormData());
+  const { isPending, isSuccess, mutateAsync } = useUpdateProfileImageMutation();
   const { alertData, setAlertData } = useMuiAlert();
 
   const handleAvatarClick = () => {
@@ -25,13 +30,30 @@ const AccountSettingBox = () => {
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0] || null;
     setImageFile(selectedFile);
-    if (selectedFile) {
-      setImagePreviewPath(URL.createObjectURL(selectedFile));
-      setAlertData({ message: `선택된 파일명: ${selectedFile?.name}`, color: 'info' });
+  };
+
+  const handleClickSaveBtn = () => {
+    formData.set('userID', user?.sub ?? '');
+    mutateAsync(formData)
+      .then((res) => {
+        setImageFile(null);
+        toast.success(<Typography variant="body1">성공적으로 반영되었습니다</Typography>);
+      })
+      .catch((err) => {
+        toast.error(<Typography variant="body1">오류가 발생했습니다</Typography>);
+      });
+  };
+
+  useEffect(() => {
+    if (imageFile) {
+      formData.set('file', imageFile);
+      setImagePreviewPath(URL.createObjectURL(imageFile));
+      setAlertData({ message: `선택된 파일명: ${imageFile?.name}`, color: 'info' });
     } else {
+      formData.delete('file');
       setAlertData(null);
     }
-  };
+  }, [imageFile]);
 
   return (
     <Stack
@@ -48,12 +70,14 @@ const AccountSettingBox = () => {
     >
       <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} spacing={4}>
         <Box>
-          <Avatar
-            src={imageFile ? imagePreviewPath : user?.profileImage ?? ''}
-            alt={user?.userName + 'profile'}
-            sx={{ width: '10rem', height: '10rem', cursor: 'pointer' }}
-            onClick={handleAvatarClick}
-          />
+          <Tooltip title={<Typography variant="body1">사진 변경</Typography>} followCursor>
+            <Avatar
+              src={imageFile ? imagePreviewPath : user?.profileImage ?? ''}
+              alt={user?.userName + 'profile'}
+              sx={{ width: '10rem', height: '10rem', cursor: 'pointer' }}
+              onClick={handleAvatarClick}
+            />
+          </Tooltip>
         </Box>
 
         <Stack direction={'column'} spacing={2}>
@@ -80,12 +104,12 @@ const AccountSettingBox = () => {
         onChange={handleFileChange}
       />
 
-      {imageFile && (
+      {imageFile && !isSuccess && (
         <Stack direction={'row'} justifyContent={'flex-end'} spacing={2}>
-          <Button variant="contained" sx={{ width: 'fit-content' }}>
+          <Button variant="contained" sx={{ width: 'fit-content' }} disabled={isPending} onClick={handleClickSaveBtn}>
             변경하기
           </Button>
-          <Button color="inherit" variant="contained" sx={{ width: 'fit-content' }}>
+          <Button color="inherit" variant="contained" sx={{ width: 'fit-content' }} disabled={isPending}>
             취소
           </Button>
         </Stack>

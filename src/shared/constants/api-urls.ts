@@ -2,6 +2,7 @@ export const apiUrls = {
   user: {
     signin: '/auth/login',
     profile: '/auth/profile',
+    updateProfileImage: '/user/profile/upload',
   },
   dashboard: {
     getConsultingAppState: '/admin/service-detail',

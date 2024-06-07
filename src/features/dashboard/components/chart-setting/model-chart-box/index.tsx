@@ -3,14 +3,15 @@
 import { useState, useEffect, useMemo, memo } from 'react';
 import { Stack, Typography, Chip } from '@mui/material';
 import { PieChart } from '@mui/x-charts/PieChart';
-
 import { ChartData } from '@/features/dashboard/types/chart-data.type';
+import { useTheme } from '@mui/material/styles';
 
 type ModelChartBoxProps = {
   selectedModel: number;
   modelChartData: ChartData[];
 };
 const ModelChartBox = ({ selectedModel, modelChartData }: ModelChartBoxProps) => {
+  const theme = useTheme();
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
   const modelLevels = useMemo(() => {
     return Array.from(new Set(modelChartData.map((item) => item.level)));
@@ -71,6 +72,7 @@ const ModelChartBox = ({ selectedModel, modelChartData }: ModelChartBoxProps) =>
 
       <PieChart
         key={`model-${selectedModel}-level-${selectedLevel}-chart`}
+        colors={['#6D5C80', '#869F76', '#E9B665', '#0F497B', '#F5B19C']}
         series={[
           {
             data: displayingData,
@@ -80,6 +82,13 @@ const ModelChartBox = ({ selectedModel, modelChartData }: ModelChartBoxProps) =>
             cornerRadius: 5,
           },
         ]}
+        slotProps={{
+          legend: {
+            labelStyle: {
+              fontFamily: theme.typography.body1.fontFamily,
+            },
+          },
+        }}
         width={400}
         height={200}
         margin={{ right: 200 }}

@@ -46,7 +46,7 @@ const theme = extendTheme({
       fontFamily: nanum_gothic.style.fontFamily,
     },
     button: {
-      fontFamily: nanum_myeongjo.style.fontFamily,
+      fontFamily: ibm_kr.style.fontFamily,
     },
   },
 });

@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 
 import ChartSettingProvider from '@/features/dashboard/contexts/chart-setting-context';
 import ChartSettingBox from '@/features/dashboard/components/chart-setting';
+import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {
   title: '상담앱 관리자 | 차트 데이터 설정',
@@ -11,12 +12,14 @@ export const metadata = {
 
 const Page = () => {
   return (
-    <ChartSettingProvider>
-      <Box>
-        <Typography variant="h5">차트 설정</Typography>
-        <ChartSettingBox />
-      </Box>
-    </ChartSettingProvider>
+    <UnivServiceCheckGuard>
+      <ChartSettingProvider>
+        <Box>
+          <Typography variant="h5">차트 설정</Typography>
+          <ChartSettingBox />
+        </Box>
+      </ChartSettingProvider>
+    </UnivServiceCheckGuard>
   );
 };
 

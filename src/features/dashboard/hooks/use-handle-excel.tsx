@@ -18,8 +18,8 @@ export const useHandleExcel = () => {
   const { currentService } = useUnivService();
   const {
     mutateAsync: basicUpload,
-    isPending: isUploading,
-    isSuccess: uploadSuccess,
+    isPending: isUploadingBasic,
+    isSuccess: uploadBasicSuccess,
     reset,
   } = useUploadFoundationLibraryMutation();
   const {
@@ -33,12 +33,12 @@ export const useHandleExcel = () => {
   const { alertData, setAlertData } = useMuiAlert();
 
   const uploading = useMemo(() => {
-    return isUploading || isUploadingFileOnly;
-  }, [isUploading, isUploadingFileOnly]);
+    return isUploadingBasic || isUploadingFileOnly;
+  }, [isUploadingBasic, isUploadingFileOnly]);
 
   const success = useMemo(() => {
-    return uploadSuccess || uploadFileOnlySuccess;
-  }, [uploadSuccess, uploadFileOnlySuccess]);
+    return uploadBasicSuccess || uploadFileOnlySuccess;
+  }, [uploadBasicSuccess, uploadFileOnlySuccess]);
   const [fileOnly, setFileOnly] = useState<boolean>(false);
 
   useEffect(() => {

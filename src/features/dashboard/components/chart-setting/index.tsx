@@ -17,7 +17,7 @@ import ModelLevelTable from './model-level-table';
 import { useUnivService } from '../../hooks/context/use-univ-service';
 import { useChartSetting } from '../../hooks/context/use-chart-setting';
 import ModelChartBox from './model-chart-box';
-import AlertBox from './alert-box';
+import SaveChartDataButton from './save-chart-data-button';
 import EmptyBox from '@/shared/components/empty-box';
 import { ChartData } from '../../types/chart-data.type';
 import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
@@ -73,7 +73,7 @@ const ChartSettingBox = () => {
         <></>
       ) : chartData.length ? (
         <Fragment>
-          <AlertBox />
+          <SaveChartDataButton />
           <Box sx={{ mt: 4 }}>
             {modelNumbers.map((mn) => {
               const modelLevels = getModelLevels(mn);
@@ -171,7 +171,7 @@ const MemoizedModelLevelTable = ({ groupedByModelNum, modelNum, level }: Memoize
     [groupedByModelNum, modelNum, level]
   );
 
-  return <ModelLevelTable chartData={filterByLevel} modelNum={modelNum} level={Number(level)} />;
+  return <ModelLevelTable chartData={filterByLevel} modelNum={modelNum} level={level} />;
 };
 
 MemoizedModelLevelTable.displayName = 'MemoizedModelLevelTable';

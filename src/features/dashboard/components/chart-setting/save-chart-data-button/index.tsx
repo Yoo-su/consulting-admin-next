@@ -8,7 +8,7 @@ import { useUpdateChartDataMutation } from '@/features/dashboard/hooks/tanstack/
 import { useChartSetting } from '@/features/dashboard/hooks/context/use-chart-setting';
 import toast from 'react-hot-toast';
 
-const AlertBox = () => {
+const SaveChartDataButton = () => {
   const theme = useTheme();
   const downsm = useMediaQuery(theme.breakpoints.down('sm'));
   const { hasChanges } = useChartSetting();
@@ -42,4 +42,4 @@ const AlertBox = () => {
   );
 };
 
-export default AlertBox;
+export default SaveChartDataButton;
