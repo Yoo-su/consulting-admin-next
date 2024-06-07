@@ -13,24 +13,19 @@ import { toolbarMenuItems, viewOptions as toolbarViewOption } from '../constants
 import { ToolbarMenuItem, ToolbarViewOption } from '../types/toolbar-menu-item.type';
 import { BoardType, ViewOption } from '@/features/dashboard/contexts/consultingapp-state-context';
 import { IconButton } from '@mui/material';
-import { useUser } from '@/features/auth/hooks/use-user';
-import { AdminGroup } from '@/features/auth/types/user.type';
 
 type ToolbarProps = {
   boardType: BoardType;
 };
 const Toolbar = ({ boardType }: ToolbarProps) => {
   const { viewOption, setViewOption } = useConsultingAppState();
-  const { user } = useUser();
   const theme = useTheme();
   const upmd = useMediaQuery(theme.breakpoints.up('md'));
-
-  const isAdmin = user?.groupIdList.includes(AdminGroup['ConsultingAdminDeveloper']);
 
   return (
     <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
       {renderMenuItems(toolbarMenuItems, upmd)}
-      {isAdmin && boardType === 'all' && renderViewOptions(toolbarViewOption, upmd, viewOption, setViewOption)}
+      {boardType === 'all' && renderViewOptions(toolbarViewOption, upmd, viewOption, setViewOption)}
     </Stack>
   );
 };
@@ -40,7 +35,6 @@ const renderMenuItems = (items: ToolbarMenuItem[], upmd: boolean) => {
   const { boardType, setBoardType, setViewOption } = useConsultingAppState();
   const children = items.reduce((acc: ReactNode[], curr: ToolbarMenuItem): ReactNode[] => {
     const { title, displayType, Icon } = curr;
-
     acc.push(
       <MenuItem
         key={displayType}
