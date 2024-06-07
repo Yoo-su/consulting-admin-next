@@ -9,15 +9,18 @@ import ConsultingAppStateBoardSkeleton from './skeleton';
 import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-consultingapp-state';
 import TableBoard from './table-board';
 import BasicBoardContainer from './basic-board-container';
+import { useUser } from '@/features/auth/hooks/use-user';
 
 const ConsultingAppStateBoard = () => {
   const { isLoading, boardType, viewOption, isDialogOpen } = useConsultingAppState();
+
+  const { isAdmin } = useUser();
 
   if (isLoading) return <ConsultingAppStateBoardSkeleton />;
 
   return (
     <Stack direction={'column'} spacing={3}>
-      <Toolbar boardType={boardType} />
+      {isAdmin && <Toolbar boardType={boardType} />}
       {viewOption === 'basic' && <BasicBoardContainer boardType={boardType} />}
       {viewOption === 'separated' && <DeveloperBoard />}
       {viewOption === 'table' && <TableBoard />}

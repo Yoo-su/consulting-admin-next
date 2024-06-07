@@ -6,11 +6,13 @@ import { authInstance } from '@/shared/plugin/axios';
 import { User } from '../types/user.type';
 import toast from 'react-hot-toast';
 import { syncMoaNesinService } from '@/features/dashboard/apis/sync-moa-nesin-service';
+import { AdminGroup } from '@/features/auth/types/user.type';
 
 export type UserContextValue = {
   user: User | null;
   isLoading: boolean;
   setUser: (user: User | null) => void;
+  isAdmin: boolean;
 };
 const UserContext = createContext<UserContextValue | undefined>(undefined);
 
@@ -26,6 +28,8 @@ const UserProvider = ({ children }: UserProviderProps) => {
   const setUser = (user: User | null) => {
     setState((prev) => ({ ...prev, user: user, isLoading: false }));
   };
+
+  const isAdmin = state.user?.groupIdList.includes(AdminGroup['ConsultingAdminDeveloper']) ?? false;
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -48,7 +52,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
     } else setUser(null);
   }, []);
 
-  return <UserContext.Provider value={{ ...state, setUser }}>{children}</UserContext.Provider>;
+  return <UserContext.Provider value={{ ...state, setUser, isAdmin }}>{children}</UserContext.Provider>;
 };
 
 export default UserProvider;
