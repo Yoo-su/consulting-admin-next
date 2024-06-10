@@ -7,4 +7,5 @@ export type Service = {
   developer: string | null;
   manager: string | null;
   serialNo?: string;
+  isNew?: boolean;
 };

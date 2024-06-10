@@ -29,6 +29,8 @@ const AppHistoryListBox = () => {
     refetch();
   }, [appType]);
 
+  const isNew = currentService?.isNew ?? false;
+
   return (
     <Stack
       direction={'column'}
@@ -51,16 +53,19 @@ const AppHistoryListBox = () => {
           <RadioIconLabel
             label="PWA 주소"
             value="O"
+            disabled={isNew}
             Icon={<AlternateEmailRoundedIcon fontSize="large" sx={{ color: '#2C4059', mr: '0.2rem' }} />}
           />
           <RadioIconLabel
             label="안드로이드 APK"
             value="A"
+            disabled={!isNew}
             Icon={<AdbIcon fontSize="large" sx={{ color: '#7CB342', mr: '0.1rem' }} />}
           />
           <RadioIconLabel
             label="데스크탑 APP"
             value="P"
+            disabled={!isNew}
             Icon={<DesktopWindowsIcon fontSize="large" sx={{ color: '#1D2951', mr: '0.1rem' }} />}
           />
         </RadioGroup>
