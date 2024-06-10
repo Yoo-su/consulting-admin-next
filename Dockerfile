@@ -19,17 +19,20 @@ ENV NEXT_PUBLIC_MOCKING=${NEXT_PUBLIC_MOCKING}
 # Copy the rest of the application code
 COPY . .
 
-# Copy the custom build-and-check script
-COPY build-and-check.sh .
+# Copy the custom build-and-check script to the working directory
+COPY build-and-check.sh /usr/bin/
 
 # Ensure the build-and-check script is executable
-RUN chmod +x build-and-check.sh
+RUN chmod +x /usr/bin/build-and-check.sh
 
 # Disable Next.js telemetry
 RUN npx next telemetry disable
 
+# Check if .next directory exists in the builder stage
+# RUN echo "Checking .next directory in builder stage:" && ls -la ../usr/bin
+
 # Build the Next.js application using the custom script
-RUN ./build-and-check.sh
+RUN build-and-check.sh
 
 # Check if .next directory exists in the builder stage
 RUN echo "Checking .next directory in builder stage:" && ls -la .next
