@@ -8,7 +8,7 @@ WORKDIR /consulting-admin
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm ci
 
 ARG NEXT_PUBLIC_BASE_URL
 ARG NEXT_PUBLIC_MOCKING
@@ -19,10 +19,17 @@ ENV NEXT_PUBLIC_MOCKING=${NEXT_PUBLIC_MOCKING}
 # Copy the rest of the application code
 COPY . .
 
+# Copy the custom build-and-check script
+COPY build-and-check.sh .
+
+# Ensure the build-and-check script is executable
+RUN chmod +x build-and-check.sh
+
+# Disable Next.js telemetry
 RUN npx next telemetry disable
 
-# Build the Next.js application with stdbuf to ensure all output is visible
-RUN stdbuf -oL npm run build
+# Build the Next.js application using the custom script
+RUN ./build-and-check.sh
 
 # Check if .next directory exists in the builder stage
 RUN echo "Checking .next directory in builder stage:" && ls -la .next
