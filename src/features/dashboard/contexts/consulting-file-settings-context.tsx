@@ -90,6 +90,8 @@ const ConsultingFileSettingsProvider = ({ children }: ConsultingFileSettingsProv
           value={title}
           size="small"
           sx={{
+            width: '100%',
+            wordBreak: 'break-all',
             '& .Mui-disabled': { color: 'black !important' },
             marginLeft: '1rem',
             '& input': { fontSize: '.8rem', textAlign: 'center' },
@@ -99,14 +101,20 @@ const ConsultingFileSettingsProvider = ({ children }: ConsultingFileSettingsProv
     };
     const customToast = (t: Toast) => {
       return (
-        <Stack direction={'column'} spacing={2} sx={{ padding: '0 16px 8px 16px' }}>
-          <Typography variant="subtitle1">자료명을 수정하였습니다.</Typography>
+        <Stack direction={'column'} spacing={2} sx={{ padding: '0 16px 8px 16px', width: '100%' }}>
+          <Typography variant="subtitle1" sx={{ textAlign: 'center' }}>
+            자료명을 수정하였습니다.
+          </Typography>
           <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
-            <Typography variant="subtitle2">이전 값: </Typography>
+            <Typography variant="subtitle2" sx={{ width: '100px' }}>
+              이전 값:{' '}
+            </Typography>
             <StyledTextField title={origTitle} />
           </Stack>
           <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
-            <Typography variant="subtitle2">수정 값: </Typography>
+            <Typography variant="subtitle2" sx={{ width: '100px' }}>
+              수정 값:{' '}
+            </Typography>
             <StyledTextField title={refTitle} />
           </Stack>
         </Stack>
@@ -119,6 +127,10 @@ const ConsultingFileSettingsProvider = ({ children }: ConsultingFileSettingsProv
         execute();
         toast((t) => customToast(t), {
           duration: 5000,
+          style: {
+            maxWidth: '500px',
+            width: '100%',
+          },
         });
         result = true;
       } else {
