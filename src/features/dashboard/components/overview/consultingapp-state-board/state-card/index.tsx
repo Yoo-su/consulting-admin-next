@@ -50,7 +50,9 @@ const StateCard = ({ state, index }: StateCardProps) => {
     if (isServiceSelected && !isLoading) {
       const currentService = serviceList.find((service) => service.serviceID == state.serviceID) ?? null;
       setCurrentService(currentService);
-      if (!currentService) {
+      if (currentService) {
+        toast.success('서비스가 선택되었습니다');
+      } else {
         toast.error('서비스가 존재하지 않습니다');
       }
       setIsServiceSelected(false);
