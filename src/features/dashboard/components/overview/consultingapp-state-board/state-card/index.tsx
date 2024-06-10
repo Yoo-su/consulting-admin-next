@@ -1,11 +1,10 @@
 'use client';
 
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import MoreVertSharpIcon from '@mui/icons-material/MoreVertSharp';
-import DoneAllOutlinedIcon from '@mui/icons-material/DoneAllOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
@@ -16,6 +15,7 @@ import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-co
 import { ConsultingAppState } from '@/features/dashboard/types/consultingapp-state.type';
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import toast from 'react-hot-toast';
+import { useGetServiceList } from '@/features/dashboard/hooks/use-get-service-list';
 
 export type StateCardProps = {
   state: ConsultingAppState;
@@ -26,9 +26,11 @@ const StateCard = ({ state, index }: StateCardProps) => {
   const { univList, serviceList, setCurrentService, setCurrentUniv } = useUnivService();
   const { openDialog, setDialogContentState } = useConsultingAppState();
   const [isHover, setIsHover] = useState(false);
+  const [isServiceSelected, setIsServiceSelected] = useState(false);
+
+  const { execute: getServiceList, isLoading } = useGetServiceList();
 
   const currentUniv = univList.filter((univ) => univ.univID == state.univID)[0];
-  const currentService = serviceList.filter((service) => service.serviceID == state.serviceID)[0] || null;
   const serviceInfo = state.serviceYear + (state.serviceType === 'S_A' ? '수시' : '정시');
   const univName = currentUniv?.univName || '새대학';
   const serviceID = state.serviceID ? state.serviceID : `${state.univID}-미정`;
@@ -40,11 +42,20 @@ const StateCard = ({ state, index }: StateCardProps) => {
 
   const handleCardClick = () => {
     setCurrentUniv(currentUniv);
-    setCurrentService(currentService);
-    if (!currentService) {
-      toast.error('서비스가 존재하지 않습니다.');
-    }
+    getServiceList(currentUniv.univID);
+    setIsServiceSelected(true);
   };
+
+  useEffect(() => {
+    if (isServiceSelected && !isLoading) {
+      const currentService = serviceList.find((service) => service.serviceID == state.serviceID) ?? null;
+      setCurrentService(currentService);
+      if (!currentService) {
+        toast.error('서비스가 존재하지 않습니다');
+      }
+      setIsServiceSelected(false);
+    }
+  }, [isLoading]);
 
   const iconDetailStyle = {
     fontSize: '.5rem',
