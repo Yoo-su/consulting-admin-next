@@ -12,10 +12,11 @@ import AnalyticsIcon from '@mui/icons-material/Analytics';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import DownloadIcon from '@mui/icons-material/Download';
 import LanIcon from '@mui/icons-material/Lan';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import { paths } from '@/shared/constants/paths';
-import { NavItemType } from '../../types/nav-item.type';
+import { NavItemGroup, NavItemType } from '../../types/nav-item.type';
 
-export const sideNavItems1: NavItemType[] = [
+const basicItems: NavItemType[] = [
   {
     navkey: 'home',
     title: '홈',
@@ -28,6 +29,8 @@ export const sideNavItems1: NavItemType[] = [
     href: paths.dashboard.serviceSetting,
     Icon: SettingIcon,
   },
+];
+const excelItems: NavItemType[] = [
   {
     navkey: 'excel',
     title: '기초 엑셀 업로드',
@@ -40,17 +43,14 @@ export const sideNavItems1: NavItemType[] = [
     href: paths.dashboard.excelLibrary,
     Icon: LibraryBooksIcon,
   },
+];
+
+const settingItems: NavItemType[] = [
   {
     navkey: 'consulting-files-setting',
     title: '상담 자료 관리',
     href: paths.dashboard.consultingFilesSetting,
     Icon: DifferenceIcon,
-  },
-  {
-    navkey: 'app-deploy',
-    title: '상담앱 배포',
-    href: paths.dashboard.appDeploy,
-    Icon: CloudUploadIcon,
   },
   {
     navkey: 'app-version-history',
@@ -60,12 +60,12 @@ export const sideNavItems1: NavItemType[] = [
   },
 ];
 
-export const sideNavItems2: NavItemType[] = [
+const flutterItems: NavItemType[] = [
   {
-    navkey: 'data-deploy',
-    title: '데이터 배포',
-    href: paths.dashboard.dataDeploy,
-    Icon: LanIcon,
+    navkey: 'flutter-setting',
+    title: '앱 사용자 설정',
+    href: paths.dashboard.flutterUserSettigs,
+    Icon: ListAltIcon,
   },
   {
     navkey: 'consulting-statistic',
@@ -73,7 +73,6 @@ export const sideNavItems2: NavItemType[] = [
     href: paths.dashboard.consultingStatistic,
     Icon: AnalyticsIcon,
   },
-
   {
     navkey: 'mojip-setting',
     title: '모집요강 설정',
@@ -94,11 +93,56 @@ export const sideNavItems2: NavItemType[] = [
   },
 ];
 
-export const sideNavItems3: NavItemType[] = [
+const deployItems: NavItemType[] = [
+  {
+    navkey: 'data-deploy',
+    title: '데이터 배포',
+    href: paths.dashboard.dataDeploy,
+    Icon: LanIcon,
+  },
+  {
+    navkey: 'app-deploy',
+    title: '상담앱 배포',
+    href: paths.dashboard.appDeploy,
+    Icon: CloudUploadIcon,
+  },
+];
+const sideNavItems4: NavItemType[] = [
   {
     navkey: 'account-setting',
     title: '계정 관리',
     href: paths.dashboard.accountSetting,
     Icon: ManageAccountsIcon,
+  },
+];
+
+export const sideNavGroup: NavItemGroup[] = [
+  {
+    title: '기본',
+    items: basicItems,
+    isExpanded: true,
+  },
+  {
+    title: '기초 설정',
+    items: excelItems,
+    isExpanded: true,
+  },
+  {
+    title: '공용 상세 설정',
+    items: settingItems,
+    isExpanded: true,
+  },
+  {
+    title: '플러터앱 상세 설정',
+    items: flutterItems,
+  },
+  {
+    title: '배포 설정',
+    items: deployItems,
+    isExpanded: true,
+  },
+  {
+    title: '계정',
+    items: sideNavItems4,
   },
 ];
