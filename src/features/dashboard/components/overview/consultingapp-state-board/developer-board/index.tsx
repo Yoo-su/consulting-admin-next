@@ -30,12 +30,6 @@ const DeveloperBoard = () => {
     const [sourceDeveloper, sourceAreaState] = source.droppableId.split('/'),
       [destinationDeveloper, destinationAreaState] = destination.droppableId.split('/');
 
-    // 다른 개발자 영역으로 이동한 경우
-    if (sourceDeveloper !== destinationDeveloper) {
-      toast.error('다른 개발자 영역입니다');
-      return;
-    }
-
     const sourceDevList = groupedByDeveloper[sourceDeveloper];
     const destinationDevList = groupedByDeveloper[destinationDeveloper];
 
@@ -66,25 +60,25 @@ const DeveloperBoard = () => {
   }, [consultingAppStatesAll]);
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Stack direction={'column'} spacing={3}>
-        {Object.keys(groupedByDeveloper).map((developer) => {
-          const developerStates = groupedByDeveloper[developer];
-          const groupedByCurrentStates = getGroupedData(developerStates, 'currentState', currentStateList);
-          return (
-            <Stack key={developer} direction={'column'} spacing={1}>
-              <Stack direction={'row'} alignItems={'center'}>
-                <Chip
-                  size="small"
-                  label={developerStates[0].developerName}
-                  sx={{ width: 'fit-content', bgcolor: 'rgba(0,0,0,0.75)', color: '#fff' }}
-                />
-                <Typography variant="caption" sx={{ marginLeft: 1 }}>
-                  {developerStates.length}건
-                </Typography>
-              </Stack>
+    <Stack direction={'column'} spacing={3}>
+      {Object.keys(groupedByDeveloper).map((developer) => {
+        const developerStates = groupedByDeveloper[developer];
+        const groupedByCurrentStates = getGroupedData(developerStates, 'currentState', currentStateList);
+        return (
+          <Stack key={developer} direction={'column'} spacing={1}>
+            <Stack direction={'row'} alignItems={'baseline'}>
+              <Chip
+                size="small"
+                label={developerStates[0].developerName}
+                sx={{ marginLeft: '3px', width: 'fit-content', bgcolor: 'rgba(0,0,0,0.75)', color: '#fff' }}
+              />
+              <Typography variant="caption" sx={{ marginLeft: 1 }}>
+                {developerStates.length}건
+              </Typography>
+            </Stack>
 
-              <Box>
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Box sx={{ paddingBottom: '1rem' }}>
                 <Grid container spacing={2}>
                   {Object.values(stateBoardDomainItems).map((item) => (
                     <Grid item key={item.title} xs={6} md={2} lg={2} xl={2}>
@@ -100,13 +94,12 @@ const DeveloperBoard = () => {
                   ))}
                 </Grid>
               </Box>
-              <div></div>
-              <Divider />
-            </Stack>
-          );
-        })}
-      </Stack>
-    </DragDropContext>
+            </DragDropContext>
+            <Divider />
+          </Stack>
+        );
+      })}
+    </Stack>
   );
 };
 
