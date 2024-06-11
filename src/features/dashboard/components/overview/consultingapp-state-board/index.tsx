@@ -15,8 +15,8 @@ import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-co
 const ConsultingAppStateBoard = () => {
   const { consultingAppStates } = useConsultingAppState();
 
-  const serviceYear = consultingAppStates[0].serviceYear;
-  const serviceType = consultingAppStates[0].serviceType === 'S_A' ? '수시' : '정시';
+  const serviceYear = consultingAppStates[0]?.serviceYear ?? '이번 ';
+  const serviceType = consultingAppStates[0]?.serviceType === 'S_A' ? '수시' : '정시';
 
   return (
     <Box>

@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, memo } from 'react';
+import { ReactNode } from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
