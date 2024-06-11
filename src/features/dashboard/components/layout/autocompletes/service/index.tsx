@@ -24,6 +24,7 @@ const ServiceAutocomplete = () => {
   const handleChange = (event: any, newValue: Service | null) => {
     if (newValue) {
       setCurrentService(newValue);
+      console.log('handle');
     }
   };
 

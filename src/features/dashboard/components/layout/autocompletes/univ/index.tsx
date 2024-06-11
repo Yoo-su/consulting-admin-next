@@ -1,10 +1,11 @@
 'use client';
 
-import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { Univ } from '@/features/dashboard/types/univ.type';
+import { FilterOptionsState } from '@mui/material/useAutocomplete/useAutocomplete';
 
 const UnivAutocomplete = () => {
   const { univList, setCurrentUniv, setCurrentService, currentUniv } = useUnivService();
@@ -15,19 +16,22 @@ const UnivAutocomplete = () => {
       setCurrentUniv(newValue);
     }
   };
-
+  const filterOptions = (options: Univ[], { inputValue }: FilterOptionsState<Univ>) => {
+    return options.filter((item) => item.univName.includes(inputValue) || item.univID.toString().includes(inputValue));
+  };
   return (
     <Autocomplete
+      size="small"
       disablePortal
-      id="univ-select"
-      options={univList}
-      getOptionLabel={(option) => option.univName}
       isOptionEqualToValue={(option, value) => {
         return JSON.stringify(option) === JSON.stringify(value);
       }}
+      id="univ-select"
+      options={univList}
+      getOptionLabel={(option) => option.univName}
       value={currentUniv || null}
       onChange={handleChange}
-      size="small"
+      filterOptions={filterOptions}
       sx={{
         my: 1.5,
         '& .MuiOutlinedInput-root': {
