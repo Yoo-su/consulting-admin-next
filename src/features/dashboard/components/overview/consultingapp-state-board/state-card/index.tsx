@@ -31,7 +31,6 @@ const StateCard = ({ state, index }: StateCardProps) => {
   const { execute: getServiceList, isLoading } = useGetServiceList();
 
   const currentUniv = univList.filter((univ) => univ.univID == state.univID)[0];
-  const serviceInfo = state.serviceYear + (state.serviceType === 'S_A' ? '수시' : '정시');
   const univName = currentUniv?.univName || '새대학';
   const serviceID = state.serviceID ? state.serviceID : `${state.univID}-미정`;
 
@@ -115,7 +114,9 @@ const StateCard = ({ state, index }: StateCardProps) => {
           </Tooltip>
           <Stack direction={'column'} spacing={1}>
             <Stack direction={'column'}>
-              <Typography variant="caption">{serviceInfo}</Typography>
+              <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+                {serviceID}
+              </Typography>
               <Typography variant="body2">{univName}</Typography>
             </Stack>
             <Stack direction={'row'} justifyContent={'space-between'}>

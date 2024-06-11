@@ -18,7 +18,9 @@ export type StateColProps = {
   bgcolor: string;
   developer?: string;
 };
-const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey }: StateColProps) => {
+const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey, developer }: StateColProps) => {
+  const droppableId = developer ? developer + '/' + currentStateKey : currentStateKey;
+
   return (
     <Stack
       direction={'column'}
@@ -32,29 +34,29 @@ const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey }: Sta
       }}
     >
       <Stack direction={'row'} alignItems={'center'}>
-        <Box
-          sx={{
-            display: 'flex',
-            maxWidth: '75%',
-            alignItems: 'center',
-            borderRadius: '1rem',
-            bgcolor: color,
-            px: 1,
-            py: 0.5,
-          }}
-        >
+        <Tooltip title={title} placement="top-start">
           <Box
-            component={'div'}
             sx={{
-              width: '10px',
-              height: '10px',
+              display: 'flex',
+              maxWidth: '75%',
+              alignItems: 'center',
+              borderRadius: '1rem',
               bgcolor: color,
-              filter: 'saturate(125%) contrast(125%)',
-              borderRadius: '50%',
-              marginRight: 1,
+              px: 1,
+              py: 0.5,
             }}
-          />
-          <Tooltip title={title}>
+          >
+            <Box
+              component={'div'}
+              sx={{
+                width: '10px',
+                height: '10px',
+                bgcolor: color,
+                filter: 'saturate(125%) contrast(125%)',
+                borderRadius: '50%',
+                marginRight: 1,
+              }}
+            />
             <Typography
               variant="body2"
               color="black"
@@ -62,12 +64,13 @@ const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey }: Sta
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
                 textOverflow: 'ellipsis',
+                paddingRight: '.3rem',
               }}
             >
               {title}
             </Typography>
-          </Tooltip>
-        </Box>
+          </Box>
+        </Tooltip>
 
         <Stack direction={'row'} sx={{ flexGrow: 1, justifyContent: 'flex-end' }}>
           <Typography
@@ -84,7 +87,7 @@ const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey }: Sta
         </Stack>
       </Stack>
 
-      <Droppable droppableId={currentStateKey} isCombineEnabled>
+      <Droppable droppableId={droppableId} isCombineEnabled>
         {(provided) => (
           <Stack
             ref={provided.innerRef}

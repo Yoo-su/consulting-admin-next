@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, memo } from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -25,7 +25,7 @@ const Toolbar = ({ boardType }: ToolbarProps) => {
   return (
     <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
       {renderMenuItems(toolbarMenuItems, upmd)}
-      {boardType === 'all' && renderViewOptions(toolbarViewOption, upmd, viewOption, setViewOption)}
+      {renderViewOptions(toolbarViewOption, boardType, viewOption, setViewOption)}
     </Stack>
   );
 };
@@ -92,7 +92,7 @@ const MenuItem = ({ title, displayType, Icon, boardType, setBoardType, setViewOp
 
 const renderViewOptions = (
   options: ToolbarViewOption[],
-  upmd: boolean,
+  boardType: BoardType,
   viewOption: ViewOption,
   setViewOption: (newOption: ViewOption) => void
 ) => {
@@ -109,7 +109,7 @@ const renderViewOptions = (
         viewOption={viewOption}
         setViewOption={setViewOption}
         Icon={Icon}
-        upmd={upmd}
+        isDisabled={boardType !== 'all'}
       />
     );
 
@@ -126,9 +126,9 @@ const renderViewOptions = (
 type ViewOptionsProps = Pick<ToolbarViewOption, 'Icon' | 'displayType'> & {
   viewOption: ViewOption;
   setViewOption: (newViewOption: ViewOption) => void;
-  upmd: boolean;
+  isDisabled: boolean;
 };
-const ViewOptions = ({ displayType, Icon, viewOption, setViewOption, upmd }: ViewOptionsProps) => {
+const ViewOptions = ({ displayType, Icon, viewOption, setViewOption, isDisabled }: ViewOptionsProps) => {
   const isActive = displayType === viewOption;
 
   const handleClick = () => {
@@ -141,6 +141,7 @@ const ViewOptions = ({ displayType, Icon, viewOption, setViewOption, upmd }: Vie
       size="small"
       color={isActive ? 'info' : 'default'}
       sx={{ '& .MuiSvgIcon-root': { fontSize: 'small' } }}
+      disabled={isDisabled}
     >
       <Icon />
     </IconButton>

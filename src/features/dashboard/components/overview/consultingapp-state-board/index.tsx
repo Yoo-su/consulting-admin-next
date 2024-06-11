@@ -1,31 +1,43 @@
 'use client';
 
-import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import Toolbar from './toolbar';
-import DeveloperBoard from './developer-board';
-import ConsultingAppStateDialog from './consultingapp-state-dialog';
-import ConsultingAppStateBoardSkeleton from './skeleton';
+import AllBoardContainer from '@/features/dashboard/components/overview/consultingapp-state-board/all-board-container';
+import { Stack } from '@mui/material';
+import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-consultingapp-state';
-import TableBoard from './table-board';
-import BasicBoardContainer from './basic-board-container';
-import { useUser } from '@/features/auth/hooks/use-user';
 
 const ConsultingAppStateBoard = () => {
-  const { isLoading, boardType, viewOption, isDialogOpen } = useConsultingAppState();
+  const { consultingAppStates } = useConsultingAppState();
 
-  const { isAdmin } = useUser();
-
-  if (isLoading) return <ConsultingAppStateBoardSkeleton />;
+  const serviceYear = consultingAppStates[0].serviceYear;
+  const serviceType = consultingAppStates[0].serviceType === 'S_A' ? '수시' : '정시';
 
   return (
-    <Stack direction={'column'} spacing={3}>
-      {isAdmin && <Toolbar boardType={boardType} />}
-      {viewOption === 'basic' && <BasicBoardContainer boardType={boardType} />}
-      {viewOption === 'separated' && <DeveloperBoard />}
-      {viewOption === 'table' && <TableBoard />}
-      {isDialogOpen && <ConsultingAppStateDialog />}
-    </Stack>
+    <Box>
+      <Accordion slotProps={{ transition: { unmountOnExit: true } }} defaultExpanded>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="consultingapp-states-content"
+          id="consultingapp-states-content"
+        >
+          <Stack direction="row" spacing={2} alignItems={'baseline'}>
+            <Typography variant="h5">입학상담앱 담당자 및 현황</Typography>
+            <Typography variant="h6">
+              {serviceYear}학년 {serviceType}
+            </Typography>
+          </Stack>
+        </AccordionSummary>
+        <AccordionDetails>
+          <AllBoardContainer />
+        </AccordionDetails>
+      </Accordion>
+    </Box>
   );
 };
 
