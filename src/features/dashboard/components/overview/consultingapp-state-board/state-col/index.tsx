@@ -64,6 +64,7 @@ const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey, devel
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
                 textOverflow: 'ellipsis',
+                paddingRight: '.3rem',
               }}
             >
               {title}

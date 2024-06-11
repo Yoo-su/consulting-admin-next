@@ -8,7 +8,6 @@ import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import toast from 'react-hot-toast';
 
 import StateCol from '../state-col';
 import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-consultingapp-state';
@@ -16,6 +15,7 @@ import { stateBoardDomainItems } from '../constants/state-board-domain-items';
 import { getGroupedData } from '../services/get-grouped-data';
 import { currentStateList } from '../constants/current-states-list';
 import { CurrentState } from '@/features/dashboard/types/consultingapp-state.type';
+import toast from 'react-hot-toast';
 
 const DeveloperBoard = () => {
   const { consultingAppStatesAll } = useConsultingAppState();
@@ -25,7 +25,10 @@ const DeveloperBoard = () => {
   );
 
   const onDragEnd = (result: DropResult) => {
-    if (!result.destination) return;
+    if (!result.destination) {
+      toast.error('이동 범위가 아닙니다');
+      return;
+    }
     const { source, destination } = result;
     const [sourceDeveloper, sourceAreaState] = source.droppableId.split('/'),
       [destinationDeveloper, destinationAreaState] = destination.droppableId.split('/');
@@ -66,7 +69,7 @@ const DeveloperBoard = () => {
         const groupedByCurrentStates = getGroupedData(developerStates, 'currentState', currentStateList);
         return (
           <Stack key={developer} direction={'column'} spacing={1}>
-            <Stack direction={'row'} alignItems={'baseline'}>
+            <Stack direction={'row'} alignItems={'center'}>
               <Chip
                 size="small"
                 label={developerStates[0].developerName}
