@@ -3,17 +3,17 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
-import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import UnivAutocomplete from './autocompletes/univ';
 import ServiceAutocomplete from './autocompletes/service';
-import { sideNavItems1, sideNavItems2, sideNavItems3 } from './side-nav-items';
+import { sideNavGroup } from './side-nav-items';
 import { NavItemType } from '../../types/nav-item.type';
 import { isNavItemActive } from '../../services/is-nav-item-active';
+import { Accordion, AccordionDetails, AccordionSummary, Drawer } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export type AppSideDrawerProps = {
   onClose?: () => void;
@@ -61,25 +61,49 @@ const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
           </Box>
         </Box>
       </Stack>
-      <Divider sx={{ bgcolor: 'rgba(255,255,255,0.3)' }} />
+      {/* <Divider sx={{ bgcolor: 'rgba(255,255,255,0.3)' }} /> */}
       <Stack
         direction="column"
         sx={{
           overflowY: 'scroll',
           '&::-webkit-scrollbar': { display: 'none' },
+          '& .MuiPaper-root': { margin: '0 !important' },
+          '& .MuiAccordion-root::before': { opacity: '0' },
         }}
       >
-        <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
-          {renderNavItems({ items: sideNavItems1, pathname })}
-        </Box>
-        <Divider sx={{ marginTop: '12px', bgcolor: 'rgba(255,255,255,0.3)' }} />
-        <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
-          {renderNavItems({ items: sideNavItems2, pathname })}
-        </Box>
-        <Divider sx={{ marginTop: '12px', bgcolor: 'rgba(255,255,255,0.3)' }} />
-        <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
-          {renderNavItems({ items: sideNavItems3, pathname })}
-        </Box>
+        {sideNavGroup.map((group) => (
+          <Accordion
+            defaultExpanded={group.isExpanded ?? false}
+            key={group.title}
+            component="nav"
+            sx={{
+              bgcolor: 'transparent',
+              boxShadow: 'none',
+              color: 'inherit',
+              '& .MuiAccordionSummary-root': { minHeight: '1rem !important', paddingTop: '0.2rem' },
+              '& .MuiAccordionSummary-content': { margin: '0 !important' },
+              '& .MuiAccordionDetails-root': { padding: '8px !important' },
+            }}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon sx={{ color: 'rgb(255,255,255, 0.5)' }} />}
+              aria-controls={`${group.title}-content`}
+            >
+              <Typography
+                component="h6"
+                sx={{
+                  color: 'rgba(255,255,255,0.5)',
+                  fontSize: '0.75rem',
+                  fontWeight: 500,
+                  letterSpacing: '0.5px',
+                }}
+              >
+                {group.title}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>{renderNavItems({ items: group.items, pathname })}</AccordionDetails>
+          </Accordion>
+        ))}
       </Stack>
     </Drawer>
   );

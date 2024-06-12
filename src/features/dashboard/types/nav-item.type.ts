@@ -6,3 +6,9 @@ export type NavItemType = {
   href: string;
   Icon: ComponentType;
 };
+
+export type NavItemGroup = {
+  title: string;
+  items: NavItemType[];
+  isExpanded?: boolean;
+};

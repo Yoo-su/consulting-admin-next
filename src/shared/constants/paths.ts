@@ -11,6 +11,7 @@ export const paths = {
     mojipSetting: '/dashboard/mojip-setting',
     chartSetting: '/dashboard/chart-setting',
     scheduleSetting: '/dashboard/schedule-setting',
+    flutterUserSettigs: '/dashboard/flutter-setting',
     consultingStatistic: '/dashboard/consulting-statistic',
     excelLibrary: '/dashboard/excel-library',
     accountSetting: '/dashboard/account-setting',
