@@ -4,7 +4,6 @@ import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
@@ -74,7 +73,7 @@ const AppSidebar = () => {
               bgcolor: 'transparent',
               boxShadow: 'none',
               color: 'inherit',
-              '& .MuiAccordionSummary-root': { minHeight: '1rem !important', paddingTop: '1rem' },
+              '& .MuiAccordionSummary-root': { minHeight: '1rem !important', paddingTop: '0.2rem' },
               '& .MuiAccordionSummary-content': { margin: '0 !important' },
               '& .MuiAccordionDetails-root': { padding: '8px !important' },
             }}

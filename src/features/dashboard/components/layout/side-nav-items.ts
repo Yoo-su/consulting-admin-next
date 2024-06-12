@@ -128,18 +128,18 @@ export const sideNavGroup: NavItemGroup[] = [
     isExpanded: true,
   },
   {
-    title: '공용 상세 설정',
+    title: '공용 설정',
     items: settingItems,
     isExpanded: true,
-  },
-  {
-    title: '플러터앱 상세 설정',
-    items: flutterItems,
   },
   {
     title: '배포 설정',
     items: deployItems,
     isExpanded: true,
+  },
+  {
+    title: '플러터앱 설정',
+    items: flutterItems,
   },
   {
     title: '계정',
