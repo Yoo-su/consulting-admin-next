@@ -18,6 +18,7 @@ export const paths = {
     appDeploy: '/dashboard/app-deploy',
     appVersionHistory: '/dashboard/app-version-history',
     dataDeploy: '/dashboard/data-deploy',
+    etcFiles: '/dashboard/etc-files',
   },
   errors: { notFound: '/errors/not-found' },
 } as const;

@@ -13,6 +13,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import DownloadIcon from '@mui/icons-material/Download';
 import LanIcon from '@mui/icons-material/Lan';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import { paths } from '@/shared/constants/paths';
 import { NavItemGroup, NavItemType } from '../../types/nav-item.type';
 
@@ -57,6 +58,12 @@ const settingItems: NavItemType[] = [
     title: '앱 다운로드 정보',
     href: paths.dashboard.appVersionHistory,
     Icon: DownloadIcon,
+  },
+  {
+    navkey: 'etc-files',
+    title: '기타 자료실',
+    href: paths.dashboard.etcFiles,
+    Icon: FolderCopyIcon,
   },
 ];
 

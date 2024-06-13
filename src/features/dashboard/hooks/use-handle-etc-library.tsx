@@ -1,0 +1,56 @@
+import { useEffect, useMemo, useState } from 'react';
+import { useUser } from '@/features/auth/hooks/use-user';
+import { useMuiAlert } from '@/shared/hooks/use-mui-alert';
+import { useUnivService } from './context/use-univ-service';
+import { useUploadEtcLibraryMutation } from './tanstack/use-upload-etc-library-mutation';
+
+export const useHandleEtcLibrary = () => {
+  const [file, setFile] = useState<File | null>(null);
+  const { user } = useUser();
+  const { currentService } = useUnivService();
+  const { alertData, setAlertData } = useMuiAlert();
+
+  const formData = useMemo(() => {
+    const data = new FormData();
+    if (currentService) data.set('serviceID', currentService.serviceID);
+    if (user) data.set('userID', user.sub);
+    if (file) data.set('file', file);
+    return data;
+  }, [currentService, user, file]);
+
+  const {
+    mutateAsync: uploadEtcLibrary,
+    isPending: isUploading,
+    isSuccess: uploadSuccess,
+    reset,
+  } = useUploadEtcLibraryMutation();
+
+  useEffect(() => {
+    const upload = async () => {
+      if (!file) return;
+      try {
+        const res = await uploadEtcLibrary(formData);
+        const { statusCode, message } = res.data;
+        if (statusCode == 201) {
+          setAlertData({ message: message ?? '파일 업로드를 성공적으로 마쳤습니다', color: 'success' });
+        } else {
+          setAlertData({ message: message ?? '엑셀 업로드 중 문제가 발생했습니다', color: 'error' });
+        }
+      } catch (error) {
+        console.log('Upload failed:', error);
+      }
+    };
+
+    if (file) {
+      upload();
+    }
+  }, [file, formData, uploadEtcLibrary]);
+
+  return {
+    file,
+    formData,
+    setFile,
+
+    alertData,
+  };
+};

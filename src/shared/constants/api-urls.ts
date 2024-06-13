@@ -12,6 +12,7 @@ export const apiUrls = {
     createService: '/foundation/service/create',
     foundationLibrary: '/file/foundation-library',
     foundationLibraryFileOnly: '/file/foundation-library-file-only',
+    etcLibrary: '/file/etc-library',
     deployApp: '/deploy/deploy-app',
     deployTestData: '/foundation/sync-from-test',
     syncFromTestToDev: '/foundation/sync-from-test-to-dev',
