@@ -16,10 +16,10 @@ const FlutterSetting = () => {
       }}
     >
       <Grid container sx={{ minHeight: '500px' }}>
-        <Grid item xs={3} sx={{ paddingRight: '.8rem' }}>
+        <Grid item xs={4} sx={{ paddingRight: '.8rem' }}>
           <SettingList />
         </Grid>
-        <Grid item xs={9} sx={{ borderLeft: '1px solid #FAFAFA', paddingLeft: '1rem' }}>
+        <Grid item xs={8} sx={{ borderLeft: '1px solid #FAFAFA', paddingLeft: '1rem' }}>
           <SettingDetail />
         </Grid>
       </Grid>
