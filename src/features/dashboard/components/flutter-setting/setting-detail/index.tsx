@@ -30,15 +30,15 @@ const SettingDetail = () => {
   const settingList = subCategory ? filteredList : children;
 
   return (
-    <Stack spacing={2} sx={{ minWidth: '100%' }}>
+    <Stack spacing={2} sx={{ minWidth: '100%', paddingBottom: '1rem' }}>
       <Stack>
         <Typography variant={'h6'} sx={{ fontWeight: 'bold' }}>
           {category}
         </Typography>
         {description && <Typography variant={'overline'}>{description}</Typography>}
       </Stack>
-      <EditSetting settingList={settingList} category={category} />
-      {category && <AddSetting />}
+      <EditSetting settingList={settingList} />
+      {/* {category && <AddSetting />} */}
     </Stack>
   );
 };

@@ -18,4 +18,6 @@ export type FlutterRowInfo = {
   ParentIdx: null | number;
   DefaultValue: string;
   children: FlutterRowInfo[];
+  level: number;
+  transferDefaultValue: any;
 };

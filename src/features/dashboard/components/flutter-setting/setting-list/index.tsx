@@ -17,11 +17,11 @@ const SettingList = () => {
       <Typography variant={'body1'}>카테고리 목록</Typography>
       <SimpleTreeView onItemSelectionToggle={handleOnClick}>
         {flutterSettingList.map((parent: FlutterSetting, parentIndex: number) => {
-          const { Category: parentCategory, children: parentChildren } = parent;
+          const { Category, children } = parent;
           return (
-            <TreeItem2 itemId={parentCategory} label={parentCategory} key={parentIndex}>
-              {parentChildren &&
-                parentChildren.map((child, childIndex) => {
+            <TreeItem2 itemId={Category} label={Category} key={parentIndex}>
+              {children &&
+                children.map((child, childIndex) => {
                   const { Category, Title } = child;
                   return <TreeItem2 itemId={`${Category}/${Title}`} label={Title} key={childIndex} />;
                 })}
