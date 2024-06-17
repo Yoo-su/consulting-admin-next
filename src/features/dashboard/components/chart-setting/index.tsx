@@ -3,46 +3,27 @@
 import { useMemo, Fragment } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 
-import ModelLevelTable from './model-level-table';
 import { useUnivService } from '../../hooks/context/use-univ-service';
 import { useChartSetting } from '../../hooks/context/use-chart-setting';
-import ModelChartBox from './model-chart-box';
 import SaveChartDataButton from './save-chart-data-button';
 import EmptyBox from '@/shared/components/empty-box';
-import { ChartData } from '../../types/chart-data.type';
-import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
 import { getGroupedData } from '../overview/consultingapp-state-board/services/get-grouped-data';
+import ModelAccordion from './model-accordion';
+import ContentLoadingSkeleton from '@/shared/components/loadings/skeleton';
 
 const ChartSettingBox = () => {
-  const { openConfirmToast } = useConfirmToast();
   const { currentUniv, currentService } = useUnivService();
-  const {
-    isLoading,
-    chartData,
-    modelNumbers,
-    getModelLevels,
-    addNewModel,
-    deleteModel,
-    selectedModel,
-    setSelectedModel,
-    addNewModelLevel,
-  } = useChartSetting();
+  const { isLoading, chartData, modelNumbers, addNewModel } = useChartSetting();
 
   /**
    *  모델 번호로 그룹핑된 데이터
    */
   const groupedByModelNum = useMemo(() => {
-    const modelNumbers = Array.from(new Set(chartData.map((item) => item.modelNum)));
     return getGroupedData(chartData, 'modelNum', modelNumbers);
   }, [chartData]);
 
@@ -57,123 +38,43 @@ const ChartSettingBox = () => {
         p: 2,
       }}
     >
-      <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
-        <Typography variant="h6">{`${currentUniv?.univName}(${currentService?.serviceID}) 차트 데이터 설정`}</Typography>
-        <Chip
-          color="info"
-          size="small"
-          icon={<AddCircleIcon fontSize="inherit" />}
-          label={<Typography variant="button">모델 추가</Typography>}
-          clickable
-          onClick={addNewModel}
-        />
-      </Stack>
-
       {isLoading ? (
-        <></>
-      ) : chartData.length ? (
-        <Fragment>
-          <SaveChartDataButton />
-          <Box sx={{ mt: 4 }}>
-            {modelNumbers.map((mn) => {
-              const modelLevels = getModelLevels(mn);
-              return (
-                <Accordion
-                  key={`model-${mn}`}
-                  expanded={selectedModel === mn}
-                  slotProps={{ transition: { unmountOnExit: true } }}
-                >
-                  <AccordionSummary aria-controls="chart-model-accordion">
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        ':hover': {
-                          bgcolor: 'rgba(0,0,0,0.04)',
-                        },
-                        flexGrow: 1,
-                        borderRadius: '0.3rem',
-                        px: 1,
-                      }}
-                      onClick={() => {
-                        setSelectedModel(mn);
-                      }}
-                    >{`모델 ${mn + 1}`}</Typography>
-
-                    <Stack direction={'row'} sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
-                      <Chip
-                        icon={<DeleteIcon />}
-                        label={<Typography variant="body2">모델삭제</Typography>}
-                        size="small"
-                        clickable
-                        onClick={() =>
-                          openConfirmToast(`${mn + 1}번 모델을 삭제하시겠습니까?`, () => {
-                            deleteModel(mn);
-                          })
-                        }
-                      />
-                    </Stack>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <ModelChartBox selectedModel={mn} modelChartData={groupedByModelNum[mn]} />
-
-                    {modelLevels.map((ml) => (
-                      <MemoizedModelLevelTable
-                        key={`model-${mn}-level-${ml}-table`}
-                        groupedByModelNum={groupedByModelNum}
-                        modelNum={mn}
-                        level={ml}
-                      />
-                    ))}
-                    <Box
-                      sx={{
-                        flexGrow: 1,
-                        borderRadius: '0.5rem',
-                        display: 'flex',
-                        py: 2,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        ':hover': {
-                          bgcolor: '#E3F2FD',
-                        },
-                        transition: 'all 0.2s linear',
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => {
-                        addNewModelLevel(mn);
-                      }}
-                    >
-                      <AddCircleIcon sx={{ mr: 1, color: '#0069A0' }} />
-                      <Typography variant="body2" sx={{ color: '#0069A0' }}>
-                        단계 추가
-                      </Typography>
-                    </Box>
-                  </AccordionDetails>
-                </Accordion>
-              );
-            })}
-          </Box>
-        </Fragment>
+        <ContentLoadingSkeleton />
       ) : (
-        <EmptyBox text={'등록된 모델이 없습니다'} />
+        <Fragment>
+          <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
+            <Typography variant="h6">{`${currentUniv?.univName}(${currentService?.serviceID}) 차트 데이터 설정`}</Typography>
+            <Chip
+              color="info"
+              size="small"
+              icon={<AddCircleIcon fontSize="inherit" />}
+              label={<Typography variant="button">모델 추가</Typography>}
+              clickable
+              onClick={addNewModel}
+            />
+          </Stack>
+          {chartData.length ? (
+            <Fragment>
+              <SaveChartDataButton />
+              <Box sx={{ mt: 4 }}>
+                {modelNumbers.map((mn) => {
+                  return (
+                    <ModelAccordion
+                      key={`model-${mn}-accordion`}
+                      modelNum={mn}
+                      modelChartData={groupedByModelNum[mn]}
+                    />
+                  );
+                })}
+              </Box>
+            </Fragment>
+          ) : (
+            <EmptyBox text={'등록된 모델이 없습니다'} />
+          )}
+        </Fragment>
       )}
     </Stack>
   );
 };
-
-type MemoizedModelLevelTableProps = {
-  groupedByModelNum: Record<number, ChartData[]>;
-  modelNum: number;
-  level: number;
-};
-const MemoizedModelLevelTable = ({ groupedByModelNum, modelNum, level }: MemoizedModelLevelTableProps) => {
-  const filterByLevel = useMemo(
-    () => groupedByModelNum[modelNum].filter((item) => item.level === level),
-    [groupedByModelNum, modelNum, level]
-  );
-
-  return <ModelLevelTable chartData={filterByLevel} modelNum={modelNum} level={level} />;
-};
-
-MemoizedModelLevelTable.displayName = 'MemoizedModelLevelTable';
 
 export default ChartSettingBox;

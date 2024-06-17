@@ -11,18 +11,23 @@ import toast from 'react-hot-toast';
 const SaveChartDataButton = () => {
   const theme = useTheme();
   const downsm = useMediaQuery(theme.breakpoints.down('sm'));
-  const { hasChanges } = useChartSetting();
-  const { isPending, isSuccess, mutateAsync } = useUpdateChartDataMutation();
+  const { hasChanges, syncChartData } = useChartSetting();
+  const { mutateAsync } = useUpdateChartDataMutation();
 
   const handleBtnClick = () => {
-    toast.promise(mutateAsync(), {
-      loading: <Typography variant="body2">차트 정보를 업데이트하는 중입니다...</Typography>,
-      success: <Typography variant="body2">차트정보 업데이트 완료!</Typography>,
-      error: <Typography variant="body2">차트정보 업데이트 중 문제가 발생했습니다</Typography>,
-    });
+    toast.promise(
+      mutateAsync().then(() => {
+        syncChartData();
+      }),
+      {
+        loading: <Typography variant="body2">차트 정보를 업데이트하는 중입니다...</Typography>,
+        success: <Typography variant="body2">차트정보 업데이트 완료!</Typography>,
+        error: <Typography variant="body2">차트정보 업데이트 중 문제가 발생했습니다</Typography>,
+      }
+    );
   };
 
-  if (!hasChanges) return;
+  if (!hasChanges) return null;
   return (
     <Fab
       variant="extended"

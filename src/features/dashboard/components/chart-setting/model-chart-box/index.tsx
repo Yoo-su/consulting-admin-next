@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useEffect, useMemo, memo } from 'react';
 import { Stack, Typography, Chip } from '@mui/material';
 import { PieChart } from '@mui/x-charts/PieChart';
@@ -8,14 +6,12 @@ import { useTheme } from '@mui/material/styles';
 
 type ModelChartBoxProps = {
   selectedModel: number;
+  modelLevels: number[];
   modelChartData: ChartData[];
 };
-const ModelChartBox = ({ selectedModel, modelChartData }: ModelChartBoxProps) => {
+const ModelChartBox = ({ selectedModel, modelLevels, modelChartData }: ModelChartBoxProps) => {
   const theme = useTheme();
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
-  const modelLevels = useMemo(() => {
-    return Array.from(new Set(modelChartData.map((item) => item.level)));
-  }, [modelChartData]);
 
   const displayingData = useMemo(() => {
     if (!selectedLevel) return [];

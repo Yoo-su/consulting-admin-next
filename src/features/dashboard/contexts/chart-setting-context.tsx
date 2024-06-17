@@ -11,6 +11,7 @@ export type ChartSettingContextValue = {
   modelNumbers: number[];
   selectedModel: number | null;
   hasChanges: boolean;
+  syncChartData: () => void;
   addNewModel: () => void;
   deleteModel: (modelNum: number) => void;
   getModelLevels: (modelNum: number) => number[];
@@ -29,7 +30,7 @@ export type ChartSettingProviderProps = {
 
 const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
   const { currentService } = useUnivService();
-  const { chartData, originalData, setChartData, isLoading, execute } = useGetChartData();
+  const { chartData, originalData, setChartData, isLoading, execute, syncChartData } = useGetChartData();
   const [selectedModel, setSelectedModel] = useState<number | null>(null);
 
   // 차트 데이터의 변경 여부
@@ -133,6 +134,7 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
         modelNumbers,
         hasChanges,
         selectedModel,
+        syncChartData,
         addNewModel,
         deleteModel,
         getModelLevels,

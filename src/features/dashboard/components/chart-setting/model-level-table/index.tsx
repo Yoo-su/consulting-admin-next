@@ -104,7 +104,11 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
   }, [chartData]);
 
   return (
-    <Stack sx={{ my: 2 }}>
+    <Stack
+      sx={{
+        my: 2,
+      }}
+    >
       <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ mb: 1 }}>
         <Stack direction={'row'} spacing={1} alignItems="center">
           <Typography variant="body2" fontSize={16}>{`단계 ${chartData[0].level}`}</Typography>

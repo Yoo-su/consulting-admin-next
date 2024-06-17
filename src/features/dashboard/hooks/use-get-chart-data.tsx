@@ -15,5 +15,16 @@ export const useGetChartData = () => {
     });
   };
 
-  return { chartData, setChartData, originalData, isLoading, execute: useCallback(execute, []) };
+  const syncChartData = () => {
+    setOriginalData([...chartData]);
+  };
+
+  return {
+    chartData,
+    setChartData,
+    originalData,
+    isLoading,
+    execute: useCallback(execute, []),
+    syncChartData: useCallback(syncChartData, [chartData]),
+  };
 };
