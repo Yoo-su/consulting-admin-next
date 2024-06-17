@@ -1,16 +1,12 @@
-import { FlutterRowInfo } from '@/features/dashboard/types/flutter-setting.type';
-import { Badge, Box, Chip, Stack } from '@mui/material';
+import { Chip, Stack } from '@mui/material';
 import { useState } from 'react';
 import { DragDropContext, Draggable, DropResult, Droppable } from 'react-beautiful-dnd';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import { FormItemProps } from '../types/flutter-setting-form.type';
 
-type ListOrderFormProps = {
-  item: FlutterRowInfo;
-};
-
-const ListOrderForm = ({ item }: ListOrderFormProps) => {
+const ListOrderForm = ({ item }: FormItemProps) => {
   const { transferDefaultValue } = item;
-  const defaultList = transferDefaultValue.replace(/[[\]']/g, '').split(',');
+  const defaultList = transferDefaultValue.replace(/[[\]'"]/g, '').split(',');
   const [orderList, setOrderList] = useState<string[]>(defaultList);
 
   const handleDragEnd = (result: DropResult) => {

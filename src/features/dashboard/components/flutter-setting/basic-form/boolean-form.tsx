@@ -1,11 +1,8 @@
-import { FlutterRowInfo } from '@/features/dashboard/types/flutter-setting.type';
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
+import { FormItemProps } from '../types/flutter-setting-form.type';
 
-type BooleanFormProps = {
-  item: FlutterRowInfo;
-};
-const BooleanForm = ({ item }: BooleanFormProps) => {
+const BooleanForm = ({ item }: FormItemProps) => {
   const { transferDefaultValue, Description } = item;
 
   const [checkValue, setCheckValue] = useState<boolean>(transferDefaultValue);

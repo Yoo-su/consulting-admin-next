@@ -1,9 +1,9 @@
 import { FlutterRowInfo } from '@/features/dashboard/types/flutter-setting.type';
-import { Autocomplete, Chip, FormControl, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import EditSetting from '../edit-setting';
-import BooleanForm from './boolean-form';
-import SelectForm from './select-form';
-import ListOrderForm from './list-order-form';
+import React from 'react';
+import { FlutterSettingFormType } from '../types/flutter-setting-form.type';
+import { ComponentMapping, FormTypes } from '../constants/form-types';
 
 type BasicFormProps = {
   basicKey?: string;
@@ -12,8 +12,13 @@ type BasicFormProps = {
 };
 
 const BasicForm = ({ basicKey, item }: BasicFormProps) => {
-  const { Type, Title, KoreanTitle, Description, transferDefaultValue, level, children } = item;
+  const { Type, Title, KoreanTitle, Description, level, children } = item;
   const subMenu = level > 0;
+
+  const createComponent = (formType: FlutterSettingFormType, index: number) => {
+    const { component } = formType;
+    return React.createElement(ComponentMapping[component], { key: index, item });
+  };
 
   return (
     <Stack key={basicKey} direction={'column'} spacing={subMenu ? 0 : 1}>
@@ -30,22 +35,8 @@ const BasicForm = ({ basicKey, item }: BasicFormProps) => {
       </Stack>
       {Type === 'object' ? (
         <EditSetting settingList={children} />
-      ) : Type === 'boolean' ? (
-        <BooleanForm item={item} />
-      ) : Type === 'select' ? (
-        <SelectForm item={item} />
-      ) : Type === 'list-order' ? (
-        <ListOrderForm item={item} />
       ) : (
-        <TextField
-          value={transferDefaultValue}
-          size="small"
-          sx={{
-            '& .MuiInputBase-root': {
-              fontSize: '.9rem',
-            },
-          }}
-        />
+        FormTypes.filter((form) => form.type === Type).map((el, index) => createComponent(el, index))
       )}
     </Stack>
   );

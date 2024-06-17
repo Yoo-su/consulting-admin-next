@@ -1,11 +1,8 @@
-import { FlutterRowInfo } from '@/features/dashboard/types/flutter-setting.type';
 import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useState } from 'react';
+import { FormItemProps } from '../types/flutter-setting-form.type';
 
-type SelectFormProps = {
-  item: FlutterRowInfo;
-};
-const SelectForm = ({ item }: SelectFormProps) => {
+const SelectForm = ({ item }: FormItemProps) => {
   const { transferDefaultValue, children } = item;
   const [selectedValue, setSelectedValue] = useState<string>(transferDefaultValue);
 

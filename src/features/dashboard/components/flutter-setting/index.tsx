@@ -3,8 +3,23 @@
 import { Grid, Stack } from '@mui/material';
 import SettingList from './setting-list';
 import SettingDetail from './setting-detail';
+import { useGetFlutterSettingQuery } from '../../hooks/tanstack/use-get-flutter-setting-query';
+import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
+import { useEffect } from 'react';
 
 const FlutterSetting = () => {
+  const { setFlutterSettingList } = useFlutterSetting();
+  const { refetch } = useGetFlutterSettingQuery();
+
+  useEffect(() => {
+    refetch().then((res) => {
+      if (res.data) {
+        console.count('fetching data');
+        setFlutterSettingList(res.data);
+      }
+    });
+  }, []);
+
   return (
     <Stack
       direction={'column'}

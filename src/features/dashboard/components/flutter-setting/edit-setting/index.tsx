@@ -2,7 +2,7 @@ import { FlutterRowInfo, FlutterSetting } from '@/features/dashboard/types/flutt
 import { Stack } from '@mui/material';
 import BasicForm from '../basic-form';
 
-type EditSettingProps = {
+export type EditSettingProps = {
   settingList: FlutterSetting | FlutterRowInfo | FlutterRowInfo[] | undefined;
 };
 
