@@ -26,8 +26,10 @@ type ModelLevelTableProps = {
   chartData: ChartData[];
   modelNum: number;
   level: number;
+  isEditing: boolean;
+  toggleIsEditing: any;
 };
-const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) => {
+const ModelLevelTable = ({ chartData, modelNum, level, isEditing, toggleIsEditing }: ModelLevelTableProps) => {
   const { currentService } = useUnivService();
   const { shiftModelRows, deleteModelLevel } = useChartSetting();
   const [tmpChartData, setTmpChartData] = useState<ChartData[]>(chartData);
@@ -36,7 +38,13 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
 
   // 편집 모드에 진입합니다
   const enterEditMode = () => {
-    setEditMode(true);
+    if (!isEditing) {
+      toggleIsEditing();
+      setEditMode(true);
+    } else {
+      toast.error('이미 다른 테이블이 편집중입니다');
+      return;
+    }
   };
   // 편집 내용을 저장하고 편집모드를 종료합니다
   const saveEditContent = () => {
@@ -50,11 +58,13 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
       labelsSet.add(item.label);
     }
     if (JSON.stringify(chartData) !== JSON.stringify(tmpChartData)) shiftModelRows(tmpChartData, modelNum, level);
+    toggleIsEditing();
     setEditMode(false);
   };
   // 편집 내용을 취소하고 편집모드를 종료합니다
   const cancleEdit = () => {
     setTmpChartData(chartData);
+    toggleIsEditing();
     setEditMode(false);
   };
 
@@ -107,6 +117,12 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
     <Stack
       sx={{
         my: 2,
+        borderRadius: '0.3rem',
+        ...(editMode && {
+          filter: 'drop-shadow(0 25px 25px rgb(0 0 0 / 0.15))',
+          py: 2,
+        }),
+        transition: 'filter 0.3s ease-in-out, padding 0.1s ease',
       }}
     >
       <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ mb: 1 }}>
@@ -127,27 +143,29 @@ const ModelLevelTable = ({ chartData, modelNum, level }: ModelLevelTableProps) =
             </Button>
           </Stack>
         ) : (
-          <Stack direction={'row'} spacing={0.5}>
-            <Button size="small" variant="outlined" color="primary" onClick={enterEditMode}>
-              <Typography variant="body1" fontSize={12}>
-                편집모드
-              </Typography>
-            </Button>
+          !isEditing && (
+            <Stack direction={'row'} spacing={0.5}>
+              <Button size="small" variant="outlined" color="primary" onClick={enterEditMode}>
+                <Typography variant="body1" fontSize={12}>
+                  편집모드
+                </Typography>
+              </Button>
 
-            <Button size="small" variant="outlined" color="error">
-              <Typography
-                variant="body1"
-                fontSize={12}
-                onClick={() => {
-                  openConfirmToast(`모델${modelNum + 1}의 ${level}단계를 삭제하시겠습니까?`, () =>
-                    deleteModelLevel(modelNum, level)
-                  );
-                }}
-              >
-                단계삭제
-              </Typography>
-            </Button>
-          </Stack>
+              <Button size="small" variant="outlined" color="error">
+                <Typography
+                  variant="body1"
+                  fontSize={12}
+                  onClick={() => {
+                    openConfirmToast(`모델${modelNum + 1}의 ${level}단계를 삭제하시겠습니까?`, () =>
+                      deleteModelLevel(modelNum, level)
+                    );
+                  }}
+                >
+                  단계삭제
+                </Typography>
+              </Button>
+            </Stack>
+          )
         )}
       </Stack>
       <TableContainer component={Paper} sx={{ mt: 0.1 }}>
