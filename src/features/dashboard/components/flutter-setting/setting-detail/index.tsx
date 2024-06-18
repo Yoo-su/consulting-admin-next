@@ -38,7 +38,7 @@ const SettingDetail = () => {
         {description && <Typography variant={'overline'}>{description}</Typography>}
       </Stack>
       <EditSetting settingList={settingList} />
-      {/* {category && <AddSetting />} */}
+      {category && <AddSetting category={category} />}
     </Stack>
   );
 };

@@ -1,19 +1,31 @@
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
+import { Checkbox, FormControlLabel, FormGroup, TextField, styled } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import { FormItemProps } from '../types/flutter-setting-form.type';
 
-const BooleanForm = ({ item }: FormItemProps) => {
-  const { transferDefaultValue, Description } = item;
+const StyledTextField = styled(TextField)({
+  width: '100%',
+  '& .MuiInputBase-input': {
+    fontFamily: '__Gowun_Dodum_8e1aab, __Gowun_Dodum_Fallback_8e1aab',
+    fontWeight: '400',
+    lineHeight: '1.5',
+    letterSpacing: '0.00938em',
+    padding: 0,
+  },
+});
 
-  const [checkValue, setCheckValue] = useState<boolean>(transferDefaultValue);
+const BooleanForm = ({ item }: Partial<FormItemProps>) => {
+  const { transferDefaultValue, Description } = item ?? {};
+
+  const [checkValue, setCheckValue] = useState<boolean>(transferDefaultValue ?? false);
   const handleBooleanChange = (event: ChangeEvent<HTMLInputElement>) => {
     setCheckValue(event.target.checked);
   };
+
   return (
     <>
       <FormGroup sx={{ paddingLeft: '.5rem' }}>
         <FormControlLabel
-          label={Description}
+          label={Description ? Description : <StyledTextField variant="standard" />}
           control={<Checkbox disableRipple checked={checkValue} onChange={handleBooleanChange} />}
           sx={{
             '& .MuiButtonBase-root': {
@@ -28,6 +40,7 @@ const BooleanForm = ({ item }: FormItemProps) => {
             },
             '& .MuiTypography-root': {
               fontSize: '.9rem',
+              width: '100%',
             },
           }}
         />

@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, ReactNode, useState, Dispatch, SetStateAction } from 'react';
+import { createContext, useState, Dispatch, SetStateAction, PropsWithChildren } from 'react';
 import { useGetConsultingFileList } from '../hooks/use-get-consulting-file-list';
 import { ConsultingFile, UploadFile } from '../types/consulting-file';
 import { useUnivService } from '../hooks/context/use-univ-service';
@@ -32,11 +32,7 @@ export type ConsultingFileSettingsContextValue = {
 
 export const ConsultingFileSettingsContext = createContext<ConsultingFileSettingsContextValue | null>(null);
 
-type ConsultingFileSettingsProvider = {
-  children: ReactNode;
-};
-
-const ConsultingFileSettingsProvider = ({ children }: ConsultingFileSettingsProvider) => {
+const ConsultingFileSettingsProvider = ({ children }: PropsWithChildren) => {
   //#region  hooks
   const { mutateAsync: uploadMutation } = useUploadConsultingFileMutation();
   const { mutateAsync: updateRefNoMutation } = useUpdateConsultingRefNoMutation();

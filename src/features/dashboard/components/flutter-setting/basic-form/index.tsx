@@ -1,9 +1,9 @@
 import { FlutterRowInfo } from '@/features/dashboard/types/flutter-setting.type';
 import { Stack, Typography } from '@mui/material';
-import EditSetting from '../edit-setting';
-import React from 'react';
+import { createElement } from 'react';
 import { FlutterSettingFormType } from '../types/flutter-setting-form.type';
-import { ComponentMapping, FormTypes } from '../constants/form-types';
+import { ComponentMapping, FormTypeList } from '../constants/form-types';
+import EditSetting from '../edit-setting';
 
 type BasicFormProps = {
   basicKey?: string;
@@ -16,8 +16,16 @@ const BasicForm = ({ basicKey, item }: BasicFormProps) => {
   const subMenu = level > 0;
 
   const createComponent = (formType: FlutterSettingFormType, index: number) => {
-    const { component } = formType;
-    return React.createElement(ComponentMapping[component], { key: index, item });
+    const { type, component } = formType;
+    // const propType = type === 'object' ? { settingList: children } : { item };
+    if (ComponentMapping[component] !== undefined) {
+      return createElement(ComponentMapping[component] as any, {
+        key: index,
+        // ...propType,
+        item,
+      });
+    }
+    return null;
   };
 
   return (
@@ -33,10 +41,11 @@ const BasicForm = ({ basicKey, item }: BasicFormProps) => {
         </Stack>
         {Type !== 'boolean' && <Typography variant={'caption'}>{Description}</Typography>}
       </Stack>
+
       {Type === 'object' ? (
         <EditSetting settingList={children} />
       ) : (
-        FormTypes.filter((form) => form.type === Type).map((el, index) => createComponent(el, index))
+        FormTypeList.filter((form) => form.type === Type).map((el, index) => createComponent(el, index))
       )}
     </Stack>
   );
