@@ -46,16 +46,7 @@ const ModelAccordion = ({ selectedModel, setSelectedModel, modelNum, modelChartD
   }, [modelChartData]);
 
   return (
-    <Accordion
-      key={`model-${modelNum}`}
-      expanded={selectedModel === modelNum}
-      slots={{ transition: Fade as AccordionSlots['transition'] }}
-      slotProps={{ transition: { timeout: 400 } }}
-      sx={{
-        '& .MuiAccordion-region': { height: selectedModel === modelNum ? 'auto' : 0 },
-        '& .MuiAccordionDetails-root': { display: selectedModel === modelNum ? 'block' : 'none' },
-      }}
-    >
+    <Accordion key={`model-${modelNum}`} expanded={selectedModel === modelNum}>
       <AccordionSummary aria-controls="chart-model-accordion">
         <Typography
           variant="h6"

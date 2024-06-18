@@ -53,7 +53,7 @@ const ModelLevelTable = ({
   };
   // 편집 내용을 저장하고 편집모드를 종료합니다
   const saveEditContent = () => {
-    if (JSON.stringify(chartData) !== JSON.stringify(tmpChartData)) {
+    if (JSON.stringify([...chartData]) === JSON.stringify([...tmpChartData])) {
       setIsEditingFalse();
       setEditMode(false);
       return;
