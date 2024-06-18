@@ -27,9 +27,17 @@ type ModelLevelTableProps = {
   modelNum: number;
   level: number;
   isEditing: boolean;
-  toggleIsEditing: any;
+  setIsEditingTrue: () => void;
+  setIsEditingFalse: () => void;
 };
-const ModelLevelTable = ({ chartData, modelNum, level, isEditing, toggleIsEditing }: ModelLevelTableProps) => {
+const ModelLevelTable = ({
+  chartData,
+  modelNum,
+  level,
+  isEditing,
+  setIsEditingTrue,
+  setIsEditingFalse,
+}: ModelLevelTableProps) => {
   const { currentService } = useUnivService();
   const { shiftModelRows, deleteModelLevel } = useChartSetting();
   const [tmpChartData, setTmpChartData] = useState<ChartData[]>(chartData);
@@ -39,15 +47,17 @@ const ModelLevelTable = ({ chartData, modelNum, level, isEditing, toggleIsEditin
   // 편집 모드에 진입합니다
   const enterEditMode = () => {
     if (!isEditing) {
-      toggleIsEditing();
+      setIsEditingTrue();
       setEditMode(true);
-    } else {
-      toast.error('이미 다른 테이블이 편집중입니다');
-      return;
     }
   };
   // 편집 내용을 저장하고 편집모드를 종료합니다
   const saveEditContent = () => {
+    if (JSON.stringify(chartData) !== JSON.stringify(tmpChartData)) {
+      setIsEditingFalse();
+      setEditMode(false);
+      return;
+    }
     const labelsSet = new Set();
 
     for (const item of tmpChartData) {
@@ -57,14 +67,14 @@ const ModelLevelTable = ({ chartData, modelNum, level, isEditing, toggleIsEditin
       }
       labelsSet.add(item.label);
     }
-    if (JSON.stringify(chartData) !== JSON.stringify(tmpChartData)) shiftModelRows(tmpChartData, modelNum, level);
-    toggleIsEditing();
+    shiftModelRows(tmpChartData, modelNum, level);
+    setIsEditingFalse();
     setEditMode(false);
   };
   // 편집 내용을 취소하고 편집모드를 종료합니다
   const cancleEdit = () => {
     setTmpChartData(chartData);
-    toggleIsEditing();
+    setIsEditingFalse();
     setEditMode(false);
   };
 
@@ -113,16 +123,20 @@ const ModelLevelTable = ({ chartData, modelNum, level, isEditing, toggleIsEditin
     setTmpChartData(chartData);
   }, [chartData]);
 
+  useEffect(() => {
+    return () => {
+      setIsEditingFalse();
+    };
+  }, []);
   return (
     <Stack
       sx={{
         my: 2,
-        borderRadius: '0.3rem',
         ...(editMode && {
           filter: 'drop-shadow(0 25px 25px rgb(0 0 0 / 0.15))',
-          py: 2,
+          py: 1,
         }),
-        transition: 'filter 0.3s ease-in-out, padding 0.1s ease',
+        transition: 'filter 0.06s ease-in-out, padding 0.06s ease',
       }}
     >
       <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ mb: 1 }}>
@@ -232,7 +246,6 @@ const ModelLevelTable = ({ chartData, modelNum, level, isEditing, toggleIsEditin
                         cursor: 'pointer',
                         color: 'rgba(0,0,0,0.6)',
                         ':hover': { color: '#BC544B' },
-                        transition: 'all 0.2s linear',
                       }}
                       onClick={() => {
                         openConfirmToast(
@@ -260,7 +273,7 @@ const ModelLevelTable = ({ chartData, modelNum, level, isEditing, toggleIsEditin
                       ':hover': {
                         bgcolor: '#E3F2FD',
                       },
-                      transition: 'all 0.2s linear',
+                      transition: 'background-color 0.1s ease',
                       borderRadius: '0.5rem',
                     }}
                     onClick={() => {

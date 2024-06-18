@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, Fragment } from 'react';
+import { useState, useMemo, Fragment, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -20,6 +20,11 @@ const ChartSettingBox = () => {
   const { currentUniv, currentService } = useUnivService();
   const { isLoading, chartData, modelNumbers, addNewModel } = useChartSetting();
 
+  const [selectedModel, setSelectedModel] = useState<number | null>(null);
+
+  const handleSelectModel = useCallback((modelNum: number) => {
+    setSelectedModel(modelNum);
+  }, []);
   /**
    *  모델 번호로 그룹핑된 데이터
    */
@@ -61,6 +66,8 @@ const ChartSettingBox = () => {
                   return (
                     <ModelAccordion
                       key={`model-${mn}-accordion`}
+                      selectedModel={selectedModel}
+                      setSelectedModel={handleSelectModel}
                       modelNum={mn}
                       modelChartData={groupedByModelNum[mn]}
                     />

@@ -9,7 +9,6 @@ export type ChartSettingContextValue = {
   isLoading: boolean;
   chartData: ChartData[];
   modelNumbers: number[];
-  selectedModel: number | null;
   hasChanges: boolean;
   syncChartData: () => void;
   addNewModel: () => void;
@@ -17,7 +16,6 @@ export type ChartSettingContextValue = {
   getModelLevels: (modelNum: number) => number[];
   setChartData: (newItems: ChartData[]) => void;
   shiftModelRows: (newItems: ChartData[], modelNum: number, level: number) => void;
-  setSelectedModel: Dispatch<SetStateAction<number | null>>;
   addNewModelLevel: (modelNum: number) => void;
   deleteModelLevel: (modelNum: number, level: number) => void;
 };
@@ -31,7 +29,6 @@ export type ChartSettingProviderProps = {
 const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
   const { currentService } = useUnivService();
   const { chartData, originalData, setChartData, isLoading, execute, syncChartData } = useGetChartData();
-  const [selectedModel, setSelectedModel] = useState<number | null>(null);
 
   // 차트 데이터의 변경 여부
   const hasChanges = useMemo(() => {
@@ -75,7 +72,6 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
     (modelNum: number) => {
       const filtered = chartData.filter((item) => item.modelNum !== modelNum);
       setChartData(filtered);
-      setSelectedModel(null);
     },
     [chartData, setChartData]
   );
@@ -112,9 +108,6 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
     (modelNum: number, level: number) => {
       const filtered = chartData.filter((item) => !(item.modelNum === modelNum && item.level === level));
       setChartData(filtered);
-
-      const isRemaining = filtered.some((item) => item.modelNum === modelNum);
-      if (!isRemaining) setSelectedModel(null);
     },
     [chartData, setChartData]
   );
@@ -122,7 +115,6 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
   useEffect(() => {
     if (currentService) {
       execute(currentService.serviceID);
-      setSelectedModel(null);
     }
   }, [currentService]);
 
@@ -133,14 +125,12 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
         chartData,
         modelNumbers,
         hasChanges,
-        selectedModel,
         syncChartData,
         addNewModel,
         deleteModel,
         getModelLevels,
         setChartData,
         shiftModelRows,
-        setSelectedModel,
         addNewModelLevel,
         deleteModelLevel,
       }}

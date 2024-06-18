@@ -2,9 +2,10 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
-import Accordion from '@mui/material/Accordion';
+import Accordion, { AccordionSlots } from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
+import Fade from '@mui/material/Fade';
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
@@ -18,17 +19,23 @@ import { getGroupedData } from '../../overview/consultingapp-state-board/service
 import { ChartData } from '@/features/dashboard/types/chart-data.type';
 
 type ModelAccordionProps = {
+  selectedModel: number | null;
+  setSelectedModel: (modelNum: number) => void;
   modelNum: number;
   modelChartData: ChartData[];
 };
-const ModelAccordion = ({ modelNum, modelChartData }: ModelAccordionProps) => {
-  const { selectedModel, setSelectedModel, deleteModel, addNewModelLevel } = useChartSetting();
+const ModelAccordion = ({ selectedModel, setSelectedModel, modelNum, modelChartData }: ModelAccordionProps) => {
+  const { deleteModel, addNewModelLevel } = useChartSetting();
   const { openConfirmToast } = useConfirmToast();
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const toggleIsEditing = useCallback(() => {
-    setIsEditing(!isEditing);
-  }, [isEditing]);
+  const setIsEditingTrue = useCallback(() => {
+    setIsEditing(true);
+  }, []);
+
+  const setIsEditingFalse = useCallback(() => {
+    setIsEditing(false);
+  }, []);
 
   const modelLevels = useMemo(() => {
     return Array.from(new Set(modelChartData.map((item) => item.level)));
@@ -42,7 +49,12 @@ const ModelAccordion = ({ modelNum, modelChartData }: ModelAccordionProps) => {
     <Accordion
       key={`model-${modelNum}`}
       expanded={selectedModel === modelNum}
-      /* slotProps={{ transition: { unmountOnExit: true } }} */
+      slots={{ transition: Fade as AccordionSlots['transition'] }}
+      slotProps={{ transition: { timeout: 400 } }}
+      sx={{
+        '& .MuiAccordion-region': { height: selectedModel === modelNum ? 'auto' : 0 },
+        '& .MuiAccordionDetails-root': { display: selectedModel === modelNum ? 'block' : 'none' },
+      }}
     >
       <AccordionSummary aria-controls="chart-model-accordion">
         <Typography
@@ -86,7 +98,8 @@ const ModelAccordion = ({ modelNum, modelChartData }: ModelAccordionProps) => {
             modelNum={modelNum}
             level={ml}
             isEditing={isEditing}
-            toggleIsEditing={toggleIsEditing}
+            setIsEditingTrue={setIsEditingTrue}
+            setIsEditingFalse={setIsEditingFalse}
           />
         ))}
         {!isEditing && (
