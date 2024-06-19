@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, Fragment } from 'react';
+import { Fragment, PropsWithChildren } from 'react';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -8,10 +8,7 @@ import Box from '@mui/material/Box';
 import AppHeader from './app-header';
 import AppSidebar from './app-sidebar';
 
-type Props = {
-  children: ReactNode;
-};
-const Layout = ({ children }: Props) => {
+const Layout = ({ children }: PropsWithChildren) => {
   return (
     <Fragment>
       <GlobalStyles
