@@ -1,3 +1,4 @@
+import MojipSettingBox from '@/features/dashboard/components/mojip-setting';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
@@ -10,6 +11,8 @@ const Page = () => {
   return (
     <Box>
       <Typography variant="h5">모집요강 설정</Typography>
+
+      <MojipSettingBox />
     </Box>
   );
 };
