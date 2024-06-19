@@ -1,4 +1,4 @@
-import { ReactNode, Ref } from 'react';
+import { PropsWithChildren, Ref } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { DraggableProvidedDragHandleProps, DraggableProvidedDraggableProps } from 'react-beautiful-dnd';
@@ -29,16 +29,15 @@ const TableRowBoxStyle = {
   width: '100%',
   backgroundColor: 'var(--mui-palette-background-paper)',
 };
-export const TableContainerBox = ({ children }: { children: ReactNode }) => {
+export const TableContainerBox = ({ children }: PropsWithChildren) => {
   return <Box sx={{ ...TableContainerBoxStyle }}>{children}</Box>;
 };
 
-export const TableBox = ({ children }: { children: ReactNode }) => {
+export const TableBox = ({ children }: PropsWithChildren) => {
   return <Box sx={{ ...TableBoxStyle }}>{children}</Box>;
 };
 
-type TableRowBoxProps = {
-  children: ReactNode;
+type TableRowBoxProps = PropsWithChildren & {
   innerRef?: Ref<unknown> | undefined;
   draggableProps?: DraggableProvidedDraggableProps;
   dragHandleProps?: DraggableProvidedDragHandleProps | null | undefined;
@@ -51,8 +50,7 @@ export const TableRowBox = ({ children, innerRef, draggableProps, dragHandleProp
   );
 };
 
-type CustomWidthBoxCellProps = {
-  children?: ReactNode;
+type CustomWidthBoxCellProps = PropsWithChildren & {
   size?: 'xs' | 's' | 'm' | 'l';
   typo?: boolean;
   justifyContent?: 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'flex-start' | 'flex-end';

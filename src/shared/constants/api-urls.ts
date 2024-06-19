@@ -1,3 +1,5 @@
+import { getFlutterRowInfo } from '@/features/dashboard/apis/get-flutter-row-info';
+
 export const apiUrls = {
   user: {
     signin: '/auth/login',
@@ -25,6 +27,9 @@ export const apiUrls = {
     chartData: '/app-setup/chartdata',
     deleteConsultingFile: 'reflibrary/delete',
     detailpage: '/app-setup/detailpage',
+    getFlutterCategory: '/custom-config/category',
+    getFlutterRowInfo: '/custom-config/rows-info-hierarchy',
+    flutterCustomConfig: '/custom-config',
   },
   admin: {
     getUnivList: '/admin/univlist',

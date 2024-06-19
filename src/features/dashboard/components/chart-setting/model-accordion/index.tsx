@@ -15,7 +15,7 @@ import { useChartSetting } from '@/features/dashboard/hooks/context/use-chart-se
 import ModelLevelTable from '../model-level-table';
 import ModelChartBox from '../model-chart-box';
 import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
-import { getGroupedData } from '../../overview/consultingapp-state-board/services/get-grouped-data';
+import { getGroupedData } from '../../../services/overview/get-grouped-data';
 import { ChartData } from '@/features/dashboard/types/chart-data.type';
 
 type ModelAccordionProps = {

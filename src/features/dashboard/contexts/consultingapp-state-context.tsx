@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, ReactNode, useState, Dispatch, SetStateAction } from 'react';
+import { createContext, useState, Dispatch, SetStateAction, PropsWithChildren } from 'react';
 import { useGetConsultingAppState } from '../hooks/use-get-consultingapp-state';
 import { ConsultingAppState } from '../types/consultingapp-state.type';
 import { useGetConsultingAppStateAll } from '../hooks/use-get-consultingapp-state-all';
@@ -30,10 +30,7 @@ export type ConsultingAppStateContextValue = {
 
 export const ConsultingAppStateContext = createContext<ConsultingAppStateContextValue | undefined>(undefined);
 
-export type ConsultingAppStateProvider = {
-  children: ReactNode;
-};
-const ConsultingAppStateProvider = ({ children }: ConsultingAppStateProvider) => {
+const ConsultingAppStateProvider = ({ children }: PropsWithChildren) => {
   const {
     data: basicData,
     setData: setBasicData,
