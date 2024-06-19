@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useState, Dispatch, SetStateAction, PropsWithChildren } from 'react';
-import {  FlutterSetting } from '../types/flutter-setting.type';
+import { FlutterSetting } from '../types/flutter-setting.type';
 
 export type FlutterSettingContextValue = {
   flutterSettingList: FlutterSetting[];
