@@ -87,7 +87,7 @@ const AddSetting = ({ category }: { category: string }) => {
   // });
 
   const handleIsAdd = () => {
-    setIsAdd(true);
+    setIsAdd(!isAdd);
   };
   const handleInputKey = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {

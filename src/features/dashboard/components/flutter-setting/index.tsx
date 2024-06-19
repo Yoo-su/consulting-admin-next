@@ -6,10 +6,12 @@ import SettingDetail from './setting-detail';
 import { useGetFlutterSettingQuery } from '../../hooks/tanstack/use-get-flutter-setting-query';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 import { useEffect } from 'react';
+import { useUnivService } from '../../hooks/context/use-univ-service';
 
 const FlutterSetting = () => {
+  const { currentService } = useUnivService();
   const { setFlutterSettingList } = useFlutterSetting();
-  const { refetch } = useGetFlutterSettingQuery();
+  const { refetch } = useGetFlutterSettingQuery({ serviceID: currentService!.serviceID });
 
   useEffect(() => {
     refetch().then((res) => {

@@ -1,20 +1,23 @@
 'use client';
 
 import { getFlutterCategory } from '../apis/get-flutter-category';
+import { GetFlutterCustomConfigParams, getFlutterCustomConfig } from '../apis/get-flutter-custom-config';
 import { getFlutterRowInfo } from '../apis/get-flutter-row-info';
+import { setCustomConfig } from '../services/flutter-setting/set-custom-config';
 import { FlutterRowInfo, FlutterSetting } from '../types/flutter-setting.type';
 
-export const useGetFlutterSetting = async () => {
-  const categoryList: FlutterSetting[] = [];
-  const rowInfo: FlutterRowInfo[] = [];
-  await getFlutterCategory().then((res) => {
-    categoryList.push(...res);
-  });
-  await getFlutterRowInfo().then((res) => {
-    rowInfo.push(...res);
-  });
+export const useGetFlutterSetting = async ({ queryKey }: { queryKey: [string, GetFlutterCustomConfigParams] }) => {
+  const { serviceID } = queryKey[1];
+  const categoryList: FlutterSetting[] = await getFlutterCategory();
+  const rowInfo: FlutterRowInfo[] = await getFlutterRowInfo();
   categoryList.forEach((item) => {
     item.children = rowInfo.filter((row) => row.Category === item.Category);
   });
+  await getFlutterCustomConfig({ serviceID }).then((customConfig) => {
+    categoryList.forEach((category) => {
+      customConfig.forEach((config) => setCustomConfig(category?.children ?? [], config.RowIdx, config.RowValue));
+    });
+  });
+
   return categoryList;
 };

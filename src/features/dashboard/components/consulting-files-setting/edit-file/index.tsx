@@ -12,7 +12,7 @@ import DoneIcon from '@mui/icons-material/Done';
 
 import { useConsultingFileSettings } from '@/features/dashboard/hooks/context/use-consulting-file-settings';
 import { ConsultingFile } from '@/features/dashboard/types/consulting-file';
-import { getFileNoFromEvent } from '@/features/dashboard/components/consulting-files-setting/services/get-replaced-string';
+import { getFileNoFromEvent } from '@/features/dashboard/services/consulting-files-setting/get-replaced-string';
 import { CustomWidthBoxCell } from '../table-components/table-boxes';
 import { StyledTextField } from '../table-components/styled-component';
 import toast from 'react-hot-toast';

@@ -12,7 +12,7 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import StateCol from '../state-col';
 import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-consultingapp-state';
 import { stateBoardDomainItems } from '../constants/state-board-domain-items';
-import { getGroupedData } from '../services/get-grouped-data';
+import { getGroupedData } from '../../../../services/overview/get-grouped-data';
 import { currentStateList } from '../constants/current-states-list';
 import { CurrentState } from '@/features/dashboard/types/consultingapp-state.type';
 import toast from 'react-hot-toast';

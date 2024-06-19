@@ -1,12 +1,16 @@
 import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useState } from 'react';
 import { FormItemProps } from '../types/flutter-setting-form.type';
+import { setFlutterCustomConfig } from '@/features/dashboard/apis/set-flutter-custom-config';
+import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 
 const SelectForm = ({ item }: FormItemProps) => {
-  const { transferDefaultValue, children } = item;
-  const [selectedValue, setSelectedValue] = useState<string>(transferDefaultValue);
+  const { currentService } = useUnivService();
+  const { transferDefaultValue, children, RowIdx, RowValue = null } = item;
+  const [selectedValue, setSelectedValue] = useState<string>(RowValue ? RowValue : transferDefaultValue);
 
   const handleSelectChange = (event: SelectChangeEvent) => {
+    setFlutterCustomConfig({ serviceID: currentService!.serviceID, RowIdx, RowValue: event.target.value });
     setSelectedValue(event.target.value);
   };
 

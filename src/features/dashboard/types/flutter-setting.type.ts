@@ -20,4 +20,5 @@ export type FlutterRowInfo = {
   children: FlutterRowInfo[];
   level: number;
   transferDefaultValue: any;
+  RowValue?: string;
 };

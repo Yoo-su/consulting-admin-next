@@ -29,6 +29,7 @@ export const apiUrls = {
     detailpage: '/app-setup/detailpage',
     getFlutterCategory: '/custom-config/category',
     getFlutterRowInfo: '/custom-config/rows-info-hierarchy',
+    flutterCustomConfig: '/custom-config',
   },
   admin: {
     getUnivList: '/admin/univlist',

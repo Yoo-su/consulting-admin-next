@@ -12,7 +12,7 @@ type BasicFormProps = {
 };
 
 const BasicForm = ({ basicKey, item }: BasicFormProps) => {
-  const { Type, Title, KoreanTitle, Description, level, children } = item;
+  const { Type, Title, KoreanTitle, Description, level, children, RowIdx } = item;
   const subMenu = level > 0;
 
   const createComponent = (formType: FlutterSettingFormType, index: number) => {

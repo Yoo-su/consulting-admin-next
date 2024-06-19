@@ -12,7 +12,7 @@ import { useUnivService } from '../../hooks/context/use-univ-service';
 import { useChartSetting } from '../../hooks/context/use-chart-setting';
 import SaveChartDataButton from './save-chart-data-button';
 import EmptyBox from '@/shared/components/empty-box';
-import { getGroupedData } from '../overview/consultingapp-state-board/services/get-grouped-data';
+import { getGroupedData } from '../../services/overview/get-grouped-data';
 import ModelAccordion from './model-accordion';
 import ContentLoadingSkeleton from '@/shared/components/loadings/skeleton';
 

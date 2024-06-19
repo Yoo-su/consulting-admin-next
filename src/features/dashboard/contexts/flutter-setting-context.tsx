@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useState, Dispatch, SetStateAction, PropsWithChildren } from 'react';
-import { FlutterSetting } from '../types/flutter-setting.type';
+import {  FlutterSetting } from '../types/flutter-setting.type';
 
 export type FlutterSettingContextValue = {
   flutterSettingList: FlutterSetting[];
@@ -15,7 +15,6 @@ export const FlutterSettingContext = createContext<FlutterSettingContextValue | 
 const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [flutterSettingList, setFlutterSettingList] = useState<FlutterSetting[]>([]);
-
   return (
     <FlutterSettingContext.Provider
       value={{

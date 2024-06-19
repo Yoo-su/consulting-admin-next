@@ -1,19 +1,28 @@
 import { useOutsideClick } from '@/shared/hooks/use-outside-click';
 import { TextField } from '@mui/material';
-import { KeyboardEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { FormItemProps } from '../types/flutter-setting-form.type';
+import { setFlutterCustomConfig } from '@/features/dashboard/apis/set-flutter-custom-config';
+import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 
 const BasicTextForm = ({ item }: FormItemProps) => {
-  const { transferDefaultValue } = item;
-  const [textValue, setTextValue] = useState(transferDefaultValue);
+  const { currentService } = useUnivService();
+  const { transferDefaultValue, RowIdx, RowValue = null } = item;
+  const [textValue, setTextValue] = useState(RowValue ? RowValue : transferDefaultValue);
 
-  const inputRef = useOutsideClick(() => {});
+  const inputRef = useOutsideClick(() => {
+    setFlutterCustomConfig({ serviceID: currentService!.serviceID, RowIdx, RowValue: textValue });
+  });
   const handleInputKey = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       console.log('Enter');
       // Add category
-      setTextValue(event.target);
+      setTextValue((event.target as HTMLInputElement).value);
+      setFlutterCustomConfig({ serviceID: currentService!.serviceID, RowIdx, RowValue: textValue });
     }
+  };
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setTextValue(event.target.value);
   };
   return (
     <TextField
@@ -25,6 +34,8 @@ const BasicTextForm = ({ item }: FormItemProps) => {
           fontSize: '.9rem',
         },
       }}
+      onChange={handleChange}
+      onKeyUp={handleInputKey}
     />
   );
 };

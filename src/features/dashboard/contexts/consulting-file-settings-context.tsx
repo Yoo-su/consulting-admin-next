@@ -6,7 +6,7 @@ import { ConsultingFile, UploadFile } from '../types/consulting-file';
 import { useUnivService } from '../hooks/context/use-univ-service';
 import { useUploadConsultingFileMutation } from '@/features/dashboard/hooks/tanstack/use-upload-consulting-file-mutation';
 import toast, { Toast } from 'react-hot-toast';
-import { removeFileExtention } from '../components/consulting-files-setting/services/get-replaced-string';
+import { removeFileExtention } from '../services/consulting-files-setting/get-replaced-string';
 import {
   useDeleteConsultingFileMutation,
   useUpdateConsultingRefNoMutation,
