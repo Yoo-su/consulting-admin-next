@@ -9,6 +9,7 @@ import { Color } from '@tiptap/extension-color';
 import ListItem from '@tiptap/extension-list-item';
 import TextStyle from '@tiptap/extension-text-style';
 import Placeholder from '@tiptap/extension-placeholder';
+import HardBreak from '@tiptap/extension-hard-break';
 import TipTapTypography from '@tiptap/extension-typography';
 import { useTheme } from '@mui/material';
 import Document from '@tiptap/extension-document';
@@ -28,8 +29,9 @@ import { createLowlight, common } from 'lowlight';
 const classes = {
   input: (theme: Theme, editable = true) =>
     css({
-      borderRadius: 6,
+      borderRadius: '0 0 6 6',
       border: editable ? '1px solid rgba(0,0,0,0.1)' : 'none',
+      borderTop: 'none',
       paddingLeft: editable ? 16 : 0,
       paddingRight: editable ? 16 : 0,
       minHeight: editable ? 150 : 'initial',
@@ -55,6 +57,9 @@ const extensions = [
   Text,
   TipTapTypography,
   Underline,
+  HardBreak.configure({
+    keepMarks: false,
+  }),
   Link.configure({
     protocols: [
       'https',
@@ -127,6 +132,9 @@ export const useTextEditor = ({
       const html = editor.getHTML();
       onChange?.(html);
     },
+    parseOptions: {
+      preserveWhitespace: 'full',
+    },
     ...editorOptions,
   });
 
@@ -135,7 +143,6 @@ export const useTextEditor = ({
     if (!(editor && value)) return;
     editor.commands.setContent(value);
     // !important: to avoid update for each taping, the value should be excluded from the dependencies
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
 
   /**

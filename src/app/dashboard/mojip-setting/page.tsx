@@ -1,4 +1,5 @@
 import MojipSettingBox from '@/features/dashboard/components/mojip-setting';
+import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
@@ -9,11 +10,13 @@ export const metadata = {
 
 const Page = () => {
   return (
-    <Box>
-      <Typography variant="h5">모집요강 설정</Typography>
+    <UnivServiceCheckGuard>
+      <Box>
+        <Typography variant="h5">모집요강 설정</Typography>
 
-      <MojipSettingBox />
-    </Box>
+        <MojipSettingBox />
+      </Box>
+    </UnivServiceCheckGuard>
   );
 };
 

@@ -70,7 +70,7 @@ type Props = {
   anchorEl: null | HTMLElement;
   onClose: () => void;
 };
-const TableMenuDialog = ({ editor, anchorEl, onClose }: Props) => {
+const TableMenu = ({ editor, anchorEl, onClose }: Props) => {
   const handleClick = (menu: IOption) => {
     menu.action();
     onClose();
@@ -96,4 +96,4 @@ const TableMenuDialog = ({ editor, anchorEl, onClose }: Props) => {
   );
 };
 
-export default TableMenuDialog;
+export default TableMenu;

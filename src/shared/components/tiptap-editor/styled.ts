@@ -22,8 +22,7 @@ export const TiptapContainer = styled(Stack)(({ theme }) => ({
     outline: 'none',
     padding: '1rem',
     boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-    height: '500px',
-    overflow: 'scroll',
+    minHeight: '200px',
 
     blockquote: {
       borderLeft: '3px solid rgba(13, 13, 13, 0.1)',
@@ -90,7 +89,7 @@ export const TiptapContainer = styled(Stack)(({ theme }) => ({
         minWidth: '1em',
         padding: '3px 5px',
         position: 'relative',
-        verticalAlign: 'top',
+        verticalAlign: 'center',
 
         '& > *': {
           marginBottom: 0,

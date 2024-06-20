@@ -8,6 +8,5 @@ export const useGetUnivListQuery = () => {
     queryKey: ['univ-list'],
     queryFn: getUnivList,
     staleTime: Infinity,
-    enabled: false,
   });
 };

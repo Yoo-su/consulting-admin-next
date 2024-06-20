@@ -27,6 +27,7 @@ export const apiUrls = {
     chartData: '/app-setup/chartdata',
     deleteConsultingFile: 'reflibrary/delete',
     detailpage: '/app-setup/detailpage',
+    duplicateDetailpage: '/app-setup/duplicate/detailpage',
     getFlutterCategory: '/custom-config/category',
     getFlutterRowInfo: '/custom-config/rows-info-hierarchy',
     flutterCustomConfig: '/custom-config',

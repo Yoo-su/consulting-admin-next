@@ -6,11 +6,13 @@ export const useConfirmToast = () => {
   const openConfirmToast = useCallback((message: string, callback: any) => {
     toast((t) => (
       <Stack direction={'column'} justifyContent={'center'} alignItems={'center'} spacing={1}>
-        <Typography variant="body2">{message}</Typography>
+        <Typography variant="body2" textAlign={'center'}>
+          {message}
+        </Typography>
         <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} spacing={0.2}>
           <Button
             variant="text"
-            color="error"
+            color="inherit"
             size="small"
             sx={{ width: 'fit-content' }}
             onClick={() => {

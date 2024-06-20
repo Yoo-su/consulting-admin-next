@@ -1,5 +1,5 @@
 import { useState, useCallback, MouseEvent } from 'react';
-import { Box, IconButton, Tooltip } from '@mui/material';
+import { Box, Button, IconButton, Tooltip } from '@mui/material';
 import { Editor } from '@tiptap/react';
 import {
   Title as TitleIcon,
@@ -22,8 +22,9 @@ import {
   Link as LinkIcon,
 } from '@mui/icons-material';
 
-import TableMenuDialog from './items/table-menu-dialog';
+import TableMenu from './items/table-menu';
 import ColorPicker from './items/color-picker';
+import HeadingMenu from './items/heading-menu';
 
 type ToolbarProps = {
   editor: Editor;
@@ -36,6 +37,9 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
   const handleOpenHeadingMenu = useCallback((event: MouseEvent<HTMLElement>) => {
     setHeadingAnchorEl(event.currentTarget);
   }, []);
+  const handleCloseHeadingMenu = () => {
+    setHeadingAnchorEl(null);
+  };
   const handleOpenTableMenu = useCallback((event: MouseEvent<HTMLElement>) => {
     setTableAnchorEl(event.currentTarget);
   }, []);
@@ -187,7 +191,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
         alignItems: 'center',
         gap: '0.5rem',
         padding: '0.75rem 1rem',
-        borderRadius: '1rem',
+        borderRadius: '0 1rem 0 0',
         border: '1px solid rgba(0,0,0,0.1)',
         boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
       }}
@@ -207,7 +211,17 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
         ))}
         <ColorPicker editor={editor} />
       </Box>
-      <TableMenuDialog editor={editor} anchorEl={tableAnchorEl} onClose={handleCloseTableMenu} />
+      <TableMenu editor={editor} anchorEl={tableAnchorEl} onClose={handleCloseTableMenu} />
+      <HeadingMenu editor={editor} anchorEl={headingAnchorEl} onClose={handleCloseHeadingMenu} />
+      {content.length && (
+        <Button
+          onClick={() => {
+            console.log(content);
+          }}
+        >
+          test
+        </Button>
+      )}
     </Box>
   );
 };

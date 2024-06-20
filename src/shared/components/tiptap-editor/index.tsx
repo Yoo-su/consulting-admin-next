@@ -27,7 +27,6 @@ const Tiptap = ({ value, handleChangeValue }: TiptapProps) => {
   return (
     <TiptapContainer
       direction={'column'}
-      spacing={2}
       className="tiptap-container"
       sx={{
         '.tiptap': {

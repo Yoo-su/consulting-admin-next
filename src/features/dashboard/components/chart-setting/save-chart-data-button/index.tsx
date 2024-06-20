@@ -8,15 +8,18 @@ import { useUpdateChartDataMutation } from '@/features/dashboard/hooks/tanstack/
 import { useChartSetting } from '@/features/dashboard/hooks/context/use-chart-setting';
 import toast from 'react-hot-toast';
 
-const SaveChartDataButton = () => {
+type SaveChartDataButtonProps = {
+  serviceID: string;
+};
+const SaveChartDataButton = ({ serviceID }: SaveChartDataButtonProps) => {
   const theme = useTheme();
   const downsm = useMediaQuery(theme.breakpoints.down('sm'));
-  const { hasChanges, syncChartData } = useChartSetting();
+  const { hasChanges, syncChartData, chartData } = useChartSetting();
   const { mutateAsync } = useUpdateChartDataMutation();
 
   const handleBtnClick = () => {
     toast.promise(
-      mutateAsync().then(() => {
+      mutateAsync({ serviceID: serviceID, chartData: chartData }).then(() => {
         syncChartData();
       }),
       {

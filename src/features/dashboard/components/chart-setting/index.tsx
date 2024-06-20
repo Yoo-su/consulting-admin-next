@@ -15,6 +15,7 @@ import EmptyBox from '@/shared/components/empty-box';
 import { getGroupedData } from '../../services/overview/get-grouped-data';
 import ModelAccordion from './model-accordion';
 import ContentLoadingSkeleton from '@/shared/components/loadings/skeleton';
+import ContentWrapper from '@/shared/components/content-wrapper';
 
 const ChartSettingBox = () => {
   const { currentUniv, currentService } = useUnivService();
@@ -33,21 +34,12 @@ const ChartSettingBox = () => {
   }, [chartData]);
 
   return (
-    <Stack
-      direction={'column'}
-      sx={{
-        position: 'relative',
-        mt: { xs: 4, sm: 6, md: 6, lg: 6, xl: 8 },
-        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-        borderRadius: '1rem',
-        p: 2,
-      }}
-    >
+    <ContentWrapper>
       {isLoading ? (
         <ContentLoadingSkeleton />
       ) : (
         <Fragment>
-          <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
+          <Stack width={'100%'} direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
             <Typography variant="h6">{`${currentUniv?.univName}(${currentService?.serviceID}) 차트 데이터 설정`}</Typography>
             <Chip
               color="info"
@@ -60,8 +52,8 @@ const ChartSettingBox = () => {
           </Stack>
           {chartData.length ? (
             <Fragment>
-              <SaveChartDataButton />
-              <Box sx={{ mt: 4 }}>
+              {currentService && <SaveChartDataButton serviceID={currentService.serviceID} />}
+              <Box sx={{ mt: 4, width: '100%' }}>
                 {modelNumbers.map((mn) => {
                   return (
                     <ModelAccordion
@@ -80,7 +72,7 @@ const ChartSettingBox = () => {
           )}
         </Fragment>
       )}
-    </Stack>
+    </ContentWrapper>
   );
 };
 

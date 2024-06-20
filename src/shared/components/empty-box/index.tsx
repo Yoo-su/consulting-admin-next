@@ -11,7 +11,7 @@ type EmptyBoxProps = {
 };
 const EmptyBox = ({ text }: EmptyBoxProps) => {
   return (
-    <Box sx={{ height: '450px', justifyContent: 'center', alignItems: 'center', mt: 3 }}>
+    <Box sx={{ width: '100%', height: '450px', justifyContent: 'center', alignItems: 'center', mt: 3 }}>
       <Stack
         direction={'column'}
         spacing={1}

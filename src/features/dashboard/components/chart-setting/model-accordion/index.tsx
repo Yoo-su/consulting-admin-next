@@ -45,7 +45,7 @@ const ModelAccordion = ({ selectedModel, setSelectedModel, modelNum, modelChartD
   }, [modelChartData]);
 
   return (
-    <Accordion key={`model-${modelNum}`} expanded={selectedModel === modelNum}>
+    <Accordion expanded={selectedModel === modelNum}>
       <AccordionSummary aria-controls="chart-model-accordion">
         <Typography
           variant="h6"
