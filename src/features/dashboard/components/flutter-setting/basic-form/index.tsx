@@ -12,7 +12,7 @@ type BasicFormProps = {
 };
 
 const BasicForm = ({ basicKey, item }: BasicFormProps) => {
-  const { Type, Title, KoreanTitle, Description, level, children, RowIdx } = item;
+  const { IsRequired, Type, Title, KoreanTitle, Description, level, children } = item;
   const subMenu = level > 0;
 
   const createComponent = (formType: FlutterSettingFormType, index: number) => {
@@ -34,6 +34,7 @@ const BasicForm = ({ basicKey, item }: BasicFormProps) => {
         <Stack direction={'row'} spacing={1} sx={{ paddingBottom: '1px' }}>
           <Typography variant={subMenu ? 'body2' : 'body1'} sx={{ fontWeight: subMenu ? 'bold' : 'bolder' }}>
             {Title}
+            {IsRequired && '*'}
           </Typography>
           <Typography variant={subMenu ? 'body2' : 'body1'} sx={{ color: '#757575' }}>
             {KoreanTitle}
