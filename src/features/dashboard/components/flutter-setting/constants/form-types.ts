@@ -32,6 +32,10 @@ export const FormTypeList: FlutterSettingFormType[] = [
     type: 'double',
     component: 'BasicTextForm',
   },
+  {
+    type: 'number',
+    component: 'BasicTextForm',
+  },
   // {
   //   type: 'object',
   //   component: 'EditSetting',

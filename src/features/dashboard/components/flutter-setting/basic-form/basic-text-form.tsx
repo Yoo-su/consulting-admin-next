@@ -4,25 +4,34 @@ import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { FormItemProps } from '../types/flutter-setting-form.type';
 import { setFlutterCustomConfig } from '@/features/dashboard/apis/set-flutter-custom-config';
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
+import toast from 'react-hot-toast';
 
 const BasicTextForm = ({ item }: FormItemProps) => {
   const { currentService } = useUnivService();
-  const { transferDefaultValue, RowIdx, RowValue = null } = item;
-  const [textValue, setTextValue] = useState(RowValue ? RowValue : transferDefaultValue);
+  const { IsRequired, Type, transferDefaultValue, RowIdx, RowValue = null } = item;
+  const originalValue = RowValue ? RowValue : transferDefaultValue;
+  const [textValue, setTextValue] = useState(originalValue);
 
   const inputRef = useOutsideClick(() => {
     setFlutterCustomConfig({ serviceID: currentService!.serviceID, RowIdx, RowValue: textValue });
   });
   const handleInputKey = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      console.log('Enter');
-      // Add category
-      setTextValue((event.target as HTMLInputElement).value);
       setFlutterCustomConfig({ serviceID: currentService!.serviceID, RowIdx, RowValue: textValue });
     }
   };
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTextValue(event.target.value);
+    const regex = /^((\d+(\.\d*)?)|(\.\d+))$/;
+    const value = event.target.value;
+
+    if (IsRequired && value === '') {
+      toast.error('필수 입력값입니다.');
+      return setTextValue(originalValue);
+    }
+    if (value !== '' && (Type === 'double' || Type === 'number')) {
+      if (!regex.test(value)) return event.preventDefault();
+    }
+    setTextValue(value);
   };
   return (
     <TextField

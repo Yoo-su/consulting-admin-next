@@ -6,7 +6,7 @@ export type FormItemProps = {
 };
 
 export type FlutterSettingFormType = {
-  type: 'object' | 'boolean' | 'select' | 'list-order' | 'string' | 'double' | 'map';
+  type: 'object' | 'boolean' | 'select' | 'list-order' | 'string' | 'double' | 'map' | 'number';
   component: string;
 };
 
