@@ -1,6 +1,6 @@
 import { useOutsideClick } from '@/shared/hooks/use-outside-click';
 import { TextField } from '@mui/material';
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { FormItemProps } from '../types/flutter-setting-form.type';
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import toast from 'react-hot-toast';
@@ -40,6 +40,9 @@ const BasicTextForm = ({ item }: FormItemProps) => {
     setIsActive(true);
     setTextValue(value);
   };
+  useEffect(() => {
+    setTextValue(RowValue);
+  }, [RowValue]);
   return (
     <TextField
       ref={inputRef}

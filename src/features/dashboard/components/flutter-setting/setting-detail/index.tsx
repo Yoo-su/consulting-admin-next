@@ -20,11 +20,11 @@ const getCategoryInfo = (
   return { filteredList, description, children };
 };
 
-const SettingDetail = () => {
-  const { selectedCategory, flutterSettingList } = useFlutterSetting();
+const SettingDetail = ({ filteredList: filteredSettingList }: { filteredList: FlutterSetting[] }) => {
+  const { selectedCategory } = useFlutterSetting();
   const [category, subCategory] = selectedCategory.split('/');
 
-  const { description, children } = getCategoryInfo(flutterSettingList, category);
+  const { description, children } = getCategoryInfo(filteredSettingList, category);
   const { filteredList } = getCategoryInfo(children, subCategory);
 
   const settingList = subCategory ? filteredList : children;
