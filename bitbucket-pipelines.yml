@@ -1,6 +1,11 @@
 options:
   size: 2x
 
+definitions:
+  services:
+    docker:
+      memory: 4096
+
 pipelines:
   branches:
     main:
