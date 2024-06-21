@@ -7,6 +7,10 @@ export const TiptapContainer = styled(Stack)(({ theme }) => ({
       marginTop: 0,
     },
 
+    '*': {
+      width: '100%',
+    },
+
     /* List styles */
     'ul, ol': {
       padding: '0 1rem',

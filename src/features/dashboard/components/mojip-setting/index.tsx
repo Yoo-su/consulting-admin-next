@@ -51,7 +51,7 @@ const MojipSettingBox = () => {
                   </Stack>
                 </Stack>
               )}
-              <Stack direction={'column'}>
+              <Stack direction={'column'} width={'100%'}>
                 <InputLabel sx={{ fontWeight: 'bold', mb: 1.5 }}>모집요강 목록</InputLabel>
                 {detailPageData?.map((item) => (
                   <MojipAccordion
