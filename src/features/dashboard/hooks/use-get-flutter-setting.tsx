@@ -13,11 +13,15 @@ export const useGetFlutterSetting = async ({ queryKey }: { queryKey: [string, Ge
   categoryList.forEach((item) => {
     item.children = rowInfo.filter((row) => row.Category === item.Category);
   });
-  await getFlutterCustomConfig({ serviceID }).then((customConfig) => {
-    categoryList.forEach((category) => {
-      customConfig.forEach((config) => setCustomConfig(category?.children ?? [], config.RowIdx, config.RowValue));
+  try {
+    await getFlutterCustomConfig({ serviceID }).then((customConfig) => {
+      categoryList.forEach((category) => {
+        customConfig.forEach((config) => setCustomConfig(category?.children ?? [], config.RowIdx, config.RowValue));
+      });
     });
-  });
+  } catch (e) {
+    console.error(e);
+  }
 
   return categoryList;
 };

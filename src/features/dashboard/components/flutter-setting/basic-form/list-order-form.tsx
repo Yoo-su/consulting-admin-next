@@ -4,14 +4,15 @@ import { DragDropContext, Draggable, DropResult, Droppable } from 'react-beautif
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { FormItemProps } from '../types/flutter-setting-form.type';
 import { getConvertedValue } from '@/shared/services/get-converted-value';
-import { setFlutterCustomConfig } from '@/features/dashboard/apis/set-flutter-custom-config';
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
+import { useSetFlutterSettingMutation } from '@/features/dashboard/hooks/tanstack/use-set-flutter-setting-mutation';
 
 const ListOrderForm = ({ item }: FormItemProps) => {
   const { currentService } = useUnivService();
   const { transferDefaultValue, RowIdx, RowValue } = item;
-  const defaultList = RowValue ? getConvertedValue(RowValue) : transferDefaultValue;
-  const [orderList, setOrderList] = useState<string[]>(defaultList ?? []);
+  const [orderList, setOrderList] = useState(RowValue ? getConvertedValue(RowValue) : transferDefaultValue);
+
+  const { mutateAsync } = useSetFlutterSettingMutation();
 
   const handleDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -20,7 +21,7 @@ const ListOrderForm = ({ item }: FormItemProps) => {
     const dupList = [...orderList];
     const [removed] = dupList.splice(source.index, 1);
     dupList.splice(destination.index, 0, removed);
-    setFlutterCustomConfig({ serviceID: currentService!.serviceID, RowIdx, RowValue: `[${dupList}]` });
+    mutateAsync({ serviceID: currentService!.serviceID, RowIdx, RowValue: `[${dupList}]` });
     setOrderList(dupList);
   };
 

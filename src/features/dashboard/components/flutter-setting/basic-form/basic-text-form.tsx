@@ -2,22 +2,28 @@ import { useOutsideClick } from '@/shared/hooks/use-outside-click';
 import { TextField } from '@mui/material';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { FormItemProps } from '../types/flutter-setting-form.type';
-import { setFlutterCustomConfig } from '@/features/dashboard/apis/set-flutter-custom-config';
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import toast from 'react-hot-toast';
+import { useSetFlutterSettingMutation } from '@/features/dashboard/hooks/tanstack/use-set-flutter-setting-mutation';
 
 const BasicTextForm = ({ item }: FormItemProps) => {
   const { currentService } = useUnivService();
   const { IsRequired, Type, transferDefaultValue, RowIdx, RowValue = null } = item;
-  const originalValue = RowValue ? RowValue : transferDefaultValue;
-  const [textValue, setTextValue] = useState(originalValue);
+  const [textValue, setTextValue] = useState(RowValue ?? transferDefaultValue);
+  const [isActive, setIsActive] = useState(false);
+
+  const { mutateAsync } = useSetFlutterSettingMutation();
 
   const inputRef = useOutsideClick(() => {
-    setFlutterCustomConfig({ serviceID: currentService!.serviceID, RowIdx, RowValue: textValue });
+    if (isActive) {
+      mutateAsync({ serviceID: currentService!.serviceID, RowIdx, RowValue: textValue });
+    }
+    setIsActive(false);
   });
   const handleInputKey = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      setFlutterCustomConfig({ serviceID: currentService!.serviceID, RowIdx, RowValue: textValue });
+      mutateAsync({ serviceID: currentService!.serviceID, RowIdx, RowValue: textValue });
+      setIsActive(false);
     }
   };
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -26,11 +32,12 @@ const BasicTextForm = ({ item }: FormItemProps) => {
 
     if (IsRequired && value === '') {
       toast.error('필수 입력값입니다.');
-      return setTextValue(originalValue);
+      return;
     }
     if (value !== '' && (Type === 'double' || Type === 'number')) {
       if (!regex.test(value)) return event.preventDefault();
     }
+    setIsActive(true);
     setTextValue(value);
   };
   return (

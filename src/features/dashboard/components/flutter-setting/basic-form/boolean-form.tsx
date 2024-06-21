@@ -1,11 +1,9 @@
 import { Checkbox, FormControlLabel, FormGroup, TextField, styled } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import { FormItemProps } from '../types/flutter-setting-form.type';
-import { setFlutterCustomConfig } from '@/features/dashboard/apis/set-flutter-custom-config';
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
-import { setCustomConfig } from '../../../services/flutter-setting/set-custom-config';
-import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 import { getConvertedValue } from '@/shared/services/get-converted-value';
+import { useSetFlutterSettingMutation } from '@/features/dashboard/hooks/tanstack/use-set-flutter-setting-mutation';
 
 const StyledTextField = styled(TextField)({
   width: '100%',
@@ -20,19 +18,18 @@ const StyledTextField = styled(TextField)({
 
 const BooleanForm = ({ item }: Partial<FormItemProps>) => {
   const { currentService } = useUnivService();
-  const { flutterSettingList } = useFlutterSetting();
-  const { Category, transferDefaultValue = false, Description, RowValue = null, RowIdx = null } = item ?? {};
-  const currentCategory = flutterSettingList.find((category) => category.Category === Category)?.children ?? [];
+  const { transferDefaultValue = false, Description, RowValue = null, RowIdx = null } = item ?? {};
 
   const [checkValue, setCheckValue] = useState<boolean>(RowValue ? getConvertedValue(RowValue) : transferDefaultValue);
   const [inputValue, setInputValue] = useState('');
+
+  const { mutateAsync } = useSetFlutterSettingMutation();
 
   const handleBooleanChange = (event: ChangeEvent<HTMLInputElement>) => {
     const booleanValue = event.target.checked;
     setCheckValue(booleanValue);
     if (RowIdx !== null) {
-      setCustomConfig(currentCategory, RowIdx, booleanValue.toString());
-      setFlutterCustomConfig({
+      mutateAsync({
         serviceID: currentService!.serviceID,
         RowIdx,
         RowValue: booleanValue.toString(),

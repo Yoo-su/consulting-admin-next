@@ -8,7 +8,5 @@ export const useGetFlutterSettingQuery = ({ serviceID }: GetFlutterCustomConfigP
   return useQuery({
     queryKey: ['flutter-setting', { serviceID }],
     queryFn: useGetFlutterSetting,
-    staleTime: Infinity,
-    enabled: false,
   });
 };
