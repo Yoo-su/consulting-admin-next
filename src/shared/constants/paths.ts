@@ -9,6 +9,7 @@ export const paths = {
     consultingFilesSetting: '/dashboard/consulting-files-setting',
     excelUpload: '/dashboard/excel-upload',
     mojipSetting: '/dashboard/mojip-setting',
+    mojipDataManage: '/dashboard/mojip-data-manage',
     chartSetting: '/dashboard/chart-setting',
     scheduleSetting: '/dashboard/schedule-setting',
     flutterUserSettigs: '/dashboard/flutter-setting',

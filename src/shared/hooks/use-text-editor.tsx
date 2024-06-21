@@ -133,6 +133,14 @@ export const useTextEditor = ({ placeholder, onChange, value, ...editorOptions }
   // set initial value for edition even if it's already set (below)
   useEffect(() => {
     if (!(editor && value)) return;
+    editor?.setOptions({
+      editable: true,
+      editorProps: {
+        attributes: {
+          class: classes.input(theme),
+        },
+      },
+    });
     editor.commands.setContent(value);
     // !important: to avoid update for each taping, the value should be excluded from the dependencies
   }, [editor]);

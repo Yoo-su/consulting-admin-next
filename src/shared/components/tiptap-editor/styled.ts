@@ -7,7 +7,7 @@ export const TiptapContainer = styled(Stack)(({ theme }) => ({
       marginTop: 0,
     },
 
-    '*': {
+    p: {
       width: '100%',
     },
 

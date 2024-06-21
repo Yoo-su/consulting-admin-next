@@ -54,7 +54,7 @@ const MojipAccordion = ({ detailPageData, selectedRowNum, handleSelectRow }: Moj
             else handleSelectRow(null);
           }}
         >
-          모집요강 {detailPageData.rowNum}
+          상세 페이지 데이터 {detailPageData.rowNum}
         </Typography>
       </AccordionSummary>
       <AccordionDetails>

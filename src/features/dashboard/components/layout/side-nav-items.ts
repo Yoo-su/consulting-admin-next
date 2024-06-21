@@ -13,6 +13,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import DownloadIcon from '@mui/icons-material/Download';
 import LanIcon from '@mui/icons-material/Lan';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import StorageIcon from '@mui/icons-material/Storage';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import { paths } from '@/shared/constants/paths';
 import { NavItemGroup, NavItemType } from '../../types/nav-item.type';
@@ -85,6 +86,12 @@ const flutterItems: NavItemType[] = [
     title: '모집요강 설정',
     href: paths.dashboard.mojipSetting,
     Icon: NoteAltIcon,
+  },
+  {
+    navkey: 'mojip-setting',
+    title: '모집요강 데이터 관리',
+    href: paths.dashboard.mojipDataManage,
+    Icon: StorageIcon,
   },
   {
     navkey: 'chart-setting',
