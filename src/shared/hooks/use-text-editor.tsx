@@ -27,14 +27,14 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { createLowlight, common } from 'lowlight';
 
 const classes = {
-  input: (theme: Theme, editable = true) =>
+  input: (theme: Theme) =>
     css({
       borderRadius: '0 0 6 6',
-      border: editable ? '1px solid rgba(0,0,0,0.1)' : 'none',
+      border: '1px solid rgba(0,0,0,0.1)',
       borderTop: 'none',
-      paddingLeft: editable ? 16 : 0,
-      paddingRight: editable ? 16 : 0,
-      minHeight: editable ? 150 : 'initial',
+      paddingLeft: 16,
+      paddingRight: 16,
+      minHeight: 150,
       '& p.is-editor-empty:first-child::before': {
         content: 'attr(data-placeholder)',
         float: 'left',
@@ -107,17 +107,9 @@ export type UseTextEditorInputProps = {
   placeholder?: string;
   onChange?: (value: string) => void;
   value?: string;
-  tab: 'editor' | 'preview';
 } & Partial<EditorOptions>;
 
-export const useTextEditor = ({
-  placeholder,
-  onChange,
-  value,
-  tab,
-  editable = true,
-  ...editorOptions
-}: UseTextEditorInputProps) => {
+export const useTextEditor = ({ placeholder, onChange, value, ...editorOptions }: UseTextEditorInputProps) => {
   const theme = useTheme();
 
   const editor = useEditor({
@@ -144,35 +136,6 @@ export const useTextEditor = ({
     editor.commands.setContent(value);
     // !important: to avoid update for each taping, the value should be excluded from the dependencies
   }, [editor]);
-
-  /**
-   * change the editable state of the editor on the fly
-   * for every tab change
-   */
-  useEffect(() => {
-    // preview tab or not editable
-    if (!editable) {
-      editor?.setOptions({
-        editable: false,
-        editorProps: {
-          attributes: {
-            class: classes.input(theme, false),
-          },
-        },
-      });
-      return;
-    }
-
-    // editor tab
-    editor?.setOptions({
-      editable: tab === 'editor',
-      editorProps: {
-        attributes: {
-          class: classes.input(theme, tab === 'editor'),
-        },
-      },
-    });
-  }, [editor, tab, editable, theme]);
 
   return editor;
 };

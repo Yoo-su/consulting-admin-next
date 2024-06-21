@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { EditorContent } from '@tiptap/react';
 import { useTheme } from '@mui/material/styles';
 
@@ -14,13 +13,11 @@ type TiptapProps = {
 };
 const Tiptap = ({ value, handleChangeValue }: TiptapProps) => {
   const theme = useTheme();
-  const [tab, setTab] = useState<'editor' | 'preview'>('editor');
 
   const editor = useTextEditor({
     placeholder: '에디터 내용을 작성해주세요',
     value: value,
     onChange: handleChangeValue,
-    tab: tab,
     editable: true,
   });
 

@@ -10,8 +10,13 @@ import Typography from '@mui/material/Typography';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+
+import SaveIcon from '@mui/icons-material/Save';
 
 import Tiptap from '@/shared/components/tiptap-editor';
+import { BorderPulseAnimation } from '@/shared/style/mui/keyframes';
 import { DetailPageData } from '@/features/dashboard/types/detail-page-data.type';
 
 type MojipAccordionProps = {
@@ -31,7 +36,7 @@ const MojipAccordion = ({ detailPageData, selectedRowNum, handleSelectRow }: Moj
   }, []);
 
   return (
-    <Accordion expanded={selectedRowNum === detailPageData.rowNum}>
+    <Accordion expanded={selectedRowNum === detailPageData.rowNum} sx={{ width: '100%' }}>
       <AccordionSummary>
         <Typography
           variant="h6"
@@ -53,19 +58,36 @@ const MojipAccordion = ({ detailPageData, selectedRowNum, handleSelectRow }: Moj
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Stack direction={'column'} spacing={3}>
-          <Stack direction={'row'} spacing={2}>
+        <Stack direction={'column'}>
+          <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} spacing={2}>
             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel>Mode</InputLabel>
+              <InputLabel sx={{ fontWeight: 'bold' }}>Mode</InputLabel>
               <Select value={mode} onChange={handleChangeMode} label="mode">
                 <MenuItem value="detail">detail</MenuItem>
                 <MenuItem value="calc">calc</MenuItem>
               </Select>
             </FormControl>
+
+            <Button
+              variant="text"
+              startIcon={<SaveIcon fontSize="inherit" />}
+              color="success"
+              onClick={() => {
+                console.log(htmlCardtext);
+              }}
+              sx={{
+                m: 2,
+                height: '35px',
+                animation: `${BorderPulseAnimation('#2E7D32')} 3s infinite`,
+              }}
+            >
+              <Typography variant="body1">현재 내용 저장하기</Typography>
+            </Button>
           </Stack>
+          <Divider sx={{ borderColor: 'rgba(0,0,0,0.06)', mt: 1, mb: 2 }} />
 
           <Stack direction={'column'} spacing={1}>
-            <InputLabel>HtmlCard</InputLabel>
+            <InputLabel sx={{ fontWeight: 'bold' }}>HtmlCard</InputLabel>
             <Tiptap value={htmlCardtext} handleChangeValue={handleChangeValue} />
           </Stack>
         </Stack>

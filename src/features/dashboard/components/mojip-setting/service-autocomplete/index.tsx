@@ -45,7 +45,7 @@ const ServiceAutocomplete = ({ univID, serviceID }: ServiceAutocompleteProps) =>
   return (
     <Stack direction={'row'} spacing={1}>
       <Autocomplete
-        sx={{ width: 280 }}
+        sx={{ width: 260 }}
         size="small"
         disablePortal
         autoHighlight
@@ -68,24 +68,24 @@ const ServiceAutocomplete = ({ univID, serviceID }: ServiceAutocompleteProps) =>
             {getServiceMenuTitle(option)}
           </Box>
         )}
-        renderInput={(params) => <TextField {...params} label={'복제할 대상 ServiceID'} />}
+        renderInput={(params) => <TextField {...params} label={'다른 서비스에 복제하기'} />}
       />
 
-      {selectedService && (
-        <LoadingButton
-          variant="outlined"
-          color="info"
-          loading={isDuplicateDetailpageDataPending}
-          onClick={() => {
-            openConfirmToast(
-              `[${serviceID}] 서비스의 상세페이지 데이터를\n [${selectedService.serviceID}] 서비스에 복제합니다`,
-              handleClickDuplicateBtn
-            );
-          }}
-        >
-          복제
-        </LoadingButton>
-      )}
+      <LoadingButton
+        variant="contained"
+        size="small"
+        color="success"
+        loading={isDuplicateDetailpageDataPending}
+        disabled={!selectedService}
+        onClick={() => {
+          openConfirmToast(
+            `[${serviceID}] 서비스의 상세페이지 데이터를\n [${selectedService?.serviceID ?? ''}] 서비스에 복제합니다`,
+            handleClickDuplicateBtn
+          );
+        }}
+      >
+        <Typography variant="body1">복제</Typography>
+      </LoadingButton>
     </Stack>
   );
 };

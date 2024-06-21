@@ -1,5 +1,5 @@
 import { useState, useCallback, MouseEvent } from 'react';
-import { Box, Button, IconButton, Tooltip } from '@mui/material';
+import { Box, IconButton, Tooltip } from '@mui/material';
 import { Editor } from '@tiptap/react';
 import {
   Title as TitleIcon,
@@ -21,6 +21,8 @@ import {
   TableChart as TableIcon,
   Link as LinkIcon,
 } from '@mui/icons-material';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import TableMenu from './items/table-menu';
 import ColorPicker from './items/color-picker';
@@ -30,7 +32,10 @@ type ToolbarProps = {
   editor: Editor;
   content: string;
 };
+
 const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
+  const theme = useTheme();
+  const downlg = useMediaQuery(theme.breakpoints.down('lg'));
   const [headingAnchorEl, setHeadingAnchorEl] = useState<null | HTMLElement>(null);
   const [tableAnchorEl, setTableAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -50,7 +55,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
   const menus = [
     {
       name: 'heading',
-      icon: <TitleIcon />,
+      icon: <TitleIcon fontSize="inherit" />,
       onClick: handleOpenHeadingMenu,
       isActive:
         editor.isActive('heading', { level: 1 }) ||
@@ -64,25 +69,25 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
     },
     {
       name: 'bold',
-      icon: <BoldIcon />,
+      icon: <BoldIcon fontSize="inherit" />,
       onClick: () => editor.chain().focus().toggleBold().run(),
       disabled: !editor.can().chain().focus().toggleBold().run(),
     },
     {
       name: 'italic',
-      icon: <ItalicIcon />,
+      icon: <ItalicIcon fontSize="inherit" />,
       onClick: () => editor.chain().focus().toggleItalic().run(),
       disabled: !editor.can().chain().focus().toggleItalic().run(),
     },
     {
       name: 'strike',
-      icon: <StrikethroughIcon />,
+      icon: <StrikethroughIcon fontSize="inherit" />,
       onClick: () => editor.chain().focus().toggleStrike().run(),
       disabled: !editor.can().chain().focus().toggleStrike().run(),
     },
     {
       name: 'underline',
-      icon: <UnderlineIcon />,
+      icon: <UnderlineIcon fontSize="inherit" />,
       onClick: () => editor.chain().focus().toggleUnderline().run(),
       disabled: !editor.can().chain().focus().toggleUnderline().run(),
     },
@@ -96,13 +101,13 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
     // order
     {
       name: 'bulletList',
-      icon: <ListIcon />,
+      icon: <ListIcon fontSize="inherit" />,
       onClick: () => editor.chain().focus().toggleBulletList().run(),
       disabled: !editor.can().chain().focus().toggleBulletList().run(),
     },
     {
       name: 'orderedList',
-      icon: <ListOrderedIcon />,
+      icon: <ListOrderedIcon fontSize="inherit" />,
       onClick: () => editor.chain().focus().toggleOrderedList().run(),
       disabled: !editor.can().chain().focus().toggleOrderedList().run(),
       split: true,
@@ -110,7 +115,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
     // alignment
     {
       name: 'align-left',
-      icon: <AlignLeftIcon />,
+      icon: <AlignLeftIcon fontSize="inherit" />,
       onClick: () => editor.chain().focus().setTextAlign('left').run(),
       disabled: false,
       active: { textAlign: 'left' },
@@ -118,7 +123,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
     },
     {
       name: 'align-center',
-      icon: <AlignCenterIcon />,
+      icon: <AlignCenterIcon fontSize="inherit" />,
       onClick: () => editor.chain().focus().setTextAlign('center').run(),
       disabled: false,
       active: { textAlign: 'center' },
@@ -126,7 +131,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
     },
     {
       name: 'align-right',
-      icon: <AlignRightIcon />,
+      icon: <AlignRightIcon fontSize="inherit" />,
       onClick: () => editor.chain().focus().setTextAlign('right').run(),
       disabled: false,
       active: { textAlign: 'right' },
@@ -134,7 +139,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
     },
     {
       name: 'align-justify',
-      icon: <AlignJustifyIcon />,
+      icon: <AlignJustifyIcon fontSize="inherit" />,
       onClick: () => editor.chain().focus().setTextAlign('justify').run(),
       disabled: false,
       active: { textAlign: 'justify' },
@@ -143,23 +148,20 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
     },
     {
       name: 'blockquote',
-      icon: <QuoteIcon />,
+      icon: <QuoteIcon fontSize="inherit" />,
       onClick: () => editor.chain().focus().toggleBlockquote().run(),
       disabled: false,
     },
     {
       name: 'codeBlock',
-      icon: <CodeIcon />,
+      icon: <CodeIcon fontSize="inherit" />,
       onClick: () => editor.chain().focus().toggleCodeBlock().run(),
       disabled: false,
       split: true,
     },
     {
       name: 'table',
-      icon: <TableIcon />,
-      /* onClick: () => {
-        editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
-      }, */
+      icon: <TableIcon fontSize="inherit" />,
       onMouseEnter: (event: MouseEvent<HTMLElement>) => {
         handleOpenTableMenu(event);
       },
@@ -168,7 +170,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
     },
     {
       name: 'undo',
-      icon: <UndoIcon />,
+      icon: <UndoIcon fontSize="inherit" />,
       onClick: () => editor.chain().focus().undo().run(),
       disabled: !editor.can().undo(),
       default: true,
@@ -196,10 +198,11 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
         boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
       }}
     >
-      <Box sx={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+      <Box sx={{ width: '100%', display: 'flex', gap: downlg ? '0.3rem' : '0.5rem', flexWrap: 'wrap' }}>
         {menus.map((menu, idx) => (
           <Tooltip title={menu.name} key={menu.name + idx}>
             <IconButton
+              size={downlg ? 'small' : 'medium'}
               onClick={menu.onClick}
               disabled={menu.disabled}
               onMouseEnter={menu.onMouseEnter}
@@ -213,15 +216,6 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
       </Box>
       <TableMenu editor={editor} anchorEl={tableAnchorEl} onClose={handleCloseTableMenu} />
       <HeadingMenu editor={editor} anchorEl={headingAnchorEl} onClose={handleCloseHeadingMenu} />
-      {content.length && (
-        <Button
-          onClick={() => {
-            console.log(content);
-          }}
-        >
-          test
-        </Button>
-      )}
     </Box>
   );
 };

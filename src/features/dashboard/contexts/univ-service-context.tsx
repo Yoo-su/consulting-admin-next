@@ -39,7 +39,7 @@ const UnivServiceProvider = ({ children }: UnivServiceProviderProps) => {
       .catch((error) => {
         setUnivList([]);
       });
-  }, []);
+  }, [univList.length]);
 
   if (isPending) return <AppBackdrop />;
 

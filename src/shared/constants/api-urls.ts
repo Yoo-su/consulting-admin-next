@@ -28,6 +28,7 @@ export const apiUrls = {
     deleteConsultingFile: 'reflibrary/delete',
     detailpage: '/app-setup/detailpage',
     duplicateDetailpage: '/app-setup/duplicate/detailpage',
+    syncDetailpage: '/app-setup/sync/detailpage',
     getFlutterCategory: '/custom-config/category',
     getFlutterRowInfo: '/custom-config/rows-info-hierarchy',
     flutterCustomConfig: '/custom-config',

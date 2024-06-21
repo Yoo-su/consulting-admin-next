@@ -12,7 +12,7 @@ export const useConfirmToast = () => {
         <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} spacing={0.2}>
           <Button
             variant="text"
-            color="inherit"
+            color="info"
             size="small"
             sx={{ width: 'fit-content' }}
             onClick={() => {

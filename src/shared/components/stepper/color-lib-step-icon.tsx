@@ -1,6 +1,7 @@
 import { StepIconProps } from '@mui/material/StepIcon';
 import { Check } from '@mui/icons-material';
 import { ColorlibStepIconRoot } from './styled';
+import { CirclePulseAnimation } from '@/shared/style/mui/keyframes';
 
 const ColorlibStepIcon = (props: StepIconProps) => {
   const { active, completed } = props;
@@ -15,7 +16,7 @@ const ColorlibStepIcon = (props: StepIconProps) => {
             height: '83%',
             borderRadius: '50%',
             backgroundColor: '#45b6fe',
-            animation: 'circle-pulse 2.5s infinite',
+            animation: `circle-pulse 2.5s infinite`,
           }}
         ></span>
       )}

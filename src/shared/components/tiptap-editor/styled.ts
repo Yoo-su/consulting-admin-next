@@ -11,7 +11,6 @@ export const TiptapContainer = styled(Stack)(({ theme }) => ({
     'ul, ol': {
       padding: '0 1rem',
     },
-
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
