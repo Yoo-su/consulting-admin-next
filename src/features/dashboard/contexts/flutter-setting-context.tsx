@@ -8,6 +8,8 @@ export type FlutterSettingContextValue = {
   setFlutterSettingList: Dispatch<SetStateAction<FlutterSetting[]>>;
   selectedCategory: string;
   setSelectedCategory: Dispatch<SetStateAction<string>>;
+  filteredSettingList: FlutterSetting[];
+  setFilteredSettingList: Dispatch<SetStateAction<FlutterSetting[]>>;
 };
 
 export const FlutterSettingContext = createContext<FlutterSettingContextValue | undefined>(undefined);
@@ -15,6 +17,7 @@ export const FlutterSettingContext = createContext<FlutterSettingContextValue | 
 const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [flutterSettingList, setFlutterSettingList] = useState<FlutterSetting[]>([]);
+  const [filteredSettingList, setFilteredSettingList] = useState<FlutterSetting[]>([]);
   return (
     <FlutterSettingContext.Provider
       value={{
@@ -22,6 +25,8 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
         setSelectedCategory,
         flutterSettingList,
         setFlutterSettingList,
+        filteredSettingList,
+        setFilteredSettingList,
       }}
     >
       {children}
