@@ -11,16 +11,12 @@ import { useUnivService } from '../../hooks/context/use-univ-service';
 const FlutterSetting = () => {
   const { currentService } = useUnivService();
   const { setFlutterSettingList } = useFlutterSetting();
-  const { refetch } = useGetFlutterSettingQuery({ serviceID: currentService!.serviceID });
+  const { data: settingList } = useGetFlutterSettingQuery({ serviceID: currentService!.serviceID });
 
   useEffect(() => {
-    refetch().then((res) => {
-      if (res.data) {
-        console.count('fetching data');
-        setFlutterSettingList(res.data);
-      }
-    });
-  }, []);
+    console.count('refetched');
+    setFlutterSettingList(settingList ?? []);
+  }, [settingList]);
 
   return (
     <Stack

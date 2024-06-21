@@ -16,6 +16,7 @@ import { getConvertedValue } from '@/shared/services/get-converted-value';
 import { getArrayToObjectForm } from '@/features/dashboard/services/flutter-setting/get-array-to-object-form';
 import { setFlutterCustomConfig } from '@/features/dashboard/apis/set-flutter-custom-config';
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
+import { useSetFlutterSettingMutation } from '@/features/dashboard/hooks/tanstack/use-set-flutter-setting-mutation';
 
 type RowType = {
   item: string;
@@ -44,8 +45,7 @@ const textFieldClass = {
 const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
   const { currentService } = useUnivService();
   const { transferDefaultValue, RowIdx = null, RowValue = null } = originalItem ?? {};
-  const availableDefaultValue = RowValue ? RowValue : transferDefaultValue ?? '{}';
-  const dataObj = getConvertedValue(availableDefaultValue);
+  const dataObj = getConvertedValue(RowValue ?? transferDefaultValue ?? '{}');
 
   const [isAdd, setIsAdd] = useState(originalItem ? false : true);
   const [isEdit, setIsEdit] = useState<boolean[]>(Array(Object.keys(dataObj).length).fill(false));
@@ -53,6 +53,9 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
   const [rows, setRows] = useState<RowType[]>(
     Object.keys(dataObj).map((data) => ({ item: data, value: dataObj[data] }))
   );
+
+  const { mutateAsync } = useSetFlutterSettingMutation();
+
   //#region utilities
   const resetValues = () => {
     setObjValue({ item: '', value: '' });
@@ -97,25 +100,25 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
   const handleAdd = () => {
     setIsAdd(true);
   };
+  const handleCancel = () => {
+    resetValues();
+  };
   const handleConfirm = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const index = event.currentTarget.id.split('-')[1];
+    const index = parseInt(event.currentTarget.id.split('-')[1]);
 
-    if (validateInput(parseInt(index)) == false) return;
+    if (validateInput(index) == false) return;
     const newRows = [...rows];
+    const rowIndex = isNaN(index) ? rows.length : index;
+    setEditValue(rowIndex, false);
+    const { item, value } = objValue;
+    newRows[rowIndex] = { item, value };
 
-    if (index === 'new') {
-      setEditValue(rows.length, false);
-      newRows.push({ item: objValue.item, value: objValue.value });
-    } else {
-      setEditValue(parseInt(index), false);
-      newRows[parseInt(index)] = { item: objValue.item, value: objValue.value };
-    }
     setRows(newRows);
 
     if (RowIdx) {
       const rowObject = getArrayToObjectForm(newRows);
-      setFlutterCustomConfig({
+      mutateAsync({
         serviceID: currentService!.serviceID,
         RowIdx,
         RowValue: rowObject,
@@ -123,33 +126,26 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
     }
     resetValues();
   };
-  const handleCancel = () => {
-    resetValues();
-  };
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     const [type, _] = name.split('-');
-    if (type === 'item') {
-      setObjValue((prev) => ({ ...prev, item: value }));
-    } else {
-      setObjValue((prev) => ({ ...prev, value: value }));
-    }
+    setObjValue((prev) => ({ ...prev, [type]: value }));
   };
   const handleEdit = (event: MouseEvent<HTMLButtonElement>) => {
     const index = parseInt(event.currentTarget.id.split('-')[1]);
     setEditValue(index, true);
     setIsAdd(false);
-    setObjValue({ item: rows[index].item, value: rows[index].value });
+    const { item, value } = rows[index];
+    setObjValue({ item, value });
   };
   const handleDelete = (event: MouseEvent<HTMLButtonElement>) => {
     const index = parseInt(event.currentTarget.id.split('-')[1]);
     const newList = rows.filter((_, i) => i !== index);
-    if (newList.length < 1) {
-      setIsAdd(true);
-    }
+    // list가 비어있는 경우 추가 모드 활성화
+    setIsAdd(newList.length < 1);
     if (RowIdx) {
       const rowObject = getArrayToObjectForm(newList);
-      setFlutterCustomConfig({
+      mutateAsync({
         serviceID: currentService!.serviceID,
         RowIdx,
         RowValue: rowObject,
