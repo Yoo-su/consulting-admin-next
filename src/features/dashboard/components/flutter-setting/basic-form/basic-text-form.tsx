@@ -9,7 +9,7 @@ import { useSetFlutterSettingMutation } from '@/features/dashboard/hooks/tanstac
 const BasicTextForm = ({ item }: FormItemProps) => {
   const { currentService } = useUnivService();
   const { IsRequired, Type, transferDefaultValue, RowIdx, RowValue = null } = item;
-  const [textValue, setTextValue] = useState(RowValue ?? transferDefaultValue);
+  const [textValue, setTextValue] = useState(RowValue ? RowValue : transferDefaultValue);
   const [isActive, setIsActive] = useState(false);
 
   const { mutateAsync } = useSetFlutterSettingMutation();
@@ -41,8 +41,11 @@ const BasicTextForm = ({ item }: FormItemProps) => {
     setTextValue(value);
   };
   useEffect(() => {
-    setTextValue(RowValue);
+    if (RowValue) {
+      setTextValue(RowValue);
+    }
   }, [RowValue]);
+
   return (
     <TextField
       ref={inputRef}
