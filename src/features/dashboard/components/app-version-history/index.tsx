@@ -32,6 +32,10 @@ const AppHistoryListBox = () => {
     refetch();
   }, [appType]);
 
+  useEffect(() => {
+    setAppType(isNew ? 'A' : 'O');
+  }, [isNew]);
+
   return (
     <Stack
       direction={'column'}
