@@ -14,11 +14,8 @@ import ContentLoadingSkeleton from '@/shared/components/loadings/skeleton';
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { AxiosResponse } from 'axios';
 import { AppHistory } from '@/features/dashboard/types/app-history.type';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import toast from 'react-hot-toast';
+import SerialNoTextField from '../copy-only-textfield/SerialNoTextField';
 
 const AppProgContainer = ({ histories }: { histories: AxiosResponse<AppHistory[], any> | undefined }) => {
   const theme = useTheme();
@@ -67,26 +64,10 @@ const AppProgContainer = ({ histories }: { histories: AxiosResponse<AppHistory[]
             </Typography>
           )}
         </Stack>
-        <TextField
-          disabled
-          size="small"
-          label="시리얼번호"
-          sx={{
-            minWidth: '350px',
-            textWrap: 'noWrap',
-            '& .Mui-disabled': { color: 'black !important' },
-          }}
+        <SerialNoTextField
+          serviceID={currentService?.serviceID || ''}
           value={`${currentService?.serialNo || '시리얼번호가 존재하지 않습니다.'}`}
-          id={`${currentService?.serviceID}-serialnumber`}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton disableRipple aria-label="copy text" onClick={handleClickCopy} id="serialnumber">
-                  <ContentCopyIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
+          handleClick={handleClickCopy}
         />
       </Stack>
       {histories?.data?.length ? (

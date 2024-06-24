@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import { AppHistory } from '@/features/dashboard/types/app-history.type';
 import apkIcon from '@/shared/assets/images/apk_64.png';
 import { formatKoreanTextCompareDatesFromNow } from '@/shared/services/get-formatted-date';
-import { MouseEvent } from 'react';
 import toast from 'react-hot-toast';
 import { apiUrls } from '@/shared/constants/api-urls';
 
@@ -19,8 +18,6 @@ const AppHistoryItem = ({ item }: AppHistoryItemProps) => {
   const downloadUrl = `${process.env.NEXT_PUBLIC_BASE_URL}${apiUrls.dashboard.getAppDownloadUrl}/${item.serviceID}/${item.osType}/${item.version}`;
 
   const handleClick = () => {
-    console.log('item', item.osType, item.serviceID, item.version);
-
     try {
       navigator.clipboard.writeText(downloadUrl);
       toast.success('복사되었습니다');
@@ -30,18 +27,21 @@ const AppHistoryItem = ({ item }: AppHistoryItemProps) => {
   };
 
   return (
-    <Tooltip title="클릭하여 주소 복사하기" placement="top">
+    <Tooltip
+      title={
+        <Stack direction={'column'}>
+          <Typography variant="caption">{item.packageFileName ?? 'unknown apk'}</Typography>
+          <Typography variant="caption">Note: {item.releaseNote ?? '-'}</Typography>
+          <Typography variant="caption" sx={{ wordBreak: 'break-all' }}>
+            {downloadUrl}
+          </Typography>
+        </Stack>
+      }
+      placement="bottom"
+      arrow
+    >
       <Stack onClick={handleClick}>
-        <Tooltip
-          title={
-            <Stack direction={'column'}>
-              <Typography variant="caption">{item.packageFileName ?? 'unknown apk'}</Typography>
-              <Typography variant="caption">Note: {item.releaseNote ?? '-'}</Typography>
-            </Stack>
-          }
-          placement="bottom"
-          arrow
-        >
+        <Tooltip title="클릭하여 주소 복사하기" placement="top">
           <Stack
             direction={'row'}
             alignItems={'center'}
