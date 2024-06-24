@@ -17,8 +17,11 @@ import AppProgContainer from './app-prog-container';
 import RadioIconLabel from './radio-icon-label';
 
 const AppHistoryListBox = () => {
-  const [appType, setAppType] = useState<'O' | 'A' | 'P'>('O');
   const { currentService } = useUnivService();
+  const isNew = currentService?.isNew ?? false;
+
+  const [appType, setAppType] = useState<'O' | 'A' | 'P'>(isNew ? 'A' : 'O');
+
   const {
     data: histories,
     refetch,
@@ -28,8 +31,6 @@ const AppHistoryListBox = () => {
   useEffect(() => {
     refetch();
   }, [appType]);
-
-  const isNew = currentService?.isNew ?? false;
 
   return (
     <Stack
