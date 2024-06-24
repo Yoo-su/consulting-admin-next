@@ -19,6 +19,7 @@ export const apiUrls = {
     deployTestData: '/foundation/sync-from-test',
     syncFromTestToDev: '/foundation/sync-from-test-to-dev',
     getAppVersionHistory: '/deploy/version-update-history',
+    getAppDownloadUrl: '/deploy/download',
     getConsultingFileList: 'reflibrary/',
     downloadConsultingFile: 'reflibrary/download/',
     uploadConsultingFile: 'reflibrary/upload',
