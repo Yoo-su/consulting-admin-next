@@ -46,7 +46,7 @@ RUN apk add --no-cache coreutils
 WORKDIR /consulting-admin
 
 # Copy built assets from the build stage
-COPY --from=builder /consulting-admin/.next/standalone ./
+COPY --from=builder /consulting-admin/.next ./.next
 RUN echo "Checking .next directory in production stage after COPY:" && ls -la .next
 
 COPY --from=builder /consulting-admin/public ./public
