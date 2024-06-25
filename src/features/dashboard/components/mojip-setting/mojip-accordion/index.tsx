@@ -87,7 +87,7 @@ const MojipAccordion = ({ detailPageData, selectedRowNum, handleSelectRow }: Moj
           <Divider sx={{ borderColor: 'rgba(0,0,0,0.06)', mt: 1, mb: 2 }} />
 
           <Stack direction={'column'} spacing={1}>
-            <InputLabel sx={{ fontWeight: 'bold' }}>HtmlCard</InputLabel>
+            <InputLabel sx={{ fontWeight: 'bold' }}>HTML 카드 편집</InputLabel>
             <Tiptap value={htmlCardtext} handleChangeValue={handleChangeValue} />
           </Stack>
         </Stack>

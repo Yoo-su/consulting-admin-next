@@ -23,22 +23,16 @@ type UnivServiceProviderProps = {
   children: ReactNode;
 };
 const UnivServiceProvider = ({ children }: UnivServiceProviderProps) => {
-  const { refetch, isPending } = useGetUnivListQuery();
+  const { data: univList, isPending } = useGetUnivListQuery();
 
-  const [univList, setUnivList] = usePersistedState<Univ[]>([], 'session', 'univ-list');
   const [serviceList, setServiceList] = usePersistedState<Service[]>([], 'session', 'service-list');
   const [currentUniv, setCurrentUniv] = usePersistedState<Univ | null>(null, 'session', 'univ');
   const [currentService, setCurrentService] = usePersistedState<Service | null>(null, 'session', 'service');
 
   useEffect(() => {
-    refetch()
-      .then((res) => {
-        const filtered: Univ[] = res?.data?.filter((item) => item.isActive === true) ?? [];
-        setUnivList(filtered);
-      })
-      .catch((error) => {
-        setUnivList([]);
-      });
+    if (univList.length) {
+      sessionStorage.setItem('univ-list', JSON.stringify(univList));
+    }
   }, [univList.length]);
 
   if (isPending) return <AppBackdrop />;
