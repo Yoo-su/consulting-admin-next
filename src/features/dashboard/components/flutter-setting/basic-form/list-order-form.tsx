@@ -4,15 +4,12 @@ import { DragDropContext, Draggable, DropResult, Droppable } from 'react-beautif
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { FormItemProps } from '../types/flutter-setting-form.type';
 import { getConvertedValue } from '@/shared/services/get-converted-value';
-import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
-import { useSetFlutterSettingMutation } from '@/features/dashboard/hooks/tanstack/use-set-flutter-setting-mutation';
+import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
-const ListOrderForm = ({ item }: FormItemProps) => {
-  const { currentService } = useUnivService();
+const ListOrderForm = ({ item, isEdit }: FormItemProps) => {
   const { transferDefaultValue, RowIdx, RowValue } = item;
+  const { addToEditedSettingList } = useFlutterSetting();
   const [orderList, setOrderList] = useState(RowValue ? getConvertedValue(RowValue) : transferDefaultValue);
-
-  const { mutateAsync } = useSetFlutterSettingMutation();
 
   const handleDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -21,7 +18,7 @@ const ListOrderForm = ({ item }: FormItemProps) => {
     const dupList = [...orderList];
     const [removed] = dupList.splice(source.index, 1);
     dupList.splice(destination.index, 0, removed);
-    mutateAsync({ serviceID: currentService!.serviceID, RowIdx, RowValue: `[${dupList}]` });
+    addToEditedSettingList({ RowIdx, RowValue: `[${dupList}]` });
     setOrderList(dupList);
   };
 
@@ -32,7 +29,7 @@ const ListOrderForm = ({ item }: FormItemProps) => {
           {(provided) => (
             <Stack {...provided.droppableProps} ref={provided.innerRef} spacing={1}>
               {orderList.map((child: string, index: number) => (
-                <Draggable key={child} draggableId={child} index={index}>
+                <Draggable key={child} draggableId={child} index={index} isDragDisabled={!isEdit}>
                   {(provided) => (
                     <Stack
                       {...provided.draggableProps}

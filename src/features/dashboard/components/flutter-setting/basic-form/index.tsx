@@ -9,9 +9,10 @@ type BasicFormProps = {
   basicKey?: string;
   item: FlutterRowInfo;
   subMenu?: boolean;
+  isEdit: boolean;
 };
 
-const BasicForm = ({ basicKey, item }: BasicFormProps) => {
+const BasicForm = ({ basicKey, item, isEdit }: BasicFormProps) => {
   const { IsRequired, Type, Title, KoreanTitle, Description, level, children } = item;
   const subMenu = level > 0;
 
@@ -23,6 +24,7 @@ const BasicForm = ({ basicKey, item }: BasicFormProps) => {
         key: index,
         // ...propType,
         item,
+        isEdit,
       });
     }
     return null;
@@ -44,7 +46,7 @@ const BasicForm = ({ basicKey, item }: BasicFormProps) => {
       </Stack>
 
       {Type === 'object' ? (
-        <EditSetting settingList={children} />
+        <EditSetting settingList={children} isEdit={isEdit} />
       ) : (
         FormTypeList.filter((form) => form.type === Type).map((el, index) => createComponent(el, index))
       )}

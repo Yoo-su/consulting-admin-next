@@ -7,10 +7,10 @@ import { FlutterSetting } from '@/features/dashboard/types/flutter-setting.type'
 
 type SettingListProps = {
   toggle: boolean;
-  setToggle: Dispatch<SetStateAction<boolean>>;
+  setIsException: Dispatch<SetStateAction<boolean>>;
   filteredList: FlutterSetting[];
 };
-const SettingList = ({ toggle, setToggle, filteredList }: SettingListProps) => {
+const SettingList = ({ toggle, setIsException, filteredList }: SettingListProps) => {
   const { setSelectedCategory } = useFlutterSetting();
 
   const handleOnClick = (event: SyntheticEvent, itemId: string) => {
@@ -18,7 +18,8 @@ const SettingList = ({ toggle, setToggle, filteredList }: SettingListProps) => {
   };
 
   const handleChange = (event: SyntheticEvent, value: boolean) => {
-    setToggle(value);
+    console.log('toggle', toggle, value);
+    setIsException(value);
   };
 
   return (
@@ -26,9 +27,8 @@ const SettingList = ({ toggle, setToggle, filteredList }: SettingListProps) => {
       <Typography variant={'body1'}>카테고리 목록</Typography>
       <FormGroup sx={{ paddingLeft: '1rem' }}>
         <FormControlLabel
-          control={<Switch size="small" sx={{ marginRight: '.5rem' }} />}
+          control={<Switch size="small" sx={{ marginRight: '.5rem' }} checked={toggle} onChange={handleChange} />}
           label={toggle ? '예외처리' : '전체보기'}
-          onChange={handleChange}
         />
       </FormGroup>
       <SimpleTreeView onItemSelectionToggle={handleOnClick}>

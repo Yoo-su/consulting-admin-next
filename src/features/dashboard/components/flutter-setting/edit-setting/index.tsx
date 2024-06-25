@@ -4,19 +4,24 @@ import BasicForm from '../basic-form';
 
 export type EditSettingProps = {
   settingList: FlutterSetting | FlutterRowInfo | FlutterRowInfo[] | undefined;
+  isEdit: boolean;
 };
 
-const EditSetting = ({ settingList }: EditSettingProps) => {
+const EditSetting = ({ settingList, isEdit }: EditSettingProps) => {
   return (
     <>
       {settingList && (
         <Stack spacing={3}>
           {Array.isArray(settingList) ? (
             settingList.map((item: FlutterRowInfo) => (
-              <BasicForm key={item.RowIdx} basicKey={item.Title} item={item} subMenu={item.level > 0} />
+              <BasicForm key={item.RowIdx} basicKey={item.Title} item={item} subMenu={item.level > 0} isEdit={isEdit} />
             ))
           ) : (
-            <BasicForm item={settingList as FlutterRowInfo} subMenu={(settingList as FlutterRowInfo).level > 0} />
+            <BasicForm
+              item={settingList as FlutterRowInfo}
+              subMenu={(settingList as FlutterRowInfo).level > 0}
+              isEdit={isEdit}
+            />
           )}
         </Stack>
       )}

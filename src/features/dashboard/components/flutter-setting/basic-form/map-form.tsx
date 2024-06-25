@@ -17,6 +17,7 @@ import { getArrayToObjectForm } from '@/features/dashboard/services/flutter-sett
 import { setFlutterCustomConfig } from '@/features/dashboard/apis/set-flutter-custom-config';
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { useSetFlutterSettingMutation } from '@/features/dashboard/hooks/tanstack/use-set-flutter-setting-mutation';
+import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
 type RowType = {
   item: string;
@@ -42,19 +43,17 @@ const textFieldClass = {
   },
 };
 
-const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
-  const { currentService } = useUnivService();
+const MapForm = ({ item: originalItem, isEdit }: Partial<FormItemProps>) => {
   const { transferDefaultValue, RowIdx = null, RowValue = null } = originalItem ?? {};
   const dataObj = getConvertedValue(RowValue ?? transferDefaultValue ?? '{}');
+  const { addToEditedSettingList } = useFlutterSetting();
 
   const [isAdd, setIsAdd] = useState(originalItem ? false : true);
-  const [isEdit, setIsEdit] = useState<boolean[]>(Array(Object.keys(dataObj).length).fill(false));
+  const [isEditObj, setIsEditObj] = useState<boolean[]>(Array(Object.keys(dataObj).length).fill(false));
   const [objValue, setObjValue] = useState({ item: '', value: '' });
   const [rows, setRows] = useState<RowType[]>(
     Object.keys(dataObj).map((data) => ({ item: data, value: dataObj[data] }))
   );
-
-  const { mutateAsync } = useSetFlutterSettingMutation();
 
   //#region utilities
   const resetValues = () => {
@@ -62,7 +61,7 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
     setIsAdd(false);
   };
   const setEditValue = (index: number, value: boolean) => {
-    setIsEdit((prev) => {
+    setIsEditObj((prev) => {
       const newEdit = [...prev];
       newEdit[index] = value;
       return newEdit;
@@ -84,6 +83,7 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
     // 수정한 값이 원래 값과 같은 경우
     if (!isNaN(index) && rows[index].item === objValue.item && rows[index].value === objValue.value) {
       setEditValue(index, false);
+      resetValues();
       return false;
     }
     // 빈 값이 있는 경우
@@ -118,8 +118,7 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
 
     if (RowIdx) {
       const rowObject = getArrayToObjectForm(newRows);
-      mutateAsync({
-        serviceID: currentService!.serviceID,
+      addToEditedSettingList({
         RowIdx,
         RowValue: rowObject,
       });
@@ -145,8 +144,7 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
     setIsAdd(newList.length < 1);
     if (RowIdx) {
       const rowObject = getArrayToObjectForm(newList);
-      mutateAsync({
-        serviceID: currentService!.serviceID,
+      addToEditedSettingList({
         RowIdx,
         RowValue: rowObject,
       });
@@ -168,53 +166,19 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
           <TableBody sx={{ border: 0 }}>
             {rows.map((row, index) => (
               <TableRow key={row.item} sx={{ ...rowBorderClass }}>
-                <TableCell component="th" scope="row">
-                  {isEdit[index] == false ? (
-                    <>{row.item}</>
-                  ) : (
-                    <TextField
-                      fullWidth
-                      placeholder="item"
-                      name={`item-${index}`}
-                      size="small"
-                      sx={{ ...textFieldClass }}
-                      value={objValue.item}
-                      onChange={handleChange}
-                    />
-                  )}
-                </TableCell>
-                <TableCell>
-                  {isEdit[index] == false ? (
-                    <>{row.value}</>
-                  ) : (
-                    <TextField
-                      fullWidth
-                      placeholder="value"
-                      name={`value-${index}`}
-                      size="small"
-                      sx={{ ...textFieldClass }}
-                      value={objValue.value}
-                      onChange={handleChange}
-                    />
-                  )}
-                </TableCell>
+                {isEditObj[index] == false ? (
+                  <>
+                    <TableCell component="th" scope="row">
+                      {row.item}
+                    </TableCell>
+                    <TableCell>{row.value}</TableCell>
+                  </>
+                ) : (
+                  <InputCells index={`${index}`} objValue={objValue} handleChange={handleChange} />
+                )}
                 <TableCell>
                   <Stack direction={'row'}>
-                    {!isEdit[index] ? (
-                      <Tooltip title="수정" placement="top">
-                        <IconButton size="small" id={`editID-${index}`} onClick={handleEdit} disableRipple>
-                          <ModeEditIcon sx={{ width: '.7em', height: '.7em' }} />
-                        </IconButton>
-                      </Tooltip>
-                    ) : (
-                      <>
-                        <Tooltip title="저장" placement="top">
-                          <IconButton size="small" id={`confirmID-${index}`} onClick={handleConfirm} disableRipple>
-                            <DoneIcon sx={{ width: '.7em', height: '.7em' }} />
-                          </IconButton>
-                        </Tooltip>
-                      </>
-                    )}
+                    {getEditSaveButton(!isEditObj[index], index, handleEdit, handleConfirm)}
                     <Tooltip title="삭제" placement="top">
                       <IconButton size="small" id={`deleteID-${index}`} onClick={handleDelete} disableRipple>
                         <DeleteIcon sx={{ width: '.7em', height: '.7em' }} />
@@ -224,30 +188,9 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
                 </TableCell>
               </TableRow>
             ))}
-            {isAdd && (
+            {isAdd && isEdit && (
               <TableRow sx={{ ...rowBorderClass }}>
-                <TableCell>
-                  <TextField
-                    fullWidth
-                    placeholder="item"
-                    name="item-new"
-                    size="small"
-                    sx={{ ...textFieldClass }}
-                    value={objValue.item}
-                    onChange={handleChange}
-                  />
-                </TableCell>
-                <TableCell>
-                  <TextField
-                    fullWidth
-                    placeholder="value"
-                    name="value-new"
-                    size="small"
-                    sx={{ ...textFieldClass }}
-                    value={objValue.value}
-                    onChange={handleChange}
-                  />
-                </TableCell>
+                <InputCells index="new" objValue={objValue} handleChange={handleChange} />
                 <TableCell>
                   <Stack direction={'row'} spacing={1}>
                     <Button
@@ -270,22 +213,85 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {!isAdd && (
-        <Box sx={{ padding: '.2rem 0' }}>
-          <Button
-            disableElevation
-            size="small"
-            variant="contained"
-            endIcon={<Add />}
-            sx={{ verticalAlign: 'middle', backgroundColor: '#616161' }}
-            onClick={handleAdd}
-          >
-            <Typography variant="caption">추가</Typography>
-          </Button>
-        </Box>
-      )}
+      {!isAdd && isEdit && <CreateNewButton handleAdd={handleAdd} />}
     </>
   );
 };
 
 export default MapForm;
+
+type InputCellsProps = {
+  index: string;
+  objValue: { item: string; value: string };
+  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
+};
+const InputCells = ({ index, objValue, handleChange }: InputCellsProps) => {
+  return (
+    <>
+      <TableCell>
+        <TextField
+          fullWidth
+          placeholder="item"
+          name={`item-${index}`}
+          size="small"
+          sx={{ ...textFieldClass }}
+          value={objValue.item}
+          onChange={handleChange}
+        />
+      </TableCell>
+      <TableCell>
+        <TextField
+          fullWidth
+          placeholder="value"
+          name={`value-${index}`}
+          size="small"
+          sx={{ ...textFieldClass }}
+          value={objValue.value}
+          onChange={handleChange}
+        />
+      </TableCell>
+    </>
+  );
+};
+
+const getEditSaveButton = (
+  isEdit: boolean,
+  index: number,
+  handleEdit: (event: MouseEvent<HTMLButtonElement>) => void,
+  handleConfirm: (event: MouseEvent<HTMLButtonElement>) => void
+) => {
+  if (isEdit) {
+    return (
+      <Tooltip title="수정" placement="top">
+        <IconButton size="small" id={`editID-${index}`} onClick={handleEdit} disableRipple>
+          <ModeEditIcon sx={{ width: '.7em', height: '.7em' }} />
+        </IconButton>
+      </Tooltip>
+    );
+  } else {
+    return (
+      <Tooltip title="저장" placement="top">
+        <IconButton size="small" id={`confirmID-${index}`} onClick={handleConfirm} disableRipple>
+          <DoneIcon sx={{ width: '.7em', height: '.7em' }} />
+        </IconButton>
+      </Tooltip>
+    );
+  }
+};
+
+const CreateNewButton = ({ handleAdd }: { handleAdd: (event: MouseEvent<HTMLButtonElement>) => void }) => {
+  return (
+    <Box sx={{ padding: '.2rem 0' }}>
+      <Button
+        disableElevation
+        size="small"
+        variant="contained"
+        endIcon={<Add />}
+        sx={{ verticalAlign: 'middle', backgroundColor: '#616161' }}
+        onClick={handleAdd}
+      >
+        <Typography variant="caption">추가</Typography>
+      </Button>
+    </Box>
+  );
+};

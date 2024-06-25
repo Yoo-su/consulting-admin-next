@@ -3,7 +3,7 @@ import { Stack, Typography, Button } from '@mui/material';
 import toast from 'react-hot-toast';
 
 export const useConfirmToast = () => {
-  const openConfirmToast = useCallback((message: string, callback: any) => {
+  const openConfirmToast = useCallback((message: string, callback: any, callbackCancel?: any) => {
     toast((t) => (
       <Stack direction={'column'} justifyContent={'center'} alignItems={'center'} spacing={1}>
         <Typography variant="body2" textAlign={'center'}>
@@ -27,7 +27,12 @@ export const useConfirmToast = () => {
             color="inherit"
             size="small"
             sx={{ width: 'fit-content' }}
-            onClick={() => toast.dismiss(t.id)}
+            onClick={() => {
+              if (callbackCancel) {
+                callbackCancel();
+              }
+              toast.dismiss(t.id);
+            }}
           >
             아니오
           </Button>
