@@ -15,6 +15,7 @@ import LanIcon from '@mui/icons-material/Lan';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import StorageIcon from '@mui/icons-material/Storage';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
+import PlusOneIcon from '@mui/icons-material/PlusOne';
 import { paths } from '@/shared/constants/paths';
 import { NavItemGroup, NavItemType } from '../../types/nav-item.type';
 
@@ -30,6 +31,12 @@ const basicItems: NavItemType[] = [
     title: '서비스 설정',
     href: paths.dashboard.serviceSetting,
     Icon: SettingIcon,
+  },
+  {
+    navkey: 'version-setting',
+    title: '버전 설정',
+    href: paths.dashboard.versionSetting,
+    Icon: PlusOneIcon,
   },
 ];
 const excelItems: NavItemType[] = [
