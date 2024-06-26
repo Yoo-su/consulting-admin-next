@@ -6,6 +6,7 @@ export const paths = {
   dashboard: {
     overview: '/dashboard/overview',
     serviceSetting: '/dashboard/service-setting',
+    versionSetting: '/dashboard/version-setting',
     consultingFilesSetting: '/dashboard/consulting-files-setting',
     excelUpload: '/dashboard/excel-upload',
     mojipSetting: '/dashboard/mojip-setting',
