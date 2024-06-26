@@ -1,5 +1,5 @@
 import { useEffect, useState, MouseEvent } from 'react';
-import { TableHead, TableContainer, Table, TableBody, Paper, Typography } from '@mui/material';
+import { TableHead, TableContainer, Table, TableBody, Paper, Typography, Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useGetVersionList } from '@/features/dashboard/hooks/use-get-version-list';
@@ -11,6 +11,7 @@ import SaveDataButton from '@/shared/components/save-data-button';
 import { VersionListParams } from '@/features/dashboard/apis/update-version-list';
 import { useUpdateVersionListMutation } from '@/features/dashboard/hooks/tanstack/use-update-veresion-list-mutation';
 import toast from 'react-hot-toast';
+import ContentLoadingSkeleton from '@/shared/components/loadings/skeleton';
 
 export type VersionListTableProps = {
   serviceID: string;
@@ -101,7 +102,11 @@ const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
   };
 
   if (isLoading) {
-    return <div>로딩중...</div>;
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <ContentLoadingSkeleton isTitle={false} width={'500px'} height={'700px'} />
+      </Box>
+    );
   }
 
   return (
