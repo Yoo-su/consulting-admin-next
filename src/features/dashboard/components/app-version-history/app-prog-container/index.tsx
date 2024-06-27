@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, MouseEvent } from 'react';
+import { Suspense } from 'react';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -21,15 +21,12 @@ const AppProgContainer = ({ histories }: { histories: AxiosResponse<AppHistory[]
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
   const { currentUniv, currentService } = useUnivService();
+  const { serviceID, serialNo } = currentService || {};
 
-  const handleClickCopy = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    if (!currentService?.serialNo) return;
-    const target = document.getElementById(
-      `${currentService?.serviceID}-${event.currentTarget.id}` || ''
-    ) as HTMLInputElement;
+  const handleClickCopy = () => {
+    if (!serialNo) return;
     try {
-      navigator.clipboard.writeText(target?.value || '');
+      navigator.clipboard.writeText(serialNo);
       toast.success('복사되었습니다');
     } catch (e) {
       toast.error('복사에 실패했습니다');
@@ -48,7 +45,7 @@ const AppProgContainer = ({ histories }: { histories: AxiosResponse<AppHistory[]
                 fontSize: '16px',
               }),
             }}
-          >{`${currentUniv?.univName}(${currentService?.serviceID}) 앱 버전 히스토리`}</Typography>
+          >{`${currentUniv?.univName}(${serviceID}) 앱 버전 히스토리`}</Typography>
           {!!histories?.data?.length && (
             <Typography
               variant="caption"
@@ -64,8 +61,8 @@ const AppProgContainer = ({ histories }: { histories: AxiosResponse<AppHistory[]
           )}
         </Stack>
         <SerialNoTextField
-          serviceID={currentService?.serviceID || ''}
-          value={`${currentService?.serialNo || '시리얼번호가 존재하지 않습니다.'}`}
+          serviceID={serviceID ?? ''}
+          value={`${serialNo ?? '시리얼번호가 존재하지 않습니다.'}`}
           handleClick={handleClickCopy}
         />
       </Stack>

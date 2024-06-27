@@ -9,10 +9,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import toast from 'react-hot-toast';
 
 import FiberManualRecordRoundedIcon from '@mui/icons-material/FiberManualRecordRounded';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
 
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { isCurrentServiceYear } from '@/features/dashboard/services/is-current-service-year';
@@ -23,21 +19,21 @@ const AppPWAContainer = () => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
   const { currentUniv, currentService } = useUnivService();
+  const { univEngName, univName } = currentUniv || {};
+  const { schoolYear, isSusi, serviceID, serialNo } = currentService || {};
 
   // 현 서비스학년도와 비교하여 현재 서비스 중인지 확인
-  const isCurrentYear = isCurrentServiceYear(currentService?.schoolYear || '');
-  const prevLocation = isCurrentYear
-    ? ''
-    : `/${currentService?.schoolYear}${currentService?.isSusi === '1' ? 'susi' : 'jungsi'}`;
-  const testUrl = `https://vapplytest.jinhakapply.com/consultinghtmlv4${prevLocation}/${currentUniv?.univEngName}-pwa.html`;
-  const realUrl = `https://consultingapp.jinhakapply.com/ConsultingHtml${prevLocation}/${currentUniv?.univEngName}-pwa.html`;
+  const isCurrentYear = isCurrentServiceYear(schoolYear ?? '');
+  const prevLocation = isCurrentYear ? '' : `/${schoolYear}${isSusi === '1' ? 'susi' : 'jungsi'}`;
+  const testUrl = `https://vapplytest.jinhakapply.com/consultinghtmlv4${prevLocation}/${univEngName}-pwa.html`;
+  const realUrl = `https://consultingapp.jinhakapply.com/ConsultingHtml${prevLocation}/${univEngName}-pwa.html`;
 
   const handleClickCopy = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    if (!currentService?.serialNo) return;
+    if (!serialNo) return;
     const id = event.currentTarget.id;
-    const copiedText = id === 'serialnumber' ? currentService?.serialNo : id === 'test' ? testUrl : realUrl;
+    const copiedText = id === 'serialnumber' ? serialNo : id === 'test' ? testUrl : realUrl;
     try {
       navigator.clipboard.writeText(copiedText);
       toast.success('복사되었습니다');
@@ -58,11 +54,11 @@ const AppPWAContainer = () => {
             }),
           }}
         >
-          {`${currentUniv?.univName}(${currentService?.serviceID}) PWA 앱 주소`}
+          {`${univName}(${serviceID}) PWA 앱 주소`}
         </Typography>
         <SerialNoTextField
-          serviceID={currentService?.serviceID || ''}
-          value={`${currentService?.serialNo || '시리얼번호가 존재하지 않습니다.'}`}
+          serviceID={serviceID ?? ''}
+          value={`${serialNo ?? '시리얼번호가 존재하지 않습니다.'}`}
           handleClick={handleClickCopy}
         />
       </Stack>
