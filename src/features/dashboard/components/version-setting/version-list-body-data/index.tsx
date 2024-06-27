@@ -12,11 +12,24 @@ type VersionListDataProps = {
   handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 const VersionListBodyData = ({ editedList, versionList, handleClick }: VersionListDataProps) => {
+  if (editedList.length === 0) {
+    return (
+      <TableRow sx={{ height: '200px' }}>
+        <TableCell colSpan={2}>
+          <Typography align="center">
+            데이터가 없습니다.
+            <br />
+            (기초를 업로드 해주세요.)
+          </Typography>
+        </TableCell>
+      </TableRow>
+    );
+  }
   return (
     <>
       {editedList?.map((version, index) => {
         return (
-          <TableRow key={version.TableName}>
+          <TableRow key={version.TableName} sx={{ height: editedList.length < 6 ? `${200 / editedList.length}px` : 0 }}>
             <TableCell sx={TableCellClass}>{version.TableName}</TableCell>
             <TableCell sx={TableCellClass} align="right">
               <Stack direction={'row'} alignItems={'center'} justifyContent={'end'} spacing={1}>

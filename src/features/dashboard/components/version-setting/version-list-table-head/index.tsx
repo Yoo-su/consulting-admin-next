@@ -1,9 +1,8 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, memo } from 'react';
 import { TableRow, TableCell, Stack, Typography, Tooltip, Box } from '@mui/material';
 import { ArrowUpButtonClass, TableCellClass } from '../version-list-table';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ButtonIcon from '@/shared/components/button-icon';
-import { CurTBLVersion } from '@/features/dashboard/types/service-version.type';
 
 type VersionListTableHeadProps = {
   handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
@@ -15,7 +14,7 @@ const VersionListTableHead = ({ handleClick }: VersionListTableHeadProps) => {
       <TableCell align="center" sx={{ fontWeight: 'bold', ...TableCellClass }}>
         <Stack direction={'row'} spacing={1} alignItems={'center'} justifyContent={'end'}>
           <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-            버전 일괄 추가
+            버전 추가
           </Typography>
           <Tooltip title="전체 버전을 1씩 추가합니다." placement="top">
             <Box>
@@ -35,4 +34,4 @@ const VersionListTableHead = ({ handleClick }: VersionListTableHeadProps) => {
   );
 };
 
-export default VersionListTableHead;
+export default memo(VersionListTableHead);

@@ -1,7 +1,5 @@
 import { useEffect, useState, MouseEvent } from 'react';
 import { TableHead, TableContainer, Table, TableBody, Paper, Typography, Box } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { useGetVersionList } from '@/features/dashboard/hooks/use-get-version-list';
 import { CurTBLVersion } from '@/features/dashboard/types/service-version.type';
 import { VersionServer } from '..';
@@ -19,9 +17,6 @@ export type VersionListTableProps = {
 };
 
 const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
-  const theme = useTheme();
-  const downmd = useMediaQuery(theme.breakpoints.down('md'));
-
   const {
     isLoading,
     testVersionList,
