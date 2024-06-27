@@ -30,8 +30,8 @@ const AppHistoryItem = ({ item }: AppHistoryItemProps) => {
     <Tooltip
       title={
         <Stack direction={'column'}>
-          <Typography variant="caption">{item.packageFileName ?? 'unknown apk'}</Typography>
-          <Typography variant="caption">Note: {item.releaseNote ?? '-'}</Typography>
+          {/* <Typography variant="caption">{item.packageFileName ?? 'unknown apk'}</Typography>
+          <Typography variant="caption">Note: {item.releaseNote ?? '-'}</Typography> */}
           <Typography variant="caption" sx={{ wordBreak: 'break-all' }}>
             {downloadUrl}
           </Typography>
@@ -39,6 +39,7 @@ const AppHistoryItem = ({ item }: AppHistoryItemProps) => {
       }
       placement="bottom"
       arrow
+      sx={{ padding: '.5rem' }}
     >
       <Stack onClick={handleClick}>
         <Tooltip title="클릭하여 주소 복사하기" placement="top">
