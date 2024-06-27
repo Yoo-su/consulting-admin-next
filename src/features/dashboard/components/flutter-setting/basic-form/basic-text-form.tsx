@@ -2,27 +2,24 @@ import { useOutsideClick } from '@/shared/hooks/use-outside-click';
 import { TextField } from '@mui/material';
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { FormItemProps } from '../types/flutter-setting-form.type';
-import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import toast from 'react-hot-toast';
-import { useSetFlutterSettingMutation } from '@/features/dashboard/hooks/tanstack/use-set-flutter-setting-mutation';
+import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
 const BasicTextForm = ({ item }: FormItemProps) => {
-  const { currentService } = useUnivService();
   const { IsRequired, Type, transferDefaultValue, RowIdx, RowValue = null } = item;
   const [textValue, setTextValue] = useState(RowValue ? RowValue : transferDefaultValue);
   const [isActive, setIsActive] = useState(false);
-
-  const { mutateAsync } = useSetFlutterSettingMutation();
+  const { addToEditedSettingList } = useFlutterSetting();
 
   const inputRef = useOutsideClick(() => {
     if (isActive) {
-      mutateAsync({ serviceID: currentService!.serviceID, RowIdx, RowValue: textValue });
+      addToEditedSettingList({ RowIdx, RowValue: textValue });
     }
     setIsActive(false);
   });
   const handleInputKey = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      mutateAsync({ serviceID: currentService!.serviceID, RowIdx, RowValue: textValue });
+      addToEditedSettingList({ RowIdx, RowValue: textValue });
       setIsActive(false);
     }
   };

@@ -1,23 +1,33 @@
 'use client';
 
-import { Grid, Stack } from '@mui/material';
+import { Grid, Stack, Typography } from '@mui/material';
 import SettingList from './setting-list';
 import SettingDetail from './setting-detail';
-import { useGetFlutterSettingQuery } from '../../hooks/tanstack/use-get-flutter-setting-query';
+import { useGetFlutterSettingQuery } from '@/features/dashboard/hooks/tanstack/use-get-flutter-setting-query';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 import { useEffect, useState } from 'react';
-import { useUnivService } from '../../hooks/context/use-univ-service';
-import { getFilteredCustomConfig } from '../../services/flutter-setting/get-filtered-custom-config';
-import { FlutterSetting as FlutterSettingType } from '../../types/flutter-setting.type';
+import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
+import { getFilteredCustomConfig } from '@/features/dashboard/services/flutter-setting/get-filtered-custom-config';
+import { FlutterSetting as FlutterSettingType } from '@/features/dashboard/types/flutter-setting.type';
+import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
+import SaveDataButton from '@/shared/components/save-data-button';
 
 const FlutterSetting = () => {
   const { currentService } = useUnivService();
-  const { flutterSettingList, setFlutterSettingList, filteredSettingList, setFilteredSettingList } =
-    useFlutterSetting();
+  const {
+    flutterSettingList,
+    setFlutterSettingList,
+    filteredSettingList,
+    setFilteredSettingList,
+    editedSettingList,
+    updateSettingList,
+    resetSettingList,
+  } = useFlutterSetting();
   const { data: settingList } = useGetFlutterSettingQuery({ serviceID: currentService!.serviceID });
 
   const [toggle, setToggle] = useState(false);
   const [filteredList, setFilteredList] = useState<FlutterSettingType[]>(flutterSettingList);
+
   useEffect(() => {
     console.log('refetched');
     setFlutterSettingList(settingList ?? []);
@@ -25,13 +35,16 @@ const FlutterSetting = () => {
   }, [settingList]);
 
   useEffect(() => {
-    console.log('toggle', toggle);
     if (toggle) {
       setFilteredList(filteredSettingList);
     } else {
       setFilteredList(flutterSettingList);
     }
   }, [toggle, filteredSettingList, flutterSettingList]);
+
+  const handleBtnClick = () => {
+    updateSettingList();
+  };
 
   return (
     <Stack
@@ -49,6 +62,7 @@ const FlutterSetting = () => {
         </Grid>
         <Grid item xs={8} sx={{ borderLeft: '1px solid #FAFAFA', paddingLeft: '1rem' }}>
           <SettingDetail filteredList={filteredList} />
+          {editedSettingList.length > 0 && <SaveDataButton handleBtnClick={handleBtnClick} />}
         </Grid>
       </Grid>
     </Stack>

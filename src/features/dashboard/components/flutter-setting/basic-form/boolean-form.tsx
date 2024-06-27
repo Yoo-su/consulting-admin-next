@@ -1,9 +1,8 @@
 import { Checkbox, FormControlLabel, FormGroup, TextField, styled } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import { FormItemProps } from '../types/flutter-setting-form.type';
-import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { getConvertedValue } from '@/shared/services/get-converted-value';
-import { useSetFlutterSettingMutation } from '@/features/dashboard/hooks/tanstack/use-set-flutter-setting-mutation';
+import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
 const StyledTextField = styled(TextField)({
   width: '100%',
@@ -17,20 +16,16 @@ const StyledTextField = styled(TextField)({
 });
 
 const BooleanForm = ({ item }: Partial<FormItemProps>) => {
-  const { currentService } = useUnivService();
   const { transferDefaultValue = false, Description, RowValue = null, RowIdx = null } = item ?? {};
-
+  const { addToEditedSettingList } = useFlutterSetting();
   const [checkValue, setCheckValue] = useState<boolean>(RowValue ? getConvertedValue(RowValue) : transferDefaultValue);
   const [inputValue, setInputValue] = useState('');
-
-  const { mutateAsync } = useSetFlutterSettingMutation();
 
   const handleBooleanChange = (event: ChangeEvent<HTMLInputElement>) => {
     const booleanValue = event.target.checked;
     setCheckValue(booleanValue);
     if (RowIdx !== null) {
-      mutateAsync({
-        serviceID: currentService!.serviceID,
+      addToEditedSettingList({
         RowIdx,
         RowValue: booleanValue.toString(),
       });

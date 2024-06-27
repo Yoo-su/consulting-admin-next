@@ -20,7 +20,8 @@ const getCategoryInfo = (
   return { filteredList, description, children };
 };
 
-const SettingDetail = ({ filteredList: filteredSettingList }: { filteredList: FlutterSetting[] }) => {
+type SettingDetailProps = { filteredList: FlutterSetting[] };
+const SettingDetail = ({ filteredList: filteredSettingList }: SettingDetailProps) => {
   const { selectedCategory } = useFlutterSetting();
   const [category, subCategory] = selectedCategory.split('/');
 
