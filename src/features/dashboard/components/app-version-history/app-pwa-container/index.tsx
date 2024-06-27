@@ -36,10 +36,10 @@ const AppPWAContainer = () => {
     event.preventDefault();
 
     if (!currentService?.serialNo) return;
-    const isTest = event.currentTarget.id === 'test';
-    console.log('clicked', event.currentTarget.id, isTest);
+    const id = event.currentTarget.id;
+    const copiedText = id === 'serialnumber' ? currentService?.serialNo : id === 'test' ? testUrl : realUrl;
     try {
-      navigator.clipboard.writeText(isTest ? testUrl : realUrl);
+      navigator.clipboard.writeText(copiedText);
       toast.success('복사되었습니다');
     } catch (e) {
       toast.error('복사에 실패했습니다');

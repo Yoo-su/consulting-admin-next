@@ -25,7 +25,6 @@ const AppProgContainer = ({ histories }: { histories: AxiosResponse<AppHistory[]
   const handleClickCopy = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (!currentService?.serialNo) return;
-
     const target = document.getElementById(
       `${currentService?.serviceID}-${event.currentTarget.id}` || ''
     ) as HTMLInputElement;
