@@ -20,8 +20,8 @@ const getCategoryInfo = (
   return { filteredList, description, children };
 };
 
-type SettingDetailProps = { filteredList: FlutterSetting[]; toggle: boolean };
-const SettingDetail = ({ filteredList: filteredSettingList, toggle }: SettingDetailProps) => {
+type SettingDetailProps = { filteredList: FlutterSetting[] };
+const SettingDetail = ({ filteredList: filteredSettingList }: SettingDetailProps) => {
   const { selectedCategory } = useFlutterSetting();
   const [category, subCategory] = selectedCategory.split('/');
 
@@ -38,8 +38,8 @@ const SettingDetail = ({ filteredList: filteredSettingList, toggle }: SettingDet
         </Typography>
         {description && <Typography variant={'overline'}>{description}</Typography>}
       </Stack>
-      <EditSetting settingList={settingList} isEdit={!toggle} />
-      {/* {category && <AddSetting category={category} />} */}
+      <EditSetting settingList={settingList} />
+      {category && <AddSetting category={category} />}
     </Stack>
   );
 };

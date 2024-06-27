@@ -5,7 +5,7 @@ import { FormItemProps } from '../types/flutter-setting-form.type';
 import toast from 'react-hot-toast';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
-const BasicTextForm = ({ item, isEdit }: FormItemProps) => {
+const BasicTextForm = ({ item }: FormItemProps) => {
   const { IsRequired, Type, transferDefaultValue, RowIdx, RowValue = null } = item;
   const [textValue, setTextValue] = useState(RowValue ? RowValue : transferDefaultValue);
   const [isActive, setIsActive] = useState(false);
@@ -45,7 +45,6 @@ const BasicTextForm = ({ item, isEdit }: FormItemProps) => {
 
   return (
     <TextField
-      disabled={!isEdit}
       ref={inputRef}
       value={textValue}
       size="small"

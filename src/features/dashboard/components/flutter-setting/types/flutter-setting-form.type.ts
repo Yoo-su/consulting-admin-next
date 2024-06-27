@@ -3,7 +3,6 @@ import { EditSettingProps } from '../edit-setting';
 
 export type FormItemProps = {
   item: FlutterRowInfo;
-  isEdit: boolean;
 };
 
 export type FlutterSettingFormType = {

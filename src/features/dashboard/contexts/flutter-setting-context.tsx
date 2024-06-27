@@ -4,6 +4,7 @@ import { createContext, useState, Dispatch, SetStateAction, PropsWithChildren } 
 import { FlutterSetting } from '../types/flutter-setting.type';
 import { SetFlutterCustomConfigParams } from '../apis/set-flutter-custom-config';
 import { useUnivService } from '../hooks/context/use-univ-service';
+import { useSetFlutterSettingMutation } from '../hooks/tanstack/use-set-flutter-setting-mutation';
 
 export type FlutterSettingContextValue = {
   flutterSettingList: FlutterSetting[];
@@ -13,9 +14,7 @@ export type FlutterSettingContextValue = {
   filteredSettingList: FlutterSetting[];
   setFilteredSettingList: Dispatch<SetStateAction<FlutterSetting[]>>;
   editedSettingList: SetFlutterCustomConfigParams[];
-  // setEditedSettingList: Dispatch<SetStateAction<SetFlutterCustomConfigParams[]>>;
   addToEditedSettingList: (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => void;
-  resetSettingList: () => void;
   updateSettingList: () => void;
 };
 
@@ -27,6 +26,7 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   const [flutterSettingList, setFlutterSettingList] = useState<FlutterSetting[]>([]);
   const [filteredSettingList, setFilteredSettingList] = useState<FlutterSetting[]>([]);
   const [editedSettingList, setEditedSettingList] = useState<SetFlutterCustomConfigParams[]>([]);
+  const { mutateAsync } = useSetFlutterSettingMutation();
 
   const addToEditedSettingList = (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => {
     const newSetting: SetFlutterCustomConfigParams = {
@@ -47,7 +47,9 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   const updateSettingList = () => {
     editedSettingList.forEach((item) => {
       console.log('item', item);
+      mutateAsync(item);
     });
+    resetSettingList();
   };
   return (
     <FlutterSettingContext.Provider
@@ -61,7 +63,6 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
         editedSettingList,
         // setEditedSettingList,
         addToEditedSettingList,
-        resetSettingList,
         updateSettingList,
       }}
     >

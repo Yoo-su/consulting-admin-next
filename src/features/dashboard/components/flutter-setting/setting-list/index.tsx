@@ -7,10 +7,10 @@ import { FlutterSetting } from '@/features/dashboard/types/flutter-setting.type'
 
 type SettingListProps = {
   toggle: boolean;
-  setIsException: Dispatch<SetStateAction<boolean>>;
+  setToggle: Dispatch<SetStateAction<boolean>>;
   filteredList: FlutterSetting[];
 };
-const SettingList = ({ toggle, setIsException, filteredList }: SettingListProps) => {
+const SettingList = ({ toggle, setToggle, filteredList }: SettingListProps) => {
   const { setSelectedCategory } = useFlutterSetting();
 
   const handleOnClick = (event: SyntheticEvent, itemId: string) => {
@@ -19,7 +19,7 @@ const SettingList = ({ toggle, setIsException, filteredList }: SettingListProps)
 
   const handleChange = (event: SyntheticEvent, value: boolean) => {
     console.log('toggle', toggle, value);
-    setIsException(value);
+    setToggle(value);
   };
 
   return (

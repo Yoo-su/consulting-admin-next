@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { FormItemProps } from '../types/flutter-setting-form.type';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
-const SelectForm = ({ item, isEdit }: FormItemProps) => {
+const SelectForm = ({ item }: FormItemProps) => {
   const { transferDefaultValue, children, RowIdx, RowValue = null } = item;
   const { addToEditedSettingList } = useFlutterSetting();
   const [selectedValue, setSelectedValue] = useState<string>(RowValue ?? transferDefaultValue);
@@ -23,7 +23,7 @@ const SelectForm = ({ item, isEdit }: FormItemProps) => {
           },
         }}
       >
-        <Select disabled={!isEdit} size="small" value={selectedValue} onChange={handleSelectChange}>
+        <Select size="small" value={selectedValue} onChange={handleSelectChange}>
           {children.map((child) => {
             return (
               <MenuItem key={child.RowIdx} value={child.DefaultValue}>

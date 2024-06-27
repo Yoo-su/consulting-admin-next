@@ -6,7 +6,7 @@ import { FormItemProps } from '../types/flutter-setting-form.type';
 import { getConvertedValue } from '@/shared/services/get-converted-value';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
-const ListOrderForm = ({ item, isEdit }: FormItemProps) => {
+const ListOrderForm = ({ item }: FormItemProps) => {
   const { transferDefaultValue, RowIdx, RowValue } = item;
   const { addToEditedSettingList } = useFlutterSetting();
   const [orderList, setOrderList] = useState(RowValue ? getConvertedValue(RowValue) : transferDefaultValue);
@@ -29,7 +29,7 @@ const ListOrderForm = ({ item, isEdit }: FormItemProps) => {
           {(provided) => (
             <Stack {...provided.droppableProps} ref={provided.innerRef} spacing={1}>
               {orderList.map((child: string, index: number) => (
-                <Draggable key={child} draggableId={child} index={index} isDragDisabled={!isEdit}>
+                <Draggable key={child} draggableId={child} index={index}>
                   {(provided) => (
                     <Stack
                       {...provided.draggableProps}

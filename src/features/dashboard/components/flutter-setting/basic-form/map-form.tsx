@@ -24,26 +24,7 @@ type RowType = {
   value: string;
 };
 
-const headerBorderClass = {
-  border: '1px solid rgba(224, 224, 224, 1)',
-  borderBottomColor: 'transparent',
-  borderRadius: '1rem',
-};
-const rowBorderClass = {
-  border: '1px solid rgba(224, 224, 224, 1)',
-  borderBottomColor: 'transparent',
-  borderTopColor: 'transparent',
-};
-const textFieldClass = {
-  '& .MuiInputBase-root': {
-    fontSize: '.9rem',
-  },
-  '& .MuiInputBase-input': {
-    padding: '2px 4px',
-  },
-};
-
-const MapForm = ({ item: originalItem, isEdit }: Partial<FormItemProps>) => {
+const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
   const { transferDefaultValue, RowIdx = null, RowValue = null } = originalItem ?? {};
   const dataObj = getConvertedValue(RowValue ?? transferDefaultValue ?? '{}');
   const { addToEditedSettingList } = useFlutterSetting();
@@ -188,7 +169,7 @@ const MapForm = ({ item: originalItem, isEdit }: Partial<FormItemProps>) => {
                 </TableCell>
               </TableRow>
             ))}
-            {isAdd && isEdit && (
+            {isAdd && (
               <TableRow sx={{ ...rowBorderClass }}>
                 <InputCells index="new" objValue={objValue} handleChange={handleChange} />
                 <TableCell>
@@ -213,7 +194,7 @@ const MapForm = ({ item: originalItem, isEdit }: Partial<FormItemProps>) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {!isAdd && isEdit && <CreateNewButton handleAdd={handleAdd} />}
+      {!isAdd && <CreateNewButton handleAdd={handleAdd} />}
     </>
   );
 };
@@ -294,4 +275,23 @@ const CreateNewButton = ({ handleAdd }: { handleAdd: (event: MouseEvent<HTMLButt
       </Button>
     </Box>
   );
+};
+
+const headerBorderClass = {
+  border: '1px solid rgba(224, 224, 224, 1)',
+  borderBottomColor: 'transparent',
+  borderRadius: '1rem',
+};
+const rowBorderClass = {
+  border: '1px solid rgba(224, 224, 224, 1)',
+  borderBottomColor: 'transparent',
+  borderTopColor: 'transparent',
+};
+const textFieldClass = {
+  '& .MuiInputBase-root': {
+    fontSize: '.9rem',
+  },
+  '& .MuiInputBase-input': {
+    padding: '2px 4px',
+  },
 };

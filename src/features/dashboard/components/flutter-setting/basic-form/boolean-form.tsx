@@ -15,7 +15,7 @@ const StyledTextField = styled(TextField)({
   },
 });
 
-const BooleanForm = ({ item, isEdit = true }: Partial<FormItemProps>) => {
+const BooleanForm = ({ item }: Partial<FormItemProps>) => {
   const { transferDefaultValue = false, Description, RowValue = null, RowIdx = null } = item ?? {};
   const { addToEditedSettingList } = useFlutterSetting();
   const [checkValue, setCheckValue] = useState<boolean>(RowValue ? getConvertedValue(RowValue) : transferDefaultValue);
@@ -42,7 +42,7 @@ const BooleanForm = ({ item, isEdit = true }: Partial<FormItemProps>) => {
           label={
             Description ? Description : <StyledTextField variant="standard" onChange={handleInput} value={inputValue} />
           }
-          control={<Checkbox disableRipple disabled={!isEdit} checked={checkValue} onChange={handleBooleanChange} />}
+          control={<Checkbox disableRipple checked={checkValue} onChange={handleBooleanChange} />}
           sx={{
             '& .MuiButtonBase-root': {
               padding: '0 .3rem 0 .5rem',
