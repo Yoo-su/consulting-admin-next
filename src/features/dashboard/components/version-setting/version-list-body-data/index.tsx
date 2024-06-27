@@ -3,16 +3,18 @@ import { MouseEvent } from 'react';
 import { TableRow, TableCell, Stack, Typography, Tooltip, Box } from '@mui/material';
 import { CurTBLVersion } from '@/features/dashboard/types/service-version.type';
 import { ArrowUpButtonClass, TableCellClass } from '../version-list-table';
-import ArrowUpIconButton from '@/shared/components/arrow-up-icon-button';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ButtonIcon from '@/shared/components/button-icon';
 
 type VersionListDataProps = {
   editedList: CurTBLVersion[];
+  versionList: CurTBLVersion[];
   handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
 };
-const VersionListBodyData = ({ editedList, handleClick }: VersionListDataProps) => {
+const VersionListBodyData = ({ editedList, versionList, handleClick }: VersionListDataProps) => {
   return (
     <>
-      {editedList?.map((version) => {
+      {editedList?.map((version, index) => {
         return (
           <TableRow key={version.TableName}>
             <TableCell sx={TableCellClass}>{version.TableName}</TableCell>
@@ -21,12 +23,14 @@ const VersionListBodyData = ({ editedList, handleClick }: VersionListDataProps) 
                 <Typography variant="caption">{version.Version}</Typography>
                 <Tooltip title="버전을 1씩 추가합니다." placement="top">
                   <Box>
-                    <ArrowUpIconButton
+                    <ButtonIcon
                       props={{
                         onClick: handleClick,
                         id: version.TableName,
                         sx: ArrowUpButtonClass,
+                        disabled: versionList[index].Version !== version.Version,
                       }}
+                      Icon={ArrowDropUpIcon}
                     />
                   </Box>
                 </Tooltip>

@@ -53,7 +53,7 @@ const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     const tableName = event.currentTarget.id;
-    let updatedList = [];
+    let updatedList: CurTBLVersion[] | null = [];
     // 전부 업데이트
     if (tableName === 'all') {
       updatedList = editedList.map((version, index) => {
@@ -63,11 +63,11 @@ const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
           return { ...version };
         }
       });
+      // 변경사항이 없으면 업데이트하지 않음
       if (JSON.stringify(updatedList) === JSON.stringify(versionList)) return;
     } else {
       // 특정 테이블만 업데이트
-      const targetIndex = editedList.findIndex((version) => version.TableName === event.currentTarget.id);
-      if (targetIndex < 0 || versionList[targetIndex].Version < editedList[targetIndex].Version) return;
+      const targetIndex = editedList.findIndex((version) => version.TableName === tableName);
       updatedList = [
         ...editedList.slice(0, targetIndex),
         { ...editedList[targetIndex], Version: editedList[targetIndex].Version + 1 },
@@ -78,7 +78,7 @@ const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
     setEditedList([...updatedList]);
   };
 
-  const handleBtnClick = () => {
+  const handleDataSaveBtnClick = () => {
     const updateList = editedList.map((version) => ({ TableName: version.TableName, Version: version.Version }));
     const updateParam: VersionListParams = { server: type.value, tables: updateList };
     toast.promise(
@@ -117,11 +117,11 @@ const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
             <VersionListTableHead handleClick={handleClick} />
           </TableHead>
           <TableBody sx={TableBodyClass}>
-            <VersionListBodyData editedList={editedList} handleClick={handleClick} />
+            <VersionListBodyData editedList={editedList} versionList={versionList} handleClick={handleClick} />
           </TableBody>
         </Table>
       </TableContainer>
-      {isEdited && <SaveDataButton handleBtnClick={handleBtnClick} />}
+      {isEdited && <SaveDataButton handleBtnClick={handleDataSaveBtnClick} />}
     </>
   );
 };
