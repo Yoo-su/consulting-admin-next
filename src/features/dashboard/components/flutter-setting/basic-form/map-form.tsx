@@ -1,3 +1,4 @@
+import { useState, MouseEvent, ChangeEvent } from 'react';
 import { FormItemProps } from '../types/flutter-setting-form.type';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,14 +10,10 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DoneIcon from '@mui/icons-material/Done';
 import { Box, Button, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { Add } from '@mui/icons-material';
-import { useState, MouseEvent, ChangeEvent } from 'react';
+import Add from '@mui/icons-material/Add';
 import toast from 'react-hot-toast';
 import { getConvertedValue } from '@/shared/services/get-converted-value';
 import { getArrayToObjectForm } from '@/features/dashboard/services/flutter-setting/get-array-to-object-form';
-import { setFlutterCustomConfig } from '@/features/dashboard/apis/set-flutter-custom-config';
-import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
-import { useSetFlutterSettingMutation } from '@/features/dashboard/hooks/tanstack/use-set-flutter-setting-mutation';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
 type RowType = {
@@ -24,10 +21,14 @@ type RowType = {
   value: string;
 };
 
-const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
+const MapForm = ({
+  item: originalItem,
+  path,
+  handleEdit: onEdit,
+}: Partial<Pick<FormItemProps, 'item'>> & Omit<FormItemProps, 'item'>) => {
   const { transferDefaultValue, RowIdx = null, RowValue = null } = originalItem ?? {};
   const dataObj = getConvertedValue(RowValue ?? transferDefaultValue ?? '{}');
-  const { addToEditedSettingList } = useFlutterSetting();
+  const { addToEditedList } = useFlutterSetting();
 
   const [isAdd, setIsAdd] = useState(originalItem ? false : true);
   const [isEditObj, setIsEditObj] = useState<boolean[]>(Array(Object.keys(dataObj).length).fill(false));
@@ -37,10 +38,12 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
   );
 
   //#region utilities
+  /** 입력값 초기화  */
   const resetValues = () => {
     setObjValue({ item: '', value: '' });
     setIsAdd(false);
   };
+  /** 수정모드 설정  */
   const setEditValue = (index: number, value: boolean) => {
     setIsEditObj((prev) => {
       const newEdit = [...prev];
@@ -48,6 +51,7 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
       return newEdit;
     });
   };
+  /** 중복키 검사  */
   const isDuplicateKey = (key: string, index: number) => {
     let i = -1;
     for (const row of rows) {
@@ -60,6 +64,7 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
     }
     return false;
   };
+  /** 입력값 validation  */
   const validateInput = (index: number) => {
     // 수정한 값이 원래 값과 같은 경우
     if (!isNaN(index) && rows[index].item === objValue.item && rows[index].value === objValue.value) {
@@ -76,8 +81,19 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
     if (isDuplicateKey(objValue.item, index)) return false;
     return true;
   };
-  //#endregion
-
+  /** 수정한 값 저장  */
+  const saveEditedValue = (newRows: RowType[]) => {
+    if (RowIdx === null) return;
+    const rowObject = getArrayToObjectForm(newRows);
+    onEdit(path, rowObject);
+    addToEditedList({
+      RowIdx,
+      RowValue: rowObject,
+    });
+    setRows(newRows);
+  };
+  //#endregion utilities
+  //#region handle functions
   const handleAdd = () => {
     setIsAdd(true);
   };
@@ -92,18 +108,10 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
     const newRows = [...rows];
     const rowIndex = isNaN(index) ? rows.length : index;
     setEditValue(rowIndex, false);
-    const { item, value } = objValue;
-    newRows[rowIndex] = { item, value };
+    newRows[rowIndex] = { item: objValue.item, value: objValue.value };
 
-    setRows(newRows);
-
-    if (RowIdx) {
-      const rowObject = getArrayToObjectForm(newRows);
-      addToEditedSettingList({
-        RowIdx,
-        RowValue: rowObject,
-      });
-    }
+    // 수정 리스트에 추가
+    saveEditedValue(newRows);
     resetValues();
   };
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -111,27 +119,21 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
     const [type, _] = name.split('-');
     setObjValue((prev) => ({ ...prev, [type]: value }));
   };
-  const handleEdit = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleEditInput = (event: MouseEvent<HTMLButtonElement>) => {
     const index = parseInt(event.currentTarget.id.split('-')[1]);
     setEditValue(index, true);
     setIsAdd(false);
-    const { item, value } = rows[index];
-    setObjValue({ item, value });
+    setObjValue({ item: rows[index].item, value: rows[index].value });
   };
   const handleDelete = (event: MouseEvent<HTMLButtonElement>) => {
     const index = parseInt(event.currentTarget.id.split('-')[1]);
     const newList = rows.filter((_, i) => i !== index);
     // list가 비어있는 경우 추가 모드 활성화
     setIsAdd(newList.length < 1);
-    if (RowIdx) {
-      const rowObject = getArrayToObjectForm(newList);
-      addToEditedSettingList({
-        RowIdx,
-        RowValue: rowObject,
-      });
-    }
-    setRows(newList);
+    // 수정 리스트에 추가
+    saveEditedValue(newList);
   };
+  //#endregion handle functions
 
   return (
     <>
@@ -159,7 +161,7 @@ const MapForm = ({ item: originalItem }: Partial<FormItemProps>) => {
                 )}
                 <TableCell>
                   <Stack direction={'row'}>
-                    {getEditSaveButton(!isEditObj[index], index, handleEdit, handleConfirm)}
+                    {getEditSaveButton(!isEditObj[index], index, handleEditInput, handleConfirm)}
                     <Tooltip title="삭제" placement="top">
                       <IconButton size="small" id={`deleteID-${index}`} onClick={handleDelete} disableRipple>
                         <DeleteIcon sx={{ width: '.7em', height: '.7em' }} />
@@ -238,13 +240,13 @@ const InputCells = ({ index, objValue, handleChange }: InputCellsProps) => {
 const getEditSaveButton = (
   isEdit: boolean,
   index: number,
-  handleEdit: (event: MouseEvent<HTMLButtonElement>) => void,
+  handleEditInput: (event: MouseEvent<HTMLButtonElement>) => void,
   handleConfirm: (event: MouseEvent<HTMLButtonElement>) => void
 ) => {
   if (isEdit) {
     return (
       <Tooltip title="수정" placement="top">
-        <IconButton size="small" id={`editID-${index}`} onClick={handleEdit} disableRipple>
+        <IconButton size="small" id={`editID-${index}`} onClick={handleEditInput} disableRipple>
           <ModeEditIcon sx={{ width: '.7em', height: '.7em' }} />
         </IconButton>
       </Tooltip>

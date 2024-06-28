@@ -1,8 +1,11 @@
 import { FlutterRowInfo } from '@/features/dashboard/types/flutter-setting.type';
 import { EditSettingProps } from '../edit-setting';
 
+export type Path = (number | string)[];
 export type FormItemProps = {
   item: FlutterRowInfo;
+  path: Path;
+  handleEdit: (path: Path, value: string) => void;
 };
 
 export type FlutterSettingFormType = {

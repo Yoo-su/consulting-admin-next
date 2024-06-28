@@ -14,7 +14,7 @@ export type FlutterSettingContextValue = {
   filteredSettingList: FlutterSetting[];
   setFilteredSettingList: Dispatch<SetStateAction<FlutterSetting[]>>;
   editedSettingList: SetFlutterCustomConfigParams[];
-  addToEditedSettingList: (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => void;
+  addToEditedList: (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => void;
   updateSettingList: () => void;
 };
 
@@ -28,7 +28,7 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   const [editedSettingList, setEditedSettingList] = useState<SetFlutterCustomConfigParams[]>([]);
   const { mutateAsync } = useSetFlutterSettingMutation();
 
-  const addToEditedSettingList = (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => {
+  const addToEditedList = (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => {
     const newSetting: SetFlutterCustomConfigParams = {
       serviceID: currentService!.serviceID,
       ...editedSetting,
@@ -62,7 +62,7 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
         setFilteredSettingList,
         editedSettingList,
         // setEditedSettingList,
-        addToEditedSettingList,
+        addToEditedList,
         updateSettingList,
       }}
     >

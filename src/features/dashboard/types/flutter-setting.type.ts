@@ -6,6 +6,7 @@ export type FlutterCategory = {
   CategoryIdx: number;
   Category: string;
   Description: string;
+  Index?: number;
 };
 export type FlutterRowInfo = {
   Category: string;
@@ -21,4 +22,5 @@ export type FlutterRowInfo = {
   level: number;
   transferDefaultValue: any;
   RowValue?: string;
+  Index?: number;
 };
