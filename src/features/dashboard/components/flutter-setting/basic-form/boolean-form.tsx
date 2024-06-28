@@ -4,20 +4,13 @@ import { FormItemProps } from '../types/flutter-setting-form.type';
 import { getConvertedValue } from '@/shared/services/get-converted-value';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
-const StyledTextField = styled(TextField)({
-  width: '100%',
-  '& .MuiInputBase-input': {
-    fontFamily: '__Gowun_Dodum_8e1aab, __Gowun_Dodum_Fallback_8e1aab',
-    fontWeight: '400',
-    lineHeight: '1.5',
-    letterSpacing: '0.00938em',
-    padding: 0,
-  },
-});
-
-const BooleanForm = ({ item }: Partial<FormItemProps>) => {
+const BooleanForm = ({
+  item,
+  path,
+  handleEdit,
+}: Partial<Pick<FormItemProps, 'item'>> & Omit<FormItemProps, 'item'>) => {
   const { transferDefaultValue = false, Description, RowValue = null, RowIdx = null } = item ?? {};
-  const { addToEditedSettingList } = useFlutterSetting();
+  const { addToEditedList } = useFlutterSetting();
   const [checkValue, setCheckValue] = useState<boolean>(RowValue ? getConvertedValue(RowValue) : transferDefaultValue);
   const [inputValue, setInputValue] = useState('');
 
@@ -25,7 +18,8 @@ const BooleanForm = ({ item }: Partial<FormItemProps>) => {
     const booleanValue = event.target.checked;
     setCheckValue(booleanValue);
     if (RowIdx !== null) {
-      addToEditedSettingList({
+      handleEdit(path, booleanValue.toString());
+      addToEditedList({
         RowIdx,
         RowValue: booleanValue.toString(),
       });
@@ -43,25 +37,38 @@ const BooleanForm = ({ item }: Partial<FormItemProps>) => {
             Description ? Description : <StyledTextField variant="standard" onChange={handleInput} value={inputValue} />
           }
           control={<Checkbox disableRipple checked={checkValue} onChange={handleBooleanChange} />}
-          sx={{
-            '& .MuiButtonBase-root': {
-              padding: '0 .3rem 0 .5rem',
-            },
-            '& .Mui-checked': {
-              color: 'black !important',
-            },
-            '& .MuiSvgIcon-root': {
-              fontSize: '1.2rem',
-              paddingTop: '2px',
-            },
-            '& .MuiTypography-root': {
-              fontSize: '.9rem',
-              width: '100%',
-            },
-          }}
+          sx={CheckBoxClass}
         />
       </FormGroup>
     </>
   );
 };
 export default BooleanForm;
+
+const StyledTextField = styled(TextField)({
+  width: '100%',
+  '& .MuiInputBase-input': {
+    fontFamily: '__Gowun_Dodum_8e1aab, __Gowun_Dodum_Fallback_8e1aab',
+    fontWeight: '400',
+    lineHeight: '1.5',
+    letterSpacing: '0.00938em',
+    padding: 0,
+  },
+});
+
+const CheckBoxClass = {
+  '& .MuiButtonBase-root': {
+    padding: '0 .3rem 0 .5rem',
+  },
+  '& .Mui-checked': {
+    color: 'black !important',
+  },
+  '& .MuiSvgIcon-root': {
+    fontSize: '1.2rem',
+    paddingTop: '2px',
+  },
+  '& .MuiTypography-root': {
+    fontSize: '.9rem',
+    width: '100%',
+  },
+};

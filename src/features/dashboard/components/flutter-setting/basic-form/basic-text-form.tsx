@@ -5,21 +5,25 @@ import { FormItemProps } from '../types/flutter-setting-form.type';
 import toast from 'react-hot-toast';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
-const BasicTextForm = ({ item }: FormItemProps) => {
+const BasicTextForm = ({ item, path, handleEdit }: FormItemProps) => {
   const { IsRequired, Type, transferDefaultValue, RowIdx, RowValue = null } = item;
   const [textValue, setTextValue] = useState(RowValue ? RowValue : transferDefaultValue);
   const [isActive, setIsActive] = useState(false);
-  const { addToEditedSettingList } = useFlutterSetting();
+  const { addToEditedList } = useFlutterSetting();
 
+  const updateEditedValue = () => {
+    handleEdit(path, textValue);
+    addToEditedList({ RowIdx, RowValue: textValue });
+  };
   const inputRef = useOutsideClick(() => {
     if (isActive) {
-      addToEditedSettingList({ RowIdx, RowValue: textValue });
+      updateEditedValue();
     }
     setIsActive(false);
   });
   const handleInputKey = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      addToEditedSettingList({ RowIdx, RowValue: textValue });
+      updateEditedValue();
       setIsActive(false);
     }
   };
@@ -31,8 +35,9 @@ const BasicTextForm = ({ item }: FormItemProps) => {
       toast.error('필수 입력값입니다.');
       return;
     }
-    if (value !== '' && (Type === 'double' || Type === 'number')) {
-      if (!regex.test(value)) return event.preventDefault();
+    // type이 double이거나 number일 때 숫자만 입력 가능
+    if (value !== '' && (Type === 'double' || Type === 'number') && !regex.test(value)) {
+      return event.preventDefault();
     }
     setIsActive(true);
     setTextValue(value);

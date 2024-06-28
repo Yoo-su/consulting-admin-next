@@ -1,28 +1,45 @@
+import { createElement, useCallback, useEffect, useState } from 'react';
 import { FlutterRowInfo } from '@/features/dashboard/types/flutter-setting.type';
 import { Stack, Typography } from '@mui/material';
-import { createElement } from 'react';
-import { FlutterSettingFormType } from '../types/flutter-setting-form.type';
+import { FlutterSettingFormType, Path } from '../types/flutter-setting-form.type';
 import { ComponentMapping, FormTypeList } from '../constants/form-types';
+import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 import EditSetting from '../edit-setting';
+import { getFilteredCustomConfig } from '@/features/dashboard/services/flutter-setting/get-filtered-custom-config';
 
 type BasicFormProps = {
   basicKey?: string;
   item: FlutterRowInfo;
-  subMenu?: boolean;
+  path: Path;
+  index?: number;
 };
 
-const BasicForm = ({ basicKey, item }: BasicFormProps) => {
+const BasicForm = ({ basicKey, item, path, index = 0 }: BasicFormProps) => {
   const { IsRequired, Type, Title, KoreanTitle, Description, level, children } = item;
+  const { flutterSettingList, setFilteredSettingList, setFlutterSettingList } = useFlutterSetting();
   const subMenu = level > 0;
 
-  const createComponent = (formType: FlutterSettingFormType, index: number) => {
+  const handleEdit = useCallback((path: (number | string)[], value: string) => {
+    const newData = JSON.parse(JSON.stringify(flutterSettingList));
+    let current = newData;
+    for (let i = 0; i < path.length - 1; i++) {
+      current = current[path[i]];
+    }
+    current[path[path.length - 1]].RowValue = value;
+    setFlutterSettingList(newData);
+    setFilteredSettingList(getFilteredCustomConfig(newData));
+  }, []);
+
+  const createComponent = (formType: FlutterSettingFormType) => {
     const { type, component } = formType;
     // const propType = type === 'object' ? { settingList: children } : { item };
     if (ComponentMapping[component] !== undefined) {
       return createElement(ComponentMapping[component] as any, {
-        key: index,
+        key: `${item.Title}-${index}`,
         // ...propType,
         item,
+        path: path,
+        handleEdit: handleEdit,
       });
     }
     return null;
@@ -44,9 +61,9 @@ const BasicForm = ({ basicKey, item }: BasicFormProps) => {
       </Stack>
 
       {Type === 'object' ? (
-        <EditSetting settingList={children} />
+        <EditSetting settingList={children} path={subMenu ? [...path, index] : path} />
       ) : (
-        FormTypeList.filter((form) => form.type === Type).map((el, index) => createComponent(el, index))
+        FormTypeList.filter((form) => form.type === Type).map((el) => createComponent(el))
       )}
     </Stack>
   );

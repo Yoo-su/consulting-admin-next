@@ -1,4 +1,4 @@
-import { FlutterRowInfo, FlutterSetting } from '../../types/flutter-setting.type';
+import { FlutterRowInfo, FlutterSetting } from '@/features/dashboard/types/flutter-setting.type';
 
 export const getFilteredCustomConfig = (categoryList: FlutterSetting[]): FlutterSetting[] => {
   const result = categoryList.map((category: FlutterSetting) => {

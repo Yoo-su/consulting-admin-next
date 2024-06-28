@@ -10,14 +10,23 @@ const getCategoryInfo = (
   category: string
 ) => {
   const filteredList = Array.isArray(list)
-    ? list?.filter((item: any) => {
-        if (item.Title) return item.Title === category;
-        else return item.Category === category;
-      })[0] ?? null
+    ? list
+        ?.map((item: any, index: number) => {
+          const newItem = JSON.parse(JSON.stringify(item));
+          newItem.Index = index;
+          return newItem;
+        })
+        .filter((item: any) => {
+          if (item.Title) {
+            return item.Title === category;
+          } else {
+            return item.Category === category;
+          }
+        })[0] ?? null
     : list;
   const description = filteredList?.Description;
   const children = filteredList?.children ?? filteredList;
-  return { filteredList, description, children };
+  return { filteredList, description, children, index: filteredList?.Index };
 };
 
 type SettingDetailProps = { filteredList: FlutterSetting[] };
@@ -25,10 +34,11 @@ const SettingDetail = ({ filteredList: filteredSettingList }: SettingDetailProps
   const { selectedCategory } = useFlutterSetting();
   const [category, subCategory] = selectedCategory.split('/');
 
-  const { description, children } = getCategoryInfo(filteredSettingList, category);
+  const { index, description, children } = getCategoryInfo(filteredSettingList, category);
   const { filteredList } = getCategoryInfo(children, subCategory);
 
   const settingList = subCategory ? filteredList : children;
+  const path = subCategory ? [index, 'children', settingList.Index] : [index] ?? [];
 
   return (
     <Stack spacing={2} sx={{ minWidth: '100%', paddingBottom: '1rem' }}>
@@ -38,8 +48,8 @@ const SettingDetail = ({ filteredList: filteredSettingList }: SettingDetailProps
         </Typography>
         {description && <Typography variant={'overline'}>{description}</Typography>}
       </Stack>
-      <EditSetting settingList={settingList} />
-      {category && <AddSetting category={category} />}
+      <EditSetting settingList={settingList} path={path} />
+      {/* {category && <AddSetting category={category} />} */}
     </Stack>
   );
 };

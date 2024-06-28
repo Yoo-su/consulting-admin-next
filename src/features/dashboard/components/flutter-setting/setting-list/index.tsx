@@ -1,7 +1,7 @@
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem2 } from '@mui/x-tree-view/TreeItem2';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
-import { Dispatch, SetStateAction, SyntheticEvent, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, SyntheticEvent } from 'react';
 import { FormControlLabel, FormGroup, Stack, Switch, Typography } from '@mui/material';
 import { FlutterSetting } from '@/features/dashboard/types/flutter-setting.type';
 
