@@ -5,6 +5,36 @@ import EditSetting from '../edit-setting';
 import { FlutterRowInfo, FlutterSetting } from '@/features/dashboard/types/flutter-setting.type';
 import AddSetting from '../add-setting';
 
+type SettingDetailProps = {
+  filteredList: FlutterSetting[];
+  isDisabled: boolean;
+};
+const SettingDetail = ({ filteredList: filteredSettingList, isDisabled }: SettingDetailProps) => {
+  const { selectedCategory } = useFlutterSetting();
+  const [category, subCategory] = selectedCategory.split('/');
+
+  const { index, description, children } = getCategoryInfo(filteredSettingList, category);
+  const { filteredList } = getCategoryInfo(children, subCategory);
+
+  const settingList = subCategory ? filteredList : children;
+  const path = subCategory ? [index, 'children', settingList.Index ?? 0] : [index] ?? [];
+
+  return (
+    <Stack spacing={2} sx={{ minWidth: '100%', paddingBottom: '1rem' }}>
+      <Stack>
+        <Typography variant={'h6'} sx={{ fontWeight: 'bold' }}>
+          {category}
+        </Typography>
+        {description && <Typography variant={'overline'}>{description}</Typography>}
+      </Stack>
+      <EditSetting settingList={settingList} path={path} isDisabled={isDisabled} />
+      {/* {category && <AddSetting category={category} />} */}
+    </Stack>
+  );
+};
+
+export default SettingDetail;
+
 const getCategoryInfo = (
   list: FlutterSetting | FlutterSetting[] | FlutterRowInfo | FlutterRowInfo[],
   category: string
@@ -28,30 +58,3 @@ const getCategoryInfo = (
   const children = filteredList?.children ?? filteredList;
   return { filteredList, description, children, index: filteredList?.Index };
 };
-
-type SettingDetailProps = { filteredList: FlutterSetting[] };
-const SettingDetail = ({ filteredList: filteredSettingList }: SettingDetailProps) => {
-  const { selectedCategory } = useFlutterSetting();
-  const [category, subCategory] = selectedCategory.split('/');
-
-  const { index, description, children } = getCategoryInfo(filteredSettingList, category);
-  const { filteredList } = getCategoryInfo(children, subCategory);
-
-  const settingList = subCategory ? filteredList : children;
-  const path = subCategory ? [index, 'children', settingList.Index] : [index] ?? [];
-
-  return (
-    <Stack spacing={2} sx={{ minWidth: '100%', paddingBottom: '1rem' }}>
-      <Stack>
-        <Typography variant={'h6'} sx={{ fontWeight: 'bold' }}>
-          {category}
-        </Typography>
-        {description && <Typography variant={'overline'}>{description}</Typography>}
-      </Stack>
-      <EditSetting settingList={settingList} path={path} />
-      {/* {category && <AddSetting category={category} />} */}
-    </Stack>
-  );
-};
-
-export default SettingDetail;

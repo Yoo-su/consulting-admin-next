@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel, FormGroup, TextField, styled } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, FormGroup, TextField, styled } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import { FormItemProps } from '../types/flutter-setting-form.type';
 import { getConvertedValue } from '@/shared/services/get-converted-value';
@@ -8,6 +8,7 @@ const BooleanForm = ({
   item,
   path,
   handleEdit,
+  isDisabled,
 }: Partial<Pick<FormItemProps, 'item'>> & Omit<FormItemProps, 'item'>) => {
   const { transferDefaultValue = false, Description, RowValue = null, RowIdx = null } = item ?? {};
   const { addToEditedList } = useFlutterSetting();
@@ -31,12 +32,31 @@ const BooleanForm = ({
 
   return (
     <>
-      <FormGroup sx={{ paddingLeft: '.5rem' }}>
+      <FormGroup
+        sx={{
+          paddingLeft: '.5rem',
+          '& .MuiFormControlLabel-label.Mui-disabled': {
+            color: 'rgba(0, 0, 0, 0.77) !important',
+          },
+        }}
+      >
         <FormControlLabel
           label={
-            Description ? Description : <StyledTextField variant="standard" onChange={handleInput} value={inputValue} />
+            Description ? (
+              <Box component="span">{Description}</Box>
+            ) : (
+              <StyledTextField variant="standard" onChange={handleInput} value={inputValue} />
+            )
           }
-          control={<Checkbox disableRipple checked={checkValue} onChange={handleBooleanChange} />}
+          control={
+            <Checkbox
+              disableRipple
+              checked={checkValue}
+              onChange={handleBooleanChange}
+              disabled={isDisabled}
+              sx={{ color: isDisabled ? '#FAFAFA' : 'rgba(0, 0, 0, 0.87) !important' }}
+            />
+          }
           sx={CheckBoxClass}
         />
       </FormGroup>
@@ -59,9 +79,6 @@ const StyledTextField = styled(TextField)({
 const CheckBoxClass = {
   '& .MuiButtonBase-root': {
     padding: '0 .3rem 0 .5rem',
-  },
-  '& .Mui-checked': {
-    color: 'black !important',
   },
   '& .MuiSvgIcon-root': {
     fontSize: '1.2rem',

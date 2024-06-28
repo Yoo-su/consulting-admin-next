@@ -59,7 +59,7 @@ const FlutterSetting = () => {
           <SettingList toggle={toggle} setToggle={setToggle} filteredList={filteredList} />
         </Grid>
         <Grid item xs={8} sx={{ borderLeft: '1px solid #FAFAFA', paddingLeft: '1rem' }}>
-          <SettingDetail filteredList={filteredList} />
+          <SettingDetail filteredList={filteredList} isDisabled={toggle} />
           {editedSettingList.length > 0 && <SaveDataButton handleBtnClick={handleBtnClick} />}
         </Grid>
       </Grid>

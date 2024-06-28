@@ -25,6 +25,7 @@ const MapForm = ({
   item: originalItem,
   path,
   handleEdit: onEdit,
+  isDisabled,
 }: Partial<Pick<FormItemProps, 'item'>> & Omit<FormItemProps, 'item'>) => {
   const { transferDefaultValue, RowIdx = null, RowValue = null } = originalItem ?? {};
   const dataObj = getConvertedValue(RowValue ?? transferDefaultValue ?? '{}');
@@ -149,7 +150,7 @@ const MapForm = ({
           <TableBody sx={{ border: 0 }}>
             {rows.map((row, index) => (
               <TableRow key={row.item} sx={{ ...rowBorderClass }}>
-                {isEditObj[index] == false ? (
+                {isEditObj[index] == false || isDisabled ? (
                   <>
                     <TableCell component="th" scope="row">
                       {row.item}
@@ -160,18 +161,20 @@ const MapForm = ({
                   <InputCells index={`${index}`} objValue={objValue} handleChange={handleChange} />
                 )}
                 <TableCell>
-                  <Stack direction={'row'}>
-                    {getEditSaveButton(!isEditObj[index], index, handleEditInput, handleConfirm)}
-                    <Tooltip title="삭제" placement="top">
-                      <IconButton size="small" id={`deleteID-${index}`} onClick={handleDelete} disableRipple>
-                        <DeleteIcon sx={{ width: '.7em', height: '.7em' }} />
-                      </IconButton>
-                    </Tooltip>
-                  </Stack>
+                  {!isDisabled && (
+                    <Stack direction={'row'}>
+                      {getEditSaveButton(!isEditObj[index], index, handleEditInput, handleConfirm)}
+                      <Tooltip title="삭제" placement="top">
+                        <IconButton size="small" id={`deleteID-${index}`} onClick={handleDelete} disableRipple>
+                          <DeleteIcon sx={{ width: '.7em', height: '.7em' }} />
+                        </IconButton>
+                      </Tooltip>
+                    </Stack>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
-            {isAdd && (
+            {isAdd && !isDisabled && (
               <TableRow sx={{ ...rowBorderClass }}>
                 <InputCells index="new" objValue={objValue} handleChange={handleChange} />
                 <TableCell>
@@ -196,7 +199,7 @@ const MapForm = ({
           </TableBody>
         </Table>
       </TableContainer>
-      {!isAdd && <CreateNewButton handleAdd={handleAdd} />}
+      {!isAdd && !isDisabled && <CreateNewButton handleAdd={handleAdd} />}
     </>
   );
 };

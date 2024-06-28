@@ -1,4 +1,4 @@
-import { createElement, useCallback, useEffect, useState } from 'react';
+import { createElement, useCallback } from 'react';
 import { FlutterRowInfo } from '@/features/dashboard/types/flutter-setting.type';
 import { Stack, Typography } from '@mui/material';
 import { FlutterSettingFormType, Path } from '../types/flutter-setting-form.type';
@@ -12,9 +12,10 @@ type BasicFormProps = {
   item: FlutterRowInfo;
   path: Path;
   index?: number;
+  isDisabled: boolean;
 };
 
-const BasicForm = ({ basicKey, item, path, index = 0 }: BasicFormProps) => {
+const BasicForm = ({ basicKey, item, path, index = 0, isDisabled }: BasicFormProps) => {
   const { IsRequired, Type, Title, KoreanTitle, Description, level, children } = item;
   const { flutterSettingList, setFilteredSettingList, setFlutterSettingList } = useFlutterSetting();
   const subMenu = level > 0;
@@ -40,6 +41,7 @@ const BasicForm = ({ basicKey, item, path, index = 0 }: BasicFormProps) => {
         item,
         path: path,
         handleEdit: handleEdit,
+        isDisabled,
       });
     }
     return null;
@@ -61,7 +63,7 @@ const BasicForm = ({ basicKey, item, path, index = 0 }: BasicFormProps) => {
       </Stack>
 
       {Type === 'object' ? (
-        <EditSetting settingList={children} path={subMenu ? [...path, index] : path} />
+        <EditSetting settingList={children} path={subMenu ? [...path, index] : path} isDisabled={isDisabled} />
       ) : (
         FormTypeList.filter((form) => form.type === Type).map((el) => createComponent(el))
       )}
