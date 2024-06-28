@@ -1,11 +1,11 @@
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { useOutsideClick } from '@/shared/hooks/use-outside-click';
 import { TextField } from '@mui/material';
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { FormItemProps } from '../types/flutter-setting-form.type';
 import toast from 'react-hot-toast';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
-const BasicTextForm = ({ item, path, handleEdit }: FormItemProps) => {
+const BasicTextForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) => {
   const { IsRequired, Type, transferDefaultValue, RowIdx, RowValue = null } = item;
   const [textValue, setTextValue] = useState(RowValue ? RowValue : transferDefaultValue);
   const [isActive, setIsActive] = useState(false);
@@ -57,7 +57,12 @@ const BasicTextForm = ({ item, path, handleEdit }: FormItemProps) => {
         '& .MuiInputBase-root': {
           fontSize: '.9rem',
         },
+        '& .Mui-disabled': {
+          WebkitTextFillColor: 'rgba(0, 0, 0, 0.87) !important',
+          backgroundColor: '#FAFAFA',
+        },
       }}
+      disabled={isDisabled}
       onChange={handleChange}
       onKeyUp={handleInputKey}
     />

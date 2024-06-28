@@ -6,6 +6,7 @@ export type FormItemProps = {
   item: FlutterRowInfo;
   path: Path;
   handleEdit: (path: Path, value: string) => void;
+  isDisabled: boolean;
 };
 
 export type FlutterSettingFormType = {

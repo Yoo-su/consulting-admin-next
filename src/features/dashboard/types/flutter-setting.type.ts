@@ -1,5 +1,5 @@
 export type FlutterSetting = FlutterCategory & {
-  children?: FlutterRowInfo[];
+  children: FlutterRowInfo[];
 };
 
 export type FlutterCategory = {

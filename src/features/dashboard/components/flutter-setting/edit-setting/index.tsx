@@ -6,9 +6,10 @@ import { Path } from '../types/flutter-setting-form.type';
 export type EditSettingProps = {
   settingList: FlutterSetting | FlutterRowInfo | FlutterRowInfo[] | undefined;
   path: Path;
+  isDisabled: boolean;
 };
 
-const EditSetting = ({ settingList, path }: EditSettingProps) => {
+const EditSetting = ({ settingList, path, isDisabled }: EditSettingProps) => {
   return (
     <>
       {settingList && (
@@ -21,10 +22,11 @@ const EditSetting = ({ settingList, path }: EditSettingProps) => {
                 item={item}
                 path={[...path, 'children', index]}
                 index={index}
+                isDisabled={isDisabled}
               />
             ))
           ) : (
-            <BasicForm item={settingList as FlutterRowInfo} path={path} index={0} />
+            <BasicForm item={settingList as FlutterRowInfo} path={path} index={0} isDisabled={isDisabled} />
           )}
         </Stack>
       )}

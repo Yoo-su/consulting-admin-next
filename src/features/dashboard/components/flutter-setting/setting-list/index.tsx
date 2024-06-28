@@ -18,7 +18,6 @@ const SettingList = ({ toggle, setToggle, filteredList }: SettingListProps) => {
   };
 
   const handleChange = (event: SyntheticEvent, value: boolean) => {
-    console.log('toggle', toggle, value);
     setToggle(value);
   };
 
