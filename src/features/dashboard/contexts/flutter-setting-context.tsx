@@ -52,10 +52,6 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
           toast.success('변경사항이 적용되었습니다.');
           queryClient.invalidateQueries({ queryKey: ['flutter-setting'] });
         },
-        onError: (error) => {
-          toast.error('변경사항 적용에 실패했습니다.');
-          console.log('onError', error);
-        },
       });
     });
     setEditedSettingList([]);
