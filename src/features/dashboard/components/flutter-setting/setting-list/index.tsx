@@ -1,9 +1,7 @@
-import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
-import { TreeItem2 } from '@mui/x-tree-view/TreeItem2';
-import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
-import { Dispatch, SetStateAction, SyntheticEvent, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, SyntheticEvent } from 'react';
 import { FormControlLabel, FormGroup, Stack, Switch, Typography } from '@mui/material';
 import { FlutterSetting } from '@/features/dashboard/types/flutter-setting.type';
+import TreeItemList from '../tree-item-list';
 
 type SettingListProps = {
   toggle: boolean;
@@ -11,14 +9,7 @@ type SettingListProps = {
   filteredList: FlutterSetting[];
 };
 const SettingList = ({ toggle, setToggle, filteredList }: SettingListProps) => {
-  const { setSelectedCategory } = useFlutterSetting();
-
-  const handleOnClick = (event: SyntheticEvent, itemId: string) => {
-    setSelectedCategory(itemId);
-  };
-
   const handleChange = (event: SyntheticEvent, value: boolean) => {
-    console.log('toggle', toggle, value);
     setToggle(value);
   };
 
@@ -31,20 +22,7 @@ const SettingList = ({ toggle, setToggle, filteredList }: SettingListProps) => {
           label={toggle ? '예외처리' : '전체보기'}
         />
       </FormGroup>
-      <SimpleTreeView onItemSelectionToggle={handleOnClick}>
-        {filteredList.map((parent: FlutterSetting, parentIndex: number) => {
-          const { Category, children } = parent;
-          return (
-            <TreeItem2 itemId={Category} label={Category} key={parentIndex}>
-              {children &&
-                children.map((child, childIndex) => {
-                  const { Category, Title } = child;
-                  return <TreeItem2 itemId={`${Category}/${Title}`} label={Title} key={childIndex} />;
-                })}
-            </TreeItem2>
-          );
-        })}
-      </SimpleTreeView>
+      <TreeItemList filteredList={filteredList} />
     </Stack>
   );
 };

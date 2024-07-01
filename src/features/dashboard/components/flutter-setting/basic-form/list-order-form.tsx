@@ -6,9 +6,9 @@ import { FormItemProps } from '../types/flutter-setting-form.type';
 import { getConvertedValue } from '@/shared/services/get-converted-value';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
-const ListOrderForm = ({ item }: FormItemProps) => {
+const ListOrderForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) => {
   const { transferDefaultValue, RowIdx, RowValue } = item;
-  const { addToEditedSettingList } = useFlutterSetting();
+  const { addToEditedList } = useFlutterSetting();
   const [orderList, setOrderList] = useState(RowValue ? getConvertedValue(RowValue) : transferDefaultValue);
 
   const handleDragEnd = (result: DropResult) => {
@@ -18,7 +18,8 @@ const ListOrderForm = ({ item }: FormItemProps) => {
     const dupList = [...orderList];
     const [removed] = dupList.splice(source.index, 1);
     dupList.splice(destination.index, 0, removed);
-    addToEditedSettingList({ RowIdx, RowValue: `[${dupList}]` });
+    handleEdit(path, `[${dupList}]`);
+    addToEditedList({ RowIdx, RowValue: `[${dupList}]` });
     setOrderList(dupList);
   };
 
@@ -29,7 +30,7 @@ const ListOrderForm = ({ item }: FormItemProps) => {
           {(provided) => (
             <Stack {...provided.droppableProps} ref={provided.innerRef} spacing={1}>
               {orderList.map((child: string, index: number) => (
-                <Draggable key={child} draggableId={child} index={index}>
+                <Draggable key={child} draggableId={child} index={index} isDragDisabled={isDisabled}>
                   {(provided) => (
                     <Stack
                       {...provided.draggableProps}
@@ -39,7 +40,7 @@ const ListOrderForm = ({ item }: FormItemProps) => {
                       alignItems={'center'}
                       spacing={1}
                     >
-                      <FiberManualRecordIcon sx={{ fontSize: '.4rem' }} />
+                      {!isDisabled && <FiberManualRecordIcon sx={{ fontSize: '.4rem' }} />}
                       <Chip label={`${child}`} size="small" sx={{ paddingRight: '.1rem' }} />
                     </Stack>
                   )}

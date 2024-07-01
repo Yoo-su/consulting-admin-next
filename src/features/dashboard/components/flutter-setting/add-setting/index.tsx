@@ -34,36 +34,6 @@ const Options = [
   { label: 'item/value 테이블', value: 'map' },
 ];
 
-const TextFieldClass = {
-  '& .MuiInputBase-input': {
-    padding: '.3rem .5rem',
-  },
-  '& .MuiInputLabel-shrink': {
-    top: 0,
-  },
-  // '& label.Mui-focused': {
-  //   color: 'black',
-  // },
-  // [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
-  //   color: 'black',
-  // },
-  // [`& .${outlinedInputClasses.notchedOutline}`]: {
-  //   color: 'black',
-  // },
-};
-const TitleClass = {
-  fontSize: '1rem',
-  lineHeight: '1.5',
-  letterSpacing: '0.00938em',
-};
-const DescriptionClass = {
-  fontFamily: '__Nanum_Gothic_ff4244 ,__Nanum_Gothic_Fallback_ff4244',
-  fontWeight: '400',
-  fontSize: '0.75rem',
-  lineHeight: '1.66',
-  letterSpacing: '0.03333em',
-};
-
 type SettingForm = Pick<
   FlutterRowInfo,
   'Category' | 'Title' | 'KoreanTitle' | 'Type' | 'Description' | 'DefaultValue' | 'children'
@@ -247,3 +217,33 @@ const AddSetting = ({ category }: { category: string }) => {
 };
 
 export default AddSetting;
+
+const TextFieldClass = {
+  '& .MuiInputBase-input': {
+    padding: '.3rem .5rem',
+  },
+  '& .MuiInputLabel-shrink': {
+    top: 0,
+  },
+  // '& label.Mui-focused': {
+  //   color: 'black',
+  // },
+  // [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
+  //   color: 'black',
+  // },
+  // [`& .${outlinedInputClasses.notchedOutline}`]: {
+  //   color: 'black',
+  // },
+};
+const TitleClass = {
+  fontSize: '1rem',
+  lineHeight: '1.5',
+  letterSpacing: '0.00938em',
+};
+const DescriptionClass = {
+  fontFamily: '__Nanum_Gothic_ff4244 ,__Nanum_Gothic_Fallback_ff4244',
+  fontWeight: '400',
+  fontSize: '0.75rem',
+  lineHeight: '1.66',
+  letterSpacing: '0.03333em',
+};

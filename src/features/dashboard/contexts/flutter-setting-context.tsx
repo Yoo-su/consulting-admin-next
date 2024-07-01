@@ -5,6 +5,8 @@ import { FlutterSetting } from '../types/flutter-setting.type';
 import { SetFlutterCustomConfigParams } from '../apis/set-flutter-custom-config';
 import { useUnivService } from '../hooks/context/use-univ-service';
 import { useSetFlutterSettingMutation } from '../hooks/tanstack/use-set-flutter-setting-mutation';
+import toast from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 export type FlutterSettingContextValue = {
   flutterSettingList: FlutterSetting[];
@@ -14,7 +16,7 @@ export type FlutterSettingContextValue = {
   filteredSettingList: FlutterSetting[];
   setFilteredSettingList: Dispatch<SetStateAction<FlutterSetting[]>>;
   editedSettingList: SetFlutterCustomConfigParams[];
-  addToEditedSettingList: (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => void;
+  addToEditedList: (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => void;
   updateSettingList: () => void;
 };
 
@@ -27,8 +29,9 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   const [filteredSettingList, setFilteredSettingList] = useState<FlutterSetting[]>([]);
   const [editedSettingList, setEditedSettingList] = useState<SetFlutterCustomConfigParams[]>([]);
   const { mutateAsync } = useSetFlutterSettingMutation();
+  const queryClient = useQueryClient();
 
-  const addToEditedSettingList = (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => {
+  const addToEditedList = (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => {
     const newSetting: SetFlutterCustomConfigParams = {
       serviceID: currentService!.serviceID,
       ...editedSetting,
@@ -41,15 +44,21 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
       return [...prev, newSetting];
     });
   };
-  const resetSettingList = () => {
-    setEditedSettingList([]);
-  };
   const updateSettingList = () => {
     editedSettingList.forEach((item) => {
-      console.log('item', item);
-      mutateAsync(item);
+      mutateAsync(item, {
+        onSuccess: () => {
+          console.log('onSuccess');
+          toast.success('변경사항이 적용되었습니다.');
+          queryClient.invalidateQueries({ queryKey: ['flutter-setting'] });
+        },
+        onError: (error) => {
+          toast.error('변경사항 적용에 실패했습니다.');
+          console.log('onError', error);
+        },
+      });
     });
-    resetSettingList();
+    setEditedSettingList([]);
   };
   return (
     <FlutterSettingContext.Provider
@@ -62,7 +71,7 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
         setFilteredSettingList,
         editedSettingList,
         // setEditedSettingList,
-        addToEditedSettingList,
+        addToEditedList,
         updateSettingList,
       }}
     >

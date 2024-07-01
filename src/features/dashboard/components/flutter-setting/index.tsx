@@ -1,6 +1,6 @@
 'use client';
 
-import { Grid, Stack, Typography } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import SettingList from './setting-list';
 import SettingDetail from './setting-detail';
 import { useGetFlutterSettingQuery } from '@/features/dashboard/hooks/tanstack/use-get-flutter-setting-query';
@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react';
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { getFilteredCustomConfig } from '@/features/dashboard/services/flutter-setting/get-filtered-custom-config';
 import { FlutterSetting as FlutterSettingType } from '@/features/dashboard/types/flutter-setting.type';
-import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
 import SaveDataButton from '@/shared/components/save-data-button';
 
 const FlutterSetting = () => {
@@ -21,7 +20,6 @@ const FlutterSetting = () => {
     setFilteredSettingList,
     editedSettingList,
     updateSettingList,
-    resetSettingList,
   } = useFlutterSetting();
   const { data: settingList } = useGetFlutterSettingQuery({ serviceID: currentService!.serviceID });
 
@@ -61,7 +59,7 @@ const FlutterSetting = () => {
           <SettingList toggle={toggle} setToggle={setToggle} filteredList={filteredList} />
         </Grid>
         <Grid item xs={8} sx={{ borderLeft: '1px solid #FAFAFA', paddingLeft: '1rem' }}>
-          <SettingDetail filteredList={filteredList} />
+          <SettingDetail filteredList={filteredList} isDisabled={toggle} />
           {editedSettingList.length > 0 && <SaveDataButton handleBtnClick={handleBtnClick} />}
         </Grid>
       </Grid>

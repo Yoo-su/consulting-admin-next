@@ -5,30 +5,19 @@ import EditSetting from '../edit-setting';
 import { FlutterRowInfo, FlutterSetting } from '@/features/dashboard/types/flutter-setting.type';
 import AddSetting from '../add-setting';
 
-const getCategoryInfo = (
-  list: FlutterSetting | FlutterSetting[] | FlutterRowInfo | FlutterRowInfo[],
-  category: string
-) => {
-  const filteredList = Array.isArray(list)
-    ? list?.filter((item: any) => {
-        if (item.Title) return item.Title === category;
-        else return item.Category === category;
-      })[0] ?? null
-    : list;
-  const description = filteredList?.Description;
-  const children = filteredList?.children ?? filteredList;
-  return { filteredList, description, children };
+type SettingDetailProps = {
+  filteredList: FlutterSetting[];
+  isDisabled: boolean;
 };
-
-type SettingDetailProps = { filteredList: FlutterSetting[] };
-const SettingDetail = ({ filteredList: filteredSettingList }: SettingDetailProps) => {
+const SettingDetail = ({ filteredList: filteredSettingList, isDisabled }: SettingDetailProps) => {
   const { selectedCategory } = useFlutterSetting();
   const [category, subCategory] = selectedCategory.split('/');
 
-  const { description, children } = getCategoryInfo(filteredSettingList, category);
+  const { index, description, children } = getCategoryInfo(filteredSettingList, category);
   const { filteredList } = getCategoryInfo(children, subCategory);
 
   const settingList = subCategory ? filteredList : children;
+  const path = subCategory ? [index, 'children', settingList.Index ?? 0] : [index] ?? [];
 
   return (
     <Stack spacing={2} sx={{ minWidth: '100%', paddingBottom: '1rem' }}>
@@ -38,10 +27,36 @@ const SettingDetail = ({ filteredList: filteredSettingList }: SettingDetailProps
         </Typography>
         {description && <Typography variant={'overline'}>{description}</Typography>}
       </Stack>
-      <EditSetting settingList={settingList} />
-      {category && <AddSetting category={category} />}
+      <EditSetting settingList={settingList} path={path} isDisabled={isDisabled} />
+      {/* {category && <AddSetting category={category} />} */}
     </Stack>
   );
 };
 
 export default SettingDetail;
+
+const getCategoryInfo = (
+  list: FlutterSetting | FlutterRowInfo | (FlutterSetting | FlutterRowInfo)[],
+  category: string
+) => {
+  const filteredList = Array.isArray(list)
+    ? list
+        ?.map((item: any, index: number) => {
+          // path를 위한 index 추가
+          item.Index = index;
+          return item;
+        })
+        .filter((item: any) => {
+          // 대분류와 소분류에 따라 필터링
+          if (item.Title) {
+            return item.Title === category;
+          } else {
+            return item.Category === category;
+          }
+        })[0] ?? null
+    : list;
+  const description = filteredList?.Description;
+  const children = filteredList?.children ?? filteredList;
+  const index = filteredList?.Index;
+  return { filteredList, description, children, index };
+};
