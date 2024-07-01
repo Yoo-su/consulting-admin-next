@@ -27,7 +27,9 @@ export const useConfirmToast = () => {
             color="inherit"
             size="small"
             sx={{ width: 'fit-content' }}
-            onClick={() => toast.dismiss(t.id)}
+            onClick={() => {
+              toast.dismiss(t.id);
+            }}
           >
             아니오
           </Button>

@@ -12,6 +12,7 @@ export const apiUrls = {
     updateConsultingAppState: '/admin/service-detail/current-state',
     syncMoaNesinService: '/admin/sync-moa-nesin-service',
     createService: '/foundation/service/create',
+    versionList: '/foundation/cur-tbl-version',
     foundationLibrary: '/file/foundation-library',
     foundationLibraryFileOnly: '/file/foundation-library-file-only',
     etcLibrary: '/file/etc-library',

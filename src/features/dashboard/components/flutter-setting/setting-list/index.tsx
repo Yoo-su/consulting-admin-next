@@ -18,6 +18,7 @@ const SettingList = ({ toggle, setToggle, filteredList }: SettingListProps) => {
   };
 
   const handleChange = (event: SyntheticEvent, value: boolean) => {
+    console.log('toggle', toggle, value);
     setToggle(value);
   };
 
@@ -26,9 +27,8 @@ const SettingList = ({ toggle, setToggle, filteredList }: SettingListProps) => {
       <Typography variant={'body1'}>카테고리 목록</Typography>
       <FormGroup sx={{ paddingLeft: '1rem' }}>
         <FormControlLabel
-          control={<Switch size="small" sx={{ marginRight: '.5rem' }} />}
+          control={<Switch size="small" sx={{ marginRight: '.5rem' }} checked={toggle} onChange={handleChange} />}
           label={toggle ? '예외처리' : '전체보기'}
-          onChange={handleChange}
         />
       </FormGroup>
       <SimpleTreeView onItemSelectionToggle={handleOnClick}>
