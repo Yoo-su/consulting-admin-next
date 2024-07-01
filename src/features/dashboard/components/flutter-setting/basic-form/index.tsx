@@ -18,7 +18,6 @@ type BasicFormProps = {
 const BasicForm = ({ basicKey, item, path, index = 0, isDisabled }: BasicFormProps) => {
   const { IsRequired, Type, Title, KoreanTitle, Description, level, children } = item;
   const { flutterSettingList, setFilteredSettingList, setFlutterSettingList } = useFlutterSetting();
-
   const subMenu = level > 0;
 
   const handleEdit = useCallback((path: (number | string)[], value: string) => {
