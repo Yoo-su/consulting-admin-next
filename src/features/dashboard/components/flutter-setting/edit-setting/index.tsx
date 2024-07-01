@@ -10,10 +10,12 @@ export type EditSettingProps = {
 };
 
 const EditSetting = ({ settingList, path, isDisabled }: EditSettingProps) => {
+  console.log('setting', settingList);
+  const isSub = Array.isArray(settingList) && settingList[0].level > 1;
   return (
     <>
       {settingList && (
-        <Stack spacing={3}>
+        <Stack spacing={isSub ? 1 : 5}>
           {Array.isArray(settingList) ? (
             settingList.map((item: FlutterRowInfo, index: number) => (
               <BasicForm

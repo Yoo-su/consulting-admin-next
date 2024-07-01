@@ -18,6 +18,7 @@ type BasicFormProps = {
 const BasicForm = ({ basicKey, item, path, index = 0, isDisabled }: BasicFormProps) => {
   const { IsRequired, Type, Title, KoreanTitle, Description, level, children } = item;
   const { flutterSettingList, setFilteredSettingList, setFlutterSettingList } = useFlutterSetting();
+
   const subMenu = level > 0;
 
   const handleEdit = useCallback((path: (number | string)[], value: string) => {
@@ -32,12 +33,10 @@ const BasicForm = ({ basicKey, item, path, index = 0, isDisabled }: BasicFormPro
   }, []);
 
   const createComponent = (formType: FlutterSettingFormType) => {
-    const { type, component } = formType;
-    // const propType = type === 'object' ? { settingList: children } : { item };
+    const { component } = formType;
     if (ComponentMapping[component] !== undefined) {
       return createElement(ComponentMapping[component] as any, {
         key: `${item.Title}-${index}`,
-        // ...propType,
         item,
         path: path,
         handleEdit: handleEdit,
