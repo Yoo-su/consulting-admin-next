@@ -176,9 +176,9 @@ const AddSetting = ({ category }: { category: string }) => {
               {(options === 'string' || options === 'double') && (
                 <TextField size="small" fullWidth label="Value"></TextField>
               )}
-              {options === 'boolean' && <BooleanForm />}
+              {/* {options === 'boolean' && <BooleanForm />} */}
               {options === 'select' && <>select options</>}
-              {options === 'map' && <MapForm />}
+              {/* {options === 'map' && <MapForm />} */}
             </Box>
           </FormGroup>
         </Stack>
