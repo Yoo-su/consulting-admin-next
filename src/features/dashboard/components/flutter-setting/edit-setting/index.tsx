@@ -10,7 +10,7 @@ export type EditSettingProps = {
 };
 
 const EditSetting = ({ settingList, path, isDisabled }: EditSettingProps) => {
-  const isSub = Array.isArray(settingList) && settingList[0].level > 1;
+  const isSub = Array.isArray(settingList) && settingList[0]?.level > 1;
   return (
     <>
       {settingList && (

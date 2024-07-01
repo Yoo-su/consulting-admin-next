@@ -36,30 +36,18 @@ const SettingDetail = ({ filteredList: filteredSettingList, isDisabled }: Settin
 export default SettingDetail;
 
 const getCategoryInfo = (
-<<<<<<< HEAD
   list: FlutterSetting | FlutterRowInfo | (FlutterSetting | FlutterRowInfo)[],
-=======
-  list: FlutterSetting | FlutterSetting[] | FlutterRowInfo | FlutterRowInfo[],
->>>>>>> f60146b0b6c734a79ee93c17a7a5a5c367aeb84f
   category: string
 ) => {
   const filteredList = Array.isArray(list)
     ? list
         ?.map((item: any, index: number) => {
-<<<<<<< HEAD
           // path를 위한 index 추가
           item.Index = index;
           return item;
         })
         .filter((item: any) => {
           // 대분류와 소분류에 따라 필터링
-=======
-          const newItem = JSON.parse(JSON.stringify(item));
-          newItem.Index = index;
-          return newItem;
-        })
-        .filter((item: any) => {
->>>>>>> f60146b0b6c734a79ee93c17a7a5a5c367aeb84f
           if (item.Title) {
             return item.Title === category;
           } else {
@@ -69,10 +57,6 @@ const getCategoryInfo = (
     : list;
   const description = filteredList?.Description;
   const children = filteredList?.children ?? filteredList;
-<<<<<<< HEAD
   const index = filteredList?.Index;
   return { filteredList, description, children, index };
-=======
-  return { filteredList, description, children, index: filteredList?.Index };
->>>>>>> f60146b0b6c734a79ee93c17a7a5a5c367aeb84f
 };
