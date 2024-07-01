@@ -88,7 +88,7 @@ const flutterItems: NavItemType[] = [
     Icon: NoteAltIcon,
   },
   {
-    navkey: 'mojip-setting',
+    navkey: 'mojip-data-manage',
     title: '모집요강 데이터 관리',
     href: paths.dashboard.mojipDataManage,
     Icon: StorageIcon,

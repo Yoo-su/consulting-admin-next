@@ -1,6 +1,6 @@
 'use client';
 
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';

@@ -1,3 +1,5 @@
+'use client';
+
 import { Editor } from '@tiptap/react';
 import Box from '@mui/material/Box';
 import { ChangeEvent } from 'react';

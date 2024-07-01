@@ -1,3 +1,5 @@
+'use client';
+
 import { Editor } from '@tiptap/react';
 import { Menu, MenuItem, Fade, Typography } from '@mui/material';
 

@@ -9,6 +9,7 @@ export const TiptapContainer = styled(Stack)(({ theme }) => ({
 
     p: {
       width: '100%',
+      margin: '0',
     },
 
     /* List styles */
@@ -36,7 +37,7 @@ export const TiptapContainer = styled(Stack)(({ theme }) => ({
       background: '#0d0d0d',
       borderRadius: '0.5rem',
       color: '#fff',
-      margin: '1.5rem 0',
+      margin: '0.5rem 0',
       padding: '0.75rem 1rem',
 
       code: {
@@ -129,7 +130,7 @@ export const TiptapContainer = styled(Stack)(({ theme }) => ({
     },
 
     '.tableWrapper': {
-      margin: '1.5rem 0',
+      margin: '0.5rem 0',
       overflowX: 'auto',
     },
 

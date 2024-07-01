@@ -46,7 +46,8 @@ const MojipSettingBox = () => {
               <Stack direction={'column'} width={'100%'}>
                 {detailPageData?.map((item) => (
                   <MojipAccordion
-                    key={item.serviceID + item.rowNum}
+                    serviceID={currentService?.serviceID ?? ''}
+                    key={item.serviceID + '-detailpage-data-row-num-' + item.rowNum}
                     selectedRowNum={selected}
                     handleSelectRow={handleChangeSelected}
                     detailPageData={item}

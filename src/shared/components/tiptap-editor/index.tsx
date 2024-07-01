@@ -15,7 +15,7 @@ const Tiptap = ({ value, handleChangeValue }: TiptapProps) => {
   const theme = useTheme();
 
   const editor = useTextEditor({
-    placeholder: '에디터 내용을 작성해주세요',
+    placeholder: '내용을 작성해주세요',
     value: value,
     onChange: handleChangeValue,
     editable: true,
@@ -31,7 +31,7 @@ const Tiptap = ({ value, handleChangeValue }: TiptapProps) => {
         },
       }}
     >
-      {editor && <Toolbar editor={editor} content={value} />}
+      {editor && <Toolbar editor={editor} />}
       <EditorContent editor={editor} style={{ whiteSpace: 'pre-line' }} />
     </TiptapContainer>
   );

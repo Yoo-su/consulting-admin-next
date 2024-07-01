@@ -12,12 +12,8 @@ import Placeholder from '@tiptap/extension-placeholder';
 import HardBreak from '@tiptap/extension-hard-break';
 import TipTapTypography from '@tiptap/extension-typography';
 import { useTheme } from '@mui/material';
-import Document from '@tiptap/extension-document';
-import Paragraph from '@tiptap/extension-paragraph';
-import Text from '@tiptap/extension-text';
 import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
-import Gapcursor from '@tiptap/extension-gapcursor';
 import TextAlign from '@tiptap/extension-text-align';
 import Table from '@tiptap/extension-table';
 import TableCell from '@tiptap/extension-table-cell';
@@ -52,9 +48,6 @@ const classes = {
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   TextStyle.configure({ types: [ListItem.name] } as any),
-  Document,
-  Paragraph,
-  Text,
   TipTapTypography,
   Underline,
   HardBreak.configure({
@@ -80,12 +73,14 @@ const extensions = [
   StarterKit.configure({
     bulletList: {
       keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+      keepAttributes: false, // TODO : Making this as `false` because marks are not preserved when I try to preserve attrs, awaiting a bit of help
     },
     orderedList: {
       keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+      keepAttributes: false, // TODO : Making this as `false` because marks are not preserved when I try to preserve attrs, awaiting a bit of help
     },
+    codeBlock: false,
+    hardBreak: false,
   }),
   Table.configure({
     resizable: true,
@@ -93,7 +88,6 @@ const extensions = [
   TableRow,
   TableHeader,
   TableCell,
-  Gapcursor,
   TextAlign.configure({
     types: ['heading', 'paragraph'],
   }),
@@ -104,9 +98,9 @@ const extensions = [
 ];
 
 export type UseTextEditorInputProps = {
-  placeholder?: string;
-  onChange?: (value: string) => void;
-  value?: string;
+  placeholder: string;
+  onChange: (value: string) => void;
+  value: string;
 } & Partial<EditorOptions>;
 
 export const useTextEditor = ({ placeholder, onChange, value, ...editorOptions }: UseTextEditorInputProps) => {
@@ -122,7 +116,7 @@ export const useTextEditor = ({ placeholder, onChange, value, ...editorOptions }
     ] as AnyExtension[],
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
-      onChange?.(html);
+      onChange(html);
     },
     parseOptions: {
       preserveWhitespace: 'full',
@@ -130,19 +124,16 @@ export const useTextEditor = ({ placeholder, onChange, value, ...editorOptions }
     ...editorOptions,
   });
 
-  // set initial value for edition even if it's already set (below)
+  // set initial value for editor even if it's already set (below)
   useEffect(() => {
     if (!(editor && value)) return;
     editor?.setOptions({
-      editable: true,
       editorProps: {
         attributes: {
           class: classes.input(theme),
         },
       },
     });
-    editor.commands.setContent(value);
-    // !important: to avoid update for each taping, the value should be excluded from the dependencies
   }, [editor]);
 
   return editor;

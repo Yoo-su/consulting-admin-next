@@ -12,28 +12,44 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
+import toast from 'react-hot-toast';
 
 import SaveIcon from '@mui/icons-material/Save';
 
 import Tiptap from '@/shared/components/tiptap-editor';
 import { BorderPulseAnimation } from '@/shared/style/mui/keyframes';
 import { DetailPageData } from '@/features/dashboard/types/detail-page-data.type';
+import { useUpsertDetailpageRowMutation } from '@/features/dashboard/hooks/tanstack/use-upsert-detail-page-row-mutation';
 
 type MojipAccordionProps = {
+  serviceID: string;
   detailPageData: DetailPageData;
   selectedRowNum: number | null;
   handleSelectRow: (selectedIdx: number | null) => void;
 };
-const MojipAccordion = ({ detailPageData, selectedRowNum, handleSelectRow }: MojipAccordionProps) => {
+const MojipAccordion = ({ serviceID, detailPageData, selectedRowNum, handleSelectRow }: MojipAccordionProps) => {
+  const { mutateAsync, isPending } = useUpsertDetailpageRowMutation();
   const [mode, setMode] = useState<'calc' | 'detail'>(detailPageData.mode);
-  const [htmlCardtext, setHtmlCardText] = useState<string>(detailPageData.htmlCard);
+  const [htmlCard, setHtmlCard] = useState<string>(detailPageData.htmlCard ?? '');
+
   const handleChangeValue = useCallback((newHtml: string) => {
-    setHtmlCardText(newHtml);
+    setHtmlCard(newHtml);
   }, []);
 
   const handleChangeMode = useCallback((event: SelectChangeEvent) => {
     setMode(event.target.value as 'calc' | 'detail');
   }, []);
+
+  const handleClickSaveBtn = () => {
+    const newRow = {
+      ...detailPageData,
+      mode,
+      htmlCard: htmlCard,
+    };
+    mutateAsync({ serviceID, detailpageRow: newRow }).then(() => {
+      toast.success(<Typography variant="body1">상세페이지 행 데이터가 수정되었습니다</Typography>);
+    });
+  };
 
   return (
     <Accordion expanded={selectedRowNum === detailPageData.rowNum} sx={{ width: '100%' }}>
@@ -72,8 +88,9 @@ const MojipAccordion = ({ detailPageData, selectedRowNum, handleSelectRow }: Moj
               variant="text"
               startIcon={<SaveIcon fontSize="inherit" />}
               color="success"
+              disabled={isPending}
               onClick={() => {
-                console.log(htmlCardtext);
+                handleClickSaveBtn();
               }}
               sx={{
                 m: 2,
@@ -88,7 +105,7 @@ const MojipAccordion = ({ detailPageData, selectedRowNum, handleSelectRow }: Moj
 
           <Stack direction={'column'} spacing={1}>
             <InputLabel sx={{ fontWeight: 'bold' }}>HTML 카드 편집</InputLabel>
-            <Tiptap value={htmlCardtext} handleChangeValue={handleChangeValue} />
+            <Tiptap value={htmlCard} handleChangeValue={handleChangeValue} />
           </Stack>
         </Stack>
       </AccordionDetails>

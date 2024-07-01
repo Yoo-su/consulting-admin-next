@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useCallback, MouseEvent } from 'react';
 import { Box, IconButton, Tooltip } from '@mui/material';
 import { Editor } from '@tiptap/react';
@@ -30,10 +32,9 @@ import HeadingMenu from './items/heading-menu';
 
 type ToolbarProps = {
   editor: Editor;
-  content: string;
 };
 
-const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
+const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
   const theme = useTheme();
   const downlg = useMediaQuery(theme.breakpoints.down('lg'));
   const [headingAnchorEl, setHeadingAnchorEl] = useState<null | HTMLElement>(null);
@@ -201,15 +202,17 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor, content }) => {
       <Box sx={{ width: '100%', display: 'flex', gap: downlg ? '0.3rem' : '0.5rem', flexWrap: 'wrap' }}>
         {menus.map((menu, idx) => (
           <Tooltip title={menu.name} key={menu.name + idx}>
-            <IconButton
-              size={downlg ? 'small' : 'medium'}
-              onClick={menu.onClick}
-              disabled={menu.disabled}
-              onMouseEnter={menu.onMouseEnter}
-              color={editor.isActive(menu.name) ? 'primary' : 'default'}
-            >
-              {menu.icon}
-            </IconButton>
+            <span>
+              <IconButton
+                size={downlg ? 'small' : 'medium'}
+                onClick={menu.onClick}
+                disabled={menu.disabled}
+                onMouseEnter={menu.onMouseEnter}
+                color={editor.isActive(menu.name) ? 'primary' : 'default'}
+              >
+                {menu.icon}
+              </IconButton>
+            </span>
           </Tooltip>
         ))}
         <ColorPicker editor={editor} />
