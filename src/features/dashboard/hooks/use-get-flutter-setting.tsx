@@ -4,11 +4,11 @@ import { getFlutterCategory } from '../apis/get-flutter-category';
 import { GetFlutterCustomConfigParams, getFlutterCustomConfig } from '../apis/get-flutter-custom-config';
 import { getFlutterRowInfo } from '../apis/get-flutter-row-info';
 import { setCustomConfig } from '../services/flutter-setting/set-custom-config';
-import { FlutterCategory, FlutterRowInfo } from '../types/flutter-setting.type';
+import { FlutterRowInfo, FlutterSetting } from '../types/flutter-setting.type';
 
 export const useGetFlutterSetting = async ({ queryKey }: { queryKey: [string, GetFlutterCustomConfigParams] }) => {
   const { serviceID } = queryKey[1];
-  const categoryList: FlutterCategory[] = await getFlutterCategory();
+  const categoryList: FlutterSetting[] = await getFlutterCategory();
   const rowInfo: FlutterRowInfo[] = await getFlutterRowInfo();
   categoryList.forEach((item) => {
     item.children = rowInfo.filter((row) => row.Category === item.Category);
