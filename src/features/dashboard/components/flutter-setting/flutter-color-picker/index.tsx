@@ -90,7 +90,7 @@ const FlutterColorPicker = ({ value, setTextValue }: FlutterColorPickerProps) =>
                   </FormControl>
                   <TextField
                     size="small"
-                    sx={{ width: '85px', '& .MuiInputBase-input': { textAlign: 'center', padding: 0 } }}
+                    sx={{ width: '88px', '& .MuiInputBase-input': { textAlign: 'center', padding: 0 } }}
                     value={rgbToHex(currentHsv, true)}
                   />
                 </Stack>
@@ -139,54 +139,56 @@ function matchIsNumber(value: unknown): value is number {
 }
 
 function hsvToRgb(h: number, s: number, v: number) {
-  // Ensure input values are in the correct range
-  h = Math.max(0, Math.min(360, h)) / 360; // Convert hue to 0-1 range
+  h = h % 360;
+
+  // Check if s and v are in decimal form (0-1) or percentage form (0-100)
+  s = s > 1 ? s / 100 : s;
+  v = v > 1 ? v / 100 : v;
+
+  // Ensure s and v are within 0-1 range
   s = Math.max(0, Math.min(1, s));
   v = Math.max(0, Math.min(1, v));
+
+  const c = v * s;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = v - c;
 
   let r = 0,
     g = 0,
     b = 0;
-  const i = Math.floor(h * 6);
-  const f = h * 6 - i;
-  const p = v * (1 - s);
-  const q = v * (1 - f * s);
-  const t = v * (1 - (1 - f) * s);
-
-  switch (i % 6) {
+  switch (Math.floor(h / 60)) {
     case 0:
-      [r, g, b] = [v, t, p];
+      [r, g, b] = [c, x, 0];
       break;
     case 1:
-      [r, g, b] = [q, v, p];
+      [r, g, b] = [x, c, 0];
       break;
     case 2:
-      [r, g, b] = [p, v, t];
+      [r, g, b] = [0, c, x];
       break;
     case 3:
-      [r, g, b] = [p, q, v];
+      [r, g, b] = [0, x, c];
       break;
     case 4:
-      [r, g, b] = [t, p, v];
+      [r, g, b] = [x, 0, c];
       break;
-    case 5:
-      [r, g, b] = [v, p, q];
+    default: // case 5
+      [r, g, b] = [c, 0, x];
       break;
   }
 
-  // Convert RGB values to 0-255 range
   return {
-    r: Math.round(r * 255),
-    g: Math.round(g * 255),
-    b: Math.round(b * 255),
+    r: Math.round((r + m) * 255),
+    g: Math.round((g + m) * 255),
+    b: Math.round((b + m) * 255),
   };
 }
 
 const rgbToHex = (hsv: HSV, flutter: boolean = false) => {
   const rgbObject = hsvToRgb(hsv.h, hsv.s, hsv.v);
-  const r = rgbObject.r.toString(16).padStart(2, '0');
-  const g = rgbObject.g.toString(16).padStart(2, '0');
-  const b = rgbObject.b.toString(16).padStart(2, '0');
+  const r = rgbObject.r.toString(16).toUpperCase().padStart(2, '0');
+  const g = rgbObject.g.toString(16).toUpperCase().padStart(2, '0');
+  const b = rgbObject.b.toString(16).toUpperCase().padStart(2, '0');
   if (flutter) return `0xff${r}${g}${b}`;
   return `#${r}${g}${b}`;
 };
@@ -223,12 +225,15 @@ function hexToHsv(hex: string) {
     h *= 60;
   }
 
-  // Ensure h is between 0 and 360
-  h = Math.round((h + 360) % 360);
+  // // Ensure h is between 0 and 360
+  // h = Math.round((h + 360) % 360);
 
-  // Round s and v to two decimal places
-  s = Math.round(s * 100) / 100;
-  v = Math.round(max * 100);
-
+  // // Round s and v to two decimal places
+  // s = Math.round(s * 100) / 100;
+  // v = Math.round(max * 100);
+  h = Math.round((h * 100) / 100);
+  s = Math.round((s * 100) / 100);
+  v = Math.round((v * 100) / 100);
+  console.log('hsv', { h, s, v });
   return { h, s, v };
 }
