@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Divider from '@mui/material/Divider';
 import { Draggable } from 'react-beautiful-dnd';
+import { useTransition, animated } from '@react-spring/web';
 
 import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-consultingapp-state';
 import { ConsultingAppState } from '@/features/dashboard/types/consultingapp-state.type';
@@ -22,6 +23,7 @@ export type StateCardProps = {
   index: number;
   developer?: string;
 };
+
 const StateCard = ({ state, index }: StateCardProps) => {
   const { univList, serviceList, setCurrentService, setCurrentUniv } = useUnivService();
   const { openDialog, setDialogContentState } = useConsultingAppState();
@@ -72,6 +74,7 @@ const StateCard = ({ state, index }: StateCardProps) => {
       color: 'black',
     },
   };
+
   const iconToGoStyle = {
     cursor: 'pointer',
     margin: 0,
@@ -85,82 +88,95 @@ const StateCard = ({ state, index }: StateCardProps) => {
     },
     transition: 'all 0.1s ease-in-out',
   };
+
+  const delay = index * 100; // 각 카드의 애니메이션 지연 시간 설정
+  const transitions = useTransition(state, {
+    from: { opacity: 0, scale: 0 },
+    enter: { opacity: 1, scale: 1 },
+    leave: { opacity: 0, scale: 0 },
+    delay,
+  });
+
   return (
     <Draggable key={`${state.currentState}${index}`} draggableId={`${state.currentState}${index}`} index={index}>
-      {(provided, snapshot) => (
-        <Box
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          onMouseEnter={() => setIsHover(true)}
-          onMouseLeave={() => setIsHover(false)}
-          sx={{
-            p: 1,
-            cursor: 'pointer',
-            bgcolor: '#fff',
-            borderRadius: '.3rem',
-            borderColor: 'transparent',
-            '&:hover': {
-              border: '2px solid rgba(0,0,0,0.2)',
-            },
-            position: 'relative',
-            transition: 'border-color 0.3s ease-in-out',
-          }}
-        >
-          <Tooltip title="자세히" placement="top">
-            <IconButton sx={{ ...iconDetailStyle }} onClick={handleIconClick} disableRipple>
-              <MoreVertSharpIcon />
-            </IconButton>
-          </Tooltip>
-          <Stack direction={'column'} spacing={1}>
-            <Stack direction={'column'}>
-              <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
-                {serviceID}
-              </Typography>
-              <Typography variant="body2">{univName}</Typography>
-            </Stack>
-            <Stack direction={'row'} justifyContent={'space-between'}>
-              <Box sx={{ bgcolor: '#f3f4f6', borderRadius: '5px', padding: 0.5, width: 'fit-content' }}>
-                <Typography variant="caption">{state.developerName}</Typography>
-              </Box>
-              {state.managerName && (
-                <Box sx={{ bgcolor: '#f3f4f6', borderRadius: '5px', padding: 0.5, width: 'fit-content' }}>
-                  <Typography variant="caption">{state.managerName}</Typography>
-                </Box>
-              )}
-            </Stack>
-
-            <Stack
-              direction={'column'}
-              spacing={1}
+      {(provided, snapshot) =>
+        transitions((style, item) => (
+          <animated.div style={style}>
+            <Box
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              onMouseEnter={() => setIsHover(true)}
+              onMouseLeave={() => setIsHover(false)}
               sx={{
-                display: isHover || snapshot.isDragging ? 'block' : 'none',
-                ...((isHover || snapshot.isDragging ? 'block' : 'none') && {
-                  animation: 'fadein 0.3s ease-in-out',
-                }),
+                p: 1,
+                cursor: 'pointer',
+                bgcolor: '#fff',
+                borderRadius: '.3rem',
+                borderColor: 'transparent',
+                '&:hover': {
+                  border: '2px solid rgba(0,0,0,0.2)',
+                },
+                position: 'relative',
+                transition: 'border-color 0.3s ease-in-out',
               }}
             >
-              <Divider sx={{ display: isHover || snapshot.isDragging ? 'block' : 'none' }} />
-              <Stack
-                direction={'row'}
-                alignItems={'center'}
-                justifyContent={'center'}
-                spacing={1}
-                sx={{
-                  ...iconToGoStyle,
-                  display: isHover || snapshot.isDragging ? 'flex' : 'none',
-                }}
-                onClick={handleCardClick}
-              >
-                <Typography variant="caption" sx={{ paddingTop: '1px' }}>
-                  서비스 선택
-                </Typography>
-                <CheckIcon />
+              <Tooltip title="자세히" placement="top">
+                <IconButton sx={{ ...iconDetailStyle }} onClick={handleIconClick} disableRipple>
+                  <MoreVertSharpIcon />
+                </IconButton>
+              </Tooltip>
+              <Stack direction={'column'} spacing={1}>
+                <Stack direction={'column'}>
+                  <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+                    {serviceID}
+                  </Typography>
+                  <Typography variant="body2">{univName}</Typography>
+                </Stack>
+                <Stack direction={'row'} justifyContent={'space-between'}>
+                  <Box sx={{ bgcolor: '#f3f4f6', borderRadius: '5px', padding: 0.5, width: 'fit-content' }}>
+                    <Typography variant="caption">{state.developerName}</Typography>
+                  </Box>
+                  {state.managerName && (
+                    <Box sx={{ bgcolor: '#f3f4f6', borderRadius: '5px', padding: 0.5, width: 'fit-content' }}>
+                      <Typography variant="caption">{state.managerName}</Typography>
+                    </Box>
+                  )}
+                </Stack>
+
+                <Stack
+                  direction={'column'}
+                  spacing={1}
+                  sx={{
+                    display: isHover || snapshot.isDragging ? 'block' : 'none',
+                    ...((isHover || snapshot.isDragging ? 'block' : 'none') && {
+                      animation: 'fadein 0.3s ease-in-out',
+                    }),
+                  }}
+                >
+                  <Divider sx={{ display: isHover || snapshot.isDragging ? 'block' : 'none' }} />
+                  <Stack
+                    direction={'row'}
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                    spacing={1}
+                    sx={{
+                      ...iconToGoStyle,
+                      display: isHover || snapshot.isDragging ? 'flex' : 'none',
+                    }}
+                    onClick={handleCardClick}
+                  >
+                    <Typography variant="caption" sx={{ paddingTop: '1px' }}>
+                      서비스 선택
+                    </Typography>
+                    <CheckIcon />
+                  </Stack>
+                </Stack>
               </Stack>
-            </Stack>
-          </Stack>
-        </Box>
-      )}
+            </Box>
+          </animated.div>
+        ))
+      }
     </Draggable>
   );
 };

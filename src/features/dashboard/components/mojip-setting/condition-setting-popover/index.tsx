@@ -89,8 +89,22 @@ const ConditionSettingPopover = ({ anchorEl, onClose, open, rowNum, condition }:
       slotProps={{ paper: { sx: { width: '540px', mt: 0.6, height: '380px' } } }}
       sx={{ overflowY: 'scroll' }}
     >
-      <Stack direction={'column'} sx={{ p: '16px 20px', height: '100%' }}>
-        <Stack direction={'row'} justifyContent={'flex-end'} spacing={1}>
+      <Stack direction={'column'} sx={{ p: '16px 20px', position: 'relative', alignItems: 'center' }}>
+        <Stack
+          direction={'row'}
+          justifyContent={'flex-end'}
+          spacing={1}
+          sx={{
+            top: 10,
+            padding: '0.8rem 0.5rem',
+            zIndex: 50,
+            bgcolor: 'rgba(250,249,245,0.85)',
+            position: 'sticky',
+            width: '100%',
+            borderRadius: '0.5rem',
+            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+          }}
+        >
           <Chip
             clickable
             onClick={handleClickAddRowBtn}
@@ -101,9 +115,9 @@ const ConditionSettingPopover = ({ anchorEl, onClose, open, rowNum, condition }:
               </Typography>
             }
             sx={{
-              bgcolor: '#50C877',
+              bgcolor: '#597D35',
               '&:hover': {
-                bgcolor: '#50C877',
+                bgcolor: '#597D35',
               },
               color: '#fff',
             }}
@@ -123,10 +137,8 @@ const ConditionSettingPopover = ({ anchorEl, onClose, open, rowNum, condition }:
           />
         </Stack>
 
-        <Divider sx={{ my: 1.5 }} />
-
         {currentCondition.length ? (
-          <Stack direction={'column'} spacing={0} sx={{ p: '10px 0' }}>
+          <Stack direction={'column'} spacing={0} sx={{ p: '10px 0', mt: 2, width: '100%', height: '100%' }}>
             {currentCondition.map((item) => (
               <ConditionRow
                 key={item.idx}
