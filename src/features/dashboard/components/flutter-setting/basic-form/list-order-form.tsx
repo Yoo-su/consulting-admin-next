@@ -7,7 +7,7 @@ import { getConvertedValue } from '@/shared/services/get-converted-value';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
 const ListOrderForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) => {
-  const { transferDefaultValue, RowIdx, RowValue } = item;
+  const { DefaultValue, transferDefaultValue, RowIdx, RowValue } = item;
   const { addToEditedList } = useFlutterSetting();
   const [orderList, setOrderList] = useState(RowValue ? getConvertedValue(RowValue) : transferDefaultValue);
 
@@ -19,7 +19,7 @@ const ListOrderForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) =>
     const [removed] = dupList.splice(source.index, 1);
     dupList.splice(destination.index, 0, removed);
     handleEdit(path, `[${dupList}]`);
-    addToEditedList({ RowIdx, RowValue: `[${dupList}]` });
+    addToEditedList({ RowIdx, RowValue: `[${dupList}]`, DefaultValue });
     setOrderList(dupList);
   };
 

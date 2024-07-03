@@ -27,7 +27,7 @@ const MapForm = ({
   handleEdit: onEdit,
   isDisabled,
 }: Partial<Pick<FormItemProps, 'item'>> & Omit<FormItemProps, 'item'>) => {
-  const { transferDefaultValue, RowIdx = null, RowValue = null } = originalItem ?? {};
+  const { DefaultValue = '', transferDefaultValue, RowIdx = null, RowValue = null } = originalItem ?? {};
   const dataObj = getConvertedValue(RowValue ?? transferDefaultValue ?? '{}');
   const { addToEditedList } = useFlutterSetting();
 
@@ -90,6 +90,7 @@ const MapForm = ({
     addToEditedList({
       RowIdx,
       RowValue: rowObject,
+      DefaultValue,
     });
     setRows(newRows);
   };

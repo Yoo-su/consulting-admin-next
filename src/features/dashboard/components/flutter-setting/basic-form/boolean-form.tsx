@@ -10,7 +10,7 @@ const BooleanForm = ({
   handleEdit,
   isDisabled,
 }: Partial<Pick<FormItemProps, 'item'>> & Omit<FormItemProps, 'item'>) => {
-  const { transferDefaultValue = false, Description, RowValue = null, RowIdx = null } = item ?? {};
+  const { DefaultValue = '', transferDefaultValue = false, Description, RowValue = null, RowIdx = null } = item ?? {};
   const { addToEditedList } = useFlutterSetting();
   const [checkValue, setCheckValue] = useState<boolean>(RowValue ? getConvertedValue(RowValue) : transferDefaultValue);
   const [inputValue, setInputValue] = useState('');
@@ -23,6 +23,7 @@ const BooleanForm = ({
       addToEditedList({
         RowIdx,
         RowValue: booleanValue.toString(),
+        DefaultValue,
       });
     }
   };

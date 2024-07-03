@@ -16,7 +16,9 @@ export type FlutterSettingContextValue = {
   filteredSettingList: FlutterSetting[];
   setFilteredSettingList: Dispatch<SetStateAction<FlutterSetting[]>>;
   editedSettingList: SetFlutterCustomConfigParams[];
-  addToEditedList: (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => void;
+  addToEditedList: (
+    editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'> & { DefaultValue: string }
+  ) => void;
   updateSettingList: () => void;
 };
 
@@ -31,18 +33,27 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   const { mutateAsync } = useSetFlutterSettingMutation();
   const queryClient = useQueryClient();
 
-  const addToEditedList = (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => {
+  const addToEditedList = (
+    editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'> & { DefaultValue: string }
+  ) => {
+    const { RowIdx, RowValue, DefaultValue } = editedSetting;
     const newSetting: SetFlutterCustomConfigParams = {
       serviceID: currentService!.serviceID,
-      ...editedSetting,
+      RowIdx,
+      RowValue,
     };
-    setEditedSettingList((prev) => {
-      const isExist = prev.find((item) => item.RowIdx === newSetting.RowIdx);
-      if (isExist) {
-        return prev.map((item) => (item.RowIdx === newSetting.RowIdx ? newSetting : item));
-      }
-      return [...prev, newSetting];
-    });
+    const isDefault = RowValue.trim() === DefaultValue.trim();
+    if (isDefault) {
+      setEditedSettingList((prev) => prev.filter((item) => item.RowIdx !== RowIdx));
+    } else {
+      setEditedSettingList((prev) => {
+        const isExist = prev.find((item) => item.RowIdx === newSetting.RowIdx);
+        if (isExist) {
+          return prev.map((item) => (item.RowIdx === newSetting.RowIdx ? newSetting : item));
+        }
+        return [...prev, newSetting];
+      });
+    }
   };
   const updateSettingList = () => {
     editedSettingList.forEach((item) => {
