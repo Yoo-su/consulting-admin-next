@@ -1,7 +1,7 @@
 import { Box, styled } from '@mui/material';
 import { useCallback, useEffect, useRef, useState, MouseEvent, KeyboardEvent } from 'react';
 import { ARROW_COLOR_SPACE, KEYBOARD_KEY } from '../types/color-picker.types';
-import { clamp } from '.';
+import { clamp, round } from '@/features/dashboard/services/flutter-setting/color-utils';
 
 type ColorSpaceProps = {
   hsv: { h: number; s: number; v: number };
@@ -149,16 +149,6 @@ function matchIsArrowKey(key: string): key is keyof typeof ARROW_COLOR_SPACE {
   return (
     key === KEYBOARD_KEY.up || key === KEYBOARD_KEY.down || key === KEYBOARD_KEY.left || key === KEYBOARD_KEY.right
   );
-}
-
-function round(value: number, minimumFractionDigits?: number, maximumFractionDigits?: number): number {
-  const formattedValue = value.toLocaleString('en', {
-    useGrouping: false,
-    minimumFractionDigits,
-    maximumFractionDigits,
-  });
-
-  return Number(formattedValue);
 }
 
 function getNewThumbPosition(colorSpace: HTMLDivElement, clientX: number, clientY: number): { x: number; y: number } {

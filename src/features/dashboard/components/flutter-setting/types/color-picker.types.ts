@@ -30,3 +30,6 @@ export const ARROW_COLOR_SPACE: ArrowColorSpace = {
     value: +1,
   },
 };
+
+export type HSV = { h: number; s: number; v: number };
+export type RGB = { r: number; g: number; b: number };
