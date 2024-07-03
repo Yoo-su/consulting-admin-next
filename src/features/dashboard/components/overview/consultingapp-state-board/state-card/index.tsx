@@ -120,7 +120,7 @@ const StateCard = ({ state, index }: StateCardProps) => {
     <Draggable key={`${state.currentState}${index}`} draggableId={`${state.currentState}${index}`} index={index}>
       {(provided, snapshot) =>
         transitions((style, item) => (
-          <animated.div style={style}>
+          <animated.div style={snapshot.isDragging ? undefined : style}>
             <Box
               ref={provided.innerRef}
               {...provided.draggableProps}
@@ -163,7 +163,7 @@ const StateCard = ({ state, index }: StateCardProps) => {
                   )}
                 </Stack>
 
-                <animated.div style={hoverAnimation}>
+                <animated.div style={snapshot.isDragging ? undefined : hoverAnimation}>
                   <div ref={contentRef}>
                     <Stack direction={'column'} spacing={1}>
                       <Divider />
