@@ -1,7 +1,7 @@
 import { Fab, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-
+import { animated, useSpring } from '@react-spring/web';
 import InfoIcon from '@mui/icons-material/Info';
 
 type SaveDataButtonProps = {
@@ -10,12 +10,22 @@ type SaveDataButtonProps = {
 const SaveDataButton = ({ handleBtnClick }: SaveDataButtonProps) => {
   const theme = useTheme();
   const downsm = useMediaQuery(theme.breakpoints.down('sm'));
+  const AnimatedFab = animated(Fab);
+  const props = useSpring({
+    from: {
+      opacity: 0,
+    },
+    to: {
+      opacity: 1,
+    },
+  });
 
   return (
-    <Fab
+    <AnimatedFab
       variant="extended"
       color="primary"
       size={downsm ? 'small' : 'large'}
+      style={{ ...props }}
       sx={{
         width: 'fit-content',
         ...(downsm ? { my: 2, mx: 'auto' } : { position: 'fixed', bottom: 35, right: 35 }),
@@ -26,7 +36,7 @@ const SaveDataButton = ({ handleBtnClick }: SaveDataButtonProps) => {
       <Typography variant="body1" fontSize="inherit">
         변경사항이 존재합니다. 버튼을 눌러 변경내용을 적용해주세요
       </Typography>
-    </Fab>
+    </AnimatedFab>
   );
 };
 

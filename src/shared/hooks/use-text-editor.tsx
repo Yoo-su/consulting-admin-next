@@ -1,9 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Theme } from '@emotion/react';
-import { css } from '@emotion/css';
-import { useEditor, AnyExtension, EditorOptions, mergeAttributes } from '@tiptap/react';
+import { useEditor, AnyExtension, EditorOptions } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Color } from '@tiptap/extension-color';
 import ListItem from '@tiptap/extension-list-item';
@@ -11,7 +9,6 @@ import TextStyle from '@tiptap/extension-text-style';
 import Placeholder from '@tiptap/extension-placeholder';
 import HardBreak from '@tiptap/extension-hard-break';
 import TipTapTypography from '@tiptap/extension-typography';
-import { useTheme } from '@mui/material';
 import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
 import TextAlign from '@tiptap/extension-text-align';
@@ -21,29 +18,6 @@ import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { createLowlight, common } from 'lowlight';
-
-const classes = {
-  input: (theme: Theme) =>
-    css({
-      borderRadius: '0 0 6 6',
-      border: '1px solid rgba(0,0,0,0.1)',
-      borderTop: 'none',
-      paddingLeft: 16,
-      paddingRight: 16,
-      minHeight: 150,
-      '& p.is-editor-empty:first-child::before': {
-        content: 'attr(data-placeholder)',
-        float: 'left',
-        height: 0,
-        pointerEvents: 'none',
-        color: 'rgba(0,0,0,0.3)',
-        fontSize: 14,
-        fontStyle: 'normal',
-        fontWeight: 400,
-        lineHeight: '157.143%' /* 157.143% */,
-      },
-    }),
-};
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -104,8 +78,6 @@ export type UseTextEditorInputProps = {
 } & Partial<EditorOptions>;
 
 export const useTextEditor = ({ placeholder, onChange, value, ...editorOptions }: UseTextEditorInputProps) => {
-  const theme = useTheme();
-
   const editor = useEditor({
     content: value,
     extensions: [
@@ -128,11 +100,7 @@ export const useTextEditor = ({ placeholder, onChange, value, ...editorOptions }
   useEffect(() => {
     if (!(editor && value)) return;
     editor?.setOptions({
-      editorProps: {
-        attributes: {
-          class: classes.input(theme),
-        },
-      },
+      editorProps: {},
     });
   }, [editor]);
 

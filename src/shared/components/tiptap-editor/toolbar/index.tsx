@@ -94,7 +94,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
     },
     {
       name: 'link',
-      icon: <LinkIcon />,
+      icon: <LinkIcon fontSize="inherit" />,
       //onClick: () => editor.chain().focus().setLink().run(),
       disabled: false,
       split: true,
@@ -178,7 +178,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
     },
     {
       name: 'redo',
-      icon: <RedoIcon />,
+      icon: <RedoIcon fontSize="inherit" />,
       onClick: () => editor.chain().focus().redo().run(),
       disabled: !editor.can().redo(),
       split: true,
@@ -215,7 +215,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
             </span>
           </Tooltip>
         ))}
-        <ColorPicker editor={editor} />
+        <ColorPicker editor={editor} downlg={downlg} />
       </Box>
       <TableMenu editor={editor} anchorEl={tableAnchorEl} onClose={handleCloseTableMenu} />
       <HeadingMenu editor={editor} anchorEl={headingAnchorEl} onClose={handleCloseHeadingMenu} />

@@ -147,7 +147,7 @@ const AppDeployBox = () => {
           {isDeploying && (
             <Box
               sx={{
-                position: 'fixed',
+                position: 'absolute',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

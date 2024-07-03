@@ -12,6 +12,14 @@ export const TiptapContainer = styled(Stack)(({ theme }) => ({
       margin: '0',
     },
 
+    'p.is-editor-empty:first-child::before': {
+      color: 'rgba(0,0,0,0.3)',
+      content: 'attr(data-placeholder)',
+      float: 'left',
+      height: 0,
+      pointerEvents: 'none',
+    },
+
     /* List styles */
     'ul, ol': {
       padding: '0 1rem',

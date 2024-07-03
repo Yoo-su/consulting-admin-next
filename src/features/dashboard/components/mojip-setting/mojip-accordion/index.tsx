@@ -1,58 +1,62 @@
 'use client';
 
 import { useCallback, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import Stack from '@mui/material/Stack';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import toast from 'react-hot-toast';
+import Chip from '@mui/material/Chip';
 
-import SaveIcon from '@mui/icons-material/Save';
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 
+import ConditionSettingPopover from '../condition-setting-popover';
 import Tiptap from '@/shared/components/tiptap-editor';
-import { BorderPulseAnimation } from '@/shared/style/mui/keyframes';
 import { DetailPageData } from '@/features/dashboard/types/detail-page-data.type';
 import { useUpsertDetailpageRowMutation } from '@/features/dashboard/hooks/tanstack/use-upsert-detail-page-row-mutation';
+import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
+import { usePopover } from '@/features/dashboard/hooks/use-popover';
+import { useMojipSetting } from '@/features/dashboard/hooks/context/use-mojip-setting';
 
 type MojipAccordionProps = {
   serviceID: string;
-  detailPageData: DetailPageData;
+  detailpageData: DetailPageData;
   selectedRowNum: number | null;
   handleSelectRow: (selectedIdx: number | null) => void;
 };
-const MojipAccordion = ({ serviceID, detailPageData, selectedRowNum, handleSelectRow }: MojipAccordionProps) => {
+const MojipAccordion = ({ serviceID, detailpageData, selectedRowNum, handleSelectRow }: MojipAccordionProps) => {
+  const queryClient = useQueryClient();
   const { mutateAsync, isPending } = useUpsertDetailpageRowMutation();
-  const [mode, setMode] = useState<'calc' | 'detail'>(detailPageData.mode);
-  const [htmlCard, setHtmlCard] = useState<string>(detailPageData.htmlCard ?? '');
+  const { openConfirmToast } = useConfirmToast();
+  const { updateRowMode, updateRowHtmlCard } = useMojipSetting();
+  const conditionPopover = usePopover<HTMLDivElement>();
 
   const handleChangeValue = useCallback((newHtml: string) => {
-    setHtmlCard(newHtml);
+    updateRowHtmlCard(detailpageData.rowNum, newHtml);
   }, []);
 
-  const handleChangeMode = useCallback((event: SelectChangeEvent) => {
-    setMode(event.target.value as 'calc' | 'detail');
-  }, []);
-
-  const handleClickSaveBtn = () => {
-    const newRow = {
-      ...detailPageData,
-      mode,
-      htmlCard: htmlCard,
-    };
-    mutateAsync({ serviceID, detailpageRow: newRow }).then(() => {
-      toast.success(<Typography variant="body1">상세페이지 행 데이터가 수정되었습니다</Typography>);
+  /**
+   * 상세 페이지 데이터 삭제
+   */
+  const handleClickDeleteBtn = () => {
+    openConfirmToast(`${detailpageData.rowNum}번 데이터를 삭제하시겠습니까?`, () => {
+      queryClient.setQueryData(['detail-page-data', serviceID], (oldData: DetailPageData[]) => {
+        const filteredDetailpageData = oldData.filter((item) => item.rowNum != detailpageData.rowNum);
+        return filteredDetailpageData;
+      });
+      handleSelectRow(null);
     });
   };
 
   return (
-    <Accordion expanded={selectedRowNum === detailPageData.rowNum} sx={{ width: '100%' }}>
+    <Accordion expanded={selectedRowNum === detailpageData.rowNum} sx={{ width: '100%' }}>
       <AccordionSummary>
         <Typography
           variant="h6"
@@ -66,46 +70,66 @@ const MojipAccordion = ({ serviceID, detailPageData, selectedRowNum, handleSelec
             px: 1,
           }}
           onClick={() => {
-            if (!(selectedRowNum === detailPageData.rowNum)) handleSelectRow(detailPageData.rowNum);
+            if (!(selectedRowNum === detailpageData.rowNum)) handleSelectRow(detailpageData.rowNum);
             else handleSelectRow(null);
           }}
         >
-          상세 페이지 데이터 {detailPageData.rowNum}
+          상세 페이지 데이터 {detailpageData.rowNum}
         </Typography>
+        {selectedRowNum === detailpageData.rowNum && (
+          <Stack direction={'row'} sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
+            <Chip
+              icon={<DeleteIcon />}
+              label={<Typography variant="body2">데이터 삭제</Typography>}
+              size="small"
+              clickable
+              onClick={handleClickDeleteBtn}
+            />
+          </Stack>
+        )}
       </AccordionSummary>
       <AccordionDetails>
         <Stack direction={'column'}>
-          <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} spacing={2}>
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel sx={{ fontWeight: 'bold' }}>Mode</InputLabel>
-              <Select value={mode} onChange={handleChangeMode} label="mode">
-                <MenuItem value="detail">detail</MenuItem>
-                <MenuItem value="calc">calc</MenuItem>
-              </Select>
-            </FormControl>
-
-            <Button
-              variant="text"
-              startIcon={<SaveIcon fontSize="inherit" />}
-              color="success"
-              disabled={isPending}
-              onClick={() => {
-                handleClickSaveBtn();
-              }}
-              sx={{
-                m: 2,
-                height: '35px',
-                animation: `${BorderPulseAnimation('#2E7D32')} 3s infinite`,
-              }}
-            >
-              <Typography variant="body1">현재 내용 저장하기</Typography>
-            </Button>
+          <Stack direction={'row'} justifyContent={'flex-start'} alignItems={'flex-end'} spacing={2}>
+            <Stack direction={'row'} spacing={4} alignItems={'flex-end'}>
+              <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel sx={{ fontWeight: 'bold' }}>Mode</InputLabel>
+                <Select
+                  value={detailpageData.mode}
+                  onChange={(event) => {
+                    updateRowMode(detailpageData.rowNum, event.target.value as 'calc' | 'detail');
+                  }}
+                  label="mode"
+                >
+                  <MenuItem value="detail">detail</MenuItem>
+                  <MenuItem value="calc">calc</MenuItem>
+                </Select>
+              </FormControl>
+              <Chip
+                onClick={conditionPopover.handleOpen}
+                ref={conditionPopover.anchorRef}
+                clickable
+                icon={<TipsAndUpdatesIcon fontSize="medium" color="inherit" />}
+                label={<Typography variant="body1">표시조건 설정</Typography>}
+                sx={{
+                  bgcolor: '#2C4059',
+                  color: conditionPopover.open ? '#F5F1B7' : '#FFFDE9',
+                }}
+              />
+              <ConditionSettingPopover
+                anchorEl={conditionPopover.anchorRef.current}
+                onClose={conditionPopover.handleClose}
+                open={conditionPopover.open}
+                rowNum={detailpageData.rowNum}
+                condition={JSON.parse(detailpageData.condition)}
+              />
+            </Stack>
           </Stack>
           <Divider sx={{ borderColor: 'rgba(0,0,0,0.06)', mt: 1, mb: 2 }} />
 
           <Stack direction={'column'} spacing={1}>
             <InputLabel sx={{ fontWeight: 'bold' }}>HTML 카드 편집</InputLabel>
-            <Tiptap value={htmlCard} handleChangeValue={handleChangeValue} />
+            <Tiptap value={detailpageData.htmlCard} handleChangeValue={handleChangeValue} />
           </Stack>
         </Stack>
       </AccordionDetails>

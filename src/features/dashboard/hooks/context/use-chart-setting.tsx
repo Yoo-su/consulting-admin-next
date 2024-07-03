@@ -2,8 +2,7 @@
 
 import { useContext } from 'react';
 
-import { ChartSettingContext } from '../../contexts/chart-setting-context';
-import { ChartSettingContextValue } from '../../contexts/chart-setting-context';
+import { ChartSettingContext, ChartSettingContextValue } from '../../contexts/chart-setting-context';
 
 export const useChartSetting = (): ChartSettingContextValue => {
   const context = useContext(ChartSettingContext);

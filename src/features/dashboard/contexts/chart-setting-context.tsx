@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, ReactNode, useState, useMemo, useEffect, useCallback, Dispatch, SetStateAction } from 'react';
+import { createContext, ReactNode, useMemo, useEffect, useCallback } from 'react';
 import { useUnivService } from '../hooks/context/use-univ-service';
 import { useGetChartData } from '../hooks/use-get-chart-data';
 import { ChartData } from '../types/chart-data.type';

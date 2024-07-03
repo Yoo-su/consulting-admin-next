@@ -2,15 +2,16 @@
 
 import { Editor } from '@tiptap/react';
 import Box from '@mui/material/Box';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useCallback } from 'react';
 
 type Props = {
   editor: Editor;
+  downlg: boolean;
 };
-const ColorPicker = ({ editor }: Props) => {
-  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
+const ColorPicker = ({ editor, downlg }: Props) => {
+  const handleInput = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     editor.chain().focus().setColor(event.target.value).run();
-  };
+  }, []);
 
   return (
     <Box
@@ -23,13 +24,13 @@ const ColorPicker = ({ editor }: Props) => {
         component={'input'}
         type="color"
         onInput={handleInput}
-        value={editor.getAttributes('textStyle').color}
+        value={editor.getAttributes('textStyle').color ?? '#000000'}
         sx={{
           WebkitAppearance: 'none' as const,
           MozAppearance: 'none' as const,
           appearance: 'none' as const,
-          width: 32,
-          height: 32,
+          width: downlg ? 28 : 32,
+          height: downlg ? 28 : 32,
           backgroundColor: 'transparent',
           border: 'none',
           cursor: 'pointer',

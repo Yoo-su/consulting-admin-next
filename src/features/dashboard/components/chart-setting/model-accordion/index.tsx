@@ -19,7 +19,7 @@ import { ChartData } from '@/features/dashboard/types/chart-data.type';
 
 type ModelAccordionProps = {
   selectedModel: number | null;
-  setSelectedModel: (modelNum: number) => void;
+  setSelectedModel: (modelNum: number | null) => void;
   modelNum: number;
   modelChartData: ChartData[];
 };
@@ -44,6 +44,11 @@ const ModelAccordion = ({ selectedModel, setSelectedModel, modelNum, modelChartD
     return getGroupedData(modelChartData, 'level', modelLevels);
   }, [modelChartData]);
 
+  const handlClickTitle = () => {
+    if (selectedModel === modelNum) setSelectedModel(null);
+    else setSelectedModel(modelNum);
+  };
+
   return (
     <Accordion expanded={selectedModel === modelNum}>
       <AccordionSummary aria-controls="chart-model-accordion">
@@ -57,9 +62,7 @@ const ModelAccordion = ({ selectedModel, setSelectedModel, modelNum, modelChartD
             borderRadius: '0.3rem',
             px: 1,
           }}
-          onClick={() => {
-            setSelectedModel(modelNum);
-          }}
+          onClick={handlClickTitle}
         >{`모델 ${modelNum + 1}`}</Typography>
 
         {selectedModel === modelNum && (

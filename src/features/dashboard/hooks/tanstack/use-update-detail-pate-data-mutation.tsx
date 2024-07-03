@@ -4,10 +4,10 @@ import { DetailPageData } from '../../types/detail-page-data.type';
 
 type MutationFnProps = {
   serviceID: string;
-  detailpageDatas: DetailPageData[];
+  detailpageData: DetailPageData[];
 };
 export const useUpdateDetailpageDataMutation = () => {
   return useMutation({
-    mutationFn: ({ serviceID, detailpageDatas }: MutationFnProps) => updateDetailPageData(serviceID, detailpageDatas),
+    mutationFn: ({ serviceID, detailpageData }: MutationFnProps) => updateDetailPageData(serviceID, detailpageData),
   });
 };

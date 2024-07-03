@@ -66,7 +66,7 @@ const FoundationLibraryListBox = () => {
             ))}
           </Grid>
         ) : (
-          <EmptyBox text="업로드된 엑실이 없습니다" />
+          <EmptyBox text="업로드된 엑셀이 없습니다" />
         )}
       </Suspense>
     </Stack>
