@@ -7,23 +7,37 @@ import Stack from '@mui/material/Stack';
 import { Box, Button, FormControl, InputBase, Popover } from '@mui/material';
 import ColorSpace from './color-space';
 import HueSlider from './hue-slider';
-import { hexToHsv, hsvToHex, isValidHexColor } from '@/features/dashboard/services/flutter-setting/color-utils';
+import {
+  clamp,
+  hexToHsv,
+  hsvToHex,
+  isValidHexColor,
+  matchIsNumber,
+} from '@/features/dashboard/services/flutter-setting/color-utils';
 import { HSV } from '../types/color-picker.types';
+import { text } from 'stream/consumers';
+import { FormItemProps } from '../types/flutter-setting-form.type';
+import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
 type FlutterColorPickerProps = {
   value: string;
   setTextValue: Dispatch<SetStateAction<string>>;
-};
+  RowIdx: number;
+} & Pick<FormItemProps, 'path' | 'handleEdit'>;
 
-const FlutterColorPicker = ({ value, setTextValue }: FlutterColorPickerProps) => {
+const FlutterColorPicker = ({ value, setTextValue, RowIdx, path, handleEdit }: FlutterColorPickerProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
   const [currentHsv, setCurrentHsv] = useState<HSV>(hexToHsv(value));
   const [hexText, setHexText] = useState<string>(value.replace('0xff', '').toUpperCase());
+  const { addToEditedList } = useFlutterSetting();
 
   const handleColorChange = (event: MouseEvent<HTMLButtonElement>) => {
     setIsOpen(false);
-    setTextValue(`0xff${hsvToHex(currentHsv)}`);
+    const value = `0xff${hsvToHex(currentHsv)}`;
+    setTextValue(value);
+    handleEdit(path, value);
+    addToEditedList({ RowIdx, RowValue: value });
   };
   const handleClose = () => {
     setIsOpen(false);
@@ -35,6 +49,8 @@ const FlutterColorPicker = ({ value, setTextValue }: FlutterColorPickerProps) =>
   };
   const handleChangeText = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
+    if (value.length > 6) return;
+
     setHexText(value);
     if (value.length === 6 && isValidHexColor(value)) {
       setCurrentHsv(hexToHsv(value));
@@ -42,14 +58,7 @@ const FlutterColorPicker = ({ value, setTextValue }: FlutterColorPickerProps) =>
   };
   const handleChangeSpace = (args: { s: number; v: number }) => {
     const { s, v } = args;
-    // const tinyColor = {
-    //   h: currentHsv.h,
-    //   a: 0,
-    //   s: s,
-    //   v: v,
-    // };
     setCurrentHsv((prevState) => ({ ...prevState, s, v }));
-    // onChange?.(buildValueFromTinyColor(tinyColor, format));
   };
   const handleChangeHue = (event: Event, hue: number | number[]) => {
     if (!matchIsNumber(hue)) {
@@ -57,12 +66,6 @@ const FlutterColorPicker = ({ value, setTextValue }: FlutterColorPickerProps) =>
     }
     const newHue = clamp((360 * hue) / 100, 0, 359);
     setCurrentHsv((prevState) => ({ ...prevState, h: newHue }));
-    // const tinyColor = {
-    //   ...currentHsv,
-    //   a: 0,
-    //   h: newHue,
-    // };
-    // onChange?.(buildValueFromTinyColor(tinyColor, format));
   };
 
   useEffect(() => {
@@ -112,7 +115,7 @@ const FlutterColorPicker = ({ value, setTextValue }: FlutterColorPickerProps) =>
                   startAdornment={<InputAdornment position="start">0xff</InputAdornment>}
                   size="small"
                   sx={{
-                    width: '90px',
+                    width: '93px',
                     border: '1px solid rgba(0, 0, 0, 0.23)',
                     borderRadius: '5%',
                     marginLeft: '1px',

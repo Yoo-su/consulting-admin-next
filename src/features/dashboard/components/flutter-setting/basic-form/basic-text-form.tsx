@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useState } from 'react';
 import { useOutsideClick } from '@/shared/hooks/use-outside-click';
 import { TextField } from '@mui/material';
 import { FormItemProps } from '../types/flutter-setting-form.type';
@@ -50,6 +50,19 @@ const BasicTextForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) =>
       setTextValue(RowValue);
     }
   }, [RowValue]);
+  const startAdornment = useCallback(
+    () =>
+      isColorItem && (
+        <FlutterColorPicker
+          setTextValue={setTextValue}
+          value={textValue}
+          handleEdit={handleEdit}
+          path={path}
+          RowIdx={RowIdx}
+        />
+      ),
+    [textValue]
+  );
 
   return (
     <TextField
@@ -66,7 +79,7 @@ const BasicTextForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) =>
         },
       }}
       InputProps={{
-        startAdornment: isColorItem && <FlutterColorPicker setTextValue={setTextValue} value={textValue} />,
+        startAdornment: startAdornment(),
       }}
       disabled={isDisabled}
       onChange={handleChange}

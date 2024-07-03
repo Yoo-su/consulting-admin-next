@@ -47,10 +47,10 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   const updateSettingList = () => {
     editedSettingList.forEach((item) => {
       mutateAsync(item, {
-        onSuccess: () => {
+        onSuccess: (data, variables) => {
           console.log('onSuccess');
           toast.success('변경사항이 적용되었습니다.');
-          queryClient.invalidateQueries({ queryKey: ['flutter-setting'] });
+          queryClient.setQueryData(['flutter-setting', variables], data);
         },
       });
     });
