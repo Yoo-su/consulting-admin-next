@@ -133,7 +133,14 @@ const ConditionSettingPopover = ({ anchorEl, onClose, open, rowNum, condition }:
               </Typography>
             }
             color={hasChanges ? 'info' : 'default'}
-            sx={{ px: 1 }}
+            sx={{
+              px: 1,
+              bgcolor: '#4863A0',
+              '&:hover': {
+                bgcolor: '#4863A0',
+              },
+              color: '#fff',
+            }}
           />
         </Stack>
 

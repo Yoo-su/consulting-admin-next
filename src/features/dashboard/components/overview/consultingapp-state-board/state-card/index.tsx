@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useState, useRef } from 'react';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -10,7 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Divider from '@mui/material/Divider';
 import { Draggable } from 'react-beautiful-dnd';
-import { useTransition, animated } from '@react-spring/web';
+import { useTransition, useSpring, animated } from '@react-spring/web';
 
 import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-consultingapp-state';
 import { ConsultingAppState } from '@/features/dashboard/types/consultingapp-state.type';
@@ -29,6 +29,7 @@ const StateCard = ({ state, index }: StateCardProps) => {
   const { openDialog, setDialogContentState } = useConsultingAppState();
   const [isHover, setIsHover] = useState(false);
   const [isServiceSelected, setIsServiceSelected] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const { execute: getServiceList, isLoading } = useGetServiceList();
 
@@ -90,11 +91,29 @@ const StateCard = ({ state, index }: StateCardProps) => {
   };
 
   const delay = index * 100; // 각 카드의 애니메이션 지연 시간 설정
+
+  // 등장 애니메이션 설정
   const transitions = useTransition(state, {
-    from: { opacity: 0, scale: 0 },
-    enter: { opacity: 1, scale: 1 },
-    leave: { opacity: 0, scale: 0 },
+    from: { opacity: 0, transform: 'scale(0)' },
+    enter: { opacity: 1, transform: 'scale(1)' },
+    leave: { opacity: 0, transform: 'scale(0)' },
     delay,
+  });
+
+  // Hover 애니메이션 효과 추가
+  const [contentHeight, setContentHeight] = useState(0);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setContentHeight(contentRef.current.scrollHeight);
+    }
+  }, [isHover]);
+
+  const hoverAnimation = useSpring({
+    height: isHover ? contentHeight : 0,
+    opacity: isHover ? 1 : 0,
+    overflow: 'hidden',
+    config: { duration: 200, easing: (t) => t * (2 - t) },
   });
 
   return (
@@ -144,34 +163,26 @@ const StateCard = ({ state, index }: StateCardProps) => {
                   )}
                 </Stack>
 
-                <Stack
-                  direction={'column'}
-                  spacing={1}
-                  sx={{
-                    display: isHover || snapshot.isDragging ? 'block' : 'none',
-                    ...((isHover || snapshot.isDragging ? 'block' : 'none') && {
-                      animation: 'fadein 0.3s ease-in-out',
-                    }),
-                  }}
-                >
-                  <Divider sx={{ display: isHover || snapshot.isDragging ? 'block' : 'none' }} />
-                  <Stack
-                    direction={'row'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    spacing={1}
-                    sx={{
-                      ...iconToGoStyle,
-                      display: isHover || snapshot.isDragging ? 'flex' : 'none',
-                    }}
-                    onClick={handleCardClick}
-                  >
-                    <Typography variant="caption" sx={{ paddingTop: '1px' }}>
-                      서비스 선택
-                    </Typography>
-                    <CheckIcon />
-                  </Stack>
-                </Stack>
+                <animated.div style={hoverAnimation}>
+                  <div ref={contentRef}>
+                    <Stack direction={'column'} spacing={1}>
+                      <Divider />
+                      <Stack
+                        direction={'row'}
+                        alignItems={'center'}
+                        justifyContent={'center'}
+                        spacing={1}
+                        sx={iconToGoStyle}
+                        onClick={handleCardClick}
+                      >
+                        <Typography variant="caption" sx={{ paddingTop: '1px' }}>
+                          서비스 선택
+                        </Typography>
+                        <CheckIcon />
+                      </Stack>
+                    </Stack>
+                  </div>
+                </animated.div>
               </Stack>
             </Box>
           </animated.div>
