@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import { SvgIconProps } from '@mui/material';
 
 type ButtonIconProps = {
-  props: any;
+  props?: any;
   Icon: ComponentType<SvgIconProps>;
 };
 const ButtonIcon = ({ props, Icon }: ButtonIconProps) => {

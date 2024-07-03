@@ -23,7 +23,10 @@ const getFilteredChildren = (rowInfo: FlutterRowInfo) => {
       hasMatchingChild = true;
     }
   }
-  if (filteredItem.RowValue !== undefined || hasMatchingChild) {
+  if (
+    (filteredItem.RowValue !== undefined && filteredItem.RowValue !== filteredItem.DefaultValue) ||
+    hasMatchingChild
+  ) {
     return filteredItem;
   }
 

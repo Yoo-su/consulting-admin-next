@@ -6,6 +6,7 @@ import { ComponentMapping, FormTypeList } from '../constants/form-types';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 import EditSetting from '../edit-setting';
 import { getFilteredCustomConfig } from '@/features/dashboard/services/flutter-setting/get-filtered-custom-config';
+import { checkChildEdited } from '@/features/dashboard/services/flutter-setting/check-child-edited';
 
 type BasicFormProps = {
   basicKey?: string;
@@ -17,8 +18,10 @@ type BasicFormProps = {
 
 const BasicForm = ({ basicKey, item, path, index = 0, isDisabled }: BasicFormProps) => {
   const { IsRequired, Type, Title, KoreanTitle, Description, level, children } = item;
-  const { flutterSettingList, setFilteredSettingList, setFlutterSettingList } = useFlutterSetting();
+  const { flutterSettingList, filteredSettingList, setFilteredSettingList, setFlutterSettingList } =
+    useFlutterSetting();
   const subMenu = level > 0;
+  const isEdited = checkChildEdited(item, filteredSettingList, true);
 
   const handleEdit = useCallback((path: (number | string)[], value: string) => {
     const newData = JSON.parse(JSON.stringify(flutterSettingList));
@@ -48,7 +51,7 @@ const BasicForm = ({ basicKey, item, path, index = 0, isDisabled }: BasicFormPro
   return (
     <Stack key={basicKey} direction={'column'} spacing={subMenu ? 0 : 1}>
       <Stack sx={{ paddingTop: level > 1 ? '.5rem' : '' }}>
-        <Stack direction={'row'} spacing={1} sx={{ paddingBottom: '1px' }}>
+        <Stack direction={'row'} spacing={1} sx={{ paddingBottom: '1px', backgroundColor: isEdited ? '#EEEEEE' : '' }}>
           <Typography variant={subMenu ? 'body2' : 'body1'} sx={{ fontWeight: subMenu ? 'bold' : 'bolder' }}>
             {Title}
             {IsRequired && '*'}

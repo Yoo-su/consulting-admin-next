@@ -1,15 +1,18 @@
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useState } from 'react';
 import { useOutsideClick } from '@/shared/hooks/use-outside-click';
 import { TextField } from '@mui/material';
 import { FormItemProps } from '../types/flutter-setting-form.type';
 import toast from 'react-hot-toast';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
+import FlutterColorPicker from '../flutter-color-picker';
 
 const BasicTextForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) => {
-  const { IsRequired, Type, transferDefaultValue, RowIdx, RowValue = null } = item;
-  const [textValue, setTextValue] = useState(RowValue ? RowValue : transferDefaultValue);
+  const { IsRequired, Title, Type, transferDefaultValue, RowIdx, RowValue = null } = item;
+  const [textValue, setTextValue] = useState<string>(RowValue ? RowValue : transferDefaultValue);
   const [isActive, setIsActive] = useState(false);
   const { addToEditedList } = useFlutterSetting();
+
+  const isColorItem = Title.endsWith('Color');
 
   const updateEditedValue = () => {
     handleEdit(path, textValue);
@@ -47,6 +50,19 @@ const BasicTextForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) =>
       setTextValue(RowValue);
     }
   }, [RowValue]);
+  const startAdornment = useCallback(
+    () =>
+      isColorItem && (
+        <FlutterColorPicker
+          setTextValue={setTextValue}
+          value={textValue}
+          handleEdit={handleEdit}
+          path={path}
+          RowIdx={RowIdx}
+        />
+      ),
+    [textValue]
+  );
 
   return (
     <TextField
@@ -61,6 +77,9 @@ const BasicTextForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) =>
           WebkitTextFillColor: 'rgba(0, 0, 0, 0.87) !important',
           backgroundColor: '#FAFAFA',
         },
+      }}
+      InputProps={{
+        startAdornment: startAdornment(),
       }}
       disabled={isDisabled}
       onChange={handleChange}
