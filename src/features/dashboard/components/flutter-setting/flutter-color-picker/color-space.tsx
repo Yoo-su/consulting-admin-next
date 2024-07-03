@@ -78,8 +78,8 @@ const ColorSpace = (props: ColorSpaceProps) => {
     }
   };
 
-  const saturationInPercent = hsv.s * 100;
-  const valueInPercent = hsv.v * 100;
+  const saturationInPercent = hsv.s <= 1 ? hsv.s * 100 : hsv.s;
+  const valueInPercent = hsv.v <= 1 ? hsv.v * 100 : hsv.v;
 
   return (
     <SpaceBox

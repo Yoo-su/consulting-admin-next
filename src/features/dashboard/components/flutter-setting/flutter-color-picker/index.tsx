@@ -1,12 +1,10 @@
-import { ChangeEvent, Dispatch, MouseEvent, SetStateAction, useRef, useState } from 'react';
+import { ChangeEvent, Dispatch, MouseEvent, SetStateAction, useEffect, useState } from 'react';
 import SquareRoundedIcon from '@mui/icons-material/SquareRounded';
-import Popper, { PopperPlacementType } from '@mui/material/Popper';
-import Fade from '@mui/material/Fade';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 import Stack from '@mui/material/Stack';
-import { Box, Button, FormControl, InputBase } from '@mui/material';
+import { Box, Button, FormControl, InputBase, Popover } from '@mui/material';
 import ColorSpace from './color-space';
 import HueSlider from './hue-slider';
 
@@ -20,20 +18,26 @@ const FlutterColorPicker = ({ value, setTextValue }: FlutterColorPickerProps) =>
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
   const [currentHsv, setCurrentHsv] = useState<HSV>(hexToHsv(value));
-  const colorPickerRef = useRef<HTMLDivElement>(null);
+  const [hexText, setHexText] = useState<string>(value.replace('0xff', '').toUpperCase());
 
   const handleColorChange = (event: MouseEvent<HTMLButtonElement>) => {
     setIsOpen(false);
-    setTextValue(rgbToHex(currentHsv, true));
+    setTextValue(`0xff${hsvToHex(currentHsv)}`);
   };
-  const handleCancel = () => {
+  const handleClose = () => {
     setIsOpen(false);
     setCurrentHsv(hexToHsv(value));
   };
   const handleIconClick = (event: MouseEvent<SVGSVGElement>) => {
-    console.log('clicked');
     setIsOpen(!isOpen);
     setAnchorEl(event.currentTarget);
+  };
+  const handleChangeText = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setHexText(value);
+    if (value.length === 6 && isValidHexColor(value)) {
+      setCurrentHsv(hexToHsv(value));
+    }
   };
   const handleChangeSpace = (args: { s: number; v: number }) => {
     const { s, v } = args;
@@ -60,6 +64,10 @@ const FlutterColorPicker = ({ value, setTextValue }: FlutterColorPickerProps) =>
     // onChange?.(buildValueFromTinyColor(tinyColor, format));
   };
 
+  useEffect(() => {
+    setHexText(hsvToHex(currentHsv));
+  }, [currentHsv]);
+
   return (
     <>
       <SquareRoundedIcon
@@ -74,56 +82,74 @@ const FlutterColorPicker = ({ value, setTextValue }: FlutterColorPickerProps) =>
         }}
         onClick={handleIconClick}
       />
-      <Popper open={isOpen} anchorEl={anchorEl} placement="bottom-start" transition>
-        {({ TransitionProps }) => (
-          <Fade {...TransitionProps} timeout={350}>
-            <Paper sx={{ padding: '5px', width: '300px' }} ref={colorPickerRef}>
-              <Stack direction={'row'} spacing={2} alignItems={'center'} justifyContent={'space-between'}>
-                <Typography variant="body1">선택된 색상</Typography>
-                <Stack direction={'row'} alignItems={'center'}>
-                  <FormControl>
-                    <InputBase
-                      type="color"
-                      value={rgbToHex(currentHsv)}
-                      sx={{ '& .MuiInputBase-input': { cursor: 'pointer', height: 30, width: 27, padding: 0 } }}
-                    />
-                  </FormControl>
-                  <TextField
-                    size="small"
-                    sx={{ width: '88px', '& .MuiInputBase-input': { textAlign: 'center', padding: 0 } }}
-                    value={rgbToHex(currentHsv, true)}
-                  />
-                </Stack>
-              </Stack>
-
-              <ColorSpace currentHue={currentHsv.h} hsv={currentHsv} onChange={handleChangeSpace} />
-              <Box>
-                <HueSlider
-                  min={0}
-                  max={100}
-                  step={1}
-                  onChange={handleChangeHue}
-                  aria-label="hue"
-                  value={(currentHsv.h * 100) / 360}
+      <Popover
+        open={isOpen}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        onClose={handleClose}
+      >
+        <Paper sx={{ padding: '5px', width: '300px' }}>
+          <Stack direction={'row'} spacing={2} alignItems={'center'} justifyContent={'space-between'}>
+            <Typography variant="body1">선택된 색상</Typography>
+            <Stack direction={'row'} alignItems={'center'}>
+              <FormControl>
+                <InputBase
+                  type="color"
+                  value={`#${hsvToHex(currentHsv)}`}
+                  sx={{ '& .MuiInputBase-input': { cursor: 'pointer', height: 30, width: 27, padding: 0 } }}
                 />
-              </Box>
-              <Stack direction={'row'}>
-                <Button
-                  variant="contained"
-                  disableElevation
-                  sx={{ width: '100%', borderRadius: '5px  0 0 5px' }}
-                  onClick={handleColorChange}
-                >
-                  선택 완료
-                </Button>
-                <Button variant="outlined" sx={{ width: '30%', borderRadius: '0 5px 5px 0' }} onClick={handleCancel}>
-                  취소
-                </Button>
-              </Stack>
-            </Paper>
-          </Fade>
-        )}
-      </Popper>
+              </FormControl>
+              <FormControl>
+                <InputBase
+                  startAdornment={<InputAdornment position="start">0xff</InputAdornment>}
+                  size="small"
+                  sx={{
+                    width: '90px',
+                    border: '1px solid rgba(0, 0, 0, 0.23)',
+                    borderRadius: '5%',
+                    marginLeft: '1px',
+                    '& .MuiInputBase-input': { padding: 0 },
+                    '& .MuiInputAdornment-root': {
+                      marginRight: '1px',
+                      paddingBottom: '1px',
+                      paddingLeft: '1.5px',
+                    },
+                    '& .MuiTypography-root': {
+                      color: 'rgba(0, 0, 0, 0.84)',
+                    },
+                  }}
+                  value={hexText}
+                  onChange={handleChangeText}
+                />
+              </FormControl>
+            </Stack>
+          </Stack>
+
+          <ColorSpace currentHue={currentHsv.h} hsv={currentHsv} onChange={handleChangeSpace} />
+          <Box>
+            <HueSlider
+              min={0}
+              max={100}
+              step={1}
+              onChange={handleChangeHue}
+              aria-label="hue"
+              value={(currentHsv.h * 100) / 360}
+            />
+          </Box>
+          <Stack direction={'row'}>
+            <Button variant="contained" disableElevation sx={{ width: '100%' }} onClick={handleColorChange}>
+              선택 완료
+            </Button>
+          </Stack>
+        </Paper>
+      </Popover>
     </>
   );
 };
@@ -184,23 +210,22 @@ function hsvToRgb(h: number, s: number, v: number) {
   };
 }
 
-const rgbToHex = (hsv: HSV, flutter: boolean = false) => {
+const hsvToHex = (hsv: HSV) => {
   const rgbObject = hsvToRgb(hsv.h, hsv.s, hsv.v);
   const r = rgbObject.r.toString(16).toUpperCase().padStart(2, '0');
   const g = rgbObject.g.toString(16).toUpperCase().padStart(2, '0');
   const b = rgbObject.b.toString(16).toUpperCase().padStart(2, '0');
-  if (flutter) return `0xff${r}${g}${b}`;
-  return `#${r}${g}${b}`;
+  return `${r}${g}${b}`;
 };
 
 function hexToHsv(hex: string) {
   // Remove the hash if it's there
+  hex = hex.replace('0xff', '');
 
-  console.log('hex', hex.slice(4, 6), hex.slice(6, 8), hex.slice(8, 10));
   // Parse the hex string
-  const r = parseInt(hex.slice(4, 6), 16) / 255;
-  const g = parseInt(hex.slice(6, 8), 16) / 255;
-  const b = parseInt(hex.slice(8, 10), 16) / 255;
+  const r = parseInt(hex.slice(0, 2), 16) / 255;
+  const g = parseInt(hex.slice(2, 4), 16) / 255;
+  const b = parseInt(hex.slice(4, 8), 16) / 255;
 
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
@@ -234,6 +259,11 @@ function hexToHsv(hex: string) {
   h = Math.round((h * 100) / 100);
   s = Math.round((s * 100) / 100);
   v = Math.round((v * 100) / 100);
-  console.log('hsv', { h, s, v });
   return { h, s, v };
 }
+
+const isValidHexColor = (input: string) => {
+  const regex = /^([0-9A-Fa-f]{3}){1,2}$/;
+
+  return regex.test(input);
+};
