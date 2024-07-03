@@ -126,7 +126,7 @@ const ConditionSettingPopover = ({ anchorEl, onClose, open, rowNum, condition }:
         <Divider sx={{ my: 1.5 }} />
 
         {currentCondition.length ? (
-          <Stack direction={'column'} spacing={0}>
+          <Stack direction={'column'} spacing={0} sx={{ p: '10px 0' }}>
             {currentCondition.map((item) => (
               <ConditionRow
                 key={item.idx}
