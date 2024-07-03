@@ -51,7 +51,7 @@ const BasicForm = ({ basicKey, item, path, index = 0, isDisabled }: BasicFormPro
   return (
     <Stack key={basicKey} direction={'column'} spacing={subMenu ? 0 : 1}>
       <Stack sx={{ paddingTop: level > 1 ? '.5rem' : '' }}>
-        <Stack direction={'row'} spacing={1} sx={{ paddingBottom: '1px', backgroundColor: isEdited ? '#E2E2E2' : '' }}>
+        <Stack direction={'row'} spacing={1} sx={{ paddingBottom: '1px', backgroundColor: isEdited ? '#EEEEEE' : '' }}>
           <Typography variant={subMenu ? 'body2' : 'body1'} sx={{ fontWeight: subMenu ? 'bold' : 'bolder' }}>
             {Title}
             {IsRequired && '*'}
