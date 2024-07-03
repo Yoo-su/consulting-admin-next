@@ -89,7 +89,7 @@ const ConditionSettingPopover = ({ anchorEl, onClose, open, rowNum, condition }:
       slotProps={{ paper: { sx: { width: '540px', mt: 0.6, height: '380px' } } }}
       sx={{ overflowY: 'scroll' }}
     >
-      <Stack direction={'column'} sx={{ p: '16px 20px', position: 'relative', alignItems: 'center' }}>
+      <Stack direction={'column'} sx={{ p: '16px 20px', position: 'relative', alignItems: 'center', height: '100%' }}>
         <Stack
           direction={'row'}
           justifyContent={'flex-end'}
@@ -126,7 +126,7 @@ const ConditionSettingPopover = ({ anchorEl, onClose, open, rowNum, condition }:
             clickable
             onClick={handleClickSaveBtn}
             disabled={!hasChanges}
-            icon={<ExitToAppIcon />}
+            icon={<ExitToAppIcon color="inherit" />}
             label={
               <Typography variant="button" fontWeight={'bold'}>
                 {hasChanges ? '변경사항 반영' : '변경사항 없음'}
@@ -140,6 +140,7 @@ const ConditionSettingPopover = ({ anchorEl, onClose, open, rowNum, condition }:
                 bgcolor: '#4863A0',
               },
               color: '#fff',
+              transition: 'all 0.2s ease',
             }}
           />
         </Stack>

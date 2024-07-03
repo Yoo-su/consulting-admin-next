@@ -31,7 +31,7 @@ const MojipSettingProvider = ({ children }: MojipSettingProviderProps) => {
 
   // detailpage data 수정여부
   const hasChanges = useMemo(() => {
-    if (!data || !originalDetailData.length) return false;
+    if (!data) return false;
     const sortedDetailpageData = [...data].sort((a, b) => a.rowNum - b.rowNum),
       sortedOriginalDetailpageData = [...originalDetailData].sort((a, b) => a.rowNum - b.rowNum);
     return JSON.stringify(sortedDetailpageData) !== JSON.stringify(sortedOriginalDetailpageData);
