@@ -22,6 +22,7 @@ import {
   Code as CodeIcon,
   TableChart as TableIcon,
   Link as LinkIcon,
+  Html as HtmlIcon,
 } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -29,6 +30,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import TableMenu from './items/table-menu';
 import ColorPicker from './items/color-picker';
 import HeadingMenu from './items/heading-menu';
+import HtmlEditDialog from './items/html-edit-dialog';
 
 type ToolbarProps = {
   editor: Editor;
@@ -39,6 +41,15 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
   const downlg = useMediaQuery(theme.breakpoints.down('lg'));
   const [headingAnchorEl, setHeadingAnchorEl] = useState<null | HTMLElement>(null);
   const [tableAnchorEl, setTableAnchorEl] = useState<null | HTMLElement>(null);
+  const [isHtmlDialogOpen, setIsHtmlDialogOpen] = useState(false);
+
+  const handleOpenHtmlDialog = () => {
+    setIsHtmlDialogOpen(true);
+  };
+
+  const handleCloseHtmlDialog = () => {
+    setIsHtmlDialogOpen(false);
+  };
 
   const handleOpenHeadingMenu = useCallback((event: MouseEvent<HTMLElement>) => {
     setHeadingAnchorEl(event.currentTarget);
@@ -184,6 +195,13 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
       split: true,
       default: true,
     },
+    {
+      name: 'editHtml',
+      icon: <HtmlIcon fontSize="inherit" />,
+      onClick: handleOpenHtmlDialog,
+      disabled: false,
+      split: true,
+    },
   ];
 
   return (
@@ -219,6 +237,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
       </Box>
       <TableMenu editor={editor} anchorEl={tableAnchorEl} onClose={handleCloseTableMenu} />
       <HeadingMenu editor={editor} anchorEl={headingAnchorEl} onClose={handleCloseHeadingMenu} />
+      <HtmlEditDialog editor={editor} open={isHtmlDialogOpen} onClose={handleCloseHtmlDialog} />
     </Box>
   );
 };
