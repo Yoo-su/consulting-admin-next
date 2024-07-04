@@ -10,7 +10,7 @@ export const checkChildEdited = (
 
 const checkRowEdited = (row: FlutterRowInfo, rowList: FlutterRowInfo[], isDeep: boolean): boolean => {
   return rowList.some((item) => {
-    if (isDeep && item.children.length > 0) {
+    if (isDeep && item.children.length > 0 && item.Type !== 'select') {
       return checkRowEdited(row, item.children, isDeep);
     }
     return item.RowIdx === row.RowIdx && item.RowValue !== item.DefaultValue;

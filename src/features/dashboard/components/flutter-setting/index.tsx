@@ -3,13 +3,13 @@
 import { Grid, Stack } from '@mui/material';
 import SettingList from './setting-list';
 import SettingDetail from './setting-detail';
-import { useGetFlutterSettingQuery } from '@/features/dashboard/hooks/tanstack/use-get-flutter-setting-query';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 import { useEffect, useState } from 'react';
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { getFilteredCustomConfig } from '@/features/dashboard/services/flutter-setting/get-filtered-custom-config';
 import { FlutterSetting as FlutterSettingType } from '@/features/dashboard/types/flutter-setting.type';
 import SaveDataButton from '@/shared/components/save-data-button';
+import { useGetFlutterSettingsInfoQuery } from '../../hooks/tanstack/use-get-flutter-settings-info-query';
 
 const FlutterSetting = () => {
   const { currentService } = useUnivService();
@@ -21,7 +21,7 @@ const FlutterSetting = () => {
     editedSettingList,
     updateSettingList,
   } = useFlutterSetting();
-  const { data: settingList } = useGetFlutterSettingQuery({ serviceID: currentService!.serviceID });
+  const { data: settingList } = useGetFlutterSettingsInfoQuery({ serviceID: currentService!.serviceID });
 
   const [toggle, setToggle] = useState(false);
   const [filteredList, setFilteredList] = useState<FlutterSettingType[]>(flutterSettingList);

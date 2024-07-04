@@ -16,9 +16,7 @@ export type FlutterSettingContextValue = {
   filteredSettingList: FlutterSetting[];
   setFilteredSettingList: Dispatch<SetStateAction<FlutterSetting[]>>;
   editedSettingList: SetFlutterCustomConfigParams[];
-  addToEditedList: (
-    editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'> & { DefaultValue: string }
-  ) => void;
+  addToEditedList: (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => void;
   updateSettingList: () => void;
 };
 
@@ -33,21 +31,10 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   const { mutateAsync } = useSetFlutterSettingMutation();
   const queryClient = useQueryClient();
 
-  const addToEditedList = (
-    editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'> & { DefaultValue: string }
-  ) => {
-    const { RowIdx, RowValue, DefaultValue } = editedSetting;
-    const isDefault = RowValue.trim() === DefaultValue.trim();
-
-    if (isDefault) {
-      setEditedSettingList((prev) => prev.filter((item) => item.RowIdx !== RowIdx));
-      return;
-    }
-
+  const addToEditedList = (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => {
     const newSetting: SetFlutterCustomConfigParams = {
       serviceID: currentService!.serviceID,
-      RowIdx,
-      RowValue,
+      ...editedSetting,
     };
     setEditedSettingList((prev) => {
       const isExist = prev.find((item) => item.RowIdx === newSetting.RowIdx);
@@ -63,7 +50,9 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
         onSuccess: (data, variables) => {
           console.log('onSuccess');
           toast.success('변경사항이 적용되었습니다.');
-          queryClient.setQueryData(['flutter-setting', variables], data);
+          console.log('data', data);
+          console.log('variables', variables);
+          queryClient.setQueryData(['flutter-row-info', variables], data);
         },
       });
     });

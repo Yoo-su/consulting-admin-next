@@ -20,10 +20,9 @@ const BasicForm = ({ basicKey, item, path, index = 0, isDisabled }: BasicFormPro
   const { IsRequired, Type, Title, KoreanTitle, Description, level, children } = item;
   const { flutterSettingList, filteredSettingList, setFilteredSettingList, setFlutterSettingList } =
     useFlutterSetting();
-  const subMenu = level > 0;
   const isEdited = checkChildEdited(item, filteredSettingList, true);
 
-  const handleEdit = useCallback((path: (number | string)[], value: string) => {
+  const handleEdit = (path: (number | string)[], value: string) => {
     const newData = JSON.parse(JSON.stringify(flutterSettingList));
     let current = newData;
     for (let i = 0; i < path.length - 1; i++) {
@@ -32,7 +31,7 @@ const BasicForm = ({ basicKey, item, path, index = 0, isDisabled }: BasicFormPro
     current[path[path.length - 1]].RowValue = value;
     setFlutterSettingList(newData);
     setFilteredSettingList(getFilteredCustomConfig(newData));
-  }, []);
+  };
 
   const createComponent = (formType: FlutterSettingFormType) => {
     const { component } = formType;
@@ -49,14 +48,14 @@ const BasicForm = ({ basicKey, item, path, index = 0, isDisabled }: BasicFormPro
   };
 
   return (
-    <Stack key={basicKey} direction={'column'} spacing={subMenu ? 0 : 1}>
-      <Stack sx={{ paddingTop: level > 1 ? '.5rem' : '' }}>
+    <Stack key={basicKey} direction={'column'} spacing={subMenuSettings.spacing[level]}>
+      <Stack sx={{ paddingTop: subMenuSettings.paddingTop[level] }}>
         <Stack direction={'row'} spacing={1} sx={{ paddingBottom: '1px', backgroundColor: isEdited ? '#EEEEEE' : '' }}>
-          <Typography variant={subMenu ? 'body2' : 'body1'} sx={{ fontWeight: subMenu ? 'bold' : 'bolder' }}>
+          <Typography variant={subMenuSettings.variant[level]} sx={{ fontWeight: subMenuSettings.fontWeight[level] }}>
             {Title}
             {IsRequired && '*'}
           </Typography>
-          <Typography variant={subMenu ? 'body2' : 'body1'} sx={{ color: '#757575' }}>
+          <Typography variant={subMenuSettings.variant[level]} sx={{ color: '#757575' }}>
             {KoreanTitle}
           </Typography>
         </Stack>
@@ -64,7 +63,7 @@ const BasicForm = ({ basicKey, item, path, index = 0, isDisabled }: BasicFormPro
       </Stack>
 
       {Type === 'object' ? (
-        <EditSetting settingList={children} path={subMenu ? [...path, index] : path} isDisabled={isDisabled} />
+        <EditSetting settingList={children} path={path} isDisabled={isDisabled} />
       ) : (
         FormTypeList.filter((form) => form.type === Type).map((el) => createComponent(el))
       )}
@@ -73,3 +72,10 @@ const BasicForm = ({ basicKey, item, path, index = 0, isDisabled }: BasicFormPro
 };
 
 export default BasicForm;
+
+const subMenuSettings = {
+  spacing: [1, 0, 0],
+  variant: ['body1', 'body2', 'body2'] as const,
+  fontWeight: ['bolder', 'bold', 'bold'] as const,
+  paddingTop: [0, 0, '.5rem'],
+};

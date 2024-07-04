@@ -22,17 +22,9 @@ type FlutterColorPickerProps = {
   value: string;
   setTextValue: Dispatch<SetStateAction<string>>;
   RowIdx: number;
-  DefaultValue: string;
 } & Pick<FormItemProps, 'path' | 'handleEdit'>;
 
-const FlutterColorPicker = ({
-  value,
-  setTextValue,
-  RowIdx,
-  path,
-  handleEdit,
-  DefaultValue,
-}: FlutterColorPickerProps) => {
+const FlutterColorPicker = ({ value, setTextValue, RowIdx, path, handleEdit }: FlutterColorPickerProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
   const [currentHsv, setCurrentHsv] = useState<HSV>(hexToHsv(value));
@@ -44,7 +36,7 @@ const FlutterColorPicker = ({
     const value = `0xff${hsvToHex(currentHsv)}`;
     setTextValue(value);
     handleEdit(path, value);
-    addToEditedList({ RowIdx, RowValue: value, DefaultValue });
+    addToEditedList({ RowIdx, RowValue: value });
   };
   const handleClose = () => {
     setIsOpen(false);

@@ -7,7 +7,7 @@ import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutte
 import FlutterColorPicker from '../flutter-color-picker';
 
 const BasicTextForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) => {
-  const { IsRequired, Title, Type, DefaultValue, transferDefaultValue, RowIdx, RowValue = null } = item;
+  const { IsRequired, Title, Type, transferDefaultValue, RowIdx, RowValue = null } = item;
   const [textValue, setTextValue] = useState<string>(RowValue ? RowValue : transferDefaultValue);
   const [isActive, setIsActive] = useState(false);
   const { addToEditedList } = useFlutterSetting();
@@ -16,7 +16,7 @@ const BasicTextForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) =>
 
   const updateEditedValue = () => {
     handleEdit(path, textValue);
-    addToEditedList({ RowIdx, RowValue: textValue, DefaultValue });
+    addToEditedList({ RowIdx, RowValue: textValue });
   };
   const inputRef = useOutsideClick(() => {
     if (isActive) {
@@ -59,7 +59,6 @@ const BasicTextForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) =>
           handleEdit={handleEdit}
           path={path}
           RowIdx={RowIdx}
-          DefaultValue={DefaultValue}
         />
       ),
     [textValue]
