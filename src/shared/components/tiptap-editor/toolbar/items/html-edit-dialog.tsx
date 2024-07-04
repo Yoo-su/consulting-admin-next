@@ -18,7 +18,7 @@ const HtmlEditDialog: React.FC<HtmlEditDialogProps> = ({ editor, open, onClose }
   }, [open, editor]);
 
   const handleSave = () => {
-    editor.commands.setContent(html);
+    editor.commands.setContent(html, true);
     onClose();
   };
 

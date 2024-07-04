@@ -19,7 +19,7 @@ const Tiptap = ({ value, handleChangeValue }: TiptapProps) => {
   const debouncedHandleChangeValue = useCallback(
     debounce((newValue: string) => {
       handleChangeValue(newValue);
-    }, 1000), // 300ms debounce delay, adjust as needed
+    }, 1000),
     [handleChangeValue]
   );
 

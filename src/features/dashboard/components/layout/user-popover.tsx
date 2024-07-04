@@ -23,7 +23,7 @@ export type UserPopoverProps = {
 const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
   const { user, setUser } = useUser();
 
-  const signout = () => {
+  const handleClickSignoutBtn = () => {
     sessionStorage.clear();
     setUser(null);
   };
@@ -46,13 +46,13 @@ const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
       </Box>
       <Divider />
       <MenuList disablePadding sx={{ p: '8px', '& .MuiMenuItem-root': { borderRadius: 1 } }}>
-        <MenuItem component={RouterLink} href="/" onClick={onClose}>
+        <MenuItem component={RouterLink} href="/dashboard/account-setting">
           <ListItemIcon>
             <ProfileIcon />
           </ListItemIcon>
           Profile
         </MenuItem>
-        <MenuItem onClick={signout}>
+        <MenuItem onClick={handleClickSignoutBtn}>
           <ListItemIcon>
             <SignoutIcon />
           </ListItemIcon>
