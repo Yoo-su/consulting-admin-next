@@ -50,7 +50,9 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
         onSuccess: (data, variables) => {
           console.log('onSuccess');
           toast.success('변경사항이 적용되었습니다.');
-          queryClient.setQueryData(['flutter-setting', variables], data);
+          console.log('data', data);
+          console.log('variables', variables);
+          queryClient.setQueryData(['flutter-row-info', variables], data);
         },
       });
     });
