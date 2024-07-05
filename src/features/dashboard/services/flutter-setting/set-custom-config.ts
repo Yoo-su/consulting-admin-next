@@ -5,6 +5,7 @@ export const setCustomConfig = (rowInfo: FlutterRowInfo | FlutterRowInfo[], idx:
     for (const row in rowInfo) {
       if (rowInfo[row].RowIdx === idx) {
         rowInfo[row].RowValue = rowValue;
+        rowInfo[row].OriginalRowValue = rowValue;
         return;
       }
       if (rowInfo[row].children) {
@@ -14,6 +15,7 @@ export const setCustomConfig = (rowInfo: FlutterRowInfo | FlutterRowInfo[], idx:
   } else {
     if ((rowInfo as FlutterRowInfo).RowIdx === idx) {
       (rowInfo as FlutterRowInfo).RowValue = rowValue;
+      (rowInfo as FlutterRowInfo).OriginalRowValue = rowValue;
       return;
     }
   }

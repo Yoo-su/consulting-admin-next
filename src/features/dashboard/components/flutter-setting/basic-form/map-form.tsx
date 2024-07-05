@@ -27,7 +27,7 @@ const MapForm = ({
   handleEdit: onEdit,
   isDisabled,
 }: Partial<Pick<FormItemProps, 'item'>> & Omit<FormItemProps, 'item'>) => {
-  const { transferDefaultValue, RowIdx = null, RowValue = null } = originalItem ?? {};
+  const { transferDefaultValue, RowIdx = null, RowValue = null, OriginalRowValue = null } = originalItem ?? {};
   const dataObj = getConvertedValue(RowValue ?? transferDefaultValue ?? '{}');
   const { addToEditedList } = useFlutterSetting();
 
@@ -37,6 +37,7 @@ const MapForm = ({
   const [rows, setRows] = useState<RowType[]>(
     Object.keys(dataObj).map((data) => ({ item: data, value: dataObj[data] }))
   );
+  const initialValue = OriginalRowValue ? OriginalRowValue : transferDefaultValue;
 
   //#region utilities
   /** 입력값 초기화  */
@@ -90,6 +91,7 @@ const MapForm = ({
     addToEditedList({
       RowIdx,
       RowValue: rowObject,
+      InitialValue: initialValue,
     });
     setRows(newRows);
   };

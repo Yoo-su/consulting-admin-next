@@ -7,9 +7,11 @@ import { getConvertedValue } from '@/shared/services/get-converted-value';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
 const ListOrderForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) => {
-  const { transferDefaultValue, RowIdx, RowValue } = item;
+  const { transferDefaultValue, RowIdx, RowValue, OriginalRowValue } = item;
   const { addToEditedList } = useFlutterSetting();
   const [orderList, setOrderList] = useState(RowValue ? getConvertedValue(RowValue) : transferDefaultValue);
+
+  const initialValue = OriginalRowValue ? OriginalRowValue : transferDefaultValue;
 
   const handleDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -19,7 +21,7 @@ const ListOrderForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) =>
     const [removed] = dupList.splice(source.index, 1);
     dupList.splice(destination.index, 0, removed);
     handleEdit(path, `[${dupList}]`);
-    addToEditedList({ RowIdx, RowValue: `[${dupList}]` });
+    addToEditedList({ RowIdx, RowValue: `[${dupList}]`, InitialValue: initialValue });
     setOrderList(dupList);
   };
   useEffect(() => {
