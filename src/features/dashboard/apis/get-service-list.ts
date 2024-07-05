@@ -22,7 +22,7 @@ export const getServiceList = async (univID: string) => {
     transformResponse: (data) => {
       const parsedData = JSON.parse(data) as GetServiceListResponse[];
       return parsedData.map((item) => ({
-        serviceID: item.ServiceID,
+        serviceID: item.ServiceID.toString(),
         schoolYear: item.SchoolYear,
         isSusi: item.IsSusi,
         univID: item.UnivID,

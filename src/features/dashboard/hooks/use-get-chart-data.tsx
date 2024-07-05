@@ -9,10 +9,16 @@ export const useGetChartData = () => {
 
   const execute = (serviceID: string) => {
     getChartData(serviceID).then((res) => {
-      setOriginalData(res.data);
-      setChartData(res.data);
+      const sortedByModelNum = [...res.data].sort((a, b) => a.modelNum - b.modelNum);
+      setOriginalData(sortedByModelNum);
+      setChartData(sortedByModelNum);
       setIsLoading(false);
     });
+  };
+
+  const handleChangeChartData = (newChartData: ChartData[]) => {
+    const sortedByModelNum = [...newChartData].sort((a, b) => a.modelNum - b.modelNum);
+    setChartData(sortedByModelNum);
   };
 
   const syncChartData = () => {
@@ -21,7 +27,7 @@ export const useGetChartData = () => {
 
   return {
     chartData,
-    setChartData,
+    setChartData: handleChangeChartData,
     originalData,
     isLoading,
     execute: useCallback(execute, []),

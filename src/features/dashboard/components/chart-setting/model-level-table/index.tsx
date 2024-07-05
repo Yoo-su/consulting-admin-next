@@ -89,12 +89,12 @@ const ModelLevelTable = ({
       return;
     }
     const newItem: ChartData = {
-      serviceID: currentService?.serviceID.toString() ?? '',
+      serviceID: currentService?.serviceID ?? '',
       modelNum: modelNum,
       label: `새 레이블${[...tmpChartData].length + 1}`,
-      chartLabel: '새 차트 레이블',
       percentage: 100,
       level: level,
+      chartLabel: '새 차트 레이블',
     };
     const newChartData = [...tmpChartData, newItem];
     setTmpChartData(newChartData);
@@ -116,7 +116,9 @@ const ModelLevelTable = ({
    */
   const handleFieldChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
     const { name, value } = event.target;
-    setTmpChartData((prevData) => prevData.map((item, i) => (i === index ? { ...item, [name]: value } : item)));
+    let parsed: string | number = value;
+    if (name === 'percentage') parsed = parseInt(value);
+    setTmpChartData((prevData) => prevData.map((item, i) => (i === index ? { ...item, [name]: parsed } : item)));
   };
 
   useEffect(() => {
@@ -134,9 +136,9 @@ const ModelLevelTable = ({
         my: 2,
         ...(editMode && {
           filter: 'drop-shadow(0 25px 25px rgb(0 0 0 / 0.15))',
-          py: 1,
+          p: 1,
         }),
-        transition: 'filter 0.06s ease-in-out, padding 0.06s ease',
+        transition: 'all 0.1s ease',
       }}
     >
       <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ mb: 1 }}>

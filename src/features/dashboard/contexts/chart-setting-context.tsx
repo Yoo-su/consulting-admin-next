@@ -59,9 +59,9 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
         serviceID: currentService?.serviceID ?? '',
         modelNum: newModelNum,
         label: '새 레이블',
-        chartLabel: '새 차트 레이블',
         percentage: 100,
         level: 1,
+        chartLabel: '새 차트 레이블',
       },
     ];
     setChartData(newChartData);
@@ -94,9 +94,9 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
         serviceID: currentService?.serviceID ?? '',
         modelNum: modelNum,
         label: '새 레이블',
-        chartLabel: '새 차트 레이블',
         percentage: 100,
         level: newLevel,
+        chartLabel: '새 차트 레이블',
       };
       setChartData([...chartData, newLevelItem]);
     },

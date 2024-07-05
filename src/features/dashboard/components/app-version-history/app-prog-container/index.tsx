@@ -26,8 +26,9 @@ const AppProgContainer = ({ histories }: { histories: AxiosResponse<AppHistory[]
   const handleClickCopy = () => {
     if (!serialNo) return;
     try {
-      navigator.clipboard.writeText(serialNo);
-      toast.success('복사되었습니다');
+      navigator.clipboard.writeText(serialNo).then(() => {
+        toast.success('복사되었습니다');
+      });
     } catch (e) {
       toast.error('복사에 실패했습니다');
     }
