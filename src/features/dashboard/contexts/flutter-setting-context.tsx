@@ -38,11 +38,12 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   const resetEditedSettingList = () => {
     setEditedSettingList([]);
   };
+  // 변경된 값 모음에 추가
   const addToEditedList = (
     editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'> & { InitialValue: string }
   ) => {
     const { RowIdx, RowValue, InitialValue } = editedSetting;
-    console.log('flutter', `"${InitialValue}"`);
+
     const isBackToOrig = RowValue.trim() === InitialValue.trim();
     if (isBackToOrig) {
       setEditedSettingList((prev) => prev.filter((item) => item.RowIdx !== RowIdx));
@@ -61,6 +62,7 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
       });
     }
   };
+  // 변경된 값 모음을 서버에 반영
   const updateSettingList = () => {
     editedSettingList.forEach((item) => {
       mutateAsync(item, {
