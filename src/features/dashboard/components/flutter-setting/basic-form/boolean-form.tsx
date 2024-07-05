@@ -1,5 +1,5 @@
 import { Box, Checkbox, FormControlLabel, FormGroup, TextField, styled } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { FormItemProps } from '../types/flutter-setting-form.type';
 import { getConvertedValue } from '@/shared/services/get-converted-value';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
@@ -29,7 +29,13 @@ const BooleanForm = ({
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
-
+  useEffect(() => {
+    if (RowValue) {
+      setCheckValue(getConvertedValue(RowValue));
+    } else {
+      setCheckValue(transferDefaultValue);
+    }
+  }, [RowValue]);
   return (
     <>
       <FormGroup

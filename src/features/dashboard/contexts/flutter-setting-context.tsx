@@ -16,6 +16,7 @@ export type FlutterSettingContextValue = {
   filteredSettingList: FlutterSetting[];
   setFilteredSettingList: Dispatch<SetStateAction<FlutterSetting[]>>;
   editedSettingList: SetFlutterCustomConfigParams[];
+  resetEditedSettingList: () => void;
   addToEditedList: (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => void;
   updateSettingList: () => void;
 };
@@ -31,6 +32,9 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   const { mutateAsync } = useSetFlutterSettingMutation();
   const queryClient = useQueryClient();
 
+  const resetEditedSettingList = () => {
+    setEditedSettingList([]);
+  };
   const addToEditedList = (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => {
     const newSetting: SetFlutterCustomConfigParams = {
       serviceID: currentService!.serviceID,
@@ -50,13 +54,13 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
         onSuccess: (data, variables) => {
           console.log('onSuccess');
           toast.success('변경사항이 적용되었습니다.');
-          console.log('data', data);
-          console.log('variables', variables);
-          queryClient.setQueryData(['flutter-row-info', variables], data);
+          // console.log('data', data);
+          // console.log('variables', variables);
+          queryClient.setQueryData(['flutter-setting', variables], data);
         },
       });
     });
-    setEditedSettingList([]);
+    resetEditedSettingList();
   };
   return (
     <FlutterSettingContext.Provider
@@ -68,7 +72,7 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
         filteredSettingList,
         setFilteredSettingList,
         editedSettingList,
-        // setEditedSettingList,
+        resetEditedSettingList,
         addToEditedList,
         updateSettingList,
       }}

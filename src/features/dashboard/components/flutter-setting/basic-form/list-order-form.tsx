@@ -1,5 +1,5 @@
 import { Chip, Stack } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, DropResult, Droppable } from 'react-beautiful-dnd';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { FormItemProps } from '../types/flutter-setting-form.type';
@@ -22,7 +22,13 @@ const ListOrderForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) =>
     addToEditedList({ RowIdx, RowValue: `[${dupList}]` });
     setOrderList(dupList);
   };
-
+  useEffect(() => {
+    if (RowValue) {
+      setOrderList(getConvertedValue(RowValue));
+    } else {
+      setOrderList(transferDefaultValue);
+    }
+  }, [RowValue]);
   return (
     <Stack direction={'column'} alignItems={'flex-start'} sx={{ margin: '.5rem 0 0 .5rem' }}>
       <DragDropContext onDragEnd={handleDragEnd}>

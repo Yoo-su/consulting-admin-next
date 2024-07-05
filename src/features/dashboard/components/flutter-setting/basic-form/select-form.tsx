@@ -1,5 +1,5 @@
 import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormItemProps } from '../types/flutter-setting-form.type';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
@@ -14,7 +14,13 @@ const SelectForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) => {
     addToEditedList({ RowIdx, RowValue: value });
     setSelectedValue(value);
   };
-
+  useEffect(() => {
+    if (RowValue) {
+      setSelectedValue(RowValue);
+    } else {
+      setSelectedValue(transferDefaultValue);
+    }
+  }, [RowValue]);
   return (
     <>
       <FormControl

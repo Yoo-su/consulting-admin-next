@@ -10,6 +10,7 @@ import { getFilteredCustomConfig } from '@/features/dashboard/services/flutter-s
 import { FlutterSetting as FlutterSettingType } from '@/features/dashboard/types/flutter-setting.type';
 import SaveDataButton from '@/shared/components/save-data-button';
 import { useGetFlutterSettingsInfoQuery } from '../../hooks/tanstack/use-get-flutter-settings-info-query';
+import { useGetFlutterSettingQuery } from '../../hooks/tanstack/use-get-flutter-setting-query';
 
 const FlutterSetting = () => {
   const { currentService } = useUnivService();
@@ -19,9 +20,12 @@ const FlutterSetting = () => {
     filteredSettingList,
     setFilteredSettingList,
     editedSettingList,
+    resetEditedSettingList,
     updateSettingList,
   } = useFlutterSetting();
-  const { data: settingList } = useGetFlutterSettingsInfoQuery({ serviceID: currentService!.serviceID });
+  // const { data: settingList } = useGetFlutterSettingsInfoQuery({ serviceID: currentService!.serviceID });
+
+  const { data: settingList } = useGetFlutterSettingQuery({ serviceID: currentService!.serviceID });
 
   const [toggle, setToggle] = useState(false);
   const [filteredList, setFilteredList] = useState<FlutterSettingType[]>(flutterSettingList);
@@ -30,6 +34,7 @@ const FlutterSetting = () => {
     console.log('refetched');
     setFlutterSettingList(settingList ?? []);
     setFilteredSettingList(getFilteredCustomConfig(settingList ?? []));
+    resetEditedSettingList();
   }, [settingList]);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { useState, MouseEvent, ChangeEvent } from 'react';
+import { useState, MouseEvent, ChangeEvent, useEffect } from 'react';
 import { FormItemProps } from '../types/flutter-setting-form.type';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -136,6 +136,9 @@ const MapForm = ({
   };
   //#endregion handle functions
 
+  useEffect(() => {
+    setRows(Object.keys(dataObj).map((data) => ({ item: data, value: dataObj[data] })));
+  }, [RowValue]);
   return (
     <>
       <TableContainer>

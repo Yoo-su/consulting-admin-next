@@ -48,6 +48,8 @@ const BasicTextForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) =>
   useEffect(() => {
     if (RowValue) {
       setTextValue(RowValue);
+    } else {
+      setTextValue(transferDefaultValue);
     }
   }, [RowValue]);
   const startAdornment = useCallback(
