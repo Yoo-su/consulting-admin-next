@@ -23,4 +23,5 @@ export type FlutterRowInfo = {
   transferDefaultValue: any;
   RowValue?: string;
   Index?: number;
+  OriginalRowValue?: string;
 };

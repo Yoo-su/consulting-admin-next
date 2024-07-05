@@ -17,7 +17,9 @@ export type FlutterSettingContextValue = {
   setFilteredSettingList: Dispatch<SetStateAction<FlutterSetting[]>>;
   editedSettingList: SetFlutterCustomConfigParams[];
   resetEditedSettingList: () => void;
-  addToEditedList: (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => void;
+  addToEditedList: (
+    editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'> & { InitialValue: string }
+  ) => void;
   updateSettingList: () => void;
 };
 
@@ -31,32 +33,41 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   const [editedSettingList, setEditedSettingList] = useState<SetFlutterCustomConfigParams[]>([]);
   const { mutateAsync } = useSetFlutterSettingMutation();
   const queryClient = useQueryClient();
+  const serviceID = currentService!.serviceID;
 
   const resetEditedSettingList = () => {
     setEditedSettingList([]);
   };
-  const addToEditedList = (editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'>) => {
-    const newSetting: SetFlutterCustomConfigParams = {
-      serviceID: currentService!.serviceID,
-      ...editedSetting,
-    };
-    setEditedSettingList((prev) => {
-      const isExist = prev.find((item) => item.RowIdx === newSetting.RowIdx);
-      if (isExist) {
-        return prev.map((item) => (item.RowIdx === newSetting.RowIdx ? newSetting : item));
-      }
-      return [...prev, newSetting];
-    });
+  const addToEditedList = (
+    editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'> & { InitialValue: string }
+  ) => {
+    const { RowIdx, RowValue, InitialValue } = editedSetting;
+    console.log('flutter', `"${InitialValue}"`);
+    const isBackToOrig = RowValue.trim() === InitialValue.trim();
+    if (isBackToOrig) {
+      setEditedSettingList((prev) => prev.filter((item) => item.RowIdx !== RowIdx));
+    } else {
+      const newSetting: SetFlutterCustomConfigParams = {
+        serviceID,
+        RowIdx,
+        RowValue,
+      };
+      setEditedSettingList((prev) => {
+        const isExist = prev.find((item) => item.RowIdx === newSetting.RowIdx);
+        if (isExist) {
+          return prev.map((item) => (item.RowIdx === newSetting.RowIdx ? newSetting : item));
+        }
+        return [...prev, newSetting];
+      });
+    }
   };
   const updateSettingList = () => {
     editedSettingList.forEach((item) => {
       mutateAsync(item, {
-        onSuccess: (data, variables) => {
+        onSuccess: () => {
           console.log('onSuccess');
           toast.success('변경사항이 적용되었습니다.');
-          // console.log('data', data);
-          // console.log('variables', variables);
-          queryClient.setQueryData(['flutter-setting', variables], data);
+          queryClient.invalidateQueries({ queryKey: ['flutter-setting', { serviceID }] });
         },
       });
     });

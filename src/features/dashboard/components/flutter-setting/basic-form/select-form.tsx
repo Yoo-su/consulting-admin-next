@@ -4,16 +4,18 @@ import { FormItemProps } from '../types/flutter-setting-form.type';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
 
 const SelectForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) => {
-  const { transferDefaultValue, children, RowIdx, RowValue = null } = item;
+  const { transferDefaultValue, children, RowIdx, RowValue = null, OriginalRowValue = null } = item;
   const { addToEditedList } = useFlutterSetting();
   const [selectedValue, setSelectedValue] = useState<string>(RowValue ?? transferDefaultValue);
+  const initialValue = OriginalRowValue ? OriginalRowValue : transferDefaultValue;
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     const value = event.target.value;
     handleEdit(path, value);
-    addToEditedList({ RowIdx, RowValue: value });
+    addToEditedList({ RowIdx, RowValue: value, InitialValue: initialValue });
     setSelectedValue(value);
   };
+
   useEffect(() => {
     if (RowValue) {
       setSelectedValue(RowValue);
@@ -21,6 +23,7 @@ const SelectForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) => {
       setSelectedValue(transferDefaultValue);
     }
   }, [RowValue]);
+
   return (
     <>
       <FormControl
