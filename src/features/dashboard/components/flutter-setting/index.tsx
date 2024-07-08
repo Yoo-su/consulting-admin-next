@@ -4,13 +4,15 @@ import { Grid, Stack } from '@mui/material';
 import SettingList from './setting-list';
 import SettingDetail from './setting-detail';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { getFilteredCustomConfig } from '@/features/dashboard/services/flutter-setting/get-filtered-custom-config';
 import { FlutterSetting as FlutterSettingType } from '@/features/dashboard/types/flutter-setting.type';
 import SaveDataButton from '@/shared/components/save-data-button';
 import { useGetFlutterSettingsInfoQuery } from '../../hooks/tanstack/use-get-flutter-settings-info-query';
 import { useGetFlutterSettingQuery } from '../../hooks/tanstack/use-get-flutter-setting-query';
+import useInterceptAppRouter from '@/shared/hooks/use-intercept-app-router';
+import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
 
 const FlutterSetting = () => {
   const { currentService } = useUnivService();
@@ -29,6 +31,26 @@ const FlutterSetting = () => {
 
   const [toggle, setToggle] = useState(false);
   const [filteredList, setFilteredList] = useState<FlutterSettingType[]>(flutterSettingList);
+
+  const editedListRef = useRef(editedSettingList);
+  const { openConfirmToast } = useConfirmToast();
+  const handleViewTransition = useCallback((originalMethod: () => void) => {
+    if (editedListRef.current.length > 0) {
+      openConfirmToast('저장되지 않은 데이터가 있습니다.\n이동하시겠습니까?', originalMethod);
+    } else {
+      originalMethod();
+    }
+  }, []);
+  useEffect(() => {
+    editedListRef.current = editedSettingList;
+  }, [editedSettingList]);
+
+  useInterceptAppRouter('back', handleViewTransition);
+  useInterceptAppRouter('forward', handleViewTransition);
+  useInterceptAppRouter('prefetch', handleViewTransition);
+  useInterceptAppRouter('push', handleViewTransition);
+  useInterceptAppRouter('refresh', handleViewTransition);
+  useInterceptAppRouter('replace', handleViewTransition);
 
   useEffect(() => {
     console.log('refetched');
