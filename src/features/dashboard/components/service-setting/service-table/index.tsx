@@ -7,13 +7,11 @@ import {
   TableBody,
   TablePagination,
   Paper,
-  Chip,
 } from '@mui/material';
 import { ChangeEvent, MouseEvent, useState } from 'react';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { Service } from '@/features/dashboard/types/service.type';
+import ServiceTableData from '../service-table-data';
 
 type ServiceListTableProps = {
   serviceList: Service[];
@@ -21,8 +19,6 @@ type ServiceListTableProps = {
 const ServiceListTable = ({ serviceList }: ServiceListTableProps) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const theme = useTheme();
-  const downmd = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -41,42 +37,13 @@ const ServiceListTable = ({ serviceList }: ServiceListTableProps) => {
             <TableCell>서비스ID</TableCell>
             <TableCell>서비스년도</TableCell>
             <TableCell>서비스유형</TableCell>
-            <TableCell>담당 개발자</TableCell>
-            <TableCell>담당 운영자</TableCell>
+            <TableCell align="center">담당 개발자</TableCell>
+            <TableCell align="center">담당 운영자</TableCell>
+            <TableCell align="center">앱 타입</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {serviceList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((service) => (
-            <TableRow key={service.serviceID} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell component="th" scope="row">
-                {service.serviceID}
-              </TableCell>
-              <TableCell>{service.schoolYear}</TableCell>
-              <TableCell>
-                {service.isSusi === '1' ? (
-                  <Chip
-                    label="수시"
-                    size={downmd ? 'small' : 'medium'}
-                    sx={{
-                      color: 'white',
-                      bgcolor: '#1C6A7D',
-                    }}
-                  />
-                ) : (
-                  <Chip
-                    label="정시"
-                    size={downmd ? 'small' : 'medium'}
-                    sx={{
-                      color: 'white',
-                      bgcolor: '#E66245',
-                    }}
-                  />
-                )}
-              </TableCell>
-              <TableCell>{service.developer ?? '미정'}</TableCell>
-              <TableCell>{service.manager ?? '미정'}</TableCell>
-            </TableRow>
-          ))}
+          <ServiceTableData serviceList={serviceList} page={page} rowsPerPage={rowsPerPage} />
         </TableBody>
       </Table>
       <TablePagination

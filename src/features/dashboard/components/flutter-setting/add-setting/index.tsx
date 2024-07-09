@@ -101,8 +101,8 @@ const AddSetting = ({ category }: { category: string }) => {
               }}
               onChange={handleSelect}
             >
-              {Options.map((option, index) => (
-                <MenuItem key={index} value={option.value}>
+              {Options.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
               ))}
