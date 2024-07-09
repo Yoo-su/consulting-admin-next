@@ -69,7 +69,7 @@ const ConditionSettingPopover = ({ anchorEl, onClose, open, rowNum, condition }:
 
   const handleClickDeleteRowBtn = (idx: number) => {
     if (idx === 0 && currentCondition.length > 1) {
-      toast.error(<Typography variant="body1">연결된 조건이 있어 삭제 불가합니다</Typography>);
+      toast.error(<Typography variant="body2">연결된 조건이 있어 삭제 불가합니다</Typography>);
       return;
     }
 

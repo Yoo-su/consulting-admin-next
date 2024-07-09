@@ -60,7 +60,7 @@ const MapForm = ({
       ++i;
       if (!isNaN(index) && i === index) continue;
       if (row.item === key) {
-        toast.error('item명 중복 불가합니다.');
+        toast.error(<Typography variant="body2">item명 중복 불가합니다</Typography>);
         return true;
       }
     }
@@ -76,7 +76,7 @@ const MapForm = ({
     }
     // 빈 값이 있는 경우
     if (!objValue.item || !objValue.value) {
-      toast.error('빈 값이 있습니다.');
+      toast.error(<Typography variant="body2">빈 값이 있습니다</Typography>);
       return false;
     }
     // 중복된 key가 있는 경우

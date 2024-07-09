@@ -14,7 +14,7 @@ import SyncBox from './sync-box';
 import ServiceAutocomplete from './service-autocomplete';
 
 const MojipDataManageBox = () => {
-  const { currentService, currentUniv } = useUnivService();
+  const { currentService, currentUniv, serviceList } = useUnivService();
 
   return (
     <ContentWrapper>
@@ -43,7 +43,7 @@ const MojipDataManageBox = () => {
                 현재 서비스 데이터를 타 서비스로 복제
               </InputLabel>
             </Stack>
-            <ServiceAutocomplete univID={currentUniv?.univID} serviceID={currentService?.serviceID} />
+            <ServiceAutocomplete serviceID={currentService?.serviceID} serviceList={serviceList} />
           </Stack>
         </Stack>
       )}

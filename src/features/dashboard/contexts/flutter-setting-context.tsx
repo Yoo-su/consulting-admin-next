@@ -5,6 +5,7 @@ import { FlutterSetting } from '../types/flutter-setting.type';
 import { SetFlutterCustomConfigParams } from '../apis/set-flutter-custom-config';
 import { useUnivService } from '../hooks/context/use-univ-service';
 import { useSetFlutterSettingMutation } from '../hooks/tanstack/use-set-flutter-setting-mutation';
+import Typography from '@mui/material/Typography';
 import toast from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -67,8 +68,7 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
     editedSettingList.forEach((item) => {
       mutateAsync(item, {
         onSuccess: () => {
-          console.log('onSuccess');
-          toast.success('변경사항이 적용되었습니다.');
+          toast.success(<Typography variant="body2">변경사항이 적용되었습니다</Typography>);
           queryClient.invalidateQueries({ queryKey: ['flutter-setting', { serviceID }] });
         },
       });

@@ -20,9 +20,9 @@ const AppHistoryItem = ({ item }: AppHistoryItemProps) => {
   const handleClick = () => {
     try {
       navigator.clipboard.writeText(downloadUrl);
-      toast.success('복사되었습니다');
+      toast.success(<Typography variant="body2">복사되었습니다</Typography>);
     } catch (e) {
-      toast.error('복사에 실패했습니다');
+      toast.error(<Typography variant="body2">복사에 실패했습니다</Typography>);
     }
   };
 

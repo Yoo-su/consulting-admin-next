@@ -1,6 +1,6 @@
 import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useState } from 'react';
 import { useOutsideClick } from '@/shared/hooks/use-outside-click';
-import { TextField } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 import { FormItemProps } from '../types/flutter-setting-form.type';
 import toast from 'react-hot-toast';
 import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutter-setting';
@@ -36,7 +36,7 @@ const BasicTextForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) =>
     const value = event.target.value;
 
     if (IsRequired && value === '') {
-      toast.error('필수 입력값입니다.');
+      toast.error(<Typography variant="body2">필수 입력값입니다</Typography>);
       return;
     }
     // type이 double이거나 number일 때 숫자만 입력 가능

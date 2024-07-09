@@ -1,14 +1,13 @@
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { getCurrentServiceYear } from '@/features/dashboard/services/get-current-service-year';
 import { ChangeEvent, useState } from 'react';
-import { createNewService } from '@/features/dashboard/apis/create-new-service';
-import toast from 'react-hot-toast';
+import { useServiceListMutation } from '@/features/dashboard/hooks/tanstack/use-service-list-mutation';
 
 const serviceTypeList = [
   { label: '수시', value: '1' },
@@ -16,27 +15,21 @@ const serviceTypeList = [
 ];
 
 const AddServiceForm = ({ univID }: { univID: string }) => {
+  const { addService, isAddServiceLoading } = useServiceListMutation();
   const [serviceType, setServiceType] = useState('1');
   const currentServiceYear = getCurrentServiceYear();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setServiceType(event.target.value);
   };
-  const handleSubmit = async () => {
+
+  const handleSubmit = () => {
     const newService = {
-      SchoolYear: currentServiceYear,
-      IsSusi: serviceType,
-      UnivID: univID,
+      schoolYear: currentServiceYear,
+      isSusi: serviceType,
+      univID: univID,
     };
-    try {
-      await createNewService(newService).then((res) => {
-        if (res.status === 201) {
-          toast.success('서비스가 추가되었습니다.');
-        }
-      });
-    } catch (e: any) {
-      toast.error(e.response.data.message);
-    }
+    addService(newService);
   };
 
   const textFieldStyle = {
@@ -71,18 +64,23 @@ const AddServiceForm = ({ univID }: { univID: string }) => {
             ))}
           </TextField>
         </Stack>
-        <Button
+        <LoadingButton
           variant="contained"
           sx={{
             backgroundColor: '#2C4059',
             color: '#fafafa',
+            '&:hover': {
+              backgroundColor: '#2C4059',
+              color: '#fafafa',
+            },
           }}
           type="submit"
           disableElevation
           onClick={handleSubmit}
+          loading={isAddServiceLoading}
         >
           <AddIcon />
-        </Button>
+        </LoadingButton>
       </Stack>
     </Paper>
   );

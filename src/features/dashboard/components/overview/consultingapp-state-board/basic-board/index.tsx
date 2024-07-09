@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 import StateCol from '../state-col';
@@ -52,10 +53,10 @@ const BasicBoard = () => {
 
       updateConsultingAppStateMutation(updateParams).then((res) => {
         if (res.status === 200) {
-          toast.success('상태가 성공적으로 업데이트 되었습니다');
+          toast.success(<Typography variant="body2">상태가 성공적으로 업데이트 되었습니다</Typography>);
           executeConsultingAppStateAll();
         } else {
-          toast.error('상태 업데이트 중 문제가 발생했습니다');
+          toast.error(<Typography variant="body2">상태 업데이트 중 문제가 발생했습니다</Typography>);
           setGroupedByCurrentState(prevStateBackup);
         }
       });

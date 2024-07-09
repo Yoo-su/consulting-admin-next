@@ -26,7 +26,7 @@ const DeveloperBoard = () => {
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
-      toast.error('이동 범위가 아닙니다');
+      toast.error(<Typography variant="body2">이동 범위가 아닙니다</Typography>);
       return;
     }
     const { source, destination } = result;

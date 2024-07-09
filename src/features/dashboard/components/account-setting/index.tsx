@@ -37,10 +37,10 @@ const AccountSettingBox = () => {
     mutateAsync(formData)
       .then((res) => {
         setImageFile(null);
-        toast.success(<Typography variant="body1">성공적으로 반영되었습니다</Typography>);
+        toast.success(<Typography variant="body2">성공적으로 반영되었습니다</Typography>);
       })
       .catch((err) => {
-        toast.error(<Typography variant="body1">오류가 발생했습니다</Typography>);
+        toast.error(<Typography variant="body2">오류가 발생했습니다</Typography>);
       });
   };
 

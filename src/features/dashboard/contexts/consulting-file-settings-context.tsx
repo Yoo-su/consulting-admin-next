@@ -51,10 +51,10 @@ const ConsultingFileSettingsProvider = ({ children }: PropsWithChildren) => {
   const uploadFile = (newFile: UploadFile) => {
     uploadMutation(newFile).then((res) => {
       if (res.data.statusCode === 200) {
-        toast.success(`${newFile.File.name}를 성공적으로 업로드하였습니다`);
+        toast.success(<Typography variant="body2">`${newFile.File.name}를 성공적으로 업로드하였습니다`</Typography>);
         execute();
       } else {
-        toast.error(`${newFile.File.name} 업로드 중 문제가 발생했습니다`);
+        toast.error(<Typography variant="body2">`${newFile.File.name} 업로드 중 문제가 발생했습니다`</Typography>);
       }
     });
   };
@@ -130,7 +130,7 @@ const ConsultingFileSettingsProvider = ({ children }: PropsWithChildren) => {
         });
         result = true;
       } else {
-        toast.error(`자료명 [${origTitle}]을 변경 중 문제가 발생했습니다`);
+        toast.error(<Typography variant="body2">`자료명 [${origTitle}]을 변경 중 문제가 발생했습니다`</Typography>);
         result = false;
       }
     });
@@ -150,10 +150,10 @@ const ConsultingFileSettingsProvider = ({ children }: PropsWithChildren) => {
     const fileName = files.find((file) => file.RefNo === refNo)?.FileName;
     deleteMutation(params).then((res) => {
       if (res.status === 204) {
-        toast.success(`${fileName} 삭제를 성공적으로 마쳤습니다`);
+        toast.success(<Typography variant="body2">`${fileName} 삭제를 성공적으로 마쳤습니다`</Typography>);
         execute();
       } else {
-        toast.error(`${fileName} 삭제 중 문제가 발생했습니다`);
+        toast.error(<Typography variant="body2">`${fileName} 삭제 중 문제가 발생했습니다`</Typography>);
       }
     });
   };

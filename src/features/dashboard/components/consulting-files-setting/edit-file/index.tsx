@@ -1,7 +1,7 @@
 'use client';
 
 import { MouseEvent, FocusEvent, KeyboardEvent, useState } from 'react';
-
+import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import IconButton from '@mui/material/IconButton';
@@ -49,7 +49,7 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
       let finalTitle = origTitle;
       if (trimmedValue) {
         if (trimmedValue.length > 30) {
-          toast.error('자료명은 30자 이내로 입력해주세요');
+          toast.error(<Typography variant="body2">자료명은 30자 이내로 입력해주세요</Typography>);
         } else if (trimmedValue !== origTitle) {
           setOrigTitle(trimmedValue);
           if (updateRefTitle(fileIndex, trimmedValue, origTitle)) {

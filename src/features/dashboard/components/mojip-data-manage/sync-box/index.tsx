@@ -13,15 +13,15 @@ import { useSyncDetailpageDataMutation } from '@/features/dashboard/hooks/tansta
 import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
 import toast from 'react-hot-toast';
 
-type DetailPageDataDB = 'devDb' | 'testDb' | 'realDb';
+type DetailPageDataDB = 'devDb' | 'testDb' | 'realDb' | '';
 type SyncBoxProps = {
   serviceID: string;
 };
 const SyncBox = ({ serviceID }: SyncBoxProps) => {
   const { mutateAsync, isPending } = useSyncDetailpageDataMutation();
   const { openConfirmToast } = useConfirmToast();
-  const [source, setSource] = useState<DetailPageDataDB | undefined>(undefined);
-  const [target, setTarget] = useState<DetailPageDataDB | undefined>(undefined);
+  const [source, setSource] = useState<DetailPageDataDB>('');
+  const [target, setTarget] = useState<DetailPageDataDB>('');
 
   const handleChangeSource = useCallback((event: SelectChangeEvent) => {
     setSource(event.target.value as DetailPageDataDB);
@@ -36,10 +36,10 @@ const SyncBox = ({ serviceID }: SyncBoxProps) => {
     openConfirmToast(`${source}의 내용을 ${target}으로 동기화하시겠습니까?`, () => {
       mutateAsync({ serviceID: serviceID, sourceServerType: source, targetServerType: target })
         .then(() => {
-          toast.success(<Typography variant="body1">동기화가 완료되었습니다</Typography>);
+          toast.success(<Typography variant="body2">동기화가 완료되었습니다</Typography>);
         })
         .catch((err) => {
-          toast.error(<Typography variant="body1">동기화 중 에러가 발생했습니다</Typography>);
+          toast.error(<Typography variant="body2">동기화 중 에러가 발생했습니다</Typography>);
         });
     });
   };

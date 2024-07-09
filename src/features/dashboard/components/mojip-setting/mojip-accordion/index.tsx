@@ -114,14 +114,6 @@ const MojipAccordion = ({ serviceID, detailpageData, selectedRowNum, handleSelec
                 sx={{
                   bgcolor: '#2C4059',
                   color: conditionPopover.open ? '#F5F1B7' : '#FFFDE9',
-                  '&:hover': {
-                    bgcolor: '#2C4059',
-                    color: conditionPopover.open ? '#F5F1B7' : '#FFFDE9',
-                  },
-                  '&:active': {
-                    transform: 'scale(0.97)',
-                  },
-                  transition: 'all 0.1s ease',
                 }}
               />
               <ConditionSettingPopover

@@ -2,6 +2,7 @@
 
 import { DragEvent, ChangeEvent, useState } from 'react';
 
+import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
@@ -33,7 +34,7 @@ const FileUploader = () => {
           }
           console.log(`items file[${i}].name = ${file?.name}`);
         } else {
-          toast.error('pdf 파일만 업로드 가능합니다.');
+          toast.error(<Typography variant="body2">pdf 파일만 업로드 가능합니다</Typography>);
         }
       }
     }

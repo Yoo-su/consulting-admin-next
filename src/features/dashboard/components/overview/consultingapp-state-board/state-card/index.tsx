@@ -9,6 +9,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Divider from '@mui/material/Divider';
+import CircularProgress from '@mui/material/CircularProgress';
 import { Draggable } from 'react-beautiful-dnd';
 import { useTransition, useSpring, animated } from '@react-spring/web';
 
@@ -16,7 +17,6 @@ import { useConsultingAppState } from '@/features/dashboard/hooks/context/use-co
 import { ConsultingAppState } from '@/features/dashboard/types/consultingapp-state.type';
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import toast from 'react-hot-toast';
-import { useGetServiceList } from '@/features/dashboard/hooks/use-get-service-list';
 
 export type StateCardProps = {
   state: ConsultingAppState;
@@ -25,13 +25,11 @@ export type StateCardProps = {
 };
 
 const StateCard = ({ state, index }: StateCardProps) => {
-  const { univList, serviceList, setCurrentService, setCurrentUniv } = useUnivService();
+  const { univList, serviceList, setCurrentService, setCurrentUniv, isServiceListLoading } = useUnivService();
   const { openDialog, setDialogContentState } = useConsultingAppState();
   const [isHover, setIsHover] = useState(false);
-  const [isServiceSelected, setIsServiceSelected] = useState(false);
+  const [isSelectBtnClicked, setIsSelectBtnClicked] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
-
-  const { execute: getServiceList, isLoading } = useGetServiceList();
 
   const currentUniv = univList.filter((univ) => univ.univID == state.univID)[0];
   const univName = currentUniv?.univName || '새대학';
@@ -44,22 +42,21 @@ const StateCard = ({ state, index }: StateCardProps) => {
 
   const handleCardClick = () => {
     setCurrentUniv(currentUniv);
-    getServiceList(currentUniv.univID);
-    setIsServiceSelected(true);
+    setIsSelectBtnClicked(true);
   };
 
   useEffect(() => {
-    if (isServiceSelected && !isLoading) {
+    if (isSelectBtnClicked && !isServiceListLoading) {
       const currentService = serviceList.find((service) => service.serviceID == state.serviceID) ?? null;
       setCurrentService(currentService);
       if (currentService) {
-        toast.success('서비스가 선택되었습니다');
+        toast.success(<Typography variant="body2">서비스가 선택되었습니다</Typography>);
       } else {
-        toast.error('서비스가 존재하지 않습니다');
+        toast.error(<Typography variant="body2">서비스가 존재하지 않습니다</Typography>);
       }
-      setIsServiceSelected(false);
+      setIsSelectBtnClicked(false);
     }
-  }, [isLoading]);
+  }, [isServiceListLoading, isSelectBtnClicked]);
 
   const iconDetailStyle = {
     fontSize: '.5rem',
@@ -175,10 +172,21 @@ const StateCard = ({ state, index }: StateCardProps) => {
                         sx={iconToGoStyle}
                         onClick={handleCardClick}
                       >
-                        <Typography variant="caption" sx={{ paddingTop: '1px' }}>
-                          서비스 선택
-                        </Typography>
-                        <CheckIcon />
+                        {isServiceListLoading ? (
+                          <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} spacing={1}>
+                            <Typography variant="caption" sx={{ paddingTop: '1px', color: 'rgba(0,0,0,0.8)' }}>
+                              선택중
+                            </Typography>
+                            <CircularProgress color="inherit" size={12} />
+                          </Stack>
+                        ) : (
+                          <>
+                            <Typography variant="caption" sx={{ paddingTop: '1px' }}>
+                              서비스 선택
+                            </Typography>
+                            <CheckIcon />
+                          </>
+                        )}
                       </Stack>
                     </Stack>
                   </div>

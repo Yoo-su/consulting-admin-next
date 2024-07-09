@@ -15,7 +15,7 @@ type GetServiceListResponse = {
 };
 
 export const getServiceList = async (univID: string) => {
-  return await apiInstance.get<Service[]>(`${apiUrls.admin.getServiceList}/${univID}`, {
+  const { data } = await apiInstance.get<Service[]>(`${apiUrls.admin.getServiceList}/${univID}`, {
     params: {
       univID,
     },
@@ -34,4 +34,5 @@ export const getServiceList = async (univID: string) => {
       }));
     },
   });
+  return data;
 };

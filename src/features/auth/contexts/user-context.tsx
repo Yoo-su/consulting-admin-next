@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, createContext } from 'react';
+import Typography from '@mui/material/Typography';
 import { getUserProfile } from '../apis/get-user-profile';
 import { authInstance } from '@/shared/plugin/axios';
 import { User } from '../types/user.type';
@@ -47,7 +48,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
           delete authInstance.defaults.headers.common['Authorization'];
           sessionStorage.removeItem('token');
           setUser(null);
-          toast.error('인증되지 않은 사용자입니다');
+          toast.error(<Typography variant="body2">인증되지 않은 사용자입니다</Typography>);
         });
     } else setUser(null);
   }, []);

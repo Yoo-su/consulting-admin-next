@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
+import Typography from '@mui/material/Typography';
+import { toast } from 'react-hot-toast';
 import { getConsultingAppState } from '../apis/get-consultingapp-state';
 import { ConsultingAppState } from '../types/consultingapp-state.type';
-import { toast } from 'react-hot-toast';
 
 export const useGetConsultingAppState = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -17,7 +18,7 @@ export const useGetConsultingAppState = () => {
       })
       .catch((error) => {
         console.log(error);
-        toast.error('문제가 발생했습니다');
+        toast.error(<Typography variant="body2">문제가 발생했습니다</Typography>);
         setLoading(false);
       });
   };

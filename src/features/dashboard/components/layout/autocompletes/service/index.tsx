@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
@@ -8,13 +7,11 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
-import { useGetServiceList } from '@/features/dashboard/hooks/use-get-service-list';
 import { Service } from '@/features/dashboard/types/service.type';
 import { Typography } from '@mui/material';
 
 const ServiceAutocomplete = () => {
-  const { setCurrentService, serviceList, currentService, currentUniv } = useUnivService();
-  const { execute: getServiceList, isLoading } = useGetServiceList();
+  const { setCurrentService, serviceList, currentService, currentUniv, isServiceListLoading } = useUnivService();
   const getServiceMenuTitle = (service: Service) => {
     return (
       service.schoolYear + '학년도' + ' ' + (service.isSusi === '1' ? '수시' : '정시') + ' ' + `(${service.serviceID})`
@@ -24,13 +21,8 @@ const ServiceAutocomplete = () => {
   const handleChange = (event: any, newValue: Service | null) => {
     if (newValue) {
       setCurrentService(newValue);
-      console.log('handle');
     }
   };
-
-  useEffect(() => {
-    if (currentUniv) getServiceList(currentUniv.univID);
-  }, [currentUniv]);
 
   return (
     <Autocomplete
@@ -51,7 +43,7 @@ const ServiceAutocomplete = () => {
       value={currentService || null}
       onChange={handleChange}
       disabled={!currentUniv}
-      loading={isLoading}
+      loading={isServiceListLoading}
       loadingText={
         <Stack direction={'row'} alignItems={'center'}>
           <CircularProgress size={18} sx={{ mr: 1.5 }} />

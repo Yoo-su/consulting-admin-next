@@ -7,11 +7,17 @@ export type CreateNewServiceResponse = {
 };
 
 export type CreateNewServiceParams = {
-  SchoolYear: number;
-  IsSusi: string;
-  UnivID: string;
+  schoolYear: number;
+  isSusi: string;
+  univID: string;
 };
 
 export const createNewService = async (params: CreateNewServiceParams) => {
-  return await apiInstance.post<CreateNewServiceResponse>(apiUrls.dashboard.createService, params);
+  const transformedParams = {
+    SchoolYear: params.schoolYear,
+    IsSusi: params.isSusi,
+    UnivID: params.univID,
+  };
+
+  return await apiInstance.post<CreateNewServiceResponse>(apiUrls.dashboard.createService, transformedParams);
 };

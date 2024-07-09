@@ -10,17 +10,15 @@ import Typography from '@mui/material/Typography';
 import Autocomplete from '@mui/material/Autocomplete';
 import toast from 'react-hot-toast';
 
-import { useGetServiceListQuery } from '@/features/dashboard/hooks/tanstack/use-get-service-list-query';
 import { useDuplicateDetailpageDataMutation } from '@/features/dashboard/hooks/tanstack/use-duplicate-detail-page-data-mutation';
 import { Service } from '@/features/dashboard/types/service.type';
 import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
 
 type ServiceAutocompleteProps = {
-  univID: string;
   serviceID: string;
+  serviceList: Service[];
 };
-const ServiceAutocomplete = ({ univID, serviceID }: ServiceAutocompleteProps) => {
-  const { data: serviceList, isPending: isGetServiceListPending } = useGetServiceListQuery(univID);
+const ServiceAutocomplete = ({ serviceID, serviceList }: ServiceAutocompleteProps) => {
   const { mutateAsync, isPending: isDuplicateDetailpageDataPending } = useDuplicateDetailpageDataMutation();
   const { openConfirmToast } = useConfirmToast();
   const [selectedService, setSelectedService] = useState<Service | null>(null);
@@ -38,7 +36,7 @@ const ServiceAutocomplete = ({ univID, serviceID }: ServiceAutocompleteProps) =>
   const handleClickDuplicateBtn = () => {
     if (selectedService)
       mutateAsync({ sourceServiceID: serviceID, targetServiceID: selectedService?.serviceID }).then(() => {
-        toast.success(<Typography variant="body1">{selectedService.serviceID}에 성공적으로 복제되었습니다</Typography>);
+        toast.success(<Typography variant="body2">{selectedService.serviceID}에 성공적으로 복제되었습니다</Typography>);
       });
   };
 
@@ -50,8 +48,7 @@ const ServiceAutocomplete = ({ univID, serviceID }: ServiceAutocompleteProps) =>
         disablePortal
         autoHighlight
         value={selectedService}
-        options={serviceList?.data.filter((item) => item.serviceID !== serviceID) ?? []}
-        loading={isGetServiceListPending}
+        options={serviceList.filter((item) => item.serviceID !== serviceID) ?? []}
         loadingText={
           <Stack direction={'row'} alignItems={'center'}>
             <CircularProgress size={18} sx={{ mr: 1.5 }} />
