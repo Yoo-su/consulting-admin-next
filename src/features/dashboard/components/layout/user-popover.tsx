@@ -1,14 +1,8 @@
 'use client';
 
 import RouterLink from 'next/link';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
-import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
-
+import { Box, Divider, ListItemIcon, MenuItem, MenuList, Popover, Stack, Typography } from '@mui/material';
+import CircleLoader from 'react-spinners/CircleLoader';
 import ProfileIcon from '@mui/icons-material/AccountBox';
 import SignoutIcon from '@mui/icons-material/ExitToApp';
 
@@ -36,29 +30,47 @@ const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
       open={open}
       slotProps={{ paper: { sx: { width: '240px' } } }}
     >
-      <Box sx={{ p: '16px 20px ' }}>
-        <Typography variant="body1" fontSize={20}>
-          {user?.userName} | {user?.departmentID === 2 ? '개발자' : '운영자'}
-        </Typography>
-        <Typography variant="body2" sx={{ mt: 0.5 }}>
-          사용자ID: {user?.sub}
-        </Typography>
-      </Box>
-      <Divider />
-      <MenuList disablePadding sx={{ p: '8px', '& .MuiMenuItem-root': { borderRadius: 1 } }}>
-        <MenuItem component={RouterLink} href="/dashboard/account-setting">
-          <ListItemIcon>
-            <ProfileIcon />
-          </ListItemIcon>
-          Profile
-        </MenuItem>
-        <MenuItem onClick={handleClickSignoutBtn}>
-          <ListItemIcon>
-            <SignoutIcon />
-          </ListItemIcon>
-          Sign out
-        </MenuItem>
-      </MenuList>
+      {user ? (
+        <>
+          <Box sx={{ p: '16px 20px ' }}>
+            <Typography variant="body1" fontSize={20}>
+              {user?.userName} | {user?.departmentID === 2 ? '개발자' : '운영자'}
+            </Typography>
+            <Typography variant="body2" sx={{ mt: 0.5 }}>
+              사용자ID: {user?.sub}
+            </Typography>
+          </Box>
+          <Divider />
+          <MenuList disablePadding sx={{ p: '8px', '& .MuiMenuItem-root': { borderRadius: 1 } }}>
+            <MenuItem component={RouterLink} href="/dashboard/account-setting">
+              <ListItemIcon>
+                <ProfileIcon />
+              </ListItemIcon>
+              Profile
+            </MenuItem>
+            <MenuItem onClick={handleClickSignoutBtn}>
+              <ListItemIcon>
+                <SignoutIcon />
+              </ListItemIcon>
+              Sign out
+            </MenuItem>
+          </MenuList>
+        </>
+      ) : (
+        <Stack
+          direction={'column'}
+          spacing={2}
+          sx={{
+            display: 'flex',
+            p: '18px 20px ',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <CircleLoader color={'rgba(0,0,0,0.4'} size={50} />
+          <Typography variant="body2">로그아웃중...</Typography>
+        </Stack>
+      )}
     </Popover>
   );
 };

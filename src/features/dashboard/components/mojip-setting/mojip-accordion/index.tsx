@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import Stack from '@mui/material/Stack';
 import InputLabel from '@mui/material/InputLabel';
@@ -20,7 +20,6 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import ConditionSettingPopover from '../condition-setting-popover';
 import Tiptap from '@/shared/components/tiptap-editor';
 import { DetailPageData } from '@/features/dashboard/types/detail-page-data.type';
-import { useUpsertDetailpageRowMutation } from '@/features/dashboard/hooks/tanstack/use-upsert-detail-page-row-mutation';
 import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
 import { usePopover } from '@/features/dashboard/hooks/use-popover';
 import { useMojipSetting } from '@/features/dashboard/hooks/context/use-mojip-setting';
@@ -33,7 +32,6 @@ type MojipAccordionProps = {
 };
 const MojipAccordion = ({ serviceID, detailpageData, selectedRowNum, handleSelectRow }: MojipAccordionProps) => {
   const queryClient = useQueryClient();
-  const { mutateAsync, isPending } = useUpsertDetailpageRowMutation();
   const { openConfirmToast } = useConfirmToast();
   const { updateRowMode, updateRowHtmlCard } = useMojipSetting();
   const conditionPopover = usePopover<HTMLDivElement>();
