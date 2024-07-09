@@ -3,12 +3,13 @@ import { use, useEffect } from 'react';
 
 export default function useInterceptAppRouter<TMethod extends keyof AppRouterInstance>(
   original: TMethod,
-  interceptFn: (original: () => void, args: Parameters<AppRouterInstance[TMethod]>) => void
+  interceptFn: (original: () => void, args?: Parameters<AppRouterInstance[TMethod]>) => void
 ): void {
   const appRouter = use(AppRouterContext);
 
   useEffect(() => {
     if (!appRouter) throw new Error('useInterceptAppRouter must be used within an App Router context');
+
     const originalMethod = appRouter[original];
 
     appRouter[original] = ((...args: Parameters<AppRouterInstance[TMethod]>) =>

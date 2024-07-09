@@ -13,6 +13,8 @@ import { useGetFlutterSettingsInfoQuery } from '../../hooks/tanstack/use-get-flu
 import { useGetFlutterSettingQuery } from '../../hooks/tanstack/use-get-flutter-setting-query';
 import useInterceptAppRouter from '@/shared/hooks/use-intercept-app-router';
 import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 const FlutterSetting = () => {
   const { currentService } = useUnivService();
@@ -32,18 +34,45 @@ const FlutterSetting = () => {
   const [toggle, setToggle] = useState(false);
   const [filteredList, setFilteredList] = useState<FlutterSettingType[]>(flutterSettingList);
 
-  const editedListRef = useRef(editedSettingList);
+  //#region navigation block
   const { openConfirmToast } = useConfirmToast();
-  const handleViewTransition = useCallback((originalMethod: () => void) => {
-    if (editedListRef.current.length > 0) {
-      openConfirmToast('저장되지 않은 데이터가 있습니다.\n이동하시겠습니까?', originalMethod);
-    } else {
-      originalMethod();
-    }
-  }, []);
+  const [isBlocked, setIsBlocked] = useState(false);
+  const router = useRouter();
+
+  // 변경된 데이터가 있으면 페이지 이동을 막는다.
   useEffect(() => {
-    editedListRef.current = editedSettingList;
+    setIsBlocked(editedSettingList.length > 0);
   }, [editedSettingList]);
+  // 브라우저 뒤로가기 버튼 막기
+  useEffect(() => {
+    if (isBlocked) {
+      window.history.pushState(null, '', window.location.href); // preventing forward button
+      const listener = () => {
+        openConfirmToast(
+          '저장되지 않은 데이터가 있습니다.\n이동하시겠습니까?',
+          () => router.back(),
+          () => window.history.pushState(null, '', window.location.href)
+        );
+      };
+
+      window.addEventListener('popstate', listener);
+      return () => {
+        window.removeEventListener('popstate', listener);
+      };
+    }
+  }, [isBlocked]);
+
+  // 페이지 이동 막기
+  const handleViewTransition = useCallback(
+    (originalMethod: () => void) => {
+      if (isBlocked) {
+        openConfirmToast('저장되지 않은 데이터가 있습니다.\n이동하시겠습니까?', originalMethod);
+      } else {
+        originalMethod();
+      }
+    },
+    [isBlocked]
+  );
 
   useInterceptAppRouter('back', handleViewTransition);
   useInterceptAppRouter('forward', handleViewTransition);
@@ -51,6 +80,7 @@ const FlutterSetting = () => {
   useInterceptAppRouter('push', handleViewTransition);
   useInterceptAppRouter('refresh', handleViewTransition);
   useInterceptAppRouter('replace', handleViewTransition);
+  //#endregion navigation block
 
   useEffect(() => {
     console.log('refetched');
