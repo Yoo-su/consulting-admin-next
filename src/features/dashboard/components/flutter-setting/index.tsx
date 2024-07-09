@@ -74,8 +74,8 @@ const FlutterSetting = () => {
     [isBlocked]
   );
 
-  useInterceptAppRouter('back', handleViewTransition);
-  useInterceptAppRouter('forward', handleViewTransition);
+  // useInterceptAppRouter('back', handleViewTransition);
+  // useInterceptAppRouter('forward', handleViewTransition);
   useInterceptAppRouter('prefetch', handleViewTransition);
   useInterceptAppRouter('push', handleViewTransition);
   useInterceptAppRouter('refresh', handleViewTransition);
