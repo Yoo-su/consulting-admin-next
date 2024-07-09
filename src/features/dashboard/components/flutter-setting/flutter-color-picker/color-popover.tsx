@@ -3,7 +3,9 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 import Stack from '@mui/material/Stack';
-import { Box, Button, FormControl, InputBase, Popover } from '@mui/material';
+import { Box, Button, FormControl, InputBase, styled } from '@mui/material';
+import SquareIcon from '@mui/icons-material/Square';
+
 import ColorSpace from './color-space';
 import HueSlider from './hue-slider';
 import {
@@ -50,13 +52,7 @@ const ColorPopover = ({ hexText, setHexText, currentHsv, setCurrentHsv, handleCo
       <Stack direction={'row'} spacing={2} alignItems={'center'} justifyContent={'space-between'}>
         <Typography variant="body1">선택된 색상</Typography>
         <Stack direction={'row'} alignItems={'center'}>
-          <FormControl>
-            <InputBase
-              type="color"
-              value={`#${hsvToHex(currentHsv)}`}
-              sx={{ '& .MuiInputBase-input': { cursor: 'pointer', height: 30, width: 27, padding: 0 } }}
-            />
-          </FormControl>
+          {ColorSquareIcon(`#${hsvToHex(currentHsv)}`)}
           <FormControl>
             <InputBase
               startAdornment={<InputAdornment position="start">0xff</InputAdornment>}
@@ -79,6 +75,14 @@ const ColorPopover = ({ hexText, setHexText, currentHsv, setCurrentHsv, handleCo
           aria-label="hue"
           value={(currentHsv.h * 100) / 360}
         />
+      </Box>
+      <Box>
+        {preColors.map((color) =>
+          ColorSquareIcon(`#${color}`, () => {
+            setHexText(color);
+            setCurrentHsv(hexToHsv(color));
+          })
+        )}
       </Box>
       <Stack direction={'row'}>
         <Button variant="contained" disableElevation sx={{ width: '100%' }} onClick={handleColorChange}>
@@ -105,4 +109,19 @@ const ColorSquareClass = {
   '& .MuiTypography-root': {
     color: 'rgba(0, 0, 0, 0.84)',
   },
+};
+
+const preColors = ['E03131', 'F2C94C', '219653', '2F80ED', '9B51E0', 'F2994A', 'EB5757', '56CCF2', '2D9CDB'];
+const ColorSquareIcon = (color: string, onClick?: (event: MouseEvent<SVGSVGElement>) => void) => {
+  return (
+    <SquareIcon
+      sx={{
+        color: color,
+        height: 30,
+        width: 30,
+        padding: 0,
+      }}
+      onClick={onClick}
+    />
+  );
 };
