@@ -7,6 +7,7 @@ import { useFlutterSetting } from '@/features/dashboard/hooks/context/use-flutte
 import EditSetting from '../edit-setting';
 import { getFilteredCustomConfig } from '@/features/dashboard/services/flutter-setting/get-filtered-custom-config';
 import { checkChildEdited } from '@/features/dashboard/services/flutter-setting/check-child-edited';
+import getRomanValues, { RomanValuesType } from '@/shared/services/get-roman-value';
 
 type BasicFormProps = {
   basicKey?: string;
@@ -48,10 +49,25 @@ const BasicForm = ({ basicKey, item, path, index = 0, isDisabled }: BasicFormPro
   };
 
   return (
-    <Stack key={basicKey} direction={'column'} spacing={subMenuSettings.spacing[level]}>
+    <Stack
+      key={basicKey}
+      direction={'column'}
+      spacing={subMenuSettings.spacing[level]}
+      sx={{
+        paddingLeft: subMenuSettings.paddingLeft[level],
+      }}
+    >
       <Stack sx={{ paddingTop: subMenuSettings.paddingTop[level] }}>
-        <Stack direction={'row'} spacing={1} sx={{ paddingBottom: '1px', backgroundColor: isEdited ? '#EEEEEE' : '' }}>
+        <Stack
+          direction={'row'}
+          spacing={1}
+          sx={{
+            paddingBottom: '1px',
+            backgroundColor: isEdited ? '#EEEEEE' : '',
+          }}
+        >
           <Typography variant={subMenuSettings.variant[level]} sx={{ fontWeight: subMenuSettings.fontWeight[level] }}>
+            {/* {getRomanValues(index + 1, subMenuSettings.indexType[level])}.*/}
             {Title}
             {IsRequired && '*'}
           </Typography>
@@ -75,7 +91,9 @@ export default BasicForm;
 
 const subMenuSettings = {
   spacing: [1, 0, 0],
-  variant: ['body1', 'body2', 'body2'] as const,
+  variant: ['body1', 'body2', 'body2', 'body2'] as const,
   fontWeight: ['bolder', 'bold', 'bold'] as const,
   paddingTop: [0, 0, '.5rem'],
+  indexType: ['upper', 'lower'] as const,
+  paddingLeft: ['0', '.3rem', '.5rem', '0.8rem'],
 };
