@@ -15,16 +15,30 @@ const SettingList = ({ toggle, setToggle, filteredList }: SettingListProps) => {
 
   return (
     <Stack spacing={2}>
-      <Typography variant={'body1'}>카테고리 목록</Typography>
-      <FormGroup sx={{ paddingLeft: '1rem' }}>
-        <FormControlLabel
-          control={<Switch size="small" sx={{ marginRight: '.5rem' }} checked={toggle} onChange={handleChange} />}
-          label={toggle ? '예외처리' : '전체보기'}
-        />
-      </FormGroup>
+      <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} sx={{ padding: '.5rem .8rem ' }}>
+        <Typography variant={'body1'}>카테고리 목록</Typography>
+        <Stack direction={'row'} alignItems={'center'}>
+          <Typography variant="body2" sx={{ color: toggle ? '#969696' : 'black' }}>
+            전체
+          </Typography>
+          <Switch size="small" sx={{ marginRight: '2px', ...SwitchClass }} checked={toggle} onChange={handleChange} />
+          <Typography variant="body2" sx={{ color: toggle ? 'black' : '#969696' }}>
+            예외
+          </Typography>
+        </Stack>
+      </Stack>
       <TreeItemList filteredList={filteredList} />
     </Stack>
   );
 };
 
 export default SettingList;
+
+const SwitchClass = {
+  '& .Mui-checked': {
+    color: '#fff',
+  },
+  '& .Mui-checked + .MuiSwitch-track': {
+    backgroundColor: '#000',
+  },
+};
