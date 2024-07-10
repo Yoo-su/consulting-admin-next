@@ -115,7 +115,7 @@ export const useHandleExcel = () => {
     HSBInput: '학생부점수케이스입력',
     Schedule: '입시일정',
   };
-  
+
   /**
    * 시트명 한-영 전환 메서드
    * @param str 변환을 원하는 문자열
@@ -201,11 +201,11 @@ export const useHandleExcel = () => {
 
     const excelUnivID = data.Service[1].A;
     const excelServiceID = data.Service[1].B;
-    if (excelServiceID !== currentService?.serviceID) {
+    if (Number(excelServiceID) !== Number(currentService?.serviceID)) {
       throw new Error('입력한 서비스 아이디와 엑셀 파일의 서비스 아이디가 다릅니다.');
     }
 
-    if (excelUnivID !== currentService?.univID) {
+    if (Number(excelUnivID) !== Number(currentService?.univID)) {
       throw new Error('[서비스정보] 시트의 UnivID와 ServiceID가 다릅니다.');
     }
   };
