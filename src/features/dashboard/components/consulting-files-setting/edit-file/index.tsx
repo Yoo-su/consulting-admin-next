@@ -45,22 +45,20 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
     if (currentStatus) {
       const title = (document.getElementById(`textField-${fileIndex}`) as HTMLInputElement)?.value;
       const trimmedValue = title.trim();
-
-      let finalTitle = origTitle;
-      if (trimmedValue) {
-        if (trimmedValue.length > 30) {
-          toast.error(<Typography variant="body2">자료명은 30자 이내로 입력해주세요</Typography>);
-        } else if (trimmedValue !== origTitle) {
-          setOrigTitle(trimmedValue);
-          if (updateRefTitle(fileIndex, trimmedValue, origTitle)) {
-            finalTitle = trimmedValue;
-          }
-        } else if (title !== trimmedValue) {
-          // title에 좌우공백만 추가된 경우 공백 없는 title로 변경
-          finalTitle = trimmedValue;
-        }
+      if (!trimmedValue || trimmedValue === origTitle) return;
+      if (trimmedValue.length > 30) {
+        toast.error(<Typography variant="body2">자료명은 30자 이내로 입력해주세요</Typography>);
+        setOrigTitle(origTitle);
+        resetFileList(fileIndex, origTitle);
+        return;
       }
-      resetFileList(fileIndex, finalTitle);
+      if (title !== trimmedValue) {
+        // title에 좌우공백만 추가된 경우 공백 없는 title로 변경
+        setOrigTitle(trimmedValue);
+        resetFileList(fileIndex, trimmedValue);
+        return;
+      }
+      updateRefTitle(fileIndex, trimmedValue, origTitle);
     }
   };
 
@@ -84,8 +82,7 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
 
   const handleDeleteFile = (event: MouseEvent<HTMLElement>) => {
     const fileIndex = getFileNoFromEvent(event.currentTarget.id);
-
-    deleteFile(fileIndex);
+    deleteFile(files, fileIndex);
   };
 
   return (
