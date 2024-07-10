@@ -107,7 +107,7 @@ const AppDeployBox = () => {
         </Stepper>
 
         {alertData && (
-          <Alert severity={alertData.color} color={alertData.color} sx={{ mt: 4, mx: 'auto', minWidth: '55%' }}>
+          <Alert severity={alertData.color} color={alertData.color} sx={{ mt: 4, mx: 'auto', width: '55%' }}>
             {alertData.message}
           </Alert>
         )}

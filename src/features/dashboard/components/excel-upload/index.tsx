@@ -122,7 +122,7 @@ const ExcelUploadBox = () => {
         </Stack>
       </ContentWrapper.Header>
       <ContentWrapper.MainContent>
-        <Typography variant="h6">{title}</Typography>
+        <Typography variant={downsm ? 'body1' : 'h6'}>{title}</Typography>
 
         <Stepper
           alternativeLabel
@@ -138,7 +138,7 @@ const ExcelUploadBox = () => {
         </Stepper>
 
         {alertData && (
-          <Alert severity={alertData.color} color={alertData.color} sx={{ mt: 4, mx: 'auto', minWidth: '65%' }}>
+          <Alert severity={alertData.color} color={alertData.color} sx={{ mt: 4, mx: 'auto', width: '65%' }}>
             {alertData.message}
           </Alert>
         )}
