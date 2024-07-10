@@ -7,7 +7,7 @@ import VersionListBodyData from '../version-list-body-data';
 import VersionListTableHead from '../version-list-table-head';
 import SaveDataButton from '@/shared/components/save-data-button';
 import { VersionListParams } from '@/features/dashboard/apis/update-version-list';
-import { useUpdateVersionListMutation } from '@/features/dashboard/hooks/tanstack/use-update-veresion-list-mutation';
+import { useUpdateVersionListMutation } from '@/features/dashboard/hooks/tanstack/use-update-version-list-mutation';
 import toast from 'react-hot-toast';
 import ContentLoadingSkeleton from '@/shared/components/loadings/skeleton';
 

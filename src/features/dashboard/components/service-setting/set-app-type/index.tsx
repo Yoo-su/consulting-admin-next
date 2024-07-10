@@ -1,19 +1,42 @@
 import { Tooltip, ToggleButtonGroup, ToggleButton, Typography } from '@mui/material';
-import { MouseEvent } from 'react';
+import { Dispatch, MouseEvent, SetStateAction } from 'react';
 import Image from 'next/image';
+import { useUpdateServiceIsNewtMutation } from '@/features/dashboard/hooks/tanstack/use-update-service-is-new-mutation';
+import { getCurrentServiceYear } from '@/features/dashboard/services/get-current-service-year';
+import { Service } from '@/features/dashboard/types/service.type';
+import toast from 'react-hot-toast';
 type SetAppTypeProps = {
   isNew: boolean[];
   index: number;
-  onClick: (event: MouseEvent<HTMLSpanElement>, value: boolean) => void;
-  isCurrent: boolean;
+  setIsNew: Dispatch<SetStateAction<boolean[]>>;
+  service: Service;
 };
 
-const SetAppType = ({ isNew, index, onClick, isCurrent }: SetAppTypeProps) => {
+const SetAppType = ({ isNew, index, setIsNew, service }: SetAppTypeProps) => {
+  const { mutateAsync } = useUpdateServiceIsNewtMutation();
+  const currentServiceYear = getCurrentServiceYear();
+
+  const handleIsNew = (event: MouseEvent<HTMLSpanElement>, value: boolean) => {
+    if (value === null) return;
+    toast.promise(mutateAsync({ serviceID: parseInt(service.serviceID), isNew: value }), {
+      loading: <Typography variant="body2">앱 타입을 변경하는 중입니다...</Typography>,
+      success: <Typography variant="body2">앱 타입 변경 완료!</Typography>,
+      error: <Typography variant="body2">앱 타입 변경 중 문제가 발생했습니다</Typography>,
+    });
+
+    setIsNew((prev) => {
+      const newIsNew = [...prev];
+      newIsNew[parseInt(event.currentTarget.id)] = value;
+      return newIsNew;
+    });
+  };
+  const isCurrent = currentServiceYear.toString() == service?.schoolYear || false;
+
   return (
     <ToggleButtonGroup
       value={isNew[index]}
       exclusive
-      onChange={isCurrent ? onClick : () => {}}
+      onChange={isCurrent ? handleIsNew : () => {}}
       size="small"
       sx={{
         ...ToggleButtonGroupClass,
