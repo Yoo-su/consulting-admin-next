@@ -5,7 +5,7 @@ import { getAppVersionHistory } from '../../apis/get-app-version-history';
 
 export const useGetAppVersionHistoryQuery = (serviceID: string | undefined, osType: 'P' | 'A' | null) => {
   return useQuery({
-    queryKey: ['get-app-version-history', serviceID],
+    queryKey: ['get-app-version-history', serviceID, osType],
     queryFn: () => getAppVersionHistory(serviceID!, osType!),
     enabled: !!serviceID && (osType === 'P' || osType === 'A'),
   });

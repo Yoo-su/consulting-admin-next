@@ -21,19 +21,7 @@ const AppHistoryListBox = () => {
 
   const [appType, setAppType] = useState<'O' | 'A' | 'P'>(isNew ? 'A' : 'O');
 
-  const {
-    data: histories,
-    refetch,
-    isPending,
-  } = useGetAppVersionHistoryQuery(currentService?.serviceID, appType === 'O' ? null : appType);
-
-  useEffect(() => {
-    refetch();
-  }, [appType]);
-
-  useEffect(() => {
-    setAppType(isNew ? 'A' : 'O');
-  }, [isNew]);
+  const { data: histories } = useGetAppVersionHistoryQuery(currentService?.serviceID, appType === 'O' ? null : appType);
 
   return (
     <ContentWrapper>
