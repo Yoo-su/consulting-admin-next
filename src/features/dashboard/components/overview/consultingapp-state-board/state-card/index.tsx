@@ -117,17 +117,7 @@ const StateCard = ({ state, index }: StateCardProps) => {
               <Stack direction={'column'} spacing={1}>
                 <Stack direction={'column'}>
                   <Stack direction={'row'} alignItems={'center'}>
-                    {state.isNew && (
-                      <Tooltip title={'플러터앱'} placement="top">
-                        <Image
-                          src="../flutter.svg"
-                          alt="flutter-logo"
-                          width={15}
-                          height={15}
-                          style={{ paddingBottom: '1px', paddingRight: '2px' }}
-                        />
-                      </Tooltip>
-                    )}
+                    {getAppIcon(state.isNew || false)}
                     <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
                       {serviceID}
                     </Typography>
@@ -216,4 +206,25 @@ const iconToGoStyle = {
     backgroundColor: '#EBFADB',
   },
   transition: 'all 0.1s ease-in-out',
+};
+
+const getAppIcon = (isNew: boolean) => {
+  if (isNew) {
+    return (
+      <Tooltip title={'플러터앱'} placement="top">
+        <Image
+          src="../flutter.svg"
+          alt="flutter-logo"
+          width={15}
+          height={15}
+          style={{ paddingBottom: '1px', paddingRight: '2px' }}
+        />
+      </Tooltip>
+    );
+  }
+  return (
+    <Tooltip title={'PWA앱'} placement="top">
+      <Image src="../pwa.svg" alt="pwa-logo" width={20} height={20} style={{ padding: '0 2px 1px 2px' }} />
+    </Tooltip>
+  );
 };
