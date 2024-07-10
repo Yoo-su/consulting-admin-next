@@ -1,5 +1,3 @@
-import { getFlutterRowInfo } from '@/features/dashboard/apis/get-flutter-row-info';
-
 export const apiUrls = {
   user: {
     signin: '/auth/login',
@@ -12,6 +10,7 @@ export const apiUrls = {
     updateConsultingAppState: '/admin/service-detail/current-state',
     syncMoaNesinService: '/admin/sync-moa-nesin-service',
     createService: '/foundation/service/create',
+    updateIsNew: '/foundation/service/update-is-new',
     versionList: '/foundation/cur-tbl-version',
     foundationLibrary: '/file/foundation-library',
     foundationLibraryFileOnly: '/file/foundation-library-file-only',

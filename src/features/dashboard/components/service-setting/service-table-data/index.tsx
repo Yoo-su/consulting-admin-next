@@ -2,7 +2,6 @@ import { TableRow, TableCell, Chip } from '@mui/material';
 import { ChangeEvent, MouseEvent, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { getCurrentServiceYear } from '@/features/dashboard/services/get-current-service-year';
 
 import { Service } from '@/features/dashboard/types/service.type';
 import SetAppType from '../set-app-type';
@@ -17,16 +16,7 @@ const ServiceTableData = ({ serviceList, page, rowsPerPage }: ServiceTableDataPr
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
 
   const [isNew, setIsNew] = useState(serviceList.map((service) => service.isNew || false));
-  const currentServiceYear = getCurrentServiceYear();
 
-  const handleIsNew = (event: MouseEvent<HTMLSpanElement>, value: boolean) => {
-    if (value === null) return;
-    setIsNew((prev) => {
-      const newIsNew = [...prev];
-      newIsNew[parseInt(event.currentTarget.id)] = value;
-      return newIsNew;
-    });
-  };
   return (
     <>
       {serviceList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((service, index) => (
@@ -48,12 +38,7 @@ const ServiceTableData = ({ serviceList, page, rowsPerPage }: ServiceTableDataPr
           <TableCell align="center">{service.developer ?? '미정'}</TableCell>
           <TableCell align="center">{service.manager ?? '미정'}</TableCell>
           <TableCell align="center" sx={{ padding: 0 }}>
-            <SetAppType
-              isNew={isNew}
-              index={index}
-              onClick={handleIsNew}
-              isCurrent={currentServiceYear.toString() == service.schoolYear}
-            />
+            <SetAppType isNew={isNew} index={index} setIsNew={setIsNew} service={service} />
           </TableCell>
         </TableRow>
       ))}
