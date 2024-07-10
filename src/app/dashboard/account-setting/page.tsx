@@ -10,7 +10,6 @@ export const metadata = {
 const Page = () => {
   return (
     <Box>
-      <Typography variant="h5">계정 설정</Typography>
       <AccountSettingBox />
     </Box>
   );

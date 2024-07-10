@@ -1,5 +1,6 @@
 'use client';
 
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button, { ButtonProps } from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -93,77 +94,84 @@ const DataDeployBox = () => {
 
   return (
     <ContentWrapper>
-      <Typography
-        variant="h6"
-        textAlign={'left'}
-        width={'100%'}
-      >{`${currentUniv?.univName}(${currentService?.serviceID}) 데이터 배포`}</Typography>
-      <Stack
-        direction={'column'}
-        spacing={3}
-        sx={{
-          mt: upsm ? 8 : 4,
-          p: 4,
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: { xs: '70%', sm: '70%', md: '45%', lg: '40%', xl: '40%' },
-        }}
-      >
-        {alertData && (
-          <Alert
-            icon={
-              alertData.color === 'info' ? (
-                <CircularProgress size={16} />
-              ) : alertData.color === 'success' ? (
-                <CheckCircleIcon fontSize={'inherit'} />
-              ) : (
-                <ErrorIcon fontSize={'inherit'} />
-              )
-            }
-            color={alertData.color}
+      <ContentWrapper.Header bottomDivider>
+        <Typography
+          variant="h6"
+          textAlign={'left'}
+          width={'100%'}
+        >{`${currentUniv?.univName}(${currentService?.serviceID}) 데이터 배포`}</Typography>
+      </ContentWrapper.Header>
+      <ContentWrapper.MainContent>
+        <Box width={'100%'} display={'flex'} justifyContent={'center'}>
+          <Stack
+            direction={'column'}
+            spacing={3}
             sx={{
-              my: upsm ? 2 : 0,
+              mt: upsm ? 6 : 2,
+              mb: upsm ? 8 : 4,
+              p: 4,
+              justifyContent: 'center',
               alignItems: 'center',
-              mx: 'auto',
-              flexGrow: 1,
+              width: { xs: '70%', sm: '70%', md: '45%', lg: '40%', xl: '40%' },
             }}
           >
-            {alertData.message}
-          </Alert>
-        )}
-        <StyledButton
-          onClick={handleTestDeployBtnClick}
-          bgcolor={'#C2E0AE'}
-          color="inherit"
-          disabled={isSynchronizingTestDev || isRealDeploying}
-        >
-          {isSynchronizingTestDev ? (
-            <PuffLoader color={'#fff'} size={30} />
-          ) : (
-            <Typography variant="h6" fontWeight={'bold'}>
-              <Stack direction={'row'} alignItems={'center'}>
-                <SyncIcon fontSize="inherit" sx={{ mr: 1 }} />
-                DB 동기화 (TEST → DEV)
-              </Stack>
-            </Typography>
-          )}
-        </StyledButton>
-        <StyledButton
-          onClick={handleRealDeployBtnClick}
-          bgcolor={'#94C0DD'}
-          disabled={isSynchronizingTestDev || isRealDeploying}
-        >
-          {isRealDeploying ? (
-            <PuffLoader color={'#fff'} size={30} />
-          ) : (
-            <Typography variant="h6" fontWeight={'bold'}>
-              <Stack direction={'row'} alignItems={'center'}>
-                <ArrowCircleUpIcon fontSize="inherit" sx={{ mr: 1 }} /> 리얼 배포
-              </Stack>
-            </Typography>
-          )}
-        </StyledButton>
-      </Stack>
+            {alertData && (
+              <Alert
+                icon={
+                  alertData.color === 'info' ? (
+                    <CircularProgress size={16} />
+                  ) : alertData.color === 'success' ? (
+                    <CheckCircleIcon fontSize={'inherit'} />
+                  ) : (
+                    <ErrorIcon fontSize={'inherit'} />
+                  )
+                }
+                color={alertData.color}
+                sx={{
+                  my: upsm ? 2 : 0,
+                  alignItems: 'center',
+                  mx: 'auto',
+                  flexGrow: 1,
+                }}
+              >
+                {alertData.message}
+              </Alert>
+            )}
+            <StyledButton
+              onClick={handleTestDeployBtnClick}
+              bgcolor={'#C2E0AE'}
+              color="inherit"
+              disabled={isSynchronizingTestDev || isRealDeploying}
+            >
+              {isSynchronizingTestDev ? (
+                <PuffLoader color={'#fff'} size={30} />
+              ) : (
+                <Typography variant="h6" fontWeight={'bold'}>
+                  <Stack direction={'row'} alignItems={'center'}>
+                    <SyncIcon fontSize="inherit" sx={{ mr: 1 }} />
+                    DB 동기화 (TEST → DEV)
+                  </Stack>
+                </Typography>
+              )}
+            </StyledButton>
+            <StyledButton
+              onClick={handleRealDeployBtnClick}
+              bgcolor={'#94C0DD'}
+              disabled={isSynchronizingTestDev || isRealDeploying}
+            >
+              {isRealDeploying ? (
+                <PuffLoader color={'#fff'} size={30} />
+              ) : (
+                <Typography variant="h6" fontWeight={'bold'}>
+                  <Stack direction={'row'} alignItems={'center'}>
+                    <ArrowCircleUpIcon fontSize="inherit" sx={{ mr: 1 }} /> 리얼 배포
+                  </Stack>
+                </Typography>
+              )}
+            </StyledButton>
+          </Stack>
+        </Box>
+      </ContentWrapper.MainContent>
     </ContentWrapper>
   );
 };

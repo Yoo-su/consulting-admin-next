@@ -8,11 +8,12 @@ import Avatar from '@mui/material/Avatar';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
+import toast from 'react-hot-toast';
 
+import ContentWrapper from '@/shared/components/content-wrapper';
 import { useUser } from '@/features/auth/hooks/use-user';
 import { useUpdateProfileImageMutation } from '../../hooks/tanstack/use-update-profile-image-mutation';
 import { useMuiAlert } from '@/shared/hooks/use-mui-alert';
-import toast from 'react-hot-toast';
 
 const AccountSettingBox = () => {
   const { user } = useUser();
@@ -56,65 +57,59 @@ const AccountSettingBox = () => {
   }, [imageFile]);
 
   return (
-    <Stack
-      direction={'column'}
-      sx={{
-        mt: { xs: 4, sm: 6, md: 6, lg: 6, xl: 8 },
-        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-        borderRadius: '1rem',
-        justifyContent: 'center',
-        alignItems: 'center',
-        py: 6,
-      }}
-      spacing={4}
-    >
-      <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} spacing={4}>
-        <Box>
-          <Tooltip title={<Typography variant="body1">사진 변경</Typography>} followCursor>
-            <Avatar
-              src={imageFile ? imagePreviewPath : user?.profileImage ?? ''}
-              alt={user?.userName + 'profile'}
-              sx={{ width: '10rem', height: '10rem', cursor: 'pointer' }}
-              onClick={handleAvatarClick}
-            />
-          </Tooltip>
-        </Box>
+    <ContentWrapper sxProps={{ mt: 0 }}>
+      <ContentWrapper.Header bottomDivider>
+        <Typography variant="h6">{`${user?.userName}님 계정 관리`}</Typography>
+      </ContentWrapper.Header>
+      <ContentWrapper.MainContent>
+        <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} spacing={4} sx={{ my: 4 }}>
+          <Box>
+            <Tooltip title={<Typography variant="body1">사진 변경</Typography>} followCursor>
+              <Avatar
+                src={imageFile ? imagePreviewPath : user?.profileImage ?? ''}
+                alt={user?.userName + 'profile'}
+                sx={{ width: '10rem', height: '10rem', cursor: 'pointer' }}
+                onClick={handleAvatarClick}
+              />
+            </Tooltip>
+          </Box>
 
-        <Stack direction={'column'} spacing={2}>
-          <Typography variant="body1">이름 | {user?.userName}님</Typography>
-          <Typography variant="body1">사용자ID | {user?.sub}</Typography>
+          <Stack direction={'column'} spacing={2}>
+            <Typography variant="body1">이름 | {user?.userName}님</Typography>
+            <Typography variant="body1">사용자ID | {user?.sub}</Typography>
+          </Stack>
         </Stack>
-      </Stack>
-      {alertData && (
-        <Alert
-          sx={{ mx: 'auto', minWidth: '45%' }}
-          variant="outlined"
-          severity={alertData.color}
-          color={alertData.color}
-        >
-          {alertData.message}
-        </Alert>
-      )}
+        {alertData && (
+          <Alert
+            sx={{ mx: 'auto', minWidth: '45%' }}
+            variant="outlined"
+            severity={alertData.color}
+            color={alertData.color}
+          >
+            {alertData.message}
+          </Alert>
+        )}
 
-      <input
-        type="file"
-        style={{ display: 'none' }}
-        ref={fileInputRef}
-        accept=".jpg, .png"
-        onChange={handleFileChange}
-      />
+        <input
+          type="file"
+          style={{ display: 'none' }}
+          ref={fileInputRef}
+          accept=".jpg, .png"
+          onChange={handleFileChange}
+        />
 
-      {imageFile && !isSuccess && (
-        <Stack direction={'row'} justifyContent={'flex-end'} spacing={2}>
-          <Button variant="contained" sx={{ width: 'fit-content' }} disabled={isPending} onClick={handleClickSaveBtn}>
-            변경하기
-          </Button>
-          <Button color="inherit" variant="contained" sx={{ width: 'fit-content' }} disabled={isPending}>
-            취소
-          </Button>
-        </Stack>
-      )}
-    </Stack>
+        {imageFile && !isSuccess && (
+          <Stack direction={'row'} justifyContent={'flex-end'} spacing={2}>
+            <Button variant="contained" sx={{ width: 'fit-content' }} disabled={isPending} onClick={handleClickSaveBtn}>
+              변경하기
+            </Button>
+            <Button color="inherit" variant="contained" sx={{ width: 'fit-content' }} disabled={isPending}>
+              취소
+            </Button>
+          </Stack>
+        )}
+      </ContentWrapper.MainContent>
+    </ContentWrapper>
   );
 };
 

@@ -55,37 +55,43 @@ const ChartSettingBox = () => {
         <ContentLoadingSkeleton />
       ) : (
         <Fragment>
-          <Stack width={'100%'} direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
-            <Typography variant="h6">{`${currentUniv?.univName}(${currentService?.serviceID}) 차트 데이터 설정`}</Typography>
-            <Chip
-              color="info"
-              size="small"
-              icon={<AddCircleIcon fontSize="inherit" />}
-              label={<Typography variant="button">모델 추가</Typography>}
-              clickable
-              onClick={addNewModel}
-            />
-          </Stack>
-          {chartData.length ? (
+          <ContentWrapper.Header bottomDivider>
+            <Stack width={'100%'} direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
+              <Typography variant="h6">{`${currentUniv?.univName}(${currentService?.serviceID}) 차트 데이터 설정`}</Typography>
+              <Chip
+                color="info"
+                size="small"
+                icon={<AddCircleIcon fontSize="inherit" />}
+                label={<Typography variant="button">모델 추가</Typography>}
+                clickable
+                onClick={addNewModel}
+              />
+            </Stack>
+          </ContentWrapper.Header>
+          <ContentWrapper.MainContent>
             <Fragment>
-              {hasChanges && <SaveDataButton handleBtnClick={handleSaveBtnClick} />}
-              <Box sx={{ mt: 4, width: '100%' }}>
-                {modelNumbers.map((mn) => {
-                  return (
-                    <ModelAccordion
-                      key={`model-${mn}-accordion`}
-                      selectedModel={selectedModel}
-                      setSelectedModel={handleSelectModel}
-                      modelNum={mn}
-                      modelChartData={groupedByModelNum[mn]}
-                    />
-                  );
-                })}
-              </Box>
+              {chartData.length ? (
+                <Fragment>
+                  {hasChanges && <SaveDataButton handleBtnClick={handleSaveBtnClick} />}
+                  <Box sx={{ mt: 4, width: '100%' }}>
+                    {modelNumbers.map((mn) => {
+                      return (
+                        <ModelAccordion
+                          key={`model-${mn}-accordion`}
+                          selectedModel={selectedModel}
+                          setSelectedModel={handleSelectModel}
+                          modelNum={mn}
+                          modelChartData={groupedByModelNum[mn]}
+                        />
+                      );
+                    })}
+                  </Box>
+                </Fragment>
+              ) : (
+                <EmptyBox text={'등록된 모델이 없습니다'} />
+              )}
             </Fragment>
-          ) : (
-            <EmptyBox text={'등록된 모델이 없습니다'} />
-          )}
+          </ContentWrapper.MainContent>
         </Fragment>
       )}
     </ContentWrapper>

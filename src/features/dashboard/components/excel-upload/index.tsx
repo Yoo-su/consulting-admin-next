@@ -21,6 +21,7 @@ import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import CheckIcon from '@mui/icons-material/Check';
 import UploadIcon from '@mui/icons-material/Upload';
 
+import ContentWrapper from '@/shared/components/content-wrapper';
 import { useStepper } from '@/shared/hooks/use-stepper';
 import ColorlibStepIcon from '@/shared/components/stepper/color-lib-step-icon';
 import { ColorlibConnector } from '@/shared/components/stepper/styled';
@@ -92,46 +93,35 @@ const ExcelUploadBox = () => {
   };
 
   return (
-    <Fragment>
-      <Stack
-        direction={'row'}
-        justifyContent={'space-between'}
-        sx={{ flexGrow: 1, mt: { xs: 4, sm: 6, md: 6, lg: 6, xl: 8 } }}
-      >
-        <FormControlLabel
-          control={
-            <Switch
-              size={downsm ? 'small' : 'medium'}
-              value={fileOnly}
-              onChange={(e) => {
-                setFileOnly(!fileOnly);
-              }}
-            />
-          }
-          label={<Typography fontSize={downsm ? '12px' : '16px'}>파일만 업로드하기</Typography>}
-        />
-        <Chip
-          color="default"
-          size={downsm ? 'small' : 'medium'}
-          clickable
-          icon={<ArrowCircleDownIcon />}
-          label={
-            <Typography fontSize={downsm ? '12px' : '16px'} variant="body1">
-              기초 레이아웃 다운로드
-            </Typography>
-          }
-        />
-      </Stack>
-      <Stack
-        sx={{
-          p: 2,
-          mt: 1,
-          flexGrow: 1,
-          position: 'relative',
-          borderRadius: '1rem',
-          boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-        }}
-      >
+    <ContentWrapper>
+      <ContentWrapper.Header bottomDivider>
+        <Stack direction={'row'} justifyContent={'space-between'} sx={{ flexGrow: 1 }}>
+          <FormControlLabel
+            control={
+              <Switch
+                size={downsm ? 'small' : 'medium'}
+                value={fileOnly}
+                onChange={(e) => {
+                  setFileOnly(!fileOnly);
+                }}
+              />
+            }
+            label={<Typography fontSize={downsm ? '12px' : '16px'}>파일만 업로드하기</Typography>}
+          />
+          <Chip
+            color="default"
+            size={downsm ? 'small' : 'medium'}
+            clickable
+            icon={<ArrowCircleDownIcon />}
+            label={
+              <Typography fontSize={downsm ? '12px' : '16px'} variant="body1">
+                기초 레이아웃 다운로드
+              </Typography>
+            }
+          />
+        </Stack>
+      </ContentWrapper.Header>
+      <ContentWrapper.MainContent>
         <Typography variant="h6">{title}</Typography>
 
         <Stepper
@@ -233,8 +223,8 @@ const ExcelUploadBox = () => {
             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
           />
         </Stack>
-      </Stack>
-    </Fragment>
+      </ContentWrapper.MainContent>
+    </ContentWrapper>
   );
 };
 

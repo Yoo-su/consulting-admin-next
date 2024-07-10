@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import EmptyBox from '@/shared/components/empty-box';
+import ContentWrapper from '@/shared/components/content-wrapper';
 import ContentLoadingSkeleton from '@/shared/components/loadings/skeleton';
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import ExcelItem from './excel-item';
@@ -38,16 +39,8 @@ const FoundationLibraryListBox = () => {
   );
 
   return (
-    <Stack
-      direction={'column'}
-      sx={{
-        mt: { xs: 4, sm: 6, md: 6, lg: 6, xl: 8 },
-        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-        borderRadius: '1rem',
-        p: 2,
-      }}
-    >
-      <Stack direction={'row'} alignItems={'flex-start'} justifyContent={'space-between'}>
+    <ContentWrapper>
+      <ContentWrapper.Header bottomDivider>
         <Typography
           variant="h6"
           sx={{
@@ -57,30 +50,31 @@ const FoundationLibraryListBox = () => {
             }),
           }}
         >{`${currentUniv?.univName}(${currentService?.serviceID}) 기타 자료 목록`}</Typography>
+      </ContentWrapper.Header>
+      <ContentWrapper.MainContent>
+        <Stack direction={'row'} alignItems={'flex-start'} justifyContent={'space-between'}>
+          {!!libraries?.data?.length && (
+            <Typography
+              variant="body1"
+              color="grey.600"
+              whiteSpace={'nowrap'}
+              sx={{
+                ...(downmd && {
+                  fontSize: '14px',
+                }),
+              }}
+            >
+              총 {libraries?.data.length}건
+            </Typography>
+          )}
+        </Stack>
 
-        {!!libraries?.data?.length && (
-          <Typography
-            variant="body1"
-            color="grey.600"
-            whiteSpace={'nowrap'}
-            sx={{
-              ...(downmd && {
-                fontSize: '14px',
-              }),
-            }}
-          >
-            총 {libraries?.data.length}건
-          </Typography>
+        {alertData?.message && (
+          <Alert severity={alertData.color} color={alertData.color} sx={{ mt: 4, mx: 'auto', minWidth: '65%' }}>
+            {alertData.message}
+          </Alert>
         )}
-      </Stack>
 
-      {alertData?.message && (
-        <Alert severity={alertData.color} color={alertData.color} sx={{ mt: 4, mx: 'auto', minWidth: '65%' }}>
-          {alertData.message}
-        </Alert>
-      )}
-
-      <Suspense fallback={<ContentLoadingSkeleton />}>
         <Stack onDragOver={handleDragOver} onDrop={handleDrop}>
           {libraries?.data?.length ? (
             <Grid container spacing={3} sx={{ mt: 3 }}>
@@ -94,8 +88,8 @@ const FoundationLibraryListBox = () => {
             <EmptyBox text="업로드된 자료가 없습니다" />
           )}
         </Stack>
-      </Suspense>
-    </Stack>
+      </ContentWrapper.MainContent>
+    </ContentWrapper>
   );
 };
 

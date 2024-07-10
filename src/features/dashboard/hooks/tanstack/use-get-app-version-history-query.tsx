@@ -8,7 +8,5 @@ export const useGetAppVersionHistoryQuery = (serviceID: string | undefined, osTy
     queryKey: ['get-app-version-history', serviceID],
     queryFn: () => getAppVersionHistory(serviceID!, osType!),
     enabled: !!serviceID && (osType === 'P' || osType === 'A'),
-    refetchOnMount: true,
-    staleTime: 0,
   });
 };

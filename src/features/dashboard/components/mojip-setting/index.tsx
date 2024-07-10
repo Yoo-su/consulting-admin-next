@@ -50,42 +50,48 @@ const MojipSettingBox = () => {
         <ContentLoadingSkeleton />
       ) : (
         <Fragment>
-          <Stack width={'100%'} direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
-            <Typography
-              variant="h6"
-              textAlign={'left'}
-              width={'100%'}
-            >{`${currentUniv?.univName}(${currentService?.serviceID}) 모집요강 설정`}</Typography>
-            <Chip
-              color="info"
-              size="small"
-              icon={<AddCircleIcon fontSize="inherit" />}
-              label={<Typography variant="button">모집요강 추가</Typography>}
-              clickable
-              onClick={addNewDetailpageRow}
-            />
-          </Stack>
-
-          {detailpageData?.length ? (
-            <Stack direction={'column'} alignItems={'flex-start'} sx={{ mt: 4, width: '100%' }} spacing={5}>
-              <Stack direction={'column'} width={'100%'}>
-                {detailpageData?.map((item) => (
-                  <MojipAccordion
-                    serviceID={currentService?.serviceID ?? ''}
-                    key={item.serviceID + '-detailpage-data-row-num-' + item.rowNum}
-                    selectedRowNum={selected}
-                    handleSelectRow={handleChangeSelected}
-                    detailpageData={item}
-                  />
-                ))}
-              </Stack>
+          <ContentWrapper.Header bottomDivider>
+            <Stack width={'100%'} direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+              <Typography
+                variant="h6"
+                textAlign={'left'}
+                width={'100%'}
+              >{`${currentUniv?.univName}(${currentService?.serviceID}) 모집요강 설정`}</Typography>
+              <Chip
+                color="info"
+                size="small"
+                icon={<AddCircleIcon fontSize="inherit" />}
+                label={<Typography variant="body2">모집요강 추가</Typography>}
+                clickable
+                onClick={addNewDetailpageRow}
+              />
             </Stack>
-          ) : (
-            <EmptyBox text={'상세페이지 데이터가 존재하지 않습니다'} />
-          )}
+          </ContentWrapper.Header>
+          <ContentWrapper.MainContent>
+            <Fragment>
+              {detailpageData?.length ? (
+                <Stack direction={'column'} alignItems={'flex-start'} sx={{ mt: 4, width: '100%' }} spacing={5}>
+                  <Stack direction={'column'} width={'100%'}>
+                    {detailpageData?.map((item) => (
+                      <MojipAccordion
+                        serviceID={currentService?.serviceID ?? ''}
+                        key={item.serviceID + '-detailpage-data-row-num-' + item.rowNum}
+                        selectedRowNum={selected}
+                        handleSelectRow={handleChangeSelected}
+                        detailpageData={item}
+                      />
+                    ))}
+                  </Stack>
+                </Stack>
+              ) : (
+                <EmptyBox text={'상세페이지 데이터가 존재하지 않습니다'} />
+              )}
+            </Fragment>
+
+            {hasChanges && <SaveDataButton handleBtnClick={handleSaveDataBtnClick} />}
+          </ContentWrapper.MainContent>
         </Fragment>
       )}
-      {hasChanges && <SaveDataButton handleBtnClick={handleSaveDataBtnClick} />}
     </ContentWrapper>
   );
 };

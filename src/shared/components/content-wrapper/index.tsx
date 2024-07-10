@@ -1,10 +1,38 @@
 import { ReactNode } from 'react';
 import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import { SxProps } from '@mui/material/styles';
+
+type HeaderProps = {
+  children: ReactNode;
+  bottomDivider?: boolean;
+  sxProps?: SxProps;
+};
+const Header = ({ children, bottomDivider, sxProps }: HeaderProps) => {
+  return (
+    <>
+      <Stack width={'100%'} sx={{ ...sxProps }}>
+        {children}
+      </Stack>
+      {bottomDivider && <Divider sx={{ my: 2, borderColor: 'rgba(0,0,0,0.05)' }} />}
+    </>
+  );
+};
+
+type MainContentProps = {
+  children: ReactNode;
+  sxProps?: SxProps;
+};
+const MainContent = ({ children, sxProps }: MainContentProps) => {
+  return <Box sx={{ ...sxProps }}>{children}</Box>;
+};
 
 type ContentWrapperProps = {
   children: ReactNode;
+  sxProps?: SxProps;
 };
-const ContentWrapper = ({ children }: ContentWrapperProps) => {
+const ContentWrapper = ({ children, sxProps }: ContentWrapperProps) => {
   return (
     <Stack
       direction={'column'}
@@ -15,11 +43,15 @@ const ContentWrapper = ({ children }: ContentWrapperProps) => {
         borderRadius: '1rem',
         justifyContent: 'center',
         alignItems: 'center',
+        ...sxProps,
       }}
     >
-      {children}
+      <Box width={'100%'}>{children}</Box>
     </Stack>
   );
 };
+
+ContentWrapper.Header = Header;
+ContentWrapper.MainContent = MainContent;
 
 export default ContentWrapper;
