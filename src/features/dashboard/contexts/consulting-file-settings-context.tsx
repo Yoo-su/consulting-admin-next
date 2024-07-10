@@ -51,10 +51,10 @@ const ConsultingFileSettingsProvider = ({ children }: PropsWithChildren) => {
   const uploadFile = (newFile: UploadFile) => {
     uploadMutation(newFile).then((res) => {
       if (res.data.statusCode === 200) {
-        toast.success(<Typography variant="body2">`${newFile.File.name}를 성공적으로 업로드하였습니다`</Typography>);
+        toast.success(<Typography variant="body2">{newFile.File.name}를 성공적으로 업로드하였습니다</Typography>);
         execute();
       } else {
-        toast.error(<Typography variant="body2">`${newFile.File.name} 업로드 중 문제가 발생했습니다`</Typography>);
+        toast.error(<Typography variant="body2">{newFile.File.name} 업로드 중 문제가 발생했습니다</Typography>);
       }
     });
   };
