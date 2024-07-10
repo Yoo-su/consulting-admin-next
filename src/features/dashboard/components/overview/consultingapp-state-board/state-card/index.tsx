@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Divider from '@mui/material/Divider';
 import CircularProgress from '@mui/material/CircularProgress';
+import Image from 'next/image';
 import { Draggable } from 'react-beautiful-dnd';
 import { useTransition, useSpring, animated } from '@react-spring/web';
 
@@ -57,35 +58,6 @@ const StateCard = ({ state, index }: StateCardProps) => {
       setIsSelectBtnClicked(false);
     }
   }, [isServiceListLoading, isSelectBtnClicked]);
-
-  const iconDetailStyle = {
-    fontSize: '.5rem',
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    padding: '.3rem .2rem',
-    cursor: 'pointer',
-    '& .MuiSvgIcon-root': {
-      fontSize: '1rem',
-    },
-    '&:hover': {
-      color: 'black',
-    },
-  };
-
-  const iconToGoStyle = {
-    cursor: 'pointer',
-    margin: 0,
-    py: 0.5,
-    borderRadius: '.2rem',
-    '& .MuiSvgIcon-root': {
-      fontSize: '.9rem',
-    },
-    '&:hover': {
-      backgroundColor: '#EBFADB',
-    },
-    transition: 'all 0.1s ease-in-out',
-  };
 
   const delay = index * 100; // 각 카드의 애니메이션 지연 시간 설정
 
@@ -144,10 +116,15 @@ const StateCard = ({ state, index }: StateCardProps) => {
               </Tooltip>
               <Stack direction={'column'} spacing={1}>
                 <Stack direction={'column'}>
-                  <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
-                    {serviceID}
+                  <Stack direction={'row'} alignItems={'center'}>
+                    {getAppIcon(state.isNew || false)}
+                    <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+                      {serviceID}
+                    </Typography>
+                  </Stack>
+                  <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>
+                    {univName}
                   </Typography>
-                  <Typography variant="body2">{univName}</Typography>
                 </Stack>
                 <Stack direction={'row'} justifyContent={'space-between'}>
                   <Box sx={{ bgcolor: '#f3f4f6', borderRadius: '5px', padding: 0.5, width: 'fit-content' }}>
@@ -161,7 +138,7 @@ const StateCard = ({ state, index }: StateCardProps) => {
                 </Stack>
 
                 <animated.div style={snapshot.isDragging ? undefined : hoverAnimation}>
-                  <div ref={contentRef}>
+                  <Box ref={contentRef}>
                     <Stack direction={'column'} spacing={1}>
                       <Divider />
                       <Stack
@@ -189,7 +166,7 @@ const StateCard = ({ state, index }: StateCardProps) => {
                         )}
                       </Stack>
                     </Stack>
-                  </div>
+                  </Box>
                 </animated.div>
               </Stack>
             </Box>
@@ -201,3 +178,53 @@ const StateCard = ({ state, index }: StateCardProps) => {
 };
 
 export default memo(StateCard);
+
+const iconDetailStyle = {
+  fontSize: '.5rem',
+  position: 'absolute',
+  right: 0,
+  top: 0,
+  padding: '.3rem .2rem',
+  cursor: 'pointer',
+  '& .MuiSvgIcon-root': {
+    fontSize: '1rem',
+  },
+  '&:hover': {
+    color: 'black',
+  },
+};
+
+const iconToGoStyle = {
+  cursor: 'pointer',
+  margin: 0,
+  py: 0.5,
+  borderRadius: '.2rem',
+  '& .MuiSvgIcon-root': {
+    fontSize: '.9rem',
+  },
+  '&:hover': {
+    backgroundColor: '#EBFADB',
+  },
+  transition: 'all 0.1s ease-in-out',
+};
+
+const getAppIcon = (isNew: boolean) => {
+  if (isNew) {
+    return (
+      <Tooltip title={'플러터앱'} placement="top">
+        <Image
+          src="../flutter.svg"
+          alt="flutter-logo"
+          width={15}
+          height={15}
+          style={{ paddingBottom: '1px', paddingRight: '2px' }}
+        />
+      </Tooltip>
+    );
+  }
+  return (
+    <Tooltip title={'PWA앱'} placement="top">
+      <Image src="../pwa.svg" alt="pwa-logo" width={20} height={20} style={{ padding: '0 2px 1px 2px' }} />
+    </Tooltip>
+  );
+};

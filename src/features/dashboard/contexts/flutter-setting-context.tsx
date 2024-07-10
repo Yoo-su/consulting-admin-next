@@ -52,7 +52,7 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
       const newSetting: SetFlutterCustomConfigParams = {
         serviceID,
         RowIdx,
-        RowValue,
+        RowValue: RowValue.trim(),
       };
       setEditedSettingList((prev) => {
         const isExist = prev.find((item) => item.RowIdx === newSetting.RowIdx);
@@ -69,7 +69,7 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
       mutateAsync(item, {
         onSuccess: () => {
           toast.success(<Typography variant="body2">변경사항이 적용되었습니다</Typography>);
-          queryClient.invalidateQueries({ queryKey: ['flutter-setting', { serviceID }] });
+          queryClient.invalidateQueries({ queryKey: ['flutter-custom-config', { serviceID }] });
         },
       });
     });
