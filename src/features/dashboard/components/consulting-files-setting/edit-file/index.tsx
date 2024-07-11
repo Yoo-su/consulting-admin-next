@@ -16,6 +16,7 @@ import { getFileNoFromEvent } from '@/features/dashboard/services/consulting-fil
 import { CustomWidthBoxCell } from '../table-components/table-boxes';
 import { StyledTextField } from '../table-components/styled-component';
 import toast from 'react-hot-toast';
+import FileDownloader from '../file-downloader';
 
 const EditFile = ({ file }: { file: ConsultingFile }) => {
   const { files, setFiles, editFileIndex, setEditFileIndex, updateRefTitle, deleteFile } = useConsultingFileSettings();
@@ -95,7 +96,7 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
       <CustomWidthBoxCell size="s" typo={true}>
         {file.RefNo}
       </CustomWidthBoxCell>
-      <CustomWidthBoxCell size="m">
+      <CustomWidthBoxCell size="m" style={{ minWidth: '350px', paddingLeft: '5px', paddingRight: '5px' }}>
         <StyledTextField
           id={`textField-${file.RefNo}`}
           value={file.RefTitle}
@@ -115,12 +116,18 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
           onBlur={handleTextInput}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
+          sx={{
+            '& .MuiInputBase-input': {
+              width: 'calc(100%)',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+            },
+          }}
         />
       </CustomWidthBoxCell>
-      <CustomWidthBoxCell size="m" typo={true}>
-        {file.FileName}
-      </CustomWidthBoxCell>
-      <CustomWidthBoxCell size="s">
+      <FileDownloader fileName={file.FileName} />
+      <CustomWidthBoxCell size="s" style={{ paddingLeft: 0 }}>
         <IconButton disableRipple onClick={handleDeleteFile} id={`deleteFile-${file.RefNo}`}>
           <ClearIcon color="warning" fontSize="small" />
         </IconButton>

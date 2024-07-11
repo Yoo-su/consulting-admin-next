@@ -2,18 +2,16 @@
 
 import { createContext, useState, Dispatch, SetStateAction, PropsWithChildren, useCallback } from 'react';
 import { useGetConsultingFileList } from '../hooks/use-get-consulting-file-list';
-import { ConsultingFile, UploadFile } from '../types/consulting-file';
+import { ConsultingFile } from '../types/consulting-file';
 import { useUnivService } from '../hooks/context/use-univ-service';
 import { useUploadConsultingFileMutation } from '@/features/dashboard/hooks/tanstack/use-upload-consulting-file-mutation';
-import toast, { Toast } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { removeFileExtention } from '../services/consulting-files-setting/get-replaced-string';
 import {
   useDeleteConsultingFileMutation,
   useUpdateConsultingRefNoMutation,
   useUpdateConsultingRefTitleMutation,
 } from '../hooks/tanstack/use-update-consulting-file-mutation';
-import { DeleteConsultingFileParams } from '../apis/delete-consulting-file';
-import { UpdateConsultingRefTitleParams } from '../apis/update-consulting-file-reftitle';
 import { Stack, TextField, Typography } from '@mui/material';
 
 export type ConsultingFileSettingsContextValue = {
@@ -204,7 +202,6 @@ const customToast = (refTitle: string, origTitle: string) => {
 };
 
 const reorder = (list: ConsultingFile[], startIndex: number, endIndex: number) => {
-  console.log('list', list);
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);

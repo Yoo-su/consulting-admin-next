@@ -1,4 +1,4 @@
-import { PropsWithChildren, Ref } from 'react';
+import { ComponentPropsWithoutRef, PropsWithChildren, Ref } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { DraggableProvidedDragHandleProps, DraggableProvidedDraggableProps } from 'react-beautiful-dnd';
@@ -54,9 +54,9 @@ type CustomWidthBoxCellProps = PropsWithChildren & {
   size?: 'xs' | 's' | 'm' | 'l';
   typo?: boolean;
   justifyContent?: 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'flex-start' | 'flex-end';
-};
+} & ComponentPropsWithoutRef<'div'>;
 const customWidthBoxCellStyle = {
-  padding: '16px',
+  padding: '16px ',
   display: 'flex',
   alignItems: 'center',
   fontWeight: '400',
@@ -72,10 +72,11 @@ export const CustomWidthBoxCell = ({
   size = 'l',
   typo = false,
   justifyContent = 'flex-start',
+  ...rest
 }: CustomWidthBoxCellProps) => {
-  const width = size === 'xs' ? '16px' : size === 's' ? '8%' : size === 'm' ? '50%' : '100%';
+  const width = size === 'xs' ? '14px' : size === 's' ? '5%' : size === 'm' ? '50%' : '100%';
   return (
-    <Box sx={{ ...customWidthBoxCellStyle, width, justifyContent }}>
+    <Box sx={{ ...customWidthBoxCellStyle, width, justifyContent }} {...rest}>
       {typo ? <Typography>{children}</Typography> : <>{children}</>}
     </Box>
   );
