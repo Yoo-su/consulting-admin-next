@@ -14,23 +14,31 @@ type SetAppTypeProps = {
 
 const SetAppType = ({ isNew, index, setIsNew, service }: SetAppTypeProps) => {
   const { mutateAsync } = useUpdateServiceIsNewtMutation();
+
   const currentServiceYear = getCurrentServiceYear();
+  const isCurrent = currentServiceYear.toString() == service?.schoolYear || false;
 
-  const handleIsNew = (event: MouseEvent<HTMLSpanElement>, value: boolean) => {
-    if (value === null) return;
-    toast.promise(mutateAsync({ serviceID: parseInt(service.serviceID), isNew: value }), {
-      loading: <Typography variant="body2">앱 타입을 변경하는 중입니다...</Typography>,
-      success: <Typography variant="body2">앱 타입 변경 완료!</Typography>,
-      error: <Typography variant="body2">앱 타입 변경 중 문제가 발생했습니다</Typography>,
-    });
-
+  const makeNewList = (id: number, value: boolean) => {
     setIsNew((prev) => {
       const newIsNew = [...prev];
-      newIsNew[parseInt(event.currentTarget.id)] = value;
+      newIsNew[id] = value;
       return newIsNew;
     });
   };
-  const isCurrent = currentServiceYear.toString() == service?.schoolYear || false;
+
+  const handleIsNew = (event: MouseEvent<HTMLSpanElement>, value: boolean) => {
+    if (value === null) return;
+    const id = parseInt(event.currentTarget.id);
+    makeNewList(id, value);
+    toast.promise(mutateAsync({ serviceID: parseInt(service.serviceID), isNew: value }), {
+      loading: <Typography variant="body2">앱 타입을 변경하는 중입니다...</Typography>,
+      success: <Typography variant="body2">앱 타입 변경 완료!</Typography>,
+      error: () => {
+        makeNewList(id, !value);
+        return <Typography variant="body2">앱 타입 변경 중 문제가 발생했습니다</Typography>;
+      },
+    });
+  };
 
   return (
     <ToggleButtonGroup

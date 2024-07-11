@@ -24,27 +24,11 @@ const AddServiceForm = ({ univID }: { univID: string }) => {
   };
 
   const handleSubmit = () => {
-    const newService = {
+    addService({
       schoolYear: currentServiceYear,
       isSusi: serviceType,
       univID: univID,
-    };
-    addService(newService);
-  };
-
-  const textFieldStyle = {
-    '& .MuiInputBase-root': {
-      '&:before': {
-        borderBottomStyle: 'hidden !important',
-      },
-    },
-    '& .MuiInputBase-input': {
-      maxWidth: '80px',
-      padding: '0 .5rem',
-      backgroundColor: '#fafafa',
-      borderRadius: '.3rem',
-      WebkitTextFillColor: '#424242 !important',
-    },
+    });
   };
 
   return (
@@ -87,3 +71,18 @@ const AddServiceForm = ({ univID }: { univID: string }) => {
 };
 
 export default AddServiceForm;
+
+const textFieldStyle = {
+  '& .MuiInputBase-root': {
+    '&:before': {
+      borderBottomStyle: 'hidden !important',
+    },
+  },
+  '& .MuiInputBase-input': {
+    maxWidth: '80px',
+    padding: '0 .5rem',
+    backgroundColor: '#fafafa',
+    borderRadius: '.3rem',
+    WebkitTextFillColor: '#424242 !important',
+  },
+};
