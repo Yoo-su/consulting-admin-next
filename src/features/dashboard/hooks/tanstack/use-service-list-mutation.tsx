@@ -42,7 +42,6 @@ export const useServiceListMutation = () => {
       const errorMessage = errorResponse.message ?? '서비스 추가 중 에러가 발생했습니다';
 
       toast.error(<Typography variant="body2">{errorMessage}</Typography>);
-      return;
     },
   });
 

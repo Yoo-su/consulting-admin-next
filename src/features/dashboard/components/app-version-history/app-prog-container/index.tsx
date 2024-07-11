@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import FileItemCard from '@/shared/components/file-card';
+import FileItemCard from '@/shared/components/file-item-card';
 import EmptyBox from '@/shared/components/empty-box';
 import ContentLoadingSkeleton from '@/shared/components/loadings/skeleton';
 

@@ -6,7 +6,7 @@ import { Alert, Stack, Grid, Typography, useTheme, useMediaQuery } from '@mui/ma
 import EmptyBox from '@/shared/components/empty-box';
 import ContentWrapper from '@/shared/components/content-wrapper';
 import ContentLoadingSkeleton from '@/shared/components/loadings/skeleton';
-import FileItemCard, { FileType } from '@/shared/components/file-card';
+import FileItemCard, { FileType } from '@/shared/components/file-item-card';
 
 import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { useGetEtcLibrariesQuery } from '../../hooks/tanstack/use-get-etc-libraries-query';
