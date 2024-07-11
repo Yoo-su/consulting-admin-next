@@ -6,18 +6,22 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import ExcelItem from './excel-item';
+import FileItemCard from '@/shared/components/file-card';
 import ContentLoadingSkeleton from '@/shared/components/loadings/skeleton';
-import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
-import { useGetFoundationLibrariesQuery } from '../../hooks/tanstack/use-get-foudation-libraries-query';
 import ContentWrapper from '@/shared/components/content-wrapper';
 import EmptyBox from '@/shared/components/empty-box';
+
+import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
+import { useGetFoundationLibrariesQuery } from '../../hooks/tanstack/use-get-foudation-libraries-query';
+import { formatKoreanTextCompareDatesFromNow } from '@/shared/services/get-formatted-date';
+import { useDownloadFile } from '../../hooks/use-download-file';
 
 const FoundationLibraryListBox = () => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
   const { currentUniv, currentService } = useUnivService();
   const { data: libraries, isLoading } = useGetFoundationLibrariesQuery(currentService?.serviceID);
+  const { downloadFile } = useDownloadFile();
 
   return (
     <ContentWrapper>
@@ -59,7 +63,25 @@ const FoundationLibraryListBox = () => {
               <Grid container spacing={3} sx={{ mt: 3 }}>
                 {libraries.data.map((library) => (
                   <Grid key={library.fileName} item xs={12} sm={6} md={6} lg={4} xl={3}>
-                    <ExcelItem item={library} />
+                    <FileItemCard
+                      tooltipMsg={library.fileName}
+                      handleClick={() => downloadFile(library.url, library.fileName)}
+                    >
+                      <FileItemCard.IconBox file={'excel'} />
+
+                      <FileItemCard.ContentBox>
+                        <FileItemCard.TitleBox title={library.fileName} />
+
+                        <FileItemCard.AdditionalInfo sxProps={{ justifyContent: 'space-between' }}>
+                          <Typography variant="caption" color="grey.500" textAlign="right">
+                            편집자: {library.modifyUser}
+                          </Typography>
+                          <Typography variant="caption" color="grey.500" textAlign="right">
+                            {formatKoreanTextCompareDatesFromNow(library.uploadDate)}
+                          </Typography>
+                        </FileItemCard.AdditionalInfo>
+                      </FileItemCard.ContentBox>
+                    </FileItemCard>
                   </Grid>
                 ))}
               </Grid>
