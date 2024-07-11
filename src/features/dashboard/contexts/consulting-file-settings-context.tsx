@@ -46,7 +46,6 @@ const ConsultingFileSettingsProvider = ({ children }: PropsWithChildren) => {
   const addToFiles = useCallback((uploadedFile: File | undefined) => {
     if (uploadedFile) {
       const fileName = uploadedFile.name;
-      console.log('uploadedFile:', fileName);
       toast.promise(
         uploadMutation({
           ServiceID: serviceID,

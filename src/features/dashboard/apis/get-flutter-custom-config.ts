@@ -12,7 +12,6 @@ export type GetFlutterCustomConfigParams = {
 };
 
 export const getFlutterCustomConfig = async ({ serviceID }: GetFlutterCustomConfigParams) => {
-  console.log('serviceid', serviceID);
   const { data } = await authInstance.get<GetFlutterCustomConfigResponse[]>(
     `${apiUrls.dashboard.flutterCustomConfig}/${serviceID}`
   );

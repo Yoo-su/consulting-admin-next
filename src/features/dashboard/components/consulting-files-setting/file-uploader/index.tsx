@@ -32,7 +32,6 @@ const FileUploader = () => {
           if (file) {
             addToFiles(file);
           }
-          console.log(`items file[${i}].name = ${file?.name}`);
         } else {
           toast.error(<Typography variant="body2">pdf 파일만 업로드 가능합니다</Typography>);
         }

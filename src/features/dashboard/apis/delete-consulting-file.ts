@@ -11,7 +11,6 @@ export type DeleteConsultingFileParams = {
   RefNo: number;
 };
 export const deleteConsultingFile = async (deleteConsultingFileParams: DeleteConsultingFileParams) => {
-  console.log('deleteConsultingFileParams:', deleteConsultingFileParams);
   return await apiInstance.post<DeleteConsultingFileResponse>(
     apiUrls.dashboard.deleteConsultingFile,
     deleteConsultingFileParams
