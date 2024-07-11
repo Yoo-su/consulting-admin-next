@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import AppHistoryItem from '../app-history-item';
+import FileItemCard from '@/shared/components/file-item-card';
 import EmptyBox from '@/shared/components/empty-box';
 import ContentLoadingSkeleton from '@/shared/components/loadings/skeleton';
 
@@ -16,6 +16,8 @@ import { AxiosResponse } from 'axios';
 import { AppHistory } from '@/features/dashboard/types/app-history.type';
 import toast from 'react-hot-toast';
 import SerialNoTextField from '../copy-only-textfield/SerialNoTextField';
+import { formatKoreanTextCompareDatesFromNow } from '@/shared/services/get-formatted-date';
+import { apiUrls } from '@/shared/constants/api-urls';
 
 const AppProgContainer = ({ histories }: { histories: AxiosResponse<AppHistory[], any> | undefined }) => {
   const theme = useTheme();
@@ -28,6 +30,20 @@ const AppProgContainer = ({ histories }: { histories: AxiosResponse<AppHistory[]
     try {
       navigator.clipboard.writeText(serialNo).then(() => {
         toast.success(<Typography variant="body2">복사되었습니다</Typography>);
+      });
+    } catch (e) {
+      toast.error(<Typography variant="body2">복사에 실패했습니다</Typography>);
+    }
+  };
+
+  const getDownloadUrl = (history: AppHistory) => {
+    return `${process.env.NEXT_PUBLIC_BASE_URL}${apiUrls.dashboard.getAppDownloadUrl}/${history.serviceID}/${history.osType}/${history.version}`;
+  };
+
+  const handleClickCard = (url: string) => {
+    try {
+      navigator.clipboard.writeText(url).then(() => {
+        toast.success(<Typography variant="body2">앱 다운로드 링크가 복사되었습니다</Typography>);
       });
     } catch (e) {
       toast.error(<Typography variant="body2">복사에 실패했습니다</Typography>);
@@ -71,7 +87,21 @@ const AppProgContainer = ({ histories }: { histories: AxiosResponse<AppHistory[]
         <Grid container spacing={3} sx={{ mt: 3 }}>
           {histories.data.map((history) => (
             <Grid key={history.uploadTime} item xs={12} sm={6} md={6} lg={4} xl={3}>
-              <AppHistoryItem item={history} />
+              <FileItemCard
+                tooltipMsg={'다운로드 링크 복사'}
+                handleClick={() => handleClickCard(getDownloadUrl(history))}
+              >
+                <FileItemCard.IconBox file={history.osType === 'A' ? 'apk' : 'exe'} />
+
+                <FileItemCard.ContentBox>
+                  {history.packageFileName && <FileItemCard.TitleBox title={history.packageFileName} />}
+                  <FileItemCard.AdditionalInfo sxProps={{ justifyContent: 'flex-end' }}>
+                    <Typography variant="caption" color="grey.500" textAlign="right">
+                      {formatKoreanTextCompareDatesFromNow(history.uploadTime)}
+                    </Typography>
+                  </FileItemCard.AdditionalInfo>
+                </FileItemCard.ContentBox>
+              </FileItemCard>
             </Grid>
           ))}
         </Grid>
