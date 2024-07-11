@@ -8,24 +8,14 @@ import { TableRowBox } from '../table-components/table-boxes';
 import { ConsultingFile } from '@/features/dashboard/types/consulting-file';
 
 const FileListData = () => {
-  const { files, setFiles, updateRefNo } = useConsultingFileSettings();
+  const { files, updateRefNo } = useConsultingFileSettings();
 
-  const reorder = (list: ConsultingFile[], startIndex: number, endIndex: number) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    return result;
-  };
-
-  const handleDragEnd = (result: DropResult) => {
+  const handleDragEnd = async (result: DropResult) => {
     const { source, destination, type } = result;
     if (!destination) return;
     if (source.droppableId === destination.droppableId && source.index === destination.index) return;
     if (type === 'group') {
-      updateRefNo(source.index + 1, destination.index + 1);
-      // 화면 용 변경
-      const newFiles = reorder(files, source.index, destination.index);
-      setFiles(newFiles);
+      await updateRefNo(files, source.index + 1, destination.index + 1);
     }
   };
 

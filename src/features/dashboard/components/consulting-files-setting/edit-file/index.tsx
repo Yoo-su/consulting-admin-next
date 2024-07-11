@@ -16,6 +16,7 @@ import { getFileNoFromEvent } from '@/features/dashboard/services/consulting-fil
 import { CustomWidthBoxCell } from '../table-components/table-boxes';
 import { StyledTextField } from '../table-components/styled-component';
 import toast from 'react-hot-toast';
+import FileDownloader from '../file-downloader';
 
 const EditFile = ({ file }: { file: ConsultingFile }) => {
   const { files, setFiles, editFileIndex, setEditFileIndex, updateRefTitle, deleteFile } = useConsultingFileSettings();
@@ -45,22 +46,20 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
     if (currentStatus) {
       const title = (document.getElementById(`textField-${fileIndex}`) as HTMLInputElement)?.value;
       const trimmedValue = title.trim();
-
-      let finalTitle = origTitle;
-      if (trimmedValue) {
-        if (trimmedValue.length > 30) {
-          toast.error(<Typography variant="body2">자료명은 30자 이내로 입력해주세요</Typography>);
-        } else if (trimmedValue !== origTitle) {
-          setOrigTitle(trimmedValue);
-          if (updateRefTitle(fileIndex, trimmedValue, origTitle)) {
-            finalTitle = trimmedValue;
-          }
-        } else if (title !== trimmedValue) {
-          // title에 좌우공백만 추가된 경우 공백 없는 title로 변경
-          finalTitle = trimmedValue;
-        }
+      if (!trimmedValue || trimmedValue === origTitle) return;
+      if (trimmedValue.length > 30) {
+        toast.error(<Typography variant="body2">자료명은 30자 이내로 입력해주세요</Typography>);
+        setOrigTitle(origTitle);
+        resetFileList(fileIndex, origTitle);
+        return;
       }
-      resetFileList(fileIndex, finalTitle);
+      if (title !== trimmedValue) {
+        // title에 좌우공백만 추가된 경우 공백 없는 title로 변경
+        setOrigTitle(trimmedValue);
+        resetFileList(fileIndex, trimmedValue);
+        return;
+      }
+      updateRefTitle(fileIndex, trimmedValue, origTitle);
     }
   };
 
@@ -84,8 +83,7 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
 
   const handleDeleteFile = (event: MouseEvent<HTMLElement>) => {
     const fileIndex = getFileNoFromEvent(event.currentTarget.id);
-
-    deleteFile(fileIndex);
+    deleteFile(files, fileIndex);
   };
 
   return (
@@ -98,7 +96,7 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
       <CustomWidthBoxCell size="s" typo={true}>
         {file.RefNo}
       </CustomWidthBoxCell>
-      <CustomWidthBoxCell size="m">
+      <CustomWidthBoxCell size="m" style={{ minWidth: '350px', paddingLeft: '5px', paddingRight: '5px' }}>
         <StyledTextField
           id={`textField-${file.RefNo}`}
           value={file.RefTitle}
@@ -118,12 +116,18 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
           onBlur={handleTextInput}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
+          sx={{
+            '& .MuiInputBase-input': {
+              width: 'calc(100%)',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+            },
+          }}
         />
       </CustomWidthBoxCell>
-      <CustomWidthBoxCell size="m" typo={true}>
-        {file.FileName}
-      </CustomWidthBoxCell>
-      <CustomWidthBoxCell size="s">
+      <FileDownloader fileName={file.FileName} />
+      <CustomWidthBoxCell size="s" style={{ paddingLeft: 0 }}>
         <IconButton disableRipple onClick={handleDeleteFile} id={`deleteFile-${file.RefNo}`}>
           <ClearIcon color="warning" fontSize="small" />
         </IconButton>

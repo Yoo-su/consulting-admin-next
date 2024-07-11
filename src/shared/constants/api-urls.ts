@@ -21,7 +21,7 @@ export const apiUrls = {
     getAppVersionHistory: '/deploy/version-update-history',
     getAppDownloadUrl: '/deploy/download',
     getConsultingFileList: 'reflibrary/',
-    downloadConsultingFile: 'reflibrary/download/',
+    downloadConsultingFile: 'reflibrary/download',
     uploadConsultingFile: 'reflibrary/upload',
     updateConsultingRefTitle: 'reflibrary/update-reftitle',
     updateConsultingRefNo: 'reflibrary/update-refno',

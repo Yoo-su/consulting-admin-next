@@ -9,7 +9,7 @@ const FileListTable = () => {
       <TableContainerBox aria-label="file-list-table">
         <TableBox>
           <TableRowBox>
-            <CustomWidthBoxCell size="xs" />
+            <CustomWidthBoxCell size="xs" style={{ width: '8px' }} />
             <CustomWidthBoxCell typo={true} size="s">
               순서
             </CustomWidthBoxCell>
