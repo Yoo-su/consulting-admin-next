@@ -33,7 +33,7 @@ const AppPWAContainer = () => {
 
     if (!serialNo) return;
     const id = event.currentTarget.id;
-    const copiedText = id === 'serialnumber' ? serialNo : id === 'test' ? testUrl : realUrl;
+    const copiedText = id === 'serialnumber' ? serialNo : id.includes('test') ? testUrl : realUrl;
     try {
       navigator.clipboard.writeText(copiedText);
       toast.success(<Typography variant="body2">복사되었습니다</Typography>);
@@ -64,12 +64,12 @@ const AppPWAContainer = () => {
       </Stack>
       <Stack direction={'column'} spacing={1}>
         <Typography variant="overline">Test</Typography>
-        <URlAddressTextField url={testUrl} id="test" handleClick={handleClickCopy} />
+        <URlAddressTextField url={testUrl} id={`${serviceID}-test`} handleClick={handleClickCopy} />
       </Stack>
       {isCurrentYear && (
         <Stack direction={'column'} spacing={1}>
           <Typography variant="overline">Real</Typography>
-          <URlAddressTextField url={realUrl} id="real" handleClick={handleClickCopy} />
+          <URlAddressTextField url={realUrl} id={`${serviceID}-real`} handleClick={handleClickCopy} />
         </Stack>
       )}
     </Stack>
