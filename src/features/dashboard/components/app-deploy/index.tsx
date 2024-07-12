@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, ChangeEvent } from 'react';
+import { useRef, useState, ChangeEvent, DragEvent, useEffect } from 'react';
 import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
@@ -28,14 +28,15 @@ import ColorlibStepIcon from '@/shared/components/stepper/color-lib-step-icon';
 import { ColorlibConnector } from '@/shared/components/stepper/styled';
 import { APP_DEPLOY_STEPS } from '@/features/dashboard/constants/app-deploy-steps';
 import apkIcon from '@/shared/assets/images/apk_64.png';
-import { FormLabel } from '@mui/material';
+import exeIcon from '@/shared/assets/images/exe_64.png';
 
 const AppDeployBox = () => {
   const { currentUniv, currentService } = useUnivService();
-  const title = `${currentUniv?.univName}(${currentService?.serviceID}) 앱 배포`;
   const { appType, setAppType, appFile, setAppFile, alertData, deploy, isDeploying, deploySuccess } = useHandleApp();
   const { activeStep, skipped, handleNext, handleBack, handleSkip, handleReset } = useStepper();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const title = `${currentUniv?.univName}(${currentService?.serviceID}) 앱 배포`;
 
   // 배포 버튼 클릭 처리
   const handleClickUploadBtn = () => {
@@ -43,13 +44,51 @@ const AppDeployBox = () => {
     fileInputRef?.current?.click();
   };
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0] || null;
-    setAppFile(selectedFile);
-    if (selectedFile) {
-      if (activeStep === 0) handleNext();
-    } else handleBack();
+  // 앱 유형 변경 처리
+  const handleAppTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setAppType(event.target.value as typeof appType);
+    if (activeStep === 1) handleReset();
   };
+
+  // 파일 변경처리
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0] ?? null;
+    setAppFile(selectedFile);
+  };
+
+  const handleDragEnter = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
+  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(false);
+
+    const droppedFile = event.dataTransfer.files[0];
+    if (droppedFile) {
+      setAppFile(droppedFile);
+    }
+  };
+
+  // input file 변경에 따른 stepper 단계 수정
+  useEffect(() => {
+    if (appFile) activeStep === 0 && handleNext();
+    else activeStep === 1 && handleReset();
+  }, [appFile]);
+
+  useEffect(() => {
+    setAppFile(null);
+  }, [currentService]);
 
   return (
     <ContentWrapper>
@@ -63,14 +102,7 @@ const AppDeployBox = () => {
 
       <ContentWrapper.MainContent>
         <FormControl sx={{ alignItems: 'center', my: 4, width: '100%' }}>
-          <RadioGroup
-            row
-            value={appType}
-            name="app-type-radio-group"
-            onChange={(e) => {
-              setAppType(e.target.value as typeof appType);
-            }}
-          >
+          <RadioGroup row value={appType} name="app-type-radio-group" onChange={handleAppTypeChange}>
             <FormControlLabel
               value="A"
               control={<Radio size="medium" />}
@@ -123,6 +155,10 @@ const AppDeployBox = () => {
             onClick={handleClickUploadBtn}
             direction={'column'}
             spacing={3}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
             sx={{
               cursor: 'pointer',
               justifyContent: 'center',
@@ -135,7 +171,7 @@ const AppDeployBox = () => {
               boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
             }}
           >
-            <Image src={apkIcon} width={'48'} height={'48'} alt="apk-image" />
+            <Image src={appType === 'A' ? apkIcon : exeIcon} width={'48'} height={'48'} alt="apk-image" />
             <Typography
               variant="body2"
               color="grey.700"
@@ -166,7 +202,13 @@ const AppDeployBox = () => {
             )}
           </Stack>
           {appFile && (
-            <Button variant="contained" onClick={deploy} disabled={isDeploying || deploySuccess}>
+            <Button
+              variant="contained"
+              onClick={() => {
+                deploy(currentService?.serviceID ?? '');
+              }}
+              disabled={isDeploying || deploySuccess}
+            >
               <CloudUploadIcon sx={{ mr: '0.3rem' }} />
               <Typography variant="body1">{deploySuccess ? '배포완료' : '배포하기'}</Typography>
             </Button>
@@ -174,9 +216,10 @@ const AppDeployBox = () => {
 
           <input
             type="file"
+            key={appFile?.name ?? '' + appFile?.lastModified ?? ''}
             ref={fileInputRef}
             style={{ display: 'none' }}
-            accept=".apk, .exe"
+            accept={appType === 'A' ? '.apk' : '.exe'}
             onChange={handleFileChange}
           />
         </Stack>

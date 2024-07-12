@@ -217,6 +217,7 @@ const ExcelUploadBox = () => {
           )}
           <input
             type="file"
+            key={excel?.name ?? '' + excel?.lastModified ?? ''}
             ref={fileInputRef}
             style={{ display: 'none' }}
             onChange={handleFileInputChange}

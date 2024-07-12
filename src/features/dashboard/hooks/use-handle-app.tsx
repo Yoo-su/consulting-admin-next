@@ -2,33 +2,32 @@
 
 import { useState, useEffect } from 'react';
 
-import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
 import { useDeployAppMutation } from './tanstack/use-deploy-app-mutation';
 import { useMuiAlert } from '@/shared/hooks/use-mui-alert';
 
 export const useHandleApp = () => {
-  const { currentService } = useUnivService();
   const [appType, setAppType] = useState<'P' | 'A'>('A');
   const [appFile, setAppFile] = useState<File | null>(null);
   const [formData, setFormData] = useState<FormData>(new FormData());
   const { alertData, setAlertData } = useMuiAlert();
   const { mutateAsync, isPending: isDeploying, isSuccess: deploySuccess, reset } = useDeployAppMutation();
 
+  // 앱 유형 변경 처리
   useEffect(() => {
-    if (currentService) formData.set('serviceID', currentService?.serviceID);
-  }, [currentService]);
-
-  useEffect(() => {
-    if (appType) formData.set('osType', appType);
+    formData.set('osType', appType);
+    if (appFile) setAppFile(null);
   }, [appType]);
 
+  // 등록된 파일 변경 처리
   useEffect(() => {
-    setAlertData(null);
-    reset();
+    if (deploySuccess) reset();
     if (appFile) formData.set('file', appFile);
+    else formData.delete('file');
+    setAlertData(null);
   }, [appFile]);
 
-  const deploy = async () => {
+  const deploy = async (serviceID: string) => {
+    formData.set('serviceID', serviceID);
     mutateAsync(formData)
       .then((res) => {
         setAlertData({
