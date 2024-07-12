@@ -5,9 +5,8 @@ import { formatKoreanTextCompareDatesFromNow } from '@/shared/services/get-forma
 import FileItemCard from '@/shared/components/file-item-card';
 import { apiUrls } from '@/shared/constants/api-urls';
 import toast from 'react-hot-toast';
-import { Box, Modal, Stack } from '@mui/material';
-import { QRCodeCanvas } from 'qrcode.react';
 import { useState } from 'react';
+import QrModal from '../qr-modal';
 
 type AppProgDataProps = {
   history: AppHistory;
@@ -15,9 +14,6 @@ type AppProgDataProps = {
 
 const AppProgData = ({ history }: AppProgDataProps) => {
   const [open, setOpen] = useState(false);
-  const getDownloadUrl = (history: AppHistory) => {
-    return `${process.env.NEXT_PUBLIC_BASE_URL}${apiUrls.dashboard.getAppDownloadUrl}/${history.serviceID}/${history.osType}/${history.version}`;
-  };
 
   const handleClickCard = (url: string) => {
     setOpen(true);
@@ -52,75 +48,12 @@ const AppProgData = ({ history }: AppProgDataProps) => {
           </FileItemCard.ContentBox>
         </FileItemCard>
       </Grid>
-      <Modal open={open} onClose={handleClose}>
-        <Stack
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 250,
-            bgcolor: 'background.paper',
-            // boxShadow: 24,
-            borderRadius: 3,
-            p: 4,
-            outline: 'none !important',
-          }}
-          alignItems={'center'}
-          direction={'column'}
-          spacing={3}
-        >
-          <Stack alignItems={'center'}>
-            <Typography variant="h5">QR코드 저장</Typography>
-            <Typography variant="body2">QR코드를 클릭하여 다운로드하세요</Typography>
-          </Stack>
-          <QRCodeBox url={getDownloadUrl(history)} fileName={history.packageFileName ?? 'qrcode'} />
-          <Typography variant="caption" maxWidth={250} sx={{ wordWrap: 'break-word' }}>
-            {getDownloadUrl(history)}
-          </Typography>
-        </Stack>
-      </Modal>
+      <QrModal open={open} handleClose={handleClose} fileName={history.packageFileName} url={getDownloadUrl(history)} />
     </>
   );
 };
 export default AppProgData;
 
-type QRCodeBoxProps = {
-  url: string;
-  fileName: string;
-};
-
-const QRCodeBox = ({ url, fileName }: QRCodeBoxProps) => {
-  const handleClick = () => {
-    const canvas = document.querySelector('canvas');
-    const url = canvas ? canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream') : '';
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `qr-${fileName}.png`;
-
-    // Add attributes to remove border
-    link.style.border = 'none';
-    link.style.outline = 'none';
-    link.style.textDecoration = 'none';
-
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-  return (
-    <QRCodeCanvas
-      value={url}
-      size={250}
-      onClick={handleClick}
-      style={{ cursor: 'pointer' }}
-      imageSettings={{
-        src: '/logo.svg',
-        x: undefined,
-        y: undefined,
-        height: 20,
-        width: 50,
-        excavate: true,
-      }}
-    />
-  );
+export const getDownloadUrl = (history: AppHistory) => {
+  return `${process.env.NEXT_PUBLIC_BASE_URL}${apiUrls.dashboard.getAppDownloadUrl}/${history.serviceID}/${history.osType}/${history.version}`;
 };
