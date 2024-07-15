@@ -17,7 +17,7 @@ const BasicTextForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) =>
 
   const updateEditedValue = () => {
     handleEdit(path, textValue);
-    addToEditedList({ RowIdx, RowValue: textValue.toString(), InitialValue: initialValue.toString() });
+    addToEditedList({ RowIdx, RowValue: textValue.toString(), InitialValue: initialValue?.toString() ?? '' });
   };
   const inputRef = useOutsideClick(() => {
     if (isActive) {
