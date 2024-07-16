@@ -34,7 +34,7 @@ const VersionListBodyData = ({ editedList, handleClick }: VersionListDataProps) 
             <TableCell sx={TableCellClass}>{version.TableName}</TableCell>
             <TableCell sx={TableCellClass} align="right">
               <Stack direction={'row'} alignItems={'center'} justifyContent={'end'} spacing={1}>
-                <Tooltip title="버전을 1씩 내립니다." placement="top">
+                <Tooltip title="버전을 1씩 내립니다." placement="top" followCursor>
                   <Box>
                     <ButtonIcon
                       props={{
@@ -48,7 +48,7 @@ const VersionListBodyData = ({ editedList, handleClick }: VersionListDataProps) 
                   </Box>
                 </Tooltip>
                 <Typography variant="caption">{version.Version}</Typography>
-                <Tooltip title="버전을 1씩 추가합니다." placement="top">
+                <Tooltip title="버전을 1씩 추가합니다." placement="top" followCursor>
                   <Box>
                     <ButtonIcon
                       props={{
