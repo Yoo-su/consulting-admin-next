@@ -1,4 +1,4 @@
-import { useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent, useReducer } from 'react';
 import { TableHead, TableContainer, Table, TableBody, Paper, Typography, Box } from '@mui/material';
 import { useGetVersionList } from '@/features/dashboard/hooks/use-get-version-list';
 import { CurTBLVersion } from '@/features/dashboard/types/service-version.type';
@@ -17,18 +17,10 @@ export type VersionListTableProps = {
 };
 
 const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
-  const {
-    isLoading,
-    testVersionList,
-    setTestVersionList,
-    realVersionList,
-    setRealVersionList,
-    execute,
-    editedList,
-    setEditedList,
-  } = useGetVersionList();
+  const { isLoading, testVersionList, setTestVersionList, realVersionList, setRealVersionList, execute } =
+    useGetVersionList();
   const { mutateAsync } = useUpdateVersionListMutation();
-  const [versionList, setVersionList] = useState<CurTBLVersion[]>([]);
+  const [editedList, dispatch] = useReducer(reducer, []);
   const [isEdited, setIsEdited] = useState(false);
 
   useEffect(() => {
@@ -37,54 +29,52 @@ const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
 
   useEffect(() => {
     if (type.label === '테스트') {
-      setEditedList(testVersionList);
-      setVersionList(testVersionList);
+      dispatch({ type: 'SET_STATE', payload: testVersionList });
     }
     if (type.label === '리얼') {
-      setEditedList(realVersionList);
-      setVersionList(realVersionList);
+      dispatch({ type: 'SET_STATE', payload: realVersionList });
     }
   }, [type, isLoading]);
 
+  useEffect(() => {
+    const currentVersionList = type.label === '테스트' ? testVersionList : realVersionList;
+    const isUpdated = JSON.stringify(editedList) !== JSON.stringify(currentVersionList);
+    setIsEdited(isUpdated);
+  }, [editedList]);
+
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    const tableName = event.currentTarget.id;
-    let updatedList: CurTBLVersion[] | null = [];
+    const [tableName, arrowDirection] = event.currentTarget.id.split('-');
     // 전부 업데이트
     if (tableName === 'all') {
-      updatedList = editedList.map((version, index) => {
-        if (version.Version === versionList[index].Version) {
-          return { ...version, Version: version.Version + 1 };
-        } else {
-          return { ...version };
-        }
-      });
-      // 변경사항이 없으면 업데이트하지 않음
-      if (JSON.stringify(updatedList) === JSON.stringify(versionList)) return;
+      if (arrowDirection === 'up') {
+        dispatch({ type: 'ADD_ALL_VERSION' });
+      } else {
+        dispatch({ type: 'SUB_ALL_VERSION' });
+      }
     } else {
       // 특정 테이블만 업데이트
       const targetIndex = editedList.findIndex((version) => version.TableName === tableName);
-      updatedList = [
-        ...editedList.slice(0, targetIndex),
-        { ...editedList[targetIndex], Version: editedList[targetIndex].Version + 1 },
-        ...editedList.slice(targetIndex + 1),
-      ];
+      if (arrowDirection === 'up') {
+        dispatch({ type: 'ADD_VERSION', payload: targetIndex });
+      } else {
+        dispatch({ type: 'SUB_VERSION', payload: targetIndex });
+      }
     }
-    setIsEdited(true);
-    setEditedList([...updatedList]);
   };
 
   const handleDataSaveBtnClick = () => {
-    const updateList = editedList.map((version) => ({ TableName: version.TableName, Version: version.Version }));
+    const updateList = editedList.map((version: CurTBLVersion) => ({
+      TableName: version.TableName,
+      Version: version.Version,
+    }));
     const updateParam: VersionListParams = { server: type.value, tables: updateList };
     toast.promise(
       mutateAsync({ serviceID, params: updateParam }).then(() => {
-        const newList = [...editedList];
-        setVersionList(newList);
         if (type.label === '테스트') {
-          setTestVersionList(newList);
+          setTestVersionList(editedList);
         }
         if (type.label === '리얼') {
-          setRealVersionList(newList);
+          setRealVersionList(editedList);
         }
         setIsEdited(false);
       }),
@@ -112,7 +102,7 @@ const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
             <VersionListTableHead handleClick={handleClick} />
           </TableHead>
           <TableBody sx={TableBodyClass}>
-            <VersionListBodyData editedList={editedList} versionList={versionList} handleClick={handleClick} />
+            <VersionListBodyData editedList={editedList} handleClick={handleClick} />
           </TableBody>
         </Table>
       </TableContainer>
@@ -123,7 +113,7 @@ const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
 
 export default VersionListTable;
 
-export const ArrowUpButtonClass = {
+export const ArrowButtonClass = {
   borderRadius: '.2rem',
   width: '1.3em',
   height: '1.3em',
@@ -142,4 +132,41 @@ const TableBodyClass = {
 
 export const TableCellClass = {
   padding: '8px 10px',
+};
+
+type ActionType =
+  | { type: 'SET_STATE'; payload: CurTBLVersion[] }
+  | { type: 'ADD_VERSION' | 'SUB_VERSION'; payload: number }
+  | { type: 'ADD_ALL_VERSION' | 'SUB_ALL_VERSION' };
+
+const reducer = (state: CurTBLVersion[], action: ActionType) => {
+  switch (action.type) {
+    case 'SET_STATE':
+      return action.payload;
+    case 'ADD_VERSION':
+      return state.map((version, idx) => {
+        if (idx === action.payload) {
+          return { ...version, Version: version.Version + 1 };
+        }
+        return { ...version };
+      });
+    case 'SUB_VERSION':
+      return state.map((version, idx) => {
+        if (idx === action.payload && version.Version > 0) {
+          return { ...version, Version: version.Version - 1 };
+        }
+        return { ...version };
+      });
+    case 'ADD_ALL_VERSION':
+      return state.map((version) => ({ ...version, Version: version.Version + 1 }));
+    case 'SUB_ALL_VERSION':
+      return state.map((version) => {
+        if (version.Version > 0) {
+          return { ...version, Version: version.Version - 1 };
+        }
+        return { ...version };
+      });
+    default:
+      return state;
+  }
 };

@@ -8,7 +8,6 @@ export const useGetVersionList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [testVersionList, setTestVersionList] = useState<CurTBLVersion[]>([]);
   const [realVersionList, setRealVersionList] = useState<CurTBLVersion[]>([]);
-  const [editedList, setEditedList] = useState<CurTBLVersion[]>([]);
 
   const execute = (serviceID: string) => {
     setIsLoading(true);
@@ -37,8 +36,6 @@ export const useGetVersionList = () => {
     setTestVersionList,
     realVersionList,
     setRealVersionList,
-    editedList,
-    setEditedList,
     execute: useCallback(execute, []),
   };
 };
