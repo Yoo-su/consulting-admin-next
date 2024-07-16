@@ -2,16 +2,17 @@ import { MouseEvent } from 'react';
 
 import { TableRow, TableCell, Stack, Typography, Tooltip, Box } from '@mui/material';
 import { CurTBLVersion } from '@/features/dashboard/types/service-version.type';
-import { ArrowUpButtonClass, TableCellClass } from '../version-list-table';
+import { ArrowButtonClass, TableCellClass } from '../version-list-table';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ButtonIcon from '@/shared/components/button-icon';
 
 type VersionListDataProps = {
   editedList: CurTBLVersion[];
-  versionList: CurTBLVersion[];
+  // versionList: CurTBLVersion[];
   handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
 };
-const VersionListBodyData = ({ editedList, versionList, handleClick }: VersionListDataProps) => {
+const VersionListBodyData = ({ editedList, handleClick }: VersionListDataProps) => {
   if (editedList.length === 0) {
     return (
       <TableRow sx={{ height: '200px' }}>
@@ -33,15 +34,27 @@ const VersionListBodyData = ({ editedList, versionList, handleClick }: VersionLi
             <TableCell sx={TableCellClass}>{version.TableName}</TableCell>
             <TableCell sx={TableCellClass} align="right">
               <Stack direction={'row'} alignItems={'center'} justifyContent={'end'} spacing={1}>
+                <Tooltip title="버전을 1씩 내립니다." placement="top">
+                  <Box>
+                    <ButtonIcon
+                      props={{
+                        onClick: handleClick,
+                        id: `${version.TableName}-down`,
+                        sx: ArrowButtonClass,
+                        disabled: version.Version < 1,
+                      }}
+                      Icon={ArrowDropDownIcon}
+                    />
+                  </Box>
+                </Tooltip>
                 <Typography variant="caption">{version.Version}</Typography>
                 <Tooltip title="버전을 1씩 추가합니다." placement="top">
                   <Box>
                     <ButtonIcon
                       props={{
                         onClick: handleClick,
-                        id: version.TableName,
-                        sx: ArrowUpButtonClass,
-                        disabled: versionList[index].Version !== version.Version,
+                        id: `${version.TableName}-up`,
+                        sx: ArrowButtonClass,
                       }}
                       Icon={ArrowDropUpIcon}
                     />
