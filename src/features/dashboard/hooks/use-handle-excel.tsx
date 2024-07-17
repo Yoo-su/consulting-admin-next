@@ -7,15 +7,22 @@ import { useUploadFoundationLibraryFileOnlyMutation } from './tanstack/use-uploa
 import { EXCEL_LAYOUT, SHEET_FLAG } from '../constants/excel';
 import { useUser } from '@/features/auth/hooks/use-user';
 import { useMuiAlert } from '@/shared/hooks/use-mui-alert';
+import { useStepper } from '@/shared/hooks/use-stepper';
 
 type JsonExcel = {
   data: any;
   sheetCheck: any;
 };
 export const useHandleExcel = () => {
-  const [formData, setFormData] = useState<FormData>(new FormData());
   const { user } = useUser();
   const { currentService } = useUnivService();
+  const [excel, setExcel] = useState<File | null>(null);
+  const [fileOnly, setFileOnly] = useState<boolean>(false);
+  const [formData, setFormData] = useState<FormData>(new FormData());
+  const [isVerified, setIsVerified] = useState<boolean | undefined>(false);
+  const { alertData, setAlertData } = useMuiAlert();
+  const { activeStep, handleNext, handleReset: resetStep, goToStep } = useStepper();
+
   const {
     mutateAsync: basicUpload,
     isPending: isUploadingBasic,
@@ -28,9 +35,6 @@ export const useHandleExcel = () => {
     isSuccess: uploadFileOnlySuccess,
     reset: resetFileOnly,
   } = useUploadFoundationLibraryFileOnlyMutation();
-  const [excel, setExcel] = useState<File | null>(null);
-  const [isVerified, setIsVerified] = useState<boolean | undefined>(false);
-  const { alertData, setAlertData } = useMuiAlert();
 
   const uploading = useMemo(() => {
     return isUploadingBasic || isUploadingFileOnly;
@@ -39,20 +43,30 @@ export const useHandleExcel = () => {
   const success = useMemo(() => {
     return uploadBasicSuccess || uploadFileOnlySuccess;
   }, [uploadBasicSuccess, uploadFileOnlySuccess]);
-  const [fileOnly, setFileOnly] = useState<boolean>(false);
 
+  // 선택된 서비스ID 변경 시 처리
   useEffect(() => {
     if (currentService) formData.set('serviceID', currentService?.serviceID);
+    setExcel(null);
+    resetStep();
   }, [currentService]);
 
+  // input excel이 변경될 때 처리
+  useEffect(() => {
+    clearVerifiedState();
+    if (excel) {
+      formData.set('file', excel);
+      goToStep(1);
+    } else {
+      formData.delete('file');
+      resetStep();
+    }
+  }, [excel]);
+
+  // 업로드 유저 등록
   useEffect(() => {
     if (user) formData.set('userID', user?.sub);
   }, [user]);
-
-  useEffect(() => {
-    clearVerifiedState();
-    if (excel) formData.set('file', excel);
-  }, [excel]);
 
   /**
    * 엑셀 read 비동기화
@@ -69,12 +83,14 @@ export const useHandleExcel = () => {
           validation(jsonExcel.data);
           setAlertData({ message: '데이터 검증이 완료되었습니다. 업로드를 진행해주세요', color: 'info' });
           setIsVerified(true);
+          handleNext();
           resolve(true);
         } catch (error) {
           if (error instanceof Error) {
             if (fileOnly) {
               setAlertData({ message: error.message + '단, 파일만 업로드는 가능합니다.', color: 'warning' });
               setIsVerified(true);
+              handleNext();
               resolve(true);
             } else {
               setAlertData({ message: error.message, color: 'error' });
@@ -220,6 +236,7 @@ export const useHandleExcel = () => {
     mutationFunc(formData).then((res) => {
       if (res.data.statusCode === 201) {
         setAlertData({ message: res.data.message ?? '파일 업로드를 성공적으로 마쳤습니다', color: 'success' });
+        handleNext();
       } else {
         setAlertData({ message: res.data.message ?? '엑셀 업로드 중 문제가 발생했습니다', color: 'error' });
       }
@@ -241,6 +258,7 @@ export const useHandleExcel = () => {
     setExcel,
     startVerify,
     alertData,
+    activeStep,
     isVerified,
     upload,
     success,

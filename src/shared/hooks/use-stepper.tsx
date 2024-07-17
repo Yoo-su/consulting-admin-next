@@ -24,6 +24,11 @@ export const useStepper = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   }, []);
 
+  // 특정 step으로 이동
+  const goToStep = useCallback((step: number) => {
+    setActiveStep(step);
+  }, []);
+
   const handleSkip = useCallback(() => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped((prevSkipped) => {
@@ -44,6 +49,7 @@ export const useStepper = () => {
     handleNext,
     handleBack,
     handleSkip,
+    goToStep,
     handleReset,
   };
 };

@@ -1,8 +1,11 @@
+import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 import ExcelUploadBox from '@/features/dashboard/components/excel-upload';
+import starIcon from '@/shared/assets/svgs/star.svg';
+import { Stack } from '@mui/material';
 
 export const metadata = {
   title: '상담앱 관리자 | 기초데이터 업로드',
@@ -13,7 +16,11 @@ const Page = () => {
   return (
     <UnivServiceCheckGuard>
       <Box>
-        <Typography variant="h5">⭐기초데이터 업로드</Typography>
+        <Stack direction={'row'} alignItems={'center'}>
+          <Image src={starIcon} alt={'star'} width={28} height={28} />
+          <Typography variant="h5">기초데이터 업로드</Typography>
+        </Stack>
+
         <ExcelUploadBox />
       </Box>
     </UnivServiceCheckGuard>

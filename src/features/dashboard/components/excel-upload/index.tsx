@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, ChangeEvent, Fragment, DragEvent } from 'react';
+import { useRef, useState, ChangeEvent, DragEvent } from 'react';
 import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -22,20 +22,29 @@ import CheckIcon from '@mui/icons-material/Check';
 import UploadIcon from '@mui/icons-material/Upload';
 
 import ContentWrapper from '@/shared/components/content-wrapper';
-import { useStepper } from '@/shared/hooks/use-stepper';
 import ColorlibStepIcon from '@/shared/components/stepper/color-lib-step-icon';
 import { ColorlibConnector } from '@/shared/components/stepper/styled';
+import { useUnivService } from '../../hooks/context/use-univ-service';
 import { useHandleExcel } from '@/features/dashboard/hooks/use-handle-excel';
 import { EXCEL_UPLOAD_STEPS } from '@/features/dashboard/constants/excel-upload-steps';
 import excelIcon from '@/shared/assets/images/xls_64.png';
-import { useUnivService } from '../../hooks/context/use-univ-service';
 
 const ExcelUploadBox = () => {
   const { currentUniv, currentService } = useUnivService();
   const title = `${currentUniv?.univName}(${currentService?.serviceID}) 기초데이터 업로드`;
-  const { excel, setExcel, startVerify, isVerified, alertData, upload, success, uploading, fileOnly, setFileOnly } =
-    useHandleExcel();
-  const { activeStep, skipped, handleNext, handleBack, handleSkip, handleReset } = useStepper();
+  const {
+    excel,
+    setExcel,
+    activeStep,
+    startVerify,
+    isVerified,
+    alertData,
+    upload,
+    success,
+    uploading,
+    fileOnly,
+    setFileOnly,
+  } = useHandleExcel();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const theme = useTheme();
   const downsm = useMediaQuery(theme.breakpoints.down('sm'));
@@ -48,20 +57,13 @@ const ExcelUploadBox = () => {
 
   // 데이터 검증 수행
   const handleClickVerify = async () => {
-    const result = await startVerify();
-    if (result) handleNext();
+    await startVerify();
   };
 
   // file input 값 변경 처리
   const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0] || null;
     setExcel(selectedFile);
-    if (!selectedFile) {
-      handleReset();
-      return;
-    }
-    if (activeStep === 0) handleNext();
-    if (activeStep === 2) handleBack();
   };
 
   const [isDragging, setIsDragging] = useState(false);
@@ -87,8 +89,6 @@ const ExcelUploadBox = () => {
     const droppedFile = event.dataTransfer.files[0];
     if (droppedFile) {
       setExcel(droppedFile);
-      if (activeStep === 0) handleNext();
-      if (activeStep === 2) handleBack();
     }
   };
 

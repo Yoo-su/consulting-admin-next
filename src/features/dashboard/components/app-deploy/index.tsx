@@ -22,7 +22,6 @@ import AdbIcon from '@mui/icons-material/Adb';
 
 import ContentWrapper from '@/shared/components/content-wrapper';
 import { useHandleApp } from '@/features/dashboard/hooks/use-handle-app';
-import { useStepper } from '@/shared/hooks/use-stepper';
 import { useUnivService } from '../../hooks/context/use-univ-service';
 import ColorlibStepIcon from '@/shared/components/stepper/color-lib-step-icon';
 import { ColorlibConnector } from '@/shared/components/stepper/styled';
@@ -32,8 +31,8 @@ import exeIcon from '@/shared/assets/images/exe_64.png';
 
 const AppDeployBox = () => {
   const { currentUniv, currentService } = useUnivService();
-  const { appType, setAppType, appFile, setAppFile, alertData, deploy, isDeploying, deploySuccess } = useHandleApp();
-  const { activeStep, skipped, handleNext, handleBack, handleSkip, handleReset } = useStepper();
+  const { appType, setAppType, activeStep, appFile, setAppFile, alertData, deploy, isDeploying, deploySuccess } =
+    useHandleApp();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const title = `${currentUniv?.univName}(${currentService?.serviceID}) 앱 배포`;
@@ -47,7 +46,6 @@ const AppDeployBox = () => {
   // 앱 유형 변경 처리
   const handleAppTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
     setAppType(event.target.value as typeof appType);
-    if (activeStep === 1) handleReset();
   };
 
   // 파일 변경처리
@@ -79,12 +77,6 @@ const AppDeployBox = () => {
       setAppFile(droppedFile);
     }
   };
-
-  // input file 변경에 따른 stepper 단계 수정
-  useEffect(() => {
-    if (appFile) activeStep === 0 && handleNext();
-    else activeStep === 1 && handleReset();
-  }, [appFile]);
 
   useEffect(() => {
     setAppFile(null);
