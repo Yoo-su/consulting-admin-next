@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, ReactNode, useState, useMemo, useEffect } from 'react';
+import { createContext, ReactNode, useState, useMemo, useEffect, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { DetailPageData } from '../types/detail-page-data.type';
 import { useGetDetailPageDataQuery } from '../hooks/tanstack/use-get-detail-page-data-query';
@@ -42,66 +42,72 @@ const MojipSettingProvider = ({ children }: MojipSettingProviderProps) => {
     if (data) setOriginalDetailData(data);
   };
 
-  const addNewDetailpageRow = () => {
-    let newRowNum: number = 0;
-    if (!data?.length) newRowNum = 1;
-    else newRowNum = Math.max(...Array.from(data, (item) => item.rowNum)) + 1;
+  const addNewDetailpageRow = useCallback(() => {
+    queryClient.setQueryData(['detail-page-data', currentService?.serviceID], (oldData: DetailPageData[]) => {
+      const newRowNum: number = oldData?.length ? Math.max(...oldData.map((item) => item.rowNum)) + 1 : 1;
 
-    const newDetailpageRow = {
-      serviceID: currentService?.serviceID ?? '',
-      rowNum: newRowNum,
-      condition: '[]',
-      htmlCard: '',
-      conditionText: '',
-      mode: 'calc',
-    };
-    const newDatas = [...data!, newDetailpageRow];
-    queryClient.setQueryData(['detail-page-data', currentService?.serviceID], () => {
-      return newDatas;
+      const newDetailpageRow = {
+        serviceID: currentService?.serviceID ?? '',
+        rowNum: newRowNum,
+        condition: '[]',
+        htmlCard: '',
+        conditionText: '',
+        mode: 'calc',
+      };
+      return [...oldData, newDetailpageRow];
     });
-  };
+  }, [currentService]);
 
   // 특정 행 mode 변경
-  const updateRowMode = (rowNum: number, newMode: 'detail' | 'calc') => {
-    queryClient.setQueryData(['detail-page-data', currentService?.serviceID ?? ''], (oldData: DetailPageData[]) => {
-      return oldData.map((item) => {
-        if (item.rowNum !== rowNum) return item;
-        else
-          return {
-            ...item,
-            mode: newMode,
-          };
+  const updateRowMode = useCallback(
+    (rowNum: number, newMode: 'detail' | 'calc') => {
+      queryClient.setQueryData(['detail-page-data', currentService?.serviceID ?? ''], (oldData: DetailPageData[]) => {
+        return oldData.map((item) => {
+          if (item.rowNum !== rowNum) return item;
+          else
+            return {
+              ...item,
+              mode: newMode,
+            };
+        });
       });
-    });
-  };
+    },
+    [currentService]
+  );
 
   // 특정 행의 표시조건 전체 업데이트
-  const updateCondition = (rowNum: number, newCondition: string) => {
-    queryClient.setQueryData(['detail-page-data', currentService?.serviceID ?? ''], (oldData: DetailPageData[]) => {
-      return oldData.map((item) => {
-        if (item.rowNum !== rowNum) return item;
-        else
-          return {
-            ...item,
-            condition: newCondition,
-          };
+  const updateCondition = useCallback(
+    (rowNum: number, newCondition: string) => {
+      queryClient.setQueryData(['detail-page-data', currentService?.serviceID ?? ''], (oldData: DetailPageData[]) => {
+        return oldData.map((item) => {
+          if (item.rowNum !== rowNum) return item;
+          else
+            return {
+              ...item,
+              condition: newCondition,
+            };
+        });
       });
-    });
-  };
+    },
+    [currentService]
+  );
 
   // 특정 행 htmlCard 변경
-  const updateRowHtmlCard = (rowNum: number, newHtml: string) => {
-    queryClient.setQueryData(['detail-page-data', currentService?.serviceID ?? ''], (oldData: DetailPageData[]) => {
-      return oldData.map((item) => {
-        if (item.rowNum !== rowNum) return item;
-        else
-          return {
-            ...item,
-            htmlCard: newHtml,
-          };
+  const updateRowHtmlCard = useCallback(
+    (rowNum: number, newHtml: string) => {
+      queryClient.setQueryData(['detail-page-data', currentService?.serviceID ?? ''], (oldData: DetailPageData[]) => {
+        return oldData.map((item) => {
+          if (item.rowNum !== rowNum) return item;
+          else
+            return {
+              ...item,
+              htmlCard: newHtml,
+            };
+        });
       });
-    });
-  };
+    },
+    [currentService]
+  );
 
   useEffect(() => {
     if (data?.length) setOriginalDetailData(data);

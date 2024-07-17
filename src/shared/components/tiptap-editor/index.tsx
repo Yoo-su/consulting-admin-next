@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, memo } from 'react';
 import { EditorContent } from '@tiptap/react';
 import { useTheme } from '@mui/material/styles';
 import { debounce } from 'lodash';
@@ -46,4 +46,4 @@ const Tiptap = ({ value, handleChangeValue }: TiptapProps) => {
   );
 };
 
-export default Tiptap;
+export default memo(Tiptap);

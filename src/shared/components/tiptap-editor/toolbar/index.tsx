@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, MouseEvent } from 'react';
+import { useState, useCallback, MouseEvent, memo } from 'react';
 import { Box, IconButton, Tooltip } from '@mui/material';
 import { Editor } from '@tiptap/react';
 import {
@@ -242,4 +242,4 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
   );
 };
 
-export default Toolbar;
+export default memo(Toolbar);

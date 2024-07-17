@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import Stack from '@mui/material/Stack';
 import InputLabel from '@mui/material/InputLabel';
@@ -27,10 +27,10 @@ import { useMojipSetting } from '@/features/dashboard/hooks/context/use-mojip-se
 type MojipAccordionProps = {
   serviceID: string;
   detailpageData: DetailPageData;
-  selectedRowNum: number | null;
+  isSelected: boolean;
   handleSelectRow: (selectedIdx: number | null) => void;
 };
-const MojipAccordion = ({ serviceID, detailpageData, selectedRowNum, handleSelectRow }: MojipAccordionProps) => {
+const MojipAccordion = ({ serviceID, detailpageData, isSelected, handleSelectRow }: MojipAccordionProps) => {
   const queryClient = useQueryClient();
   const { openConfirmToast } = useConfirmToast();
   const { updateRowMode, updateRowHtmlCard } = useMojipSetting();
@@ -43,7 +43,7 @@ const MojipAccordion = ({ serviceID, detailpageData, selectedRowNum, handleSelec
   /**
    * 상세 페이지 데이터 삭제
    */
-  const handleClickDeleteBtn = () => {
+  const handleClickDeleteBtn = useCallback(() => {
     openConfirmToast(`${detailpageData.rowNum}번 데이터를 삭제하시겠습니까?`, () => {
       queryClient.setQueryData(['detail-page-data', serviceID], (oldData: DetailPageData[]) => {
         const filteredDetailpageData = oldData.filter((item) => item.rowNum != detailpageData.rowNum);
@@ -51,10 +51,10 @@ const MojipAccordion = ({ serviceID, detailpageData, selectedRowNum, handleSelec
       });
       handleSelectRow(null);
     });
-  };
+  }, [serviceID]);
 
   return (
-    <Accordion expanded={selectedRowNum === detailpageData.rowNum} sx={{ width: '100%' }}>
+    <Accordion expanded={isSelected} sx={{ width: '100%' }}>
       <AccordionSummary>
         <Typography
           variant="h6"
@@ -68,13 +68,13 @@ const MojipAccordion = ({ serviceID, detailpageData, selectedRowNum, handleSelec
             px: 1,
           }}
           onClick={() => {
-            if (!(selectedRowNum === detailpageData.rowNum)) handleSelectRow(detailpageData.rowNum);
+            if (!isSelected) handleSelectRow(detailpageData.rowNum);
             else handleSelectRow(null);
           }}
         >
           상세 페이지 데이터 {detailpageData.rowNum}
         </Typography>
-        {selectedRowNum === detailpageData.rowNum && (
+        {isSelected && (
           <Stack direction={'row'} sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
             <Chip
               icon={<DeleteIcon />}
@@ -135,4 +135,4 @@ const MojipAccordion = ({ serviceID, detailpageData, selectedRowNum, handleSelec
   );
 };
 
-export default MojipAccordion;
+export default memo(MojipAccordion);

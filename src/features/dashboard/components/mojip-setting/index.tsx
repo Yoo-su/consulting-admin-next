@@ -76,7 +76,7 @@ const MojipSettingBox = () => {
                       <MojipAccordion
                         serviceID={currentService?.serviceID ?? ''}
                         key={item.serviceID + '-detailpage-data-row-num-' + item.rowNum}
-                        selectedRowNum={selected}
+                        isSelected={selected === item.rowNum}
                         handleSelectRow={handleChangeSelected}
                         detailpageData={item}
                       />

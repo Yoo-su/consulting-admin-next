@@ -1,11 +1,11 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import Popover from '@mui/material/Popover';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
-import Divider from '@mui/material/Divider';
+import toast from 'react-hot-toast';
 
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -13,7 +13,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useMojipSetting } from '@/features/dashboard/hooks/context/use-mojip-setting';
 import { Condition } from '../types/condition.type';
 import ConditionRow from './condition-row';
-import toast from 'react-hot-toast';
 import EmptyConditionBox from './empty-condition-box';
 
 type ConditionSettingPopoverProps = {
@@ -164,4 +163,4 @@ const ConditionSettingPopover = ({ anchorEl, onClose, open, rowNum, condition }:
   );
 };
 
-export default ConditionSettingPopover;
+export default memo(ConditionSettingPopover);
