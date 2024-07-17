@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
@@ -12,11 +13,12 @@ import { Typography } from '@mui/material';
 
 const ServiceAutocomplete = () => {
   const { setCurrentService, serviceList, currentService, currentUniv, isServiceListLoading } = useUnivService();
-  const getServiceMenuTitle = (service: Service) => {
+
+  const getServiceMenuTitle = useCallback((service: Service) => {
     return (
       service.schoolYear + '학년도' + ' ' + (service.isSusi === '1' ? '수시' : '정시') + ' ' + `(${service.serviceID})`
     );
-  };
+  }, []);
 
   const handleChange = (event: any, newValue: Service | null) => {
     if (newValue) {
@@ -30,7 +32,7 @@ const ServiceAutocomplete = () => {
       disablePortal
       autoHighlight
       isOptionEqualToValue={(option, value) => {
-        return JSON.stringify(option) === JSON.stringify(value);
+        return option.serviceID === value.serviceID;
       }}
       id="service-select"
       options={serviceList}

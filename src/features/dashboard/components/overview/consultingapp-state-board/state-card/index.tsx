@@ -43,14 +43,15 @@ const StateCard = ({ state, index }: StateCardProps) => {
 
   const handleCardClick = () => {
     setCurrentUniv(currentUniv);
+    setCurrentService(null);
     setIsSelectBtnClicked(true);
   };
 
   useEffect(() => {
     if (isSelectBtnClicked && !isServiceListLoading) {
       const currentService = serviceList.find((service) => service.serviceID == state.serviceID) ?? null;
-      setCurrentService(currentService);
       if (currentService) {
+        setCurrentService(currentService);
         toast.success(<Typography variant="body2">서비스가 선택되었습니다</Typography>);
       } else {
         toast.error(<Typography variant="body2">서비스가 존재하지 않습니다</Typography>);
