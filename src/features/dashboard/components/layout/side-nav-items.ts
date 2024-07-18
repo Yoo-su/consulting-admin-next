@@ -16,13 +16,14 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import StorageIcon from '@mui/icons-material/Storage';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import PlusOneIcon from '@mui/icons-material/PlusOne';
+import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import { paths } from '@/shared/constants/paths';
 import { NavItemGroup, NavItemType } from '../../types/nav-item.type';
 
 const basicItems: NavItemType[] = [
   {
     navkey: 'home',
-    title: '홈',
+    title: '진행 현황판',
     href: paths.dashboard.overview,
     Icon: HomeIcon,
   },
@@ -42,7 +43,7 @@ const basicItems: NavItemType[] = [
 const excelItems: NavItemType[] = [
   {
     navkey: 'excel',
-    title: '기초 엑셀 업로드',
+    title: '기초 데이터 업로드',
     href: paths.dashboard.excelUpload,
     Icon: UploadFileIcon,
   },
@@ -63,9 +64,15 @@ const settingItems: NavItemType[] = [
   },
   {
     navkey: 'app-version-history',
-    title: '앱 다운로드 정보',
+    title: '앱 주소 & 배포 목록',
     href: paths.dashboard.appVersionHistory,
     Icon: DownloadIcon,
+  },
+  {
+    navkey: 'major-library',
+    title: '학과 자료 업로드',
+    href: paths.dashboard.majorLibrary,
+    Icon: CollectionsBookmarkIcon,
   },
   {
     navkey: 'etc-files',
@@ -117,18 +124,18 @@ const flutterItems: NavItemType[] = [
 const deployItems: NavItemType[] = [
   {
     navkey: 'data-deploy',
-    title: '데이터 배포',
+    title: '데이터 동기화 & 배포',
     href: paths.dashboard.dataDeploy,
     Icon: LanIcon,
   },
   {
     navkey: 'app-deploy',
-    title: '상담앱 배포',
+    title: 'Flutter앱 배포',
     href: paths.dashboard.appDeploy,
     Icon: CloudUploadIcon,
   },
 ];
-const sideNavItems4: NavItemType[] = [
+const profileItems: NavItemType[] = [
   {
     navkey: 'account-setting',
     title: '계정 관리',
@@ -164,6 +171,6 @@ export const sideNavGroup: NavItemGroup[] = [
   },
   {
     title: '계정',
-    items: sideNavItems4,
+    items: profileItems,
   },
 ];
