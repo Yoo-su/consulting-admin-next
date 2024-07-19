@@ -5,11 +5,11 @@ import { ChartData } from '@/features/dashboard/types/chart-data.type';
 import { useTheme } from '@mui/material/styles';
 
 type ModelChartBoxProps = {
-  selectedModel: number;
+  modelNum: number;
   modelLevels: number[];
   modelChartData: ChartData[];
 };
-const ModelChartBox = ({ selectedModel, modelLevels, modelChartData }: ModelChartBoxProps) => {
+const ModelChartBox = ({ modelNum, modelLevels, modelChartData }: ModelChartBoxProps) => {
   const theme = useTheme();
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
 
@@ -67,7 +67,7 @@ const ModelChartBox = ({ selectedModel, modelLevels, modelChartData }: ModelChar
       </Stack>
 
       <PieChart
-        key={`model-${selectedModel}-level-${selectedLevel}-chart`}
+        key={`model-${modelNum}-level-${selectedLevel}-chart`}
         colors={['#6D5C80', '#869F76', '#E9B665', '#0F497B', '#F5B19C']}
         series={[
           {

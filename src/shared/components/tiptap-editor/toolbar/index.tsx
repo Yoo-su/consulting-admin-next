@@ -213,8 +213,8 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
         gap: '0.5rem',
         padding: '0.75rem 1rem',
         borderRadius: '0 1rem 0 0',
-        border: '1px solid rgba(0,0,0,0.1)',
-        boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+        //border: '1px solid rgba(0,0,0,0.1)',
+        boxShadow: '0 3px 8px -3px rgb(0 0 0 / 0.1), 0 3px 3px -4px rgb(0 0 0 / 0.1)',
       }}
     >
       <Box sx={{ width: '100%', display: 'flex', gap: downlg ? '0.3rem' : '0.5rem', flexWrap: 'wrap' }}>

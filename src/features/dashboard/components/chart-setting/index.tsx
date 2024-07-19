@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, Fragment, useCallback } from 'react';
+import { useState, useMemo, Fragment, useCallback, memo } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -78,7 +78,7 @@ const ChartSettingBox = () => {
                       return (
                         <ModelAccordion
                           key={`model-${mn}-accordion`}
-                          selectedModel={selectedModel}
+                          isSelected={selectedModel === mn}
                           setSelectedModel={handleSelectModel}
                           modelNum={mn}
                           modelChartData={groupedByModelNum[mn]}
@@ -98,4 +98,4 @@ const ChartSettingBox = () => {
   );
 };
 
-export default ChartSettingBox;
+export default memo(ChartSettingBox);

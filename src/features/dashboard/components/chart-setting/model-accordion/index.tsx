@@ -1,3 +1,4 @@
+import { useCallback, useMemo, useState, memo } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
@@ -9,21 +10,20 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 
-import { useCallback, useMemo, useState } from 'react';
-import { useChartSetting } from '@/features/dashboard/hooks/context/use-chart-setting';
 import ModelLevelTable from '../model-level-table';
 import ModelChartBox from '../model-chart-box';
+import { useChartSetting } from '@/features/dashboard/hooks/context/use-chart-setting';
 import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
 import { getGroupedData } from '../../../services/overview/get-grouped-data';
 import { ChartData } from '@/features/dashboard/types/chart-data.type';
 
 type ModelAccordionProps = {
-  selectedModel: number | null;
+  isSelected: boolean;
   setSelectedModel: (modelNum: number | null) => void;
   modelNum: number;
   modelChartData: ChartData[];
 };
-const ModelAccordion = ({ selectedModel, setSelectedModel, modelNum, modelChartData }: ModelAccordionProps) => {
+const ModelAccordion = ({ isSelected, setSelectedModel, modelNum, modelChartData }: ModelAccordionProps) => {
   const { deleteModel, addNewModelLevel } = useChartSetting();
   const { openConfirmToast } = useConfirmToast();
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -44,13 +44,13 @@ const ModelAccordion = ({ selectedModel, setSelectedModel, modelNum, modelChartD
     return getGroupedData(modelChartData, 'level', modelLevels);
   }, [modelChartData]);
 
-  const handlClickTitle = () => {
-    if (selectedModel === modelNum) setSelectedModel(null);
+  const handlClickTitle = useCallback(() => {
+    if (isSelected) setSelectedModel(null);
     else setSelectedModel(modelNum);
-  };
+  }, [isSelected]);
 
   return (
-    <Accordion expanded={selectedModel === modelNum}>
+    <Accordion expanded={isSelected}>
       <AccordionSummary aria-controls="chart-model-accordion">
         <Typography
           variant="h6"
@@ -65,7 +65,7 @@ const ModelAccordion = ({ selectedModel, setSelectedModel, modelNum, modelChartD
           onClick={handlClickTitle}
         >{`모델 ${modelNum + 1}`}</Typography>
 
-        {selectedModel === modelNum && (
+        {isSelected && (
           <Stack direction={'row'} sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
             <Chip
               icon={<DeleteIcon />}
@@ -82,7 +82,7 @@ const ModelAccordion = ({ selectedModel, setSelectedModel, modelNum, modelChartD
         )}
       </AccordionSummary>
       <AccordionDetails>
-        <ModelChartBox selectedModel={modelNum} modelLevels={modelLevels} modelChartData={modelChartData} />
+        <ModelChartBox modelNum={modelNum} modelLevels={modelLevels} modelChartData={modelChartData} />
 
         {modelLevels.map((ml) => (
           <ModelLevelTable
@@ -125,4 +125,4 @@ const ModelAccordion = ({ selectedModel, setSelectedModel, modelNum, modelChartD
   );
 };
 
-export default ModelAccordion;
+export default memo(ModelAccordion);

@@ -61,7 +61,6 @@ const BasicBoardAll = () => {
         }
       });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [consultingAppStatesAll]
   );
 

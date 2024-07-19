@@ -65,7 +65,7 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
       },
     ];
     setChartData(newChartData);
-  }, [chartData, currentService, modelNumbers, setChartData]);
+  }, [chartData]);
 
   // 기존 모델을 삭제합니다
   const deleteModel = useCallback(
@@ -73,7 +73,7 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
       const filtered = chartData.filter((item) => item.modelNum !== modelNum);
       setChartData(filtered);
     },
-    [chartData, setChartData]
+    [chartData]
   );
 
   // 특정 모델에 포함된 특정 단계의 행들을 새로운 행들로 치환합니다
@@ -82,7 +82,7 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
       const filtered = chartData.filter((item) => !(item.modelNum === modelNum && item.level === level));
       setChartData([...filtered, ...newItems].sort((a, b) => a.level - b.level));
     },
-    [chartData, setChartData]
+    [chartData]
   );
 
   // 특정 모델에 새로운 단계를 추가합니다
@@ -100,7 +100,7 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
       };
       setChartData([...chartData, newLevelItem]);
     },
-    [chartData, currentService, getModelLevels, setChartData]
+    [chartData]
   );
 
   // 특정 모델의 특정 단계를 제거합니다
@@ -109,7 +109,7 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
       const filtered = chartData.filter((item) => !(item.modelNum === modelNum && item.level === level));
       setChartData(filtered);
     },
-    [chartData, setChartData]
+    [chartData]
   );
 
   useEffect(() => {
