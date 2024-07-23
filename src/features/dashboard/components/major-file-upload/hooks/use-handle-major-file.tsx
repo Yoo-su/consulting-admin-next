@@ -1,17 +1,18 @@
 import { useState, useCallback, useEffect } from 'react';
 
 export const useHandleMajorFile = () => {
-  const [majorFile, setMajorFile] = useState<File | null>(null);
+  const [majorFiles, setMajorFiles] = useState<File[]>([]);
   const [formData, setFormData] = useState<FormData>(new FormData());
 
-  const handleMajorFileChange = useCallback((file: File | null) => {
-    setMajorFile(file);
+  const handleMajorFileAdd = useCallback((files: File[]) => {
+    if (files.length > 1) setMajorFiles((prev) => [...prev, ...files]);
+    else setMajorFiles((prev) => [...prev, files[0]]);
   }, []);
 
-  useEffect(() => {
-    if (majorFile) formData.set('files', majorFile);
-    else formData.delete('files');
-  }, [majorFile]);
+  const clearState = useCallback(() => {
+    setMajorFiles([]);
+    setFormData(new FormData());
+  }, []);
 
-  return { majorFile, handleMajorFileChange, formData };
+  return { majorFiles, handleMajorFileAdd, formData, clearState };
 };

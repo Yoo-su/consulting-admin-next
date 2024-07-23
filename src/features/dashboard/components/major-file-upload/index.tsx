@@ -1,11 +1,23 @@
 'use client';
 
-import { ChangeEvent, useRef, useState, DragEvent } from 'react';
+import { ChangeEvent, useRef, useState, DragEvent, Fragment } from 'react';
 import ContentWrapper from '@/shared/components/content-wrapper';
-import { FormControl, Stack, Typography, InputLabel, Input, InputAdornment, Box } from '@mui/material';
+import {
+  FormControl,
+  Stack,
+  Typography,
+  InputLabel,
+  Input,
+  InputAdornment,
+  Divider,
+  Grid,
+  Button,
+} from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
 import { useUnivService } from '../../hooks/context/use-univ-service';
 import { useHandleMajorFile } from './hooks/use-handle-major-file';
@@ -13,14 +25,16 @@ import { useUploadMajorFileMutation } from './hooks/use-upload-major-file-mutati
 import PulseLoader from 'react-spinners/PulseLoader';
 import FileItemCard, { FileType } from '@/shared/components/file-item-card';
 import { useUser } from '@/features/auth/hooks/use-user';
+import EmptyBox from '@/shared/components/empty-box';
 
 const MajorFileUploadBox = () => {
   const { user } = useUser();
   const { currentUniv, currentService } = useUnivService();
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const { majorFile, handleMajorFileChange: setMajorFile, formData } = useHandleMajorFile();
+  const { majorFiles, handleMajorFileAdd: addMajorFile, formData, clearState } = useHandleMajorFile();
   const { mutateAsync, isPending, isSuccess, reset } = useUploadMajorFileMutation();
   const [uploadDirectory, setUploadDirectory] = useState<string>(new Date().getFullYear().toString());
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleClickInputBox = () => {
     if (isPending) return;
@@ -28,9 +42,8 @@ const MajorFileUploadBox = () => {
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (isSuccess) reset();
-    const selectedFile = event.target.files?.[0] ?? null;
-    setMajorFile(selectedFile);
+    const selectedFiles = event.target.files ? Array.from(event.target.files) : [];
+    if (selectedFiles.length) addMajorFile(selectedFiles);
   };
 
   const handleClickUploadBtn = async () => {
@@ -40,25 +53,34 @@ const MajorFileUploadBox = () => {
     await mutateAsync(formData);
   };
 
+  const resetState = () => {
+    clearState();
+    reset();
+  };
+
   const handleDragEnter = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+    setIsDragging(true);
   };
 
   const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+    setIsDragging(false);
   };
 
   const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+    setIsDragging(true);
   };
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+    setIsDragging(false);
 
-    const droppedFile = event.dataTransfer.files[0];
-    if (droppedFile) {
-      setMajorFile(droppedFile);
-    }
+    const arrayFiles = Array.from(event.dataTransfer.files);
+
+    if (!arrayFiles.length) return;
+    else addMajorFile(arrayFiles);
   };
 
   return (
@@ -85,77 +107,108 @@ const MajorFileUploadBox = () => {
       </ContentWrapper.Header>
 
       <ContentWrapper.MainContent>
-        <Stack direction={'column'} alignItems={'center'} justifyContent={'center'} spacing={2} px={1}>
-          <Stack
-            width={'100%'}
-            onClick={handleClickInputBox}
-            direction={'column'}
-            spacing={3}
-            onDragEnter={handleDragEnter}
-            onDragLeave={handleDragLeave}
-            onDragOver={handleDragOver}
-            onDrop={handleDrop}
-            sx={{
-              cursor: 'pointer',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: '1rem',
-              position: 'relative',
-              minWidth: { xs: '90%', sm: '60%', md: '60%', lg: '60%', xl: '60%' },
-              height: '380px',
-              px: 1,
-              boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-            }}
-          >
-            <FileItemCard.IconBox file={majorFile ? (majorFile?.name.split('.')[1] as FileType) : 'none'} />
-            <Typography
-              variant="body2"
-              color="grey.700"
-              sx={{
-                textAlign: 'center',
-                width: '100%',
-                overflow: 'hidden',
-                whiteSpace: 'nowrap',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              {majorFile ? majorFile.name : '업로드할 학과자료를 올려주세요'}
-            </Typography>
-            {isPending && (
-              <Box
+        <Stack direction={'column'} alignItems={'center'} justifyContent={'center'}>
+          {majorFiles.length ? (
+            <Stack direction={'column'} alignItems={'flex-start'} width={'100%'} flexWrap={'wrap'}>
+              <Typography variant="h6">
+                {isSuccess
+                  ? `${majorFiles.length}개의 자료가 업로드되었습니다`
+                  : `${majorFiles.length}개의 자료가 대기중입니다..`}
+              </Typography>
+              <Grid
+                container
+                direction={'row'}
+                alignItems={'flex-start'}
                 sx={{
-                  position: 'absolute',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  minWidth: '60%',
-                  height: '380px',
-                  bgcolor: 'rgba(255,255,255,0.5)',
+                  mt: 3,
+                  borderRadius: '0.8rem',
+                  p: 1,
+                  minHeight: '200px',
+                  maxHeight: '450px',
+                  overflowY: 'scroll',
+                  bgcolor: 'rgba(0,0,0,0.015)',
+                  ...(isDragging && {
+                    bgcolor: 'rgba(0,0,0,0.04)',
+                  }),
                 }}
+                onDragEnter={handleDragEnter}
+                onDragLeave={handleDragLeave}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
               >
-                <PulseLoader color={'#36D7B7'} />
-              </Box>
+                {majorFiles.map((fileItem) => {
+                  const fileType = fileItem.name.split('.')[1] ?? 'none';
+                  return (
+                    <Grid
+                      key={fileItem.name}
+                      component={'div'}
+                      item
+                      xs={12}
+                      sm={6}
+                      md={6}
+                      lg={4}
+                      xl={3}
+                      onDragOver={handleDragOver}
+                    >
+                      <FileItemCard
+                        sxProps={{
+                          bgcolor: '#fff',
+                          ...(!isSuccess && {
+                            animation: 'wiggle 2s infinite',
+                          }),
+                          m: 1,
+                        }}
+                      >
+                        <FileItemCard.IconBox file={fileType as FileType} />
+                        <FileItemCard.ContentBox>
+                          <FileItemCard.TitleBox title={fileItem.name} />
+
+                          <FileItemCard.AdditionalInfo sxProps={{ justifyContent: 'flex-end' }}>
+                            <Typography variant="caption" color={'rgba(0,0,0,0.7)'}>
+                              {fileItem.size} bytes
+                            </Typography>
+                          </FileItemCard.AdditionalInfo>
+                        </FileItemCard.ContentBox>
+                      </FileItemCard>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Stack>
+          ) : (
+            <EmptyBox
+              text={'업로드할 자료를 드래그하세요'}
+              onDragEnter={handleDragEnter}
+              onDragLeave={handleDragLeave}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+            />
+          )}
+          <Divider sx={{ width: '100%', my: 2, borderColor: 'rgba(0,0,0,0.08)' }} />
+          <Stack width={'100%'} direction={'row'} justifyContent={'space-between'}>
+            {isSuccess ? (
+              <Button variant="contained" color="inherit" startIcon={<RestartAltIcon />} onClick={resetState}>
+                <Typography variant="body2">초기화</Typography>
+              </Button>
+            ) : (
+              <Button variant="contained" color="info" startIcon={<AddCircleIcon />} onClick={handleClickInputBox}>
+                <Typography variant="body2">업로드할 자료 추가</Typography>
+              </Button>
+            )}
+            {!!majorFiles.length && (
+              <LoadingButton
+                loading={isPending}
+                variant={'contained'}
+                color="success"
+                startIcon={<CloudUploadIcon />}
+                onClick={handleClickUploadBtn}
+                disabled={isSuccess}
+              >
+                <Typography variant="body2">{isSuccess ? '업로드 완료' : '자료 업로드'}</Typography>
+              </LoadingButton>
             )}
           </Stack>
-          {majorFile && (
-            <LoadingButton
-              loading={isPending}
-              variant={'contained'}
-              color="success"
-              startIcon={<CloudUploadIcon />}
-              onClick={handleClickUploadBtn}
-              disabled={isSuccess}
-            >
-              <Typography variant="body2">{isSuccess ? '업로드 완료' : '자료 업로드'}</Typography>
-            </LoadingButton>
-          )}
-          <input
-            type="file"
-            key={majorFile?.name ?? '' + majorFile?.lastModified ?? ''}
-            ref={fileInputRef}
-            style={{ display: 'none' }}
-            onChange={handleFileChange}
-          />
+          <input type="file" ref={fileInputRef} multiple style={{ display: 'none' }} onChange={handleFileChange} />
         </Stack>
       </ContentWrapper.MainContent>
     </ContentWrapper>

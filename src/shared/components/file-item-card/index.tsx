@@ -81,9 +81,10 @@ type FileItemCardProps = {
   children: ReactNode;
   tooltipMsg?: string;
   handleClick?: () => void;
+  sxProps?: SxProps;
 };
 
-const FileItemCard = ({ children, tooltipMsg, handleClick }: FileItemCardProps) => {
+const FileItemCard = ({ children, tooltipMsg, handleClick, sxProps }: FileItemCardProps) => {
   return (
     <Tooltip disableHoverListener={!tooltipMsg} title={<Typography variant="caption">{tooltipMsg}</Typography>}>
       <Stack
@@ -100,6 +101,7 @@ const FileItemCard = ({ children, tooltipMsg, handleClick }: FileItemCardProps) 
             bgcolor: 'rgba(0,0,0,0.1)',
           },
           transition: 'all 0.1s linear',
+          ...sxProps,
         }}
         onClick={handleClick}
       >

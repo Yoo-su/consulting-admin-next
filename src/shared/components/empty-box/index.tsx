@@ -5,13 +5,15 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import SdCardAlertIcon from '@mui/icons-material/SdCardAlert';
+import { DOMAttributes } from 'react';
 
 type EmptyBoxProps = {
   text: string;
-};
-const EmptyBox = ({ text }: EmptyBoxProps) => {
+} & DOMAttributes<HTMLDivElement>;
+
+const EmptyBox = ({ text, ...props }: EmptyBoxProps) => {
   return (
-    <Box sx={{ width: '100%', height: '450px', justifyContent: 'center', alignItems: 'center', mt: 3 }}>
+    <Box sx={{ width: '100%', height: '450px', justifyContent: 'center', alignItems: 'center', mt: 3 }} {...props}>
       <Stack
         direction={'column'}
         spacing={1}
