@@ -34,6 +34,7 @@ export const apiUrls = {
     getFlutterCategory: '/custom-config/category',
     getFlutterRowInfo: '/custom-config/rows-info-hierarchy',
     flutterCustomConfig: '/custom-config',
+    uploadMajorFile: '/subject/upload',
   },
   admin: {
     getUnivList: '/admin/univlist',

@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 
@@ -10,11 +10,16 @@ import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-serv
 
 type ServiceCheckGuardProps = {
   children: ReactNode;
+  checkService?: boolean;
 };
-const UnivServiceCheckGuard = ({ children }: ServiceCheckGuardProps) => {
-  const { currentService } = useUnivService();
+const UnivServiceCheckGuard = ({ children, checkService = true }: ServiceCheckGuardProps) => {
+  const { currentUniv, currentService } = useUnivService();
 
-  if (!currentService)
+  const checkFlag = useMemo(() => {
+    return checkService ? currentUniv && currentService : currentUniv;
+  }, [currentUniv, currentService]);
+
+  if (!checkFlag)
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Alert color="info" icon={<InfoOutlinedIcon />}>

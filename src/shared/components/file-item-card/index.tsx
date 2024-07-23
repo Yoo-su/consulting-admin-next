@@ -30,8 +30,12 @@ const IconBox = ({ file }: IconBoxProps) => {
   const [iconSrc, setIconSrc] = useState<StaticImageData | null>(null);
 
   useEffect(() => {
-    iconPathMap[file]().then((module) => setIconSrc(module.default));
-  }, []);
+    try {
+      iconPathMap[file]().then((module) => setIconSrc(module.default));
+    } catch (err) {
+      iconPathMap['none']().then((module) => setIconSrc(module.default));
+    }
+  }, [file]);
 
   return iconSrc && <Image src={iconSrc} width={'32'} height={'32'} alt={file} />;
 };

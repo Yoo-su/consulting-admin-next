@@ -21,7 +21,7 @@ export const paths = {
     appVersionHistory: '/dashboard/app-version-history',
     dataDeploy: '/dashboard/data-deploy',
     etcFiles: '/dashboard/etc-files',
-    majorLibrary: '/dashboard/major-library',
+    majorFileUpload: '/dashboard/major-file-upload',
   },
   errors: { notFound: '/errors/not-found' },
 } as const;

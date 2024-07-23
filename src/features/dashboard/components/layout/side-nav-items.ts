@@ -69,9 +69,9 @@ const settingItems: NavItemType[] = [
     Icon: DownloadIcon,
   },
   {
-    navkey: 'major-library',
+    navkey: 'major-file-upload',
     title: '학과 자료 업로드',
-    href: paths.dashboard.majorLibrary,
+    href: paths.dashboard.majorFileUpload,
     Icon: CollectionsBookmarkIcon,
   },
   {

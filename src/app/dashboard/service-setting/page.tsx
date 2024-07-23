@@ -11,12 +11,12 @@ export const metadata = {
 
 const Page = () => {
   return (
-    // <UnivServiceCheckGuard>
-    <Box>
-      <Typography variant="h5">서비스 설정</Typography>
-      <ServiceSettingBox />
-    </Box>
-    // </UnivServiceCheckGuard>
+    <UnivServiceCheckGuard checkService={false}>
+      <Box>
+        <Typography variant="h5">서비스 설정</Typography>
+        <ServiceSettingBox />
+      </Box>
+    </UnivServiceCheckGuard>
   );
 };
 
