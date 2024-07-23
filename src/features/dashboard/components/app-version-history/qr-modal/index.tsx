@@ -73,12 +73,12 @@ const QRCodeBox = ({ url, fileName }: QRCodeBoxProps) => {
       onClick={handleClick}
       style={{ cursor: 'pointer' }}
       imageSettings={{
-        src: '/logo.png',
-        x: 12,
-        y: 11,
-        height: 30,
-        width: 30,
-        excavate: true,
+        src: '/logo-nopadding.png',
+        x: undefined,
+        y: undefined,
+        height: 40,
+        width: 32,
+        excavate: false,
       }}
     />
   );
