@@ -1,6 +1,8 @@
 {
   "name": "consulting-admin",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "입학상담앱 관리자",
+  "author": "Jinhakapply",
   "private": true,
   "scripts": {
     "dev": "next dev",
