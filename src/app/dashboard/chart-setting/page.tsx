@@ -1,9 +1,9 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import ChartSettingProvider from '@/features/dashboard/contexts/chart-setting-context';
-import ChartSettingBox from '@/features/dashboard/components/chart-setting';
+import ChartSettingProvider from '@/features/chart-setting/contexts';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
+import ChartSettingContainer from '@/features/chart-setting/components/chart-setting-container';
 
 export const metadata = {
   title: '상담앱 관리자 | 차트 데이터 설정',
@@ -16,7 +16,7 @@ const Page = () => {
       <ChartSettingProvider>
         <Box>
           <Typography variant="h5">차트 설정</Typography>
-          <ChartSettingBox />
+          <ChartSettingContainer />
         </Box>
       </ChartSettingProvider>
     </UnivServiceCheckGuard>

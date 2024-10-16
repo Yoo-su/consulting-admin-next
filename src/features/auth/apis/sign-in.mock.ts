@@ -1,7 +1,7 @@
 import { HttpHandler, HttpResponse, http } from 'msw';
-import { apiUrls } from '@/shared/constants/api-urls';
+import { API_URLS } from '@/shared/constants/api-urls';
 
-export const signin: HttpHandler = http.post(apiUrls.user.signin, async ({ request }) => {
+export const signin: HttpHandler = http.post(API_URLS.user.signin, async ({ request }) => {
   type Body = {
     userID: string;
     password: string;

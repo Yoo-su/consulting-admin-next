@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
-import CalendarBox from '@/features/dashboard/components/schedule-setting/calendar-box';
+import CalendarBox from '@/features/schedule-setting/components/calendar-box';
 
 export const metadata = {
   title: '상담앱 관리자 | 스케줄 설정',

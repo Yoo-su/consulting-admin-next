@@ -1,8 +1,9 @@
 import Typography from '@mui/material/Typography';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 import Box from '@mui/material/Box';
-import FileListTable from '@/features/dashboard/components/consulting-files-setting/file-list-table';
-import ConsultingFileSettingsProvider from '@/features/dashboard/contexts/consulting-file-settings-context';
+
+import FileListTable from '@/features/consulting-files-setting/components/file-list-table';
+import ConsultingFileSettingsProvider from '@/features/consulting-files-setting/contexts';
 
 export const metadata = {
   title: '상담앱 관리자 | 상담 자료 관리',

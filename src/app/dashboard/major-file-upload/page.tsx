@@ -1,8 +1,8 @@
-import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import MajorFileUploadBox from '@/features/dashboard/components/major-file-upload';
+import MajorFileUploadContainer from '@/features/major-file-upload/components/major-file-upload-container';
+import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {
   title: '상담앱 관리자 | 학과 자료 업로드',
@@ -14,7 +14,7 @@ const Page = () => {
     <UnivServiceCheckGuard>
       <Box>
         <Typography variant="h5">학과 자료 업로드</Typography>
-        <MajorFileUploadBox />
+        <MajorFileUploadContainer />
       </Box>
     </UnivServiceCheckGuard>
   );

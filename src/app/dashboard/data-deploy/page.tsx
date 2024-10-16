@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
-import DataDeployBox from '@/features/dashboard/components/data-deploy';
+import DataDeployContainer from '@/features/data-deploy/components/data-deploy-container';
 
 export const metadata = {
   title: '상담앱 관리자 | 데이터 배포',
@@ -14,7 +14,7 @@ const Page = () => {
     <UnivServiceCheckGuard>
       <Box>
         <Typography variant="h5">데이터 배포</Typography>
-        <DataDeployBox />
+        <DataDeployContainer />
       </Box>
     </UnivServiceCheckGuard>
   );

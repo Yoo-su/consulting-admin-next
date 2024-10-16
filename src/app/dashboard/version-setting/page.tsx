@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
-import VersionSettingBox from '@/features/dashboard/components/version-setting';
+import VersionSettingContainer from '@/features/version-setting/components/version-setting-container';
 
 export const metadata = {
   title: '상담앱 관리자 | 버전 설정',
@@ -14,7 +14,7 @@ const Page = () => {
     <UnivServiceCheckGuard>
       <Box>
         <Typography variant="h5">버전 설정</Typography>
-        <VersionSettingBox />
+        <VersionSettingContainer />
       </Box>
     </UnivServiceCheckGuard>
   );

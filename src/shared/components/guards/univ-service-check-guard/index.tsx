@@ -3,10 +3,9 @@
 import { ReactNode, useMemo } from 'react';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
-
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
-import { useUnivService } from '@/features/dashboard/hooks/context/use-univ-service';
+import { useUnivService } from '@/shared/hooks/context';
 
 type ServiceCheckGuardProps = {
   children: ReactNode;

@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
-import ServiceSettingBox from '@/features/dashboard/components/service-setting';
+import ServiceSettingContainer from '@/features/service-setting/components/service-setting-container';
 
 export const metadata = {
   title: '상담앱 관리자 | 서비스 설정',
@@ -14,7 +14,7 @@ const Page = () => {
     <UnivServiceCheckGuard checkService={false}>
       <Box>
         <Typography variant="h5">서비스 설정</Typography>
-        <ServiceSettingBox />
+        <ServiceSettingContainer />
       </Box>
     </UnivServiceCheckGuard>
   );

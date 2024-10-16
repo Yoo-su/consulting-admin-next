@@ -1,5 +1,5 @@
 export type RomanValuesType = 'lower' | 'upper';
-const getRomanValues = (num: number, type: RomanValuesType = 'upper') => {
+export const getRomanValues = (num: number, type: RomanValuesType = 'upper') => {
   const romanSymbols = [
     ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'],
     ['', 'X', 'XX', 'XXX', 'XL', 'L', 'LX', 'LXX', 'LXXX', 'XC'],
@@ -14,5 +14,3 @@ const getRomanValues = (num: number, type: RomanValuesType = 'upper') => {
 
   return type === 'lower' ? result.toLowerCase() : result;
 };
-
-export default getRomanValues;

@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
-import AppHistoryListBox from '@/features/dashboard/components/app-version-history';
+import AppHistoryListContainer from '@/features/app-version-history/components/app-history-list-container';
 
 export const metadata = {
   title: '상담앱 관리자 | 앱 다운로드 정보',
@@ -14,7 +14,7 @@ const Page = () => {
     <UnivServiceCheckGuard>
       <Box>
         <Typography variant="h5">상담앱 다운로드 정보</Typography>
-        <AppHistoryListBox />
+        <AppHistoryListContainer />
       </Box>
     </UnivServiceCheckGuard>
   );

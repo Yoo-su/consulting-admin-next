@@ -1,7 +1,7 @@
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import MojipDataManageBox from '@/features/dashboard/components/mojip-data-manage';
+import MojipDataManageContainer from '@/features/mojip-data-manage/components/mojip-data-manage-container';
 
 export const metadata = {
   title: '상담앱 관리자 | 모집요강 데이터 관리',
@@ -13,7 +13,7 @@ const Page = () => {
     <UnivServiceCheckGuard>
       <Box>
         <Typography variant="h5">모집요강 데이터 관리</Typography>
-        <MojipDataManageBox />
+        <MojipDataManageContainer />
       </Box>
     </UnivServiceCheckGuard>
   );

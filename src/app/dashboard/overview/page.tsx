@@ -1,5 +1,12 @@
-import ConsultingAppStateProvider from '@/features/dashboard/contexts/consultingapp-state-context';
-import ConsultingAppStateBoard from '@/features/dashboard/components/overview/consultingapp-state-board';
+import dynamic from 'next/dynamic';
+const ConsultingAppStateProvider = dynamic(
+  () => import('@/features/overview/contexts').then((module) => module.default),
+  { ssr: false }
+);
+const ConsultingAppStateBoard = dynamic(
+  () => import('@/features/overview/components/consultingapp-state-board').then((module) => module.default),
+  { ssr: false }
+);
 
 export const metadata = {
   title: '상담앱 관리자 | 홈 - 현황판',

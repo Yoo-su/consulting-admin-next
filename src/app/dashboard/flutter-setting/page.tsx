@@ -2,8 +2,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
-import FlutterSetting from '@/features/dashboard/components/flutter-setting';
-import FlutterSettingProvider from '@/features/dashboard/contexts/flutter-setting-context';
+import FlutterSettingContainer from '@/features/flutter-setting/components/flutter-setting-container';
+import FlutterSettingProvider from '@/features/flutter-setting/contexts';
 
 export const metadata = {
   title: '상담앱 관리자 | 앱 사용자 설정',
@@ -16,7 +16,7 @@ const Page = () => {
       <FlutterSettingProvider>
         <Box>
           <Typography variant="h5">앱 사용자 설정</Typography>
-          <FlutterSetting />
+          <FlutterSettingContainer />
         </Box>
       </FlutterSettingProvider>
     </UnivServiceCheckGuard>
