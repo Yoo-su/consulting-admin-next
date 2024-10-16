@@ -3,9 +3,9 @@
 import { useState, useEffect, Fragment, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 
-import AppBackdrop from '@/shared/components/loadings/app-backrdrop';
-import { paths } from '@/shared/constants/paths';
-import { useUser } from '../../../../features/auth/hooks/use-user';
+import AppBackdrop from '@/shared/components/ui/loadings/app-backrdrop';
+import { PATHS } from '@/shared/constants';
+import { useUser } from '@/shared/hooks/context';
 
 export type GuestGuardProps = {
   children: ReactNode;
@@ -20,7 +20,7 @@ const GuestGuard = ({ children }: GuestGuardProps) => {
     if (isLoading) return;
 
     if (user) {
-      router.replace(paths.dashboard.overview, { scroll: false });
+      router.replace(PATHS.dashboard.overview, { scroll: false });
       return;
     }
 

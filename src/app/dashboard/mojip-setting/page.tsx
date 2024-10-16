@@ -1,8 +1,9 @@
-import MojipSettingBox from '@/features/dashboard/components/mojip-setting';
-import MojipSettingProvider from '@/features/dashboard/contexts/mojip-setting-context';
-import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+
+import MojipSettingContainer from '@/features/mojip-setting/components/mojip-setting-container';
+import MojipSettingProvider from '@/features/mojip-setting/contexts';
+import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {
   title: '상담앱 관리자 | 모집요강 설정',
@@ -16,7 +17,7 @@ const Page = () => {
         <Box>
           <Typography variant="h5">모집요강 설정</Typography>
 
-          <MojipSettingBox />
+          <MojipSettingContainer />
         </Box>
       </MojipSettingProvider>
     </UnivServiceCheckGuard>

@@ -1,7 +1,7 @@
 import { AppRouterContext, AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { use, useEffect } from 'react';
 
-export default function useInterceptAppRouter<TMethod extends keyof AppRouterInstance>(
+export function useInterceptAppRouter<TMethod extends keyof AppRouterInstance>(
   original: TMethod,
   interceptFn: (original: () => void, args?: Parameters<AppRouterInstance[TMethod]>) => void
 ): void {

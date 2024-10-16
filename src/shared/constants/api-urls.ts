@@ -1,4 +1,4 @@
-export const apiUrls = {
+export const API_URLS = {
   user: {
     signin: '/auth/login',
     profile: '/auth/profile',

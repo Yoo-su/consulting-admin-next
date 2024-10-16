@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import AuthGuard from '@/shared/components/guards/auth-guard';
-import UnivServiceProvider from '@/features/dashboard/contexts/univ-service-context';
-import DashboardLayout from '@/features/dashboard/components/layout';
+import { UnivServiceProvider } from '@/shared/contexts';
+import DashboardLayout from '@/shared/components/layouts/dashboard-layout';
 
 type Props = {
   children: ReactNode;

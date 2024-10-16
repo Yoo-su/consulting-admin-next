@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState, Fragment, ReactNode } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 
-import AppBackdrop from '@/shared/components/loadings/app-backrdrop';
-import { useUser } from '../../../../features/auth/hooks/use-user';
-import { paths } from '@/shared/constants/paths';
+import AppBackdrop from '@/shared/components/ui/loadings/app-backrdrop';
+import { useUser } from '@/shared/hooks/context';
+import { PATHS } from '@/shared/constants';
 
 export type AuthGuardProps = {
   children: ReactNode;
@@ -19,7 +19,7 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
   const checkUser = () => {
     if (isLoading) return;
     if (!user) {
-      router.replace(paths.auth.signIn, { scroll: false });
+      router.replace(PATHS.auth.signIn, { scroll: false });
       return;
     }
 

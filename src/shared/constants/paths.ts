@@ -1,4 +1,4 @@
-export const paths = {
+export const PATHS = {
   home: '/',
   auth: {
     signIn: '/auth/sign-in',
@@ -8,19 +8,19 @@ export const paths = {
     serviceSetting: '/dashboard/service-setting',
     versionSetting: '/dashboard/version-setting',
     consultingFilesSetting: '/dashboard/consulting-files-setting',
-    excelUpload: '/dashboard/excel-upload',
+    excelUpload: '/dashboard/foundation-upload',
     mojipSetting: '/dashboard/mojip-setting',
     mojipDataManage: '/dashboard/mojip-data-manage',
     chartSetting: '/dashboard/chart-setting',
     scheduleSetting: '/dashboard/schedule-setting',
     flutterUserSettigs: '/dashboard/flutter-setting',
     consultingStatistic: '/dashboard/consulting-statistic',
-    excelLibrary: '/dashboard/excel-library',
+    excelLibrary: '/dashboard/foundation-library',
     accountSetting: '/dashboard/account-setting',
     appDeploy: '/dashboard/app-deploy',
     appVersionHistory: '/dashboard/app-version-history',
     dataDeploy: '/dashboard/data-deploy',
-    etcFiles: '/dashboard/etc-files',
+    etcFiles: '/dashboard/etc-library',
     majorFileUpload: '/dashboard/major-file-upload',
   },
   errors: { notFound: '/errors/not-found' },

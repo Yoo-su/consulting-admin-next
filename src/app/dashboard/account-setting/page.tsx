@@ -1,6 +1,9 @@
+import dynamic from 'next/dynamic';
 import Box from '@mui/material/Box';
-import AccountSettingBox from '@/features/dashboard/components/account-setting';
-import Typography from '@mui/material/Typography';
+const AccountSettingContainer = dynamic(
+  () => import('@/features/account-setting/components/account-setting-container').then((module) => module.default),
+  { ssr: false }
+);
 
 export const metadata = {
   title: '상담앱 관리자 | 계정 설정',
@@ -10,7 +13,7 @@ export const metadata = {
 const Page = () => {
   return (
     <Box>
-      <AccountSettingBox />
+      <AccountSettingContainer />
     </Box>
   );
 };

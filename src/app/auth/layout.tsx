@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-import AuthLayout from '@/features/auth/components/layout';
+
+import AuthLayout from '@/shared/components/layouts/auth-layout';
 import GuestGuard from '@/shared/components/guards/guest-guard';
 
 type Props = {

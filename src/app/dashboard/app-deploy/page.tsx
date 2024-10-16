@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
-import AppDeployBox from '@/features/dashboard/components/app-deploy';
+import AppDeployContainer from '@/features/app-deploy/components/app-deploy-container';
 
 export const metadata = {
   title: '상담앱 관리자 | 앱 배포',
@@ -14,7 +14,7 @@ const Page = () => {
     <UnivServiceCheckGuard>
       <Box>
         <Typography variant="h5">상담앱 배포</Typography>
-        <AppDeployBox />
+        <AppDeployContainer />
       </Box>
     </UnivServiceCheckGuard>
   );

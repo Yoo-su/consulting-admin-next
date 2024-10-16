@@ -1,5 +1,5 @@
 import { apiInstance } from '@/shared/plugin/axios';
-import { apiUrls } from '@/shared/constants/api-urls';
+import { API_URLS } from '@/shared/constants/api-urls';
 
 export type SigninParams = {
   userID: string;
@@ -11,7 +11,7 @@ export type SigninResponse = {
   expires_in: number;
 };
 export const signin = ({ userID, userPassword }: SigninParams) => {
-  return apiInstance.post<SigninResponse>(apiUrls.user.signin, {
+  return apiInstance.post<SigninResponse>(API_URLS.user.signin, {
     userID,
     userPassword,
   });

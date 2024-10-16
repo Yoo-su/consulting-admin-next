@@ -6,7 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import { debounce } from 'lodash';
 
 import Toolbar from './toolbar';
-import { useTextEditor } from '@/shared/hooks/use-text-editor';
+import { useTextEditor } from '@/shared/hooks';
 import { TiptapContainer } from './styled';
 
 type TiptapProps = {
