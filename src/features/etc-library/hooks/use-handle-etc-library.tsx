@@ -39,7 +39,7 @@ export const useHandleEtcLibrary = () => {
           setAlertData({ message: message ?? '엑셀 업로드 중 문제가 발생했습니다', color: 'error' });
         }
       } catch (error) {
-        console.log('Upload failed:', error);
+        console.error('Upload failed:', error);
       }
     };
 

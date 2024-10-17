@@ -40,7 +40,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
           setUser(res.data);
           // moa 정보 업데이트
           syncMoaNesinService({ userID: res.data.sub, departmentID: res.data.departmentID }).then((res) => {
-            console.log('sync with Moa :\n', res.data.message);
+            console.info('sync with Moa :\n', res.data.message);
           });
         })
         .catch((err) => {

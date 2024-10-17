@@ -80,7 +80,6 @@ const FlutterSettingContainer = () => {
   //#endregion navigation block
 
   useEffect(() => {
-    console.log('refetched');
     setFlutterSettingList(settingList ?? []);
     setFilteredSettingList(getFilteredCustomConfig(settingList ?? []));
     resetEditedSettingList();

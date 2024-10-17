@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -20,12 +20,11 @@ import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import SportsMartialArtsIcon from '@mui/icons-material/SportsMartialArts';
 import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
 
-import { useConsultingAppState } from '../../hooks';
 import { STATE_BOARD_DOMAIN_ITEMS } from '../../constants';
-import { StateBoardDomainItems } from '../../models';
+import { StateBoardDomainItems, useStatusBoardStore } from '../../models';
 
 const ConsultingAppStateDialog = () => {
-  const { dialogType, isDialogOpen, closeDialog, dialogContentState } = useConsultingAppState();
+  const { isDialogOpen, toggleDialog, dialogContentState } = useStatusBoardStore();
   if (!dialogContentState) return null;
 
   const { bgcolor, color, title } =
@@ -56,10 +55,10 @@ const ConsultingAppStateDialog = () => {
   };
 
   return (
-    <Dialog open={isDialogOpen} onClose={closeDialog} maxWidth="sm" fullWidth>
+    <Dialog open={isDialogOpen} onClose={() => toggleDialog(false)} maxWidth="sm" fullWidth>
       <DialogTitle>
         <Box display={'flex'} justifyContent={'flex-end'} width={'100%'}>
-          <IconButton size="small" onClick={closeDialog}>
+          <IconButton size="small" onClick={() => toggleDialog(false)}>
             <CloseIcon fontSize="small" />
           </IconButton>
         </Box>

@@ -13,13 +13,13 @@ import Typography from '@mui/material/Typography';
 import CheckIcon from '@mui/icons-material/Check';
 import TablePagination from '@mui/material/TablePagination';
 
-import { useConsultingAppState } from '../../hooks';
-import { STATE_BOARD_DOMAIN_ITEMS } from '../../constants';
+import { STATE_BOARD_DOMAIN_ITEMS } from '@/features/overview/constants';
 import { useUnivService } from '@/shared/hooks/context';
+import { useHandleStatusBoard } from '@/features/overview/hooks';
 
 const TableBoard = () => {
   const { univList } = useUnivService();
-  const { consultingAppStatesAll } = useConsultingAppState();
+  const { filteredConsultingAppStatesAll } = useHandleStatusBoard();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -47,7 +47,7 @@ const TableBoard = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {consultingAppStatesAll.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item) => {
+            {filteredConsultingAppStatesAll?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item) => {
               const { color, title } = STATE_BOARD_DOMAIN_ITEMS[item.currentState];
               const currentUniv = univList.filter((univ) => univ.univID == item.univID)[0];
               const univName = currentUniv?.univName || '새대학';
@@ -80,7 +80,7 @@ const TableBoard = () => {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={consultingAppStatesAll.length}
+        count={filteredConsultingAppStatesAll?.length ?? 0}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

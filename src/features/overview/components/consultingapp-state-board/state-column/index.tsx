@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { Droppable } from 'react-beautiful-dnd';
 
 import StateCard from './state-card';
-import { ConsultingAppState, CurrentState } from '../../models';
+import { ConsultingAppState, CurrentState } from '@/features/overview/models';
 
 export type StateColProps = {
   groupedStates: ConsultingAppState[];
@@ -37,7 +37,7 @@ const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey, devel
           <Box
             sx={{
               display: 'flex',
-              maxWidth: '75%',
+              flexGrow: 1,
               alignItems: 'center',
               borderRadius: '1rem',
               bgcolor: color,
@@ -71,7 +71,7 @@ const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey, devel
           </Box>
         </Tooltip>
 
-        <Stack direction={'row'} sx={{ flexGrow: 1, justifyContent: 'flex-end' }}>
+        <Stack direction={'row'} sx={{ maxWidth: '35%', justifyContent: 'flex-end' }}>
           <Typography
             variant="body1"
             sx={{

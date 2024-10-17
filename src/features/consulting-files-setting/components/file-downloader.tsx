@@ -33,7 +33,7 @@ const FileDownloader = ({ fileName }: FileDownloaderProps) => {
       }
       window.URL.revokeObjectURL(url);
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
       toast.error(<Typography variant="body2">파일 다운로드 중 문제가 발생했습니다</Typography>);
     }
   };

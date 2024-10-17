@@ -1,12 +1,4 @@
-import dynamic from 'next/dynamic';
-const ConsultingAppStateProvider = dynamic(
-  () => import('@/features/overview/contexts').then((module) => module.default),
-  { ssr: false }
-);
-const ConsultingAppStateBoard = dynamic(
-  () => import('@/features/overview/components/consultingapp-state-board').then((module) => module.default),
-  { ssr: false }
-);
+import ConsultingAppStateBoard from '@/features/overview/components/consultingapp-state-board';
 
 export const metadata = {
   title: '상담앱 관리자 | 홈 - 현황판',
@@ -14,11 +6,7 @@ export const metadata = {
 };
 
 const Page = () => {
-  return (
-    <ConsultingAppStateProvider>
-      <ConsultingAppStateBoard />
-    </ConsultingAppStateProvider>
-  );
+  return <ConsultingAppStateBoard />;
 };
 
 export default Page;
