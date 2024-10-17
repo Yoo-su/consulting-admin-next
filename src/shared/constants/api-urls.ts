@@ -1,3 +1,5 @@
+import { setDuplicateSetting } from '@/features/flutter-setting/apis/set-duplicate-setting';
+
 export const API_URLS = {
   user: {
     signin: '/auth/login',
@@ -34,6 +36,7 @@ export const API_URLS = {
     getFlutterCategory: '/custom-config/category',
     getFlutterRowInfo: '/custom-config/rows-info-hierarchy',
     flutterCustomConfig: '/custom-config',
+    setDuplicateSetting: '/custom-config/duplicate',
     uploadMajorFile: '/subject/upload',
   },
   admin: {
