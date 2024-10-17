@@ -6,13 +6,15 @@ import { ConsultingAppState } from '../models';
 import { getConsultingAppStateAll } from '../apis';
 
 export const useGetConsultingAppStateAll = () => {
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<ConsultingAppState[]>([]);
 
   const execute = () => {
+    setLoading(true);
     getConsultingAppStateAll()
       .then((response) => {
-        setData(response.data);
+        const jungsiDatas = response.data.filter((item) => item.serviceType === 'J_A');
+        setData(jungsiDatas);
         setLoading(false);
       })
       .catch((error) => {
