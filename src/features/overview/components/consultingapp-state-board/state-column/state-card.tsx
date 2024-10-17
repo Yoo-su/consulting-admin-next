@@ -15,8 +15,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import { useTransition, useSpring, animated } from '@react-spring/web';
 import toast from 'react-hot-toast';
 
-import { useConsultingAppState } from '../../hooks';
-import { ConsultingAppState } from '../../models';
+import { ConsultingAppState, useStatusBoardStore } from '@/features/overview/models';
 import { useUnivService } from '@/shared/hooks/context';
 
 export type StateCardProps = {
@@ -27,7 +26,7 @@ export type StateCardProps = {
 
 const StateCard = ({ state, index }: StateCardProps) => {
   const { univList, serviceList, setCurrentService, setCurrentUniv, isServiceListLoading } = useUnivService();
-  const { openDialog, setDialogContentState } = useConsultingAppState();
+  const { toggleDialog, setDialogContentState } = useStatusBoardStore();
   const [isHover, setIsHover] = useState(false);
   const [isSelectBtnClicked, setIsSelectBtnClicked] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -38,7 +37,7 @@ const StateCard = ({ state, index }: StateCardProps) => {
 
   const handleIconClick = () => {
     setDialogContentState({ ...state, univName, serviceID });
-    openDialog('modify');
+    toggleDialog(true);
   };
 
   const handleCardClick = () => {

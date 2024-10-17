@@ -9,15 +9,14 @@ import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { useConsultingAppState } from '../../hooks';
 import { toolbarMenuItems, viewOptions as toolbarViewOption } from '../../constants';
-import { ToolbarMenuItem, ToolbarViewOption, BoardType, ViewOption } from '../../models';
+import { ToolbarMenuItem, ToolbarViewOption, BoardType, ViewOption, useStatusBoardStore } from '../../models';
 
 type ToolbarProps = {
   boardType: BoardType;
 };
 const Toolbar = ({ boardType }: ToolbarProps) => {
-  const { viewOption, setViewOption } = useConsultingAppState();
+  const { viewOption, setViewOption } = useStatusBoardStore();
   const theme = useTheme();
   const upmd = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -31,7 +30,7 @@ const Toolbar = ({ boardType }: ToolbarProps) => {
 
 const renderMenuItems = (items: ToolbarMenuItem[], upmd: boolean) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { boardType, setBoardType, setViewOption } = useConsultingAppState();
+  const { boardType, setBoardType, setViewOption } = useStatusBoardStore();
   const children = items.reduce((acc: ReactNode[], curr: ToolbarMenuItem): ReactNode[] => {
     const { title, displayType, Icon } = curr;
     acc.push(

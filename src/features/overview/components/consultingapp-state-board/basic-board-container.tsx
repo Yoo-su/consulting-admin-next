@@ -1,6 +1,6 @@
 import { BoardType } from '../../models';
-import BasicBoard from './basic-board';
-import BasicBoardAll from './basic-board-all';
+import BasicBoard from './boards/basic-board';
+import BasicBoardAll from './boards/basic-board-all';
 
 type BasicBoardContainerProps = {
   boardType: BoardType;
