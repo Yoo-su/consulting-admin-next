@@ -7,6 +7,7 @@ import { setDuplicateSetting } from '../../apis';
 import { useUnivService } from '@/shared/hooks/context';
 import { useQueryClient } from '@tanstack/react-query';
 import { useSetDuplicateSettingMutation } from '../../hooks/use-set-duplicate-setting';
+import { set } from 'lodash';
 
 type DupDialogProps = {
   open: boolean;
@@ -17,10 +18,13 @@ const DupDialog = ({ open, setOpen }: DupDialogProps) => {
   const { mutateAsync } = useSetDuplicateSettingMutation();
   const { currentService } = useUnivService();
   const queryClient = useQueryClient();
+
   const [selectedService, setselectedService] = useState<ServiceOption | null>(null);
+  const [isShowAlert, setIsShowAlert] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
+    setIsShowAlert(false);
   };
   const handleConfirm = async () => {
     if (!selectedService) {
@@ -29,31 +33,48 @@ const DupDialog = ({ open, setOpen }: DupDialogProps) => {
     }
     if (!currentService) {
       toast.error('대학 및 서비스가 선택되지 않았습니다. 사이드바에서 값을 선택해주세요');
-    } else {
-      const params = {
-        sourceServiceID: Number(selectedService.serviceID),
-        targetServiceID: Number(currentService.serviceID),
-      };
-      await mutateAsync(params, {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['flutter-custom-config', { serviceID: currentService.serviceID }],
-          });
-        },
-        onError: () => {
-          return;
-        },
-      });
+      return;
     }
+    if (!isShowAlert) {
+      setIsShowAlert(true);
+      return;
+    }
+
+    const params = {
+      sourceServiceID: Number(selectedService.serviceID),
+      targetServiceID: Number(currentService.serviceID),
+    };
+    await mutateAsync(params, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ['flutter-custom-config', { serviceID: currentService.serviceID }],
+        });
+      },
+      onError: () => {
+        setIsShowAlert(false);
+        return;
+      },
+    });
+    setIsShowAlert(false);
+
     handleClose();
   };
   return (
-    <Dialog disableEscapeKeyDown open={open} onClose={handleClose} closeAfterTransition={false}>
+    <Dialog
+      disableEscapeKeyDown
+      open={open}
+      onClose={handleClose}
+      closeAfterTransition={false}
+      PaperProps={{ style: { width: '250px' } }}
+    >
       <DialogTitle sx={{ fontWeight: 'bold' }}>이전 서비스 설정 복제</DialogTitle>
       <DialogContent>
         <Stack gap={2}>
           <Typography variant="subtitle2">복제할 서비스를 선택해주세요.</Typography>
           <SelectService selectedService={selectedService} setselectedService={setselectedService} />
+          <Typography variant="caption" sx={{ color: '#ff0000' }}>
+            {isShowAlert && '정말로 복제하시겠습니까?'}
+          </Typography>
         </Stack>
       </DialogContent>
       <DialogActions>
@@ -82,7 +103,7 @@ const DupDialog = ({ open, setOpen }: DupDialogProps) => {
           onClick={handleConfirm}
           autoFocus
         >
-          복제
+          {isShowAlert ? '확인' : '복제'}
         </Button>
       </DialogActions>
     </Dialog>

@@ -1,6 +1,6 @@
 import { useUnivService } from '@/shared/hooks/context';
 import { Autocomplete, TextField, Typography } from '@mui/material';
-import { SyntheticEvent, useState } from 'react';
+import { HTMLAttributes, Key, SyntheticEvent, useState } from 'react';
 import { ServiceOption } from '../../constants';
 
 type SelectServiceProps = {
@@ -39,21 +39,25 @@ const SelectService = ({ selectedService, setselectedService }: SelectServicePro
       groupBy={(option) => option.serviceYear}
       getOptionLabel={(option) => `${option.isSusi === '1' ? '수시' : '정시'} ` + option.serviceID}
       getOptionDisabled={(option) => option.serviceID === currentService?.serviceID}
-      renderOption={(props, option) => (
-        <li
-          {...props}
-          style={{
-            paddingLeft: option.serviceID ? '5rem' : '0',
-            display: 'flex',
-            gap: 5,
-          }}
-        >
-          <Typography variant="caption" sx={{ paddingTop: '2px' }}>
-            {option.isSusi === '1' ? '수시' : '정시'}
-          </Typography>
-          {option.serviceID}
-        </li>
-      )}
+      renderOption={(props: HTMLAttributes<HTMLLIElement> & { key?: Key }, option) => {
+        const { key, ...rest } = props;
+        return (
+          <li
+            key={key}
+            {...rest}
+            style={{
+              paddingLeft: option.serviceID ? '5rem' : '0',
+              display: 'flex',
+              gap: 5,
+            }}
+          >
+            <Typography variant="caption" sx={{ paddingTop: '2px' }}>
+              {option.isSusi === '1' ? '수시' : '정시'}
+            </Typography>
+            {option.serviceID}
+          </li>
+        );
+      }}
       renderInput={(params) => <TextField {...params} label="서비스ID" />}
       isOptionEqualToValue={(option, value) => option.serviceID === value.serviceID}
     />
