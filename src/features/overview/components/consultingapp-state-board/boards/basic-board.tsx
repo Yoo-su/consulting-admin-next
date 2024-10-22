@@ -8,6 +8,7 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import toast from 'react-hot-toast';
 
 import StateCol from '../state-column';
+import EmptyBox from '@/shared/components/ui/empty-box';
 import { STATE_BOARD_DOMAIN_ITEMS, CURRENT_STATES } from '@/features/overview/constants';
 import { getGroupedData } from '@/shared/services';
 import { CurrentState, ServiceType } from '@/features/overview/models';
@@ -54,6 +55,8 @@ const BasicBoard = () => {
     },
     [groupedStates]
   );
+
+  if (!filteredConsultingAppStates?.length) return <EmptyBox text={'데이터가 없습니다'} />;
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
