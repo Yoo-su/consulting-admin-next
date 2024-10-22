@@ -11,7 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Divider from '@mui/material/Divider';
 import CircularProgress from '@mui/material/CircularProgress';
 import Image from 'next/image';
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable } from '@hello-pangea/dnd';
 import { useTransition, useSpring, animated } from '@react-spring/web';
 import toast from 'react-hot-toast';
 
@@ -59,7 +59,7 @@ const StateCard = ({ state, index }: StateCardProps) => {
     }
   }, [isServiceListLoading, isSelectBtnClicked]);
 
-  const delay = index * 100; // 각 카드의 애니메이션 지연 시간 설정
+  const delay = index * 50; // 각 카드의 애니메이션 지연 시간 설정
 
   // 등장 애니메이션 설정
   const transitions = useTransition(state, {

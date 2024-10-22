@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 
 import StateCol from '../state-column';
 import { useUpdateConsultingAppStateMutation } from '@/features/overview/hooks';

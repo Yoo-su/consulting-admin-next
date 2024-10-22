@@ -1,6 +1,6 @@
 'use client';
 
-import { DragDropContext, Draggable, DropResult, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, DropResult, Droppable } from '@hello-pangea/dnd';
 import Box from '@mui/material/Box';
 
 import { useConsultingFileSettings } from '../hooks';
