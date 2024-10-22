@@ -1,8 +1,8 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 
-import MSWProvider from '@/shared/components/providers/MSWProvider';
-import QueryProvider from '@/shared/components/providers/QueryProvider';
-import AppThemeProvider from '@/shared/components/providers/ThemeProvider';
+import MSWProvider from '@/shared/components/providers/msw-provider';
+import QueryProvider from '@/shared/components/providers/query-provider';
+import AppThemeProvider from '@/shared/components/providers/theme-provider';
 import { UserProvider } from '@/shared/contexts';
 import '@/shared/style/css/global.css';
 import '@/shared/style/css/animation.css';

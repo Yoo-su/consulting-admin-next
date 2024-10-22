@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef, PropsWithChildren, Ref } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { DraggableProvidedDragHandleProps, DraggableProvidedDraggableProps } from 'react-beautiful-dnd';
+import { DraggableProvidedDragHandleProps, DraggableProvidedDraggableProps } from '@hello-pangea/dnd';
 
 const TableContainerBoxStyle = {
   backgroundColor: 'var(--mui-palette-background-paper)',

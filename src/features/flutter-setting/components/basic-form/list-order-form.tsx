@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Chip, Stack } from '@mui/material';
-import { DragDropContext, Draggable, DropResult, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, DropResult, Droppable } from '@hello-pangea/dnd';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 import { getConvertedValue } from '@/shared/services';
