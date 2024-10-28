@@ -9,7 +9,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import EmptyBox from '@/shared/components/ui/empty-box';
-import ContentLoadingSkeleton from '@/shared/components/ui/loadings/skeleton';
+import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
 
 import { useUnivService } from '@/shared/hooks/context/use-univ-service';
 import { AxiosResponse } from 'axios';

@@ -5,7 +5,7 @@ import { Alert, Stack, Grid, Typography, useTheme, useMediaQuery } from '@mui/ma
 
 import EmptyBox from '@/shared/components/ui/empty-box';
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
-import ContentLoadingSkeleton from '@/shared/components/ui/loadings/skeleton';
+import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
 import FileItemCard, { FileType } from '@/shared/components/ui/file-item-card';
 
 import { useUnivService } from '@/shared/hooks/context';

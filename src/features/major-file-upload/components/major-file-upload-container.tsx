@@ -1,6 +1,5 @@
 'use client';
 
-import { ChangeEvent, useRef, useState, DragEvent, Fragment } from 'react';
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
 import {
   FormControl,
@@ -28,58 +27,23 @@ import EmptyBox from '@/shared/components/ui/empty-box';
 const MajorFileUploadContainer = () => {
   const { user } = useUser();
   const { currentUniv, currentService } = useUnivService();
-  const { majorFiles, handleMajorFileAdd: addMajorFile, formData, clearState } = useHandleMajorFile();
-  const { mutateAsync, isPending, isSuccess, reset } = useUploadMajorFileMutation();
-  const [uploadDirectory, setUploadDirectory] = useState<string>(new Date().getFullYear().toString());
-  const [isDragging, setIsDragging] = useState<boolean>(false);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  const handleClickInputBox = () => {
-    if (isPending) return;
-    fileInputRef?.current?.click();
-  };
-
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = event.target.files ? Array.from(event.target.files) : [];
-    if (selectedFiles.length) addMajorFile(selectedFiles);
-  };
-
-  const handleClickUploadBtn = async () => {
-    formData.set('UserID', user?.sub ?? '');
-    formData.set('UnivID', currentUniv?.univID ?? '');
-    formData.set('Directory', uploadDirectory);
-    await mutateAsync(formData);
-  };
-
-  const resetState = () => {
-    clearState();
-    reset();
-  };
-
-  const handleDragEnter = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragging(false);
-  };
-
-  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragging(false);
-
-    const arrayFiles = Array.from(event.dataTransfer.files);
-
-    if (!arrayFiles.length) return;
-    else addMajorFile(arrayFiles);
-  };
+  const {
+    majorFiles,
+    isDragging,
+    inputRef,
+    uploadDirectory,
+    isUploadSuccess,
+    isUploadLoading,
+    resetState,
+    handleClickInputBox,
+    handleClickUploadBtn,
+    handleDragEnter,
+    handleDragLeave,
+    handleDragOver,
+    handleDrop,
+    handleRemoveMajorFile,
+    handleFileChange,
+  } = useHandleMajorFile();
 
   return (
     <ContentWrapper>
@@ -109,7 +73,7 @@ const MajorFileUploadContainer = () => {
           {majorFiles.length ? (
             <Stack direction={'column'} alignItems={'flex-start'} width={'100%'} flexWrap={'wrap'}>
               <Typography variant="h6">
-                {isSuccess
+                {isUploadSuccess
                   ? `${majorFiles.length}개의 자료가 업로드되었습니다`
                   : `${majorFiles.length}개의 자료가 대기중입니다..`}
               </Typography>
@@ -151,10 +115,17 @@ const MajorFileUploadContainer = () => {
                       <FileItemCard
                         sxProps={{
                           bgcolor: '#fff',
-                          ...(!isSuccess && {
+                          ...(!isUploadSuccess && {
                             animation: 'wiggle 2s infinite',
                           }),
+                          ':hover': {
+                            border: '1px solid #BC5448',
+                          },
                           m: 1,
+                        }}
+                        tooltipMsg={'클릭 시 목록에서 제거됩니다.'}
+                        handleClick={() => {
+                          handleRemoveMajorFile(fileItem.name);
                         }}
                       >
                         <FileItemCard.IconBox file={fileType as FileType} />
@@ -184,7 +155,7 @@ const MajorFileUploadContainer = () => {
           )}
           <Divider sx={{ width: '100%', my: 2, borderColor: 'rgba(0,0,0,0.08)' }} />
           <Stack width={'100%'} direction={'row'} justifyContent={'space-between'}>
-            {isSuccess ? (
+            {isUploadSuccess ? (
               <Button variant="contained" color="inherit" startIcon={<RestartAltIcon />} onClick={resetState}>
                 <Typography variant="body2">초기화</Typography>
               </Button>
@@ -195,18 +166,20 @@ const MajorFileUploadContainer = () => {
             )}
             {!!majorFiles.length && (
               <LoadingButton
-                loading={isPending}
+                loading={isUploadLoading}
                 variant={'contained'}
                 color="success"
                 startIcon={<CloudUploadIcon />}
-                onClick={handleClickUploadBtn}
-                disabled={isSuccess}
+                onClick={() => {
+                  handleClickUploadBtn(user!, currentUniv!);
+                }}
+                disabled={isUploadSuccess}
               >
-                <Typography variant="body2">{isSuccess ? '업로드 완료' : '자료 업로드'}</Typography>
+                <Typography variant="body2">{isUploadSuccess ? '업로드 완료' : '자료 업로드'}</Typography>
               </LoadingButton>
             )}
           </Stack>
-          <input type="file" ref={fileInputRef} multiple style={{ display: 'none' }} onChange={handleFileChange} />
+          <input type="file" ref={inputRef} multiple style={{ display: 'none' }} onChange={handleFileChange} />
         </Stack>
       </ContentWrapper.MainContent>
     </ContentWrapper>

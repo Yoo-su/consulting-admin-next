@@ -11,7 +11,7 @@ import SaveDataButton from '@/shared/components/ui/save-data-button';
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
 import { useUnivService } from '@/shared/hooks/context';
 import MojipAccordion from './mojip-accordion';
-import ContentLoadingSkeleton from '@/shared/components/ui/loadings/skeleton';
+import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
 import EmptyBox from '@/shared/components/ui/empty-box';
 import { useMojipSetting, useUpdateDetailpageDataMutation } from '../hooks';
 

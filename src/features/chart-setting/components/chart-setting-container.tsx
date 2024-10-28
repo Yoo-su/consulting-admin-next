@@ -12,7 +12,7 @@ import SaveDataButton from '@/shared/components/ui/save-data-button';
 import EmptyBox from '@/shared/components/ui/empty-box';
 import { getGroupedData } from '@/shared/services';
 import ModelAccordion from './model-accordion';
-import ContentLoadingSkeleton from '@/shared/components/ui/loadings/skeleton';
+import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
 import { useUnivService } from '@/shared/hooks/context/use-univ-service';
 import { useChartSetting, useUpdateChartDataMutation } from '../hooks';

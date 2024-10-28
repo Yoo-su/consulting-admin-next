@@ -51,3 +51,12 @@ export type NavItemGroup = {
   items: NavItemType[];
   isExpanded?: boolean;
 };
+
+export type BrowserItem = {
+  name: string;
+  path: string;
+  size: number;
+  lastModified: string;
+  isDirectory: boolean;
+  contentType?: string;
+};

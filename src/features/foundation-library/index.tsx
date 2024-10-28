@@ -7,7 +7,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import FileItemCard from '@/shared/components/ui/file-item-card';
-import ContentLoadingSkeleton from '@/shared/components/ui/loadings/skeleton';
+import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
 import EmptyBox from '@/shared/components/ui/empty-box';
 
