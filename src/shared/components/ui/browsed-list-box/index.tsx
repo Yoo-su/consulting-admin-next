@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { IconButton, Stack, Tooltip, Typography, Grid } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import FileIcon from './file-icon';
 import BrowserDirectory from './browser-folder';
+import BrowserQueueFile from './browser-queue-file';
 import BrowserFile from './browser-file';
 import LoadingCover from '../loadings/loading-cover';
 import { useHandleBrowser } from '@/shared/hooks/use-handle-browser';
@@ -19,14 +19,15 @@ type BrowsedListBoxProps = {
 const BrowsedListBox = ({ initialPath, showCurrentPath = true, isDropZone = false }: BrowsedListBoxProps) => {
   const { browsedList, currentPath, isNotRoot, handleClickFolder, handleClickPrevBtn, isBrowsing } =
     useHandleBrowser(initialPath);
-  const { isDragging, handleDragEnter, handleDragLeave, handleDragOver, handleDrop } = useFileDropZone({
-    onDrop: () => {
-      if (!isDropZone) {
-        toast.error(<Typography variant={'caption'}>{'드롭 영역이 아닙니다.'}</Typography>);
-        return;
-      }
-    },
-  });
+  const { isDragging, queueFiles, handleDragEnter, handleDragLeave, handleDragOver, handleDrop, handleRemoveFile } =
+    useFileDropZone({
+      onDrop: () => {
+        if (!isDropZone) {
+          toast.error(<Typography variant={'caption'}>{'드롭 영역이 아닙니다.'}</Typography>);
+          return;
+        }
+      },
+    });
 
   const displayingPath = useMemo(() => {
     const parts = currentPath.split('/');
@@ -64,7 +65,7 @@ const BrowsedListBox = ({ initialPath, showCurrentPath = true, isDropZone = fals
               </Typography>
             </Stack>
           )}
-          <Typography variant={'body2'} color={'grey.700'}>{`${browsedList?.length}건`}</Typography>
+          <Typography variant={'body2'} color={'grey.700'}>{`${browsedList?.length ?? '-'}건`}</Typography>
         </Stack>
 
         {isNotRoot && (
@@ -134,6 +135,32 @@ const BrowsedListBox = ({ initialPath, showCurrentPath = true, isDropZone = fals
             }
           })
         )}
+
+        {queueFiles.map((item) => {
+          const extension = item.name.split('.')[1];
+          return (
+            <Grid
+              display={'flex'}
+              key={item.name}
+              justifyContent={'center'}
+              alignItems={'center'}
+              height={'fit-content'}
+              sx={{
+                userSelect: 'none',
+              }}
+              xs={3}
+              md={2}
+              lg={1}
+              xl={1}
+            >
+              <BrowserQueueFile
+                fileName={item.name}
+                imageChildren={<FileIcon extension={extension} />}
+                handleRemoveFile={handleRemoveFile}
+              />
+            </Grid>
+          );
+        })}
       </Grid>
     </Stack>
   );

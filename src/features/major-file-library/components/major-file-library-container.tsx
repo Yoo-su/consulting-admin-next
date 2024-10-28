@@ -23,7 +23,7 @@ const MajorFileLibraryContainer = () => {
       </ContentWrapper.Header>
 
       <ContentWrapper.MainContent>
-        <BrowsedListBox initialPath={initialPath} />
+        <BrowsedListBox initialPath={initialPath} isDropZone={true} />
       </ContentWrapper.MainContent>
     </ContentWrapper>
   );
