@@ -2,26 +2,21 @@
 
 import { useState, memo, ReactNode } from 'react';
 import { Stack, Typography, Badge, Box, Tooltip } from '@mui/material';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
-type BrowserQueueFileProps = {
-  fileName: string;
-  handleRemoveFile: (fileName: string) => void;
+import { BrowserItem } from '@/shared/models';
+import { usePopover } from '@/shared/hooks';
+import FilePopover from './file-popover';
+
+type BrowserFileProps = BrowserItem & {
   imageChildren: ReactNode;
 };
-const BrowserQueueFile = ({ fileName, imageChildren, handleRemoveFile }: BrowserQueueFileProps) => {
+const BrowserFile = ({ name, path, size, lastModified, isDirectory, contentType, imageChildren }: BrowserFileProps) => {
+  const filePopover = usePopover();
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Tooltip
-      title={
-        <Typography variant="caption">
-          {fileName}
-          <br />
-          클릭 시 대기열에서 제거됩니다
-        </Typography>
-      }
-      open={isHovered}
-    >
+    <Tooltip title={name} open={isHovered}>
       <Box
         onMouseEnter={() => {
           setIsHovered(true);
@@ -31,23 +26,19 @@ const BrowserQueueFile = ({ fileName, imageChildren, handleRemoveFile }: Browser
         }}
         sx={{
           borderRadius: '0.3rem',
-          animation: 'wiggle 2s infinite',
-          opacity: 0.7,
           transition: 'all 0.1s ease-in-out',
           ':hover': {
             bgcolor: '#EBECEE',
-            border: '0.1px solid #BC5448',
           },
         }}
       >
         <Badge
           invisible={!isHovered}
-          color={'error'}
-          badgeContent={'X'}
+          color={'info'}
+          badgeContent={<MoreHorizIcon />}
           sx={{ cursor: 'pointer' }}
-          onClick={() => {
-            handleRemoveFile(fileName);
-          }}
+          ref={filePopover.anchorRef}
+          onClick={filePopover.handleOpen}
         >
           <Stack
             direction={'column'}
@@ -65,13 +56,23 @@ const BrowserQueueFile = ({ fileName, imageChildren, handleRemoveFile }: Browser
               overflow={'hidden'}
               textOverflow={'ellipsis'}
             >
-              {fileName}
+              {name}
             </Typography>
           </Stack>
         </Badge>
+        <FilePopover
+          anchorEl={filePopover.anchorRef.current}
+          open={filePopover.open}
+          path={path}
+          name={name}
+          onClose={() => {
+            filePopover.handleClose();
+            setIsHovered(false);
+          }}
+        />
       </Box>
     </Tooltip>
   );
 };
 
-export default memo(BrowserQueueFile);
+export default memo(BrowserFile);

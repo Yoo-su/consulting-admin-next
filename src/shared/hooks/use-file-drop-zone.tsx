@@ -1,7 +1,7 @@
 import { useCallback, useState, DragEvent, useRef } from 'react';
 
 type UseDragAndDropProps = {
-  onDrop: () => void;
+  onDrop: (event: DragEvent<HTMLDivElement>) => void;
 };
 
 export const useFileDropZone = ({ onDrop }: UseDragAndDropProps) => {
@@ -56,11 +56,7 @@ export const useFileDropZone = ({ onDrop }: UseDragAndDropProps) => {
     (event: DragEvent<HTMLDivElement>) => {
       event.preventDefault();
       setIsDragging(false);
-
-      const arrayFiles = Array.from(event.dataTransfer.files);
-      if (!arrayFiles.length) return;
-      else handleAddFiles(arrayFiles);
-      onDrop();
+      onDrop(event);
     },
     [onDrop]
   );

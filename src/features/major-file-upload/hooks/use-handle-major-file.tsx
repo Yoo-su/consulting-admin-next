@@ -70,6 +70,9 @@ export const useHandleMajorFile = () => {
     formData.set('UserID', user?.sub ?? '');
     formData.set('UnivID', univ?.univID ?? '');
     formData.set('Directory', uploadDirectory);
+    majorFiles.forEach((file) => {
+      formData.append('files', file);
+    });
     await mutateAsync(formData);
   };
 

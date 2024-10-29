@@ -1,0 +1,41 @@
+import { Grid } from '@mui/material';
+
+import FileIcon from './atoms/file-icon';
+import BrowserQueueFile from './atoms/browser-queue-file';
+
+type UploadQueueProps = {
+  queueFiles: { name: string }[];
+  handleRemoveFile: (fileName: string) => void;
+};
+
+const Queue = ({ queueFiles, handleRemoveFile }: UploadQueueProps) => {
+  return (
+    <>
+      {queueFiles.map((item) => {
+        const extension = item.name.split('.').pop() ?? 'unknown';
+        return (
+          <Grid
+            display="flex"
+            key={item.name}
+            justifyContent="center"
+            alignItems="center"
+            height="fit-content"
+            sx={{ userSelect: 'none' }}
+            xs={3}
+            md={2}
+            lg={1}
+            xl={1}
+          >
+            <BrowserQueueFile
+              fileName={item.name}
+              imageChildren={<FileIcon extension={extension} />}
+              handleRemoveFile={() => handleRemoveFile(item.name)}
+            />
+          </Grid>
+        );
+      })}
+    </>
+  );
+};
+
+export default Queue;

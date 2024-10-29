@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import BrowsedListBox from '@/shared/components/ui/browsed-list-box';
+import BrowsedListBox from '@/shared/components/ui/browser';
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
 import { useUnivService } from '@/shared/hooks/context';
 import { Stack, Typography } from '@mui/material';
@@ -23,7 +23,7 @@ const MajorFileLibraryContainer = () => {
       </ContentWrapper.Header>
 
       <ContentWrapper.MainContent>
-        <BrowsedListBox initialPath={initialPath} isDropZone={true} />
+        <BrowsedListBox initialPath={initialPath} showCurrentPath isDropZone={true} />
       </ContentWrapper.MainContent>
     </ContentWrapper>
   );
