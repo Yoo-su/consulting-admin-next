@@ -15,6 +15,7 @@ const Queue = ({ queueFiles, handleRemoveFile }: UploadQueueProps) => {
         const extension = item.name.split('.').pop() ?? 'unknown';
         return (
           <Grid
+            item
             display="flex"
             key={item.name}
             justifyContent="center"
@@ -23,7 +24,7 @@ const Queue = ({ queueFiles, handleRemoveFile }: UploadQueueProps) => {
             sx={{ userSelect: 'none' }}
             xs={3}
             md={2}
-            lg={1}
+            lg={1.2}
             xl={1}
           >
             <BrowserQueueFile

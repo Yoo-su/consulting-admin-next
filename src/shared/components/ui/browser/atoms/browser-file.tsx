@@ -51,7 +51,8 @@ const BrowserFile = ({ name, path, size, lastModified, isDirectory, contentType,
             {imageChildren}
             <Typography
               variant={'caption'}
-              width={54}
+              width={'64px'}
+              textAlign={'center'}
               whiteSpace={'nowrap'}
               overflow={'hidden'}
               textOverflow={'ellipsis'}

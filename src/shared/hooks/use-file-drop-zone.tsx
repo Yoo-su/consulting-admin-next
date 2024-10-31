@@ -7,7 +7,6 @@ type UseDragAndDropProps = {
 export const useFileDropZone = ({ onDrop }: UseDragAndDropProps) => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [queueFiles, setQueueFiles] = useState<File[]>([]);
-  const [formData, setFormData] = useState<FormData>(new FormData());
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleAddFiles = useCallback(
@@ -37,6 +36,10 @@ export const useFileDropZone = ({ onDrop }: UseDragAndDropProps) => {
     [queueFiles]
   );
 
+  const handleResetFiles = useCallback(() => {
+    setQueueFiles([]);
+  }, []);
+
   const handleDragEnter = useCallback((event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDragging(true);
@@ -64,6 +67,7 @@ export const useFileDropZone = ({ onDrop }: UseDragAndDropProps) => {
   return {
     isDragging,
     queueFiles,
+    handleResetFiles,
     handleDragEnter,
     handleDragLeave,
     handleDragOver,

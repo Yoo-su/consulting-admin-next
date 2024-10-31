@@ -3,11 +3,11 @@ import Image from 'next/image';
 import FolderIcon from '@/shared/assets/svgs/folder.svg';
 import { BrowserItem } from '@/shared/models';
 
-type BrowserFolderProps = {
+type BrowserDirectoryProps = {
   browserItem: BrowserItem;
-  handleClickFolder: (folder: BrowserItem) => void;
+  handleClickDirectory: (Directory: BrowserItem) => void;
 };
-const BrowserFolder = ({ browserItem, handleClickFolder }: BrowserFolderProps) => {
+const BrowserDirectory = ({ browserItem, handleClickDirectory }: BrowserDirectoryProps) => {
   return (
     <Stack
       direction={'column'}
@@ -22,13 +22,15 @@ const BrowserFolder = ({ browserItem, handleClickFolder }: BrowserFolderProps) =
         },
       }}
       onDoubleClick={() => {
-        handleClickFolder(browserItem);
+        handleClickDirectory(browserItem);
       }}
     >
       <Image src={FolderIcon} alt={'folder'} width={48} height={48} objectFit={'contain'} />
-      <Typography variant={'caption'}>{browserItem.name}</Typography>
+      <Typography variant={'caption'} width={'64px'} textAlign={'center'}>
+        {browserItem.name}
+      </Typography>
     </Stack>
   );
 };
 
-export default BrowserFolder;
+export default BrowserDirectory;

@@ -12,10 +12,7 @@ const BrowserQueueFile = ({ fileName, imageChildren, handleRemoveFile }: Browser
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Tooltip
-      title={<Typography variant="caption">{`${fileName} _ 클릭 시 대기열에서 제거됩니다`}</Typography>}
-      open={isHovered}
-    >
+    <Tooltip title={`${fileName} _ 클릭 시 대기열에서 제거됩니다`} open={isHovered}>
       <Box
         onMouseEnter={() => {
           setIsHovered(true);
@@ -26,7 +23,7 @@ const BrowserQueueFile = ({ fileName, imageChildren, handleRemoveFile }: Browser
         sx={{
           borderRadius: '0.3rem',
           animation: 'wiggle 2s infinite',
-          opacity: 0.7,
+          opacity: 0.75,
           transition: 'all 0.1s ease-in-out',
           ':hover': {
             bgcolor: '#EBECEE',
@@ -54,7 +51,8 @@ const BrowserQueueFile = ({ fileName, imageChildren, handleRemoveFile }: Browser
             {imageChildren}
             <Typography
               variant={'caption'}
-              width={54}
+              width={'64px'}
+              textAlign={'center'}
               whiteSpace={'nowrap'}
               overflow={'hidden'}
               textOverflow={'ellipsis'}

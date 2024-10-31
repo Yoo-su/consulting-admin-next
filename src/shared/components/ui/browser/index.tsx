@@ -1,7 +1,11 @@
-import { useMemo, DragEvent } from 'react';
+'use client';
+
+import { DragEvent } from 'react';
 import { Stack, Typography, Grid, Fab } from '@mui/material';
 import { toast } from 'react-hot-toast';
 import UploadIcon from '@mui/icons-material/Upload';
+import { UseMutationResult, useQueryClient } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
 
 import LoadingCover from '../loadings/loading-cover';
 import BrowserHeader from './header';
@@ -12,14 +16,31 @@ import { useFileDropZone } from '@/shared/hooks/use-file-drop-zone';
 
 type BrowserProps = {
   initialPath: string;
+  uploadDirectory?: boolean;
   showCurrentPath?: boolean;
   isDropZone?: boolean;
+  formData?: FormData;
+  uploadMutation?: UseMutationResult<AxiosResponse<any, any>, Error, FormData, unknown>;
 };
-const Browser = ({ initialPath, showCurrentPath = false, isDropZone = false }: BrowserProps) => {
-  const { browsedList, displayingPath, isNotRoot, handleClickFolder, handleClickPrevBtn, isBrowsing } =
-    useHandleBrowser(initialPath);
+const Browser = ({
+  initialPath,
+  uploadDirectory = false,
+  showCurrentPath = false,
+  isDropZone = false,
+  formData,
+  uploadMutation,
+}: BrowserProps) => {
   const {
-    isDragging,
+    browsedList,
+    displayingPath,
+    currentPath,
+    currentDirectory,
+    isNotRoot,
+    handleClickDirectory,
+    handleClickPrevBtn,
+    isBrowsing,
+  } = useHandleBrowser(initialPath);
+  const {
     queueFiles,
     handleDragEnter,
     handleAddFiles,
@@ -27,11 +48,13 @@ const Browser = ({ initialPath, showCurrentPath = false, isDropZone = false }: B
     handleDragOver,
     handleDrop,
     handleRemoveFile,
+    handleResetFiles,
   } = useFileDropZone({
     onDrop: (event: DragEvent<HTMLDivElement>) => {
       handleOnDrop(event);
     },
   });
+  const queryClient = useQueryClient();
 
   const handleOnDrop = (event: DragEvent<HTMLDivElement>) => {
     if (!isDropZone) {
@@ -43,6 +66,30 @@ const Browser = ({ initialPath, showCurrentPath = false, isDropZone = false }: B
     else handleAddFiles(arrayFiles);
   };
 
+  const handleMutationCallback = () => {
+    formData?.delete('files');
+    handleResetFiles();
+    queryClient.invalidateQueries({
+      queryKey: ['get-browser-list', currentPath],
+    });
+  };
+
+  const handleUploadQueue = async () => {
+    try {
+      if (uploadDirectory) formData?.set('Directory', currentDirectory);
+      formData?.delete('files');
+      queueFiles.forEach((file) => {
+        formData?.append('files', file);
+      });
+
+      await uploadMutation?.mutateAsync(formData!);
+    } catch (error) {
+      toast.error(<Typography variant={'caption'}>업로드 중 에러가 발생했습니다.</Typography>);
+    } finally {
+      handleMutationCallback();
+    }
+  };
+
   return (
     <Stack
       onDrop={handleDrop}
@@ -50,7 +97,7 @@ const Browser = ({ initialPath, showCurrentPath = false, isDropZone = false }: B
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
       direction={'column'}
-      gap={1.5}
+      spacing={1.5}
       padding={1}
       sx={{ position: 'relative', bgcolor: 'grey.50', borderRadius: '0.2rem' }}
     >
@@ -64,12 +111,13 @@ const Browser = ({ initialPath, showCurrentPath = false, isDropZone = false }: B
 
       <Grid
         container
-        gap={2}
+        rowSpacing={2}
         sx={{
           position: 'relative',
           paddingX: 1.5,
           paddingY: 2.5,
-          height: '480px',
+          minHeight: '240px',
+          maxHeight: '480px',
           overflowY: 'scroll',
           border: '1px solid rgba(0,0,0,0.1)',
           bgcolor: '#fff',
@@ -78,7 +126,7 @@ const Browser = ({ initialPath, showCurrentPath = false, isDropZone = false }: B
         {isBrowsing ? (
           <LoadingCover loadingMessage={'자료를 불러오는 중입니다 . .'} />
         ) : (
-          <FileList browsedList={browsedList ?? []} handleClickFolder={handleClickFolder} />
+          <FileList browsedList={browsedList ?? []} handleClickDirectory={handleClickDirectory} />
         )}
 
         <Queue queueFiles={queueFiles} handleRemoveFile={handleRemoveFile} />
@@ -92,6 +140,9 @@ const Browser = ({ initialPath, showCurrentPath = false, isDropZone = false }: B
             position: 'absolute',
             bottom: 30,
             right: 30,
+          }}
+          onClick={async () => {
+            await handleUploadQueue();
           }}
         >
           <UploadIcon sx={{ mr: 1 }} />

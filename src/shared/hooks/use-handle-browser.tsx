@@ -1,13 +1,13 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { useGetBrowsedListQuery } from './tanstack/use-get-browsed-list-query';
+import { useGetBrowserListQuery } from './tanstack/use-get-browser-list-query';
 import { BrowserItem } from '../models';
 
 export const useHandleBrowser = (initialPath: string) => {
   const [basePath, setBasePath] = useState<string>(initialPath);
   const [currentPath, setCurrentPath] = useState<string>(initialPath);
-  const { data, isPending: isBrowsing, isSuccess } = useGetBrowsedListQuery(currentPath);
+  const { data, isPending: isBrowsing, isSuccess } = useGetBrowserListQuery(currentPath);
 
   // browse/fild api에서 조회된 목록
   const browsedList = useMemo(() => {
@@ -19,6 +19,10 @@ export const useHandleBrowser = (initialPath: string) => {
     return parts.slice(1).join('/') ?? '/';
   }, [currentPath]);
 
+  const currentDirectory = useMemo(() => {
+    return currentPath.split('/').at(-1) ?? '';
+  }, [currentPath]);
+
   // 현재 위치의 root 여부
   const isNotRoot = useMemo(() => {
     const slashCnt = currentPath.split('/').length - 1;
@@ -27,7 +31,7 @@ export const useHandleBrowser = (initialPath: string) => {
   }, [currentPath]);
 
   // 폴더 아이콘 클릭 처리
-  const handleClickFolder = (folder: BrowserItem) => {
+  const handleClickDirectory = (folder: BrowserItem) => {
     const newPath = currentPath + '/' + folder.name;
     setCurrentPath(newPath);
   };
@@ -38,5 +42,14 @@ export const useHandleBrowser = (initialPath: string) => {
     setCurrentPath(newPath);
   };
 
-  return { currentPath, displayingPath, isNotRoot, browsedList, isBrowsing, handleClickFolder, handleClickPrevBtn };
+  return {
+    currentPath,
+    displayingPath,
+    currentDirectory,
+    isNotRoot,
+    browsedList,
+    isBrowsing,
+    handleClickDirectory,
+    handleClickPrevBtn,
+  };
 };

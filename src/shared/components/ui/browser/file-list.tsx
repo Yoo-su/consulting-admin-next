@@ -1,19 +1,20 @@
 import { Grid } from '@mui/material';
 
-import BrowserFolder from './atoms/browser-folder';
+import BrowserFolder from './atoms/browser-directory';
 import BrowserFile from './atoms/browser-file';
 import FileIcon from './atoms/file-icon';
 import { BrowserItem } from '@/shared/models';
 
 type FileListProps = {
   browsedList: BrowserItem[];
-  handleClickFolder: (folder: BrowserItem) => void;
+  handleClickDirectory: (folder: BrowserItem) => void;
 };
 
-const FileList = ({ browsedList, handleClickFolder }: FileListProps) => {
+const FileList = ({ browsedList, handleClickDirectory }: FileListProps) => {
   return browsedList.map((browserItem) =>
     browserItem.isDirectory ? (
       <Grid
+        item
         display="flex"
         key={browserItem.name}
         justifyContent="center"
@@ -22,13 +23,14 @@ const FileList = ({ browsedList, handleClickFolder }: FileListProps) => {
         sx={{ userSelect: 'none' }}
         xs={3}
         md={2}
-        lg={1}
+        lg={1.2}
         xl={1}
       >
-        <BrowserFolder browserItem={browserItem} handleClickFolder={handleClickFolder} />
+        <BrowserFolder browserItem={browserItem} handleClickDirectory={handleClickDirectory} />
       </Grid>
     ) : (
       <Grid
+        item
         display="flex"
         key={browserItem.name}
         justifyContent="center"
@@ -37,7 +39,7 @@ const FileList = ({ browsedList, handleClickFolder }: FileListProps) => {
         sx={{ userSelect: 'none' }}
         xs={3}
         md={2}
-        lg={1}
+        lg={1.2}
         xl={1}
       >
         <BrowserFile {...browserItem} imageChildren={<FileIcon extension={browserItem.name.split('.')[1]} />} />
