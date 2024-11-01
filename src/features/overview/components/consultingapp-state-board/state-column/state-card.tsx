@@ -12,7 +12,7 @@ import Divider from '@mui/material/Divider';
 import CircularProgress from '@mui/material/CircularProgress';
 import Image from 'next/image';
 import { Draggable } from '@hello-pangea/dnd';
-import { useTransition, useSpring, animated, a } from '@react-spring/web';
+import { useTransition, useSpring, animated } from '@react-spring/web';
 import toast from 'react-hot-toast';
 
 import { ConsultingAppState, useStatusBoardStore } from '@/features/overview/models';
@@ -78,7 +78,6 @@ const StateCard = ({ state, index }: StateCardProps) => {
     <Draggable key={`${state.currentState}${index}`} draggableId={`${state.currentState}${index}`} index={index}>
       {(provided, snapshot) => (
         <Box
-          component="div"
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
