@@ -12,7 +12,7 @@ import Divider from '@mui/material/Divider';
 import CircularProgress from '@mui/material/CircularProgress';
 import Image from 'next/image';
 import { Draggable } from '@hello-pangea/dnd';
-import { useTransition, useSpring, animated } from '@react-spring/web';
+import { useTransition, useSpring, animated, a } from '@react-spring/web';
 import toast from 'react-hot-toast';
 
 import { ConsultingAppState, useStatusBoardStore } from '@/features/overview/models';
@@ -21,7 +21,6 @@ import { useUnivService } from '@/shared/hooks/context';
 export type StateCardProps = {
   state: ConsultingAppState;
   index: number;
-  developer?: string;
 };
 
 const StateCard = ({ state, index }: StateCardProps) => {
@@ -59,16 +58,6 @@ const StateCard = ({ state, index }: StateCardProps) => {
     }
   }, [isServiceListLoading, isSelectBtnClicked]);
 
-  const delay = index * 50; // 각 카드의 애니메이션 지연 시간 설정
-
-  // 등장 애니메이션 설정
-  const transitions = useTransition(state, {
-    from: { opacity: 0, transform: 'scale(0)' },
-    enter: { opacity: 1, transform: 'scale(1)' },
-    leave: { opacity: 0, transform: 'scale(0)' },
-    delay,
-  });
-
   // Hover 애니메이션 효과 추가
   const [contentHeight, setContentHeight] = useState(0);
 
@@ -87,92 +76,89 @@ const StateCard = ({ state, index }: StateCardProps) => {
 
   return (
     <Draggable key={`${state.currentState}${index}`} draggableId={`${state.currentState}${index}`} index={index}>
-      {(provided, snapshot) =>
-        transitions((style, item) => (
-          <animated.div style={snapshot.isDragging ? undefined : style}>
-            <Box
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              onMouseEnter={() => setIsHover(true)}
-              onMouseLeave={() => setIsHover(false)}
-              sx={{
-                p: 1,
-                cursor: 'pointer',
-                bgcolor: '#fff',
-                borderRadius: '.3rem',
-                borderColor: 'transparent',
-                '&:hover': {
-                  border: '2px solid rgba(0,0,0,0.2)',
-                },
-                position: 'relative',
-                transition: 'border-color 0.3s ease-in-out',
-              }}
-            >
-              <Tooltip title="자세히" placement="top">
-                <IconButton sx={{ ...iconDetailStyle }} onClick={handleIconClick} disableRipple>
-                  <MoreVertSharpIcon />
-                </IconButton>
-              </Tooltip>
-              <Stack direction={'column'} spacing={1}>
-                <Stack direction={'column'}>
-                  <Stack direction={'row'} alignItems={'center'}>
-                    {getAppIcon(state.isNew || false)}
-                    <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
-                      {serviceID}
-                    </Typography>
-                  </Stack>
-                  <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>
-                    {univName}
-                  </Typography>
-                </Stack>
-                <Stack direction={'row'} justifyContent={'space-between'}>
-                  <Box sx={{ bgcolor: '#f3f4f6', borderRadius: '5px', padding: 0.5, width: 'fit-content' }}>
-                    <Typography variant="caption">{state.developerName}</Typography>
-                  </Box>
-                  {state.managerName && (
-                    <Box sx={{ bgcolor: '#f3f4f6', borderRadius: '5px', padding: 0.5, width: 'fit-content' }}>
-                      <Typography variant="caption">{state.managerName}</Typography>
-                    </Box>
-                  )}
-                </Stack>
-
-                <animated.div style={snapshot.isDragging ? undefined : hoverAnimation}>
-                  <Box ref={contentRef}>
-                    <Stack direction={'column'} spacing={1}>
-                      <Divider />
-                      <Stack
-                        direction={'row'}
-                        alignItems={'center'}
-                        justifyContent={'center'}
-                        spacing={1}
-                        sx={iconToGoStyle}
-                        onClick={handleCardClick}
-                      >
-                        {isServiceListLoading ? (
-                          <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} spacing={1}>
-                            <Typography variant="caption" sx={{ paddingTop: '1px', color: 'rgba(0,0,0,0.8)' }}>
-                              선택중
-                            </Typography>
-                            <CircularProgress color="inherit" size={12} />
-                          </Stack>
-                        ) : (
-                          <>
-                            <Typography variant="caption" sx={{ paddingTop: '1px' }}>
-                              서비스 선택
-                            </Typography>
-                            <CheckIcon />
-                          </>
-                        )}
-                      </Stack>
-                    </Stack>
-                  </Box>
-                </animated.div>
+      {(provided, snapshot) => (
+        <Box
+          component="div"
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          onMouseEnter={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
+          sx={{
+            p: 1,
+            cursor: 'pointer',
+            bgcolor: '#fff',
+            borderRadius: '.3rem',
+            borderColor: 'transparent',
+            '&:hover': {
+              border: '2px solid rgba(0,0,0,0.2)',
+            },
+            position: 'relative',
+            transition: 'border-color 0.3s ease-in-out',
+          }}
+        >
+          <Tooltip title="자세히" placement="top">
+            <IconButton sx={{ ...iconDetailStyle }} onClick={handleIconClick} disableRipple>
+              <MoreVertSharpIcon />
+            </IconButton>
+          </Tooltip>
+          <Stack direction={'column'} spacing={1}>
+            <Stack direction={'column'}>
+              <Stack direction={'row'} alignItems={'center'}>
+                {getAppIcon(state.isNew || false)}
+                <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+                  {serviceID}
+                </Typography>
               </Stack>
-            </Box>
-          </animated.div>
-        ))
-      }
+              <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>
+                {univName}
+              </Typography>
+            </Stack>
+            <Stack direction={'row'} justifyContent={'space-between'}>
+              <Box sx={{ bgcolor: '#f3f4f6', borderRadius: '5px', padding: 0.5, width: 'fit-content' }}>
+                <Typography variant="caption">{state.developerName}</Typography>
+              </Box>
+              {state.managerName && (
+                <Box sx={{ bgcolor: '#f3f4f6', borderRadius: '5px', padding: 0.5, width: 'fit-content' }}>
+                  <Typography variant="caption">{state.managerName}</Typography>
+                </Box>
+              )}
+            </Stack>
+
+            <animated.div style={snapshot.isDragging ? undefined : hoverAnimation}>
+              <Box ref={contentRef}>
+                <Stack direction={'column'} spacing={1}>
+                  <Divider />
+                  <Stack
+                    direction={'row'}
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                    spacing={1}
+                    sx={iconToGoStyle}
+                    onClick={handleCardClick}
+                  >
+                    {isServiceListLoading ? (
+                      <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} spacing={1}>
+                        <Typography variant="caption" sx={{ paddingTop: '1px', color: 'rgba(0,0,0,0.8)' }}>
+                          선택중
+                        </Typography>
+                        <CircularProgress color="inherit" size={12} />
+                      </Stack>
+                    ) : (
+                      <>
+                        <Typography variant="caption" sx={{ paddingTop: '1px' }}>
+                          서비스 선택
+                        </Typography>
+                        <CheckIcon />
+                      </>
+                    )}
+                  </Stack>
+                </Stack>
+              </Box>
+            </animated.div>
+          </Stack>
+        </Box>
+      )}
     </Draggable>
   );
 };
