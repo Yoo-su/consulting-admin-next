@@ -11,6 +11,5 @@ export const useGetConsultingAppStateAllQuery = () => {
     refetchOnMount: true,
     refetchOnWindowFocus: true,
     enabled: isAdmin,
-    initialData: [],
   });
 };
