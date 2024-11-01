@@ -19,9 +19,11 @@ export const useHandleStatusBoard = () => {
   }, [selectedServiceYear, selectedServiceType, consultingAppStates]);
 
   const filteredConsultingAppStatesAll = useMemo(() => {
-    return consultingAppStatesAll
-      ?.filter((appState) => appState.serviceYear.toString() === selectedServiceYear)
-      .filter((appState) => appState.serviceType === selectedServiceType);
+    return (
+      consultingAppStatesAll
+        ?.filter((appState) => appState.serviceYear.toString() === selectedServiceYear)
+        .filter((appState) => appState.serviceType === selectedServiceType) ?? []
+    );
   }, [selectedServiceYear, selectedServiceType, consultingAppStates]);
 
   const isStatesLoading = useMemo(
