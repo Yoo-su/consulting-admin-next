@@ -13,13 +13,8 @@ import { useBrowserStore } from '@/shared/models/stores/use-browser-store';
 export const useHandleBrowser = () => {
   const queryClient = useQueryClient();
   const { basePath, currentPath, initPath, setCurrentPath } = useBrowserStore();
-  const { data, isPending: isBrowsing, isSuccess } = useGetBrowserListQuery(currentPath);
+  const { data: browsedList, isPending: isBrowsing, isSuccess } = useGetBrowserListQuery(currentPath);
   const { mutateAsync: renameFile } = useRenameBrowserFileMutation();
-
-  // browse/fild api에서 조회된 목록
-  const browsedList = useMemo(() => {
-    return data?.items;
-  }, [data]);
 
   // 화면에 보여줄 path
   const displayingPath = useMemo(() => {

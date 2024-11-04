@@ -5,5 +5,8 @@ export const useGetBrowserListQuery = (path: string) => {
   return useQuery({
     queryKey: ['get-browser-list', path],
     queryFn: async () => await getBrowserList(path),
+    select: (data) => {
+      return data.items;
+    },
   });
 };

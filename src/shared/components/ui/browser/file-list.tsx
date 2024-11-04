@@ -7,12 +7,13 @@ import FileIcon from './atoms/file-icon';
 import { BrowserItem } from '@/shared/models';
 
 type FileListProps = {
+  currentPath: string;
   browsedList: BrowserItem[];
   handleClickDirectory: (folder: BrowserItem) => void;
   handleRenameFile: (event: KeyboardEvent<HTMLInputElement>, oldName: string, newName: string) => Promise<void>;
 };
 
-const FileList = ({ browsedList, handleClickDirectory, handleRenameFile }: FileListProps) => {
+const FileList = ({ browsedList, currentPath, handleClickDirectory, handleRenameFile }: FileListProps) => {
   return browsedList.map((browserItem) =>
     browserItem.isDirectory ? (
       <Grid
@@ -46,6 +47,7 @@ const FileList = ({ browsedList, handleClickDirectory, handleRenameFile }: FileL
       >
         <BrowserFile
           {...browserItem}
+          currentPath={currentPath}
           imageChildren={<FileIcon contentType={browserItem.contentType ?? ''} />}
           handleRenameFile={handleRenameFile}
         />

@@ -1,32 +1,19 @@
 'use client';
 
 import { useState, memo, ReactNode, useCallback, KeyboardEvent, ChangeEvent } from 'react';
-import { UseMutateAsyncFunction, useQueryClient } from '@tanstack/react-query';
 import { Stack, Typography, Badge, Box, Tooltip } from '@mui/material';
-import toast from 'react-hot-toast';
-import { AxiosResponse } from 'axios';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import { BrowserItem } from '@/shared/models';
 import { useOutsideClick, usePopover } from '@/shared/hooks';
 import FilePopover from './file-popover';
-import { RenameBrowserFileProps } from '@/shared/apis/rename-browser-file';
 
 type BrowserFileProps = BrowserItem & {
   imageChildren: ReactNode;
+  currentPath: string;
   handleRenameFile: (event: KeyboardEvent<HTMLInputElement>, oldName: string, newName: string) => Promise<void>;
 };
-const BrowserFile = ({
-  name,
-  path,
-  size,
-  lastModified,
-  isDirectory,
-  contentType,
-  imageChildren,
-  handleRenameFile,
-}: BrowserFileProps) => {
-  const queryClient = useQueryClient();
+const BrowserFile = ({ name, path, imageChildren, currentPath, handleRenameFile }: BrowserFileProps) => {
   const filePopover = usePopover();
   const [newFileName, setNewFileName] = useState('');
   const [isHovered, setIsHovered] = useState(false);
@@ -39,14 +26,8 @@ const BrowserFile = ({
     [isEditMode]
   );
 
-  const getParentPath = useCallback(() => {
-    const tmp = path.replace(name, '');
-    const result = tmp.substring(0, tmp.length - 1);
-    return result;
-  }, []);
-
   const handleChangeFileName = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setNewFileName(getParentPath() + '/' + event.target.value);
+    setNewFileName(currentPath + '/' + event.target.value);
   }, []);
 
   const handleExitEditMode = useCallback(() => {

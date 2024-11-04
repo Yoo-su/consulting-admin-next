@@ -4,12 +4,11 @@ import UploadIcon from '@mui/icons-material/Upload';
 import { UseMutationResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 
+import { useHandleBrowser, useHandleBrowserQueue } from '@/shared/hooks';
 import LoadingCover from '../loadings/loading-cover';
 import BrowserHeader from './header';
 import FileList from './file-list';
 import Queue from './queue';
-import { useHandleBrowser } from '@/shared/hooks/utils/use-handle-browser';
-import { useHandleBrowserQueue } from '@/shared/hooks/utils/use-handle-browser-queue';
 
 type BrowserProps = {
   initialPath: string;
@@ -53,6 +52,7 @@ const Browser = ({
   uploadMutation,
 }: BrowserProps) => {
   const {
+    currentPath,
     browsedList,
     displayingPath,
     isNotRoot,
@@ -107,6 +107,7 @@ const Browser = ({
           <LoadingCover loadingMessage="자료를 불러오는 중입니다 . ." />
         ) : (
           <FileList
+            currentPath={currentPath}
             browsedList={browsedList ?? []}
             handleClickDirectory={handleClickDirectory}
             handleRenameFile={handleRenameFile}
