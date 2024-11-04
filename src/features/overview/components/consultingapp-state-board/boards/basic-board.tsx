@@ -11,17 +11,26 @@ import StateCol from '../state-column';
 import EmptyBox from '@/shared/components/ui/empty-box';
 import { STATE_BOARD_DOMAIN_ITEMS, CURRENT_STATES } from '@/features/overview/constants';
 import { getGroupedData } from '@/shared/services';
-import { CurrentState, ServiceType } from '@/features/overview/models';
+import { BoardType, CurrentState, ServiceType } from '@/features/overview/models';
 import { useUpdateConsultingAppStateMutation } from '@/features/overview/hooks';
 import { useHandleStatusBoard } from '@/features/overview/hooks';
 
-const BasicBoard = () => {
+type BasicBoardContainerProps = {
+  boardType: BoardType;
+};
+
+const BasicBoard = ({ boardType }: BasicBoardContainerProps) => {
   const { mutateAsync: updateConsultingAppStateMutation } = useUpdateConsultingAppStateMutation();
-  const { filteredConsultingAppStates } = useHandleStatusBoard();
+  const { filteredConsultingAppStates, filteredConsultingAppStatesAll } = useHandleStatusBoard();
+
+  const filteredState = useMemo(
+    () => (boardType === 'mainUser' ? filteredConsultingAppStates ?? [] : filteredConsultingAppStatesAll ?? []),
+    [boardType, filteredConsultingAppStates, filteredConsultingAppStatesAll]
+  );
 
   const groupedStates = useMemo(() => {
-    return getGroupedData(filteredConsultingAppStates ?? [], 'currentState', CURRENT_STATES);
-  }, [filteredConsultingAppStates]);
+    return getGroupedData(filteredState ?? [], 'currentState', CURRENT_STATES);
+  }, [filteredState]);
 
   const onDragEnd = useCallback(
     (result: DropResult) => {
@@ -56,7 +65,7 @@ const BasicBoard = () => {
     [groupedStates]
   );
 
-  if (!filteredConsultingAppStates?.length) return <EmptyBox text={'데이터가 없습니다'} />;
+  if (!filteredState?.length) return <EmptyBox text={'데이터가 없습니다'} />;
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
