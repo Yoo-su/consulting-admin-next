@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import { Grid } from '@mui/material';
 
 import FileIcon from './atoms/file-icon';
 import BrowserQueueFile from './atoms/browser-queue-file';
 
 type UploadQueueProps = {
-  queueFiles: { name: string }[];
+  queueFiles: { name: string; type: string }[];
   handleRemoveFile: (fileName: string) => void;
 };
 
@@ -12,7 +13,6 @@ const Queue = ({ queueFiles, handleRemoveFile }: UploadQueueProps) => {
   return (
     <>
       {queueFiles.map((item) => {
-        const extension = item.name.split('.').pop() ?? 'unknown';
         return (
           <Grid
             item
@@ -29,7 +29,7 @@ const Queue = ({ queueFiles, handleRemoveFile }: UploadQueueProps) => {
           >
             <BrowserQueueFile
               fileName={item.name}
-              imageChildren={<FileIcon extension={extension} />}
+              imageChildren={<FileIcon contentType={item.type} />}
               handleRemoveFile={() => handleRemoveFile(item.name)}
             />
           </Grid>
@@ -39,4 +39,4 @@ const Queue = ({ queueFiles, handleRemoveFile }: UploadQueueProps) => {
   );
 };
 
-export default Queue;
+export default memo(Queue);

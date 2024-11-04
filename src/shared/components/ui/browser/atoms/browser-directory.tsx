@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import FolderIcon from '@/shared/assets/svgs/folder.svg';
@@ -25,7 +26,7 @@ const BrowserDirectory = ({ browserItem, handleClickDirectory }: BrowserDirector
         handleClickDirectory(browserItem);
       }}
     >
-      <Image src={FolderIcon} alt={'folder'} width={48} height={48} objectFit={'contain'} />
+      <Image src={FolderIcon} alt={'folder'} width={48} height={48} />
       <Typography variant={'caption'} width={'64px'} textAlign={'center'}>
         {browserItem.name}
       </Typography>
@@ -33,4 +34,4 @@ const BrowserDirectory = ({ browserItem, handleClickDirectory }: BrowserDirector
   );
 };
 
-export default BrowserDirectory;
+export default memo(BrowserDirectory);

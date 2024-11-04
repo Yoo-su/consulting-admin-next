@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useUser } from '@/shared/hooks/context';
-import { useMuiAlert } from '@/shared/hooks/use-mui-alert';
+import { useMuiAlert } from '@/shared/hooks/ui/use-mui-alert';
 import { useUnivService } from '@/shared/hooks/context';
 import { useUploadEtcLibraryMutation } from './use-upload-etc-library-mutation';
 

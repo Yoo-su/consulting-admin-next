@@ -12,7 +12,7 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import ModelLevelTable from './model-level-table';
 import ModelChartBox from './model-chart-box';
 import { useChartSetting } from '../hooks';
-import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
+import { useConfirmToast } from '@/shared/hooks/ui/use-confirm-toast';
 import { getGroupedData } from '@/shared/services';
 import { ChartData } from '../models';
 

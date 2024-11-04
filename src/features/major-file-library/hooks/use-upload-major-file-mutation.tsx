@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { uploadMajorFile } from '../api';
+import { uploadMajorFile } from '../apis';
 
 export const useUploadMajorFileMutation = () => {
   return useMutation({

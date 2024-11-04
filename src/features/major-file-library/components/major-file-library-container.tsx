@@ -6,7 +6,7 @@ import { Stack, Typography } from '@mui/material';
 import Browser from '@/shared/components/ui/browser';
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
 import { useUnivService, useUser } from '@/shared/hooks/context';
-import { useUploadMajorFileMutation } from '@/features/major-file-upload/hooks';
+import { useUploadMajorFileMutation } from '../hooks';
 
 const MajorFileLibraryContainer = () => {
   const { user } = useUser();
@@ -39,7 +39,7 @@ const MajorFileLibraryContainer = () => {
           isDropZone={true}
           formData={formData}
           uploadMutation={mutation}
-          uploadDirectory
+          appendDirectory
         />
       </ContentWrapper.MainContent>
     </ContentWrapper>

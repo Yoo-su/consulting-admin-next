@@ -1,3 +1,4 @@
+import { memo, KeyboardEvent } from 'react';
 import { Grid } from '@mui/material';
 
 import BrowserFolder from './atoms/browser-directory';
@@ -8,9 +9,10 @@ import { BrowserItem } from '@/shared/models';
 type FileListProps = {
   browsedList: BrowserItem[];
   handleClickDirectory: (folder: BrowserItem) => void;
+  handleRenameFile: (event: KeyboardEvent<HTMLInputElement>, oldName: string, newName: string) => Promise<void>;
 };
 
-const FileList = ({ browsedList, handleClickDirectory }: FileListProps) => {
+const FileList = ({ browsedList, handleClickDirectory, handleRenameFile }: FileListProps) => {
   return browsedList.map((browserItem) =>
     browserItem.isDirectory ? (
       <Grid
@@ -42,10 +44,14 @@ const FileList = ({ browsedList, handleClickDirectory }: FileListProps) => {
         lg={1.2}
         xl={1}
       >
-        <BrowserFile {...browserItem} imageChildren={<FileIcon extension={browserItem.name.split('.')[1]} />} />
+        <BrowserFile
+          {...browserItem}
+          imageChildren={<FileIcon contentType={browserItem.contentType ?? ''} />}
+          handleRenameFile={handleRenameFile}
+        />
       </Grid>
     )
   );
 };
 
-export default FileList;
+export default memo(FileList);
