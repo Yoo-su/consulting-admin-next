@@ -3,7 +3,7 @@
 import { createContext, ReactNode, useEffect } from 'react';
 
 import { useGetServiceListQuery, useGetUnivListQuery } from '../hooks/tanstack';
-import AppBackdrop from '@/shared/components/ui/loadings/app-backrdrop';
+import AppBackdrop from '../components/ui/loadings/app-backdrop';
 import { usePersistedState } from '@/shared/hooks';
 import { Univ, Service } from '../models';
 

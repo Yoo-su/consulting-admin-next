@@ -1,0 +1,113 @@
+'use client';
+
+import { useState, memo, ReactNode, useCallback, KeyboardEvent, ChangeEvent } from 'react';
+import { Stack, Typography, Badge, Box, Tooltip } from '@mui/material';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
+import { BrowserItem } from '@/shared/models';
+import { useOutsideClick, usePopover } from '@/shared/hooks';
+import FilePopover from './file-popover';
+
+type BrowserFileProps = BrowserItem & {
+  imageChildren: ReactNode;
+  currentPath: string;
+  handleRenameFile: (event: KeyboardEvent<HTMLInputElement>, oldName: string, newName: string) => Promise<void>;
+};
+const BrowserFile = ({ name, path, imageChildren, currentPath, handleRenameFile }: BrowserFileProps) => {
+  const filePopover = usePopover();
+  const [newFileName, setNewFileName] = useState('');
+  const [isHovered, setIsHovered] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  const handleSetIsEditMode = useCallback(
+    (modeState: boolean) => {
+      setIsEditMode(modeState);
+    },
+    [isEditMode]
+  );
+
+  const handleChangeFileName = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setNewFileName(currentPath + '/' + event.target.value);
+  }, []);
+
+  const handleExitEditMode = useCallback(() => {
+    setIsEditMode(false);
+  }, []);
+  const wrapperRef = useOutsideClick(handleExitEditMode);
+
+  return (
+    <Tooltip title={name} open={isHovered}>
+      <Box
+        ref={wrapperRef}
+        onMouseEnter={() => {
+          setIsHovered(true);
+        }}
+        onMouseLeave={() => {
+          setIsHovered(false);
+        }}
+        sx={{
+          borderRadius: '0.3rem',
+          transition: 'all 0.1s ease-in-out',
+          ':hover': {
+            bgcolor: '#EBECEE',
+          },
+        }}
+      >
+        <Badge
+          invisible={!isHovered}
+          color={'info'}
+          badgeContent={<MoreHorizIcon />}
+          sx={{ cursor: 'pointer' }}
+          ref={filePopover.anchorRef}
+          onClick={filePopover.handleOpen}
+        >
+          <Stack
+            direction={'column'}
+            alignItems={'center'}
+            gap={0.3}
+            sx={{
+              padding: '0.2rem',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {imageChildren}
+            {isEditMode ? (
+              <input
+                type={'text'}
+                style={{ width: '64px' }}
+                onKeyDown={(event) => {
+                  handleRenameFile(event, path, newFileName);
+                }}
+                onChange={handleChangeFileName}
+              />
+            ) : (
+              <Typography
+                variant={'caption'}
+                width={'64px'}
+                textAlign={'center'}
+                whiteSpace={'nowrap'}
+                overflow={'hidden'}
+                textOverflow={'ellipsis'}
+              >
+                {name}
+              </Typography>
+            )}
+          </Stack>
+        </Badge>
+        <FilePopover
+          anchorEl={filePopover.anchorRef.current}
+          open={filePopover.open}
+          path={path}
+          name={name}
+          handleSetIsEditMode={handleSetIsEditMode}
+          onClose={() => {
+            filePopover.handleClose();
+            setIsHovered(false);
+          }}
+        />
+      </Box>
+    </Tooltip>
+  );
+};
+
+export default memo(BrowserFile);

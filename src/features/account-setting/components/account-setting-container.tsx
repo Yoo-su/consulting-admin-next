@@ -13,7 +13,7 @@ import toast from 'react-hot-toast';
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
 import { useUser } from '@/shared/hooks/context/use-user';
 import { useUpdateProfileImageMutation } from '../hooks';
-import { useMuiAlert } from '@/shared/hooks/use-mui-alert';
+import { useMuiAlert } from '@/shared/hooks/ui/use-mui-alert';
 
 const AccountSettingContainer = () => {
   const { user } = useUser();

@@ -8,8 +8,8 @@ import { useUploadFoundationLibraryMutation } from './use-upload-foundation-libr
 import { useUploadFoundationLibraryFileOnlyMutation } from './use-upload-foundation-library-fileonly-mutation';
 import { EXCEL_LAYOUT, SHEET_FLAG } from '../constants';
 import { useUser } from '@/shared/hooks/context';
-import { useMuiAlert } from '@/shared/hooks/use-mui-alert';
-import { useStepper } from '@/shared/hooks/use-stepper';
+import { useMuiAlert } from '@/shared/hooks/ui/use-mui-alert';
+import { useStepper } from '@/shared/hooks/ui/use-stepper';
 
 type JsonExcel = {
   data: any;

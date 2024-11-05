@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import FoundationLibraryContainer from '@/features/foundation-library/components/foundation-library-container';
+import FoundationLibraryContainer2 from '@/features/foundation-library/components/foundation-library-container_2';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {
@@ -14,7 +15,7 @@ const Page = () => {
     <UnivServiceCheckGuard>
       <Box>
         <Typography variant="h5">기초데이터 엑셀 자료실</Typography>
-        <FoundationLibraryContainer />
+        <FoundationLibraryContainer2 />
       </Box>
     </UnivServiceCheckGuard>
   );

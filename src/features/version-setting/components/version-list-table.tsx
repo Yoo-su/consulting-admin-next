@@ -6,7 +6,7 @@ import VersionListBodyData from './version-list-body-data';
 import VersionListTableHead from './version-list-table-head';
 import SaveDataButton from '@/shared/components/ui/save-data-button';
 import { useUpdateVersionListMutation, useGetVersionList } from '../hooks';
-import ContentLoadingSkeleton from '@/shared/components/ui/loadings/skeleton';
+import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
 import { CurTBLVersion, VersionServer } from '../models';
 import { VersionListParams } from '../apis';
 

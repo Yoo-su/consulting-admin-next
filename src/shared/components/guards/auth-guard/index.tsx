@@ -3,7 +3,7 @@
 import { useEffect, useState, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 
-import AppBackdrop from '@/shared/components/ui/loadings/app-backrdrop';
+import AppBackdrop from '../../ui/loadings/app-backdrop';
 import { useUser } from '@/shared/hooks/context';
 import { PATHS } from '@/shared/constants';
 

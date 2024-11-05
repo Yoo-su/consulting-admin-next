@@ -22,7 +22,6 @@ export type StateCardProps = {
   state: ConsultingAppState;
   index: number;
 };
-
 const StateCard = ({ state, index }: StateCardProps) => {
   const { univList, serviceList, setCurrentService, setCurrentUniv, isServiceListLoading } = useUnivService();
   const { toggleDialog, setDialogContentState } = useStatusBoardStore();

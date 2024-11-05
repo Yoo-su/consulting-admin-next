@@ -2,7 +2,7 @@
 
 import { useEffect, useState, ReactNode } from 'react';
 
-import AppBackdrop from '@/shared/components/ui/loadings/app-backrdrop';
+import AppBackdrop from '../../ui/loadings/app-backdrop';
 import { isMocking } from '@/shared/mocks/constant';
 import { initMocking } from '@/shared/mocks';
 

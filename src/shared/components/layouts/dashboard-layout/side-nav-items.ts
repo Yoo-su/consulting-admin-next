@@ -16,6 +16,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import StorageIcon from '@mui/icons-material/Storage';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import PlusOneIcon from '@mui/icons-material/PlusOne';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 
 import { PATHS } from '@/shared/constants/paths';
@@ -74,6 +75,12 @@ const settingItems: NavItemType[] = [
     title: '학과 자료 업로드',
     href: PATHS.dashboard.majorFileUpload,
     Icon: CollectionsBookmarkIcon,
+  },
+  {
+    navkey: 'major-file-library',
+    title: '학과 자료실',
+    href: PATHS.dashboard.majorFileLibrary,
+    Icon: PictureAsPdfIcon,
   },
   {
     navkey: 'etc-files',

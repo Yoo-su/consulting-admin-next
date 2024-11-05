@@ -20,7 +20,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useUnivService } from '@/shared/hooks/context/use-univ-service';
 import { useChartSetting } from '../hooks';
 import { ChartData } from '../models';
-import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
+import { useConfirmToast } from '@/shared/hooks/ui/use-confirm-toast';
 
 type ModelLevelTableProps = {
   chartData: ChartData[];

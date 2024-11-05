@@ -13,7 +13,7 @@ import { FlutterSetting as FlutterSettingType } from '../models';
 import SaveDataButton from '@/shared/components/ui/save-data-button';
 import { useGetFlutterSettingsInfoQuery } from '../hooks';
 import { useInterceptAppRouter } from '@/shared/hooks';
-import { useConfirmToast } from '@/shared/hooks/use-confirm-toast';
+import { useConfirmToast } from '@/shared/hooks/ui/use-confirm-toast';
 
 const FlutterSettingContainer = () => {
   const { currentService } = useUnivService();

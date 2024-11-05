@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 
 import { useDeployAppMutation } from './use-deploy-app-mutation';
-import { useMuiAlert } from '@/shared/hooks/use-mui-alert';
-import { useStepper } from '@/shared/hooks/use-stepper';
+import { useMuiAlert } from '@/shared/hooks/ui/use-mui-alert';
+import { useStepper } from '@/shared/hooks/ui/use-stepper';
 
 export const useHandleApp = () => {
   const [appType, setAppType] = useState<'P' | 'A'>('A');

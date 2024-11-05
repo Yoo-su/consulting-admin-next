@@ -38,6 +38,10 @@ export const API_URLS = {
     flutterCustomConfig: '/custom-config',
     setDuplicateSetting: '/custom-config/duplicate',
     uploadMajorFile: '/subject/upload',
+    getbrowserFile: '/file/browse',
+    downloadBrowserFile: '/file/download',
+    deleteBrowserFile: '/file/delete',
+    renameBrowserFile: '/file/rename',
   },
   admin: {
     getUnivList: '/admin/univlist',
