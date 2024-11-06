@@ -51,17 +51,7 @@ const Browser = ({
   formData,
   uploadMutation,
 }: BrowserProps) => {
-  const {
-    currentPath,
-    browsedList,
-    displayingPath,
-    isNotRoot,
-    isBrowsing,
-    handleClickDirectory,
-    handleClickPrevBtn,
-    initPath,
-    handleRenameFile,
-  } = useHandleBrowser();
+  const { currentPath, browsedList, isBrowsing, handleClickDirectory, initPath, handleRenameFile } = useHandleBrowser();
 
   const {
     queueFiles,
@@ -92,15 +82,7 @@ const Browser = ({
       direction="column"
       spacing={1.5}
     >
-      <BrowserHeader
-        displayingPath={displayingPath}
-        fileCount={browsedList?.length ?? 0}
-        showCurrentPath={showCurrentPath}
-        isNotRoot={isNotRoot}
-        isDropZone={isDropZone}
-        handleAddFiles={handleAddFiles}
-        onClickPrev={handleClickPrevBtn}
-      />
+      <BrowserHeader showCurrentPath={showCurrentPath} isDropZone={isDropZone} handleAddFiles={handleAddFiles} />
 
       <FileGrid container rowSpacing={2}>
         {isBrowsing ? (

@@ -13,7 +13,7 @@ import { useBrowserStore } from '@/shared/models/stores/use-browser-store';
 export const useHandleBrowser = () => {
   const queryClient = useQueryClient();
   const { basePath, currentPath, initPath, setCurrentPath } = useBrowserStore();
-  const { data: browsedList, isPending: isBrowsing, isSuccess } = useGetBrowserListQuery(currentPath);
+  const { data, isPending: isBrowsing, isSuccess } = useGetBrowserListQuery(currentPath);
   const { mutateAsync: renameFile } = useRenameBrowserFileMutation();
 
   // 화면에 보여줄 path
@@ -79,7 +79,7 @@ export const useHandleBrowser = () => {
     displayingPath,
     uploadDirectory,
     isNotRoot,
-    browsedList,
+    browsedList: data?.items ?? [],
     isBrowsing,
     initPath,
     handleClickDirectory,

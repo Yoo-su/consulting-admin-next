@@ -1,37 +1,50 @@
-import { ChangeEvent, memo, useRef } from 'react';
+import { ChangeEvent, memo, useCallback, useMemo, useRef } from 'react';
 import { Stack, Typography, IconButton, Tooltip } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import { useGetBrowserListQuery } from '@/shared/hooks/tanstack';
+import { useBrowserStore } from '@/shared/models/stores';
 
 type BrowserHeaderProps = {
-  displayingPath: string;
-  fileCount: number;
   showCurrentPath?: boolean;
-  isNotRoot?: boolean;
   isDropZone?: boolean;
   handleAddFiles: (files: File[]) => void;
-  onClickPrev: () => void;
 };
 
-const BrowserHeader = ({
-  displayingPath,
-  fileCount,
-  showCurrentPath = true,
-  isDropZone = false,
-  isNotRoot = false,
-  handleAddFiles,
-  onClickPrev,
-}: BrowserHeaderProps) => {
+const BrowserHeader = ({ showCurrentPath = true, isDropZone = false, handleAddFiles }: BrowserHeaderProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { currentPath, basePath, setCurrentPath } = useBrowserStore();
+  const { data } = useGetBrowserListQuery(currentPath);
 
+  // 화면에 보여줄 path
+  const displayingPath = useMemo(() => {
+    const parts = currentPath.split('/');
+    return parts.slice(1).join('/') ?? '/';
+  }, [currentPath]);
+
+  // 현재 위치가 base path인지 여부
+  const isNotRoot = useMemo(() => {
+    const slashCnt = currentPath.split('/').length - 1;
+    if (slashCnt > 0 && currentPath !== basePath) return true;
+    else return false;
+  }, [currentPath, basePath]);
+
+  // file 아이콘 클릭 처리
   const handleClickFileIcon = () => {
     fileInputRef?.current?.click();
   };
 
+  // file input 값 변경 처리
   const handleChangeFileInput = (event: ChangeEvent<HTMLInputElement>) => {
     handleAddFiles(event.target.files ? Array.from(event.target.files) : []);
     event.target.value = '';
   };
+
+  // 이전 버튼 클릭 처리
+  const handleClickPrevBtn = useCallback(() => {
+    const newPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
+    setCurrentPath(newPath);
+  }, [currentPath]);
 
   return (
     <Stack direction="row" alignItems="center" flexWrap="wrap" height="35px">
@@ -54,7 +67,7 @@ const BrowserHeader = ({
             </Typography>
           </Stack>
         )}
-        <Typography variant="body2" color="grey.700">{`${fileCount}건`}</Typography>
+        <Typography variant="body2" color="grey.700">{`${data?.length ?? 0}건`}</Typography>
       </Stack>
 
       <Stack direction="row" gap={1.5} sx={{ flexGrow: 1, justifyContent: 'flex-end' }}>
@@ -67,7 +80,7 @@ const BrowserHeader = ({
         )}
         {isNotRoot && (
           <Tooltip title={'이전으로'} followCursor>
-            <IconButton size="small" onClick={onClickPrev}>
+            <IconButton size="small" onClick={handleClickPrevBtn}>
               <ArrowBackIcon />
             </IconButton>
           </Tooltip>
