@@ -17,7 +17,6 @@ import StorageIcon from '@mui/icons-material/Storage';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import PlusOneIcon from '@mui/icons-material/PlusOne';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 
 import { PATHS } from '@/shared/constants/paths';
 import { NavItemGroup, NavItemType } from '@/shared/models';
@@ -69,12 +68,6 @@ const settingItems: NavItemType[] = [
     title: '앱 주소 & 배포 목록',
     href: PATHS.dashboard.appVersionHistory,
     Icon: DownloadIcon,
-  },
-  {
-    navkey: 'major-file-upload',
-    title: '학과 자료 업로드',
-    href: PATHS.dashboard.majorFileUpload,
-    Icon: CollectionsBookmarkIcon,
   },
   {
     navkey: 'major-file-library',
