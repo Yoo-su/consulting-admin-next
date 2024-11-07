@@ -5,7 +5,5 @@ export const useGetConsultingAppStateQuery = () => {
   return useQuery({
     queryKey: ['consultingAppState'],
     queryFn: () => getConsultingAppState(),
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
   });
 };

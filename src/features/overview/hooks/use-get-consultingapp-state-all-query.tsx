@@ -8,8 +8,6 @@ export const useGetConsultingAppStateAllQuery = () => {
   return useQuery({
     queryKey: ['consultingAppStateAll'],
     queryFn: () => getConsultingAppStateAll(),
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
     enabled: isAdmin,
   });
 };
