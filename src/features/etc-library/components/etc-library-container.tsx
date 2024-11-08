@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { Typography, useTheme, useMediaQuery } from '@mui/material';
 
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
+import Browser from '@/shared/components/ui/browser';
 import { useUnivService, useUser } from '@/shared/hooks/context';
 import { useUploadEtcLibraryMutation } from '../hooks';
-
-import Browser from '@/shared/components/ui/browser';
+import { BROWSER_PATH } from '@/shared/constants';
 
 const EtcLibraryContainer = () => {
   const theme = useTheme();
@@ -16,7 +16,7 @@ const EtcLibraryContainer = () => {
   const { user } = useUser();
   const mutation = useUploadEtcLibraryMutation();
 
-  const [initialPath] = useState(`etc-library/${currentService?.serviceID}`);
+  const [initialPath] = useState(`${BROWSER_PATH.etcLibrary}/${currentService?.serviceID}`);
   const [formData] = useState(new FormData());
 
   useEffect(() => {

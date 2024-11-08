@@ -8,5 +8,4 @@ export { useTextEditor } from './utils/use-text-editor';
 export { useDownloadFile } from './utils/use-download-file';
 export { usePopover } from './ui/use-popover';
 export { useFileDropZone } from './utils/use-file-drop-zone';
-export { useHandleBrowser } from './utils/use-handle-browser';
 export { useHandleBrowserQueue } from './utils/use-handle-browser-queue';

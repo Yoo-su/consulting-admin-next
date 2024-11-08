@@ -2,19 +2,22 @@
 
 import { useState, memo, ReactNode, useCallback, KeyboardEvent, ChangeEvent } from 'react';
 import { Stack, Typography, Badge, Box, Tooltip } from '@mui/material';
+import { useShallow } from 'zustand/shallow';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import { BrowserItem } from '@/shared/models';
 import { useOutsideClick, usePopover } from '@/shared/hooks';
 import FilePopover from './file-popover';
+import { useBrowserStore } from '@/shared/models/stores';
 
 type BrowserFileProps = BrowserItem & {
   imageChildren: ReactNode;
-  currentPath: string;
   handleRenameFile: (event: KeyboardEvent<HTMLInputElement>, oldName: string, newName: string) => Promise<void>;
+  handleDeleteFile: (filePath: string) => Promise<void>;
 };
-const BrowserFile = ({ name, path, imageChildren, currentPath, handleRenameFile }: BrowserFileProps) => {
+const BrowserFile = ({ name, path, imageChildren, handleRenameFile, handleDeleteFile }: BrowserFileProps) => {
   const filePopover = usePopover();
+  const currentPath = useBrowserStore(useShallow((state) => state.currentPath));
   const [pureFileName = '', extension = ''] = name.split('.');
   const [newFileName, setNewFileName] = useState(pureFileName);
   const [isHovered, setIsHovered] = useState(false);
@@ -102,6 +105,7 @@ const BrowserFile = ({ name, path, imageChildren, currentPath, handleRenameFile 
           path={path}
           name={pureFileName}
           handleSetIsEditMode={handleSetIsEditMode}
+          handleDeleteFile={handleDeleteFile}
           onClose={() => {
             filePopover.handleClose();
             setIsHovered(false);

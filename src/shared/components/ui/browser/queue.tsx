@@ -3,13 +3,19 @@ import { Grid } from '@mui/material';
 
 import FileIcon from './atoms/file-icon';
 import BrowserQueueFile from './atoms/browser-queue-file';
+import { useQueueStore } from '@/shared/models/stores';
 
-type UploadQueueProps = {
-  queueFiles: { name: string; type: string }[];
-  handleRemoveFile: (fileName: string) => void;
+type QueueProps = {
+  handleRemoveInputFile: (fileName: string) => void;
 };
+const Queue = ({ handleRemoveInputFile }: QueueProps) => {
+  const { queueFiles, removeFile } = useQueueStore();
 
-const Queue = ({ queueFiles, handleRemoveFile }: UploadQueueProps) => {
+  const handleRemoveFile = (fileName: string) => {
+    removeFile(fileName);
+    handleRemoveInputFile(fileName);
+  };
+
   return (
     <>
       {queueFiles.map((item) => {
@@ -30,7 +36,7 @@ const Queue = ({ queueFiles, handleRemoveFile }: UploadQueueProps) => {
             <BrowserQueueFile
               fileName={item.name}
               imageChildren={<FileIcon contentType={item.type} />}
-              handleRemoveFile={() => handleRemoveFile(item.name)}
+              handleRemoveFile={handleRemoveFile}
             />
           </Grid>
         );

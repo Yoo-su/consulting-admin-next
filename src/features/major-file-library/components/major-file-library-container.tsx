@@ -7,12 +7,13 @@ import Browser from '@/shared/components/ui/browser';
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
 import { useUnivService, useUser } from '@/shared/hooks/context';
 import { useUploadMajorFileMutation } from '../hooks';
+import { BROWSER_PATH } from '@/shared/constants';
 
 const MajorFileLibraryContainer = () => {
   const { user } = useUser();
   const { currentUniv } = useUnivService();
   const mutation = useUploadMajorFileMutation();
-  const [initialPath] = useState<string>(`subject-reflibrary/${currentUniv?.univID}`);
+  const [initialPath] = useState<string>(`${BROWSER_PATH.subjectLibrary}/${currentUniv?.univID}`);
   const [formData] = useState<FormData>(new FormData());
 
   const title = `${currentUniv?.univName} 학과 자료실`;

@@ -1,11 +1,12 @@
-import { DragEvent } from 'react';
+import { ChangeEvent, DragEvent, useCallback, useMemo, useRef } from 'react';
 import { toast } from 'react-hot-toast';
+import { useShallow } from 'zustand/shallow';
 import { Typography } from '@mui/material';
-import { UseMutationResult } from '@tanstack/react-query';
+import { UseMutationResult, useQueryClient } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 
-import { useHandleBrowser } from './use-handle-browser';
-import { useFileDropZone } from './use-file-drop-zone';
+import { useBrowserStore, useQueueStore } from '@/shared/models/stores';
+import { QUERY_KEYS } from '@/shared/constants';
 
 type UseHandleBrowserQueueProps = {
   isDropZone: boolean;
@@ -19,21 +20,20 @@ export const useHandleBrowserQueue = ({
   formData,
   uploadMutation,
 }: UseHandleBrowserQueueProps) => {
-  const { uploadDirectory, invalidateCurrentPathQuery } = useHandleBrowser();
-  const {
-    queueFiles,
-    handleAddFiles,
-    handleResetFiles,
-    handleDrop,
-    handleDragEnter,
-    handleDragLeave,
-    handleDragOver,
-    handleRemoveFile,
-  } = useFileDropZone({
-    onDrop: (event: DragEvent<HTMLDivElement>) => {
-      handleOnDrop(event);
-    },
-  });
+  const queryClient = useQueryClient();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { basePath, currentPath } = useBrowserStore(
+    useShallow((state) => ({ basePath: state.basePath, currentPath: state.currentPath }))
+  );
+  const { queueFiles, addFiles, resetFiles } = useQueueStore(
+    useShallow((state) => ({ queueFiles: state.queueFiles, addFiles: state.addFiles, resetFiles: state.resetFiles }))
+  );
+
+  // formData에 directory키에 대한 값을 넘겨줄 경우 그 값
+  const uploadDirectory = useMemo(() => {
+    if (basePath === currentPath) return '';
+    return currentPath.slice(basePath.length + 1);
+  }, [basePath, currentPath]);
 
   const handleOnDrop = (event: DragEvent<HTMLDivElement>) => {
     if (!isDropZone) {
@@ -42,16 +42,31 @@ export const useHandleBrowserQueue = ({
     }
     const arrayFiles = Array.from(event.dataTransfer.files);
     if (!arrayFiles.length) return;
-    else handleAddFiles(arrayFiles);
+    else addFiles(arrayFiles);
   };
 
-  const handleClear = () => {
-    formData?.delete('files');
-    handleResetFiles();
-    invalidateCurrentPathQuery();
+  // file input 값 변경 처리
+  const handleChangeFileInput = (event: ChangeEvent<HTMLInputElement>) => {
+    addFiles(event.target.files ? Array.from(event.target.files) : []);
+    event.target.value = '';
   };
 
-  const handleUploadQueue = async () => {
+  const handleClickInput = useCallback(() => {
+    fileInputRef?.current?.click();
+  }, [fileInputRef]);
+
+  const handleRemoveInputFile = (fileName: string) => {
+    if (fileInputRef.current && fileInputRef.current.files) {
+      const dataTransfer = new DataTransfer();
+
+      Array.from(fileInputRef.current.files).forEach((file) => {
+        if (file.name !== fileName) dataTransfer.items.add(file);
+      });
+      fileInputRef.current.files = dataTransfer.files;
+    }
+  };
+
+  const handleUploadQueue = useCallback(async () => {
     if (appendDirectory) formData?.set('Directory', uploadDirectory);
     queueFiles.forEach((file) => {
       formData?.append('files', file);
@@ -63,19 +78,21 @@ export const useHandleBrowserQueue = ({
         error: <Typography variant={'caption'}>업로드 중 에러가 발생했습니다.</Typography>,
       })
       .finally(() => {
-        handleClear();
+        formData?.delete('files');
+        resetFiles();
+        queryClient.invalidateQueries({
+          queryKey: QUERY_KEYS.browser.items(currentPath).queryKey,
+        });
       });
-  };
+  }, [uploadDirectory, queueFiles]);
 
   return {
+    fileInputRef,
     queueFiles,
+    handleClickInput,
+    handleChangeFileInput,
     handleUploadQueue,
-    handleAddFiles,
     handleOnDrop,
-    handleDrop,
-    handleDragEnter,
-    handleDragLeave,
-    handleDragOver,
-    handleRemoveFile,
+    handleRemoveInputFile,
   };
 };

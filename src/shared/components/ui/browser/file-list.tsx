@@ -1,19 +1,74 @@
-import { memo, KeyboardEvent } from 'react';
-import { Grid } from '@mui/material';
+import { memo, KeyboardEvent, useCallback } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useShallow } from 'zustand/shallow';
+import { toast } from 'react-hot-toast';
+import { Grid, Typography } from '@mui/material';
 
+import { useDeleteBrowserFileMutation, useRenameBrowserFileMutation } from '@/shared/hooks/tanstack';
 import BrowserFolder from './atoms/browser-directory';
 import BrowserFile from './atoms/browser-file';
 import FileIcon from './atoms/file-icon';
 import { BrowserItem } from '@/shared/models';
+import { useBrowserStore } from '@/shared/models/stores';
+import { QUERY_KEYS } from '@/shared/constants';
 
 type FileListProps = {
-  currentPath: string;
   browsedList: BrowserItem[];
-  handleClickDirectory: (folder: BrowserItem) => void;
-  handleRenameFile: (event: KeyboardEvent<HTMLInputElement>, oldName: string, newName: string) => Promise<void>;
 };
+const FileList = ({ browsedList }: FileListProps) => {
+  const queryClient = useQueryClient();
+  const { currentPath, setCurrentPath } = useBrowserStore(
+    useShallow((state) => ({ currentPath: state.currentPath, setCurrentPath: state.setCurrentPath }))
+  );
+  const { mutateAsync: renameFile } = useRenameBrowserFileMutation();
+  const { mutateAsync: deleteFile } = useDeleteBrowserFileMutation();
 
-const FileList = ({ browsedList, currentPath, handleClickDirectory, handleRenameFile }: FileListProps) => {
+  // 폴더 아이콘 클릭 처리
+  const handleClickDirectory = useCallback(
+    (folder: BrowserItem) => {
+      const newPath = currentPath + '/' + folder.name;
+      setCurrentPath(newPath);
+    },
+    [currentPath]
+  );
+
+  // 파일 이름 변경 처리
+  const handleRenameFile = useCallback(
+    async (event: KeyboardEvent<HTMLInputElement>, oldName: string, newName: string) => {
+      if (event.key === 'Enter') {
+        toast
+          .promise(renameFile({ oldName, newName }), {
+            loading: <Typography variant="caption">파일명을 변경중입니다...</Typography>,
+            success: <Typography variant="caption">성공적으로 변경되었습니다.</Typography>,
+            error: <Typography variant="caption">변경중 에러가 발생했습니다.</Typography>,
+          })
+          .finally(() => {
+            queryClient.invalidateQueries({
+              queryKey: QUERY_KEYS.browser.items(currentPath).queryKey,
+            });
+          });
+      }
+    },
+    [queryClient, currentPath]
+  );
+
+  const handleDeleteFile = useCallback(
+    async (filePath: string) => {
+      toast
+        .promise(deleteFile(filePath), {
+          loading: <Typography variant="caption">파일을 삭제중입니다...</Typography>,
+          success: <Typography variant="caption">성공적으로 삭제되었습니다.</Typography>,
+          error: <Typography variant="caption">삭제중 에러가 발생했습니다.</Typography>,
+        })
+        .finally(() => {
+          queryClient.invalidateQueries({
+            queryKey: QUERY_KEYS.browser.items(currentPath).queryKey,
+          });
+        });
+    },
+    [queryClient, currentPath]
+  );
+
   return browsedList.map((browserItem) =>
     browserItem.isDirectory ? (
       <Grid
@@ -47,9 +102,9 @@ const FileList = ({ browsedList, currentPath, handleClickDirectory, handleRename
       >
         <BrowserFile
           {...browserItem}
-          currentPath={currentPath}
           imageChildren={<FileIcon contentType={browserItem.contentType ?? ''} />}
           handleRenameFile={handleRenameFile}
+          handleDeleteFile={handleDeleteFile}
         />
       </Grid>
     )

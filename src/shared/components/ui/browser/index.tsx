@@ -1,31 +1,27 @@
 import { useEffect } from 'react';
-import { Stack, Typography, Grid, Fab, styled } from '@mui/material';
-import UploadIcon from '@mui/icons-material/Upload';
+import { Grid, styled, SxProps } from '@mui/material';
 import { UseMutationResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 
-import { useHandleBrowser, useHandleBrowserQueue } from '@/shared/hooks';
+import { useHandleBrowserQueue } from '@/shared/hooks';
+import DropZoneContainer from '../drop-zone-container';
 import LoadingCover from '../loadings/loading-cover';
 import BrowserHeader from './header';
 import FileList from './file-list';
 import Queue from './queue';
+import { useBrowserStore } from '@/shared/models/stores';
+import { useGetBrowserListQuery } from '@/shared/hooks/tanstack';
+import UploadButton from './atoms/upload-button';
 
-type BrowserProps = {
-  initialPath: string;
-  appendDirectory?: boolean;
-  showCurrentPath?: boolean;
-  isDropZone?: boolean;
-  formData?: FormData;
-  uploadMutation?: UseMutationResult<AxiosResponse<any, any>, Error, FormData, unknown>;
-};
-
-// 스타일 정의
-const BrowserContainer = styled(Stack)(({ theme }) => ({
+const BrowserContainerStyles: SxProps = {
+  display: 'flex',
+  flexDirection: 'column',
   position: 'relative',
-  backgroundColor: theme.palette.grey[50],
+  backgroundColor: 'grey.50',
   borderRadius: '0.2rem',
-  padding: theme.spacing(1),
-}));
+  padding: 2,
+  gap: 3,
+};
 
 const FileGrid = styled(Grid)(({ theme }) => ({
   position: 'relative',
@@ -37,12 +33,14 @@ const FileGrid = styled(Grid)(({ theme }) => ({
   backgroundColor: '#fff',
 }));
 
-const UploadButton = styled(Fab)(({ theme }) => ({
-  position: 'absolute',
-  bottom: theme.spacing(3.75),
-  right: theme.spacing(3.75),
-}));
-
+type BrowserProps = {
+  initialPath: string;
+  appendDirectory?: boolean;
+  showCurrentPath?: boolean;
+  isDropZone?: boolean;
+  formData?: FormData;
+  uploadMutation?: UseMutationResult<AxiosResponse<any, any>, Error, FormData, unknown>;
+};
 const Browser = ({
   initialPath,
   appendDirectory = false,
@@ -51,17 +49,16 @@ const Browser = ({
   formData,
   uploadMutation,
 }: BrowserProps) => {
-  const { currentPath, browsedList, isBrowsing, handleClickDirectory, initPath, handleRenameFile } = useHandleBrowser();
-
+  const initPath = useBrowserStore((state) => state.initPath);
+  const currentPath = useBrowserStore((state) => state.currentPath);
+  const { data: browserQueryData, isLoading: isBrowsing } = useGetBrowserListQuery(currentPath);
   const {
-    queueFiles,
+    fileInputRef,
     handleUploadQueue,
-    handleDrop,
-    handleDragEnter,
-    handleDragLeave,
-    handleDragOver,
-    handleAddFiles,
-    handleRemoveFile,
+    handleOnDrop,
+    handleChangeFileInput,
+    handleClickInput,
+    handleRemoveInputFile,
   } = useHandleBrowserQueue({
     isDropZone,
     appendDirectory,
@@ -74,38 +71,23 @@ const Browser = ({
   }, []);
 
   return (
-    <BrowserContainer
-      onDrop={handleDrop}
-      onDragEnter={handleDragEnter}
-      onDragLeave={handleDragLeave}
-      onDragOver={handleDragOver}
-      direction="column"
-      spacing={1.5}
-    >
-      <BrowserHeader showCurrentPath={showCurrentPath} isDropZone={isDropZone} handleAddFiles={handleAddFiles} />
+    <DropZoneContainer onDrop={handleOnDrop} sx={BrowserContainerStyles}>
+      <BrowserHeader showCurrentPath={showCurrentPath} isDropZone={isDropZone} handleClickInput={handleClickInput} />
 
       <FileGrid container rowSpacing={2}>
         {isBrowsing ? (
           <LoadingCover loadingMessage="자료를 불러오는 중입니다 . ." />
         ) : (
-          <FileList
-            currentPath={currentPath}
-            browsedList={browsedList ?? []}
-            handleClickDirectory={handleClickDirectory}
-            handleRenameFile={handleRenameFile}
-          />
+          <FileList browsedList={browserQueryData?.items ?? []} />
         )}
 
-        <Queue queueFiles={queueFiles} handleRemoveFile={handleRemoveFile} />
+        <Queue handleRemoveInputFile={handleRemoveInputFile} />
       </FileGrid>
 
-      {queueFiles.length > 0 && (
-        <UploadButton variant="extended" color="info" size="medium" onClick={handleUploadQueue}>
-          <UploadIcon sx={{ mr: 1 }} />
-          <Typography variant="body2">{`${queueFiles.length}개의 파일 업로드`}</Typography>
-        </UploadButton>
-      )}
-    </BrowserContainer>
+      <UploadButton handleUploadQueue={handleUploadQueue} />
+
+      <input style={{ display: 'none' }} type={'file'} multiple ref={fileInputRef} onChange={handleChangeFileInput} />
+    </DropZoneContainer>
   );
 };
 

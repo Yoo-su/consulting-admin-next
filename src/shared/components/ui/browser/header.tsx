@@ -1,19 +1,18 @@
-import { ChangeEvent, memo, useCallback, useMemo, useRef } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { Stack, Typography, IconButton, Tooltip } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { useGetBrowserListQuery } from '@/shared/hooks/tanstack';
-import { useBrowserStore } from '@/shared/models/stores';
+import { useBrowserStore, useQueueStore } from '@/shared/models/stores';
 
 type BrowserHeaderProps = {
   showCurrentPath?: boolean;
   isDropZone?: boolean;
-  handleAddFiles: (files: File[]) => void;
+  handleClickInput: () => void;
 };
-
-const BrowserHeader = ({ showCurrentPath = true, isDropZone = false, handleAddFiles }: BrowserHeaderProps) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+const BrowserHeader = ({ showCurrentPath = true, isDropZone = false, handleClickInput }: BrowserHeaderProps) => {
   const { currentPath, basePath, setCurrentPath } = useBrowserStore();
+  const queueFiles = useQueueStore((state) => state.queueFiles);
   const { data } = useGetBrowserListQuery(currentPath);
 
   // 화면에 보여줄 path
@@ -29,22 +28,12 @@ const BrowserHeader = ({ showCurrentPath = true, isDropZone = false, handleAddFi
     else return false;
   }, [currentPath, basePath]);
 
-  // file 아이콘 클릭 처리
-  const handleClickFileIcon = () => {
-    fileInputRef?.current?.click();
-  };
-
-  // file input 값 변경 처리
-  const handleChangeFileInput = (event: ChangeEvent<HTMLInputElement>) => {
-    handleAddFiles(event.target.files ? Array.from(event.target.files) : []);
-    event.target.value = '';
-  };
-
   // 이전 버튼 클릭 처리
   const handleClickPrevBtn = useCallback(() => {
+    if (queueFiles.length) return;
     const newPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
     setCurrentPath(newPath);
-  }, [currentPath]);
+  }, [currentPath, queueFiles]);
 
   return (
     <Stack direction="row" alignItems="center" flexWrap="wrap" height="35px">
@@ -73,7 +62,7 @@ const BrowserHeader = ({ showCurrentPath = true, isDropZone = false, handleAddFi
       <Stack direction="row" gap={1.5} sx={{ flexGrow: 1, justifyContent: 'flex-end' }}>
         {isDropZone && (
           <Tooltip title={'파일추가'}>
-            <IconButton size="small" onClick={handleClickFileIcon}>
+            <IconButton size="small" onClick={handleClickInput}>
               <UploadFileIcon />
             </IconButton>
           </Tooltip>
@@ -86,8 +75,6 @@ const BrowserHeader = ({ showCurrentPath = true, isDropZone = false, handleAddFi
           </Tooltip>
         )}
       </Stack>
-
-      <input style={{ display: 'none' }} type={'file'} multiple ref={fileInputRef} onChange={handleChangeFileInput} />
     </Stack>
   );
 };
