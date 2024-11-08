@@ -3,21 +3,26 @@ import { MenuItem, MenuList, Popover, Typography } from '@mui/material';
 
 import { useDownloadFile } from '@/shared/hooks';
 import { API_URLS } from '@/shared/constants';
-import { useDeleteBrowserFileMutation } from '@/shared/hooks/tanstack/use-delete-browser-item-mutation';
-import { useQueryClient } from '@tanstack/react-query';
 
 export type FilePopoverProps = {
   anchorEl: Element | null;
-  onClose: () => void;
-  handleSetIsEditMode: (modeState: boolean) => void;
   open: boolean;
   path: string;
   name: string;
+  onClose: () => void;
+  handleSetIsEditMode: (modeState: boolean) => void;
+  handleDeleteFile: (filePath: string) => Promise<void>;
 };
-const FilePopover = ({ anchorEl, open, path, name, onClose, handleSetIsEditMode }: FilePopoverProps) => {
-  const queryClient = useQueryClient();
+const FilePopover = ({
+  anchorEl,
+  open,
+  path,
+  name,
+  onClose,
+  handleSetIsEditMode,
+  handleDeleteFile,
+}: FilePopoverProps) => {
   const { downloadFile } = useDownloadFile();
-  const { mutateAsync } = useDeleteBrowserFileMutation(path);
 
   const handleDownloadFile = async () => {
     const encoded = encodeURIComponent(decodeURIComponent(path));
@@ -29,17 +34,6 @@ const FilePopover = ({ anchorEl, open, path, name, onClose, handleSetIsEditMode 
   const handleEnterEditMode = () => {
     handleSetIsEditMode(true);
     onClose();
-  };
-
-  const hadleDeleteFile = () => {
-    const tmp = path.replace(name, '');
-    const key = tmp.substring(0, tmp.length - 1);
-
-    mutateAsync().then(() => {
-      queryClient.invalidateQueries({
-        queryKey: ['get-browser-list', key],
-      });
-    });
   };
 
   return (
@@ -58,7 +52,11 @@ const FilePopover = ({ anchorEl, open, path, name, onClose, handleSetIsEditMode 
         <MenuItem onClick={handleDownloadFile}>
           <Typography variant="caption">다운로드</Typography>
         </MenuItem>
-        <MenuItem onClick={hadleDeleteFile}>
+        <MenuItem
+          onClick={() => {
+            handleDeleteFile(path);
+          }}
+        >
           <Typography variant="caption">자료삭제</Typography>
         </MenuItem>
         <MenuItem onClick={handleEnterEditMode}>
