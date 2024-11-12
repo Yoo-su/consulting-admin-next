@@ -5,9 +5,9 @@ import { toast } from 'react-hot-toast';
 import { Grid, Typography } from '@mui/material';
 
 import { useDeleteBrowserFileMutation, useRenameBrowserFileMutation } from '@/shared/hooks/tanstack';
-import BrowserFolder from './atoms/browser-directory';
-import BrowserFile from './atoms/browser-file';
-import FileIcon from './atoms/file-icon';
+import BrowserFolder from '../atoms/browser-directory';
+import BrowserFile from '../atoms/browser-file';
+import FileIcon from '../atoms/file-icon';
 import { BrowserItem } from '@/shared/models';
 import { useBrowserStore } from '@/shared/models/stores';
 import { QUERY_KEYS } from '@/shared/constants';

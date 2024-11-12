@@ -7,31 +7,12 @@ import { useHandleBrowserQueue } from '@/shared/hooks';
 import DropZoneContainer from '../drop-zone-container';
 import LoadingCover from '../loadings/loading-cover';
 import BrowserHeader from './header';
-import FileList from './file-list';
-import Queue from './queue';
+import FileList from './molecules/file-list';
+import Queue from './molecules/queue';
 import { useBrowserStore } from '@/shared/models/stores';
 import { useGetBrowserListQuery } from '@/shared/hooks/tanstack';
 import UploadButton from './atoms/upload-button';
-
-const BrowserContainerStyles: SxProps = {
-  display: 'flex',
-  flexDirection: 'column',
-  position: 'relative',
-  backgroundColor: 'grey.50',
-  borderRadius: '0.2rem',
-  padding: 2,
-  gap: 3,
-};
-
-const FileGrid = styled(Grid)(({ theme }) => ({
-  position: 'relative',
-  padding: theme.spacing(2.5, 1.5),
-  minHeight: '240px',
-  maxHeight: '480px',
-  overflowY: 'scroll',
-  border: '1px solid rgba(0,0,0,0.1)',
-  backgroundColor: '#fff',
-}));
+import AddFolderDialog from './add-folder-dialog';
 
 type BrowserProps = {
   initialPath: string;
@@ -68,7 +49,7 @@ const Browser = ({
 
   useEffect(() => {
     initPath(initialPath);
-  }, []);
+  }, [initialPath]);
 
   return (
     <DropZoneContainer onDrop={handleOnDrop} sx={BrowserContainerStyles}>
@@ -87,8 +68,30 @@ const Browser = ({
       <UploadButton handleUploadQueue={handleUploadQueue} />
 
       <input style={{ display: 'none' }} type={'file'} multiple ref={fileInputRef} onChange={handleChangeFileInput} />
+
+      <AddFolderDialog handleUploadQueue={handleUploadQueue} />
     </DropZoneContainer>
   );
 };
+
+const BrowserContainerStyles: SxProps = {
+  display: 'flex',
+  flexDirection: 'column',
+  position: 'relative',
+  backgroundColor: 'grey.50',
+  borderRadius: '0.2rem',
+  padding: 2,
+  gap: 3,
+};
+
+const FileGrid = styled(Grid)(({ theme }) => ({
+  position: 'relative',
+  padding: theme.spacing(2.5, 1.5),
+  minHeight: '240px',
+  maxHeight: '480px',
+  overflowY: 'scroll',
+  border: '1px solid rgba(0,0,0,0.1)',
+  backgroundColor: '#fff',
+}));
 
 export default Browser;

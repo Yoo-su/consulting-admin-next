@@ -37,12 +37,10 @@ const VersionListBodyData = ({ editedList, handleClick }: VersionListDataProps) 
                 <Tooltip title="버전을 1씩 내립니다." placement="top" followCursor>
                   <Box>
                     <ButtonIcon
-                      props={{
-                        onClick: handleClick,
-                        id: `${version.TableName}-down`,
-                        sx: ArrowButtonClass,
-                        disabled: version.Version < 1,
-                      }}
+                      onClick={handleClick}
+                      id={`${version.TableName}-down`}
+                      disabled={version.Version < 1}
+                      sx={ArrowButtonClass}
                       Icon={ArrowDropDownIcon}
                     />
                   </Box>
@@ -51,11 +49,9 @@ const VersionListBodyData = ({ editedList, handleClick }: VersionListDataProps) 
                 <Tooltip title="버전을 1씩 추가합니다." placement="top" followCursor>
                   <Box>
                     <ButtonIcon
-                      props={{
-                        onClick: handleClick,
-                        id: `${version.TableName}-up`,
-                        sx: ArrowButtonClass,
-                      }}
+                      onClick={handleClick}
+                      id={`${version.TableName}-up`}
+                      sx={ArrowButtonClass}
                       Icon={ArrowDropUpIcon}
                     />
                   </Box>
