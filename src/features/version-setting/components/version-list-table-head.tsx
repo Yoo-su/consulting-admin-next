@@ -21,11 +21,9 @@ const VersionListTableHead = ({ handleClick }: VersionListTableHeadProps) => {
           <Tooltip title="전체 버전을 1씩 내립니다." placement="top">
             <Box>
               <ButtonIcon
-                props={{
-                  onClick: handleClick,
-                  id: 'all-down',
-                  sx: { ...ArrowButtonClass, backgroundColor: '#FAFAFA' },
-                }}
+                onClick={handleClick}
+                id={'all-down'}
+                sx={{ ...ArrowButtonClass, backgroundColor: '#FAFAFA' }}
                 Icon={ArrowDropDownIcon}
               />
             </Box>
@@ -33,11 +31,9 @@ const VersionListTableHead = ({ handleClick }: VersionListTableHeadProps) => {
           <Tooltip title="전체 버전을 1씩 추가합니다." placement="top">
             <Box>
               <ButtonIcon
-                props={{
-                  onClick: handleClick,
-                  id: 'all-up',
-                  sx: { ...ArrowButtonClass, backgroundColor: '#FAFAFA' },
-                }}
+                onClick={handleClick}
+                id={'all-up'}
+                sx={{ ...ArrowButtonClass, backgroundColor: '#FAFAFA' }}
                 Icon={ArrowDropUpIcon}
               />
             </Box>

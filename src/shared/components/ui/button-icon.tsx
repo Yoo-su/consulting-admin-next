@@ -1,13 +1,13 @@
-import { ComponentType, memo } from 'react';
+import { ComponentType, memo, ButtonHTMLAttributes } from 'react';
 
-import IconButton from '@mui/material/IconButton';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { SvgIconProps } from '@mui/material';
 
-type ButtonIconProps = {
-  props?: any;
-  Icon: ComponentType<SvgIconProps>;
-};
-const ButtonIcon = ({ props, Icon }: ButtonIconProps) => {
+type ButtonIconProps = IconButtonProps &
+  ButtonHTMLAttributes<HTMLButtonElement> & {
+    Icon: ComponentType<SvgIconProps>;
+  };
+const ButtonIcon = ({ Icon, ...props }: ButtonIconProps) => {
   return (
     <IconButton {...props} size="small" aria-label="add">
       <Icon fontSize="small" />

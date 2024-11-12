@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Typography, useTheme, useMediaQuery } from '@mui/material';
 
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
@@ -16,7 +16,7 @@ const EtcLibraryContainer = () => {
   const { user } = useUser();
   const mutation = useUploadEtcLibraryMutation();
 
-  const [initialPath] = useState(`${BROWSER_PATH.etcLibrary}/${currentService?.serviceID}`);
+  const initialPath = useMemo(() => `${BROWSER_PATH.etcLibrary}/${currentService?.serviceID}`, [currentService]);
   const [formData] = useState(new FormData());
 
   useEffect(() => {

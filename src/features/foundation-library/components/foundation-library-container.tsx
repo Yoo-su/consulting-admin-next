@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo } from 'react';
 import { Stack, Typography } from '@mui/material';
 
 import Browser from '@/shared/components/ui/browser';
@@ -10,7 +10,7 @@ import { BROWSER_PATH } from '@/shared/constants';
 
 const FoundationLibraryContainer = () => {
   const { currentUniv, currentService } = useUnivService();
-  const [initialPath] = useState<string>(`${BROWSER_PATH.foundationLibrary}/${currentService?.serviceID}`);
+  const initialPath = useMemo(() => `${BROWSER_PATH.foundationLibrary}/${currentService?.serviceID}`, [currentService]);
 
   const title = `${currentUniv?.univName}(${currentService?.serviceID}) 기초데이터 자료실`;
 

@@ -1,24 +1,24 @@
 import { memo } from 'react';
 import { Grid } from '@mui/material';
 
-import FileIcon from './atoms/file-icon';
-import BrowserQueueFile from './atoms/browser-queue-file';
+import FileIcon from '../atoms/file-icon';
+import BrowserQueueFile from '../atoms/browser-queue-file';
 import { useQueueStore } from '@/shared/models/stores';
 
 type QueueProps = {
   handleRemoveInputFile: (fileName: string) => void;
 };
 const Queue = ({ handleRemoveInputFile }: QueueProps) => {
-  const { queueFiles, removeFile } = useQueueStore();
+  const { browserQueue, removeBrowserQueueFile } = useQueueStore();
 
   const handleRemoveFile = (fileName: string) => {
-    removeFile(fileName);
+    removeBrowserQueueFile(fileName);
     handleRemoveInputFile(fileName);
   };
 
   return (
     <>
-      {queueFiles.map((item) => {
+      {browserQueue.map((item) => {
         return (
           <Grid
             item

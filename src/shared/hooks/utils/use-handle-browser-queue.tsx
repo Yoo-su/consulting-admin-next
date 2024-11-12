@@ -5,7 +5,7 @@ import { Typography } from '@mui/material';
 import { UseMutationResult, useQueryClient } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 
-import { useBrowserStore, useQueueStore } from '@/shared/models/stores';
+import { useBrowserStore, useQueueStore, QueueType } from '@/shared/models/stores';
 import { QUERY_KEYS } from '@/shared/constants';
 
 type UseHandleBrowserQueueProps = {
@@ -25,8 +25,11 @@ export const useHandleBrowserQueue = ({
   const { basePath, currentPath } = useBrowserStore(
     useShallow((state) => ({ basePath: state.basePath, currentPath: state.currentPath }))
   );
-  const { queueFiles, addFiles, resetFiles } = useQueueStore(
-    useShallow((state) => ({ queueFiles: state.queueFiles, addFiles: state.addFiles, resetFiles: state.resetFiles }))
+  const { addBrowserQueueFiles, resetQueue } = useQueueStore(
+    useShallow((state) => ({
+      addBrowserQueueFiles: state.addBrowserQueueFiles,
+      resetQueue: state.resetQueue,
+    }))
   );
 
   // formData에 directory키에 대한 값을 넘겨줄 경우 그 값
@@ -42,12 +45,12 @@ export const useHandleBrowserQueue = ({
     }
     const arrayFiles = Array.from(event.dataTransfer.files);
     if (!arrayFiles.length) return;
-    else addFiles(arrayFiles);
+    else addBrowserQueueFiles(arrayFiles);
   };
 
   // file input 값 변경 처리
   const handleChangeFileInput = (event: ChangeEvent<HTMLInputElement>) => {
-    addFiles(event.target.files ? Array.from(event.target.files) : []);
+    addBrowserQueueFiles(event.target.files ? Array.from(event.target.files) : []);
     event.target.value = '';
   };
 
@@ -66,29 +69,31 @@ export const useHandleBrowserQueue = ({
     }
   };
 
-  const handleUploadQueue = useCallback(async () => {
-    if (appendDirectory) formData?.set('Directory', uploadDirectory);
-    queueFiles.forEach((file) => {
-      formData?.append('files', file);
-    });
-    await toast
-      .promise(uploadMutation!.mutateAsync(formData!), {
-        loading: <Typography variant={'caption'}>업로드 중입니다...</Typography>,
-        success: <Typography variant={'caption'}>성공적으로 업로드되었습니다.</Typography>,
-        error: <Typography variant={'caption'}>업로드 중 에러가 발생했습니다.</Typography>,
-      })
-      .finally(() => {
-        formData?.delete('files');
-        resetFiles();
-        queryClient.invalidateQueries({
-          queryKey: QUERY_KEYS.browser.items(currentPath).queryKey,
-        });
+  const handleUploadQueue = useCallback(
+    async (queue: File[], queueType: QueueType) => {
+      if (appendDirectory) formData?.set('Directory', uploadDirectory);
+      queue.forEach((file) => {
+        formData?.append('files', file);
       });
-  }, [uploadDirectory, queueFiles]);
+      await toast
+        .promise(uploadMutation!.mutateAsync(formData!), {
+          loading: <Typography variant={'caption'}>업로드 중입니다...</Typography>,
+          success: <Typography variant={'caption'}>성공적으로 업로드되었습니다.</Typography>,
+          error: <Typography variant={'caption'}>업로드 중 에러가 발생했습니다.</Typography>,
+        })
+        .finally(() => {
+          formData?.delete('files');
+          resetQueue(queueType);
+          queryClient.invalidateQueries({
+            queryKey: QUERY_KEYS.browser.items(currentPath).queryKey,
+          });
+        });
+    },
+    [uploadDirectory]
+  );
 
   return {
     fileInputRef,
-    queueFiles,
     handleClickInput,
     handleChangeFileInput,
     handleUploadQueue,

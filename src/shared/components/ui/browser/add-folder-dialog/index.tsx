@@ -1,0 +1,136 @@
+import { DragEvent } from 'react';
+import { Dialog, DialogTitle, DialogContent, TextField, SxProps, styled, Grid, Stack } from '@mui/material';
+import { useForm, Controller } from 'react-hook-form';
+import FolderIcon from '@mui/icons-material/Folder';
+
+import { useQueueStore, QueueType } from '@/shared/models/stores';
+import DropZoneContainer from '../../drop-zone-container';
+import DialogQueueFile from '../atoms/dialog-queue-file';
+import FileIcon from '../atoms/file-icon';
+import { directoryNameValidation } from './validation-rule';
+import AnnouncementBox from './announcement-box';
+
+type FormValues = {
+  directoryName: string;
+};
+type AddFolderDialogProps = {
+  handleUploadQueue: (queue: File[], queueType: QueueType) => Promise<void>;
+};
+
+const AddFolderDialog = ({ handleUploadQueue }: AddFolderDialogProps) => {
+  const { dialogQueue, isAddFolderModalOpen, closeAddFolderModal, addDialogQueueFiles, removeDialogQueueFile } =
+    useQueueStore();
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm<FormValues>({
+    defaultValues: {
+      directoryName: '',
+    },
+  });
+
+  const onSubmit = handleSubmit(async (data) => {
+    const prefix = getValues('directoryName');
+    const folderQueue = dialogQueue.map((file) => {
+      return new File([file], `${prefix}/${file.name}`, {
+        type: file.type,
+        lastModified: file.lastModified,
+      });
+    });
+    await handleUploadQueue(folderQueue, 'dialog');
+    closeAddFolderModal();
+  });
+
+  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+    const arrayFiles = Array.from(event.dataTransfer.files);
+    if (!arrayFiles.length) return;
+    else {
+      const existingFileNames = new Set(dialogQueue.map((file) => file.name));
+      const uniqueFiles = arrayFiles.filter((file) => !existingFileNames.has(file.name));
+      addDialogQueueFiles(uniqueFiles);
+    }
+  };
+
+  return (
+    <Dialog open={isAddFolderModalOpen} onClose={closeAddFolderModal}>
+      <form onSubmit={onSubmit}>
+        <DialogTitle>
+          <Stack direction={'row'} alignItems={'center'} gap={1}>
+            <FolderIcon />
+            <Controller
+              name="directoryName"
+              control={control}
+              rules={directoryNameValidation}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  variant="standard"
+                  size="small"
+                  placeholder="폴더명을 입력하세요..."
+                  error={!!errors.directoryName}
+                  helperText={errors.directoryName?.message}
+                />
+              )}
+            />
+          </Stack>
+        </DialogTitle>
+
+        <DialogContent>
+          <DropZoneContainer onDrop={handleDrop} sx={DropZoneContainerStyles}>
+            <GridBox container>
+              {dialogQueue.length ? (
+                dialogQueue.map((item) => (
+                  <Grid
+                    item
+                    display="flex"
+                    key={item.name}
+                    justifyContent="center"
+                    alignItems="center"
+                    height="fit-content"
+                    sx={{ userSelect: 'none' }}
+                    md={4}
+                    lg={2}
+                    xl={2}
+                  >
+                    <DialogQueueFile
+                      fileName={item.name}
+                      imageChildren={<FileIcon contentType={item.type} />}
+                      handleRemoveFile={() => {
+                        removeDialogQueueFile(item.name);
+                      }}
+                    />
+                  </Grid>
+                ))
+              ) : (
+                <AnnouncementBox />
+              )}
+            </GridBox>
+          </DropZoneContainer>
+        </DialogContent>
+      </form>
+    </Dialog>
+  );
+};
+
+const GridBox = styled(Grid)(({ theme }) => ({
+  position: 'relative',
+  padding: theme.spacing(2.5, 1.5),
+  minHeight: '240px',
+  maxHeight: '480px',
+  overflowY: 'scroll',
+  width: '480px',
+  border: '1px solid rgba(0,0,0,0.1)',
+  backgroundColor: '#fff',
+  borderRadius: '0.2rem',
+}));
+
+const DropZoneContainerStyles: SxProps = {
+  display: 'flex',
+  flexDirection: 'column',
+  position: 'relative',
+};
+
+export default AddFolderDialog;
