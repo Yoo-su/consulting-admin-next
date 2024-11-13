@@ -103,7 +103,7 @@ const BrowserFile = ({ name, path, imageChildren, handleRenameFile, handleDelete
           anchorEl={filePopover.anchorRef.current}
           open={filePopover.open}
           path={path}
-          name={pureFileName}
+          name={name}
           handleSetIsEditMode={handleSetIsEditMode}
           handleDeleteFile={handleDeleteFile}
           onClose={() => {
