@@ -60,7 +60,7 @@ const settingItems: NavItemType[] = [
   {
     navkey: 'consulting-files-setting',
     title: '상담 자료 관리',
-    href: PATHS.dashboard.consultingFilesSetting,
+    href: PATHS.dashboard.consultingFileSetting,
     Icon: DifferenceIcon,
   },
   {
