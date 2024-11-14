@@ -3,16 +3,16 @@
 import { useState, memo, ReactNode } from 'react';
 import { Stack, Typography, Badge, Box, Tooltip } from '@mui/material';
 
-type DialogQueueFileProps = {
+type QueueFileProps = {
   fileName: string;
   handleRemoveFile: (fileName: string) => void;
   imageChildren: ReactNode;
 };
-const DialogQueueFile = ({ fileName, imageChildren, handleRemoveFile }: DialogQueueFileProps) => {
+const QueueFile = ({ fileName, imageChildren, handleRemoveFile }: QueueFileProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Tooltip title={`${fileName} _ 클릭 시 대기열에서 제거됩니다`} open={isHovered}>
+    <Tooltip title={`${fileName} _ 클릭 시 대기열에서 제거됩니다`} open={isHovered} followCursor>
       <Box
         onMouseEnter={() => {
           setIsHovered(true);
@@ -25,9 +25,9 @@ const DialogQueueFile = ({ fileName, imageChildren, handleRemoveFile }: DialogQu
           animation: 'wiggle 2s infinite',
           opacity: 0.75,
           transition: 'all 0.1s ease-in-out',
+          padding: '0.08rem',
           ':hover': {
-            bgcolor: '#EBECEE',
-            border: '0.1px solid #BC5448',
+            bgcolor: 'rgba(188,84,72)',
           },
         }}
       >
@@ -66,4 +66,4 @@ const DialogQueueFile = ({ fileName, imageChildren, handleRemoveFile }: DialogQu
   );
 };
 
-export default memo(DialogQueueFile);
+export default memo(QueueFile);

@@ -9,7 +9,8 @@ type QueueStore = {
   addDialogQueueFiles: (files: File[]) => void;
   removeBrowserQueueFile: (fileName: string) => void;
   removeDialogQueueFile: (fileName: string) => void;
-  resetQueue: (queueType: QueueType) => void;
+  resetBrowserQueue: () => void;
+  resetDialogQueue: () => void;
   openAddFolderModal: () => void;
   closeAddFolderModal: () => void;
 };
@@ -41,11 +42,8 @@ export const useQueueStore = create<QueueStore>((set) => ({
       dialogQueue: state.dialogQueue.filter((file) => file.name !== fileName),
     })),
 
-  resetQueue: (queueType) =>
-    set((state) => ({
-      browserQueue: queueType === 'browser' ? [] : state.browserQueue,
-      dialogQueue: queueType === 'dialog' ? [] : state.dialogQueue,
-    })),
+  resetBrowserQueue: () => set(() => ({ browserQueue: [] })),
+  resetDialogQueue: () => set(() => ({ dialogQueue: [] })),
 
   openAddFolderModal: () => set(() => ({ isAddFolderModalOpen: true })),
   closeAddFolderModal: () => set(() => ({ dialogQueue: [], isAddFolderModalOpen: false })),
