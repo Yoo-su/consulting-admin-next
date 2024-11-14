@@ -35,7 +35,8 @@ const Browser = ({
   const { data: browserQueryData, isLoading: isBrowsing } = useGetBrowserListQuery(currentPath);
   const {
     fileInputRef,
-    handleUploadQueue,
+    handleUploadBrowserQueue,
+    handleUploadDialogQueue,
     handleOnDrop,
     handleChangeFileInput,
     handleClickInput,
@@ -53,7 +54,12 @@ const Browser = ({
 
   return (
     <DropZoneContainer onDrop={handleOnDrop} sx={BrowserContainerStyles}>
-      <BrowserHeader showCurrentPath={showCurrentPath} isDropZone={isDropZone} handleClickInput={handleClickInput} />
+      <BrowserHeader
+        showCurrentPath={showCurrentPath}
+        appendDirectory={appendDirectory}
+        isDropZone={isDropZone}
+        handleClickInput={handleClickInput}
+      />
 
       <FileGrid container rowSpacing={2}>
         {isBrowsing ? (
@@ -65,11 +71,11 @@ const Browser = ({
         <Queue handleRemoveInputFile={handleRemoveInputFile} />
       </FileGrid>
 
-      <UploadButton handleUploadQueue={handleUploadQueue} />
+      <UploadButton handleUploadBrowserQueue={handleUploadBrowserQueue} />
 
       <input style={{ display: 'none' }} type={'file'} multiple ref={fileInputRef} onChange={handleChangeFileInput} />
 
-      <AddFolderDialog handleUploadQueue={handleUploadQueue} />
+      <AddFolderDialog handleUploadDialogQueue={handleUploadDialogQueue} />
     </DropZoneContainer>
   );
 };

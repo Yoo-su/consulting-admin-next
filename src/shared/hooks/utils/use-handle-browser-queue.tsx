@@ -5,7 +5,7 @@ import { Typography } from '@mui/material';
 import { UseMutationResult, useQueryClient } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 
-import { useBrowserStore, useQueueStore, QueueType } from '@/shared/models/stores';
+import { useBrowserStore, useQueueStore } from '@/shared/models/stores';
 import { QUERY_KEYS } from '@/shared/constants';
 
 type UseHandleBrowserQueueProps = {
@@ -25,20 +25,20 @@ export const useHandleBrowserQueue = ({
   const { basePath, currentPath } = useBrowserStore(
     useShallow((state) => ({ basePath: state.basePath, currentPath: state.currentPath }))
   );
-  const { addBrowserQueueFiles, resetQueue } = useQueueStore(
+  const { addBrowserQueueFiles, resetBrowserQueue } = useQueueStore(
     useShallow((state) => ({
       addBrowserQueueFiles: state.addBrowserQueueFiles,
-      resetQueue: state.resetQueue,
+      resetBrowserQueue: state.resetBrowserQueue,
     }))
   );
 
   // formData에 directory키에 대한 값을 넘겨줄 경우 그 값
   const uploadDirectory = useMemo(() => {
     if (basePath === currentPath) return '';
-    return currentPath.slice(basePath.length + 1);
+    return currentPath.slice(basePath.length + 1) + '/';
   }, [basePath, currentPath]);
 
-  const handleOnDrop = (event: DragEvent<HTMLDivElement>) => {
+  const handleOnDrop = useCallback((event: DragEvent<HTMLDivElement>) => {
     if (!isDropZone) {
       toast.error(<Typography variant={'caption'}>{'드롭 허용 영역이 아닙니다.'}</Typography>);
       return;
@@ -46,19 +46,19 @@ export const useHandleBrowserQueue = ({
     const arrayFiles = Array.from(event.dataTransfer.files);
     if (!arrayFiles.length) return;
     else addBrowserQueueFiles(arrayFiles);
-  };
+  }, []);
 
   // file input 값 변경 처리
-  const handleChangeFileInput = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeFileInput = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     addBrowserQueueFiles(event.target.files ? Array.from(event.target.files) : []);
     event.target.value = '';
-  };
+  }, []);
 
   const handleClickInput = useCallback(() => {
     fileInputRef?.current?.click();
   }, [fileInputRef]);
 
-  const handleRemoveInputFile = (fileName: string) => {
+  const handleRemoveInputFile = useCallback((fileName: string) => {
     if (fileInputRef.current && fileInputRef.current.files) {
       const dataTransfer = new DataTransfer();
 
@@ -67,10 +67,10 @@ export const useHandleBrowserQueue = ({
       });
       fileInputRef.current.files = dataTransfer.files;
     }
-  };
+  }, []);
 
-  const handleUploadQueue = useCallback(
-    async (queue: File[], queueType: QueueType) => {
+  const handleUploadBrowserQueue = useCallback(
+    async (queue: File[]) => {
       if (appendDirectory) formData?.set('Directory', uploadDirectory);
       queue.forEach((file) => {
         formData?.append('files', file);
@@ -83,20 +83,44 @@ export const useHandleBrowserQueue = ({
         })
         .finally(() => {
           formData?.delete('files');
-          resetQueue(queueType);
+          resetBrowserQueue();
           queryClient.invalidateQueries({
             queryKey: QUERY_KEYS.browser.items(currentPath).queryKey,
           });
         });
     },
-    [uploadDirectory]
+    [uploadDirectory, currentPath]
+  );
+
+  // dialog queue 업로드 메서드
+  const handleUploadDialogQueue = useCallback(
+    async (queue: File[], directory: string) => {
+      formData?.set('Directory', uploadDirectory + directory);
+      queue.forEach((file) => {
+        formData?.append('files', file);
+      });
+      await toast
+        .promise(uploadMutation!.mutateAsync(formData!), {
+          loading: <Typography variant={'caption'}>업로드 중입니다...</Typography>,
+          success: <Typography variant={'caption'}>성공적으로 업로드되었습니다.</Typography>,
+          error: <Typography variant={'caption'}>업로드 중 에러가 발생했습니다.</Typography>,
+        })
+        .finally(() => {
+          formData?.delete('files');
+          queryClient.invalidateQueries({
+            queryKey: QUERY_KEYS.browser.items(currentPath).queryKey,
+          });
+        });
+    },
+    [uploadDirectory, currentPath]
   );
 
   return {
     fileInputRef,
     handleClickInput,
     handleChangeFileInput,
-    handleUploadQueue,
+    handleUploadBrowserQueue,
+    handleUploadDialogQueue,
     handleOnDrop,
     handleRemoveInputFile,
   };

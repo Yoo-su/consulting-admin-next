@@ -3,9 +3,9 @@ import { Dialog, DialogTitle, DialogContent, TextField, SxProps, styled, Grid, S
 import { useForm, Controller } from 'react-hook-form';
 import FolderIcon from '@mui/icons-material/Folder';
 
-import { useQueueStore, QueueType } from '@/shared/models/stores';
+import { useQueueStore } from '@/shared/models/stores';
 import DropZoneContainer from '../../drop-zone-container';
-import DialogQueueFile from '../atoms/dialog-queue-file';
+import QueueFile from '../atoms/queue-file';
 import FileIcon from '../atoms/file-icon';
 import { directoryNameValidation } from './validation-rule';
 import AnnouncementBox from './announcement-box';
@@ -14,16 +14,17 @@ type FormValues = {
   directoryName: string;
 };
 type AddFolderDialogProps = {
-  handleUploadQueue: (queue: File[], queueType: QueueType) => Promise<void>;
+  handleUploadDialogQueue: (queue: File[], directory: string) => Promise<void>;
 };
 
-const AddFolderDialog = ({ handleUploadQueue }: AddFolderDialogProps) => {
+const AddFolderDialog = ({ handleUploadDialogQueue }: AddFolderDialogProps) => {
   const { dialogQueue, isAddFolderModalOpen, closeAddFolderModal, addDialogQueueFiles, removeDialogQueueFile } =
     useQueueStore();
   const {
     control,
     handleSubmit,
     getValues,
+    reset: resetDirectoryName,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -32,14 +33,9 @@ const AddFolderDialog = ({ handleUploadQueue }: AddFolderDialogProps) => {
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    const prefix = getValues('directoryName');
-    const folderQueue = dialogQueue.map((file) => {
-      return new File([file], `${prefix}/${file.name}`, {
-        type: file.type,
-        lastModified: file.lastModified,
-      });
-    });
-    await handleUploadQueue(folderQueue, 'dialog');
+    if (!dialogQueue.length) return;
+    await handleUploadDialogQueue(dialogQueue, getValues('directoryName'));
+    resetDirectoryName();
     closeAddFolderModal();
   });
 
@@ -95,7 +91,7 @@ const AddFolderDialog = ({ handleUploadQueue }: AddFolderDialogProps) => {
                     lg={2}
                     xl={2}
                   >
-                    <DialogQueueFile
+                    <QueueFile
                       fileName={item.name}
                       imageChildren={<FileIcon contentType={item.type} />}
                       handleRemoveFile={() => {
@@ -116,6 +112,7 @@ const AddFolderDialog = ({ handleUploadQueue }: AddFolderDialogProps) => {
 };
 
 const GridBox = styled(Grid)(({ theme }) => ({
+  rowGap: 10,
   position: 'relative',
   padding: theme.spacing(2.5, 1.5),
   minHeight: '240px',

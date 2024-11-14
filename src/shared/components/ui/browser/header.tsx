@@ -9,11 +9,17 @@ import { useBrowserStore, useQueueStore } from '@/shared/models/stores';
 import ButtonIcon from '../button-icon';
 
 type BrowserHeaderProps = {
-  showCurrentPath?: boolean;
-  isDropZone?: boolean;
+  showCurrentPath: boolean;
+  isDropZone: boolean;
+  appendDirectory: boolean;
   handleClickInput: () => void;
 };
-const BrowserHeader = ({ showCurrentPath = true, isDropZone = false, handleClickInput }: BrowserHeaderProps) => {
+const BrowserHeader = ({
+  showCurrentPath = true,
+  isDropZone = false,
+  appendDirectory = false,
+  handleClickInput,
+}: BrowserHeaderProps) => {
   const { currentPath, basePath, setCurrentPath } = useBrowserStore();
   const browserQueue = useQueueStore((state) => state.browserQueue);
   const openAddFolderModal = useQueueStore((state) => state.openAddFolderModal);
@@ -69,7 +75,7 @@ const BrowserHeader = ({ showCurrentPath = true, isDropZone = false, handleClick
       </Stack>
 
       <Stack direction="row" gap={1.5} sx={{ flexGrow: 1, justifyContent: 'flex-end' }}>
-        {isDropZone && (
+        {appendDirectory && (
           <Tooltip title={'폴더추가'}>
             <ButtonIcon Icon={CreateNewFolderIcon} onClick={handleClickFolderBtn} />
           </Tooltip>

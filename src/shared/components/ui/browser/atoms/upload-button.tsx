@@ -12,9 +12,9 @@ const StyledFab = styled(Fab)(({ theme }) => ({
 }));
 
 type UploadButtonProps = {
-  handleUploadQueue: (queue: File[], queueType: QueueType) => Promise<void>;
+  handleUploadBrowserQueue: (queue: File[], queueType: QueueType) => Promise<void>;
 };
-const UploadButton = ({ handleUploadQueue }: UploadButtonProps) => {
+const UploadButton = ({ handleUploadBrowserQueue }: UploadButtonProps) => {
   const browserQueue = useQueueStore(useShallow((state) => state.browserQueue));
 
   if (!browserQueue.length) return;
@@ -25,7 +25,7 @@ const UploadButton = ({ handleUploadQueue }: UploadButtonProps) => {
       color="info"
       size="medium"
       onClick={() => {
-        handleUploadQueue(browserQueue, 'browser');
+        handleUploadBrowserQueue(browserQueue, 'browser');
       }}
     >
       <UploadIcon sx={{ mr: 1 }} />

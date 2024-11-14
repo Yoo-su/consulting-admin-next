@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { Grid } from '@mui/material';
 
 import FileIcon from '../atoms/file-icon';
-import BrowserQueueFile from '../atoms/browser-queue-file';
+import QueueFile from '../atoms/queue-file';
 import { useQueueStore } from '@/shared/models/stores';
 
 type QueueProps = {
@@ -33,7 +33,7 @@ const Queue = ({ handleRemoveInputFile }: QueueProps) => {
             lg={1.2}
             xl={1}
           >
-            <BrowserQueueFile
+            <QueueFile
               fileName={item.name}
               imageChildren={<FileIcon contentType={item.type} />}
               handleRemoveFile={handleRemoveFile}
