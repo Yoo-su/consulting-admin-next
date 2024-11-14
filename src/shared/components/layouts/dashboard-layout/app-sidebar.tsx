@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import Box from '@mui/material/Box';
@@ -14,6 +15,7 @@ import ServiceAutocomplete from './autocompletes/service';
 import { sideNavGroup } from './side-nav-items';
 import { NavItemType } from '@/shared/models';
 import { isNavItemActive } from '@/shared/services';
+import snail from '@/shared/assets/svgs/snail.svg';
 
 const AppSidebar = () => {
   const pathname = usePathname();
@@ -38,8 +40,14 @@ const AppSidebar = () => {
       }}
     >
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Box component="div" sx={{ display: 'inline-flex', justifyContent: 'center', whiteSpace: 'nowrap' }}>
-          <Typography variant="h5">입학상담앱 관리자</Typography>
+        <Box
+          component="div"
+          gap={0.5}
+          sx={{ display: 'inline-flex', justifyContent: 'center', whiteSpace: 'nowrap', alignItems: 'flex-end' }}
+        >
+          <Typography variant="h5">입학상담앱</Typography>
+          <Typography variant="h6">관리자</Typography>
+          <Image src={snail} width={24} height={24} alt={'snail-logo'} />
         </Box>
         <Box
           sx={{
