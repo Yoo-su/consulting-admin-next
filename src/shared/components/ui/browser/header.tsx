@@ -1,11 +1,12 @@
-import { memo, useCallback, useMemo } from 'react';
-import { Stack, Typography, Tooltip } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import { Stack, Tooltip, Typography } from '@mui/material';
+import { memo, useCallback, useMemo } from 'react';
 
 import { useGetBrowserListQuery } from '@/shared/hooks/tanstack';
 import { useBrowserStore, useQueueStore } from '@/shared/models/stores';
+
 import ButtonIcon from '../button-icon';
 
 type BrowserHeaderProps = {
@@ -71,13 +72,23 @@ const BrowserHeader = ({
             </Typography>
           </Stack>
         )}
-        <Typography variant="body2" color="grey.700">{`${data?.length ?? 0}건`}</Typography>
+        <Typography
+          variant="body2"
+          color="grey.700"
+        >{`${data?.length ?? 0}건`}</Typography>
       </Stack>
 
-      <Stack direction="row" gap={1.5} sx={{ flexGrow: 1, justifyContent: 'flex-end' }}>
+      <Stack
+        direction="row"
+        gap={1.5}
+        sx={{ flexGrow: 1, justifyContent: 'flex-end' }}
+      >
         {appendDirectory && (
           <Tooltip title={'폴더추가'}>
-            <ButtonIcon Icon={CreateNewFolderIcon} onClick={handleClickFolderBtn} />
+            <ButtonIcon
+              Icon={CreateNewFolderIcon}
+              onClick={handleClickFolderBtn}
+            />
           </Tooltip>
         )}
         {isDropZone && (

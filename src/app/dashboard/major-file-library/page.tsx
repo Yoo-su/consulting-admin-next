@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 import MajorFileLibraryContainer from '@/features/major-file-library/components/major-file-library-container';
+import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {
   title: '상담앱 관리자 | 학과 자료실',

@@ -1,9 +1,9 @@
 'use client';
 
-import { Fragment, PropsWithChildren } from 'react';
-import GlobalStyles from '@mui/material/GlobalStyles';
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import GlobalStyles from '@mui/material/GlobalStyles';
+import { Fragment, PropsWithChildren } from 'react';
 
 import AppHeader from './app-header';
 import AppSidebar from './app-sidebar';

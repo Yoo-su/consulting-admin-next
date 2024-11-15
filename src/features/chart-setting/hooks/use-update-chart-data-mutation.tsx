@@ -1,6 +1,7 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
+
 import { updateChartData } from '../apis';
 import { ChartData } from '../models';
 
@@ -10,6 +11,7 @@ type MutationFnProps = {
 };
 export const useUpdateChartDataMutation = () => {
   return useMutation({
-    mutationFn: ({ serviceID, chartData }: MutationFnProps) => updateChartData(serviceID, chartData),
+    mutationFn: ({ serviceID, chartData }: MutationFnProps) =>
+      updateChartData(serviceID, chartData),
   });
 };

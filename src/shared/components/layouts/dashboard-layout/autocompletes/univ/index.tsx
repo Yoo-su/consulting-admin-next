@@ -2,13 +2,14 @@
 
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import { FilterOptionsState } from '@mui/material/useAutocomplete/useAutocomplete';
 
 import { useUnivService } from '@/shared/hooks/context';
 import { Univ } from '@/shared/models';
-import { FilterOptionsState } from '@mui/material/useAutocomplete/useAutocomplete';
 
 const UnivAutocomplete = () => {
-  const { univList, setCurrentUniv, setCurrentService, currentUniv } = useUnivService();
+  const { univList, setCurrentUniv, setCurrentService, currentUniv } =
+    useUnivService();
 
   const handleChange = (event: any, newValue: Univ | null) => {
     if (newValue) {
@@ -16,8 +17,15 @@ const UnivAutocomplete = () => {
       setCurrentUniv(newValue);
     }
   };
-  const filterOptions = (options: Univ[], { inputValue }: FilterOptionsState<Univ>) => {
-    return options.filter((item) => item.univName.includes(inputValue) || item.univID.toString().includes(inputValue));
+  const filterOptions = (
+    options: Univ[],
+    { inputValue }: FilterOptionsState<Univ>
+  ) => {
+    return options.filter(
+      (item) =>
+        item.univName.includes(inputValue) ||
+        item.univID.toString().includes(inputValue)
+    );
   };
   return (
     <Autocomplete

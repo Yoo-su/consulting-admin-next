@@ -1,8 +1,8 @@
-import { memo } from 'react';
 import { MenuItem, MenuList, Popover, Typography } from '@mui/material';
+import { memo } from 'react';
 
-import { useDownloadFile } from '@/shared/hooks';
 import { API_URLS } from '@/shared/constants';
+import { useDownloadFile } from '@/shared/hooks';
 
 export type FilePopoverProps = {
   anchorEl: Element | null;

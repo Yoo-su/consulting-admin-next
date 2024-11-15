@@ -1,8 +1,8 @@
+import InfoIcon from '@mui/icons-material/Info';
 import { Fab, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { animated, useSpring } from '@react-spring/web';
-import InfoIcon from '@mui/icons-material/Info';
 
 type SaveDataButtonProps = {
   handleBtnClick: () => void;
@@ -28,7 +28,9 @@ const SaveDataButton = ({ handleBtnClick }: SaveDataButtonProps) => {
       style={{ ...props }}
       sx={{
         width: 'fit-content',
-        ...(downsm ? { my: 2, mx: 'auto' } : { position: 'fixed', bottom: 35, right: 35 }),
+        ...(downsm
+          ? { my: 2, mx: 'auto' }
+          : { position: 'fixed', bottom: 35, right: 35 }),
       }}
       onClick={handleBtnClick}
     >

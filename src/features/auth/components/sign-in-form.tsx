@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
@@ -10,16 +11,17 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z as zod } from 'zod';
-
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import { useSigninMutation } from '../hooks';
 
 const schema = zod.object({
-  userID: zod.string().min(1, { message: '사용자 ID를 입력해주세요' }).max(20, { message: '20자 이내로 입력해주세요' }),
+  userID: zod
+    .string()
+    .min(1, { message: '사용자 ID를 입력해주세요' })
+    .max(20, { message: '20자 이내로 입력해주세요' }),
   userPassword: zod.string().min(1, { message: '패스워드를 입력해주세요' }),
 });
 
@@ -65,8 +67,15 @@ const SignInForm = () => {
             render={({ field }) => (
               <FormControl error={Boolean(errors.userID)}>
                 <InputLabel>User ID</InputLabel>
-                <OutlinedInput {...field} label="User ID" type="text" disabled={isPending || isSuccess} />
-                {errors.userID ? <FormHelperText>{errors.userID.message}</FormHelperText> : null}
+                <OutlinedInput
+                  {...field}
+                  label="User ID"
+                  type="text"
+                  disabled={isPending || isSuccess}
+                />
+                {errors.userID ? (
+                  <FormHelperText>{errors.userID.message}</FormHelperText>
+                ) : null}
               </FormControl>
             )}
           />
@@ -100,11 +109,15 @@ const SignInForm = () => {
                   label="Password"
                   type={showPassword ? 'text' : 'password'}
                 />
-                {errors.userPassword ? <FormHelperText>{errors.userPassword.message}</FormHelperText> : null}
+                {errors.userPassword ? (
+                  <FormHelperText>{errors.userPassword.message}</FormHelperText>
+                ) : null}
               </FormControl>
             )}
           />
-          {errors.root ? <Alert color="error">{errors.root.message}</Alert> : null}
+          {errors.root ? (
+            <Alert color="error">{errors.root.message}</Alert>
+          ) : null}
           <Button
             disabled={isPending || isSuccess}
             type="submit"

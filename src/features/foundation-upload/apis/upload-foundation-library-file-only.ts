@@ -1,5 +1,5 @@
-import { apiInstance } from '@/shared/plugin/axios';
 import { API_URLS } from '@/shared/constants/api-urls';
+import { apiInstance } from '@/shared/plugin/axios';
 
 type UploadFoundationLibraryResponse = {
   statusCode: number;

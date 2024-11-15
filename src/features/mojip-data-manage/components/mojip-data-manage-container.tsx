@@ -1,17 +1,17 @@
 'use client';
 
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import InputLabel from '@mui/material/InputLabel';
-import Box from '@mui/material/Box';
-
 import CloudSyncIcon from '@mui/icons-material/CloudSync';
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
-import SyncBox from './sync-box';
-import ServiceAutocomplete from './service-autocomplete';
 import { useUnivService } from '@/shared/hooks/context';
+
+import ServiceAutocomplete from './service-autocomplete';
+import SyncBox from './sync-box';
 
 const MojipDataManageBox = () => {
   const { currentService, currentUniv, serviceList } = useUnivService();
@@ -30,9 +30,20 @@ const MojipDataManageBox = () => {
           {currentUniv && currentService && (
             <Stack direction={'column'} spacing={8} mt={4} mb={6}>
               <Stack direction={'column'} spacing={2}>
-                <Stack direction={'row'} spacing={1.5} alignItems={'center'} sx={{ color: '#1F456E' }}>
+                <Stack
+                  direction={'row'}
+                  spacing={1.5}
+                  alignItems={'center'}
+                  sx={{ color: '#1F456E' }}
+                >
                   <CloudSyncIcon fontSize="large" />
-                  <InputLabel sx={{ fontWeight: 'bold', fontSize: '16px', color: 'inherit' }}>
+                  <InputLabel
+                    sx={{
+                      fontWeight: 'bold',
+                      fontSize: '16px',
+                      color: 'inherit',
+                    }}
+                  >
                     서버간 데이터 동기화
                   </InputLabel>
                 </Stack>
@@ -40,13 +51,27 @@ const MojipDataManageBox = () => {
               </Stack>
 
               <Stack direction={'column'} spacing={2}>
-                <Stack direction={'row'} spacing={1.5} alignItems={'center'} sx={{ color: '#1F456E' }}>
+                <Stack
+                  direction={'row'}
+                  spacing={1.5}
+                  alignItems={'center'}
+                  sx={{ color: '#1F456E' }}
+                >
                   <ContentPasteGoIcon fontSize="large" color="inherit" />
-                  <InputLabel sx={{ fontWeight: 'bold', fontSize: '16px', color: 'inherit' }}>
+                  <InputLabel
+                    sx={{
+                      fontWeight: 'bold',
+                      fontSize: '16px',
+                      color: 'inherit',
+                    }}
+                  >
                     현재 서비스 데이터를 타 서비스로 복제
                   </InputLabel>
                 </Stack>
-                <ServiceAutocomplete serviceID={currentService?.serviceID} serviceList={serviceList} />
+                <ServiceAutocomplete
+                  serviceID={currentService?.serviceID}
+                  serviceList={serviceList}
+                />
               </Stack>
             </Stack>
           )}

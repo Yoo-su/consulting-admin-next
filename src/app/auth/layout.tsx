@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
-import AuthLayout from '@/shared/components/layouts/auth-layout';
 import GuestGuard from '@/shared/components/guards/guest-guard';
+import AuthLayout from '@/shared/components/layouts/auth-layout';
 
 type Props = {
   children: ReactNode;

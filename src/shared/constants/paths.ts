@@ -7,7 +7,7 @@ export const PATHS = {
     overview: '/dashboard/overview',
     serviceSetting: '/dashboard/service-setting',
     versionSetting: '/dashboard/version-setting',
-    consultingFilesSetting: '/dashboard/consulting-files-setting',
+    consultingFileSetting: '/dashboard/consulting-file-setting',
     excelUpload: '/dashboard/foundation-upload',
     mojipSetting: '/dashboard/mojip-setting',
     mojipDataManage: '/dashboard/mojip-data-manage',

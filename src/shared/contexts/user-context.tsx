@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState, createContext } from 'react';
 import Typography from '@mui/material/Typography';
+import { createContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { authInstance } from '@/shared/plugin/axios';
-import { syncMoaNesinService, getUserProfile } from '../apis';
+
+import { getUserProfile, syncMoaNesinService } from '../apis';
 import { AdminGroup, User } from '../models';
 
 export type UserContextValue = {
@@ -20,7 +21,9 @@ export type UserProviderProps = {
   children: React.ReactNode;
 };
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const [state, setState] = useState<Pick<UserContextValue, 'user' | 'isLoading'>>({
+  const [state, setState] = useState<
+    Pick<UserContextValue, 'user' | 'isLoading'>
+  >({
     user: null,
     isLoading: true,
   });
@@ -29,7 +32,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     setState((prev) => ({ ...prev, user: user, isLoading: false }));
   };
 
-  const isAdmin = state.user?.groupIdList.includes(AdminGroup['ConsultingAdminDeveloper']) ?? false;
+  const isAdmin =
+    state.user?.groupIdList.includes(AdminGroup['ConsultingAdminDeveloper']) ??
+    false;
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -39,7 +44,10 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         .then((res) => {
           setUser(res.data);
           // moa 정보 업데이트
-          syncMoaNesinService({ userID: res.data.sub, departmentID: res.data.departmentID }).then((res) => {
+          syncMoaNesinService({
+            userID: res.data.sub,
+            departmentID: res.data.departmentID,
+          }).then((res) => {
             console.info('sync with Moa :\n', res.data.message);
           });
         })
@@ -47,13 +55,19 @@ export const UserProvider = ({ children }: UserProviderProps) => {
           delete authInstance.defaults.headers.common['Authorization'];
           sessionStorage.removeItem('token');
           setUser(null);
-          toast.error(<Typography variant="body2">인증되지 않은 사용자입니다</Typography>);
+          toast.error(
+            <Typography variant="body2">인증되지 않은 사용자입니다</Typography>
+          );
         });
     } else setUser(null);
   }, []);
 
-  return <UserContext.Provider value={{ ...state, setUser, isAdmin }}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ ...state, setUser, isAdmin }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 const UserConsumer = UserContext.Consumer;
-export { UserContext, UserConsumer };
+export { UserConsumer, UserContext };

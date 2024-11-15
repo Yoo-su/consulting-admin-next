@@ -1,15 +1,20 @@
-import { useState, useEffect, useMemo, memo } from 'react';
-import { Stack, Typography, Chip } from '@mui/material';
-import { PieChart } from '@mui/x-charts/PieChart';
-import { ChartData } from '../models';
+import { Chip, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { PieChart } from '@mui/x-charts/PieChart';
+import { memo, useEffect, useMemo, useState } from 'react';
+
+import { ChartData } from '../models';
 
 type ModelChartBoxProps = {
   modelNum: number;
   modelLevels: number[];
   modelChartData: ChartData[];
 };
-const ModelChartBox = ({ modelNum, modelLevels, modelChartData }: ModelChartBoxProps) => {
+const ModelChartBox = ({
+  modelNum,
+  modelLevels,
+  modelChartData,
+}: ModelChartBoxProps) => {
   const theme = useTheme();
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
 
@@ -46,7 +51,12 @@ const ModelChartBox = ({ modelNum, modelLevels, modelChartData }: ModelChartBoxP
       direction={'column'}
       spacing={2}
       alignItems={'center'}
-      sx={{ py: 4, mt: 4, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)' }}
+      sx={{
+        py: 4,
+        mt: 4,
+        boxShadow:
+          '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+      }}
     >
       <Stack direction={'row'} spacing={3}>
         {modelLevels.map((level) => (

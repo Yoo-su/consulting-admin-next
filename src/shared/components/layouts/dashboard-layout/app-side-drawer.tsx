@@ -1,19 +1,26 @@
 'use client';
 
-import * as React from 'react';
-import { useRouter } from 'next/navigation';
-import { usePathname } from 'next/navigation';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Drawer,
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { Accordion, AccordionDetails, AccordionSummary, Drawer } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import * as React from 'react';
 
-import UnivAutocomplete from './autocompletes/univ';
-import ServiceAutocomplete from './autocompletes/service';
-import { sideNavGroup } from './side-nav-items';
 import { NavItemType } from '@/shared/models';
 import { isNavItemActive } from '@/shared/services';
+
+import AppLogo from './app-logo';
+import ServiceAutocomplete from './autocompletes/service';
+import UnivAutocomplete from './autocompletes/univ';
+import { sideNavGroup } from './side-nav-items';
 
 export type AppSideDrawerProps = {
   onClose?: () => void;
@@ -39,15 +46,14 @@ const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
           top: 0,
           width: 'var(--AppSidebar-width)',
           zIndex: 'var(--AppSidebar-zIndex)',
-          boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+          boxShadow:
+            '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
           '&::-webkit-scrollbar': { display: 'none' },
         },
       }}
     >
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Box component="div" sx={{ display: 'inline-flex', justifyContent: 'center', whiteSpace: 'nowrap' }}>
-          <Typography variant="h5">입학상담앱 관리자</Typography>
-        </Box>
+        <AppLogo />
         <Box
           sx={{
             alignItems: 'center',
@@ -80,13 +86,18 @@ const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
               bgcolor: 'transparent',
               boxShadow: 'none',
               color: 'inherit',
-              '& .MuiAccordionSummary-root': { minHeight: '1rem !important', paddingTop: '0.2rem' },
+              '& .MuiAccordionSummary-root': {
+                minHeight: '1rem !important',
+                paddingTop: '0.2rem',
+              },
               '& .MuiAccordionSummary-content': { margin: '0 !important' },
               '& .MuiAccordionDetails-root': { padding: '8px !important' },
             }}
           >
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon sx={{ color: 'rgb(255,255,255, 0.5)' }} />}
+              expandIcon={
+                <ExpandMoreIcon sx={{ color: 'rgb(255,255,255, 0.5)' }} />
+              }
               aria-controls={`${group.title}-content`}
             >
               <Typography
@@ -101,7 +112,9 @@ const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
                 {group.title}
               </Typography>
             </AccordionSummary>
-            <AccordionDetails>{renderNavItems({ items: group.items, pathname })}</AccordionDetails>
+            <AccordionDetails>
+              {renderNavItems({ items: group.items, pathname })}
+            </AccordionDetails>
           </Accordion>
         ))}
       </Stack>
@@ -109,14 +122,23 @@ const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
   );
 };
 
-function renderNavItems({ items = [], pathname }: { items?: NavItemType[]; pathname: string }) {
-  const children = items.reduce((acc: React.ReactNode[], curr: NavItemType): React.ReactNode[] => {
-    const { navkey, ...item } = curr;
+function renderNavItems({
+  items = [],
+  pathname,
+}: {
+  items?: NavItemType[];
+  pathname: string;
+}) {
+  const children = items.reduce(
+    (acc: React.ReactNode[], curr: NavItemType): React.ReactNode[] => {
+      const { navkey, ...item } = curr;
 
-    acc.push(<NavItem key={navkey} pathname={pathname} {...item} />);
+      acc.push(<NavItem key={navkey} pathname={pathname} {...item} />);
 
-    return acc;
-  }, []);
+      return acc;
+    },
+    []
+  );
 
   return (
     <Stack component="ul" spacing={1} sx={{ listStyle: 'none', m: 0, p: 0 }}>

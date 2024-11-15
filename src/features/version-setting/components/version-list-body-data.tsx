@@ -1,18 +1,28 @@
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import {
+  Box,
+  Stack,
+  TableCell,
+  TableRow,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { MouseEvent } from 'react';
 
-import { TableRow, TableCell, Stack, Typography, Tooltip, Box } from '@mui/material';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-
-import { ArrowButtonClass, TableCellClass } from './version-list-table';
 import ButtonIcon from '@/shared/components/ui/button-icon';
+
 import { CurTBLVersion } from '../models';
+import { ArrowButtonClass, TableCellClass } from './version-list-table';
 
 type VersionListDataProps = {
   editedList: CurTBLVersion[];
   handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
 };
-const VersionListBodyData = ({ editedList, handleClick }: VersionListDataProps) => {
+const VersionListBodyData = ({
+  editedList,
+  handleClick,
+}: VersionListDataProps) => {
   if (editedList.length === 0) {
     return (
       <TableRow sx={{ height: '200px' }}>
@@ -30,11 +40,26 @@ const VersionListBodyData = ({ editedList, handleClick }: VersionListDataProps) 
     <>
       {editedList?.map((version, index) => {
         return (
-          <TableRow key={version.TableName} sx={{ height: editedList.length < 6 ? `${200 / editedList.length}px` : 0 }}>
+          <TableRow
+            key={version.TableName}
+            sx={{
+              height:
+                editedList.length < 6 ? `${200 / editedList.length}px` : 0,
+            }}
+          >
             <TableCell sx={TableCellClass}>{version.TableName}</TableCell>
             <TableCell sx={TableCellClass} align="right">
-              <Stack direction={'row'} alignItems={'center'} justifyContent={'end'} spacing={1}>
-                <Tooltip title="버전을 1씩 내립니다." placement="top" followCursor>
+              <Stack
+                direction={'row'}
+                alignItems={'center'}
+                justifyContent={'end'}
+                spacing={1}
+              >
+                <Tooltip
+                  title="버전을 1씩 내립니다."
+                  placement="top"
+                  followCursor
+                >
                   <Box>
                     <ButtonIcon
                       onClick={handleClick}
@@ -46,7 +71,11 @@ const VersionListBodyData = ({ editedList, handleClick }: VersionListDataProps) 
                   </Box>
                 </Tooltip>
                 <Typography variant="caption">{version.Version}</Typography>
-                <Tooltip title="버전을 1씩 추가합니다." placement="top" followCursor>
+                <Tooltip
+                  title="버전을 1씩 추가합니다."
+                  placement="top"
+                  followCursor
+                >
                   <Box>
                     <ButtonIcon
                       onClick={handleClick}

@@ -1,5 +1,6 @@
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+
 import { ServiceType, useStatusBoardStore } from '@/features/overview/models';
 
 const ServiceTypeSelect = () => {

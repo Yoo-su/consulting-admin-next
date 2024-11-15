@@ -1,15 +1,30 @@
-export { SERVICE_SHEET } from './service-sheet';
-export { CODE_SHEET } from './code-sheet';
-export { SELTYPE_SHEET } from './seltype-sheet';
-export { COLLEGE_SHEET } from './college-sheet';
-export { ORDER_SHEET } from './order-sheet';
-export { MAJOR_SHEET } from './major-sheet';
-export { CONSTRAINT_CASE_SHEET } from './constraint-case-sheet';
-export { SAT_CASE_SHEET } from './sat-case-sheet';
-export { SAT_SELECT_SHEET } from './sat-select-sheet';
-export { HSB_CASE_SHEET } from './hsb-case-sheet';
-export { HSB_INPUT_SHEET } from './hsb-input-sheet';
-export { SCHEDULE_SHEET } from './schedule-sheet';
-export { SHEET_FLAG } from './sheet-flag';
-export { EXCEL_LAYOUT } from './excel-layout';
+import { CODE_SHEET } from './code-sheet';
+import { COLLEGE_SHEET } from './college-sheet';
+import { CONSTRAINT_CASE_SHEET } from './constraint-case-sheet';
+import { HSB_CASE_SHEET } from './hsb-case-sheet';
+import { HSB_INPUT_SHEET } from './hsb-input-sheet';
+import { MAJOR_SHEET } from './major-sheet';
+import { ORDER_SHEET } from './order-sheet';
+import { SAT_CASE_SHEET } from './sat-case-sheet';
+import { SAT_SELECT_SHEET } from './sat-select-sheet';
+import { SCHEDULE_SHEET } from './schedule-sheet';
+import { SELTYPE_SHEET } from './seltype-sheet';
+import { SERVICE_SHEET } from './service-sheet';
+
 export { EXCEL_UPLOAD_STEPS } from './excel-upload-steps';
+export { SHEET_FLAG } from './sheet-flag';
+
+export const EXCEL_LAYOUT: any = {
+  Service: SERVICE_SHEET,
+  Code: CODE_SHEET,
+  Seltype: SELTYPE_SHEET,
+  College: COLLEGE_SHEET,
+  Order: ORDER_SHEET,
+  Major: MAJOR_SHEET,
+  ConstraintCase: CONSTRAINT_CASE_SHEET,
+  SATCase: SAT_CASE_SHEET,
+  SATSelect: SAT_SELECT_SHEET,
+  HSBCase: HSB_CASE_SHEET,
+  HSBInput: HSB_INPUT_SHEET,
+  Schedule: SCHEDULE_SHEET,
+};

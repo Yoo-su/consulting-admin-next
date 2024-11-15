@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, MutableRefObject } from 'react';
+import { MutableRefObject, useCallback, useRef, useState } from 'react';
 
 interface PopoverController<T> {
   anchorRef: MutableRefObject<T | null>;

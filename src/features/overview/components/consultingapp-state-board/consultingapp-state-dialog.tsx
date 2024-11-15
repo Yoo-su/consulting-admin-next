@@ -1,36 +1,49 @@
 'use client';
 
+import {
+  Accessibility as AccessibilityIcon,
+  AccountBalance as AccountBalanceIcon,
+  Check as CheckIcon,
+  Close as CloseIcon,
+  Egg as EggIcon,
+  EmojiPeople as EmojiPeopleIcon,
+  FiberNew as FiberNewIcon,
+  Spoke as SpokeIcon,
+  SportsMartialArts as SportsMartialArtsIcon,
+  VpnKeyRounded as VpnKeyRoundedIcon,
+} from '@mui/icons-material';
+import {
+  Box,
+  Chip,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { ReactNode } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import CheckIcon from '@mui/icons-material/Check';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import EggIcon from '@mui/icons-material/Egg';
-import FiberNewIcon from '@mui/icons-material/FiberNew';
-import CloseIcon from '@mui/icons-material/Close';
-import SpokeIcon from '@mui/icons-material/Spoke';
-import AccessibilityIcon from '@mui/icons-material/Accessibility';
-import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
-import SportsMartialArtsIcon from '@mui/icons-material/SportsMartialArts';
-import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
 
 import { STATE_BOARD_DOMAIN_ITEMS } from '../../constants';
 import { StateBoardDomainItems, useStatusBoardStore } from '../../models';
 
 const ConsultingAppStateDialog = () => {
-  const { isDialogOpen, toggleDialog, dialogContentState } = useStatusBoardStore();
+  const { isDialogOpen, toggleDialog, dialogContentState } =
+    useStatusBoardStore();
   if (!dialogContentState) return null;
 
   const { bgcolor, color, title } =
-    STATE_BOARD_DOMAIN_ITEMS[dialogContentState.currentState as keyof StateBoardDomainItems];
+    STATE_BOARD_DOMAIN_ITEMS[
+      dialogContentState.currentState as keyof StateBoardDomainItems
+    ];
 
-  const StackContainer = ({ children, typo }: { children: ReactNode; typo?: string }) => {
+  const StackContainer = ({
+    children,
+    typo,
+  }: {
+    children: ReactNode;
+    typo?: string;
+  }) => {
     return (
       <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
         {children}
@@ -39,7 +52,13 @@ const ConsultingAppStateDialog = () => {
     );
   };
 
-  const StackLabelContainer = ({ children, label }: { children: ReactNode; label: string }) => {
+  const StackLabelContainer = ({
+    children,
+    label,
+  }: {
+    children: ReactNode;
+    label: string;
+  }) => {
     return (
       <Stack
         direction={'row'}
@@ -55,7 +74,12 @@ const ConsultingAppStateDialog = () => {
   };
 
   return (
-    <Dialog open={isDialogOpen} onClose={() => toggleDialog(false)} maxWidth="sm" fullWidth>
+    <Dialog
+      open={isDialogOpen}
+      onClose={() => toggleDialog(false)}
+      maxWidth="sm"
+      fullWidth
+    >
       <DialogTitle>
         <Box display={'flex'} justifyContent={'flex-end'} width={'100%'}>
           <IconButton size="small" onClick={() => toggleDialog(false)}>
@@ -65,7 +89,12 @@ const ConsultingAppStateDialog = () => {
       </DialogTitle>
 
       <DialogContent>
-        <Stack direction={'column'} spacing={3} px={6} sx={{ paddingBottom: '1rem' }}>
+        <Stack
+          direction={'column'}
+          spacing={3}
+          px={6}
+          sx={{ paddingBottom: '1rem' }}
+        >
           <StackContainer typo={dialogContentState.univName}>
             <StackLabelContainer label="대학교">
               <AccountBalanceIcon />

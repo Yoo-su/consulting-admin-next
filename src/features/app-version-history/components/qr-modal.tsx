@@ -1,4 +1,4 @@
-import { Typography, Modal, Stack } from '@mui/material';
+import { Modal, Stack, Typography } from '@mui/material';
 import { QRCodeCanvas } from 'qrcode.react';
 
 type QrModalProps = {
@@ -30,10 +30,16 @@ const QrModal = ({ open, handleClose, fileName, url }: QrModalProps) => {
       >
         <Stack alignItems={'center'}>
           <Typography variant="h5">QR코드 저장</Typography>
-          <Typography variant="body2">QR코드를 클릭하여 다운로드하세요</Typography>
+          <Typography variant="body2">
+            QR코드를 클릭하여 다운로드하세요
+          </Typography>
         </Stack>
         <QRCodeBox url={url} fileName={fileName ?? 'qrcode'} />
-        <Typography variant="caption" maxWidth={250} sx={{ wordWrap: 'break-word' }}>
+        <Typography
+          variant="caption"
+          maxWidth={250}
+          sx={{ wordWrap: 'break-word' }}
+        >
           {url}
         </Typography>
       </Stack>
@@ -51,7 +57,9 @@ type QRCodeBoxProps = {
 const QRCodeBox = ({ url, fileName }: QRCodeBoxProps) => {
   const handleClick = () => {
     const canvas = document.querySelector('canvas');
-    const url = canvas ? canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream') : '';
+    const url = canvas
+      ? canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+      : '';
     const link = document.createElement('a');
     link.href = url;
     link.download = `qr-${fileName}.png`;

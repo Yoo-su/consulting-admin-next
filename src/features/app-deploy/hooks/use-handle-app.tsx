@@ -1,18 +1,29 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-import { useDeployAppMutation } from './use-deploy-app-mutation';
 import { useMuiAlert } from '@/shared/hooks/ui/use-mui-alert';
 import { useStepper } from '@/shared/hooks/ui/use-stepper';
+
+import { useDeployAppMutation } from './use-deploy-app-mutation';
 
 export const useHandleApp = () => {
   const [appType, setAppType] = useState<'P' | 'A'>('A');
   const [appFile, setAppFile] = useState<File | null>(null);
   const [formData, setFormData] = useState<FormData>(new FormData());
-  const { mutateAsync, isPending: isDeploying, isSuccess: deploySuccess, reset } = useDeployAppMutation();
+  const {
+    mutateAsync,
+    isPending: isDeploying,
+    isSuccess: deploySuccess,
+    reset,
+  } = useDeployAppMutation();
   const { alertData, setAlertData } = useMuiAlert();
-  const { activeStep, goToStep, handleNext, handleReset: resetStep } = useStepper();
+  const {
+    activeStep,
+    goToStep,
+    handleNext,
+    handleReset: resetStep,
+  } = useStepper();
 
   // 앱 유형 변경 처리
   useEffect(() => {
@@ -54,5 +65,15 @@ export const useHandleApp = () => {
       });
   };
 
-  return { appType, setAppType, activeStep, appFile, setAppFile, deploy, isDeploying, alertData, deploySuccess };
+  return {
+    appType,
+    setAppType,
+    activeStep,
+    appFile,
+    setAppFile,
+    deploy,
+    isDeploying,
+    alertData,
+    deploySuccess,
+  };
 };

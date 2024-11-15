@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
+
 import { getChartData } from '../apis';
 import { ChartData } from '../models';
 
@@ -9,7 +10,9 @@ export const useGetChartData = () => {
 
   const execute = (serviceID: string) => {
     getChartData(serviceID).then((res) => {
-      const sortedByModelNum = [...res.data].sort((a, b) => a.modelNum - b.modelNum);
+      const sortedByModelNum = [...res.data].sort(
+        (a, b) => a.modelNum - b.modelNum
+      );
       setOriginalData(sortedByModelNum);
       setChartData(sortedByModelNum);
       setIsLoading(false);
@@ -17,7 +20,9 @@ export const useGetChartData = () => {
   };
 
   const handleChangeChartData = (newChartData: ChartData[]) => {
-    const sortedByModelNum = [...newChartData].sort((a, b) => a.modelNum - b.modelNum);
+    const sortedByModelNum = [...newChartData].sort(
+      (a, b) => a.modelNum - b.modelNum
+    );
     setChartData(sortedByModelNum);
   };
 

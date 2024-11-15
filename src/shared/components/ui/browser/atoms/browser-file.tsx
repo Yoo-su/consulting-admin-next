@@ -1,21 +1,39 @@
 'use client';
 
-import { useState, memo, ReactNode, useCallback, KeyboardEvent, ChangeEvent } from 'react';
-import { Stack, Typography, Badge, Box, Tooltip } from '@mui/material';
-import { useShallow } from 'zustand/shallow';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { Badge, Box, Stack, Tooltip, Typography } from '@mui/material';
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  memo,
+  ReactNode,
+  useCallback,
+  useState,
+} from 'react';
+import { useShallow } from 'zustand/shallow';
 
-import { BrowserItem } from '@/shared/models';
 import { useOutsideClick, usePopover } from '@/shared/hooks';
-import FilePopover from './file-popover';
+import { BrowserItem } from '@/shared/models';
 import { useBrowserStore } from '@/shared/models/stores';
+
+import FilePopover from './file-popover';
 
 type BrowserFileProps = BrowserItem & {
   imageChildren: ReactNode;
-  handleRenameFile: (event: KeyboardEvent<HTMLInputElement>, oldName: string, newName: string) => Promise<void>;
+  handleRenameFile: (
+    event: KeyboardEvent<HTMLInputElement>,
+    oldName: string,
+    newName: string
+  ) => Promise<void>;
   handleDeleteFile: (filePath: string) => Promise<void>;
 };
-const BrowserFile = ({ name, path, imageChildren, handleRenameFile, handleDeleteFile }: BrowserFileProps) => {
+const BrowserFile = ({
+  name,
+  path,
+  imageChildren,
+  handleRenameFile,
+  handleDeleteFile,
+}: BrowserFileProps) => {
   const filePopover = usePopover();
   const currentPath = useBrowserStore(useShallow((state) => state.currentPath));
   const [pureFileName = '', extension = ''] = name.split('.');
@@ -30,9 +48,12 @@ const BrowserFile = ({ name, path, imageChildren, handleRenameFile, handleDelete
     [isEditMode]
   );
 
-  const handleChangeFileName = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setNewFileName(currentPath + '/' + event.target.value + '.' + extension);
-  }, []);
+  const handleChangeFileName = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setNewFileName(currentPath + '/' + event.target.value + '.' + extension);
+    },
+    []
+  );
 
   const handleExitEditMode = useCallback(() => {
     setIsEditMode(false);

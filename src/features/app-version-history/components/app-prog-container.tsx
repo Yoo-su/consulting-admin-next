@@ -1,23 +1,27 @@
 'use client';
 
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
+import { useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { AxiosResponse } from 'axios';
 import { Suspense } from 'react';
 import toast from 'react-hot-toast';
-import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 import EmptyBox from '@/shared/components/ui/empty-box';
 import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
-
 import { useUnivService } from '@/shared/hooks/context/use-univ-service';
-import { AxiosResponse } from 'axios';
-import { AppHistory } from '../models';
-import { SerialNoTextField } from './copy-only-textfield';
-import AppProgData from './app-prog-data';
 
-const AppProgContainer = ({ histories }: { histories: AxiosResponse<AppHistory[], any> | undefined }) => {
+import { AppHistory } from '../models';
+import AppProgData from './app-prog-data';
+import { SerialNoTextField } from './copy-only-textfield';
+
+const AppProgContainer = ({
+  histories,
+}: {
+  histories: AxiosResponse<AppHistory[], any> | undefined;
+}) => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
   const { currentUniv, currentService } = useUnivService();
@@ -36,7 +40,11 @@ const AppProgContainer = ({ histories }: { histories: AxiosResponse<AppHistory[]
 
   return (
     <Suspense fallback={<ContentLoadingSkeleton />}>
-      <Stack direction={'row'} alignItems={'top'} justifyContent={'space-between'}>
+      <Stack
+        direction={'row'}
+        alignItems={'top'}
+        justifyContent={'space-between'}
+      >
         <Stack direction={'column'} justifyItems={'start'}>
           <Typography
             variant="h6"

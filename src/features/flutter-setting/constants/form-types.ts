@@ -1,10 +1,13 @@
-import BooleanForm from '../components/basic-form/boolean-form';
-import SelectForm from '../components/basic-form/select-form';
-import ListOrderForm from '../components/basic-form/list-order-form';
 import BasicTextForm from '../components/basic-form/basic-text-form';
-import { ComponentMappingType, FlutterSettingFormType, BasicFormComponent } from '../models';
-
+import BooleanForm from '../components/basic-form/boolean-form';
+import ListOrderForm from '../components/basic-form/list-order-form';
 import MapForm from '../components/basic-form/map-form';
+import SelectForm from '../components/basic-form/select-form';
+import {
+  BasicFormComponent,
+  ComponentMappingType,
+  FlutterSettingFormType,
+} from '../models';
 
 export const FORM_TYPE_LIST: FlutterSettingFormType[] = [
   {

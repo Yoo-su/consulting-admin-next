@@ -1,23 +1,23 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useEditor, AnyExtension, EditorOptions } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { Color } from '@tiptap/extension-color';
-import ListItem from '@tiptap/extension-list-item';
-import TextStyle from '@tiptap/extension-text-style';
-import Placeholder from '@tiptap/extension-placeholder';
 import HardBreak from '@tiptap/extension-hard-break';
-import TipTapTypography from '@tiptap/extension-typography';
-import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
-import TextAlign from '@tiptap/extension-text-align';
+import ListItem from '@tiptap/extension-list-item';
+import Placeholder from '@tiptap/extension-placeholder';
 import Table from '@tiptap/extension-table';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-import { createLowlight, common } from 'lowlight';
+import TextAlign from '@tiptap/extension-text-align';
+import TextStyle from '@tiptap/extension-text-style';
+import TipTapTypography from '@tiptap/extension-typography';
+import Underline from '@tiptap/extension-underline';
+import { AnyExtension, EditorOptions, useEditor } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import { common, createLowlight } from 'lowlight';
+import { useEffect } from 'react';
 
 const extensions = [
   StarterKit.configure({
@@ -77,7 +77,12 @@ export type UseTextEditorInputProps = {
   value: string;
 } & Partial<EditorOptions>;
 
-export const useTextEditor = ({ placeholder, onChange, value, ...editorOptions }: UseTextEditorInputProps) => {
+export const useTextEditor = ({
+  placeholder,
+  onChange,
+  value,
+  ...editorOptions
+}: UseTextEditorInputProps) => {
   const editor = useEditor({
     content: value,
     extensions: [

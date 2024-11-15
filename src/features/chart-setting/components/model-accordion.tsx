@@ -1,20 +1,21 @@
-import { useCallback, useMemo, useState, memo } from 'react';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Chip from '@mui/material/Chip';
-import Typography from '@mui/material/Typography';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import { memo, useCallback, useMemo, useState } from 'react';
 
-import ModelLevelTable from './model-level-table';
-import ModelChartBox from './model-chart-box';
-import { useChartSetting } from '../hooks';
 import { useConfirmToast } from '@/shared/hooks/ui/use-confirm-toast';
 import { getGroupedData } from '@/shared/services';
+
+import { useChartSetting } from '../hooks';
 import { ChartData } from '../models';
+import ModelChartBox from './model-chart-box';
+import ModelLevelTable from './model-level-table';
 
 type ModelAccordionProps = {
   isSelected: boolean;
@@ -22,7 +23,12 @@ type ModelAccordionProps = {
   modelNum: number;
   modelChartData: ChartData[];
 };
-const ModelAccordion = ({ isSelected, setSelectedModel, modelNum, modelChartData }: ModelAccordionProps) => {
+const ModelAccordion = ({
+  isSelected,
+  setSelectedModel,
+  modelNum,
+  modelChartData,
+}: ModelAccordionProps) => {
   const { deleteModel, addNewModelLevel } = useChartSetting();
   const { openConfirmToast } = useConfirmToast();
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -65,23 +71,33 @@ const ModelAccordion = ({ isSelected, setSelectedModel, modelNum, modelChartData
         >{`모델 ${modelNum + 1}`}</Typography>
 
         {isSelected && (
-          <Stack direction={'row'} sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
+          <Stack
+            direction={'row'}
+            sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}
+          >
             <Chip
               icon={<DeleteIcon />}
               label={<Typography variant="body2">모델삭제</Typography>}
               size="small"
               clickable
               onClick={() =>
-                openConfirmToast(`${modelNum + 1}번 모델을 삭제하시겠습니까?`, () => {
-                  deleteModel(modelNum);
-                })
+                openConfirmToast(
+                  `${modelNum + 1}번 모델을 삭제하시겠습니까?`,
+                  () => {
+                    deleteModel(modelNum);
+                  }
+                )
               }
             />
           </Stack>
         )}
       </AccordionSummary>
       <AccordionDetails>
-        <ModelChartBox modelNum={modelNum} modelLevels={modelLevels} modelChartData={modelChartData} />
+        <ModelChartBox
+          modelNum={modelNum}
+          modelLevels={modelLevels}
+          modelChartData={modelChartData}
+        />
 
         {modelLevels.map((ml) => (
           <ModelLevelTable

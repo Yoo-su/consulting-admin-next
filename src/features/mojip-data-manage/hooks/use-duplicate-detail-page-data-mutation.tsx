@@ -1,4 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { QUERY_KEYS } from '@/shared/constants';
+
 import { duplicateDetailpageData } from '../apis';
 
 type MutationFnProps = {
@@ -12,8 +15,9 @@ export const useDuplicateDetailpageDataMutation = () => {
     mutationFn: ({ sourceServiceID, targetServiceID }: MutationFnProps) =>
       duplicateDetailpageData(sourceServiceID, targetServiceID),
     onSuccess: (data, variables) => {
+      const serviceID = variables.targetServiceID as string;
       queryClient.invalidateQueries({
-        queryKey: ['detail-page-data', variables.targetServiceID],
+        queryKey: QUERY_KEYS['chart-setting'].data(serviceID).queryKey,
       });
     },
   });

@@ -1,38 +1,47 @@
 'use client';
 
-import { useRef, useState, ChangeEvent, DragEvent, useEffect } from 'react';
-import Image from 'next/image';
-import Box from '@mui/material/Box';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import Typography from '@mui/material/Typography';
-import PulseLoader from 'react-spinners/PulseLoader';
-
+import AdbIcon from '@mui/icons-material/Adb';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
-import AdbIcon from '@mui/icons-material/Adb';
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import Stack from '@mui/material/Stack';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import Stepper from '@mui/material/Stepper';
+import Typography from '@mui/material/Typography';
+import Image from 'next/image';
+import { ChangeEvent, DragEvent, useEffect, useRef, useState } from 'react';
+import PulseLoader from 'react-spinners/PulseLoader';
 
-import ContentWrapper from '@/shared/components/ui/content-wrapper';
-import { useHandleApp } from '../hooks';
-import { useUnivService } from '@/shared/hooks/context/use-univ-service';
-import ColorlibStepIcon from '@/shared/components/ui/stepper/color-lib-step-icon';
-import { ColorlibConnector } from '@/shared/components/ui/stepper/styled';
-import { APP_DEPLOY_STEPS } from '../constants';
 import apkIcon from '@/shared/assets/images/apk_64.png';
 import exeIcon from '@/shared/assets/images/exe_64.png';
+import ContentWrapper from '@/shared/components/ui/content-wrapper';
+import ColorlibStepIcon from '@/shared/components/ui/stepper/color-lib-step-icon';
+import { ColorlibConnector } from '@/shared/components/ui/stepper/styled';
+import { useUnivService } from '@/shared/hooks/context/use-univ-service';
+
+import { APP_DEPLOY_STEPS } from '../constants';
+import { useHandleApp } from '../hooks';
 
 const AppDeployContainer = () => {
   const { currentUniv, currentService } = useUnivService();
-  const { appType, setAppType, activeStep, appFile, setAppFile, alertData, deploy, isDeploying, deploySuccess } =
-    useHandleApp();
+  const {
+    appType,
+    setAppType,
+    activeStep,
+    appFile,
+    setAppFile,
+    alertData,
+    deploy,
+    isDeploying,
+    deploySuccess,
+  } = useHandleApp();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const title = `${currentUniv?.univName}(${currentService?.serviceID}) 앱 배포`;
@@ -94,13 +103,21 @@ const AppDeployContainer = () => {
 
       <ContentWrapper.MainContent>
         <FormControl sx={{ alignItems: 'center', my: 4, width: '100%' }}>
-          <RadioGroup row value={appType} name="app-type-radio-group" onChange={handleAppTypeChange}>
+          <RadioGroup
+            row
+            value={appType}
+            name="app-type-radio-group"
+            onChange={handleAppTypeChange}
+          >
             <FormControlLabel
               value="A"
               control={<Radio size="medium" />}
               label={
                 <Stack direction={'row'} alignItems={'center'}>
-                  <AdbIcon fontSize="large" sx={{ color: '#7CB342', mr: '0.1rem' }} />
+                  <AdbIcon
+                    fontSize="large"
+                    sx={{ color: '#7CB342', mr: '0.1rem' }}
+                  />
                   <Typography variant="body2">안드로이드 APK</Typography>
                 </Stack>
               }
@@ -110,7 +127,10 @@ const AppDeployContainer = () => {
               control={<Radio size="medium" />}
               label={
                 <Stack direction={'row'} alignItems={'center'}>
-                  <DesktopWindowsIcon fontSize="large" sx={{ color: '#1D2951', mr: '0.1rem' }} />
+                  <DesktopWindowsIcon
+                    fontSize="large"
+                    sx={{ color: '#1D2951', mr: '0.1rem' }}
+                  />
                   <Typography variant="body2">데스크탑 APP</Typography>
                 </Stack>
               }
@@ -125,13 +145,19 @@ const AppDeployContainer = () => {
         >
           {APP_DEPLOY_STEPS.map((label, index) => (
             <Step key={label}>
-              <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+              <StepLabel StepIconComponent={ColorlibStepIcon}>
+                {label}
+              </StepLabel>
             </Step>
           ))}
         </Stepper>
 
         {alertData && (
-          <Alert severity={alertData.color} color={alertData.color} sx={{ mt: 4, mx: 'auto', width: '55%' }}>
+          <Alert
+            severity={alertData.color}
+            color={alertData.color}
+            sx={{ mt: 4, mx: 'auto', width: '55%' }}
+          >
             {alertData.message}
           </Alert>
         )}
@@ -157,13 +183,25 @@ const AppDeployContainer = () => {
               alignItems: 'center',
               borderRadius: '1rem',
               position: 'relative',
-              minWidth: { xs: '90%', sm: '60%', md: '60%', lg: '60%', xl: '60%' },
+              minWidth: {
+                xs: '90%',
+                sm: '60%',
+                md: '60%',
+                lg: '60%',
+                xl: '60%',
+              },
               height: '280px',
               px: 1,
-              boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+              boxShadow:
+                '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
             }}
           >
-            <Image src={appType === 'A' ? apkIcon : exeIcon} width={'48'} height={'48'} alt="apk-image" />
+            <Image
+              src={appType === 'A' ? apkIcon : exeIcon}
+              width={'48'}
+              height={'48'}
+              alt="apk-image"
+            />
             <Typography
               variant="body2"
               color="grey.700"
@@ -202,7 +240,9 @@ const AppDeployContainer = () => {
               disabled={isDeploying || deploySuccess}
             >
               <CloudUploadIcon sx={{ mr: '0.3rem' }} />
-              <Typography variant="body1">{deploySuccess ? '배포완료' : '배포하기'}</Typography>
+              <Typography variant="body1">
+                {deploySuccess ? '배포완료' : '배포하기'}
+              </Typography>
             </Button>
           )}
 

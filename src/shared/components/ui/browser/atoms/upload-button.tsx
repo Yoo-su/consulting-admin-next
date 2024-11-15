@@ -1,8 +1,8 @@
+import UploadIcon from '@mui/icons-material/Upload';
+import { Fab, styled, Typography } from '@mui/material';
 import { memo } from 'react';
-import { Fab, Typography, styled } from '@mui/material';
 import { useShallow } from 'zustand/shallow';
 
-import UploadIcon from '@mui/icons-material/Upload';
 import { QueueType, useQueueStore } from '@/shared/models/stores';
 
 const StyledFab = styled(Fab)(({ theme }) => ({
@@ -12,7 +12,10 @@ const StyledFab = styled(Fab)(({ theme }) => ({
 }));
 
 type UploadButtonProps = {
-  handleUploadBrowserQueue: (queue: File[], queueType: QueueType) => Promise<void>;
+  handleUploadBrowserQueue: (
+    queue: File[],
+    queueType: QueueType
+  ) => Promise<void>;
 };
 const UploadButton = ({ handleUploadBrowserQueue }: UploadButtonProps) => {
   const browserQueue = useQueueStore(useShallow((state) => state.browserQueue));

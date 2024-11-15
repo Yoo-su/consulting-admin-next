@@ -1,5 +1,6 @@
-import { authInstance } from '@/shared/plugin/axios';
 import { API_URLS } from '@/shared/constants/api-urls';
+import { authInstance } from '@/shared/plugin/axios';
+
 import { Univ } from '../models';
 
 type GetUnivListResponse = {

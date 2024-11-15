@@ -1,5 +1,7 @@
 import { styled } from '@mui/material';
-import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
+import StepConnector, {
+  stepConnectorClasses,
+} from '@mui/material/StepConnector';
 
 export const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {

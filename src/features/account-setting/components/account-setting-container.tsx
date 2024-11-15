@@ -1,19 +1,20 @@
 'use client';
 
-import { useRef, useState, useEffect, ChangeEvent } from 'react';
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
 import Alert from '@mui/material/Alert';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
 import { useUser } from '@/shared/hooks/context/use-user';
-import { useUpdateProfileImageMutation } from '../hooks';
 import { useMuiAlert } from '@/shared/hooks/ui/use-mui-alert';
+
+import { useUpdateProfileImageMutation } from '../hooks';
 
 const AccountSettingContainer = () => {
   const { user } = useUser();
@@ -38,10 +39,14 @@ const AccountSettingContainer = () => {
     mutateAsync(formData)
       .then((res) => {
         setImageFile(null);
-        toast.success(<Typography variant="body2">성공적으로 반영되었습니다</Typography>);
+        toast.success(
+          <Typography variant="body2">성공적으로 반영되었습니다</Typography>
+        );
       })
       .catch((err) => {
-        toast.error(<Typography variant="body2">오류가 발생했습니다</Typography>);
+        toast.error(
+          <Typography variant="body2">오류가 발생했습니다</Typography>
+        );
       });
   };
 
@@ -49,7 +54,10 @@ const AccountSettingContainer = () => {
     if (imageFile) {
       formData.set('file', imageFile);
       setImagePreviewPath(URL.createObjectURL(imageFile));
-      setAlertData({ message: `선택된 파일명: ${imageFile?.name}`, color: 'info' });
+      setAlertData({
+        message: `선택된 파일명: ${imageFile?.name}`,
+        color: 'info',
+      });
     } else {
       formData.delete('file');
       setAlertData(null);
@@ -62,11 +70,20 @@ const AccountSettingContainer = () => {
         <Typography variant="h6">{`${user?.userName}님 계정 관리`}</Typography>
       </ContentWrapper.Header>
       <ContentWrapper.MainContent>
-        <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} spacing={4} sx={{ my: 4 }}>
+        <Stack
+          direction={'row'}
+          justifyContent={'center'}
+          alignItems={'center'}
+          spacing={4}
+          sx={{ my: 4 }}
+        >
           <Box>
-            <Tooltip title={<Typography variant="body1">사진 변경</Typography>} followCursor>
+            <Tooltip
+              title={<Typography variant="body1">사진 변경</Typography>}
+              followCursor
+            >
               <Avatar
-                src={imageFile ? imagePreviewPath : user?.profileImage ?? ''}
+                src={imageFile ? imagePreviewPath : (user?.profileImage ?? '')}
                 alt={user?.userName + 'profile'}
                 sx={{ width: '10rem', height: '10rem', cursor: 'pointer' }}
                 onClick={handleAvatarClick}
@@ -100,10 +117,20 @@ const AccountSettingContainer = () => {
 
         {imageFile && !isSuccess && (
           <Stack direction={'row'} justifyContent={'flex-end'} spacing={2}>
-            <Button variant="contained" sx={{ width: 'fit-content' }} disabled={isPending} onClick={handleClickSaveBtn}>
+            <Button
+              variant="contained"
+              sx={{ width: 'fit-content' }}
+              disabled={isPending}
+              onClick={handleClickSaveBtn}
+            >
               변경하기
             </Button>
-            <Button color="inherit" variant="contained" sx={{ width: 'fit-content' }} disabled={isPending}>
+            <Button
+              color="inherit"
+              variant="contained"
+              sx={{ width: 'fit-content' }}
+              disabled={isPending}
+            >
               취소
             </Button>
           </Stack>

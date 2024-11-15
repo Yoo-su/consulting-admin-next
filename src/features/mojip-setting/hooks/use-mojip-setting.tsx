@@ -2,7 +2,7 @@
 
 import { useContext } from 'react';
 
-import { MojipSettingContextValue, MojipSettingContext } from '../contexts';
+import { MojipSettingContext, MojipSettingContextValue } from '../contexts';
 
 export const useMojipSetting = (): MojipSettingContextValue => {
   const context = useContext(MojipSettingContext);

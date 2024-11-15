@@ -1,26 +1,28 @@
 'use client';
 
-import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import FileItemCard from '@/shared/components/ui/file-item-card';
-import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
 import EmptyBox from '@/shared/components/ui/empty-box';
-
-import { useUnivService } from '@/shared/hooks/context';
-import { useGetFoundationLibrariesQuery } from './hooks';
-import { formatKoreanTextCompareDatesFromNow } from '@/shared/services/get-formatted-date';
+import FileItemCard from '@/shared/components/ui/file-item-card';
+import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
 import { useDownloadFile } from '@/shared/hooks';
+import { useUnivService } from '@/shared/hooks/context';
+import { formatKoreanTextCompareDatesFromNow } from '@/shared/services/get-formatted-date';
+
+import { useGetFoundationLibrariesQuery } from './hooks';
 
 const FoundationLibraryListBox = () => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
   const { currentUniv, currentService } = useUnivService();
-  const { data: libraries, isLoading } = useGetFoundationLibrariesQuery(currentService?.serviceID);
+  const { data: libraries, isLoading } = useGetFoundationLibrariesQuery(
+    currentService?.serviceID
+  );
   const { downloadFile } = useDownloadFile();
 
   return (
@@ -62,22 +64,44 @@ const FoundationLibraryListBox = () => {
             {libraries?.data?.length ? (
               <Grid container spacing={3} sx={{ mt: 3 }}>
                 {libraries.data.map((library) => (
-                  <Grid key={library.fileName} item xs={12} sm={6} md={6} lg={4} xl={3}>
+                  <Grid
+                    key={library.fileName}
+                    item
+                    xs={12}
+                    sm={6}
+                    md={6}
+                    lg={4}
+                    xl={3}
+                  >
                     <FileItemCard
                       tooltipMsg={library.fileName}
-                      handleClick={() => downloadFile(library.url, library.fileName)}
+                      handleClick={() =>
+                        downloadFile(library.url, library.fileName)
+                      }
                     >
                       <FileItemCard.IconBox file={'excel'} />
 
                       <FileItemCard.ContentBox>
                         <FileItemCard.TitleBox title={library.fileName} />
 
-                        <FileItemCard.AdditionalInfo sxProps={{ justifyContent: 'space-between' }}>
-                          <Typography variant="caption" color="grey.500" textAlign="right">
+                        <FileItemCard.AdditionalInfo
+                          sxProps={{ justifyContent: 'space-between' }}
+                        >
+                          <Typography
+                            variant="caption"
+                            color="grey.500"
+                            textAlign="right"
+                          >
                             편집자: {library.modifyUser}
                           </Typography>
-                          <Typography variant="caption" color="grey.500" textAlign="right">
-                            {formatKoreanTextCompareDatesFromNow(library.uploadDate)}
+                          <Typography
+                            variant="caption"
+                            color="grey.500"
+                            textAlign="right"
+                          >
+                            {formatKoreanTextCompareDatesFromNow(
+                              library.uploadDate
+                            )}
                           </Typography>
                         </FileItemCard.AdditionalInfo>
                       </FileItemCard.ContentBox>

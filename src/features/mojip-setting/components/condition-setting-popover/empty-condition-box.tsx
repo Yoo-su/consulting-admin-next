@@ -1,14 +1,21 @@
 'use client';
 
+import SdCardAlertIcon from '@mui/icons-material/SdCardAlert';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import SdCardAlertIcon from '@mui/icons-material/SdCardAlert';
-
 const EmptyConditionBox = () => {
   return (
-    <Box sx={{ width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
+    <Box
+      sx={{
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        mt: 2,
+      }}
+    >
       <Stack
         direction={'column'}
         spacing={1}

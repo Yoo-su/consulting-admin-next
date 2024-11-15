@@ -2,7 +2,7 @@
 
 import { useContext } from 'react';
 
-import { UserContextValue, UserContext } from '../../contexts/user-context';
+import { UserContext, UserContextValue } from '../../contexts/user-context';
 
 export const useUser = (): UserContextValue => {
   const context = useContext(UserContext);

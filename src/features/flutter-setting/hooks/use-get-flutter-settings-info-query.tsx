@@ -1,21 +1,29 @@
 'use client';
 
 import { useQueries } from '@tanstack/react-query';
+
+import { QUERY_KEYS } from '@/shared/constants';
+
 import { getFlutterCustomConfig } from '../apis';
+import { FlutterSetting } from '../models';
 import { setCustomConfig } from '../services';
 import { useGetFlutterBasicList } from './use-get-flutter-basic-list';
-import { FlutterSetting } from '../models';
 
-export const useGetFlutterSettingsInfoQuery = ({ serviceID }: { serviceID: string }) => {
+export const useGetFlutterSettingsInfoQuery = ({
+  serviceID,
+}: {
+  serviceID: string;
+}) => {
   return useQueries({
     queries: [
       {
-        queryKey: ['flutter-basic-list'],
+        queryKey: QUERY_KEYS['flutter-setting']['basic-list'].queryKey,
         queryFn: useGetFlutterBasicList,
         staleTime: Infinity,
       },
       {
-        queryKey: ['flutter-custom-config', { serviceID }],
+        queryKey:
+          QUERY_KEYS['flutter-setting']['custom-config'](serviceID).queryKey,
         queryFn: () => getFlutterCustomConfig({ serviceID }),
         staleTime: 0,
       },
@@ -24,9 +32,17 @@ export const useGetFlutterSettingsInfoQuery = ({ serviceID }: { serviceID: strin
       const [BasicListData, CustomeConfigData] = results;
       const basicList = BasicListData.data || [];
       const customConfig = CustomeConfigData.data || [];
-      const categoryList = JSON.parse(JSON.stringify(basicList)) as FlutterSetting[];
+      const categoryList = JSON.parse(
+        JSON.stringify(basicList)
+      ) as FlutterSetting[];
       categoryList.forEach((category) => {
-        customConfig.forEach((config) => setCustomConfig(category?.children ?? [], config.RowIdx, config.RowValue));
+        customConfig.forEach((config) =>
+          setCustomConfig(
+            category?.children ?? [],
+            config.RowIdx,
+            config.RowValue
+          )
+        );
       });
       return { data: categoryList };
     },

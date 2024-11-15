@@ -1,13 +1,14 @@
-import { ChangeEvent, useState } from 'react';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
 import LoadingButton from '@mui/lab/LoadingButton';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import { ChangeEvent, useState } from 'react';
 
 import { getCurrentServiceYear } from '@/shared/services';
+
 import { useServiceListMutation } from '../hooks';
 
 const serviceTypeList = [
@@ -34,14 +35,30 @@ const AddServiceForm = ({ univID }: { univID: string }) => {
 
   return (
     <Paper sx={{ padding: '1rem' }}>
-      <Stack direction={'row'} justifyContent={'space-evenly'} alignItems={'center'}>
+      <Stack
+        direction={'row'}
+        justifyContent={'space-evenly'}
+        alignItems={'center'}
+      >
         <Stack direction={'row'} alignItems={'center'} spacing={2}>
           <InputLabel>서비스 년도</InputLabel>
-          <TextField disabled variant="standard" value={currentServiceYear} sx={{ ...textFieldStyle }} size="small" />
+          <TextField
+            disabled
+            variant="standard"
+            value={currentServiceYear}
+            sx={{ ...textFieldStyle }}
+            size="small"
+          />
         </Stack>
         <Stack direction={'row'} alignItems={'center'} spacing={2}>
           <InputLabel>서비스 유형</InputLabel>
-          <TextField select value={serviceType} size="small" sx={{ minWidth: '150px' }} onChange={handleChange}>
+          <TextField
+            select
+            value={serviceType}
+            size="small"
+            sx={{ minWidth: '150px' }}
+            onChange={handleChange}
+          >
             {serviceTypeList.map((option) => (
               <MenuItem key={option.label} value={option.value}>
                 {option.label}

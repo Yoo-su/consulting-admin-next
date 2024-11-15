@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+
 import { useUser } from '@/shared/hooks/context';
-import { useMuiAlert } from '@/shared/hooks/ui/use-mui-alert';
 import { useUnivService } from '@/shared/hooks/context';
+import { useMuiAlert } from '@/shared/hooks/ui/use-mui-alert';
+
 import { useUploadEtcLibraryMutation } from './use-upload-etc-library-mutation';
 
 export const useHandleEtcLibrary = () => {
@@ -34,9 +36,15 @@ export const useHandleEtcLibrary = () => {
         const res = await uploadEtcLibrary(formData);
         const { statusCode, message } = res.data;
         if (statusCode == 201) {
-          setAlertData({ message: message ?? '파일 업로드를 성공적으로 마쳤습니다', color: 'success' });
+          setAlertData({
+            message: message ?? '파일 업로드를 성공적으로 마쳤습니다',
+            color: 'success',
+          });
         } else {
-          setAlertData({ message: message ?? '엑셀 업로드 중 문제가 발생했습니다', color: 'error' });
+          setAlertData({
+            message: message ?? '엑셀 업로드 중 문제가 발생했습니다',
+            color: 'error',
+          });
         }
       } catch (error) {
         console.error('Upload failed:', error);

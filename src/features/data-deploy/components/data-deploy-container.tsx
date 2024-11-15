@@ -1,25 +1,26 @@
 'use client';
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button, { ButtonProps } from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Alert from '@mui/material/Alert';
-import CircularProgress from '@mui/material/CircularProgress';
-import PuffLoader from 'react-spinners/PuffLoader';
-import { styled, useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import SyncIcon from '@mui/icons-material/Sync';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
-import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import SyncIcon from '@mui/icons-material/Sync';
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import Button, { ButtonProps } from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Stack from '@mui/material/Stack';
+import { styled, useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { AxiosError } from 'axios';
+import PuffLoader from 'react-spinners/PuffLoader';
+
+import ContentWrapper from '@/shared/components/ui/content-wrapper';
+import { useMuiAlert } from '@/shared/hooks';
+import { useUnivService } from '@/shared/hooks/context';
 
 import { useDeployTestDataMutation } from '../hooks/use-deploy-test-data-mutation';
 import { useSyncTestDevMutation } from '../hooks/use-sync-test-dev-mutation';
-import ContentWrapper from '@/shared/components/ui/content-wrapper';
-import { useUnivService } from '@/shared/hooks/context';
-import { useMuiAlert } from '@/shared/hooks';
-import { AxiosError } from 'axios';
 
 interface StyledButtonProps extends ButtonProps {
   bgcolor?: string;
@@ -50,8 +51,10 @@ const StyledButton = styled(Button, {
 
 const DataDeployContainer = () => {
   const { currentService, currentUniv } = useUnivService();
-  const { isPending: isRealDeploying, mutateAsync: deployToReal } = useDeployTestDataMutation();
-  const { isPending: isSynchronizingTestDev, mutateAsync: syncFromTestToDev } = useSyncTestDevMutation();
+  const { isPending: isRealDeploying, mutateAsync: deployToReal } =
+    useDeployTestDataMutation();
+  const { isPending: isSynchronizingTestDev, mutateAsync: syncFromTestToDev } =
+    useSyncTestDevMutation();
   const { alertData, setAlertData } = useMuiAlert();
 
   const theme = useTheme();
@@ -62,7 +65,10 @@ const DataDeployContainer = () => {
     setAlertData({ message: 'DB 동기화 중입니다..', color: 'info' });
     syncFromTestToDev(currentService?.serviceID.toString() ?? '')
       .then((res) => {
-        setAlertData({ message: '성공적으로 동기화되었습니다', color: 'success' });
+        setAlertData({
+          message: '성공적으로 동기화되었습니다',
+          color: 'success',
+        });
       })
       .catch((err) => {
         if (err instanceof AxiosError) {
@@ -81,13 +87,22 @@ const DataDeployContainer = () => {
 
   // 리얼 배포 버튼 클릭 처리
   const handleRealDeployBtnClick = () => {
-    setAlertData({ message: '리얼 환경에 데이터를 배포중입니다..', color: 'info' });
+    setAlertData({
+      message: '리얼 환경에 데이터를 배포중입니다..',
+      color: 'info',
+    });
     deployToReal(currentService?.serviceID.toString() ?? '')
       .then((res) => {
-        setAlertData({ message: '성공적으로 데이터가 배포되었습니다', color: 'success' });
+        setAlertData({
+          message: '성공적으로 데이터가 배포되었습니다',
+          color: 'success',
+        });
       })
       .catch((err) => {
-        setAlertData({ message: '리얼 환경에 데이터를 배포하던 중 에러가 발생했습니다', color: 'error' });
+        setAlertData({
+          message: '리얼 환경에 데이터를 배포하던 중 에러가 발생했습니다',
+          color: 'error',
+        });
       });
   };
 
@@ -163,7 +178,8 @@ const DataDeployContainer = () => {
               ) : (
                 <Typography variant="h6" fontWeight={'bold'}>
                   <Stack direction={'row'} alignItems={'center'}>
-                    <ArrowCircleUpIcon fontSize="inherit" sx={{ mr: 1 }} /> 리얼 배포
+                    <ArrowCircleUpIcon fontSize="inherit" sx={{ mr: 1 }} /> 리얼
+                    배포
                   </Stack>
                 </Typography>
               )}

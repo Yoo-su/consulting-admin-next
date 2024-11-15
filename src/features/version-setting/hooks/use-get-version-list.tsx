@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { CurTBLVersion } from '../models';
+import { useCallback, useState } from 'react';
+
 import { getVersionList } from '../apis';
+import { CurTBLVersion } from '../models';
 
 export const useGetVersionList = () => {
   const [isLoading, setIsLoading] = useState(false);

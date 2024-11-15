@@ -1,15 +1,21 @@
-import { Dispatch, SetStateAction, MouseEvent, ChangeEvent } from 'react';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import InputAdornment from '@mui/material/InputAdornment';
-import Stack from '@mui/material/Stack';
-import { Box, Button, FormControl, InputBase } from '@mui/material';
 import SquareIcon from '@mui/icons-material/Square';
+import { Box, Button, FormControl, InputBase } from '@mui/material';
+import InputAdornment from '@mui/material/InputAdornment';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import { ChangeEvent, Dispatch, MouseEvent, SetStateAction } from 'react';
 
+import { HSV } from '../../models';
+import {
+  clamp,
+  hexToHsv,
+  hsvToHex,
+  isValidHexColor,
+  matchIsNumber,
+} from '../../services';
 import ColorSpace from './color-space';
 import HueSlider from './hue-slider';
-import { clamp, hexToHsv, hsvToHex, isValidHexColor, matchIsNumber } from '../../services';
-import { HSV } from '../../models';
 
 type ColorPopoverProps = {
   hexText: string;
@@ -19,7 +25,13 @@ type ColorPopoverProps = {
   handleColorChange: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
-const ColorPopover = ({ hexText, setHexText, currentHsv, setCurrentHsv, handleColorChange }: ColorPopoverProps) => {
+const ColorPopover = ({
+  hexText,
+  setHexText,
+  currentHsv,
+  setCurrentHsv,
+  handleColorChange,
+}: ColorPopoverProps) => {
   const handleChangeText = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     if (value.length > 6) return;
@@ -43,13 +55,20 @@ const ColorPopover = ({ hexText, setHexText, currentHsv, setCurrentHsv, handleCo
 
   return (
     <Paper sx={{ padding: '5px', width: '300px' }}>
-      <Stack direction={'row'} spacing={2} alignItems={'center'} justifyContent={'space-between'}>
+      <Stack
+        direction={'row'}
+        spacing={2}
+        alignItems={'center'}
+        justifyContent={'space-between'}
+      >
         <Typography variant="body1">선택된 색상</Typography>
         <Stack direction={'row'} alignItems={'center'}>
           {ColorSquareIcon(`#${hsvToHex(currentHsv)}`)}
           <FormControl>
             <InputBase
-              startAdornment={<InputAdornment position="start">0xff</InputAdornment>}
+              startAdornment={
+                <InputAdornment position="start">0xff</InputAdornment>
+              }
               size="small"
               sx={ColorSquareClass}
               value={hexText}
@@ -59,7 +78,11 @@ const ColorPopover = ({ hexText, setHexText, currentHsv, setCurrentHsv, handleCo
         </Stack>
       </Stack>
 
-      <ColorSpace currentHue={currentHsv.h} hsv={currentHsv} onChange={handleChangeSpace} />
+      <ColorSpace
+        currentHue={currentHsv.h}
+        hsv={currentHsv}
+        onChange={handleChangeSpace}
+      />
       <Box>
         <HueSlider
           min={0}
@@ -79,7 +102,12 @@ const ColorPopover = ({ hexText, setHexText, currentHsv, setCurrentHsv, handleCo
         )}
       </Box>
       <Stack direction={'row'}>
-        <Button variant="contained" disableElevation sx={{ width: '100%' }} onClick={handleColorChange}>
+        <Button
+          variant="contained"
+          disableElevation
+          sx={{ width: '100%' }}
+          onClick={handleColorChange}
+        >
           선택 완료
         </Button>
       </Stack>
@@ -105,8 +133,21 @@ const ColorSquareClass = {
   },
 };
 
-const preColors = ['E03131', 'F2C94C', '219653', '2F80ED', '9B51E0', 'F2994A', 'EB5757', '56CCF2', '2D9CDB'];
-const ColorSquareIcon = (color: string, onClick?: (event: MouseEvent<SVGSVGElement>) => void) => {
+const preColors = [
+  'E03131',
+  'F2C94C',
+  '219653',
+  '2F80ED',
+  '9B51E0',
+  'F2994A',
+  'EB5757',
+  '56CCF2',
+  '2D9CDB',
+];
+const ColorSquareIcon = (
+  color: string,
+  onClick?: (event: MouseEvent<SVGSVGElement>) => void
+) => {
   return (
     <SquareIcon
       sx={{

@@ -1,12 +1,12 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControl from '@mui/material/FormControl';
+import AdbIcon from '@mui/icons-material/Adb';
 import AlternateEmailRoundedIcon from '@mui/icons-material/AlternateEmailRounded';
 import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
-import AdbIcon from '@mui/icons-material/Adb';
+import FormControl from '@mui/material/FormControl';
+import RadioGroup from '@mui/material/RadioGroup';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 
-import RadioIconLabel from './radio-icon-label';
 import { ConsultingAppType } from '../models';
+import RadioIconLabel from './radio-icon-label';
 
 type HeaderSelectRadioProps = {
   appType: ConsultingAppType;
@@ -14,7 +14,11 @@ type HeaderSelectRadioProps = {
   isNew: boolean;
 };
 
-const HeaderSelectRadio = ({ appType, setAppType, isNew }: HeaderSelectRadioProps) => {
+const HeaderSelectRadio = ({
+  appType,
+  setAppType,
+  isNew,
+}: HeaderSelectRadioProps) => {
   useEffect(() => {
     if (isNew) {
       setAppType('A');
@@ -36,19 +40,31 @@ const HeaderSelectRadio = ({ appType, setAppType, isNew }: HeaderSelectRadioProp
           label="PWA 주소"
           value="O"
           disabled={isNew}
-          Icon={<AlternateEmailRoundedIcon fontSize="large" sx={{ color: '#2C4059', mr: '0.2rem' }} />}
+          Icon={
+            <AlternateEmailRoundedIcon
+              fontSize="large"
+              sx={{ color: '#2C4059', mr: '0.2rem' }}
+            />
+          }
         />
         <RadioIconLabel
           label="안드로이드 APK"
           value="A"
           disabled={!isNew}
-          Icon={<AdbIcon fontSize="large" sx={{ color: '#7CB342', mr: '0.1rem' }} />}
+          Icon={
+            <AdbIcon fontSize="large" sx={{ color: '#7CB342', mr: '0.1rem' }} />
+          }
         />
         <RadioIconLabel
           label="데스크탑 APP"
           value="P"
           disabled={!isNew}
-          Icon={<DesktopWindowsIcon fontSize="large" sx={{ color: '#1D2951', mr: '0.1rem' }} />}
+          Icon={
+            <DesktopWindowsIcon
+              fontSize="large"
+              sx={{ color: '#1D2951', mr: '0.1rem' }}
+            />
+          }
         />
       </RadioGroup>
     </FormControl>

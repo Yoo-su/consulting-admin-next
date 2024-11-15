@@ -1,11 +1,11 @@
-import Image from 'next/image';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Image from 'next/image';
 
-import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 import FoundationUploadContainer from '@/features/foundation-upload/components/foundation-upload-container';
 import starIcon from '@/shared/assets/svgs/star.svg';
+import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {
   title: '상담앱 관리자 | 기초데이터 업로드',

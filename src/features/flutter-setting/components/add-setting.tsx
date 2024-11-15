@@ -1,6 +1,17 @@
-import { Divider, IconButton, TextField, Tooltip, Stack, Typography, FormGroup, Box, MenuItem } from '@mui/material';
-import { useState, KeyboardEvent, ChangeEvent } from 'react';
 import AddIcon from '@mui/icons-material/Add';
+import {
+  Box,
+  Divider,
+  FormGroup,
+  IconButton,
+  MenuItem,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
+
 import { FlutterRowInfo } from '../models';
 
 const Options = [
@@ -14,7 +25,13 @@ const Options = [
 
 type SettingForm = Pick<
   FlutterRowInfo,
-  'Category' | 'Title' | 'KoreanTitle' | 'Type' | 'Description' | 'DefaultValue' | 'children'
+  | 'Category'
+  | 'Title'
+  | 'KoreanTitle'
+  | 'Type'
+  | 'Description'
+  | 'DefaultValue'
+  | 'children'
 >;
 
 const AddSetting = ({ category }: { category: string }) => {
@@ -166,7 +183,10 @@ const AddSetting = ({ category }: { category: string }) => {
         <Stack>
           {!isAdd && (
             <Tooltip title="설정 카테고리 추가" placement="top">
-              <IconButton sx={{ borderRadius: '5%', backgroundColor: '#FAFAFA' }} onClick={handleIsAdd}>
+              <IconButton
+                sx={{ borderRadius: '5%', backgroundColor: '#FAFAFA' }}
+                onClick={handleIsAdd}
+              >
                 <AddIcon />
               </IconButton>
             </Tooltip>
@@ -174,13 +194,24 @@ const AddSetting = ({ category }: { category: string }) => {
           {isAdd && (
             <Stack direction={'row'} spacing={1}>
               <Tooltip title="설정 카테고리 추가" placement="top">
-                <IconButton sx={{ borderRadius: '5%', backgroundColor: '#FAFAFA', width: '79%' }} onClick={handleIsAdd}>
+                <IconButton
+                  sx={{
+                    borderRadius: '5%',
+                    backgroundColor: '#FAFAFA',
+                    width: '79%',
+                  }}
+                  onClick={handleIsAdd}
+                >
                   <Typography variant="overline">추가하기</Typography>
                 </IconButton>
               </Tooltip>
               <Tooltip title="설정 카테고리 추가" placement="top">
                 <IconButton
-                  sx={{ borderRadius: '5%', border: '1px solid #FAFAFA', width: '20%' }}
+                  sx={{
+                    borderRadius: '5%',
+                    border: '1px solid #FAFAFA',
+                    width: '20%',
+                  }}
                   onClick={handleIsAdd}
                 >
                   <Typography variant="overline">취소</Typography>

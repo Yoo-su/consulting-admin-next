@@ -1,25 +1,33 @@
 'use client';
 
-import { useState, useMemo, Fragment, useCallback, memo } from 'react';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Chip from '@mui/material/Chip';
+import { Fragment, memo, useCallback, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import SaveDataButton from '@/shared/components/ui/save-data-button';
-import EmptyBox from '@/shared/components/ui/empty-box';
-import { getGroupedData } from '@/shared/services';
-import ModelAccordion from './model-accordion';
-import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
+import EmptyBox from '@/shared/components/ui/empty-box';
+import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
+import SaveDataButton from '@/shared/components/ui/save-data-button';
 import { useUnivService } from '@/shared/hooks/context/use-univ-service';
+import { getGroupedData } from '@/shared/services';
+
 import { useChartSetting, useUpdateChartDataMutation } from '../hooks';
+import ModelAccordion from './model-accordion';
 
 const ChartSettingContainer = () => {
   const { currentUniv, currentService } = useUnivService();
-  const { isLoading, chartData, modelNumbers, addNewModel, hasChanges, syncChartData } = useChartSetting();
+  const {
+    isLoading,
+    chartData,
+    modelNumbers,
+    addNewModel,
+    hasChanges,
+    syncChartData,
+  } = useChartSetting();
   const [selectedModel, setSelectedModel] = useState<number | null>(null);
   const { mutateAsync } = useUpdateChartDataMutation();
 
@@ -36,13 +44,26 @@ const ChartSettingContainer = () => {
 
   const handleSaveBtnClick = useCallback(() => {
     toast.promise(
-      mutateAsync({ serviceID: currentService?.serviceID ?? '', chartData: chartData }).then(() => {
+      mutateAsync({
+        serviceID: currentService?.serviceID ?? '',
+        chartData: chartData,
+      }).then(() => {
         syncChartData();
       }),
       {
-        loading: <Typography variant="body2">차트 정보를 업데이트하는 중입니다...</Typography>,
-        success: <Typography variant="body2">차트정보 업데이트 완료!</Typography>,
-        error: <Typography variant="body2">차트정보 업데이트 중 문제가 발생했습니다</Typography>,
+        loading: (
+          <Typography variant="body2">
+            차트 정보를 업데이트하는 중입니다...
+          </Typography>
+        ),
+        success: (
+          <Typography variant="body2">차트정보 업데이트 완료!</Typography>
+        ),
+        error: (
+          <Typography variant="body2">
+            차트정보 업데이트 중 문제가 발생했습니다
+          </Typography>
+        ),
       }
     );
   }, [chartData]);
@@ -54,7 +75,12 @@ const ChartSettingContainer = () => {
       ) : (
         <Fragment>
           <ContentWrapper.Header bottomDivider>
-            <Stack width={'100%'} direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
+            <Stack
+              width={'100%'}
+              direction={'row'}
+              alignItems={'center'}
+              justifyContent={'space-between'}
+            >
               <Typography variant="h6">{`${currentUniv?.univName}(${currentService?.serviceID}) 차트 데이터 설정`}</Typography>
               <Chip
                 color="info"
@@ -70,7 +96,9 @@ const ChartSettingContainer = () => {
             <Fragment>
               {chartData.length ? (
                 <Fragment>
-                  {hasChanges && <SaveDataButton handleBtnClick={handleSaveBtnClick} />}
+                  {hasChanges && (
+                    <SaveDataButton handleBtnClick={handleSaveBtnClick} />
+                  )}
                   <Box sx={{ mt: 4, width: '100%' }}>
                     {modelNumbers.map((mn) => {
                       return (

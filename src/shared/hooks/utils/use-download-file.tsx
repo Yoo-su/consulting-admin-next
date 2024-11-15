@@ -1,7 +1,7 @@
 'use client';
 
-import { useCallback } from 'react';
 import Typography from '@mui/material/Typography';
+import { useCallback } from 'react';
 import toast from 'react-hot-toast';
 
 export const useDownloadFile = () => {
@@ -20,7 +20,11 @@ export const useDownloadFile = () => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(downloadUrl);
     } catch (error) {
-      toast.error(<Typography variant="body2">파일 다운로드 중 오류가 발생했습니다</Typography>);
+      toast.error(
+        <Typography variant="body2">
+          파일 다운로드 중 오류가 발생했습니다
+        </Typography>
+      );
     }
   }, []);
 

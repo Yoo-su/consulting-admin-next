@@ -20,15 +20,23 @@ export const useQueueStore = create<QueueStore>((set) => ({
   isAddFolderModalOpen: false,
   addBrowserQueueFiles: (files) =>
     set((state) => {
-      const existingFileNames = new Set(state.browserQueue.map((file) => file.name));
-      const uniqueFiles = files.filter((file) => !existingFileNames.has(file.name));
+      const existingFileNames = new Set(
+        state.browserQueue.map((file) => file.name)
+      );
+      const uniqueFiles = files.filter(
+        (file) => !existingFileNames.has(file.name)
+      );
       return { browserQueue: [...state.browserQueue, ...uniqueFiles] };
     }),
 
   addDialogQueueFiles: (files) =>
     set((state) => {
-      const existingFileNames = new Set(state.dialogQueue.map((file) => file.name));
-      const uniqueFiles = files.filter((file) => !existingFileNames.has(file.name));
+      const existingFileNames = new Set(
+        state.dialogQueue.map((file) => file.name)
+      );
+      const uniqueFiles = files.filter(
+        (file) => !existingFileNames.has(file.name)
+      );
       return { dialogQueue: [...state.dialogQueue, ...uniqueFiles] };
     }),
 
@@ -46,5 +54,6 @@ export const useQueueStore = create<QueueStore>((set) => ({
   resetDialogQueue: () => set(() => ({ dialogQueue: [] })),
 
   openAddFolderModal: () => set(() => ({ isAddFolderModalOpen: true })),
-  closeAddFolderModal: () => set(() => ({ dialogQueue: [], isAddFolderModalOpen: false })),
+  closeAddFolderModal: () =>
+    set(() => ({ dialogQueue: [], isAddFolderModalOpen: false })),
 }));

@@ -1,5 +1,12 @@
 import { Box, styled } from '@mui/material';
-import { useCallback, useEffect, useRef, useState, MouseEvent, KeyboardEvent } from 'react';
+import {
+  KeyboardEvent,
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { ARROW_COLOR_SPACE, KEYBOARD_KEY } from '../../models';
 import { clamp, round } from '../../services';
@@ -57,7 +64,9 @@ const ColorSpace = (props: ColorSpaceProps) => {
     };
   }, [handlePointerUp, handlePointerMove]);
 
-  const handlePointerDown = (event: MouseEvent<HTMLDivElement, PointerEvent>) => {
+  const handlePointerDown = (
+    event: MouseEvent<HTMLDivElement, PointerEvent>
+  ) => {
     event.preventDefault();
     isPointerDown.current = true;
     moveThumb(event.clientX, event.clientY);
@@ -70,7 +79,11 @@ const ColorSpace = (props: ColorSpaceProps) => {
       const { type, value } = ARROW_COLOR_SPACE[event.key];
       const step = event.shiftKey ? 10 : 1;
       const previousHsvTypeValue = type === 'hsvS' ? hsv.s : hsv.v;
-      const newHsvTypeValue = clamp(previousHsvTypeValue + value * step * 0.01, 0, 1);
+      const newHsvTypeValue = clamp(
+        previousHsvTypeValue + value * step * 0.01,
+        0,
+        1
+      );
       setIsActive(true);
       onChange({
         s: type === 'hsvS' ? newHsvTypeValue : hsv.s,
@@ -148,11 +161,18 @@ const ThumbBox = styled(Box)({
 
 function matchIsArrowKey(key: string): key is keyof typeof ARROW_COLOR_SPACE {
   return (
-    key === KEYBOARD_KEY.up || key === KEYBOARD_KEY.down || key === KEYBOARD_KEY.left || key === KEYBOARD_KEY.right
+    key === KEYBOARD_KEY.up ||
+    key === KEYBOARD_KEY.down ||
+    key === KEYBOARD_KEY.left ||
+    key === KEYBOARD_KEY.right
   );
 }
 
-function getNewThumbPosition(colorSpace: HTMLDivElement, clientX: number, clientY: number): { x: number; y: number } {
+function getNewThumbPosition(
+  colorSpace: HTMLDivElement,
+  clientX: number,
+  clientY: number
+): { x: number; y: number } {
   const boundingClientRect = colorSpace.getBoundingClientRect();
   const positionX = clientX - boundingClientRect.left;
   const positionY = clientY - boundingClientRect.top;

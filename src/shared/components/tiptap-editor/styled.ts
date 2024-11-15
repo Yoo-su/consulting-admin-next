@@ -1,5 +1,5 @@
-import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
 
 export const TiptapContainer = styled(Stack)(({ theme }) => ({
   '.tiptap': {
@@ -33,7 +33,8 @@ export const TiptapContainer = styled(Stack)(({ theme }) => ({
     fontWeight: '500',
     outline: 'none',
     padding: '1rem',
-    boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+    boxShadow:
+      '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
     minHeight: '200px',
 
     blockquote: {
@@ -63,9 +64,10 @@ export const TiptapContainer = styled(Stack)(({ theme }) => ({
           color: '#f98181',
         },
 
-      '.hljs-number, .hljs-meta, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params': {
-        color: '#fbbc88',
-      },
+      '.hljs-number, .hljs-meta, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params':
+        {
+          color: '#fbbc88',
+        },
 
       '.hljs-string, .hljs-symbol, .hljs-bullet': {
         color: '#b9f18d',

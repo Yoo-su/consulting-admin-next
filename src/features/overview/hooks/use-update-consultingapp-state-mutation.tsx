@@ -1,17 +1,28 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { UpdateConsultingAppStateParams, updateConsultingAppState } from '../apis';
+
+import { QUERY_KEYS } from '@/shared/constants';
+
+import {
+  updateConsultingAppState,
+  UpdateConsultingAppStateParams,
+} from '../apis';
 
 export const useUpdateConsultingAppStateMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (params: UpdateConsultingAppStateParams) => updateConsultingAppState(params),
-    onSuccess(data, variables, context) {
+    mutationFn: (params: UpdateConsultingAppStateParams) =>
+      updateConsultingAppState(params),
+    onSuccess() {
       return Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['consultingAppState'] }),
-        queryClient.invalidateQueries({ queryKey: ['consultingAppStateAll'] }),
+        queryClient.invalidateQueries({
+          queryKey: QUERY_KEYS.overview['work-status'].queryKey,
+        }),
+        queryClient.invalidateQueries({
+          queryKey: QUERY_KEYS.overview['work-status-all'].queryKey,
+        }),
       ]);
     },
   });

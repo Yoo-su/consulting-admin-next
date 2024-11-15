@@ -1,8 +1,8 @@
 'use client';
 
-import { Editor } from '@tiptap/react';
-import { Menu, MenuItem, Fade } from '@mui/material';
+import { Fade, Menu, MenuItem } from '@mui/material';
 import { Level } from '@tiptap/extension-heading';
+import { Editor } from '@tiptap/react';
 
 type Option = {
   value: number;
@@ -58,7 +58,10 @@ const HeadingMenu = ({ editor, anchorEl, onClose }: Props) => {
       TransitionComponent={Fade}
     >
       {options.map((option, index) => (
-        <MenuItem key={index} onClick={() => handleSelectHeading(option.value as Level)}>
+        <MenuItem
+          key={index}
+          onClick={() => handleSelectHeading(option.value as Level)}
+        >
           {option.label}
         </MenuItem>
       ))}

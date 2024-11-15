@@ -1,5 +1,6 @@
-import { apiInstance } from '@/shared/plugin/axios';
 import { API_URLS } from '@/shared/constants/api-urls';
+import { apiInstance } from '@/shared/plugin/axios';
+
 import { CurrentState, ServiceType } from '../models';
 
 type UpdateConsultingAppStateResponse = {
@@ -21,6 +22,11 @@ export type UpdateConsultingAppStateParams = {
   serviceType: ServiceType;
   currentState: CurrentState;
 };
-export const updateConsultingAppState = async (params: UpdateConsultingAppStateParams) => {
-  return await apiInstance.post<UpdateConsultingAppStateResponse>(API_URLS.dashboard.updateConsultingAppState, params);
+export const updateConsultingAppState = async (
+  params: UpdateConsultingAppStateParams
+) => {
+  return await apiInstance.post<UpdateConsultingAppStateResponse>(
+    API_URLS.dashboard.updateConsultingAppState,
+    params
+  );
 };

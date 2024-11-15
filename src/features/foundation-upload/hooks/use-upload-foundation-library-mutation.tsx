@@ -2,6 +2,8 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { QUERY_KEYS } from '@/shared/constants';
+
 import { uploadFoundationLibrary } from '../apis';
 
 export const useUploadFoundationLibraryMutation = () => {
@@ -11,9 +13,10 @@ export const useUploadFoundationLibraryMutation = () => {
       return uploadFoundationLibrary(formData);
     },
     onSuccess(data, variables, context) {
-      const serviceID = variables.get('serviceID');
+      const serviceID = variables.get('serviceID') as string;
       queryClient.invalidateQueries({
-        queryKey: ['get-foundation-libraries', Number(serviceID)],
+        queryKey:
+          QUERY_KEYS['foundation-library']['library-data'](serviceID).queryKey,
       });
     },
   });

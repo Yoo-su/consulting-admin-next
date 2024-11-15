@@ -1,12 +1,12 @@
 import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { VersionServer } from '../models';
 import { VERSION_SERVER } from '../constants';
+import { VersionServer } from '../models';
 
 type TableTitleProps = {
   univName: string;
@@ -14,12 +14,18 @@ type TableTitleProps = {
   setServerType: React.Dispatch<React.SetStateAction<VersionServer>>;
 };
 
-const TableTitle = ({ univName, serviceID, setServerType }: TableTitleProps) => {
+const TableTitle = ({
+  univName,
+  serviceID,
+  setServerType,
+}: TableTitleProps) => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setServerType(VERSION_SERVER.find((server) => server.value === event.target.value)!);
+    setServerType(
+      VERSION_SERVER.find((server) => server.value === event.target.value)!
+    );
   };
   return (
     <Stack

@@ -1,13 +1,14 @@
 'use client';
 
-import Stack from '@mui/material/Stack';
+import { Droppable } from '@hello-pangea/dnd';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { Droppable } from '@hello-pangea/dnd';
+
+import { ConsultingAppState, CurrentState } from '@/features/overview/models';
 
 import StateCard from './state-card';
-import { ConsultingAppState, CurrentState } from '@/features/overview/models';
 
 export type StateColProps = {
   groupedStates: ConsultingAppState[];
@@ -17,8 +18,17 @@ export type StateColProps = {
   bgcolor: string;
   developer?: string;
 };
-const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey, developer }: StateColProps) => {
-  const droppableId = developer ? developer + '/' + currentStateKey : currentStateKey;
+const StateCol = ({
+  groupedStates,
+  title,
+  color,
+  bgcolor,
+  currentStateKey,
+  developer,
+}: StateColProps) => {
+  const droppableId = developer
+    ? developer + '/' + currentStateKey
+    : currentStateKey;
 
   return (
     <Stack
@@ -71,7 +81,10 @@ const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey, devel
           </Box>
         </Tooltip>
 
-        <Stack direction={'row'} sx={{ maxWidth: '35%', justifyContent: 'flex-end' }}>
+        <Stack
+          direction={'row'}
+          sx={{ maxWidth: '35%', justifyContent: 'flex-end' }}
+        >
           <Typography
             variant="body1"
             sx={{
@@ -92,11 +105,21 @@ const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey, devel
             ref={provided.innerRef}
             {...provided.droppableProps}
             component={'ul'}
-            sx={{ listStyle: 'none', p: 0, m: 0, height: '100%', overflowY: 'scroll' }}
+            sx={{
+              listStyle: 'none',
+              p: 0,
+              m: 0,
+              height: '100%',
+              overflowY: 'scroll',
+            }}
             spacing={1}
           >
             {groupedStates.map((consultingState, index) => (
-              <StateCard key={`${consultingState.univID}${index}`} state={consultingState} index={index} />
+              <StateCard
+                key={`${consultingState.univID}${index}`}
+                state={consultingState}
+                index={index}
+              />
             ))}
             {provided.placeholder}
           </Stack>

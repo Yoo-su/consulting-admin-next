@@ -1,7 +1,9 @@
-import { StepIconProps } from '@mui/material/StepIcon';
 import { Check } from '@mui/icons-material';
-import { ColorlibStepIconRoot } from './styled';
+import { StepIconProps } from '@mui/material/StepIcon';
+
 import { CirclePulseAnimation } from '@/shared/style/mui/keyframes';
+
+import { ColorlibStepIconRoot } from './styled';
 
 const ColorlibStepIcon = (props: StepIconProps) => {
   const { active, completed } = props;

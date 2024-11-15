@@ -1,7 +1,8 @@
-import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+
 import MojipDataManageContainer from '@/features/mojip-data-manage/components/mojip-data-manage-container';
+import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {
   title: '상담앱 관리자 | 모집요강 데이터 관리',

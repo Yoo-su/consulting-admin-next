@@ -1,5 +1,4 @@
-import { mergeQueryKeys } from '@lukemorales/query-key-factory';
+import { FEATURE_KEYS } from './feature-keys';
+import { SHARED_KEYS } from './shared-keys';
 
-import { browserKeys } from './browser-keys';
-
-export const QUERY_KEYS = mergeQueryKeys(browserKeys);
+export const QUERY_KEYS = { ...FEATURE_KEYS, ...SHARED_KEYS };

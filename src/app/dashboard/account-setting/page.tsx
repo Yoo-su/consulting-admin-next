@@ -1,7 +1,10 @@
-import dynamic from 'next/dynamic';
 import Box from '@mui/material/Box';
+import dynamic from 'next/dynamic';
 const AccountSettingContainer = dynamic(
-  () => import('@/features/account-setting/components/account-setting-container').then((module) => module.default),
+  () =>
+    import(
+      '@/features/account-setting/components/account-setting-container'
+    ).then((module) => module.default),
   { ssr: false }
 );
 

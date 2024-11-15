@@ -1,13 +1,14 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
 import { Stack, Typography } from '@mui/material';
+import { useEffect, useMemo, useState } from 'react';
 
 import Browser from '@/shared/components/ui/browser';
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
-import { useUnivService, useUser } from '@/shared/hooks/context';
-import { useUploadMajorFileMutation } from '../hooks';
 import { BROWSER_PATH } from '@/shared/constants';
+import { useUnivService, useUser } from '@/shared/hooks/context';
+
+import { useUploadMajorFileMutation } from '../hooks';
 
 const MajorFileLibraryContainer = () => {
   const { user } = useUser();
@@ -15,7 +16,10 @@ const MajorFileLibraryContainer = () => {
   const mutation = useUploadMajorFileMutation();
   const [formData] = useState<FormData>(new FormData());
 
-  const initialPath = useMemo(() => `${BROWSER_PATH.subjectLibrary}/${currentUniv?.univID}`, [currentUniv]);
+  const initialPath = useMemo(
+    () => `${BROWSER_PATH.subjectLibrary}/${currentUniv?.univID}`,
+    [currentUniv]
+  );
 
   const title = `${currentUniv?.univName} 학과 자료실`;
 
