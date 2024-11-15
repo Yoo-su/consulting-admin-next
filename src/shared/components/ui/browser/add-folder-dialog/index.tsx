@@ -1,14 +1,24 @@
-import { DragEvent } from 'react';
-import { Dialog, DialogTitle, DialogContent, TextField, SxProps, styled, Grid, Stack } from '@mui/material';
-import { useForm, Controller } from 'react-hook-form';
 import FolderIcon from '@mui/icons-material/Folder';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Stack,
+  styled,
+  SxProps,
+  TextField,
+} from '@mui/material';
+import { DragEvent } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
 import { useQueueStore } from '@/shared/models/stores';
+
 import DropZoneContainer from '../../drop-zone-container';
-import QueueFile from '../atoms/queue-file';
 import FileIcon from '../atoms/file-icon';
-import { directoryNameValidation } from './validation-rule';
+import QueueFile from '../atoms/queue-file';
 import AnnouncementBox from './announcement-box';
+import { directoryNameValidation } from './validation-rule';
 
 type FormValues = {
   directoryName: string;
@@ -18,8 +28,13 @@ type AddFolderDialogProps = {
 };
 
 const AddFolderDialog = ({ handleUploadDialogQueue }: AddFolderDialogProps) => {
-  const { dialogQueue, isAddFolderModalOpen, closeAddFolderModal, addDialogQueueFiles, removeDialogQueueFile } =
-    useQueueStore();
+  const {
+    dialogQueue,
+    isAddFolderModalOpen,
+    closeAddFolderModal,
+    addDialogQueueFiles,
+    removeDialogQueueFile,
+  } = useQueueStore();
   const {
     control,
     handleSubmit,
@@ -45,7 +60,9 @@ const AddFolderDialog = ({ handleUploadDialogQueue }: AddFolderDialogProps) => {
     if (!arrayFiles.length) return;
     else {
       const existingFileNames = new Set(dialogQueue.map((file) => file.name));
-      const uniqueFiles = arrayFiles.filter((file) => !existingFileNames.has(file.name));
+      const uniqueFiles = arrayFiles.filter(
+        (file) => !existingFileNames.has(file.name)
+      );
       addDialogQueueFiles(uniqueFiles);
     }
   };

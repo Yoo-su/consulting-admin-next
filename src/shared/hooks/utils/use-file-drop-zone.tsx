@@ -1,4 +1,4 @@
-import { useCallback, useState, DragEvent, useRef } from 'react';
+import { DragEvent, useCallback, useState } from 'react';
 
 type UseDragAndDropProps = {
   onDragEnter?: (event: DragEvent<HTMLDivElement>) => void;
@@ -7,7 +7,12 @@ type UseDragAndDropProps = {
   onDrop?: (event: DragEvent<HTMLDivElement>) => void;
 };
 
-export const useFileDropZone = ({ onDragEnter, onDragLeave, onDragOver, onDrop }: UseDragAndDropProps = {}) => {
+export const useFileDropZone = ({
+  onDragEnter,
+  onDragLeave,
+  onDragOver,
+  onDrop,
+}: UseDragAndDropProps = {}) => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const handleDragEnter = useCallback(

@@ -1,14 +1,29 @@
+import {
+  FormControl,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material';
 import { useEffect, useState } from 'react';
-import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
 import { useFlutterSetting } from '../../hooks';
 import { FormItemProps } from '../../models';
 
 const SelectForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) => {
-  const { transferDefaultValue, children, RowIdx, RowValue = null, OriginalRowValue = null } = item;
+  const {
+    transferDefaultValue,
+    children,
+    RowIdx,
+    RowValue = null,
+    OriginalRowValue = null,
+  } = item;
   const { addToEditedList } = useFlutterSetting();
-  const [selectedValue, setSelectedValue] = useState<string>(RowValue ?? transferDefaultValue);
-  const initialValue = OriginalRowValue ? OriginalRowValue : transferDefaultValue;
+  const [selectedValue, setSelectedValue] = useState<string>(
+    RowValue ?? transferDefaultValue
+  );
+  const initialValue = OriginalRowValue
+    ? OriginalRowValue
+    : transferDefaultValue;
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     const value = event.target.value;
@@ -41,7 +56,12 @@ const SelectForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) => {
           },
         }}
       >
-        <Select size="small" value={selectedValue} onChange={handleSelectChange} disabled={isDisabled}>
+        <Select
+          size="small"
+          value={selectedValue}
+          onChange={handleSelectChange}
+          disabled={isDisabled}
+        >
           {children.map((child) => {
             return (
               <MenuItem key={child.RowIdx} value={child.DefaultValue}>

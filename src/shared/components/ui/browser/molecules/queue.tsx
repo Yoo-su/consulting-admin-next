@@ -1,9 +1,10 @@
-import { memo } from 'react';
 import { Grid } from '@mui/material';
+import { memo } from 'react';
+
+import { useQueueStore } from '@/shared/models/stores';
 
 import FileIcon from '../atoms/file-icon';
 import QueueFile from '../atoms/queue-file';
-import { useQueueStore } from '@/shared/models/stores';
 
 type QueueProps = {
   handleRemoveInputFile: (fileName: string) => void;

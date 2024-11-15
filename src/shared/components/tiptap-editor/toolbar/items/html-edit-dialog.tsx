@@ -1,6 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from '@mui/material';
 import { Editor } from '@tiptap/react';
+import React, { useEffect, useState } from 'react';
 
 type HtmlEditDialogProps = {
   editor: Editor;
@@ -8,7 +15,11 @@ type HtmlEditDialogProps = {
   onClose: () => void;
 };
 
-const HtmlEditDialog: React.FC<HtmlEditDialogProps> = ({ editor, open, onClose }) => {
+const HtmlEditDialog: React.FC<HtmlEditDialogProps> = ({
+  editor,
+  open,
+  onClose,
+}) => {
   const [html, setHtml] = useState('');
 
   useEffect(() => {

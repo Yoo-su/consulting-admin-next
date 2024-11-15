@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { ReactNode } from 'react';
 
 export type LayoutProps = {
   children: ReactNode;

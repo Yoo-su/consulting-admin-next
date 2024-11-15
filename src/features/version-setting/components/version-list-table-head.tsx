@@ -1,10 +1,18 @@
-import { MouseEvent, memo } from 'react';
-import { TableRow, TableCell, Stack, Typography, Tooltip, Box } from '@mui/material';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import {
+  Box,
+  Stack,
+  TableCell,
+  TableRow,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+import { memo, MouseEvent } from 'react';
+
+import ButtonIcon from '@/shared/components/ui/button-icon';
 
 import { ArrowButtonClass, TableCellClass } from './version-list-table';
-import ButtonIcon from '@/shared/components/ui/button-icon';
 
 type VersionListTableHeadProps = {
   handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
@@ -12,9 +20,16 @@ type VersionListTableHeadProps = {
 const VersionListTableHead = ({ handleClick }: VersionListTableHeadProps) => {
   return (
     <TableRow>
-      <TableCell sx={{ fontWeight: 'bold', ...TableCellClass }}>서비스 테이블</TableCell>
+      <TableCell sx={{ fontWeight: 'bold', ...TableCellClass }}>
+        서비스 테이블
+      </TableCell>
       <TableCell align="center" sx={{ fontWeight: 'bold', ...TableCellClass }}>
-        <Stack direction={'row'} spacing={1} alignItems={'center'} justifyContent={'end'}>
+        <Stack
+          direction={'row'}
+          spacing={1}
+          alignItems={'center'}
+          justifyContent={'end'}
+        >
           <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
             전체 버전 관리
           </Typography>

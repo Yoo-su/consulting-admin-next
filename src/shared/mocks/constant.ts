@@ -1,3 +1,3 @@
-const MOCKING = process.env.NEXT_PUBLIC_MOCKING ?? "false";
+const MOCKING = process.env.NEXT_PUBLIC_MOCKING ?? 'false';
 
-export const isMocking = () => MOCKING === "true";
+export const isMocking = () => MOCKING === 'true';

@@ -1,2 +1,2 @@
-export * from './update-service-is-new';
 export * from './create-new-service';
+export * from './update-service-is-new';

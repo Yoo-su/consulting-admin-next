@@ -1,26 +1,26 @@
-import { useState, useEffect, ChangeEvent, memo } from 'react';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
+import TableFooter from '@mui/material/TableFooter';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import TableFooter from '@mui/material/TableFooter';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { ChangeEvent, memo, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-
 import { useUnivService } from '@/shared/hooks/context/use-univ-service';
+import { useConfirmToast } from '@/shared/hooks/ui/use-confirm-toast';
+
 import { useChartSetting } from '../hooks';
 import { ChartData } from '../models';
-import { useConfirmToast } from '@/shared/hooks/ui/use-confirm-toast';
 
 type ModelLevelTableProps = {
   chartData: ChartData[];
@@ -62,7 +62,11 @@ const ModelLevelTable = ({
 
     for (const item of tmpChartData) {
       if (labelsSet.has(item.label)) {
-        toast.error(<Typography variant="body2">[{item.label}] label이 중복되었습니다</Typography>);
+        toast.error(
+          <Typography variant="body2">
+            [{item.label}] label이 중복되었습니다
+          </Typography>
+        );
         return;
       }
       labelsSet.add(item.label);
@@ -85,7 +89,9 @@ const ModelLevelTable = ({
    */
   const handleClickAddLevelRowBtn = (modelNum: number, level: number) => {
     if ([...tmpChartData].length >= 5) {
-      toast.error(<Typography variant="body2">최대 다섯개까지 추가 가능합니다</Typography>);
+      toast.error(
+        <Typography variant="body2">최대 다섯개까지 추가 가능합니다</Typography>
+      );
       return;
     }
     const newItem: ChartData = {
@@ -105,7 +111,9 @@ const ModelLevelTable = ({
    * @param deleteRowLabel 삭제할 행 label
    */
   const handleClickDeleteLevelRowBtn = (deleteRowLabel: string) => {
-    const newItems = tmpChartData.filter((item, idx) => item.label !== deleteRowLabel);
+    const newItems = tmpChartData.filter(
+      (item, idx) => item.label !== deleteRowLabel
+    );
     shiftModelRows(newItems, modelNum, level);
   };
 
@@ -114,11 +122,18 @@ const ModelLevelTable = ({
    * @param event
    * @param index
    */
-  const handleFieldChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
+  const handleFieldChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index: number
+  ) => {
     const { name, value } = event.target;
     let parsed: string | number = value;
     if (name === 'percentage') parsed = parseInt(value);
-    setTmpChartData((prevData) => prevData.map((item, i) => (i === index ? { ...item, [name]: parsed } : item)));
+    setTmpChartData((prevData) =>
+      prevData.map((item, i) =>
+        i === index ? { ...item, [name]: parsed } : item
+      )
+    );
   };
 
   useEffect(() => {
@@ -141,18 +156,37 @@ const ModelLevelTable = ({
         transition: 'all 0.1s ease',
       }}
     >
-      <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ mb: 1 }}>
+      <Stack
+        direction={'row'}
+        alignItems={'center'}
+        justifyContent={'space-between'}
+        sx={{ mb: 1 }}
+      >
         <Stack direction={'row'} spacing={1} alignItems="center">
-          <Typography variant="body2" fontSize={16}>{`단계 ${chartData[0].level}`}</Typography>
+          <Typography
+            variant="body2"
+            fontSize={16}
+          >{`단계 ${chartData[0].level}`}</Typography>
         </Stack>
         {editMode ? (
           <Stack direction={'row'} spacing={0.5}>
-            <Button size="small" color="success" variant="contained" onClick={saveEditContent} sx={{ color: 'white' }}>
+            <Button
+              size="small"
+              color="success"
+              variant="contained"
+              onClick={saveEditContent}
+              sx={{ color: 'white' }}
+            >
               <Typography variant="body1" fontSize={12}>
                 완료
               </Typography>
             </Button>
-            <Button size="small" color="inherit" variant="outlined" onClick={cancleEdit}>
+            <Button
+              size="small"
+              color="inherit"
+              variant="outlined"
+              onClick={cancleEdit}
+            >
               <Typography variant="body1" fontSize={12}>
                 취소
               </Typography>
@@ -161,7 +195,12 @@ const ModelLevelTable = ({
         ) : (
           !isEditing && (
             <Stack direction={'row'} spacing={0.5}>
-              <Button size="small" variant="outlined" color="primary" onClick={enterEditMode}>
+              <Button
+                size="small"
+                variant="outlined"
+                color="primary"
+                onClick={enterEditMode}
+              >
                 <Typography variant="body1" fontSize={12}>
                   편집모드
                 </Typography>
@@ -172,8 +211,9 @@ const ModelLevelTable = ({
                   variant="body1"
                   fontSize={12}
                   onClick={() => {
-                    openConfirmToast(`모델${modelNum + 1}의 ${level}단계를 삭제하시겠습니까?`, () =>
-                      deleteModelLevel(modelNum, level)
+                    openConfirmToast(
+                      `모델${modelNum + 1}의 ${level}단계를 삭제하시겠습니까?`,
+                      () => deleteModelLevel(modelNum, level)
                     );
                   }}
                 >
@@ -251,7 +291,9 @@ const ModelLevelTable = ({
                       }}
                       onClick={() => {
                         openConfirmToast(
-                          `모델${modelNum + 1} 단계${data.level}의 [${data.label}]행을 삭제하시겠습니까?`,
+                          `모델${modelNum + 1} 단계${data.level}의 [${
+                            data.label
+                          }]행을 삭제하시겠습니까?`,
                           () => {
                             handleClickDeleteLevelRowBtn(data.label);
                           }
@@ -282,7 +324,12 @@ const ModelLevelTable = ({
                       handleClickAddLevelRowBtn(modelNum, level);
                     }}
                   >
-                    <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} sx={{ py: 1 }}>
+                    <Stack
+                      direction={'row'}
+                      alignItems={'center'}
+                      justifyContent={'center'}
+                      sx={{ py: 1 }}
+                    >
                       <AddCircleIcon sx={{ color: '#0069A0', mr: 1 }} />
                       <Typography variant="body2" sx={{ color: '#0069A0' }}>
                         행추가

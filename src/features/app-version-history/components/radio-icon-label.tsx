@@ -10,7 +10,12 @@ type RadioIconLabelProps = {
   disabled?: boolean;
 };
 
-const RadioIconLabel = ({ label, value, Icon, disabled }: RadioIconLabelProps) => {
+const RadioIconLabel = ({
+  label,
+  value,
+  Icon,
+  disabled,
+}: RadioIconLabelProps) => {
   return (
     <FormControlLabel
       value={value}

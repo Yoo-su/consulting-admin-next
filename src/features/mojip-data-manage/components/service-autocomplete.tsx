@@ -1,42 +1,62 @@
 'use client';
 
-import { useState, SyntheticEvent } from 'react';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import LoadingButton from '@mui/lab/LoadingButton';
+import Autocomplete from '@mui/material/Autocomplete';
+import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
+import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import Autocomplete from '@mui/material/Autocomplete';
+import { SyntheticEvent, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { useDuplicateDetailpageDataMutation } from '../hooks';
 import { useConfirmToast } from '@/shared/hooks';
 import { Service } from '@/shared/models';
+
+import { useDuplicateDetailpageDataMutation } from '../hooks';
 
 type ServiceAutocompleteProps = {
   serviceID: string;
   serviceList: Service[];
 };
-const ServiceAutocomplete = ({ serviceID, serviceList }: ServiceAutocompleteProps) => {
-  const { mutateAsync, isPending: isDuplicateDetailpageDataPending } = useDuplicateDetailpageDataMutation();
+const ServiceAutocomplete = ({
+  serviceID,
+  serviceList,
+}: ServiceAutocompleteProps) => {
+  const { mutateAsync, isPending: isDuplicateDetailpageDataPending } =
+    useDuplicateDetailpageDataMutation();
   const { openConfirmToast } = useConfirmToast();
   const [selectedService, setSelectedService] = useState<Service | null>(null);
 
   const getServiceMenuTitle = (service: Service) => {
     return (
-      service.schoolYear + '학년도' + ' ' + (service.isSusi === '1' ? '수시' : '정시') + ' ' + `(${service.serviceID})`
+      service.schoolYear +
+      '학년도' +
+      ' ' +
+      (service.isSusi === '1' ? '수시' : '정시') +
+      ' ' +
+      `(${service.serviceID})`
     );
   };
 
-  const handleChange = (event: SyntheticEvent<Element, Event>, service: Service | null) => {
+  const handleChange = (
+    event: SyntheticEvent<Element, Event>,
+    service: Service | null
+  ) => {
     setSelectedService(service ?? null);
   };
 
   const handleClickDuplicateBtn = () => {
     if (selectedService)
-      mutateAsync({ sourceServiceID: serviceID, targetServiceID: selectedService?.serviceID }).then(() => {
-        toast.success(<Typography variant="body2">{selectedService.serviceID}에 성공적으로 복제되었습니다</Typography>);
+      mutateAsync({
+        sourceServiceID: serviceID,
+        targetServiceID: selectedService?.serviceID,
+      }).then(() => {
+        toast.success(
+          <Typography variant="body2">
+            {selectedService.serviceID}에 성공적으로 복제되었습니다
+          </Typography>
+        );
       });
   };
 
@@ -48,7 +68,9 @@ const ServiceAutocomplete = ({ serviceID, serviceList }: ServiceAutocompleteProp
         disablePortal
         autoHighlight
         value={selectedService}
-        options={serviceList.filter((item) => item.serviceID !== serviceID) ?? []}
+        options={
+          serviceList.filter((item) => item.serviceID !== serviceID) ?? []
+        }
         loadingText={
           <Stack direction={'row'} alignItems={'center'}>
             <CircularProgress size={18} sx={{ mr: 1.5 }} />
@@ -65,7 +87,9 @@ const ServiceAutocomplete = ({ serviceID, serviceList }: ServiceAutocompleteProp
             {getServiceMenuTitle(option)}
           </Box>
         )}
-        renderInput={(params) => <TextField {...params} label={'대상 ServiceID'} />}
+        renderInput={(params) => (
+          <TextField {...params} label={'대상 ServiceID'} />
+        )}
       />
 
       <LoadingButton

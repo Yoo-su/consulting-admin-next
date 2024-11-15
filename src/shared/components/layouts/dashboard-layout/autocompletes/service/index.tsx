@@ -1,22 +1,33 @@
 'use client';
 
-import { useCallback } from 'react';
+import { Typography } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import { useCallback } from 'react';
 
 import { useUnivService } from '@/shared/hooks/context';
 import { Service } from '@/shared/models';
-import { Typography } from '@mui/material';
 
 const ServiceAutocomplete = () => {
-  const { setCurrentService, serviceList, currentService, currentUniv, isServiceListLoading } = useUnivService();
+  const {
+    setCurrentService,
+    serviceList,
+    currentService,
+    currentUniv,
+    isServiceListLoading,
+  } = useUnivService();
 
   const getServiceMenuTitle = useCallback((service: Service) => {
     return (
-      service.schoolYear + '학년도' + ' ' + (service.isSusi === '1' ? '수시' : '정시') + ' ' + `(${service.serviceID})`
+      service.schoolYear +
+      '학년도' +
+      ' ' +
+      (service.isSusi === '1' ? '수시' : '정시') +
+      ' ' +
+      `(${service.serviceID})`
     );
   }, []);
 

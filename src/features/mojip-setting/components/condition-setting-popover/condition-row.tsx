@@ -1,30 +1,37 @@
 'use client';
 
-import Stack from '@mui/material/Stack';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import Typography from '@mui/material/Typography';
-import Chip from '@mui/material/Chip';
-import IconButton from '@mui/material/IconButton';
-
 import DeleteIcon from '@mui/icons-material/DeleteOutline';
+import Autocomplete from '@mui/material/Autocomplete';
+import Chip from '@mui/material/Chip';
+import FormControl from '@mui/material/FormControl';
+import IconButton from '@mui/material/IconButton';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 import { COMPARISON_OPERATORS, DATA_TYPES } from '../../constants';
-
 import { Condition } from '../../models';
 
 type ConditionRowProps = {
   condition: Condition;
-  handleChangeRowData: (idx: number, columnType: 'dataType' | 'eqValue' | 'value' | 'logic', newData: any) => void;
+  handleChangeRowData: (
+    idx: number,
+    columnType: 'dataType' | 'eqValue' | 'value' | 'logic',
+    newData: any
+  ) => void;
   handleClickDeleteRowBtn: (idx: number) => void;
 };
-const ConditionRow = ({ condition, handleChangeRowData, handleClickDeleteRowBtn }: ConditionRowProps) => {
+const ConditionRow = ({
+  condition,
+  handleChangeRowData,
+  handleClickDeleteRowBtn,
+}: ConditionRowProps) => {
   const toggleConditionLogic = () => {
-    if (condition.logic === 'and') handleChangeRowData(condition.idx, 'logic', 'or');
+    if (condition.logic === 'and')
+      handleChangeRowData(condition.idx, 'logic', 'or');
     else handleChangeRowData(condition.idx, 'logic', 'and');
   };
 
@@ -36,7 +43,11 @@ const ConditionRow = ({ condition, handleChangeRowData, handleClickDeleteRowBtn 
             size="small"
             clickable
             onClick={toggleConditionLogic}
-            label={<Typography fontWeight={'bold'}>{condition.logic === 'and' ? 'AND' : 'OR'}</Typography>}
+            label={
+              <Typography fontWeight={'bold'}>
+                {condition.logic === 'and' ? 'AND' : 'OR'}
+              </Typography>
+            }
             sx={{
               bgcolor: condition.logic === 'and' ? '#d18577' : '#81b1cd',
               color: '#fff',

@@ -1,14 +1,14 @@
-import { memo } from 'react';
+import { animated, useSpring } from '@react-spring/web';
 import Image from 'next/image';
-import { useSpring, animated } from '@react-spring/web';
+import { memo } from 'react';
 
-import PdfIcon from '@/shared/assets/svgs/pdf.svg';
-import TxtIcon from '@/shared/assets/svgs/txt.svg';
-import ExcelIcon from '@/shared/assets/svgs/excel.svg';
-import UnknownIcon from '@/shared/assets/svgs/unknown.svg';
-import ImageIcon from '@/shared/assets/svgs/image.svg';
-import PptIcon from '@/shared/assets/svgs/ppt.svg';
 import DocIcon from '@/shared/assets/svgs/doc.svg';
+import ExcelIcon from '@/shared/assets/svgs/excel.svg';
+import ImageIcon from '@/shared/assets/svgs/image.svg';
+import PdfIcon from '@/shared/assets/svgs/pdf.svg';
+import PptIcon from '@/shared/assets/svgs/ppt.svg';
+import TxtIcon from '@/shared/assets/svgs/txt.svg';
+import UnknownIcon from '@/shared/assets/svgs/unknown.svg';
 
 type FileIconProps = {
   contentType: string;

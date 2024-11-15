@@ -1,7 +1,10 @@
-import { ComponentPropsWithoutRef, PropsWithChildren, Ref } from 'react';
+import {
+  DraggableProvidedDraggableProps,
+  DraggableProvidedDragHandleProps,
+} from '@hello-pangea/dnd';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { DraggableProvidedDragHandleProps, DraggableProvidedDraggableProps } from '@hello-pangea/dnd';
+import { ComponentPropsWithoutRef, PropsWithChildren, Ref } from 'react';
 
 const TableContainerBoxStyle = {
   backgroundColor: 'var(--mui-palette-background-paper)',
@@ -42,9 +45,19 @@ type TableRowBoxProps = PropsWithChildren & {
   draggableProps?: DraggableProvidedDraggableProps;
   dragHandleProps?: DraggableProvidedDragHandleProps | null | undefined;
 };
-export const TableRowBox = ({ children, innerRef, draggableProps, dragHandleProps }: TableRowBoxProps) => {
+export const TableRowBox = ({
+  children,
+  innerRef,
+  draggableProps,
+  dragHandleProps,
+}: TableRowBoxProps) => {
   return (
-    <Box sx={{ ...TableRowBoxStyle }} ref={innerRef} {...draggableProps} {...dragHandleProps}>
+    <Box
+      sx={{ ...TableRowBoxStyle }}
+      ref={innerRef}
+      {...draggableProps}
+      {...dragHandleProps}
+    >
       {children}
     </Box>
   );
@@ -53,7 +66,13 @@ export const TableRowBox = ({ children, innerRef, draggableProps, dragHandleProp
 type CustomWidthBoxCellProps = PropsWithChildren & {
   size?: 'xs' | 's' | 'm' | 'l';
   typo?: boolean;
-  justifyContent?: 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'flex-start' | 'flex-end';
+  justifyContent?:
+    | 'center'
+    | 'space-between'
+    | 'space-around'
+    | 'space-evenly'
+    | 'flex-start'
+    | 'flex-end';
 } & ComponentPropsWithoutRef<'div'>;
 const customWidthBoxCellStyle = {
   padding: '16px ',
@@ -74,7 +93,14 @@ export const CustomWidthBoxCell = ({
   justifyContent = 'flex-start',
   ...rest
 }: CustomWidthBoxCellProps) => {
-  const width = size === 'xs' ? '14px' : size === 's' ? '5%' : size === 'm' ? '50%' : '100%';
+  const width =
+    size === 'xs'
+      ? '14px'
+      : size === 's'
+        ? '5%'
+        : size === 'm'
+          ? '50%'
+          : '100%';
   return (
     <Box sx={{ ...customWidthBoxCellStyle, width, justifyContent }} {...rest}>
       {typo ? <Typography>{children}</Typography> : <>{children}</>}

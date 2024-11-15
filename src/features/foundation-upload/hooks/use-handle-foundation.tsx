@@ -1,21 +1,22 @@
 'use client';
 
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { read, utils } from 'xlsx';
 
 import { useUnivService } from '@/shared/hooks/context';
-import { useUploadFoundationLibraryMutation } from './use-upload-foundation-library-mutation';
-import { useUploadFoundationLibraryFileOnlyMutation } from './use-upload-foundation-library-fileonly-mutation';
-import { EXCEL_LAYOUT, SHEET_FLAG } from '../constants';
 import { useUser } from '@/shared/hooks/context';
 import { useMuiAlert } from '@/shared/hooks/ui/use-mui-alert';
 import { useStepper } from '@/shared/hooks/ui/use-stepper';
+
+import { EXCEL_LAYOUT, SHEET_FLAG } from '../constants';
+import { useUploadFoundationLibraryFileOnlyMutation } from './use-upload-foundation-library-fileonly-mutation';
+import { useUploadFoundationLibraryMutation } from './use-upload-foundation-library-mutation';
 
 type JsonExcel = {
   data: any;
   sheetCheck: any;
 };
-export const useHandleExcel = () => {
+export const useHandleFoundation = () => {
   const { user } = useUser();
   const { currentService } = useUnivService();
   const [excel, setExcel] = useState<File | null>(null);
@@ -23,7 +24,12 @@ export const useHandleExcel = () => {
   const [formData, setFormData] = useState<FormData>(new FormData());
   const [isVerified, setIsVerified] = useState<boolean | undefined>(false);
   const { alertData, setAlertData } = useMuiAlert();
-  const { activeStep, handleNext, handleReset: resetStep, goToStep } = useStepper();
+  const {
+    activeStep,
+    handleNext,
+    handleReset: resetStep,
+    goToStep,
+  } = useStepper();
 
   const {
     mutateAsync: basicUpload,
@@ -83,14 +89,20 @@ export const useHandleExcel = () => {
           const buffer = e.target?.result;
           const jsonExcel: JsonExcel = excelToJson(buffer);
           validation(jsonExcel.data);
-          setAlertData({ message: '데이터 검증이 완료되었습니다. 업로드를 진행해주세요', color: 'info' });
+          setAlertData({
+            message: '데이터 검증이 완료되었습니다. 업로드를 진행해주세요',
+            color: 'info',
+          });
           setIsVerified(true);
           handleNext();
           resolve(true);
         } catch (error) {
           if (error instanceof Error) {
             if (fileOnly) {
-              setAlertData({ message: error.message + '단, 파일만 업로드는 가능합니다.', color: 'warning' });
+              setAlertData({
+                message: error.message + '단, 파일만 업로드는 가능합니다.',
+                color: 'warning',
+              });
               setIsVerified(true);
               handleNext();
               resolve(true);
@@ -113,7 +125,10 @@ export const useHandleExcel = () => {
    */
   const startVerify = async () => {
     if (!excel) {
-      setAlertData({ message: '엑셀 파일이 등록되지 않았습니다', color: 'error' });
+      setAlertData({
+        message: '엑셀 파일이 등록되지 않았습니다',
+        color: 'error',
+      });
       return;
     }
     return await readExcelFile(excel);
@@ -144,7 +159,9 @@ export const useHandleExcel = () => {
     if (lang === 'eng') {
       return sheetNameMap[str] || str;
     } else if (lang === 'kor') {
-      const korName = Object.keys(sheetNameMap).find((key) => sheetNameMap[key] === str);
+      const korName = Object.keys(sheetNameMap).find(
+        (key) => sheetNameMap[key] === str
+      );
       return korName || str;
     }
     return str;
@@ -191,7 +208,9 @@ export const useHandleExcel = () => {
       const layoutKeys = Object.keys(EXCEL_LAYOUT);
       if (!layoutKeys.includes(key)) {
         throw new Error(
-          `정해진 레이아웃이 아닌 시트/컬럼이 있습니다. [${key}] 시트 ${Object.values(sheet[0])[0]}를 확인해주세요`
+          `정해진 레이아웃이 아닌 시트/컬럼이 있습니다. [${key}] 시트 ${
+            Object.values(sheet[0])[0]
+          }를 확인해주세요`
         );
       }
 
@@ -201,9 +220,10 @@ export const useHandleExcel = () => {
       sheetColumns.forEach((column, index) => {
         if (column !== layoutColumns[index]) {
           throw new Error(
-            `엑셀 레이아웃이 맞지 않습니다. [${convertSheetName(key, 'eng')}] 시트의 "${
-              layoutColumns[index]
-            }" 컬럼쪽을 확인해주세요.`
+            `엑셀 레이아웃이 맞지 않습니다. [${convertSheetName(
+              key,
+              'eng'
+            )}] 시트의 "${layoutColumns[index]}" 컬럼쪽을 확인해주세요.`
           );
         }
       });
@@ -212,7 +232,12 @@ export const useHandleExcel = () => {
         .slice(1)
         .forEach(([primaryKey, row]) => {
           if (!row.A) {
-            throw new Error(`[${convertSheetName(key, 'eng')}]시트의 ${primaryKey}번째 행의 PK 조건이 안 맞습니다.`);
+            throw new Error(
+              `[${convertSheetName(
+                key,
+                'eng'
+              )}]시트의 ${primaryKey}번째 행의 PK 조건이 안 맞습니다.`
+            );
           }
         });
     });
@@ -220,7 +245,9 @@ export const useHandleExcel = () => {
     const excelUnivID = data.Service[1].A;
     const excelServiceID = data.Service[1].B;
     if (Number(excelServiceID) !== Number(currentService?.serviceID)) {
-      throw new Error('입력한 서비스 아이디와 엑셀 파일의 서비스 아이디가 다릅니다.');
+      throw new Error(
+        '입력한 서비스 아이디와 엑셀 파일의 서비스 아이디가 다릅니다.'
+      );
     }
 
     if (Number(excelUnivID) !== Number(currentService?.univID)) {
@@ -237,10 +264,16 @@ export const useHandleExcel = () => {
 
     mutationFunc(formData).then((res) => {
       if (res.data.statusCode === 201) {
-        setAlertData({ message: res.data.message ?? '파일 업로드를 성공적으로 마쳤습니다', color: 'success' });
+        setAlertData({
+          message: res.data.message ?? '파일 업로드를 성공적으로 마쳤습니다',
+          color: 'success',
+        });
         handleNext();
       } else {
-        setAlertData({ message: res.data.message ?? '엑셀 업로드 중 문제가 발생했습니다', color: 'error' });
+        setAlertData({
+          message: res.data.message ?? '엑셀 업로드 중 문제가 발생했습니다',
+          color: 'error',
+        });
       }
     });
   };

@@ -1,5 +1,5 @@
-import { apiInstance } from '@/shared/plugin/axios';
 import { API_URLS } from '@/shared/constants/api-urls';
+import { apiInstance } from '@/shared/plugin/axios';
 
 type UpdateConsultingRefNoResponse = {
   statusCode: number;
@@ -11,7 +11,9 @@ export type UpdateConsultingRefNoParams = {
   oldRefNo: number;
   newRefNo: number;
 };
-export const updateConsultingRefNo = async (updateConsultingRefNoParams: UpdateConsultingRefNoParams) => {
+export const updateConsultingRefNo = async (
+  updateConsultingRefNoParams: UpdateConsultingRefNoParams
+) => {
   return await apiInstance.post<UpdateConsultingRefNoResponse>(
     API_URLS.dashboard.updateConsultingRefNo,
     updateConsultingRefNoParams

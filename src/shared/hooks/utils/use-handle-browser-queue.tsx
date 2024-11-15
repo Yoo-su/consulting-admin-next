@@ -1,18 +1,23 @@
-import { ChangeEvent, DragEvent, useCallback, useMemo, useRef } from 'react';
-import { toast } from 'react-hot-toast';
-import { useShallow } from 'zustand/shallow';
 import { Typography } from '@mui/material';
 import { UseMutationResult, useQueryClient } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
+import { ChangeEvent, DragEvent, useCallback, useMemo, useRef } from 'react';
+import { toast } from 'react-hot-toast';
+import { useShallow } from 'zustand/shallow';
 
-import { useBrowserStore, useQueueStore } from '@/shared/models/stores';
 import { QUERY_KEYS } from '@/shared/constants';
+import { useBrowserStore, useQueueStore } from '@/shared/models/stores';
 
 type UseHandleBrowserQueueProps = {
   isDropZone: boolean;
   appendDirectory: boolean;
   formData: FormData;
-  uploadMutation: UseMutationResult<AxiosResponse<any, any>, Error, FormData, unknown>;
+  uploadMutation: UseMutationResult<
+    AxiosResponse<any, any>,
+    Error,
+    FormData,
+    unknown
+  >;
 };
 export const useHandleBrowserQueue = ({
   isDropZone,
@@ -23,7 +28,10 @@ export const useHandleBrowserQueue = ({
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { basePath, currentPath } = useBrowserStore(
-    useShallow((state) => ({ basePath: state.basePath, currentPath: state.currentPath }))
+    useShallow((state) => ({
+      basePath: state.basePath,
+      currentPath: state.currentPath,
+    }))
   );
   const { addBrowserQueueFiles, resetBrowserQueue } = useQueueStore(
     useShallow((state) => ({
@@ -40,7 +48,11 @@ export const useHandleBrowserQueue = ({
 
   const handleOnDrop = useCallback((event: DragEvent<HTMLDivElement>) => {
     if (!isDropZone) {
-      toast.error(<Typography variant={'caption'}>{'드롭 허용 영역이 아닙니다.'}</Typography>);
+      toast.error(
+        <Typography variant={'caption'}>
+          {'드롭 허용 영역이 아닙니다.'}
+        </Typography>
+      );
       return;
     }
     const arrayFiles = Array.from(event.dataTransfer.files);
@@ -49,10 +61,15 @@ export const useHandleBrowserQueue = ({
   }, []);
 
   // file input 값 변경 처리
-  const handleChangeFileInput = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    addBrowserQueueFiles(event.target.files ? Array.from(event.target.files) : []);
-    event.target.value = '';
-  }, []);
+  const handleChangeFileInput = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      addBrowserQueueFiles(
+        event.target.files ? Array.from(event.target.files) : []
+      );
+      event.target.value = '';
+    },
+    []
+  );
 
   const handleClickInput = useCallback(() => {
     fileInputRef?.current?.click();
@@ -77,15 +94,25 @@ export const useHandleBrowserQueue = ({
       });
       await toast
         .promise(uploadMutation!.mutateAsync(formData!), {
-          loading: <Typography variant={'caption'}>업로드 중입니다...</Typography>,
-          success: <Typography variant={'caption'}>성공적으로 업로드되었습니다.</Typography>,
-          error: <Typography variant={'caption'}>업로드 중 에러가 발생했습니다.</Typography>,
+          loading: (
+            <Typography variant={'caption'}>업로드 중입니다...</Typography>
+          ),
+          success: (
+            <Typography variant={'caption'}>
+              성공적으로 업로드되었습니다.
+            </Typography>
+          ),
+          error: (
+            <Typography variant={'caption'}>
+              업로드 중 에러가 발생했습니다.
+            </Typography>
+          ),
         })
         .finally(() => {
           formData?.delete('files');
           resetBrowserQueue();
           queryClient.invalidateQueries({
-            queryKey: QUERY_KEYS.browser.items(currentPath).queryKey,
+            queryKey: QUERY_KEYS.browser.data(currentPath).queryKey,
           });
         });
     },
@@ -101,14 +128,24 @@ export const useHandleBrowserQueue = ({
       });
       await toast
         .promise(uploadMutation!.mutateAsync(formData!), {
-          loading: <Typography variant={'caption'}>업로드 중입니다...</Typography>,
-          success: <Typography variant={'caption'}>성공적으로 업로드되었습니다.</Typography>,
-          error: <Typography variant={'caption'}>업로드 중 에러가 발생했습니다.</Typography>,
+          loading: (
+            <Typography variant={'caption'}>업로드 중입니다...</Typography>
+          ),
+          success: (
+            <Typography variant={'caption'}>
+              성공적으로 업로드되었습니다.
+            </Typography>
+          ),
+          error: (
+            <Typography variant={'caption'}>
+              업로드 중 에러가 발생했습니다.
+            </Typography>
+          ),
         })
         .finally(() => {
           formData?.delete('files');
           queryClient.invalidateQueries({
-            queryKey: QUERY_KEYS.browser.items(currentPath).queryKey,
+            queryKey: QUERY_KEYS.browser.data(currentPath).queryKey,
           });
         });
     },

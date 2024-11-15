@@ -1,24 +1,52 @@
-import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useState } from 'react';
 import { TextField, Typography } from '@mui/material';
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import toast from 'react-hot-toast';
 
 import { useOutsideClick } from '@/shared/hooks';
-import { FormItemProps } from '../../models';
+
 import { useFlutterSetting } from '../../hooks';
+import { FormItemProps } from '../../models';
 import FlutterColorPicker from '../flutter-color-picker';
 
-const BasicTextForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) => {
-  const { IsRequired, Title, Type, transferDefaultValue, RowIdx, RowValue = null, OriginalRowValue = null } = item;
-  const [textValue, setTextValue] = useState<string>(RowValue ? RowValue : transferDefaultValue);
+const BasicTextForm = ({
+  item,
+  path,
+  handleEdit,
+  isDisabled,
+}: FormItemProps) => {
+  const {
+    IsRequired,
+    Title,
+    Type,
+    transferDefaultValue,
+    RowIdx,
+    RowValue = null,
+    OriginalRowValue = null,
+  } = item;
+  const [textValue, setTextValue] = useState<string>(
+    RowValue ? RowValue : transferDefaultValue
+  );
   const [isActive, setIsActive] = useState(false);
   const { addToEditedList } = useFlutterSetting();
-  const initialValue = OriginalRowValue ? OriginalRowValue : transferDefaultValue;
+  const initialValue = OriginalRowValue
+    ? OriginalRowValue
+    : transferDefaultValue;
 
   const isColorItem = Title.endsWith('Color');
 
   const updateEditedValue = () => {
     handleEdit(path, textValue);
-    addToEditedList({ RowIdx, RowValue: textValue.toString(), InitialValue: initialValue?.toString() ?? '' });
+    addToEditedList({
+      RowIdx,
+      RowValue: textValue.toString(),
+      InitialValue: initialValue?.toString() ?? '',
+    });
   };
   const inputRef = useOutsideClick(() => {
     if (isActive) {
@@ -41,7 +69,11 @@ const BasicTextForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) =>
       return;
     }
     // type이 double이거나 number일 때 숫자만 입력 가능
-    if (value !== '' && (Type === 'double' || Type === 'number') && !regex.test(value)) {
+    if (
+      value !== '' &&
+      (Type === 'double' || Type === 'number') &&
+      !regex.test(value)
+    ) {
       return event.preventDefault();
     }
     setIsActive(true);

@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { TableRow, TableCell, Chip } from '@mui/material';
+import { Chip, TableCell, TableRow } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useState } from 'react';
 
 import { Service } from '@/shared/models';
+
 import SetAppType from './set-app-type';
 
 type ServiceTableDataProps = {
@@ -11,37 +12,53 @@ type ServiceTableDataProps = {
   page: number;
   rowsPerPage: number;
 };
-const ServiceTableData = ({ serviceList, page, rowsPerPage }: ServiceTableDataProps) => {
+const ServiceTableData = ({
+  serviceList,
+  page,
+  rowsPerPage,
+}: ServiceTableDataProps) => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
 
-  const [isNew, setIsNew] = useState(serviceList.map((service) => service.isNew || false));
+  const [isNew, setIsNew] = useState(
+    serviceList.map((service) => service.isNew || false)
+  );
 
   return (
     <>
-      {serviceList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((service, index) => (
-        <TableRow key={service.serviceID} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-          <TableCell component="th" scope="row">
-            {service.serviceID}
-          </TableCell>
-          <TableCell>{service.schoolYear}</TableCell>
-          <TableCell>
-            <Chip
-              label={ServiceTypeChip.label[parseInt(service.isSusi)]}
-              size={downmd ? 'small' : 'medium'}
-              sx={{
-                color: 'white',
-                bgcolor: ServiceTypeChip.bgcolor[parseInt(service.isSusi)],
-              }}
-            />
-          </TableCell>
-          <TableCell align="center">{service.developer ?? '미정'}</TableCell>
-          <TableCell align="center">{service.manager ?? '미정'}</TableCell>
-          <TableCell align="center" sx={{ padding: 0 }}>
-            <SetAppType isNew={isNew} index={index} setIsNew={setIsNew} service={service} />
-          </TableCell>
-        </TableRow>
-      ))}
+      {serviceList
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        .map((service, index) => (
+          <TableRow
+            key={service.serviceID}
+            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+          >
+            <TableCell component="th" scope="row">
+              {service.serviceID}
+            </TableCell>
+            <TableCell>{service.schoolYear}</TableCell>
+            <TableCell>
+              <Chip
+                label={ServiceTypeChip.label[parseInt(service.isSusi)]}
+                size={downmd ? 'small' : 'medium'}
+                sx={{
+                  color: 'white',
+                  bgcolor: ServiceTypeChip.bgcolor[parseInt(service.isSusi)],
+                }}
+              />
+            </TableCell>
+            <TableCell align="center">{service.developer ?? '미정'}</TableCell>
+            <TableCell align="center">{service.manager ?? '미정'}</TableCell>
+            <TableCell align="center" sx={{ padding: 0 }}>
+              <SetAppType
+                isNew={isNew}
+                index={index}
+                setIsNew={setIsNew}
+                service={service}
+              />
+            </TableCell>
+          </TableRow>
+        ))}
     </>
   );
 };

@@ -1,6 +1,7 @@
-import { memo } from 'react';
 import { Stack, Typography } from '@mui/material';
 import Image from 'next/image';
+import { memo } from 'react';
+
 import FolderIcon from '@/shared/assets/svgs/folder.svg';
 import { BrowserItem } from '@/shared/models';
 
@@ -8,7 +9,10 @@ type BrowserDirectoryProps = {
   browserItem: BrowserItem;
   handleClickDirectory: (Directory: BrowserItem) => void;
 };
-const BrowserDirectory = ({ browserItem, handleClickDirectory }: BrowserDirectoryProps) => {
+const BrowserDirectory = ({
+  browserItem,
+  handleClickDirectory,
+}: BrowserDirectoryProps) => {
   return (
     <Stack
       direction={'column'}

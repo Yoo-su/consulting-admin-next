@@ -1,15 +1,27 @@
 'use client';
 
-import { ReactNode, useEffect, useState } from 'react';
-import Image, { StaticImageData } from 'next/image';
 import Stack from '@mui/material/Stack';
+import { SxProps } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { SxProps } from '@mui/material/styles';
+import Image, { StaticImageData } from 'next/image';
+import { ReactNode, useEffect, useState } from 'react';
 
-export type FileType = 'excel' | 'apk' | 'exe' | 'jpg' | 'png' | 'ppt' | 'word' | 'pdf' | 'txt' | 'none';
+export type FileType =
+  | 'excel'
+  | 'apk'
+  | 'exe'
+  | 'jpg'
+  | 'png'
+  | 'ppt'
+  | 'word'
+  | 'pdf'
+  | 'txt'
+  | 'none';
 
-const iconPathMap: { [key in FileType]: () => Promise<{ default: StaticImageData }> } = {
+const iconPathMap: {
+  [key in FileType]: () => Promise<{ default: StaticImageData }>;
+} = {
   excel: () => import('@/shared/assets/images/xls_64.png'),
   apk: () => import('@/shared/assets/images/apk_64.png'),
   exe: () => import('@/shared/assets/images/exe_64.png'),
@@ -37,7 +49,9 @@ const IconBox = ({ file }: IconBoxProps) => {
     }
   }, [file]);
 
-  return iconSrc && <Image src={iconSrc} width={'32'} height={'32'} alt={file} />;
+  return (
+    iconSrc && <Image src={iconSrc} width={'32'} height={'32'} alt={file} />
+  );
 };
 
 type ContentBoxProps = {
@@ -46,7 +60,10 @@ type ContentBoxProps = {
 
 const ContentBox = ({ children }: ContentBoxProps) => {
   return (
-    <Stack direction={'column'} sx={{ overflow: 'hidden', justifyContent: 'space-between', flexGrow: 1 }}>
+    <Stack
+      direction={'column'}
+      sx={{ overflow: 'hidden', justifyContent: 'space-between', flexGrow: 1 }}
+    >
       {children}
     </Stack>
   );
@@ -58,7 +75,14 @@ type TitleBoxProps = {
 
 const TitleBox = ({ title }: TitleBoxProps) => {
   return (
-    <Typography variant="caption" sx={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+    <Typography
+      variant="caption"
+      sx={{
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
+        overflow: 'hidden',
+      }}
+    >
       {title}
     </Typography>
   );
@@ -84,15 +108,24 @@ type FileItemCardProps = {
   sxProps?: SxProps;
 };
 
-const FileItemCard = ({ children, tooltipMsg, handleClick, sxProps }: FileItemCardProps) => {
+const FileItemCard = ({
+  children,
+  tooltipMsg,
+  handleClick,
+  sxProps,
+}: FileItemCardProps) => {
   return (
-    <Tooltip disableHoverListener={!tooltipMsg} title={<Typography variant="caption">{tooltipMsg}</Typography>}>
+    <Tooltip
+      disableHoverListener={!tooltipMsg}
+      title={<Typography variant="caption">{tooltipMsg}</Typography>}
+    >
       <Stack
         direction={'row'}
         alignItems={'center'}
         spacing={2}
         sx={{
-          boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+          boxShadow:
+            '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
           borderRadius: '0.5rem',
           cursor: 'pointer',
           p: 1,

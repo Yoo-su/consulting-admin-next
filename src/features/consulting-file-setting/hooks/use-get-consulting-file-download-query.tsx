@@ -1,8 +1,14 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { getConsultingFileDownload, GetConsultingFileDownloadParams } from '../apis';
+
+import { QUERY_KEYS } from '@/shared/constants';
 import { useUnivService } from '@/shared/hooks/context';
+
+import {
+  getConsultingFileDownload,
+  GetConsultingFileDownloadParams,
+} from '../apis';
 
 export const useGetConsultingFileDownloadQuery = (fileName: string) => {
   const { currentService } = useUnivService();
@@ -12,7 +18,8 @@ export const useGetConsultingFileDownloadQuery = (fileName: string) => {
     fileName: fileName,
   };
   return useQuery({
-    queryKey: ['consulting-file-download', params],
+    queryKey:
+      QUERY_KEYS['consulting-file-setting']['download-file'](params).queryKey,
     queryFn: () => getConsultingFileDownload(params),
     enabled: false,
     retry: false,

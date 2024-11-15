@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
-import { getConsultingFileList } from '../apis/get-consulting-file-list';
+import { useCallback, useEffect, useState } from 'react';
 
+import { getConsultingFileList } from '../apis/get-consulting-file-list';
 import { ConsultingFile } from '../models';
 
 export const useGetConsultingFileList = (serviceID: string) => {
@@ -25,5 +25,10 @@ export const useGetConsultingFileList = (serviceID: string) => {
     execute();
   }, [serviceID]);
 
-  return { loading, files, setFiles, execute: useCallback(execute, [serviceID]) };
+  return {
+    loading,
+    files,
+    setFiles,
+    execute: useCallback(execute, [serviceID]),
+  };
 };

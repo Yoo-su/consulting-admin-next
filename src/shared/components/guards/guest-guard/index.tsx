@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect, Fragment, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
+import { Fragment, ReactNode, useEffect, useState } from 'react';
 
-import AppBackdrop from '../../ui/loadings/app-backdrop';
 import { PATHS } from '@/shared/constants';
 import { useUser } from '@/shared/hooks/context';
+
+import AppBackdrop from '../../ui/loadings/app-backdrop';
 
 export type GuestGuardProps = {
   children: ReactNode;

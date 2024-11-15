@@ -4,27 +4,39 @@ import { useState } from 'react';
 
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
 import { useUnivService } from '@/shared/hooks/context/use-univ-service';
+
 import { useGetAppVersionHistoryQuery } from '../hooks';
-import AppPWAContainer from './app-pwa-container';
-import AppProgContainer from './app-prog-container';
-import HeaderSelectRadio from './header-select-radio';
 import { ConsultingAppType } from '../models';
+import AppProgContainer from './app-prog-container';
+import AppPWAContainer from './app-pwa-container';
+import HeaderSelectRadio from './header-select-radio';
 
 const AppHistoryListContainer = () => {
   const { currentService } = useUnivService();
   const isNew = currentService?.isNew ?? false;
 
   const [appType, setAppType] = useState<ConsultingAppType>(isNew ? 'A' : 'O');
-  const { data: histories } = useGetAppVersionHistoryQuery(currentService?.serviceID, appType === 'O' ? null : appType);
+  const { data: histories } = useGetAppVersionHistoryQuery(
+    currentService?.serviceID,
+    appType === 'O' ? null : appType
+  );
 
   return (
     <ContentWrapper>
       <ContentWrapper.Header bottomDivider>
-        <HeaderSelectRadio appType={appType} setAppType={setAppType} isNew={isNew} />
+        <HeaderSelectRadio
+          appType={appType}
+          setAppType={setAppType}
+          isNew={isNew}
+        />
       </ContentWrapper.Header>
 
       <ContentWrapper.MainContent>
-        {appType == 'O' ? <AppPWAContainer /> : <AppProgContainer histories={histories} />}
+        {appType == 'O' ? (
+          <AppPWAContainer />
+        ) : (
+          <AppProgContainer histories={histories} />
+        )}
       </ContentWrapper.MainContent>
     </ContentWrapper>
   );

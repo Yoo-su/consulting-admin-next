@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, SyntheticEvent } from 'react';
 import { Stack, Switch, Typography } from '@mui/material';
+import { Dispatch, SetStateAction, SyntheticEvent } from 'react';
 
 import TreeItemList from '../components/tree-item-list';
 import { FlutterSetting } from '../models';
@@ -16,14 +16,30 @@ const SettingList = ({ toggle, setToggle, filteredList }: SettingListProps) => {
 
   return (
     <Stack spacing={2}>
-      <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} sx={{ padding: '.5rem .8rem ' }}>
+      <Stack
+        direction={'row'}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        sx={{ padding: '.5rem .8rem ' }}
+      >
         <Typography variant={'body1'}>카테고리 목록</Typography>
         <Stack direction={'row'} alignItems={'center'}>
-          <Typography variant="body2" sx={{ color: toggle ? '#969696' : 'black' }}>
+          <Typography
+            variant="body2"
+            sx={{ color: toggle ? '#969696' : 'black' }}
+          >
             전체
           </Typography>
-          <Switch size="small" sx={{ marginRight: '2px', ...SwitchClass }} checked={toggle} onChange={handleChange} />
-          <Typography variant="body2" sx={{ color: toggle ? 'black' : '#969696' }}>
+          <Switch
+            size="small"
+            sx={{ marginRight: '2px', ...SwitchClass }}
+            checked={toggle}
+            onChange={handleChange}
+          />
+          <Typography
+            variant="body2"
+            sx={{ color: toggle ? 'black' : '#969696' }}
+          >
             예외
           </Typography>
         </Stack>

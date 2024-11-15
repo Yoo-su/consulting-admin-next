@@ -1,5 +1,6 @@
-import { apiInstance } from '@/shared/plugin/axios';
 import { API_URLS } from '@/shared/constants/api-urls';
+import { apiInstance } from '@/shared/plugin/axios';
+
 import { EtcLibrary } from '../models';
 
 type GetEtcLibraryResponse = {
@@ -10,7 +11,9 @@ type GetEtcLibraryResponse = {
   url: string;
 };
 
-const transformEtcLibraryResponse = (data: GetEtcLibraryResponse[]): EtcLibrary[] => {
+const transformEtcLibraryResponse = (
+  data: GetEtcLibraryResponse[]
+): EtcLibrary[] => {
   if (!Array.isArray(data)) {
     throw new Error('데이터가 올바르지 않습니다.');
   }
@@ -38,9 +41,12 @@ const transformEtcLibraryResponse = (data: GetEtcLibraryResponse[]): EtcLibrary[
 };
 
 export const getEtcLibrary = async (serviceID: string) => {
-  return await apiInstance.get<EtcLibrary[]>(`${API_URLS.dashboard.etcLibrary}/${serviceID}`, {
-    transformResponse: (data) => {
-      return transformEtcLibraryResponse(JSON.parse(data));
-    },
-  });
+  return await apiInstance.get<EtcLibrary[]>(
+    `${API_URLS.dashboard.etcLibrary}/${serviceID}`,
+    {
+      transformResponse: (data) => {
+        return transformEtcLibraryResponse(JSON.parse(data));
+      },
+    }
+  );
 };

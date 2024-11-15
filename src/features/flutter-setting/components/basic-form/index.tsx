@@ -1,12 +1,12 @@
-import { createElement } from 'react';
 import { Stack, Typography } from '@mui/material';
+import { createElement } from 'react';
 
-import { FlutterRowInfo } from '../../models';
-import { FlutterSettingFormType, Path } from '../../models';
 import { COMPONENT_MAPPING, FORM_TYPE_LIST } from '../../constants';
 import { useFlutterSetting } from '../../hooks';
-import EditSetting from '../edit-setting';
+import { FlutterRowInfo } from '../../models';
+import { FlutterSettingFormType, Path } from '../../models';
 import { checkChildEdited, getFilteredCustomConfig } from '../../services';
+import EditSetting from '../edit-setting';
 
 type BasicFormProps = {
   basicKey?: string;
@@ -16,10 +16,21 @@ type BasicFormProps = {
   isDisabled: boolean;
 };
 
-const BasicForm = ({ basicKey, item, path, index = 0, isDisabled }: BasicFormProps) => {
-  const { IsRequired, Type, Title, KoreanTitle, Description, level, children } = item;
-  const { flutterSettingList, filteredSettingList, setFilteredSettingList, setFlutterSettingList } =
-    useFlutterSetting();
+const BasicForm = ({
+  basicKey,
+  item,
+  path,
+  index = 0,
+  isDisabled,
+}: BasicFormProps) => {
+  const { IsRequired, Type, Title, KoreanTitle, Description, level, children } =
+    item;
+  const {
+    flutterSettingList,
+    filteredSettingList,
+    setFilteredSettingList,
+    setFlutterSettingList,
+  } = useFlutterSetting();
   const isEdited = checkChildEdited(item, filteredSettingList, true);
 
   const handleEdit = (path: (number | string)[], value: string) => {
@@ -65,22 +76,36 @@ const BasicForm = ({ basicKey, item, path, index = 0, isDisabled }: BasicFormPro
             backgroundColor: isEdited ? '#EEEEEE' : '',
           }}
         >
-          <Typography variant={subMenuSettings.variant[level]} sx={{ fontWeight: subMenuSettings.fontWeight[level] }}>
+          <Typography
+            variant={subMenuSettings.variant[level]}
+            sx={{ fontWeight: subMenuSettings.fontWeight[level] }}
+          >
             {/* {getRomanValues(index + 1, subMenuSettings.indexType[level])}.*/}
             {Title}
             {IsRequired && '*'}
           </Typography>
-          <Typography variant={subMenuSettings.variant[level]} sx={{ color: '#757575' }}>
+          <Typography
+            variant={subMenuSettings.variant[level]}
+            sx={{ color: '#757575' }}
+          >
             {KoreanTitle}
           </Typography>
         </Stack>
-        {Type !== 'boolean' && <Typography variant={'caption'}>{Description}</Typography>}
+        {Type !== 'boolean' && (
+          <Typography variant={'caption'}>{Description}</Typography>
+        )}
       </Stack>
 
       {Type === 'object' ? (
-        <EditSetting settingList={children} path={path} isDisabled={isDisabled} />
+        <EditSetting
+          settingList={children}
+          path={path}
+          isDisabled={isDisabled}
+        />
       ) : (
-        FORM_TYPE_LIST.filter((form) => form.type === Type).map((el) => createComponent(el))
+        FORM_TYPE_LIST.filter((form) => form.type === Type).map((el) =>
+          createComponent(el)
+        )
       )}
     </Stack>
   );

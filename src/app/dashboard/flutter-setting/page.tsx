@@ -1,8 +1,9 @@
 import Box from '@mui/material/Box';
-import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
+
+import DupServiceBtn from '@/features/flutter-setting/components/dup-service';
 import FlutterSettingContainer from '@/features/flutter-setting/components/flutter-setting-container';
 import FlutterSettingProvider from '@/features/flutter-setting/contexts';
-import DupServiceBtn from '@/features/flutter-setting/components/dup-service';
+import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {
   title: '상담앱 관리자 | 앱 사용자 설정',

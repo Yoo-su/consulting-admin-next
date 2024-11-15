@@ -1,18 +1,19 @@
-import { useEffect } from 'react';
 import { Grid, styled, SxProps } from '@mui/material';
 import { UseMutationResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
+import { useEffect } from 'react';
 
 import { useHandleBrowserQueue } from '@/shared/hooks';
+import { useGetBrowserListQuery } from '@/shared/hooks/tanstack';
+import { useBrowserStore } from '@/shared/models/stores';
+
 import DropZoneContainer from '../drop-zone-container';
 import LoadingCover from '../loadings/loading-cover';
+import AddFolderDialog from './add-folder-dialog';
+import UploadButton from './atoms/upload-button';
 import BrowserHeader from './header';
 import FileList from './molecules/file-list';
 import Queue from './molecules/queue';
-import { useBrowserStore } from '@/shared/models/stores';
-import { useGetBrowserListQuery } from '@/shared/hooks/tanstack';
-import UploadButton from './atoms/upload-button';
-import AddFolderDialog from './add-folder-dialog';
 
 type BrowserProps = {
   initialPath: string;
@@ -20,7 +21,12 @@ type BrowserProps = {
   showCurrentPath?: boolean;
   isDropZone?: boolean;
   formData?: FormData;
-  uploadMutation?: UseMutationResult<AxiosResponse<any, any>, Error, FormData, unknown>;
+  uploadMutation?: UseMutationResult<
+    AxiosResponse<any, any>,
+    Error,
+    FormData,
+    unknown
+  >;
 };
 const Browser = ({
   initialPath,
@@ -32,7 +38,8 @@ const Browser = ({
 }: BrowserProps) => {
   const initPath = useBrowserStore((state) => state.initPath);
   const currentPath = useBrowserStore((state) => state.currentPath);
-  const { data: browserQueryData, isLoading: isBrowsing } = useGetBrowserListQuery(currentPath);
+  const { data: browserQueryData, isLoading: isBrowsing } =
+    useGetBrowserListQuery(currentPath);
   const {
     fileInputRef,
     handleUploadBrowserQueue,
@@ -73,7 +80,13 @@ const Browser = ({
 
       <UploadButton handleUploadBrowserQueue={handleUploadBrowserQueue} />
 
-      <input style={{ display: 'none' }} type={'file'} multiple ref={fileInputRef} onChange={handleChangeFileInput} />
+      <input
+        style={{ display: 'none' }}
+        type={'file'}
+        multiple
+        ref={fileInputRef}
+        onChange={handleChangeFileInput}
+      />
 
       <AddFolderDialog handleUploadDialogQueue={handleUploadDialogQueue} />
     </DropZoneContainer>

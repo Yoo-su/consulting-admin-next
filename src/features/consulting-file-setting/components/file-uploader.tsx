@@ -1,13 +1,17 @@
 'use client';
 
-import { DragEvent, ChangeEvent, useState } from 'react';
-import toast from 'react-hot-toast';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { ChangeEvent, DragEvent, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { useConsultingFileSettings } from '../hooks';
-import { CustomWidthBoxCell, HiddenFileInput, UploadDivWrapper } from './table-components';
+import {
+  CustomWidthBoxCell,
+  HiddenFileInput,
+  UploadDivWrapper,
+} from './table-components';
 
 const FileUploader = () => {
   const { addToFiles } = useConsultingFileSettings();
@@ -31,7 +35,11 @@ const FileUploader = () => {
             addToFiles(file);
           }
         } else {
-          toast.error(<Typography variant="body2">pdf 파일만 업로드 가능합니다</Typography>);
+          toast.error(
+            <Typography variant="body2">
+              pdf 파일만 업로드 가능합니다
+            </Typography>
+          );
         }
       }
     }

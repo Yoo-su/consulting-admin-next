@@ -1,25 +1,30 @@
 'use client';
 
-import { MouseEvent, FocusEvent, KeyboardEvent, useState } from 'react';
-import Typography from '@mui/material/Typography';
-import InputAdornment from '@mui/material/InputAdornment';
-import toast from 'react-hot-toast';
-
-import IconButton from '@mui/material/IconButton';
-import EditIcon from '@mui/icons-material/Edit';
-import DragHandleIcon from '@mui/icons-material/DragHandle';
 import ClearIcon from '@mui/icons-material/Clear';
 import DoneIcon from '@mui/icons-material/Done';
+import DragHandleIcon from '@mui/icons-material/DragHandle';
+import EditIcon from '@mui/icons-material/Edit';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Typography from '@mui/material/Typography';
+import { FocusEvent, KeyboardEvent, MouseEvent, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { useConsultingFileSettings } from '../hooks';
+import { ConsultingFile } from '../models';
 import { getFileNoFromEvent } from '../services';
+import FileDownloader from './file-downloader';
 import { CustomWidthBoxCell, StyledTextField } from './table-components';
 
-import FileDownloader from './file-downloader';
-import { ConsultingFile } from '../models';
-
 const EditFile = ({ file }: { file: ConsultingFile }) => {
-  const { files, setFiles, editFileIndex, setEditFileIndex, updateRefTitle, deleteFile } = useConsultingFileSettings();
+  const {
+    files,
+    setFiles,
+    editFileIndex,
+    setEditFileIndex,
+    updateRefTitle,
+    deleteFile,
+  } = useConsultingFileSettings();
   const [origTitle, setOrigTitle] = useState<string>(file.RefTitle);
 
   //#region textfield
@@ -36,7 +41,9 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
 
   const editRefTitle = (fileIndex: number) => {
     const currentStatus = editFileIndex[fileIndex - 1];
-    const newEditFileIndex = currentStatus ? [...editFileIndex] : new Array(editFileIndex.length).fill(false);
+    const newEditFileIndex = currentStatus
+      ? [...editFileIndex]
+      : new Array(editFileIndex.length).fill(false);
     newEditFileIndex[fileIndex - 1] = !currentStatus;
     setEditFileIndex(newEditFileIndex);
 
@@ -44,11 +51,17 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
 
     // currentStatus가 true일 때만 title을 저장
     if (currentStatus) {
-      const title = (document.getElementById(`textField-${fileIndex}`) as HTMLInputElement)?.value;
+      const title = (
+        document.getElementById(`textField-${fileIndex}`) as HTMLInputElement
+      )?.value;
       const trimmedValue = title.trim();
       if (!trimmedValue || trimmedValue === origTitle) return;
       if (trimmedValue.length > 30) {
-        toast.error(<Typography variant="body2">자료명은 30자 이내로 입력해주세요</Typography>);
+        toast.error(
+          <Typography variant="body2">
+            자료명은 30자 이내로 입력해주세요
+          </Typography>
+        );
         setOrigTitle(origTitle);
         resetFileList(fileIndex, origTitle);
         return;
@@ -63,7 +76,11 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
     }
   };
 
-  const handleTextInput = (event: MouseEvent<HTMLElement> | FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleTextInput = (
+    event:
+      | MouseEvent<HTMLElement>
+      | FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const fileIndex = getFileNoFromEvent(event.currentTarget.id);
     editRefTitle(fileIndex);
   };
@@ -96,7 +113,10 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
       <CustomWidthBoxCell size="s" typo={true}>
         {file.RefNo}
       </CustomWidthBoxCell>
-      <CustomWidthBoxCell size="m" style={{ minWidth: '350px', paddingLeft: '5px', paddingRight: '5px' }}>
+      <CustomWidthBoxCell
+        size="m"
+        style={{ minWidth: '350px', paddingLeft: '5px', paddingRight: '5px' }}
+      >
         <StyledTextField
           id={`textField-${file.RefNo}`}
           value={file.RefTitle}
@@ -106,7 +126,12 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton disableRipple onClick={handleTextInput} edge="start" id={`${file.RefNo}`}>
+                <IconButton
+                  disableRipple
+                  onClick={handleTextInput}
+                  edge="start"
+                  id={`${file.RefNo}`}
+                >
                   {editFileIndex[file.RefNo - 1] ? <DoneIcon /> : <EditIcon />}
                 </IconButton>
               </InputAdornment>
@@ -128,7 +153,11 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
       </CustomWidthBoxCell>
       <FileDownloader fileName={file.FileName} />
       <CustomWidthBoxCell size="s" style={{ paddingLeft: 0 }}>
-        <IconButton disableRipple onClick={handleDeleteFile} id={`deleteFile-${file.RefNo}`}>
+        <IconButton
+          disableRipple
+          onClick={handleDeleteFile}
+          id={`deleteFile-${file.RefNo}`}
+        >
           <ClearIcon color="warning" fontSize="small" />
         </IconButton>
       </CustomWidthBoxCell>

@@ -16,7 +16,13 @@ export type BoardType = 'mainUser' | 'all';
 export type ViewOption = 'basic' | 'separated' | 'table';
 export type DialogType = 'create' | 'modify';
 
-export type CurrentState = 'notStarted' | 'dataRequested' | 'developing' | 'testing' | 'deployed' | 'running';
+export type CurrentState =
+  | 'notStarted'
+  | 'dataRequested'
+  | 'developing'
+  | 'testing'
+  | 'deployed'
+  | 'running';
 export type ConsultingAppState = {
   univID: string;
   serviceID: string;

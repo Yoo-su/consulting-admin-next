@@ -1,32 +1,37 @@
 'use client';
 
-import { useRef, useState, ChangeEvent, DragEvent } from 'react';
-import Image from 'next/image';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Alert from '@mui/material/Alert';
-import Chip from '@mui/material/Chip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import PulseLoader from 'react-spinners/PulseLoader';
+import {
+  ArrowCircleDown as ArrowCircleDownIcon,
+  Check as CheckIcon,
+  Upload as UploadIcon,
+} from '@mui/icons-material';
+import {
+  Alert,
+  Box,
+  Button,
+  Chip,
+  FormControlLabel,
+  Stack,
+  Step,
+  StepLabel,
+  Stepper,
+  Switch,
+  Typography,
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
-import CheckIcon from '@mui/icons-material/Check';
-import UploadIcon from '@mui/icons-material/Upload';
+import Image from 'next/image';
+import { ChangeEvent, DragEvent, useRef, useState } from 'react';
+import PulseLoader from 'react-spinners/PulseLoader';
 
+import excelIcon from '@/shared/assets/images/xls_64.png';
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
 import ColorlibStepIcon from '@/shared/components/ui/stepper/color-lib-step-icon';
 import { ColorlibConnector } from '@/shared/components/ui/stepper/styled';
 import { useUnivService } from '@/shared/hooks/context';
-import { useHandleExcel } from '../hooks/use-handle-foundation';
+
 import { EXCEL_UPLOAD_STEPS } from '../constants';
-import excelIcon from '@/shared/assets/images/xls_64.png';
+import { useHandleFoundation } from '../hooks/use-handle-foundation';
 
 const FoundationUploadContainer = () => {
   const { currentUniv, currentService } = useUnivService();
@@ -43,7 +48,7 @@ const FoundationUploadContainer = () => {
     uploading,
     fileOnly,
     setFileOnly,
-  } = useHandleExcel();
+  } = useHandleFoundation();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const theme = useTheme();
   const downsm = useMediaQuery(theme.breakpoints.down('sm'));
@@ -94,7 +99,11 @@ const FoundationUploadContainer = () => {
   return (
     <ContentWrapper>
       <ContentWrapper.Header bottomDivider>
-        <Stack direction={'row'} justifyContent={'space-between'} sx={{ flexGrow: 1 }}>
+        <Stack
+          direction={'row'}
+          justifyContent={'space-between'}
+          sx={{ flexGrow: 1 }}
+        >
           <FormControlLabel
             control={
               <Switch
@@ -105,7 +114,11 @@ const FoundationUploadContainer = () => {
                 }}
               />
             }
-            label={<Typography fontSize={downsm ? '12px' : '16px'}>파일만 업로드하기</Typography>}
+            label={
+              <Typography fontSize={downsm ? '12px' : '16px'}>
+                파일만 업로드하기
+              </Typography>
+            }
           />
           <Chip
             color="default"
@@ -131,13 +144,19 @@ const FoundationUploadContainer = () => {
         >
           {EXCEL_UPLOAD_STEPS.map((label, index) => (
             <Step key={label}>
-              <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+              <StepLabel StepIconComponent={ColorlibStepIcon}>
+                {label}
+              </StepLabel>
             </Step>
           ))}
         </Stepper>
 
         {alertData && (
-          <Alert severity={alertData.color} color={alertData.color} sx={{ mt: 4, mx: 'auto', width: '65%' }}>
+          <Alert
+            severity={alertData.color}
+            color={alertData.color}
+            sx={{ mt: 4, mx: 'auto', width: '65%' }}
+          >
             {alertData.message}
           </Alert>
         )}
@@ -163,13 +182,25 @@ const FoundationUploadContainer = () => {
               alignItems: 'center',
               borderRadius: '1rem',
               position: 'relative',
-              minWidth: { xs: '90%', sm: '70%', md: '70%', lg: '70%', xl: '70%' },
+              minWidth: {
+                xs: '90%',
+                sm: '70%',
+                md: '70%',
+                lg: '70%',
+                xl: '70%',
+              },
               height: '280px',
               px: 1,
-              boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+              boxShadow:
+                '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
             }}
           >
-            <Image src={excelIcon} width={'48'} height={'48'} alt="excel-image" />
+            <Image
+              src={excelIcon}
+              width={'48'}
+              height={'48'}
+              alt="excel-image"
+            />
             <Typography
               variant="body2"
               color="grey.700"
@@ -207,10 +238,19 @@ const FoundationUploadContainer = () => {
           )}
 
           {isVerified && (
-            <Button color="success" variant="contained" onClick={upload} disabled={success || uploading}>
+            <Button
+              color="success"
+              variant="contained"
+              onClick={upload}
+              disabled={success || uploading}
+            >
               {success ? <CheckIcon /> : <UploadIcon />}
               <Typography variant="body1">
-                {uploading ? '엑셀 업로드중..' : success ? '업로드 완료' : '엑셀 업로드'}
+                {uploading
+                  ? '엑셀 업로드중..'
+                  : success
+                  ? '업로드 완료'
+                  : '엑셀 업로드'}
               </Typography>
             </Button>
           )}

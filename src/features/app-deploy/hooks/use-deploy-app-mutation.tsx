@@ -2,8 +2,9 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { QUERY_KEYS } from '@/shared/constants';
+
 import { deployApp } from '../apis';
-import { FEATURE_KEYS } from '@/shared/constants/query-keys';
 
 export const useDeployAppMutation = () => {
   const queryClient = useQueryClient();
@@ -14,7 +15,8 @@ export const useDeployAppMutation = () => {
       const osType = variables.get('osType') as string;
 
       queryClient.invalidateQueries({
-        queryKey: FEATURE_KEYS['app-version-history'].history(serviceID, osType).queryKey,
+        queryKey: QUERY_KEYS['app-version-history'].history(serviceID, osType)
+          .queryKey,
       });
     },
   });

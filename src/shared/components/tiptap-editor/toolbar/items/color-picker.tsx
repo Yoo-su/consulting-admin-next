@@ -1,7 +1,7 @@
 'use client';
 
-import { Editor } from '@tiptap/react';
 import Box from '@mui/material/Box';
+import { Editor } from '@tiptap/react';
 import { ChangeEvent, useCallback } from 'react';
 
 type Props = {

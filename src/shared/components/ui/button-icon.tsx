@@ -1,7 +1,6 @@
-import { ComponentType, memo, ButtonHTMLAttributes } from 'react';
-
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { SvgIconProps } from '@mui/material';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import { ButtonHTMLAttributes, ComponentType, memo } from 'react';
 
 type ButtonIconProps = IconButtonProps &
   ButtonHTMLAttributes<HTMLButtonElement> & {

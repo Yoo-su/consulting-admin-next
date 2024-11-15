@@ -23,7 +23,10 @@ const FileDownloader = ({ fileName }: FileDownloaderProps) => {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', fileName.endsWith('.pdf') ? fileName : `${fileName}.pdf`);
+      link.setAttribute(
+        'download',
+        fileName.endsWith('.pdf') ? fileName : `${fileName}.pdf`
+      );
       document.body.appendChild(link);
       link.click();
 
@@ -34,15 +37,32 @@ const FileDownloader = ({ fileName }: FileDownloaderProps) => {
       window.URL.revokeObjectURL(url);
     } catch (error: any) {
       console.error(error);
-      toast.error(<Typography variant="body2">파일 다운로드 중 문제가 발생했습니다</Typography>);
+      toast.error(
+        <Typography variant="body2">
+          파일 다운로드 중 문제가 발생했습니다
+        </Typography>
+      );
     }
   };
 
   return (
-    <CustomWidthBoxCell size="m" typo={true} style={{ padding: '0 5px', justifyContent: 'flex-start !important' }}>
+    <CustomWidthBoxCell
+      size="m"
+      typo={true}
+      style={{ padding: '0 5px', justifyContent: 'flex-start !important' }}
+    >
       <Button
-        startIcon={isFetching ? <CircularProgress size={20} /> : <DownloadIcon />}
-        sx={{ minWidth: '350px', '& .MuiButton-icon': { margin: 0, paddingRight: '2px', paddingTop: '2px' } }}
+        startIcon={
+          isFetching ? <CircularProgress size={20} /> : <DownloadIcon />
+        }
+        sx={{
+          minWidth: '350px',
+          '& .MuiButton-icon': {
+            margin: 0,
+            paddingRight: '2px',
+            paddingTop: '2px',
+          },
+        }}
         onClick={handleClick}
         disabled={isFetching}
       >

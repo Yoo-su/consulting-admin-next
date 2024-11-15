@@ -1,10 +1,12 @@
 'use client';
 
+import 'react-calendar/dist/Calendar.css';
+
 import { useCallback, useState } from 'react';
 import Calendar from 'react-calendar';
-import ContentWrapper from '@/shared/components/ui/content-wrapper';
+
 import Tiptap from '@/shared/components/tiptap-editor';
-import 'react-calendar/dist/Calendar.css';
+import ContentWrapper from '@/shared/components/ui/content-wrapper';
 
 const CalendarBox = () => {
   const [text, setText] = useState<string>('');

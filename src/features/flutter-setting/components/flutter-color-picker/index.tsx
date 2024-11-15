@@ -1,10 +1,16 @@
-import { Dispatch, MouseEvent, SetStateAction, useEffect, useState } from 'react';
 import SquareRoundedIcon from '@mui/icons-material/SquareRounded';
 import { Popover } from '@mui/material';
+import {
+  Dispatch,
+  MouseEvent,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 
-import { hexToHsv, hsvToHex } from '../../services';
-import { HSV, FormItemProps } from '../../models';
 import { useFlutterSetting } from '../../hooks';
+import { FormItemProps, HSV } from '../../models';
+import { hexToHsv, hsvToHex } from '../../services';
 import ColorPopover from './color-popover';
 
 type FlutterColorPickerProps = {
@@ -25,7 +31,9 @@ const FlutterColorPicker = ({
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
   const [currentHsv, setCurrentHsv] = useState<HSV>(hexToHsv(value));
-  const [hexText, setHexText] = useState<string>(value.replace('0xff', '').toUpperCase());
+  const [hexText, setHexText] = useState<string>(
+    value.replace('0xff', '').toUpperCase()
+  );
   const { addToEditedList } = useFlutterSetting();
 
   const handleColorChange = (event: MouseEvent<HTMLButtonElement>) => {

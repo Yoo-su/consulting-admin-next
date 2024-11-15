@@ -1,16 +1,17 @@
 import {
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TablePagination,
   Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
 } from '@mui/material';
 import { ChangeEvent, MouseEvent, useState } from 'react';
 
 import { Service } from '@/shared/models';
+
 import ServiceTableData from './service-table-data';
 
 type ServiceListTableProps = {
@@ -20,7 +21,10 @@ const ServiceListTable = ({ serviceList }: ServiceListTableProps) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+  const handleChangePage = (
+    event: MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
     setPage(newPage);
   };
 
@@ -43,7 +47,11 @@ const ServiceListTable = ({ serviceList }: ServiceListTableProps) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          <ServiceTableData serviceList={serviceList} page={page} rowsPerPage={rowsPerPage} />
+          <ServiceTableData
+            serviceList={serviceList}
+            page={page}
+            rowsPerPage={rowsPerPage}
+          />
         </TableBody>
       </Table>
       <TablePagination

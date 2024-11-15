@@ -5,10 +5,16 @@ export const checkChildEdited = (
   filteredSettingList: (FlutterSetting | FlutterRowInfo)[],
   isDeep: boolean = false
 ) => {
-  return filteredSettingList.some((parent) => checkRowEdited(child, parent.children, isDeep));
+  return filteredSettingList.some((parent) =>
+    checkRowEdited(child, parent.children, isDeep)
+  );
 };
 
-const checkRowEdited = (row: FlutterRowInfo, rowList: FlutterRowInfo[], isDeep: boolean): boolean => {
+const checkRowEdited = (
+  row: FlutterRowInfo,
+  rowList: FlutterRowInfo[],
+  isDeep: boolean
+): boolean => {
   return rowList.some((item) => {
     if (isDeep && item.children.length > 0 && item.Type !== 'select') {
       return checkRowEdited(row, item.children, isDeep);

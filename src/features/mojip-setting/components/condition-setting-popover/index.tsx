@@ -1,13 +1,13 @@
 'use client';
 
-import { memo, useMemo, useState } from 'react';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import Chip from '@mui/material/Chip';
 import Popover from '@mui/material/Popover';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Chip from '@mui/material/Chip';
+import { memo, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import { useMojipSetting } from '../../hooks';
 import { Condition } from '../../models';
@@ -21,15 +21,30 @@ type ConditionSettingPopoverProps = {
   rowNum: number;
   condition: Condition[];
 };
-const ConditionSettingPopover = ({ anchorEl, onClose, open, rowNum, condition }: ConditionSettingPopoverProps) => {
+const ConditionSettingPopover = ({
+  anchorEl,
+  onClose,
+  open,
+  rowNum,
+  condition,
+}: ConditionSettingPopoverProps) => {
   const { updateCondition } = useMojipSetting();
-  const [currentCondition, setCurrentCondition] = useState<Condition[]>(condition);
-  const [originalCondition, setOriginalCondition] = useState<Condition[]>(condition);
+  const [currentCondition, setCurrentCondition] =
+    useState<Condition[]>(condition);
+  const [originalCondition, setOriginalCondition] =
+    useState<Condition[]>(condition);
 
   const hasChanges = useMemo(() => {
-    const sortedCurrentCondition = [...currentCondition].sort((a, b) => a.idx - b.idx),
-      sortedOriginalCondition = [...originalCondition].sort((a, b) => a.idx - b.idx);
-    return JSON.stringify(sortedCurrentCondition) !== JSON.stringify(sortedOriginalCondition);
+    const sortedCurrentCondition = [...currentCondition].sort(
+        (a, b) => a.idx - b.idx
+      ),
+      sortedOriginalCondition = [...originalCondition].sort(
+        (a, b) => a.idx - b.idx
+      );
+    return (
+      JSON.stringify(sortedCurrentCondition) !==
+      JSON.stringify(sortedOriginalCondition)
+    );
   }, [currentCondition, originalCondition]);
 
   const handleClickSaveBtn = () => {
@@ -39,7 +54,9 @@ const ConditionSettingPopover = ({ anchorEl, onClose, open, rowNum, condition }:
   };
 
   const handleClickAddRowBtn = () => {
-    const newIdx = currentCondition.length ? Math.max(...Array.from(currentCondition, (item) => item.idx)) + 1 : 0;
+    const newIdx = currentCondition.length
+      ? Math.max(...Array.from(currentCondition, (item) => item.idx)) + 1
+      : 0;
     const newRow: Condition = {
       idx: newIdx,
       logic: currentCondition.length ? 'and' : '',
@@ -67,11 +84,17 @@ const ConditionSettingPopover = ({ anchorEl, onClose, open, rowNum, condition }:
 
   const handleClickDeleteRowBtn = (idx: number) => {
     if (idx === 0 && currentCondition.length > 1) {
-      toast.error(<Typography variant="body2">연결된 조건이 있어 삭제 불가합니다</Typography>);
+      toast.error(
+        <Typography variant="body2">
+          연결된 조건이 있어 삭제 불가합니다
+        </Typography>
+      );
       return;
     }
 
-    const newCondition = [...currentCondition].filter((item) => item.idx !== idx);
+    const newCondition = [...currentCondition].filter(
+      (item) => item.idx !== idx
+    );
     setCurrentCondition(newCondition);
   };
 
@@ -84,10 +107,20 @@ const ConditionSettingPopover = ({ anchorEl, onClose, open, rowNum, condition }:
         onClose();
       }}
       open={open}
-      slotProps={{ paper: { sx: { width: '540px', mt: 0.6, height: '380px' } } }}
+      slotProps={{
+        paper: { sx: { width: '540px', mt: 0.6, height: '380px' } },
+      }}
       sx={{ overflowY: 'scroll' }}
     >
-      <Stack direction={'column'} sx={{ p: '16px 20px', position: 'relative', alignItems: 'center', height: '100%' }}>
+      <Stack
+        direction={'column'}
+        sx={{
+          p: '16px 20px',
+          position: 'relative',
+          alignItems: 'center',
+          height: '100%',
+        }}
+      >
         <Stack
           direction={'row'}
           justifyContent={'flex-end'}
@@ -100,7 +133,8 @@ const ConditionSettingPopover = ({ anchorEl, onClose, open, rowNum, condition }:
             position: 'sticky',
             width: '100%',
             borderRadius: '0.5rem',
-            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+            boxShadow:
+              '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
           }}
         >
           <Chip
@@ -144,7 +178,11 @@ const ConditionSettingPopover = ({ anchorEl, onClose, open, rowNum, condition }:
         </Stack>
 
         {currentCondition.length ? (
-          <Stack direction={'column'} spacing={0} sx={{ p: '10px 0', mt: 2, width: '100%', height: '100%' }}>
+          <Stack
+            direction={'column'}
+            spacing={0}
+            sx={{ p: '10px 0', mt: 2, width: '100%', height: '100%' }}
+          >
             {currentCondition.map((item) => (
               <ConditionRow
                 key={item.idx}

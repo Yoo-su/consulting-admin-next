@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+
 import { updateDetailPageData } from '../apis';
 import { DetailPageData } from '../models';
 
@@ -8,6 +9,7 @@ type MutationFnProps = {
 };
 export const useUpdateDetailpageDataMutation = () => {
   return useMutation({
-    mutationFn: ({ serviceID, detailpageData }: MutationFnProps) => updateDetailPageData(serviceID, detailpageData),
+    mutationFn: ({ serviceID, detailpageData }: MutationFnProps) =>
+      updateDetailPageData(serviceID, detailpageData),
   });
 };

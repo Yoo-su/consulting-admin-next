@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { memo } from 'react';
 
 type ModeSelectProps = {
@@ -6,7 +6,11 @@ type ModeSelectProps = {
   currentMode: 'calc' | 'detail';
   handleModeChange: (rowNum: number, mode: 'calc' | 'detail') => void;
 };
-const ModeSelect = ({ rowNum, currentMode, handleModeChange }: ModeSelectProps) => {
+const ModeSelect = ({
+  rowNum,
+  currentMode,
+  handleModeChange,
+}: ModeSelectProps) => {
   return (
     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
       <InputLabel sx={{ fontWeight: 'bold' }}>Mode</InputLabel>

@@ -1,5 +1,5 @@
-import { apiInstance } from '@/shared/plugin/axios';
 import { API_URLS } from '@/shared/constants/api-urls';
+import { apiInstance } from '@/shared/plugin/axios';
 
 type SetDuplicateSettingResponse = {
   statusCode: number;
@@ -10,7 +10,10 @@ export type SetDuplicateSettingParams = {
   sourceServiceID: number;
   targetServiceID: number;
 };
-export const setDuplicateSetting = async ({ sourceServiceID, targetServiceID }: SetDuplicateSettingParams) => {
+export const setDuplicateSetting = async ({
+  sourceServiceID,
+  targetServiceID,
+}: SetDuplicateSettingParams) => {
   if (!sourceServiceID || !targetServiceID) {
     return null;
   }

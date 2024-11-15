@@ -1,13 +1,14 @@
 'use client';
 
-import { useCallback, memo } from 'react';
-import { EditorContent } from '@tiptap/react';
 import { useTheme } from '@mui/material/styles';
+import { EditorContent } from '@tiptap/react';
 import { debounce } from 'lodash';
+import { memo, useCallback } from 'react';
 
-import Toolbar from './toolbar';
 import { useTextEditor } from '@/shared/hooks';
+
 import { TiptapContainer } from './styled';
+import Toolbar from './toolbar';
 
 type TiptapProps = {
   value: string;

@@ -1,7 +1,7 @@
 'use client';
 
+import { Fade, Menu, MenuItem, Typography } from '@mui/material';
 import { Editor } from '@tiptap/react';
-import { Menu, MenuItem, Fade, Typography } from '@mui/material';
 
 type IOption = {
   label: string;
@@ -10,7 +10,12 @@ type IOption = {
 const getTableMenus = (editor: Editor): IOption[] => [
   {
     label: '테이블 추가',
-    action: () => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(),
+    action: () =>
+      editor
+        .chain()
+        .focus()
+        .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+        .run(),
   },
   {
     label: '이전 열 추가',

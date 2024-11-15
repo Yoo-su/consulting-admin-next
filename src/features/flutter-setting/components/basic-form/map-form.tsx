@@ -1,21 +1,30 @@
-import { useState, MouseEvent, ChangeEvent, useEffect } from 'react';
+import Add from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DoneIcon from '@mui/icons-material/Done';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import {
+  Box,
+  Button,
+  IconButton,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import DoneIcon from '@mui/icons-material/Done';
-import { Box, Button, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import Add from '@mui/icons-material/Add';
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { getConvertedValue } from '@/shared/services/get-converted-value';
-import { getArrayToObjectForm } from '../../services';
+
 import { useFlutterSetting } from '../../hooks';
 import { FormItemProps } from '../../models';
+import { getArrayToObjectForm } from '../../services';
 
 type RowType = {
   item: string;
@@ -28,17 +37,26 @@ const MapForm = ({
   handleEdit: onEdit,
   isDisabled,
 }: Partial<Pick<FormItemProps, 'item'>> & Omit<FormItemProps, 'item'>) => {
-  const { transferDefaultValue, RowIdx = null, RowValue = null, OriginalRowValue = null } = originalItem ?? {};
+  const {
+    transferDefaultValue,
+    RowIdx = null,
+    RowValue = null,
+    OriginalRowValue = null,
+  } = originalItem ?? {};
   const dataObj = getConvertedValue(RowValue ?? transferDefaultValue ?? '{}');
   const { addToEditedList } = useFlutterSetting();
 
   const [isAdd, setIsAdd] = useState(originalItem ? false : true);
-  const [isEditObj, setIsEditObj] = useState<boolean[]>(Array(Object.keys(dataObj).length).fill(false));
+  const [isEditObj, setIsEditObj] = useState<boolean[]>(
+    Array(Object.keys(dataObj).length).fill(false)
+  );
   const [objValue, setObjValue] = useState({ item: '', value: '' });
   const [rows, setRows] = useState<RowType[]>(
     Object.keys(dataObj).map((data) => ({ item: data, value: dataObj[data] }))
   );
-  const initialValue = OriginalRowValue ? OriginalRowValue : transferDefaultValue;
+  const initialValue = OriginalRowValue
+    ? OriginalRowValue
+    : transferDefaultValue;
 
   //#region utilities
   /** 입력값 초기화  */
@@ -61,7 +79,9 @@ const MapForm = ({
       ++i;
       if (!isNaN(index) && i === index) continue;
       if (row.item === key) {
-        toast.error(<Typography variant="body2">item명 중복 불가합니다</Typography>);
+        toast.error(
+          <Typography variant="body2">item명 중복 불가합니다</Typography>
+        );
         return true;
       }
     }
@@ -70,7 +90,11 @@ const MapForm = ({
   /** 입력값 validation  */
   const validateInput = (index: number) => {
     // 수정한 값이 원래 값과 같은 경우
-    if (!isNaN(index) && rows[index].item === objValue.item && rows[index].value === objValue.value) {
+    if (
+      !isNaN(index) &&
+      rows[index].item === objValue.item &&
+      rows[index].value === objValue.value
+    ) {
       setEditValue(index, false);
       resetValues();
       return false;
@@ -140,7 +164,9 @@ const MapForm = ({
   //#endregion handle functions
 
   useEffect(() => {
-    setRows(Object.keys(dataObj).map((data) => ({ item: data, value: dataObj[data] })));
+    setRows(
+      Object.keys(dataObj).map((data) => ({ item: data, value: dataObj[data] }))
+    );
   }, [RowValue]);
   return (
     <>
@@ -148,8 +174,12 @@ const MapForm = ({
         <Table sx={{ minWidth: '100%' }} size="small" aria-label="map table">
           <TableHead>
             <TableRow sx={{ ...headerBorderClass }}>
-              <TableCell sx={{ fontWeight: 'bolder', width: '35%' }}>Item</TableCell>
-              <TableCell sx={{ fontWeight: 'bolder', width: '35%' }}>Value</TableCell>
+              <TableCell sx={{ fontWeight: 'bolder', width: '35%' }}>
+                Item
+              </TableCell>
+              <TableCell sx={{ fontWeight: 'bolder', width: '35%' }}>
+                Value
+              </TableCell>
               <TableCell sx={{ width: '30%' }}></TableCell>
             </TableRow>
           </TableHead>
@@ -164,14 +194,28 @@ const MapForm = ({
                     <TableCell>{row.value}</TableCell>
                   </>
                 ) : (
-                  <InputCells index={`${index}`} objValue={objValue} handleChange={handleChange} />
+                  <InputCells
+                    index={`${index}`}
+                    objValue={objValue}
+                    handleChange={handleChange}
+                  />
                 )}
                 <TableCell>
                   {!isDisabled && (
                     <Stack direction={'row'}>
-                      {getEditSaveButton(!isEditObj[index], index, handleEditInput, handleConfirm)}
+                      {getEditSaveButton(
+                        !isEditObj[index],
+                        index,
+                        handleEditInput,
+                        handleConfirm
+                      )}
                       <Tooltip title="삭제" placement="top">
-                        <IconButton size="small" id={`deleteID-${index}`} onClick={handleDelete} disableRipple>
+                        <IconButton
+                          size="small"
+                          id={`deleteID-${index}`}
+                          onClick={handleDelete}
+                          disableRipple
+                        >
                           <DeleteIcon sx={{ width: '.7em', height: '.7em' }} />
                         </IconButton>
                       </Tooltip>
@@ -182,7 +226,11 @@ const MapForm = ({
             ))}
             {isAdd && !isDisabled && (
               <TableRow sx={{ ...rowBorderClass }}>
-                <InputCells index="new" objValue={objValue} handleChange={handleChange} />
+                <InputCells
+                  index="new"
+                  objValue={objValue}
+                  handleChange={handleChange}
+                />
                 <TableCell>
                   <Stack direction={'row'} spacing={1}>
                     <Button
@@ -195,7 +243,12 @@ const MapForm = ({
                     >
                       <Typography variant="caption">등록</Typography>
                     </Button>
-                    <Button onClick={handleCancel} color="error" variant="outlined" size="small">
+                    <Button
+                      onClick={handleCancel}
+                      color="error"
+                      variant="outlined"
+                      size="small"
+                    >
                       <Typography variant="caption">취소</Typography>
                     </Button>
                   </Stack>
@@ -255,7 +308,12 @@ const getEditSaveButton = (
   if (isEdit) {
     return (
       <Tooltip title="수정" placement="top">
-        <IconButton size="small" id={`editID-${index}`} onClick={handleEditInput} disableRipple>
+        <IconButton
+          size="small"
+          id={`editID-${index}`}
+          onClick={handleEditInput}
+          disableRipple
+        >
           <ModeEditIcon sx={{ width: '.7em', height: '.7em' }} />
         </IconButton>
       </Tooltip>
@@ -263,7 +321,12 @@ const getEditSaveButton = (
   } else {
     return (
       <Tooltip title="저장" placement="top">
-        <IconButton size="small" id={`confirmID-${index}`} onClick={handleConfirm} disableRipple>
+        <IconButton
+          size="small"
+          id={`confirmID-${index}`}
+          onClick={handleConfirm}
+          disableRipple
+        >
           <DoneIcon sx={{ width: '.7em', height: '.7em' }} />
         </IconButton>
       </Tooltip>
@@ -271,7 +334,11 @@ const getEditSaveButton = (
   }
 };
 
-const CreateNewButton = ({ handleAdd }: { handleAdd: (event: MouseEvent<HTMLButtonElement>) => void }) => {
+const CreateNewButton = ({
+  handleAdd,
+}: {
+  handleAdd: (event: MouseEvent<HTMLButtonElement>) => void;
+}) => {
   return (
     <Box sx={{ padding: '.2rem 0' }}>
       <Button

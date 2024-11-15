@@ -1,5 +1,6 @@
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+
 import { useStatusBoardStore } from '@/features/overview/models';
 import { getLastFiveServiceYears } from '@/features/overview/services';
 

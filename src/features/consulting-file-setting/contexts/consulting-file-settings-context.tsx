@@ -1,18 +1,26 @@
 'use client';
 
-import { createContext, useState, Dispatch, SetStateAction, PropsWithChildren, useCallback } from 'react';
 import { Stack, TextField, Typography } from '@mui/material';
+import {
+  createContext,
+  Dispatch,
+  PropsWithChildren,
+  SetStateAction,
+  useCallback,
+  useState,
+} from 'react';
 import toast from 'react-hot-toast';
 
+import { useUnivService } from '@/shared/hooks/context/use-univ-service';
+
 import {
-  useGetConsultingFileList,
   useDeleteConsultingFileMutation,
+  useGetConsultingFileList,
   useUpdateConsultingRefNoMutation,
   useUpdateConsultingRefTitleMutation,
 } from '../hooks';
-import { ConsultingFile } from '../models';
-import { useUnivService } from '@/shared/hooks/context/use-univ-service';
 import { useUploadConsultingFileMutation } from '../hooks';
+import { ConsultingFile } from '../models';
 import { removeFileExtention } from '../services';
 
 export type ConsultingFileSettingsContextValue = {
@@ -24,17 +32,24 @@ export type ConsultingFileSettingsContextValue = {
   setSelected: Dispatch<SetStateAction<number | null>>;
   addToFiles: (uploadedFile: File | undefined) => void;
   updateRefTitle: (refNo: number, refTitle: string, origTitle: string) => void;
-  updateRefNo: (fileList: ConsultingFile[], startIndex: number, endIndex: number) => void;
+  updateRefNo: (
+    fileList: ConsultingFile[],
+    startIndex: number,
+    endIndex: number
+  ) => void;
   deleteFile: (fileList: ConsultingFile[], refNo: number) => void;
 };
 
-export const ConsultingFileSettingsContext = createContext<ConsultingFileSettingsContextValue | null>(null);
+export const ConsultingFileSettingsContext =
+  createContext<ConsultingFileSettingsContextValue | null>(null);
 
 const ConsultingFileSettingsProvider = ({ children }: PropsWithChildren) => {
   const { mutateAsync: uploadMutation } = useUploadConsultingFileMutation();
-  const { mutateAsync: updateRefNoMutation } = useUpdateConsultingRefNoMutation();
+  const { mutateAsync: updateRefNoMutation } =
+    useUpdateConsultingRefNoMutation();
   const { mutateAsync: deleteMutation } = useDeleteConsultingFileMutation();
-  const { mutateAsync: updateRefTitleMutation } = useUpdateConsultingRefTitleMutation();
+  const { mutateAsync: updateRefTitleMutation } =
+    useUpdateConsultingRefTitleMutation();
 
   const { currentService } = useUnivService();
   const serviceID = currentService?.serviceID || '';
@@ -54,13 +69,25 @@ const ConsultingFileSettingsProvider = ({ children }: PropsWithChildren) => {
           File: uploadedFile,
         }),
         {
-          loading: <Typography variant="body2">{fileName}을 업로드 중입니다</Typography>,
+          loading: (
+            <Typography variant="body2">
+              {fileName}을 업로드 중입니다
+            </Typography>
+          ),
           success: () => {
             execute();
             setEditFileIndex((prev) => new Array(prev.length + 1).fill(false));
-            return <Typography variant="body2">{fileName}을 업로드하였습니다</Typography>;
+            return (
+              <Typography variant="body2">
+                {fileName}을 업로드하였습니다
+              </Typography>
+            );
           },
-          error: <Typography variant="body2">{fileName} 업로드 중 문제가 발생했습니다</Typography>,
+          error: (
+            <Typography variant="body2">
+              {fileName} 업로드 중 문제가 발생했습니다
+            </Typography>
+          ),
         }
       );
     }
@@ -76,7 +103,11 @@ const ConsultingFileSettingsProvider = ({ children }: PropsWithChildren) => {
             RefTitle: refTitle,
           }),
           {
-            loading: <Typography variant="body2">자료명 [{origTitle}]을 변경 중입니다</Typography>,
+            loading: (
+              <Typography variant="body2">
+                자료명 [{origTitle}]을 변경 중입니다
+              </Typography>
+            ),
             success: () => {
               execute();
               setFiles(resetFileList(files, refNo, refTitle));
@@ -86,7 +117,8 @@ const ConsultingFileSettingsProvider = ({ children }: PropsWithChildren) => {
               setFiles(resetFileList(files, refNo, origTitle));
               return (
                 <Typography variant="body2">
-                  [ {origTitle} ] 을 {<br />}[ {refTitle} ] 으로 변경 중 문제가 발생했습니다
+                  [ {origTitle} ] 을 {<br />}[ {refTitle} ] 으로 변경 중 문제가
+                  발생했습니다
                 </Typography>
               );
             },
@@ -106,39 +138,76 @@ const ConsultingFileSettingsProvider = ({ children }: PropsWithChildren) => {
     [files]
   );
 
-  const updateRefNo = useCallback((fileList: ConsultingFile[], startIndex: number, endIndex: number) => {
-    const [origFiles, newFiles] = reorder(fileList, startIndex - 1, endIndex - 1);
-    setFiles(newFiles);
-    toast.promise(updateRefNoMutation({ ServiceID: parseInt(serviceID), oldRefNo: startIndex, newRefNo: endIndex }), {
-      loading: <Typography variant="body2">자료 순서를 변경 중입니다</Typography>,
-      success: () => {
-        execute();
-        return <Typography variant="body2">자료 순서를 변경하였습니다</Typography>;
-      },
-      error: () => {
-        setFiles(origFiles);
-        return <Typography variant="body2">자료 순서를 변경하는 중 문제가 발생했습니다</Typography>;
-      },
-    });
-  }, []);
+  const updateRefNo = useCallback(
+    (fileList: ConsultingFile[], startIndex: number, endIndex: number) => {
+      const [origFiles, newFiles] = reorder(
+        fileList,
+        startIndex - 1,
+        endIndex - 1
+      );
+      setFiles(newFiles);
+      toast.promise(
+        updateRefNoMutation({
+          ServiceID: parseInt(serviceID),
+          oldRefNo: startIndex,
+          newRefNo: endIndex,
+        }),
+        {
+          loading: (
+            <Typography variant="body2">자료 순서를 변경 중입니다</Typography>
+          ),
+          success: () => {
+            execute();
+            return (
+              <Typography variant="body2">
+                자료 순서를 변경하였습니다
+              </Typography>
+            );
+          },
+          error: () => {
+            setFiles(origFiles);
+            return (
+              <Typography variant="body2">
+                자료 순서를 변경하는 중 문제가 발생했습니다
+              </Typography>
+            );
+          },
+        }
+      );
+    },
+    []
+  );
 
-  const deleteFile = useCallback((fileList: ConsultingFile[], refNo: number) => {
-    const fileName = fileList.find((file) => file.RefNo === refNo)?.FileName;
-    toast.promise(
-      deleteMutation({
-        ServiceID: parseInt(serviceID),
-        RefNo: refNo,
-      }),
-      {
-        loading: <Typography variant="body2">{fileName} 삭제 중입니다</Typography>,
-        success: () => {
-          execute();
-          return <Typography variant="body2">{fileName}를 삭제했습니다.</Typography>;
-        },
-        error: <Typography variant="body2">{fileName} 삭제 중 문제가 발생했습니다</Typography>,
-      }
-    );
-  }, []);
+  const deleteFile = useCallback(
+    (fileList: ConsultingFile[], refNo: number) => {
+      const fileName = fileList.find((file) => file.RefNo === refNo)?.FileName;
+      toast.promise(
+        deleteMutation({
+          ServiceID: parseInt(serviceID),
+          RefNo: refNo,
+        }),
+        {
+          loading: (
+            <Typography variant="body2">{fileName} 삭제 중입니다</Typography>
+          ),
+          success: () => {
+            execute();
+            return (
+              <Typography variant="body2">
+                {fileName}를 삭제했습니다.
+              </Typography>
+            );
+          },
+          error: (
+            <Typography variant="body2">
+              {fileName} 삭제 중 문제가 발생했습니다
+            </Typography>
+          ),
+        }
+      );
+    },
+    []
+  );
 
   return (
     <ConsultingFileSettingsContext.Provider
@@ -183,15 +252,27 @@ const StyledTextField = ({ title }: { title: string }) => {
 
 const customToast = (refTitle: string, origTitle: string) => {
   return (
-    <Stack direction={'column'} spacing={2} sx={{ padding: '0 16px 8px 16px', width: '100%' }}>
+    <Stack
+      direction={'column'}
+      spacing={2}
+      sx={{ padding: '0 16px 8px 16px', width: '100%' }}
+    >
       <Typography variant="subtitle2">자료명을 수정하였습니다.</Typography>
-      <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
+      <Stack
+        direction={'row'}
+        alignItems={'center'}
+        justifyContent={'space-between'}
+      >
         <Typography variant="subtitle2" sx={{ width: '60px' }}>
           이전 값:{' '}
         </Typography>
         <StyledTextField title={origTitle} />
       </Stack>
-      <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
+      <Stack
+        direction={'row'}
+        alignItems={'center'}
+        justifyContent={'space-between'}
+      >
         <Typography variant="subtitle2" sx={{ width: '60px' }}>
           수정 값:{' '}
         </Typography>
@@ -201,14 +282,22 @@ const customToast = (refTitle: string, origTitle: string) => {
   );
 };
 
-const reorder = (list: ConsultingFile[], startIndex: number, endIndex: number) => {
+const reorder = (
+  list: ConsultingFile[],
+  startIndex: number,
+  endIndex: number
+) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
   return [list, result];
 };
 
-const resetFileList = (list: ConsultingFile[], fileIndex: number, title: string) => {
+const resetFileList = (
+  list: ConsultingFile[],
+  fileIndex: number,
+  title: string
+) => {
   return list.map((file) => {
     if (file.RefNo === fileIndex) {
       return { ...file, RefTitle: title };

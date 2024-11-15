@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { getServiceList } from '@/shared/apis';
 
 export const useGetServiceListQuery = (univID: string | undefined) => {

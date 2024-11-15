@@ -1,18 +1,26 @@
 'use client';
 
-import { useState, memo, ReactNode } from 'react';
-import { Stack, Typography, Badge, Box, Tooltip } from '@mui/material';
+import { Badge, Box, Stack, Tooltip, Typography } from '@mui/material';
+import { memo, ReactNode, useState } from 'react';
 
 type QueueFileProps = {
   fileName: string;
   handleRemoveFile: (fileName: string) => void;
   imageChildren: ReactNode;
 };
-const QueueFile = ({ fileName, imageChildren, handleRemoveFile }: QueueFileProps) => {
+const QueueFile = ({
+  fileName,
+  imageChildren,
+  handleRemoveFile,
+}: QueueFileProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Tooltip title={`${fileName} _ 클릭 시 대기열에서 제거됩니다`} open={isHovered} followCursor>
+    <Tooltip
+      title={`${fileName} _ 클릭 시 대기열에서 제거됩니다`}
+      open={isHovered}
+      followCursor
+    >
       <Box
         onMouseEnter={() => {
           setIsHovered(true);

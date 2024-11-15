@@ -1,7 +1,7 @@
 import { Stack } from '@mui/material';
 
-import { FlutterRowInfo, FlutterSetting, Path } from '../models';
 import BasicForm from '../components/basic-form';
+import { FlutterRowInfo, FlutterSetting, Path } from '../models';
 
 export type EditSettingProps = {
   settingList: FlutterSetting | FlutterRowInfo | FlutterRowInfo[] | undefined;
@@ -27,7 +27,12 @@ const EditSetting = ({ settingList, path, isDisabled }: EditSettingProps) => {
               />
             ))
           ) : (
-            <BasicForm item={settingList as FlutterRowInfo} path={path} index={0} isDisabled={isDisabled} />
+            <BasicForm
+              item={settingList as FlutterRowInfo}
+              path={path}
+              index={0}
+              isDisabled={isDisabled}
+            />
           )}
         </Stack>
       )}

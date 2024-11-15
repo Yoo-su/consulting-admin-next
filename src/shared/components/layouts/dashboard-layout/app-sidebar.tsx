@@ -1,21 +1,21 @@
 'use client';
 
-import * as React from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { usePathname } from 'next/navigation';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import * as React from 'react';
 
-import UnivAutocomplete from './autocompletes/univ';
-import ServiceAutocomplete from './autocompletes/service';
-import { sideNavGroup } from './side-nav-items';
 import { NavItemType } from '@/shared/models';
 import { isNavItemActive } from '@/shared/services';
-import snail from '@/shared/assets/svgs/snail.svg';
+
+import AppLogo from './app-logo';
+import ServiceAutocomplete from './autocompletes/service';
+import UnivAutocomplete from './autocompletes/univ';
+import { sideNavGroup } from './side-nav-items';
 
 const AppSidebar = () => {
   const pathname = usePathname();
@@ -40,15 +40,7 @@ const AppSidebar = () => {
       }}
     >
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Box
-          component="div"
-          gap={0.5}
-          sx={{ display: 'inline-flex', justifyContent: 'center', whiteSpace: 'nowrap', alignItems: 'flex-end' }}
-        >
-          <Typography variant="h5">입학상담앱</Typography>
-          <Typography variant="h6">관리자</Typography>
-          <Image src={snail} width={24} height={24} alt={'snail-logo'} />
-        </Box>
+        <AppLogo />
         <Box
           sx={{
             alignItems: 'center',
@@ -81,13 +73,18 @@ const AppSidebar = () => {
               bgcolor: 'transparent',
               boxShadow: 'none',
               color: 'inherit',
-              '& .MuiAccordionSummary-root': { minHeight: '1rem !important', paddingTop: '0.2rem' },
+              '& .MuiAccordionSummary-root': {
+                minHeight: '1rem !important',
+                paddingTop: '0.2rem',
+              },
               '& .MuiAccordionSummary-content': { margin: '0 !important' },
               '& .MuiAccordionDetails-root': { padding: '8px !important' },
             }}
           >
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon sx={{ color: 'rgb(255,255,255, 0.5)' }} />}
+              expandIcon={
+                <ExpandMoreIcon sx={{ color: 'rgb(255,255,255, 0.5)' }} />
+              }
               aria-controls={`${group.title}-content`}
             >
               <Typography
@@ -102,7 +99,9 @@ const AppSidebar = () => {
                 {group.title}
               </Typography>
             </AccordionSummary>
-            <AccordionDetails>{renderNavItems({ items: group.items, pathname })}</AccordionDetails>
+            <AccordionDetails>
+              {renderNavItems({ items: group.items, pathname })}
+            </AccordionDetails>
           </Accordion>
         ))}
       </Stack>
@@ -110,14 +109,23 @@ const AppSidebar = () => {
   );
 };
 
-function renderNavItems({ items = [], pathname }: { items?: NavItemType[]; pathname: string }) {
-  const children = items.reduce((acc: React.ReactNode[], curr: NavItemType): React.ReactNode[] => {
-    const { navkey, ...item } = curr;
+function renderNavItems({
+  items = [],
+  pathname,
+}: {
+  items?: NavItemType[];
+  pathname: string;
+}) {
+  const children = items.reduce(
+    (acc: React.ReactNode[], curr: NavItemType): React.ReactNode[] => {
+      const { navkey, ...item } = curr;
 
-    acc.push(<NavItem key={navkey} pathname={pathname} {...item} />);
+      acc.push(<NavItem key={navkey} pathname={pathname} {...item} />);
 
-    return acc;
-  }, []);
+      return acc;
+    },
+    []
+  );
 
   return (
     <Stack component="ul" spacing={1} sx={{ listStyle: 'none', m: 0, p: 0 }}>

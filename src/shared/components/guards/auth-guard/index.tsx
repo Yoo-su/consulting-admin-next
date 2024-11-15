@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
+import { ReactNode, useEffect, useState } from 'react';
+
+import { PATHS } from '@/shared/constants';
+import { useUser } from '@/shared/hooks/context';
 
 import AppBackdrop from '../../ui/loadings/app-backdrop';
-import { useUser } from '@/shared/hooks/context';
-import { PATHS } from '@/shared/constants';
 
 export type AuthGuardProps = {
   children: ReactNode;

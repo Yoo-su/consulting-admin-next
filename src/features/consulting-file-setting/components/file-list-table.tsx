@@ -2,9 +2,14 @@
 
 import Stack from '@mui/material/Stack';
 
-import { TableContainerBox, TableBox, TableRowBox, CustomWidthBoxCell } from './table-components';
-import FileUploader from './file-uploader';
 import FileListData from './file-list-data';
+import FileUploader from './file-uploader';
+import {
+  CustomWidthBoxCell,
+  TableBox,
+  TableContainerBox,
+  TableRowBox,
+} from './table-components';
 
 const FileListTable = () => {
   return (

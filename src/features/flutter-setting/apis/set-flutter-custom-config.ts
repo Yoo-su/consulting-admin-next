@@ -1,5 +1,5 @@
-import { apiInstance } from '@/shared/plugin/axios';
 import { API_URLS } from '@/shared/constants/api-urls';
+import { apiInstance } from '@/shared/plugin/axios';
 
 type SetFlutterCustomConfigResponse = {
   statusCode: number;
@@ -10,7 +10,11 @@ export type SetFlutterCustomConfigParams = {
   RowIdx: number | null;
   RowValue: string;
 };
-export const setFlutterCustomConfig = async ({ serviceID, RowIdx, RowValue }: SetFlutterCustomConfigParams) => {
+export const setFlutterCustomConfig = async ({
+  serviceID,
+  RowIdx,
+  RowValue,
+}: SetFlutterCustomConfigParams) => {
   if (!serviceID || RowIdx === null) {
     return null;
   }

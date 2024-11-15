@@ -1,13 +1,14 @@
 'use client';
 
-import { useState } from 'react';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useState } from 'react';
 
 import { useUnivService } from '@/shared/hooks/context';
-import VersionListTable from './version-list-table';
+
 import TableTitle from './table-title';
+import VersionListTable from './version-list-table';
 
 export type VersionServer = { value: 'testDb' | 'realDb'; label: string };
 export const versionServer: VersionServer[] = [
@@ -29,7 +30,8 @@ const VersionSettingContainer = () => {
       direction={downmd ? 'column' : 'row'}
       sx={{
         mt: { xs: 1, sm: 3, md: 3, lg: 3, xl: 5 },
-        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+        boxShadow:
+          '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
         borderRadius: '1rem',
         p: 2,
       }}
@@ -37,7 +39,11 @@ const VersionSettingContainer = () => {
       alignItems={'center'}
       justifyContent={'space-evenly'}
     >
-      <TableTitle univName={univName} serviceID={serviceID} setServerType={setServerType} />
+      <TableTitle
+        univName={univName}
+        serviceID={serviceID}
+        setServerType={setServerType}
+      />
       <VersionListTable serviceID={serviceID} type={serverType} />
     </Stack>
   );

@@ -1,19 +1,19 @@
 'use client';
 
-import { useState, useEffect, Fragment } from 'react';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import PersonIcon from '@mui/icons-material/Person';
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { Fragment, useEffect, useState } from 'react';
 
-import PersonIcon from '@mui/icons-material/Person';
+import { usePopover } from '@/shared/hooks';
 
 import AppSideDrawer from './app-side-drawer';
 import UserPopover from './user-popover';
-import { usePopover } from '@/shared/hooks';
 
 const AppHeader = () => {
   const [openAppSideDrawer, setOpenAppSideDrawer] = useState<boolean>(false);
@@ -34,7 +34,8 @@ const AppHeader = () => {
           position: 'sticky',
           top: 0,
           zIndex: 'var(--AppHeader-zIndex)',
-          boxShadow: ' 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+          boxShadow:
+            ' 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
         }}
       >
         <Stack
@@ -66,7 +67,11 @@ const AppHeader = () => {
           </Avatar>
         </Stack>
       </Box>
-      <UserPopover anchorEl={userPopover.anchorRef.current} onClose={userPopover.handleClose} open={userPopover.open} />
+      <UserPopover
+        anchorEl={userPopover.anchorRef.current}
+        onClose={userPopover.handleClose}
+        open={userPopover.open}
+      />
       <AppSideDrawer
         open={openAppSideDrawer}
         onClose={() => {

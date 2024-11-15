@@ -1,6 +1,6 @@
-import { SyntheticEvent, memo } from 'react';
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem2 } from '@mui/x-tree-view/TreeItem2';
+import { memo, SyntheticEvent } from 'react';
 
 import { useFlutterSetting } from '../hooks';
 import { FlutterSetting } from '../models';
@@ -25,13 +25,18 @@ const TreeItemList = ({ filteredList }: TreeItemListProps) => {
           <TreeItem2 itemId={Category} label={Category} key={parentIndex}>
             {children &&
               children.map((child, childIndex) => {
-                const isChildEdited = checkChildEdited(child, filteredSettingList);
+                const isChildEdited = checkChildEdited(
+                  child,
+                  filteredSettingList
+                );
                 return (
                   <TreeItem2
                     itemId={`${child.Category}/${child.Title}`}
                     label={`${child.Title}`}
                     key={childIndex}
-                    style={{ backgroundColor: isChildEdited ? '#FAFAFA' : 'inherit' }}
+                    style={{
+                      backgroundColor: isChildEdited ? '#FAFAFA' : 'inherit',
+                    }}
                   />
                 );
               })}

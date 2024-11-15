@@ -9,11 +9,21 @@ export type FormItemProps = {
 };
 
 export type FlutterSettingFormType = {
-  type: 'object' | 'boolean' | 'select' | 'list-order' | 'string' | 'double' | 'map' | 'number';
+  type:
+    | 'object'
+    | 'boolean'
+    | 'select'
+    | 'list-order'
+    | 'string'
+    | 'double'
+    | 'map'
+    | 'number';
   component: string;
 };
 
-export type EditSettingComponent = ({ settingList }: EditSettingProps) => JSX.Element;
+export type EditSettingComponent = ({
+  settingList,
+}: EditSettingProps) => JSX.Element;
 
 export type BasicFormComponent = ({ item }: FormItemProps) => JSX.Element;
 

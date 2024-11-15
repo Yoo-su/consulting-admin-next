@@ -1,14 +1,23 @@
-import { useEffect, useState, MouseEvent, useReducer } from 'react';
-import { TableHead, TableContainer, Table, TableBody, Paper, Typography, Box } from '@mui/material';
+import {
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  Typography,
+} from '@mui/material';
+import { MouseEvent, useEffect, useReducer, useState } from 'react';
 import toast from 'react-hot-toast';
 
+import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
+import SaveDataButton from '@/shared/components/ui/save-data-button';
+
+import { VersionListParams } from '../apis';
+import { useGetVersionList, useUpdateVersionListMutation } from '../hooks';
+import { CurTBLVersion, VersionServer } from '../models';
 import VersionListBodyData from './version-list-body-data';
 import VersionListTableHead from './version-list-table-head';
-import SaveDataButton from '@/shared/components/ui/save-data-button';
-import { useUpdateVersionListMutation, useGetVersionList } from '../hooks';
-import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
-import { CurTBLVersion, VersionServer } from '../models';
-import { VersionListParams } from '../apis';
 
 export type VersionListTableProps = {
   serviceID: string;
@@ -16,8 +25,14 @@ export type VersionListTableProps = {
 };
 
 const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
-  const { isLoading, testVersionList, setTestVersionList, realVersionList, setRealVersionList, execute } =
-    useGetVersionList();
+  const {
+    isLoading,
+    testVersionList,
+    setTestVersionList,
+    realVersionList,
+    setRealVersionList,
+    execute,
+  } = useGetVersionList();
   const { mutateAsync } = useUpdateVersionListMutation();
   const [editedList, dispatch] = useReducer(reducer, []);
   const [isEdited, setIsEdited] = useState(false);
@@ -36,8 +51,10 @@ const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
   }, [type, isLoading]);
 
   useEffect(() => {
-    const currentVersionList = type.label === '테스트' ? testVersionList : realVersionList;
-    const isUpdated = JSON.stringify(editedList) !== JSON.stringify(currentVersionList);
+    const currentVersionList =
+      type.label === '테스트' ? testVersionList : realVersionList;
+    const isUpdated =
+      JSON.stringify(editedList) !== JSON.stringify(currentVersionList);
     setIsEdited(isUpdated);
   }, [editedList]);
 
@@ -52,7 +69,9 @@ const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
       }
     } else {
       // 특정 테이블만 업데이트
-      const targetIndex = editedList.findIndex((version) => version.TableName === tableName);
+      const targetIndex = editedList.findIndex(
+        (version) => version.TableName === tableName
+      );
       if (arrowDirection === 'up') {
         dispatch({ type: 'ADD_VERSION', payload: targetIndex });
       } else {
@@ -66,7 +85,10 @@ const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
       TableName: version.TableName,
       Version: version.Version,
     }));
-    const updateParam: VersionListParams = { server: type.value, tables: updateList };
+    const updateParam: VersionListParams = {
+      server: type.value,
+      tables: updateList,
+    };
     toast.promise(
       mutateAsync({ serviceID, params: updateParam }).then(() => {
         if (type.label === '테스트') {
@@ -78,9 +100,19 @@ const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
         setIsEdited(false);
       }),
       {
-        loading: <Typography variant="body2">버전 정보를 업데이트하는 중입니다...</Typography>,
-        success: <Typography variant="body2">버전 정보 업데이트 완료!</Typography>,
-        error: <Typography variant="body2">버전 정보 업데이트 중 문제가 발생했습니다</Typography>,
+        loading: (
+          <Typography variant="body2">
+            버전 정보를 업데이트하는 중입니다...
+          </Typography>
+        ),
+        success: (
+          <Typography variant="body2">버전 정보 업데이트 완료!</Typography>
+        ),
+        error: (
+          <Typography variant="body2">
+            버전 정보 업데이트 중 문제가 발생했습니다
+          </Typography>
+        ),
       }
     );
   };
@@ -88,7 +120,11 @@ const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
   if (isLoading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <ContentLoadingSkeleton isTitle={false} width={'500px'} height={'700px'} />
+        <ContentLoadingSkeleton
+          isTitle={false}
+          width={'500px'}
+          height={'700px'}
+        />
       </Box>
     );
   }
@@ -101,7 +137,10 @@ const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
             <VersionListTableHead handleClick={handleClick} />
           </TableHead>
           <TableBody sx={TableBodyClass}>
-            <VersionListBodyData editedList={editedList} handleClick={handleClick} />
+            <VersionListBodyData
+              editedList={editedList}
+              handleClick={handleClick}
+            />
           </TableBody>
         </Table>
       </TableContainer>
@@ -157,7 +196,10 @@ const reducer = (state: CurTBLVersion[], action: ActionType) => {
         return { ...version };
       });
     case 'ADD_ALL_VERSION':
-      return state.map((version) => ({ ...version, Version: version.Version + 1 }));
+      return state.map((version) => ({
+        ...version,
+        Version: version.Version + 1,
+      }));
     case 'SUB_ALL_VERSION':
       return state.map((version) => {
         if (version.Version > 0) {

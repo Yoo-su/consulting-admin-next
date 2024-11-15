@@ -1,14 +1,22 @@
 'use client';
 
 import Typography from '@mui/material/Typography';
-import toast from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
+import {
+  createContext,
+  Dispatch,
+  PropsWithChildren,
+  SetStateAction,
+  useState,
+} from 'react';
+import toast from 'react-hot-toast';
 
-import { createContext, useState, Dispatch, SetStateAction, PropsWithChildren } from 'react';
-import { FlutterSetting } from '../models';
-import { SetFlutterCustomConfigParams } from '../apis';
+import { QUERY_KEYS } from '@/shared/constants';
 import { useUnivService } from '@/shared/hooks/context';
+
+import { SetFlutterCustomConfigParams } from '../apis';
 import { useSetFlutterSettingMutation } from '../hooks';
+import { FlutterSetting } from '../models';
 
 export type FlutterSettingContextValue = {
   flutterSettingList: FlutterSetting[];
@@ -20,19 +28,29 @@ export type FlutterSettingContextValue = {
   editedSettingList: SetFlutterCustomConfigParams[];
   resetEditedSettingList: () => void;
   addToEditedList: (
-    editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'> & { InitialValue: string }
+    editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'> & {
+      InitialValue: string;
+    }
   ) => void;
   updateSettingList: () => void;
 };
 
-export const FlutterSettingContext = createContext<FlutterSettingContextValue | undefined>(undefined);
+export const FlutterSettingContext = createContext<
+  FlutterSettingContextValue | undefined
+>(undefined);
 
 const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   const { currentService } = useUnivService();
   const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [flutterSettingList, setFlutterSettingList] = useState<FlutterSetting[]>([]);
-  const [filteredSettingList, setFilteredSettingList] = useState<FlutterSetting[]>([]);
-  const [editedSettingList, setEditedSettingList] = useState<SetFlutterCustomConfigParams[]>([]);
+  const [flutterSettingList, setFlutterSettingList] = useState<
+    FlutterSetting[]
+  >([]);
+  const [filteredSettingList, setFilteredSettingList] = useState<
+    FlutterSetting[]
+  >([]);
+  const [editedSettingList, setEditedSettingList] = useState<
+    SetFlutterCustomConfigParams[]
+  >([]);
   const { mutateAsync } = useSetFlutterSettingMutation();
   const queryClient = useQueryClient();
   const serviceID = currentService!.serviceID;
@@ -42,13 +60,17 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   };
   // 변경된 값 모음에 추가
   const addToEditedList = (
-    editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'> & { InitialValue: string }
+    editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'> & {
+      InitialValue: string;
+    }
   ) => {
     const { RowIdx, RowValue, InitialValue } = editedSetting;
 
     const isBackToOrig = RowValue.trim() === InitialValue.trim();
     if (isBackToOrig) {
-      setEditedSettingList((prev) => prev.filter((item) => item.RowIdx !== RowIdx));
+      setEditedSettingList((prev) =>
+        prev.filter((item) => item.RowIdx !== RowIdx)
+      );
     } else {
       const newSetting: SetFlutterCustomConfigParams = {
         serviceID,
@@ -58,7 +80,9 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
       setEditedSettingList((prev) => {
         const isExist = prev.find((item) => item.RowIdx === newSetting.RowIdx);
         if (isExist) {
-          return prev.map((item) => (item.RowIdx === newSetting.RowIdx ? newSetting : item));
+          return prev.map((item) =>
+            item.RowIdx === newSetting.RowIdx ? newSetting : item
+          );
         }
         return [...prev, newSetting];
       });
@@ -69,8 +93,14 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
     editedSettingList.forEach((item) => {
       mutateAsync(item, {
         onSuccess: () => {
-          toast.success(<Typography variant="body2">변경사항이 적용되었습니다</Typography>);
-          queryClient.invalidateQueries({ queryKey: ['flutter-custom-config', { serviceID }] });
+          toast.success(
+            <Typography variant="body2">변경사항이 적용되었습니다</Typography>
+          );
+          queryClient.invalidateQueries({
+            queryKey:
+              QUERY_KEYS['flutter-setting']['custom-config'](serviceID)
+                .queryKey,
+          });
         },
       });
     });

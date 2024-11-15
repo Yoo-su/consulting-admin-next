@@ -1,30 +1,43 @@
 'use client';
 
-import { useCallback, useMemo } from 'react';
+import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { DragDropContext, DropResult } from '@hello-pangea/dnd';
+import { useCallback, useMemo } from 'react';
 import toast from 'react-hot-toast';
 
-import StateCol from '../state-column';
-import EmptyBox from '@/shared/components/ui/empty-box';
-import { STATE_BOARD_DOMAIN_ITEMS, CURRENT_STATES } from '@/features/overview/constants';
-import { getGroupedData } from '@/shared/services';
-import { BoardType, CurrentState, ServiceType } from '@/features/overview/models';
+import {
+  CURRENT_STATES,
+  STATE_BOARD_DOMAIN_ITEMS,
+} from '@/features/overview/constants';
 import { useUpdateConsultingAppStateMutation } from '@/features/overview/hooks';
 import { useHandleStatusBoard } from '@/features/overview/hooks';
+import {
+  BoardType,
+  CurrentState,
+  ServiceType,
+} from '@/features/overview/models';
+import EmptyBox from '@/shared/components/ui/empty-box';
+import { getGroupedData } from '@/shared/services';
+
+import StateCol from '../state-column';
 
 type BasicBoardContainerProps = {
   boardType: BoardType;
 };
 
 const BasicBoard = ({ boardType }: BasicBoardContainerProps) => {
-  const { mutateAsync: updateConsultingAppStateMutation } = useUpdateConsultingAppStateMutation();
-  const { filteredConsultingAppStates, filteredConsultingAppStatesAll } = useHandleStatusBoard();
+  const { mutateAsync: updateConsultingAppStateMutation } =
+    useUpdateConsultingAppStateMutation();
+  const { filteredConsultingAppStates, filteredConsultingAppStatesAll } =
+    useHandleStatusBoard();
 
   const filteredState = useMemo(
-    () => (boardType === 'mainUser' ? filteredConsultingAppStates ?? [] : filteredConsultingAppStatesAll ?? []),
+    () =>
+      boardType === 'mainUser'
+        ? filteredConsultingAppStates ?? []
+        : filteredConsultingAppStatesAll ?? [],
     [boardType, filteredConsultingAppStates, filteredConsultingAppStatesAll]
   );
 
@@ -38,7 +51,8 @@ const BasicBoard = ({ boardType }: BasicBoardContainerProps) => {
 
       const { source, destination } = result;
       const sourceList = groupedStates[source.droppableId as CurrentState];
-      const destinationList = groupedStates[destination.droppableId as CurrentState];
+      const destinationList =
+        groupedStates[destination.droppableId as CurrentState];
 
       // 같은 리스트 내에서 이동한 경우
       if (source.droppableId === destination.droppableId) return;
@@ -56,9 +70,17 @@ const BasicBoard = ({ boardType }: BasicBoardContainerProps) => {
 
       updateConsultingAppStateMutation(updateParams).then((res) => {
         if (res.status === 200) {
-          toast.success(<Typography variant="body2">상태가 성공적으로 업데이트 되었습니다</Typography>);
+          toast.success(
+            <Typography variant="body2">
+              상태가 성공적으로 업데이트 되었습니다
+            </Typography>
+          );
         } else {
-          toast.error(<Typography variant="body2">상태 업데이트 중 문제가 발생했습니다</Typography>);
+          toast.error(
+            <Typography variant="body2">
+              상태 업데이트 중 문제가 발생했습니다
+            </Typography>
+          );
         }
       });
     },

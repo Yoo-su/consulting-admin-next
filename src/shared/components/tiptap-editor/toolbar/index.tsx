@@ -1,36 +1,36 @@
 'use client';
 
-import { useState, useCallback, MouseEvent, memo } from 'react';
-import { Box, IconButton, Tooltip } from '@mui/material';
-import { Editor } from '@tiptap/react';
 import {
-  Title as TitleIcon,
+  Code as CodeIcon,
+  FormatAlignCenter as AlignCenterIcon,
+  FormatAlignJustify as AlignJustifyIcon,
+  FormatAlignLeft as AlignLeftIcon,
+  FormatAlignRight as AlignRightIcon,
   FormatBold as BoldIcon,
-  StrikethroughS as StrikethroughIcon,
   FormatItalic as ItalicIcon,
   FormatListBulleted as ListIcon,
   FormatListNumbered as ListOrderedIcon,
+  FormatQuote as QuoteIcon,
   FormatSize as Heading2Icon,
   FormatUnderlined as UnderlineIcon,
-  FormatQuote as QuoteIcon,
-  FormatAlignLeft as AlignLeftIcon,
-  FormatAlignCenter as AlignCenterIcon,
-  FormatAlignRight as AlignRightIcon,
-  FormatAlignJustify as AlignJustifyIcon,
-  Undo as UndoIcon,
-  Redo as RedoIcon,
-  Code as CodeIcon,
-  TableChart as TableIcon,
-  Link as LinkIcon,
   Html as HtmlIcon,
+  Link as LinkIcon,
+  Redo as RedoIcon,
+  StrikethroughS as StrikethroughIcon,
+  TableChart as TableIcon,
+  Title as TitleIcon,
+  Undo as UndoIcon,
 } from '@mui/icons-material';
+import { Box, IconButton, Tooltip } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { Editor } from '@tiptap/react';
+import { memo, MouseEvent, useCallback, useState } from 'react';
 
-import TableMenu from './items/table-menu';
 import ColorPicker from './items/color-picker';
 import HeadingMenu from './items/heading-menu';
 import HtmlEditDialog from './items/html-edit-dialog';
+import TableMenu from './items/table-menu';
 
 type ToolbarProps = {
   editor: Editor;
@@ -39,7 +39,9 @@ type ToolbarProps = {
 const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
   const theme = useTheme();
   const downlg = useMediaQuery(theme.breakpoints.down('lg'));
-  const [headingAnchorEl, setHeadingAnchorEl] = useState<null | HTMLElement>(null);
+  const [headingAnchorEl, setHeadingAnchorEl] = useState<null | HTMLElement>(
+    null
+  );
   const [tableAnchorEl, setTableAnchorEl] = useState<null | HTMLElement>(null);
   const [isHtmlDialogOpen, setIsHtmlDialogOpen] = useState(false);
 
@@ -51,9 +53,12 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
     setIsHtmlDialogOpen(false);
   };
 
-  const handleOpenHeadingMenu = useCallback((event: MouseEvent<HTMLElement>) => {
-    setHeadingAnchorEl(event.currentTarget);
-  }, []);
+  const handleOpenHeadingMenu = useCallback(
+    (event: MouseEvent<HTMLElement>) => {
+      setHeadingAnchorEl(event.currentTarget);
+    },
+    []
+  );
   const handleCloseHeadingMenu = () => {
     setHeadingAnchorEl(null);
   };
@@ -214,10 +219,18 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
         padding: '0.75rem 1rem',
         borderRadius: '0 1rem 0 0',
         //border: '1px solid rgba(0,0,0,0.1)',
-        boxShadow: '0 3px 8px -3px rgb(0 0 0 / 0.1), 0 3px 3px -4px rgb(0 0 0 / 0.1)',
+        boxShadow:
+          '0 3px 8px -3px rgb(0 0 0 / 0.1), 0 3px 3px -4px rgb(0 0 0 / 0.1)',
       }}
     >
-      <Box sx={{ width: '100%', display: 'flex', gap: downlg ? '0.3rem' : '0.5rem', flexWrap: 'wrap' }}>
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          gap: downlg ? '0.3rem' : '0.5rem',
+          flexWrap: 'wrap',
+        }}
+      >
         {menus.map((menu, idx) => (
           <Tooltip title={menu.name} key={menu.name + idx}>
             <span>
@@ -235,9 +248,21 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
         ))}
         <ColorPicker editor={editor} downlg={downlg} />
       </Box>
-      <TableMenu editor={editor} anchorEl={tableAnchorEl} onClose={handleCloseTableMenu} />
-      <HeadingMenu editor={editor} anchorEl={headingAnchorEl} onClose={handleCloseHeadingMenu} />
-      <HtmlEditDialog editor={editor} open={isHtmlDialogOpen} onClose={handleCloseHtmlDialog} />
+      <TableMenu
+        editor={editor}
+        anchorEl={tableAnchorEl}
+        onClose={handleCloseTableMenu}
+      />
+      <HeadingMenu
+        editor={editor}
+        anchorEl={headingAnchorEl}
+        onClose={handleCloseHeadingMenu}
+      />
+      <HtmlEditDialog
+        editor={editor}
+        open={isHtmlDialogOpen}
+        onClose={handleCloseHtmlDialog}
+      />
     </Box>
   );
 };

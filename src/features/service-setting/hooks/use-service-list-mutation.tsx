@@ -1,11 +1,14 @@
 'use client';
 
-import { useRef } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createNewService, CreateNewServiceParams } from '../apis';
 import Typography from '@mui/material/Typography';
-import toast from 'react-hot-toast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { useRef } from 'react';
+import toast from 'react-hot-toast';
+
+import { QUERY_KEYS } from '@/shared/constants';
+
+import { createNewService, CreateNewServiceParams } from '../apis';
 
 type UseServiceListMutationReturn = {
   isAddServiceLoading: boolean;
@@ -27,10 +30,13 @@ export const useServiceListMutation = () => {
     onSuccess: (data, variables, context) => {
       queryClient
         .invalidateQueries({
-          queryKey: ['service-list', variables.univID],
+          queryKey: QUERY_KEYS.service['service-list'](variables.univID)
+            .queryKey,
         })
         .then(() => {
-          toast.success(<Typography variant="body2">서비스가 추가되었습니다</Typography>);
+          toast.success(
+            <Typography variant="body2">서비스가 추가되었습니다</Typography>
+          );
         });
     },
     onError: (err: AxiosError) => {
@@ -39,7 +45,8 @@ export const useServiceListMutation = () => {
         message?: string;
       };
       const errorResponse = err.response?.data as ErrorResponse;
-      const errorMessage = errorResponse.message ?? '서비스 추가 중 에러가 발생했습니다';
+      const errorMessage =
+        errorResponse.message ?? '서비스 추가 중 에러가 발생했습니다';
 
       toast.error(<Typography variant="body2">{errorMessage}</Typography>);
     },

@@ -1,8 +1,8 @@
-import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import PeopleIcon from '@mui/icons-material/People';
-import ViewWeekRoundedIcon from '@mui/icons-material/ViewWeekRounded';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import SplitscreenRoundedIcon from '@mui/icons-material/SplitscreenRounded';
 import TableRowsRoundedIcon from '@mui/icons-material/TableRowsRounded';
+import ViewWeekRoundedIcon from '@mui/icons-material/ViewWeekRounded';
 
 import { ToolbarMenuItem, ToolbarViewOption } from '../models';
 

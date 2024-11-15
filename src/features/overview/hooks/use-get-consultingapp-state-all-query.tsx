@@ -1,12 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
-import { getConsultingAppStateAll } from '../apis';
+
+import { QUERY_KEYS } from '@/shared/constants';
 import { useUser } from '@/shared/hooks/context';
+
+import { getConsultingAppStateAll } from '../apis';
 
 export const useGetConsultingAppStateAllQuery = () => {
   const { isAdmin } = useUser();
 
   return useQuery({
-    queryKey: ['consultingAppStateAll'],
+    queryKey: QUERY_KEYS.overview['work-status-all'].queryKey,
     queryFn: () => getConsultingAppStateAll(),
     enabled: isAdmin,
   });

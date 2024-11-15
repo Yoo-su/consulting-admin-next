@@ -1,9 +1,17 @@
-import { Box, Checkbox, FormControlLabel, FormGroup, TextField, styled } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  styled,
+  TextField,
+} from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import { getConvertedValue } from '@/shared/services';
-import { FormItemProps } from '../../models';
+
 import { useFlutterSetting } from '../../hooks';
+import { FormItemProps } from '../../models';
 
 const BooleanForm = ({
   item,
@@ -19,9 +27,13 @@ const BooleanForm = ({
     OriginalRowValue = null,
   } = item ?? {};
   const { addToEditedList } = useFlutterSetting();
-  const [checkValue, setCheckValue] = useState<boolean>(RowValue ? getConvertedValue(RowValue) : transferDefaultValue);
+  const [checkValue, setCheckValue] = useState<boolean>(
+    RowValue ? getConvertedValue(RowValue) : transferDefaultValue
+  );
   const [inputValue, setInputValue] = useState('');
-  const initialValue = OriginalRowValue ? OriginalRowValue : transferDefaultValue;
+  const initialValue = OriginalRowValue
+    ? OriginalRowValue
+    : transferDefaultValue;
 
   const handleBooleanChange = (event: ChangeEvent<HTMLInputElement>) => {
     const booleanValue = event.target.checked;
@@ -60,7 +72,11 @@ const BooleanForm = ({
             Description ? (
               <Box component="span">{Description}</Box>
             ) : (
-              <StyledTextField variant="standard" onChange={handleInput} value={inputValue} />
+              <StyledTextField
+                variant="standard"
+                onChange={handleInput}
+                value={inputValue}
+              />
             )
           }
           control={
@@ -69,7 +85,11 @@ const BooleanForm = ({
               checked={checkValue}
               onChange={handleBooleanChange}
               disabled={isDisabled}
-              sx={{ color: isDisabled ? '#FAFAFA' : 'rgba(0, 0, 0, 0.87) !important' }}
+              sx={{
+                color: isDisabled
+                  ? '#FAFAFA'
+                  : 'rgba(0, 0, 0, 0.87) !important',
+              }}
             />
           }
           sx={CheckBoxClass}
