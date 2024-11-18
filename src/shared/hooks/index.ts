@@ -5,7 +5,7 @@ export { usePopover } from './ui/use-popover';
 export { useStepper } from './ui/use-stepper';
 export { useDownloadFile } from './utils/use-download-file';
 export { useFileDropZone } from './utils/use-file-drop-zone';
-export { useHandleBrowserQueue } from './utils/use-handle-browser-queue';
+export { useHandleQueue } from './utils/use-handle-queue';
 export { useInterceptAppRouter } from './utils/use-intercept-app-router';
 export { usePersistedState } from './utils/use-persisted-state';
 export { useTextEditor } from './utils/use-text-editor';
