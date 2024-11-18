@@ -2,9 +2,10 @@ import { Grid, styled, SxProps } from '@mui/material';
 import { UseMutationResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useEffect } from 'react';
+import { useShallow } from 'zustand/shallow';
 
-import { useHandleBrowserQueue } from '@/shared/hooks';
-import { useGetBrowserListQuery } from '@/shared/hooks/tanstack';
+import { useHandleQueue } from '@/shared/hooks';
+import { useHandleBrowserData } from '@/shared/hooks/utils/use-handle-browser-data';
 import { useBrowserStore } from '@/shared/models/stores';
 
 import DropZoneContainer from '../drop-zone-container';
@@ -36,10 +37,15 @@ const Browser = ({
   formData,
   uploadMutation,
 }: BrowserProps) => {
-  const initPath = useBrowserStore((state) => state.initPath);
-  const currentPath = useBrowserStore((state) => state.currentPath);
-  const { data: browserQueryData, isLoading: isBrowsing } =
-    useGetBrowserListQuery(currentPath);
+  const { initPath, currentPath } = useBrowserStore(
+    useShallow((state) => ({
+      initPath: state.initPath,
+      currentPath: state.currentPath,
+    }))
+  );
+
+  const { displayingBrowserData, isBrowsing } =
+    useHandleBrowserData(currentPath);
   const {
     fileInputRef,
     handleUploadBrowserQueue,
@@ -48,7 +54,7 @@ const Browser = ({
     handleChangeFileInput,
     handleClickInput,
     handleRemoveInputFile,
-  } = useHandleBrowserQueue({
+  } = useHandleQueue({
     isDropZone,
     appendDirectory,
     formData: formData!,
@@ -72,7 +78,7 @@ const Browser = ({
         {isBrowsing ? (
           <LoadingCover loadingMessage="자료를 불러오는 중입니다 . ." />
         ) : (
-          <FileList browsedList={browserQueryData?.items ?? []} />
+          <FileList browsedList={displayingBrowserData} />
         )}
 
         <Queue handleRemoveInputFile={handleRemoveInputFile} />

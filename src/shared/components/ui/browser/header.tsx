@@ -8,6 +8,7 @@ import { useGetBrowserListQuery } from '@/shared/hooks/tanstack';
 import { useBrowserStore, useQueueStore } from '@/shared/models/stores';
 
 import ButtonIcon from '../button-icon';
+import SortSelect from './atoms/sort-select';
 
 type BrowserHeaderProps = {
   showCurrentPath: boolean;
@@ -72,10 +73,10 @@ const BrowserHeader = ({
             </Typography>
           </Stack>
         )}
-        <Typography
-          variant="body2"
-          color="grey.700"
-        >{`${data?.length ?? 0}건`}</Typography>
+        <SortSelect />
+        <Typography variant="body2" color="grey.700">{`${
+          data?.length ?? 0
+        }건`}</Typography>
       </Stack>
 
       <Stack

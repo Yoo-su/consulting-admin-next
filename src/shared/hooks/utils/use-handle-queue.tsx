@@ -8,7 +8,7 @@ import { useShallow } from 'zustand/shallow';
 import { QUERY_KEYS } from '@/shared/constants';
 import { useBrowserStore, useQueueStore } from '@/shared/models/stores';
 
-type UseHandleBrowserQueueProps = {
+type UseHandleQueueProps = {
   isDropZone: boolean;
   appendDirectory: boolean;
   formData: FormData;
@@ -19,12 +19,12 @@ type UseHandleBrowserQueueProps = {
     unknown
   >;
 };
-export const useHandleBrowserQueue = ({
+export const useHandleQueue = ({
   isDropZone,
   appendDirectory,
   formData,
   uploadMutation,
-}: UseHandleBrowserQueueProps) => {
+}: UseHandleQueueProps) => {
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { basePath, currentPath } = useBrowserStore(
@@ -43,7 +43,7 @@ export const useHandleBrowserQueue = ({
   // formData에 directory키에 대한 값을 넘겨줄 경우 그 값
   const uploadDirectory = useMemo(() => {
     if (basePath === currentPath) return '';
-    return currentPath.slice(basePath.length + 1) + '/';
+    return currentPath.slice(basePath.length + 1);
   }, [basePath, currentPath]);
 
   const handleOnDrop = useCallback((event: DragEvent<HTMLDivElement>) => {
@@ -122,7 +122,10 @@ export const useHandleBrowserQueue = ({
   // dialog queue 업로드 메서드
   const handleUploadDialogQueue = useCallback(
     async (queue: File[], directory: string) => {
-      formData?.set('Directory', uploadDirectory + directory);
+      const refinedDirectory = uploadDirectory
+        ? uploadDirectory + '/'
+        : uploadDirectory;
+      formData?.set('Directory', refinedDirectory + directory);
       queue.forEach((file) => {
         formData?.append('files', file);
       });
