@@ -6,7 +6,7 @@ export const duplicateDetailpageData = async (
   targetServiceID: string
 ) => {
   return await apiInstance.post(API_URLS.dashboard.duplicateDetailpage, {
-    sourceServiceID,
-    targetServiceID,
+    sourceServiceID: Number(sourceServiceID),
+    targetServiceID: Number(targetServiceID),
   });
 };

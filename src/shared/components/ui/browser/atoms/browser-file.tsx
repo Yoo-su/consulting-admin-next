@@ -36,7 +36,7 @@ const BrowserFile = ({
 }: BrowserFileProps) => {
   const filePopover = usePopover();
   const currentPath = useBrowserStore(useShallow((state) => state.currentPath));
-  const [pureFileName = '', extension = ''] = name.split('.');
+  const [pureFileName = '', extension = ''] = name.split(/\.(?=[^.]*$)/);
   const [newFileName, setNewFileName] = useState(pureFileName);
   const [isHovered, setIsHovered] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);

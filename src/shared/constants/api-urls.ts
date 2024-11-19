@@ -31,7 +31,7 @@ export const API_URLS = {
     deleteConsultingFile: 'reflibrary/delete',
     detailpage: '/app-setup/detailpage',
     updateDetailpageData: '/app-setup/detailpage/bulk',
-    duplicateDetailpage: '/app-setup/duplicate/detailpage',
+    duplicateDetailpage: '/app-setup/detailpage/duplicate',
     syncDetailpage: '/app-setup/sync/detailpage',
     getFlutterCategory: '/custom-config/category',
     getFlutterRowInfo: '/custom-config/rows-info-hierarchy',
