@@ -145,6 +145,10 @@ const ModelLevelTable = ({
       setIsEditingFalse();
     };
   }, []);
+
+  useEffect(() => {
+    setEditMode(false);
+  }, [currentService]);
   return (
     <Stack
       sx={{

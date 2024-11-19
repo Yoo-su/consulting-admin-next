@@ -65,7 +65,7 @@ const MojipDataManageBox = () => {
                       color: 'inherit',
                     }}
                   >
-                    현재 서비스 데이터를 타 서비스로 복제
+                    이전 서비스 데이터 복제
                   </InputLabel>
                 </Stack>
                 <ServiceAutocomplete

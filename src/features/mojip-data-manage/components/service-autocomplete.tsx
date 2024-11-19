@@ -49,8 +49,8 @@ const ServiceAutocomplete = ({
   const handleClickDuplicateBtn = () => {
     if (selectedService)
       mutateAsync({
-        sourceServiceID: serviceID,
-        targetServiceID: selectedService?.serviceID,
+        sourceServiceID: selectedService?.serviceID,
+        targetServiceID: serviceID,
       }).then(() => {
         toast.success(
           <Typography variant="body2">
@@ -100,7 +100,9 @@ const ServiceAutocomplete = ({
         disabled={!selectedService}
         onClick={() => {
           openConfirmToast(
-            `[${serviceID}] 서비스의 상세페이지 데이터를\n [${selectedService?.serviceID ?? ''}] 서비스에 복제합니다`,
+            `[${serviceID}] 서비스의 상세페이지 데이터를\n [${
+              selectedService?.serviceID ?? ''
+            }] 서비스에 복제합니다`,
             handleClickDuplicateBtn
           );
         }}
