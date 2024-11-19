@@ -3,7 +3,7 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { ChangeEvent, DragEvent, useState } from 'react';
+import { ChangeEvent, DragEvent, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { useConsultingFileSettings } from '../hooks';
@@ -16,6 +16,7 @@ import {
 const FileUploader = () => {
   const { addToFiles } = useConsultingFileSettings();
   const [fileEnter, setFileEnter] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   /* event handlers */
   const handleDragEvent = (event: DragEvent<HTMLDivElement>) => {
@@ -29,7 +30,11 @@ const FileUploader = () => {
     const items = event.dataTransfer.items;
     if (items) {
       for (let i = 0; i < items.length; i++) {
-        if (items[i].kind === 'file' && items[i].type === 'application/pdf') {
+        if (
+          items[i].kind === 'file' &&
+          (items[i].type === 'application/pdf' ||
+            items[i].type.includes('image'))
+        ) {
           const file = items[i].getAsFile();
           if (file) {
             addToFiles(file);
@@ -43,10 +48,19 @@ const FileUploader = () => {
         }
       }
     }
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
   const handleChangeEvent = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    addToFiles(file);
+    if (!file) return;
+    if (file.type === 'application/pdf' || file.type.includes('image')) {
+      addToFiles(file);
+    }
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   /* styled components */
@@ -72,7 +86,11 @@ const FileUploader = () => {
           startIcon={<CloudUploadIcon />}
         >
           자료 업로드
-          <HiddenFileInput type="file" onChange={handleChangeEvent} />
+          <HiddenFileInput
+            type="file"
+            onChange={handleChangeEvent}
+            ref={fileInputRef}
+          />
         </Button>
       </UploadDivWrapper>
     </CustomWidthBoxCell>

@@ -7,6 +7,7 @@ import {
   PropsWithChildren,
   SetStateAction,
   useCallback,
+  useEffect,
   useState,
 } from 'react';
 import toast from 'react-hot-toast';
@@ -53,45 +54,49 @@ const ConsultingFileSettingsProvider = ({ children }: PropsWithChildren) => {
 
   const { currentService } = useUnivService();
   const serviceID = currentService?.serviceID || '';
-
   const { files, setFiles, execute } = useGetConsultingFileList(serviceID);
 
   const [editFileIndex, setEditFileIndex] = useState<boolean[]>([false]);
   const [selected, setSelected] = useState<number | null>(null);
 
-  const addToFiles = useCallback((uploadedFile: File | undefined) => {
-    if (uploadedFile) {
-      const fileName = uploadedFile.name;
-      toast.promise(
-        uploadMutation({
-          ServiceID: serviceID,
-          RefTitle: removeFileExtention(fileName),
-          File: uploadedFile,
-        }),
-        {
-          loading: (
-            <Typography variant="body2">
-              {fileName}을 업로드 중입니다
-            </Typography>
-          ),
-          success: () => {
-            execute();
-            setEditFileIndex((prev) => new Array(prev.length + 1).fill(false));
-            return (
+  const addToFiles = useCallback(
+    (uploadedFile: File | undefined) => {
+      if (uploadedFile) {
+        const fileName = uploadedFile.name;
+        toast.promise(
+          uploadMutation({
+            ServiceID: serviceID,
+            RefTitle: removeFileExtention(fileName),
+            File: uploadedFile,
+          }),
+          {
+            loading: (
               <Typography variant="body2">
-                {fileName}을 업로드하였습니다
+                {fileName}을 업로드 중입니다
               </Typography>
-            );
-          },
-          error: (
-            <Typography variant="body2">
-              {fileName} 업로드 중 문제가 발생했습니다
-            </Typography>
-          ),
-        }
-      );
-    }
-  }, []);
+            ),
+            success: () => {
+              execute();
+              setEditFileIndex((prev) =>
+                new Array(prev.length + 1).fill(false)
+              );
+              return (
+                <Typography variant="body2">
+                  {fileName}을 업로드하였습니다
+                </Typography>
+              );
+            },
+            error: (
+              <Typography variant="body2">
+                {fileName} 업로드 중 문제가 발생했습니다
+              </Typography>
+            ),
+          }
+        );
+      }
+    },
+    [serviceID]
+  );
 
   const updateRefTitle = useCallback(
     (refNo: number, refTitle: string, origTitle: string) => {
@@ -175,7 +180,7 @@ const ConsultingFileSettingsProvider = ({ children }: PropsWithChildren) => {
         }
       );
     },
-    []
+    [serviceID]
   );
 
   const deleteFile = useCallback(
@@ -206,7 +211,7 @@ const ConsultingFileSettingsProvider = ({ children }: PropsWithChildren) => {
         }
       );
     },
-    []
+    [serviceID]
   );
 
   return (

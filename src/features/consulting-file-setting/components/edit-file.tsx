@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import { FocusEvent, KeyboardEvent, MouseEvent, useState } from 'react';
 import toast from 'react-hot-toast';
 
+import { useConfirmToast } from '@/shared/hooks';
+
 import { useConsultingFileSettings } from '../hooks';
 import { ConsultingFile } from '../models';
 import { getFileNoFromEvent } from '../services';
@@ -26,6 +28,8 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
     deleteFile,
   } = useConsultingFileSettings();
   const [origTitle, setOrigTitle] = useState<string>(file.RefTitle);
+
+  const { openConfirmToast } = useConfirmToast();
 
   //#region textfield
   const resetFileList = (fileIndex: number, title: string) => {
@@ -100,7 +104,11 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
 
   const handleDeleteFile = (event: MouseEvent<HTMLElement>) => {
     const fileIndex = getFileNoFromEvent(event.currentTarget.id);
-    deleteFile(files, fileIndex);
+    console.log('files', files, fileIndex);
+    openConfirmToast(
+      `"${files[fileIndex - 1].FileName}" 를 삭제하시겠습니까?`,
+      () => deleteFile(files, fileIndex)
+    );
   };
 
   return (
