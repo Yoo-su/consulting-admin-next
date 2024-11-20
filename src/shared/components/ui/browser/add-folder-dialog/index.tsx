@@ -9,7 +9,7 @@ import {
   SxProps,
   TextField,
 } from '@mui/material';
-import { DragEvent } from 'react';
+import { DragEvent, useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useQueueStore } from '@/shared/models/stores';
@@ -17,6 +17,7 @@ import { useQueueStore } from '@/shared/models/stores';
 import DropZoneContainer from '../../drop-zone-container';
 import FileIcon from '../atoms/file-icon';
 import QueueFile from '../atoms/queue-file';
+import UploadButton from '../atoms/upload-button';
 import AnnouncementBox from './announcement-box';
 import { directoryNameValidation } from './validation-rule';
 
@@ -67,6 +68,12 @@ const AddFolderDialog = ({ handleUploadDialogQueue }: AddFolderDialogProps) => {
     }
   };
 
+  const handleUploadQueue = useCallback(async () => {
+    await handleUploadDialogQueue(dialogQueue, getValues('directoryName'));
+    resetDirectoryName();
+    closeAddFolderModal();
+  }, [dialogQueue, getValues, resetDirectoryName, closeAddFolderModal]);
+
   return (
     <Dialog open={isAddFolderModalOpen} onClose={closeAddFolderModal}>
       <form onSubmit={onSubmit}>
@@ -82,7 +89,7 @@ const AddFolderDialog = ({ handleUploadDialogQueue }: AddFolderDialogProps) => {
                   {...field}
                   variant="standard"
                   size="small"
-                  placeholder="폴더명을 입력하세요..."
+                  placeholder="폴더명을 입력하세요"
                   error={!!errors.directoryName}
                   helperText={errors.directoryName?.message}
                 />
@@ -121,6 +128,8 @@ const AddFolderDialog = ({ handleUploadDialogQueue }: AddFolderDialogProps) => {
                 <AnnouncementBox />
               )}
             </GridBox>
+
+            <UploadButton queue={dialogQueue} handleQueue={handleUploadQueue} />
           </DropZoneContainer>
         </DialogContent>
       </form>
