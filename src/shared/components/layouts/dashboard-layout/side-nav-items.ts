@@ -1,6 +1,7 @@
 'use client';
 import AddchartIcon from '@mui/icons-material/Addchart';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
+import CalculateIcon from '@mui/icons-material/Calculate';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DifferenceIcon from '@mui/icons-material/Difference';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -119,6 +120,12 @@ const flutterItems: NavItemType[] = [
     title: '입시일정 설정',
     href: PATHS.dashboard.scheduleSetting,
     Icon: EditCalendarIcon,
+  },
+  {
+    navkey: 'calculation-setting',
+    title: '성적 변환규칙 설정',
+    href: PATHS.dashboard.calculationSetting,
+    Icon: CalculateIcon,
   },
 ];
 

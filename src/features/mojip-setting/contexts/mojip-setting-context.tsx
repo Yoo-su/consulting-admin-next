@@ -10,6 +10,7 @@ import {
   useState,
 } from 'react';
 
+import { QUERY_KEYS } from '@/shared/constants';
 import { useUnivService } from '@/shared/hooks/context';
 
 import { useGetDetailPageDataQuery } from '../hooks';
@@ -87,7 +88,9 @@ const MojipSettingProvider = ({ children }: MojipSettingProviderProps) => {
   const updateRowMode = useCallback(
     (rowNum: number, newMode: 'detail' | 'calc') => {
       queryClient.setQueryData(
-        ['detail-page-data', currentService?.serviceID ?? ''],
+        QUERY_KEYS['mojip-setting']['detailpage-data'](
+          currentService?.serviceID ?? ''
+        ).queryKey,
         (oldData: DetailPageData[]) => {
           return oldData.map((item) => {
             if (item.rowNum !== rowNum) return item;
@@ -107,7 +110,9 @@ const MojipSettingProvider = ({ children }: MojipSettingProviderProps) => {
   const updateCondition = useCallback(
     (rowNum: number, newCondition: string) => {
       queryClient.setQueryData(
-        ['detail-page-data', currentService?.serviceID ?? ''],
+        QUERY_KEYS['mojip-setting']['detailpage-data'](
+          currentService?.serviceID ?? ''
+        ).queryKey,
         (oldData: DetailPageData[]) => {
           return oldData.map((item) => {
             if (item.rowNum !== rowNum) return item;
@@ -127,7 +132,9 @@ const MojipSettingProvider = ({ children }: MojipSettingProviderProps) => {
   const updateRowHtmlCard = useCallback(
     (rowNum: number, newHtml: string) => {
       queryClient.setQueryData(
-        ['detail-page-data', currentService?.serviceID ?? ''],
+        QUERY_KEYS['mojip-setting']['detailpage-data'](
+          currentService?.serviceID ?? ''
+        ).queryKey,
         (oldData: DetailPageData[]) => {
           return oldData.map((item) => {
             if (item.rowNum !== rowNum) return item;

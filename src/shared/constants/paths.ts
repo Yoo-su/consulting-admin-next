@@ -22,6 +22,7 @@ export const PATHS = {
     dataDeploy: '/dashboard/data-deploy',
     etcFiles: '/dashboard/etc-library',
     majorFileLibrary: '/dashboard/major-file-library',
+    calculationSetting: '/dashboard/calculation-setting',
   },
   errors: { notFound: '/errors/not-found' },
 } as const;
