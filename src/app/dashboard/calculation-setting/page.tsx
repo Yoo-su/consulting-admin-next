@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
+import CalculationSettingContainer from '@/features/calculation-setting/components/calculation-setting-container';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {
@@ -13,6 +14,7 @@ const Page = () => {
     <UnivServiceCheckGuard>
       <Box>
         <Typography variant="h5">성적 계산 설정</Typography>
+        <CalculationSettingContainer />
       </Box>
     </UnivServiceCheckGuard>
   );

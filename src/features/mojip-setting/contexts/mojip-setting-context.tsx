@@ -65,7 +65,9 @@ const MojipSettingProvider = ({ children }: MojipSettingProviderProps) => {
 
   const addNewDetailpageRow = useCallback(() => {
     queryClient.setQueryData(
-      ['detail-page-data', currentService?.serviceID],
+      QUERY_KEYS['mojip-setting']['detailpage-data'](
+        currentService?.serviceID ?? ''
+      ).queryKey,
       (oldData: DetailPageData[]) => {
         const newRowNum: number = oldData?.length
           ? Math.max(...oldData.map((item) => item.rowNum)) + 1

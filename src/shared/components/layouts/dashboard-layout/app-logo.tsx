@@ -19,6 +19,10 @@ const AppLogo = () => {
         whiteSpace: 'nowrap',
         alignItems: 'flex-end',
         cursor: 'pointer',
+        transition: 'transform 0.05s ease-in-out',
+        ':active': {
+          transform: 'scale(1.02)',
+        },
       }}
       onClick={handleClickLogo}
     >
