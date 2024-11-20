@@ -16,7 +16,7 @@ const AnnouncementBox = () => {
         sx={{ width: '50px', height: '50px' }}
       />
       <Typography variant="body2" color="inherit">
-        최소 한개 이상의 파일을 등록해주세요
+        최소 한 개 이상의 파일을 등록해주세요
       </Typography>
     </Stack>
   );
