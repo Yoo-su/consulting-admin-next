@@ -249,8 +249,8 @@ const FoundationUploadContainer = () => {
                 {uploading
                   ? '엑셀 업로드중..'
                   : success
-                  ? '업로드 완료'
-                  : '엑셀 업로드'}
+                    ? '업로드 완료'
+                    : '엑셀 업로드'}
               </Typography>
             </Button>
           )}

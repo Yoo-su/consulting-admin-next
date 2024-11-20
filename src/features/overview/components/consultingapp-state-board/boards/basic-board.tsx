@@ -36,8 +36,8 @@ const BasicBoard = ({ boardType }: BasicBoardContainerProps) => {
   const filteredState = useMemo(
     () =>
       boardType === 'mainUser'
-        ? filteredConsultingAppStates ?? []
-        : filteredConsultingAppStatesAll ?? [],
+        ? (filteredConsultingAppStates ?? [])
+        : (filteredConsultingAppStatesAll ?? []),
     [boardType, filteredConsultingAppStates, filteredConsultingAppStatesAll]
   );
 

@@ -6,7 +6,8 @@ import { getDetailPageData } from '../apis';
 
 export const useGetDetailPageDataQuery = (serviceID: string | undefined) => {
   return useQuery({
-    queryKey: QUERY_KEYS['chart-setting'].data(serviceID!).queryKey,
+    queryKey: QUERY_KEYS['mojip-setting']['detailpage-data'](serviceID!)
+      .queryKey,
     queryFn: () => getDetailPageData(serviceID!),
     enabled: !!serviceID,
   });

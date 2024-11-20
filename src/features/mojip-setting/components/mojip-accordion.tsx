@@ -17,6 +17,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { memo, useCallback } from 'react';
 
 import Tiptap from '@/shared/components/tiptap-editor';
+import { QUERY_KEYS } from '@/shared/constants';
 import { useConfirmToast, usePopover } from '@/shared/hooks';
 
 import { useMojipSetting } from '../hooks';
@@ -52,7 +53,7 @@ const MojipAccordion = ({
       `${detailpageData.rowNum}번 데이터를 삭제하시겠습니까?`,
       () => {
         queryClient.setQueryData(
-          ['detail-page-data', serviceID],
+          QUERY_KEYS['mojip-setting']['detailpage-data'](serviceID).queryKey,
           (oldData: DetailPageData[]) => {
             const filteredDetailpageData = oldData.filter(
               (item) => item.rowNum != detailpageData.rowNum
