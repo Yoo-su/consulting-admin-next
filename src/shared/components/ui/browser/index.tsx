@@ -1,12 +1,12 @@
 import { Grid, styled, SxProps } from '@mui/material';
 import { UseMutationResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 import { useHandleQueue } from '@/shared/hooks';
 import { useHandleBrowserData } from '@/shared/hooks/utils/use-handle-browser-data';
-import { useBrowserStore } from '@/shared/models/stores';
+import { useBrowserStore, useQueueStore } from '@/shared/models/stores';
 
 import DropZoneContainer from '../drop-zone-container';
 import LoadingCover from '../loadings/loading-cover';
@@ -61,6 +61,12 @@ const Browser = ({
     uploadMutation: uploadMutation!,
   });
 
+  const browserQueue = useQueueStore(useShallow((state) => state.browserQueue));
+
+  const handleUploadQueue = useCallback(async () => {
+    await handleUploadBrowserQueue(browserQueue);
+  }, [handleUploadBrowserQueue, browserQueue]);
+
   useEffect(() => {
     initPath(initialPath);
   }, [initialPath]);
@@ -84,7 +90,7 @@ const Browser = ({
         <Queue handleRemoveInputFile={handleRemoveInputFile} />
       </FileGrid>
 
-      <UploadButton handleUploadBrowserQueue={handleUploadBrowserQueue} />
+      <UploadButton queue={browserQueue} handleQueue={handleUploadQueue} />
 
       <input
         style={{ display: 'none' }}

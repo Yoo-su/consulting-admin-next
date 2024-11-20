@@ -12,27 +12,21 @@ const StyledFab = styled(Fab)(({ theme }) => ({
 }));
 
 type UploadButtonProps = {
-  handleUploadBrowserQueue: (
-    queue: File[],
-    queueType: QueueType
-  ) => Promise<void>;
+  queue: File[];
+  handleQueue: (...args: any[]) => any;
 };
-const UploadButton = ({ handleUploadBrowserQueue }: UploadButtonProps) => {
-  const browserQueue = useQueueStore(useShallow((state) => state.browserQueue));
-
-  if (!browserQueue.length) return;
+const UploadButton = ({ queue, handleQueue }: UploadButtonProps) => {
+  if (!queue.length) return;
 
   return (
     <StyledFab
       variant="extended"
       color="info"
       size="medium"
-      onClick={() => {
-        handleUploadBrowserQueue(browserQueue, 'browser');
-      }}
+      onClick={handleQueue}
     >
       <UploadIcon sx={{ mr: 1 }} />
-      <Typography variant="body2">{`${browserQueue.length}개의 파일 업로드`}</Typography>
+      <Typography variant="body2">{`${queue.length}개의 파일 업로드`}</Typography>
     </StyledFab>
   );
 };
