@@ -103,7 +103,9 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
   // 기존 모델을 삭제합니다
   const deleteModel = useCallback(
     (modelNum: number) => {
-      const filtered = chartData.filter((item) => item.modelNum !== modelNum);
+      const filtered = [...chartData].filter(
+        (item) => item.modelNum !== modelNum
+      );
       setChartData(filtered);
     },
     [chartData]

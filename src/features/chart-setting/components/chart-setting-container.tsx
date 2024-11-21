@@ -96,9 +96,6 @@ const ChartSettingContainer = () => {
             <Fragment>
               {chartData.length ? (
                 <Fragment>
-                  {hasChanges && (
-                    <SaveDataButton handleBtnClick={handleSaveBtnClick} />
-                  )}
                   <Box sx={{ mt: 4, width: '100%' }}>
                     {modelNumbers.map((mn) => {
                       return (
@@ -115,6 +112,9 @@ const ChartSettingContainer = () => {
                 </Fragment>
               ) : (
                 <EmptyBox text={'등록된 모델이 없습니다'} />
+              )}
+              {hasChanges && (
+                <SaveDataButton handleBtnClick={handleSaveBtnClick} />
               )}
             </Fragment>
           </ContentWrapper.MainContent>

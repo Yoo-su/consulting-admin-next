@@ -54,6 +54,12 @@ const ModelAccordion = ({
     else setSelectedModel(modelNum);
   }, [isSelected]);
 
+  const handleClickDelete = () => {
+    openConfirmToast(`${modelNum + 1}번 모델을 삭제하시겠습니까?`, () => {
+      deleteModel(modelNum);
+    });
+  };
+
   return (
     <Accordion expanded={isSelected}>
       <AccordionSummary aria-controls="chart-model-accordion">
@@ -80,14 +86,7 @@ const ModelAccordion = ({
               label={<Typography variant="body2">모델삭제</Typography>}
               size="small"
               clickable
-              onClick={() =>
-                openConfirmToast(
-                  `${modelNum + 1}번 모델을 삭제하시겠습니까?`,
-                  () => {
-                    deleteModel(modelNum);
-                  }
-                )
-              }
+              onClick={handleClickDelete}
             />
           </Stack>
         )}
