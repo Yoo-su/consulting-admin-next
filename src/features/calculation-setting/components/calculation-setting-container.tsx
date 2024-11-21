@@ -10,6 +10,10 @@ import {
   useGetCalcConversionTableQuery,
   useGetCalcMethodQuery,
 } from '../hooks';
+import CalcConfigAccordion from './calc-config-accordion';
+import CalcMethodAccordion from './calc-method-accordion';
+import CalcConversionTableAccordion from './conversion-table-accordion';
+import CurrentSettingOverview from './current-setting-overview';
 
 const CalculationSettingContainer = () => {
   const { currentUniv, currentService } = useUnivService();
@@ -30,7 +34,9 @@ const CalculationSettingContainer = () => {
           variant={'h6'}
         >{`${currentUniv?.univName}(${currentService?.serviceID}) 성적 계산 설정`}</Typography>
       </ContentWrapper.Header>
-      <ContentWrapper.MainContent>main</ContentWrapper.MainContent>
+      <ContentWrapper.MainContent>
+        <CurrentSettingOverview serviceID={currentService?.serviceID ?? ''} />
+      </ContentWrapper.MainContent>
     </ContentWrapper>
   );
 };

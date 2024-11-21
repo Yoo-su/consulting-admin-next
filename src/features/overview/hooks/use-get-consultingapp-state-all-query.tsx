@@ -12,5 +12,8 @@ export const useGetConsultingAppStateAllQuery = () => {
     queryKey: QUERY_KEYS.overview['work-status-all'].queryKey,
     queryFn: () => getConsultingAppStateAll(),
     enabled: isAdmin,
+    staleTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: 'always',
   });
 };

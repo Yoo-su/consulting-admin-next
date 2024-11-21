@@ -10,7 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { animated, useSpring, useTransition } from '@react-spring/web';
+import { animated, useSpring } from '@react-spring/web';
 import Image from 'next/image';
 import { memo, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
