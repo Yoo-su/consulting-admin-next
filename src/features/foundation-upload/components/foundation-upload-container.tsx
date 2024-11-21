@@ -25,6 +25,7 @@ import { ChangeEvent, DragEvent, useRef, useState } from 'react';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 import excelIcon from '@/shared/assets/images/xls_64.png';
+import starIcon from '@/shared/assets/svgs/star.svg';
 import ContentWrapper from '@/shared/components/ui/content-wrapper';
 import ColorlibStepIcon from '@/shared/components/ui/stepper/color-lib-step-icon';
 import { ColorlibConnector } from '@/shared/components/ui/stepper/styled';
@@ -134,7 +135,10 @@ const FoundationUploadContainer = () => {
         </Stack>
       </ContentWrapper.Header>
       <ContentWrapper.MainContent>
-        <Typography variant={downsm ? 'body1' : 'h6'}>{title}</Typography>
+        <Stack direction={'row'} alignItems={'center'} gap={0.5}>
+          <Image src={starIcon} alt={'star'} width={30} height={30} />
+          <Typography variant={downsm ? 'body1' : 'h4'}>{title}</Typography>
+        </Stack>
 
         <Stepper
           alternativeLabel
@@ -249,8 +253,8 @@ const FoundationUploadContainer = () => {
                 {uploading
                   ? '엑셀 업로드중..'
                   : success
-                    ? '업로드 완료'
-                    : '엑셀 업로드'}
+                  ? '업로드 완료'
+                  : '엑셀 업로드'}
               </Typography>
             </Button>
           )}

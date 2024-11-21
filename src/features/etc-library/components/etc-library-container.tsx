@@ -32,7 +32,7 @@ const EtcLibraryContainer = () => {
     <ContentWrapper>
       <ContentWrapper.Header bottomDivider>
         <Typography
-          variant="h6"
+          variant="h4"
           sx={{
             ...(downmd && {
               width: '75%',

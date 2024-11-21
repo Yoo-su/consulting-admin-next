@@ -9,10 +9,10 @@ type CurrentSettingOverviewProps = {
 };
 const CurrentSettingOverview = ({ serviceID }: CurrentSettingOverviewProps) => {
   return (
-    <Stack direction={'row'} gap={2}>
+    <Stack direction={'row'} gap={2} my={4}>
       <ConfigPreviewCard serviceID={serviceID} />
-      <MethodPreviewCard />
-      <ConversionTablePreviewCard />
+      <MethodPreviewCard serviceID={serviceID} />
+      <ConversionTablePreviewCard serviceID={serviceID} />
     </Stack>
   );
 };

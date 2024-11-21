@@ -13,7 +13,6 @@ const Page = () => {
   return (
     <UnivServiceCheckGuard>
       <Box>
-        <Typography variant="h5">성적 계산 설정</Typography>
         <CalculationSettingContainer />
       </Box>
     </UnivServiceCheckGuard>
