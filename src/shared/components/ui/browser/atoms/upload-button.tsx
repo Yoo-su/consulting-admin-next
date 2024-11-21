@@ -1,9 +1,6 @@
 import UploadIcon from '@mui/icons-material/Upload';
 import { Fab, styled, Typography } from '@mui/material';
 import { memo } from 'react';
-import { useShallow } from 'zustand/shallow';
-
-import { QueueType, useQueueStore } from '@/shared/models/stores';
 
 const StyledFab = styled(Fab)(({ theme }) => ({
   position: 'absolute',

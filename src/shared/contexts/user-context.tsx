@@ -1,12 +1,13 @@
 'use client';
 
 import Typography from '@mui/material/Typography';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { authInstance } from '@/shared/plugin/axios';
 
 import { getUserProfile, syncMoaNesinService } from '../apis';
+import { AuthEvents } from '../components/guards/auth-guard/auth-event-listener';
 import { AdminGroup, User } from '../models';
 
 export type UserContextValue = {
@@ -14,6 +15,7 @@ export type UserContextValue = {
   isLoading: boolean;
   setUser: (user: User | null) => void;
   isAdmin: boolean;
+  handleLogout?: () => void;
 };
 const UserContext = createContext<UserContextValue | undefined>(undefined);
 
@@ -35,6 +37,22 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const isAdmin =
     state.user?.groupIdList.includes(AdminGroup['ConsultingAdminDeveloper']) ??
     false;
+
+  const handleLogout = useCallback(() => {
+    sessionStorage.removeItem('token');
+    setUser(null);
+    window.location.href = '/auth/sign-in';
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = AuthEvents.subscribe((event) => {
+      if (event.type === 'UNAUTHORIZED') {
+        handleLogout();
+      }
+    });
+
+    return () => unsubscribe();
+  }, [handleLogout]);
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -63,7 +81,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ ...state, setUser, isAdmin }}>
+    <UserContext.Provider value={{ ...state, setUser, isAdmin, handleLogout }}>
       {children}
     </UserContext.Provider>
   );

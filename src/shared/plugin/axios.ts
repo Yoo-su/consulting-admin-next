@@ -1,4 +1,9 @@
 import axios from 'axios';
+import { useRouter } from 'next/router';
+
+import { AuthEvents } from '../components/guards/auth-guard/auth-event-listener';
+import { PATHS } from '../constants';
+import { useUser } from '../hooks/context';
 
 const apiInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -27,6 +32,12 @@ apiInstance.interceptors.response.use(
   },
 
   (error) => {
+    if (error.response?.status === 401) {
+      if (!window.location.pathname.includes('/sign-in')) {
+        sessionStorage.setItem('redirectPath', window.location.pathname);
+      }
+      AuthEvents.emit({ type: 'UNAUTHORIZED' });
+    }
     return Promise.reject(error);
   }
 );
