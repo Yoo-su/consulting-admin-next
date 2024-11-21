@@ -42,7 +42,7 @@ const StateCol = ({
         height: 'fit-content',
       }}
     >
-      <Stack direction={'row'} alignItems={'center'}>
+      <Stack direction={'row'} alignItems={'center'} overflow={'hidden'}>
         <Tooltip title={title} placement="top-start">
           <Box
             sx={{
@@ -56,7 +56,6 @@ const StateCol = ({
             }}
           >
             <Box
-              component={'div'}
               sx={{
                 width: '10px',
                 height: '10px',
@@ -83,7 +82,7 @@ const StateCol = ({
 
         <Stack
           direction={'row'}
-          sx={{ maxWidth: '35%', justifyContent: 'flex-end' }}
+          sx={{ flexGrow: 1, justifyContent: 'flex-end' }}
         >
           <Typography
             variant="body1"

@@ -1,10 +1,6 @@
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import Image from 'next/image';
 
 import FoundationUploadContainer from '@/features/foundation-upload/components/foundation-upload-container';
-import starIcon from '@/shared/assets/svgs/star.svg';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {
@@ -16,11 +12,6 @@ const Page = () => {
   return (
     <UnivServiceCheckGuard>
       <Box>
-        <Stack direction={'row'} alignItems={'center'}>
-          <Image src={starIcon} alt={'star'} width={28} height={28} />
-          <Typography variant="h5">기초데이터 업로드</Typography>
-        </Stack>
-
         <FoundationUploadContainer />
       </Box>
     </UnivServiceCheckGuard>

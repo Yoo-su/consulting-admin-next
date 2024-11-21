@@ -1,11 +1,23 @@
 import { create } from 'zustand';
 
+import { DialogType } from './types';
+
 type CalculationSettingState = {
-  currentSettingType: 'calc-config' | 'calc-method' | 'conversion-table';
+  dialogType: DialogType | null;
+  isCalculationSettingDialogOpen: boolean;
+  setDialogType: (dialogType: DialogType) => void;
+  openCalculationSettingDialog: () => void;
+  closeCalculationSettingDialog: () => void;
 };
 
 export const useCalculationSettingStore = create<CalculationSettingState>(
   (set) => ({
-    currentSettingType: 'calc-config',
+    dialogType: null,
+    isCalculationSettingDialogOpen: false,
+    setDialogType: (dialogType) => set({ dialogType: dialogType }),
+    openCalculationSettingDialog: () =>
+      set({ isCalculationSettingDialogOpen: true }),
+    closeCalculationSettingDialog: () =>
+      set({ dialogType: null, isCalculationSettingDialogOpen: false }),
   })
 );

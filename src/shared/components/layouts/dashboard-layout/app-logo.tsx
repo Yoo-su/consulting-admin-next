@@ -41,7 +41,15 @@ const AppLogo = () => {
     >
       <Typography variant="h5">입학상담앱</Typography>
       <Typography variant="h6">관리자</Typography>
-      <Image src={logoSvg} width={26} height={26} alt={'snail-logo'} />
+      <Image
+        src={logoSvg}
+        width={26}
+        height={26}
+        alt={'snail-logo'}
+        style={{
+          animation: 'wiggle 1.5s infinite',
+        }}
+      />
     </Box>
   );
 };

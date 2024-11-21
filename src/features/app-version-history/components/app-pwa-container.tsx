@@ -34,10 +34,10 @@ const AppPWAContainer = () => {
     const id = event.currentTarget.id;
     const copiedText =
       id === 'serialnumber'
-        ? serialNo ?? '시리얼번호가 존재하지 않습니다.'
+        ? (serialNo ?? '시리얼번호가 존재하지 않습니다.')
         : id.includes('test')
-        ? testUrl
-        : realUrl;
+          ? testUrl
+          : realUrl;
     try {
       navigator.clipboard.writeText(copiedText);
       toast.success(<Typography variant="body2">복사되었습니다</Typography>);

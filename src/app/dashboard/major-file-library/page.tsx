@@ -13,7 +13,6 @@ const Page = () => {
   return (
     <UnivServiceCheckGuard>
       <Box>
-        <Typography variant="h5">학과 자료실</Typography>
         <MajorFileLibraryContainer />
       </Box>
     </UnivServiceCheckGuard>

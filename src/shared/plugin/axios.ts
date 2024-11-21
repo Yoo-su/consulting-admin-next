@@ -1,9 +1,6 @@
 import axios from 'axios';
-import { useRouter } from 'next/router';
 
 import { AuthEvents } from '../components/guards/auth-guard/auth-event-listener';
-import { PATHS } from '../constants';
-import { useUser } from '../hooks/context';
 
 const apiInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
