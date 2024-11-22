@@ -6,7 +6,7 @@ import ContentWrapper from '@/shared/components/ui/content-wrapper';
 import { useUnivService } from '@/shared/hooks/context';
 
 import CalculationSettingDialog from './calculation-setting-dialog';
-import CurrentSettingOverview from './current-setting-overview';
+import SettingsOverview from './settings-overview';
 
 const CalculationSettingContainer = () => {
   const { currentUniv, currentService } = useUnivService();
@@ -19,9 +19,9 @@ const CalculationSettingContainer = () => {
         >{`${currentUniv?.univName}(${currentService?.serviceID}) 성적 계산 설정`}</Typography>
       </ContentWrapper.Header>
       <ContentWrapper.MainContent>
-        <CurrentSettingOverview serviceID={currentService?.serviceID ?? ''} />
+        <SettingsOverview serviceID={currentService?.serviceID ?? ''} />
       </ContentWrapper.MainContent>
-      <CalculationSettingDialog />
+      <CalculationSettingDialog serviceID={currentService?.serviceID ?? ''} />
     </ContentWrapper>
   );
 };

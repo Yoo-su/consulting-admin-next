@@ -45,9 +45,9 @@ const AppProgContainer = ({
         alignItems={'top'}
         justifyContent={'space-between'}
       >
-        <Stack direction={'column'} justifyItems={'start'}>
+        <Stack direction={'column'} justifyItems={'start'} gap={1}>
           <Typography
-            variant="h6"
+            variant="h4"
             sx={{
               ...(downmd && {
                 width: '75%',
@@ -57,7 +57,7 @@ const AppProgContainer = ({
           >{`${currentUniv?.univName}(${serviceID}) 앱 버전 히스토리`}</Typography>
           {!!histories?.data?.length && (
             <Typography
-              variant="caption"
+              variant="body1"
               color="grey.600"
               sx={{
                 ...(downmd && {

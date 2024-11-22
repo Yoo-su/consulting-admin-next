@@ -39,7 +39,7 @@ const EtcLibraryContainer = () => {
               fontSize: '16px',
             }),
           }}
-        >{`${currentUniv?.univName}(${currentService?.serviceID}) 기타 자료 목록`}</Typography>
+        >{`${currentUniv?.univName}(${currentService?.serviceID}) 기타 자료실`}</Typography>
       </ContentWrapper.Header>
       <ContentWrapper.MainContent>
         <Browser

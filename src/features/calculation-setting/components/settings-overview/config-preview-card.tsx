@@ -50,10 +50,12 @@ const previewCardStyles: SxProps = {
   padding: 2,
   flexGrow: 1,
   cursor: 'pointer',
+  userSelect: 'none',
   minHeight: '380px',
   ':hover': {
-    transform: 'scale(0.98)',
+    transform: 'translateY(-10px) scale(1.02)',
+    animation: 'circle-pulse 1.8s infinite',
   },
-  transition: 'transform 0.1s ease-in',
+  transition: 'all 0.15s ease-in-out',
 };
 export default ConfigPreviewCard;

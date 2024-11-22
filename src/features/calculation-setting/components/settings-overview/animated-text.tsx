@@ -5,7 +5,7 @@ type AnimatedTextProps = {
   delay?: number;
 };
 
-const AnimatedText = ({ children, delay = 10 }: AnimatedTextProps) => {
+const AnimatedText = ({ children, delay = 8 }: AnimatedTextProps) => {
   return (
     <>
       {children.split('').map((char, index) => {

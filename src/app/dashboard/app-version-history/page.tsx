@@ -13,7 +13,6 @@ const Page = () => {
   return (
     <UnivServiceCheckGuard>
       <Box>
-        <Typography variant="h5">상담앱 다운로드 정보</Typography>
         <AppHistoryListContainer />
       </Box>
     </UnivServiceCheckGuard>

@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
-import { DialogType } from './types';
+import { CalculationSettingDomain } from './types';
 
 type CalculationSettingState = {
-  dialogType: DialogType | null;
+  dialogType: CalculationSettingDomain | null;
   isCalculationSettingDialogOpen: boolean;
-  setDialogType: (dialogType: DialogType) => void;
+  setDialogType: (dialogType: CalculationSettingDomain) => void;
   openCalculationSettingDialog: () => void;
   closeCalculationSettingDialog: () => void;
 };
@@ -18,6 +18,6 @@ export const useCalculationSettingStore = create<CalculationSettingState>(
     openCalculationSettingDialog: () =>
       set({ isCalculationSettingDialogOpen: true }),
     closeCalculationSettingDialog: () =>
-      set({ dialogType: null, isCalculationSettingDialogOpen: false }),
+      set({ isCalculationSettingDialogOpen: false }),
   })
 );

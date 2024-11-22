@@ -13,7 +13,6 @@ const Page = () => {
   return (
     <UnivServiceCheckGuard>
       <Box>
-        <Typography variant="h5">데이터 배포</Typography>
         <DataDeployContainer />
       </Box>
     </UnivServiceCheckGuard>

@@ -30,7 +30,7 @@ const ConversionTablePreviewCard = ({
       <Typography variant={'h6'}>등록된 설정 수: {data?.length}</Typography>
       <Divider sx={{ width: '100%', bgcolor: '#fff', mt: 5, mb: 2 }} />
       <Typography variant={'body2'}>
-        <AnimatedText delay={40}>
+        <AnimatedText>
           서비스의 점수 변환 테이블을 관리합니다. ScoreConversionTable은
           서비스별 점수 변환 규칙을 저장하고 관리하는 테이블입니다. 다양한
           형태의 점수 체계를 표준화된 방식으로 변환하는 데 사용됩니다
@@ -50,12 +50,14 @@ const previewCardStyles: SxProps = {
   color: '#fff',
   borderRadius: '1rem',
   padding: 2,
+  userSelect: 'none',
   flexGrow: 1,
   cursor: 'pointer',
   minHeight: '380px',
   ':hover': {
-    transform: 'scale(0.98)',
+    transform: 'translateY(-10px) scale(1.02)',
+    animation: 'circle-pulse 1.8s infinite',
   },
-  transition: 'transform 0.1s ease-in',
+  transition: 'transform 0.15s ease-in-out',
 };
 export default ConversionTablePreviewCard;

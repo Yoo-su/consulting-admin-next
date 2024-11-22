@@ -110,7 +110,7 @@ const DataDeployContainer = () => {
     <ContentWrapper>
       <ContentWrapper.Header bottomDivider>
         <Typography
-          variant="h6"
+          variant="h4"
           textAlign={'left'}
           width={'100%'}
         >{`${currentUniv?.univName}(${currentService?.serviceID}) 데이터 배포`}</Typography>

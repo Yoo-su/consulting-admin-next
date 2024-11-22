@@ -13,7 +13,6 @@ const Page = () => {
   return (
     <UnivServiceCheckGuard checkService={false}>
       <Box>
-        <Typography variant="h5">서비스 설정</Typography>
         <ServiceSettingContainer />
       </Box>
     </UnivServiceCheckGuard>
