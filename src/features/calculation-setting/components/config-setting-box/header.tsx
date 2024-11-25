@@ -1,6 +1,7 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Stack, Typography } from '@mui/material';
+import { memo, useCallback } from 'react';
 
 import ButtonIcon from '@/shared/components/ui/button-icon';
 import { useConfirmToast } from '@/shared/hooks';
@@ -14,11 +15,14 @@ const Header = ({ serviceID }: HeaderProps) => {
   const { mutateAsync } = useCreateCalcConfigMutation();
   const { openConfirmToast } = useConfirmToast();
 
-  const handleClickAddBtn = () =>
-    openConfirmToast(
-      '새로운 Config를 추가하시겠습니까?',
-      async () => await mutateAsync(serviceID)
-    );
+  const handleClickAddBtn = useCallback(
+    () =>
+      openConfirmToast(
+        '새로운 Config를 추가하시겠습니까?',
+        async () => await mutateAsync(serviceID)
+      ),
+    [serviceID]
+  );
 
   return (
     <Stack direction={'row'} alignItems={'center'} gap={1}>
@@ -36,4 +40,4 @@ const Header = ({ serviceID }: HeaderProps) => {
   );
 };
 
-export default Header;
+export default memo(Header);

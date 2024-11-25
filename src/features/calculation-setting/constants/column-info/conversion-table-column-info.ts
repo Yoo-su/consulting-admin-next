@@ -1,1 +1,0 @@
-export const CONVERSION_TABLE_COLUMN_INFO = '';

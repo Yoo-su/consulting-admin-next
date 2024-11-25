@@ -16,6 +16,7 @@ import { useOutsideClick, usePopover } from '@/shared/hooks';
 import { BrowserItem } from '@/shared/models';
 import { useBrowserStore } from '@/shared/models/stores';
 
+import FileNameInput from './file-name-input';
 import FilePopover from './file-popover';
 
 type BrowserFileProps = BrowserItem & {
@@ -37,7 +38,6 @@ const BrowserFile = ({
   const filePopover = usePopover();
   const currentPath = useBrowserStore(useShallow((state) => state.currentPath));
   const [pureFileName = '', extension = ''] = name.split(/\.(?=[^.]*$)/);
-  const [newFileName, setNewFileName] = useState(pureFileName);
   const [isHovered, setIsHovered] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -46,13 +46,6 @@ const BrowserFile = ({
       setIsEditMode(modeState);
     },
     [isEditMode]
-  );
-
-  const handleChangeFileName = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      setNewFileName(currentPath + '/' + event.target.value + '.' + extension);
-    },
-    []
   );
 
   const handleExitEditMode = useCallback(() => {
@@ -97,14 +90,12 @@ const BrowserFile = ({
           >
             {imageChildren}
             {isEditMode ? (
-              <input
-                type={'text'}
-                style={{ width: '64px' }}
+              <FileNameInput
+                currentPath={currentPath}
+                path={path}
+                extension={extension}
                 defaultValue={pureFileName}
-                onKeyDown={(event) => {
-                  handleRenameFile(event, path, newFileName);
-                }}
-                onChange={handleChangeFileName}
+                handleRenameFile={handleRenameFile}
               />
             ) : (
               <Typography

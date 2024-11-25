@@ -1,1 +1,1 @@
-export * from './column-info';
+export const constants = '';
