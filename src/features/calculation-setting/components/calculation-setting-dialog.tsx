@@ -23,7 +23,7 @@ const CalculationSettingDialog = ({
       return <ConfigSettingBox serviceID={serviceID} />;
     else if (dialogType === 'method')
       return <MethodSettingBox serviceID={serviceID} />;
-    else if (dialogType === 'conversion-table')
+    else if (dialogType === 'conversionTable')
       return <ConversionTableSettingBox serviceID={serviceID} />;
   }, [dialogType]);
 

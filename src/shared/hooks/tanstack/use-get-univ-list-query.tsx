@@ -3,8 +3,8 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { getUnivList } from '@/shared/apis';
-import { Univ } from '@/shared/models';
 import { QUERY_KEYS } from '@/shared/constants';
+import { Univ } from '@/shared/models';
 
 export const useGetUnivListQuery = () => {
   const sessionUnivList = sessionStorage.getItem('univ-list');

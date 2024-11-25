@@ -17,7 +17,7 @@ const ConversionTablePreviewCard = ({
     useCalculationSettingStore();
 
   const handleClickCard = useCallback(() => {
-    setDialogType('conversion-table');
+    setDialogType('conversionTable');
     openCalculationSettingDialog();
   }, []);
 
