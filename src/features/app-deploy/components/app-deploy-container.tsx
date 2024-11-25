@@ -95,7 +95,7 @@ const AppDeployContainer = () => {
     <ContentWrapper>
       <ContentWrapper.Header bottomDivider>
         <Stack direction={'row'} alignItems={'center'}>
-          <Typography variant="h6" textAlign={'left'} flexGrow={1}>
+          <Typography variant="h4" textAlign={'left'} flexGrow={1}>
             {title}
           </Typography>
         </Stack>

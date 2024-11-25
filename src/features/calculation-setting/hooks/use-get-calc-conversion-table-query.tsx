@@ -9,5 +9,6 @@ export const useGetCalcConversionTableQuery = (serviceID: string) => {
     queryFn: () => getConversionTable(serviceID),
     queryKey:
       QUERY_KEYS['calculation-setting']['conversion-table'](serviceID).queryKey,
+    enabled: !!serviceID,
   });
 };

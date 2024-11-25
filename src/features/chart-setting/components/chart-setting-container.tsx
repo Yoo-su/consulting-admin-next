@@ -81,7 +81,7 @@ const ChartSettingContainer = () => {
               alignItems={'center'}
               justifyContent={'space-between'}
             >
-              <Typography variant="h6">{`${currentUniv?.univName}(${currentService?.serviceID}) 차트 데이터 설정`}</Typography>
+              <Typography variant="h4">{`${currentUniv?.univName}(${currentService?.serviceID}) 차트 데이터 설정`}</Typography>
               <Chip
                 color="info"
                 size="small"

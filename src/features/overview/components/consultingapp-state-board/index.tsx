@@ -27,7 +27,7 @@ const ConsultingAppStateBoard = () => {
           id="consultingapp-states-content"
         >
           <Stack direction="row" spacing={2} alignItems={'baseline'}>
-            <Typography variant="h5">입학상담앱 담당자 및 현황</Typography>
+            <Typography variant="h4">입학상담앱 담당자 및 현황</Typography>
             <Typography variant="h6">
               <ServiceYearSelect />
               &nbsp;학년도 &nbsp;

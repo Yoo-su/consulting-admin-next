@@ -43,15 +43,17 @@ const MojipSettingContainer = () => {
       {
         loading: (
           <Typography variant="body2">
-            모집요강 정보를 업데이트하는 중입니다...
+            상세페이지 정보를 업데이트하는 중입니다...
           </Typography>
         ),
         success: (
-          <Typography variant="body2">모집요강정보 업데이트 완료!</Typography>
+          <Typography variant="body2">
+            상세페이지 정보 업데이트 완료!
+          </Typography>
         ),
         error: (
           <Typography variant="body2">
-            모집요강정보 업데이트 중 문제가 발생했습니다
+            상세페이지 정보 업데이트 중 문제가 발생했습니다
           </Typography>
         ),
       }
@@ -76,15 +78,19 @@ const MojipSettingContainer = () => {
               alignItems={'center'}
             >
               <Typography
-                variant="h6"
+                variant="h4"
                 textAlign={'left'}
                 width={'100%'}
-              >{`${currentUniv?.univName}(${currentService?.serviceID}) 모집요강 설정`}</Typography>
+              >{`${currentUniv?.univName}(${currentService?.serviceID}) 상세페이지 설정`}</Typography>
               <Chip
                 color="info"
                 size="small"
                 icon={<AddCircleIcon fontSize="inherit" />}
-                label={<Typography variant="body2">모집요강 추가</Typography>}
+                label={
+                  <Typography variant="body2">
+                    상세페이지 데이터 추가
+                  </Typography>
+                }
                 clickable
                 onClick={addNewDetailpageRow}
               />

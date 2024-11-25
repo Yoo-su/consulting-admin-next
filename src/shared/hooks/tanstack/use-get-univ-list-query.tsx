@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { getUnivList } from '@/shared/apis';
+import { QUERY_KEYS } from '@/shared/constants';
 import { Univ } from '@/shared/models';
 
 export const useGetUnivListQuery = () => {
@@ -12,7 +13,7 @@ export const useGetUnivListQuery = () => {
     : [];
 
   return useQuery({
-    queryKey: ['univ-list'],
+    queryKey: QUERY_KEYS.univ['univ-list'].queryKey,
     queryFn: getUnivList,
     initialData: initialData,
     staleTime: 0,

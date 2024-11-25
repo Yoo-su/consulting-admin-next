@@ -9,8 +9,8 @@ type ButtonIconProps = IconButtonProps &
 const ButtonIcon = forwardRef<HTMLButtonElement, ButtonIconProps>(
   ({ Icon, ...props }, ref) => {
     return (
-      <IconButton {...props} ref={ref} size="small" aria-label="add">
-        <Icon fontSize="small" />
+      <IconButton ref={ref} size="small" aria-label="add" {...props}>
+        <Icon fontSize="inherit" />
       </IconButton>
     );
   }

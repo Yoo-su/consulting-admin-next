@@ -9,5 +9,6 @@ export const useGetCalcMethodQuery = (serviceID: string) => {
     queryFn: () => getCalcMethod(serviceID),
     queryKey:
       QUERY_KEYS['calculation-setting']['calc-method'](serviceID).queryKey,
+    enabled: !!serviceID,
   });
 };

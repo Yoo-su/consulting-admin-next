@@ -23,11 +23,11 @@ const ServiceSettingBox = () => {
           spacing={5}
         >
           <Stack direction={'column'} spacing={2}>
-            <Typography variant="h6">서비스 추가</Typography>
+            <Typography variant="h4">서비스 추가</Typography>
             <AddServiceForm univID={currentUniv?.univID ?? ''} />
           </Stack>
           <Stack direction={'column'} spacing={2}>
-            <Typography variant="h6">
+            <Typography variant="h4">
               {currentUniv?.univName}({currentUniv?.univID}) 서비스 목록
             </Typography>
             <ServiceListTable serviceList={serviceList} />

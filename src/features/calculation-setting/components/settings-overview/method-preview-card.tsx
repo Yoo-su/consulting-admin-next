@@ -28,7 +28,7 @@ const MethodPreviewCard = ({ serviceID }: MethodPreviewCardProps) => {
       <Typography variant={'h6'}>등록된 설정 수: {data?.length}</Typography>
       <Divider sx={{ width: '100%', bgcolor: '#000', mt: 5, mb: 2 }} />
       <Typography variant={'body2'}>
-        <AnimatedText delay={30}>
+        <AnimatedText>
           서비스의 점수 계산 메서드를 관리합니다. ScoreCalcMethodConfig는 점수
           계산 방식의 상세 로직을 정의하는 테이블입니다. 학생부(HSB)와 수능(SAT)
           점수 계산에 필요한 단계별 계산 방식을 JSON 형태로 저장하여 관리합니다.
@@ -48,11 +48,13 @@ const previewCardStyles: SxProps = {
   borderRadius: '1rem',
   padding: 2,
   flexGrow: 1,
+  userSelect: 'none',
   cursor: 'pointer',
   minHeight: '380px',
   ':hover': {
-    transform: 'scale(0.98)',
+    transform: 'translateY(-10px) scale(1.02)',
+    animation: 'circle-pulse 1.8s infinite',
   },
-  transition: 'transform 0.1s ease-in',
+  transition: 'transform 0.15s ease-in-out',
 };
 export default MethodPreviewCard;

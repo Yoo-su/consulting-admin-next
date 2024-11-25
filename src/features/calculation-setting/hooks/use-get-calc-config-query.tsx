@@ -9,5 +9,6 @@ export const useGetCalcConfigQuery = (serviceID: string) => {
     queryFn: () => getCalcConfig(serviceID),
     queryKey:
       QUERY_KEYS['calculation-setting']['calc-config'](serviceID).queryKey,
+    enabled: !!serviceID,
   });
 };

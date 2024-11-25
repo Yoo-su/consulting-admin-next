@@ -4,12 +4,12 @@ import ConfigPreviewCard from './config-preview-card';
 import ConversionTablePreviewCard from './conversion-table-preview-card';
 import MethodPreviewCard from './method-preview-card';
 
-type CurrentSettingOverviewProps = {
+type SettingsOverviewProps = {
   serviceID: string;
 };
-const CurrentSettingOverview = ({ serviceID }: CurrentSettingOverviewProps) => {
+const SettingsOverview = ({ serviceID }: SettingsOverviewProps) => {
   return (
-    <Stack direction={'row'} gap={2} my={4}>
+    <Stack direction={'row'} gap={3.5} py={4.5} px={1}>
       <ConfigPreviewCard serviceID={serviceID} />
       <MethodPreviewCard serviceID={serviceID} />
       <ConversionTablePreviewCard serviceID={serviceID} />
@@ -17,4 +17,4 @@ const CurrentSettingOverview = ({ serviceID }: CurrentSettingOverviewProps) => {
   );
 };
 
-export default CurrentSettingOverview;
+export default SettingsOverview;

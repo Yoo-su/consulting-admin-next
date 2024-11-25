@@ -98,14 +98,14 @@ const flutterItems: NavItemType[] = [
     Icon: AnalyticsIcon,
   },
   {
-    navkey: 'mojip-setting',
-    title: '모집요강 설정',
+    navkey: 'detailpage-setting',
+    title: '상세페이지 설정',
     href: PATHS.dashboard.mojipSetting,
     Icon: NoteAltIcon,
   },
   {
-    navkey: 'mojip-data-manage',
-    title: '모집요강 데이터 관리',
+    navkey: 'detailpage-data-manage',
+    title: '상세페이지 데이터 관리',
     href: PATHS.dashboard.mojipDataManage,
     Icon: StorageIcon,
   },

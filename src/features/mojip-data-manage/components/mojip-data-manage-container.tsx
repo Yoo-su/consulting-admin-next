@@ -20,10 +20,10 @@ const MojipDataManageBox = () => {
     <ContentWrapper>
       <ContentWrapper.Header bottomDivider>
         <Typography
-          variant="h6"
+          variant="h4"
           textAlign={'left'}
           width={'100%'}
-        >{`${currentUniv?.univName}(${currentService?.serviceID}) 모집요강 데이터 관리`}</Typography>
+        >{`${currentUniv?.univName}(${currentService?.serviceID}) 상세페이지 데이터 관리`}</Typography>
       </ContentWrapper.Header>
       <ContentWrapper.MainContent>
         <Box width={'100%'} display={'flex'} justifyContent={'center'}>

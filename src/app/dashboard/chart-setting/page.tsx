@@ -15,7 +15,6 @@ const Page = () => {
     <UnivServiceCheckGuard>
       <ChartSettingProvider>
         <Box>
-          <Typography variant="h5">차트 설정</Typography>
           <ChartSettingContainer />
         </Box>
       </ChartSettingProvider>
