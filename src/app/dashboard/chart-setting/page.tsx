@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import ChartSettingContainer from '@/features/chart-setting/components/chart-setting-container';
-import ChartSettingProvider from '@/features/chart-setting/contexts';
+import ChartSettingContainer from '@/pages_fsd/chart-setting/components/chart-setting-container';
+import ChartSettingProvider from '@/pages_fsd/chart-setting/contexts';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {

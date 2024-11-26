@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import CalendarBox from '@/features/schedule-setting/components/calendar-box';
+import CalendarBox from '@/pages_fsd/schedule-setting/components/calendar-box';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {

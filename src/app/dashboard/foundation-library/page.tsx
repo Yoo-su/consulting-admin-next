@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import FoundationLibraryContainer from '@/features/foundation-library/components/foundation-library-container';
+import FoundationLibraryContainer from '@/pages_fsd/foundation-library/components/foundation-library-container';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {

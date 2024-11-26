@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 
-import FoundationUploadContainer from '@/features/foundation-upload/components/foundation-upload-container';
+import FoundationUploadContainer from '@/pages_fsd/foundation-upload/components/foundation-upload-container';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {

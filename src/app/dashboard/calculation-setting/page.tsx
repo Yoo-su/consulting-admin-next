@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import CalculationSettingContainer from '@/features/calculation-setting/components/calculation-setting-container';
+import CalculationSettingContainer from '@/pages_fsd/calculation-setting/components/calculation-setting-container';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {

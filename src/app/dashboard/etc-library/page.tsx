@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import EtcLibraryContainer from '@/features/etc-library/components/etc-library-container';
+import EtcLibraryContainer from '@/pages_fsd/etc-library/components/etc-library-container';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {

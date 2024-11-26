@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import VersionSettingContainer from '@/features/version-setting/components/version-setting-container';
+import VersionSettingContainer from '@/pages_fsd/version-setting/components/version-setting-container';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {
