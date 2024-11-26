@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import ServiceSettingContainer from '@/features/service-setting/components/service-setting-container';
+import ServiceSettingContainer from '@/pages_fsd/service-setting/components/service-setting-container';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {

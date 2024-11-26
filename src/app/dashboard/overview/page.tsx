@@ -1,4 +1,4 @@
-import ConsultingAppStateBoard from '@/features/overview/components/consultingapp-state-board';
+import ConsultingAppStateBoard from '@/pages_fsd/overview/components/consultingapp-state-board';
 
 export const metadata = {
   title: '상담앱 관리자 | 홈 - 현황판',

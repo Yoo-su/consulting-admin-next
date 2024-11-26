@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 const AccountSettingContainer = dynamic(
   () =>
     import(
-      '@/features/account-setting/components/account-setting-container'
+      '@/pages_fsd/account-setting/components/account-setting-container'
     ).then((module) => module.default),
   { ssr: false }
 );

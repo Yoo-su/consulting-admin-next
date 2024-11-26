@@ -1,4 +1,4 @@
-import { setDuplicateSetting } from '@/features/flutter-setting/apis/set-duplicate-setting';
+import { setDuplicateSetting } from '@/pages_fsd/flutter-setting/apis/set-duplicate-setting';
 
 export const API_URLS = {
   user: {

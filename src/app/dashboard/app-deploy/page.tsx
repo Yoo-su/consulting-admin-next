@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import AppDeployContainer from '@/features/app-deploy/components/app-deploy-container';
+import AppDeployContainer from '@/pages_fsd/app-deploy/components/app-deploy-container';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {

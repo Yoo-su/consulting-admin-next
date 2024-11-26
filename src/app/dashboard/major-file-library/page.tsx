@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import MajorFileLibraryContainer from '@/features/major-file-library/components/major-file-library-container';
+import MajorFileLibraryContainer from '@/pages_fsd/major-file-library/components/major-file-library-container';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {

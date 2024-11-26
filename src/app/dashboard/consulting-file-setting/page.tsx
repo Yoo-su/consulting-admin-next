@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import FileListTable from '@/features/consulting-file-setting/components/file-list-table';
-import ConsultingFileSettingsProvider from '@/features/consulting-file-setting/contexts';
+import FileListTable from '@/pages_fsd/consulting-file-setting/components/file-list-table';
+import ConsultingFileSettingsProvider from '@/pages_fsd/consulting-file-setting/contexts';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {

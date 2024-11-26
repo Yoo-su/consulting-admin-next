@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import MojipDataManageContainer from '@/features/mojip-data-manage/components/mojip-data-manage-container';
+import MojipDataManageContainer from '@/pages_fsd/mojip-data-manage/components/mojip-data-manage-container';
 import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
 
 export const metadata = {
