@@ -17,6 +17,7 @@ import { useUnivService } from '@/shared/hooks/context';
 import { SetFlutterCustomConfigParams } from '../apis';
 import { useSetFlutterSettingMutation } from '../hooks';
 import { FlutterSetting } from '../models';
+import { getArrayFromString } from '../services';
 
 export type FlutterSettingContextValue = {
   flutterSettingList: FlutterSetting[];
@@ -61,12 +62,24 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   // 변경된 값 모음에 추가
   const addToEditedList = (
     editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'> & {
-      InitialValue: string;
+      InitialValue: string | string[];
     }
   ) => {
     const { RowIdx, RowValue, InitialValue } = editedSetting;
 
-    const isBackToOrig = RowValue.trim() === InitialValue.trim();
+    const rowValueForChecking: string | string[] =
+      typeof InitialValue === 'object'
+        ? getArrayFromString(RowValue)
+        : RowValue;
+
+    const isBackToOrig =
+      typeof InitialValue === 'string'
+        ? (rowValueForChecking as string).trim() === InitialValue.trim()
+        : typeof InitialValue === 'object'
+        ? [...(rowValueForChecking as string[])].toString() ==
+          [...InitialValue].toString()
+        : rowValueForChecking === InitialValue;
+
     if (isBackToOrig) {
       setEditedSettingList((prev) =>
         prev.filter((item) => item.RowIdx !== RowIdx)

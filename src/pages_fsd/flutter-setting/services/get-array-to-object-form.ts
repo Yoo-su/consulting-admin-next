@@ -3,7 +3,7 @@ export const getArrayToObjectForm = (
 ) => {
   let objectString = '{';
   mapList.forEach((map, index) => {
-    objectString += `"${map.item}": "${map.value}"`;
+    objectString += `"${map.item}":"${map.value}"`;
     if (index < mapList.length - 1) {
       objectString += ',';
     }
