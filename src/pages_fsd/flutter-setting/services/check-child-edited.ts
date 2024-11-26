@@ -1,5 +1,5 @@
 import { FlutterRowInfo, FlutterSetting } from '../models';
-import { getArrayFromString } from './get-array-from-string';
+import { getConvertedRowValue } from './get-converted-row-value';
 
 export const checkChildEdited = (
   child: FlutterRowInfo,
@@ -18,16 +18,8 @@ const checkRowEdited = (
 ): boolean => {
   return rowList.some((item) => {
     const { RowIdx, RowValue, transferDefaultValue, children } = item;
-    const rowValue = Array.isArray(transferDefaultValue)
-      ? JSON.stringify(getArrayFromString(RowValue ?? ''))
-      : typeof transferDefaultValue === 'number'
-      ? Number(RowValue)
-      : RowValue;
-    const defaultValue = Array.isArray(transferDefaultValue)
-      ? JSON.stringify(transferDefaultValue)
-      : typeof transferDefaultValue === 'number'
-      ? Number(transferDefaultValue)
-      : transferDefaultValue;
+    const rowValue = getConvertedRowValue(transferDefaultValue, RowValue);
+    const defaultValue = getConvertedRowValue(transferDefaultValue);
 
     if (isDeep && item.children.length > 0 && item.Type !== 'select') {
       return checkRowEdited(row, children, isDeep);

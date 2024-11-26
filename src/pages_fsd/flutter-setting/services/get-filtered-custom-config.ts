@@ -1,5 +1,5 @@
 import { FlutterRowInfo, FlutterSetting } from '../models';
-import { getArrayFromString } from './get-array-from-string';
+import { getConvertedRowValue } from './get-converted-row-value';
 
 export const getFilteredCustomConfig = (
   categoryList: FlutterSetting[]
@@ -30,16 +30,8 @@ const getFilteredChildren = (rowInfo: FlutterRowInfo) => {
       hasMatchingChild = true;
     }
   }
-  const rowValue = Array.isArray(transferDefaultValue)
-    ? JSON.stringify(getArrayFromString(RowValue ?? ''))
-    : typeof transferDefaultValue === 'number'
-    ? Number(RowValue)
-    : RowValue;
-  const defaultValue = Array.isArray(transferDefaultValue)
-    ? JSON.stringify(transferDefaultValue)
-    : typeof transferDefaultValue === 'number'
-    ? Number(transferDefaultValue)
-    : transferDefaultValue;
+  const rowValue = getConvertedRowValue(transferDefaultValue, RowValue);
+  const defaultValue = getConvertedRowValue(transferDefaultValue);
   if (
     (RowValue !== undefined && rowValue !== defaultValue) ||
     hasMatchingChild
