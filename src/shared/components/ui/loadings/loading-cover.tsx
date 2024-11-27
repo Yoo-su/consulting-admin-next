@@ -21,7 +21,7 @@ const LoadingCover = ({ loadingMessage }: LoadingCoverProps) => {
       }}
     >
       <HashLoader color={'#36D7B7'} size={60} />
-      <Typography variant="body1" color="gray.500" marginTop={'1rem'}>
+      <Typography variant="body1" color="grey.500" marginTop={'1rem'}>
         {loadingMessage}
       </Typography>
     </Box>

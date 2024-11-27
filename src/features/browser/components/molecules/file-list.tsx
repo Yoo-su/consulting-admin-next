@@ -1,5 +1,7 @@
-import { Grid } from '@mui/material';
+import { Grid, styled } from '@mui/material';
 import { memo } from 'react';
+
+import EmptyCover from '@/shared/components/ui/empty-cover';
 
 import { useHandleBrowserData } from '../../hooks';
 import BrowserFolder from '../atoms/browser-directory';
@@ -16,40 +18,20 @@ const FileList = ({ currentPath }: FileListProps) => {
     handleRenameFile,
     handleDeleteFile,
   } = useHandleBrowserData(currentPath);
+
+  if (!displayingBrowserData.length)
+    return <EmptyCover message={'폴더 및 파일이 없습니다'} />;
+
   return displayingBrowserData.map((browserItem) =>
     browserItem.isDirectory ? (
-      <Grid
-        item
-        display="flex"
-        key={browserItem.name}
-        justifyContent="center"
-        alignItems="center"
-        height="fit-content"
-        sx={{ userSelect: 'none' }}
-        xs={3}
-        md={2}
-        lg={1.2}
-        xl={1}
-      >
+      <GridItem item key={browserItem.name} xs={3} md={2} lg={1.2} xl={1}>
         <BrowserFolder
           browserItem={browserItem}
           handleClickDirectory={handleClickDirectory}
         />
-      </Grid>
+      </GridItem>
     ) : (
-      <Grid
-        item
-        display="flex"
-        key={browserItem.name}
-        justifyContent="center"
-        alignItems="center"
-        height="fit-content"
-        sx={{ userSelect: 'none' }}
-        xs={3}
-        md={2}
-        lg={1.2}
-        xl={1}
-      >
+      <GridItem item key={browserItem.name} xs={3} md={2} lg={1.2} xl={1}>
         <BrowserFile
           {...browserItem}
           imageChildren={
@@ -58,9 +40,17 @@ const FileList = ({ currentPath }: FileListProps) => {
           handleRenameFile={handleRenameFile}
           handleDeleteFile={handleDeleteFile}
         />
-      </Grid>
+      </GridItem>
     )
   );
 };
+
+const GridItem = styled(Grid)({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: 'fit-content',
+  userSelect: 'none',
+});
 
 export default memo(FileList);
