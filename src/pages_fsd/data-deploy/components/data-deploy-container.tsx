@@ -22,33 +22,6 @@ import { useUnivService } from '@/shared/hooks/context';
 import { useDeployTestDataMutation } from '../hooks/use-deploy-test-data-mutation';
 import { useSyncTestDevMutation } from '../hooks/use-sync-test-dev-mutation';
 
-interface StyledButtonProps extends ButtonProps {
-  bgcolor?: string;
-}
-const StyledButton = styled(Button, {
-  shouldForwardProp: (prop) => prop !== 'bgcolor',
-})<StyledButtonProps>(({ theme, bgcolor }) => ({
-  boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-  borderRadius: '0.5rem',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  flexWrap: 'wrap',
-  padding: '2rem',
-  cursor: 'pointer',
-  color: '#fff',
-  backgroundColor: bgcolor || theme.palette.primary.main, // 커스텀 bgcolor 적용
-  '&:hover': {
-    backgroundColor: bgcolor || theme.palette.primary.main,
-  },
-  '&:active': {
-    transform: 'scale(0.95)',
-  },
-  width: '100%',
-  height: '6rem',
-  transition: 'all 0.1s ease-in-out',
-}));
-
 const DataDeployContainer = () => {
   const { currentService, currentUniv } = useUnivService();
   const { isPending: isRealDeploying, mutateAsync: deployToReal } =
@@ -190,5 +163,32 @@ const DataDeployContainer = () => {
     </ContentWrapper>
   );
 };
+
+interface StyledButtonProps extends ButtonProps {
+  bgcolor?: string;
+}
+const StyledButton = styled(Button, {
+  shouldForwardProp: (prop) => prop !== 'bgcolor',
+})<StyledButtonProps>(({ theme, bgcolor }) => ({
+  boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+  borderRadius: '0.5rem',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexWrap: 'wrap',
+  padding: '2rem',
+  cursor: 'pointer',
+  color: '#fff',
+  backgroundColor: bgcolor || theme.palette.primary.main, // 커스텀 bgcolor 적용
+  '&:hover': {
+    backgroundColor: bgcolor || theme.palette.primary.main,
+  },
+  '&:active': {
+    transform: 'scale(0.95)',
+  },
+  width: '100%',
+  height: '6rem',
+  transition: 'all 0.1s ease-in-out',
+}));
 
 export default DataDeployContainer;

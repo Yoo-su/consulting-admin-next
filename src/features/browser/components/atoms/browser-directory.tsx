@@ -1,4 +1,4 @@
-import { Stack, Typography } from '@mui/material';
+import { Stack, styled, Typography } from '@mui/material';
 import Image from 'next/image';
 import { memo } from 'react';
 
@@ -15,18 +15,8 @@ const BrowserDirectory = ({
   handleClickDirectory,
 }: BrowserDirectoryProps) => {
   return (
-    <Stack
-      direction={'column'}
-      alignItems={'center'}
+    <Wrapper
       gap={0.3}
-      sx={{
-        borderRadius: '0.3rem',
-        padding: '0.2rem',
-        transition: 'all 0.1s ease-in-out',
-        ':hover': {
-          bgcolor: '#EBECEE',
-        },
-      }}
       onDoubleClick={() => {
         handleClickDirectory(browserItem);
       }}
@@ -35,8 +25,19 @@ const BrowserDirectory = ({
       <Typography variant={'caption'} width={'64px'} textAlign={'center'}>
         {browserItem.name}
       </Typography>
-    </Stack>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled(Stack)({
+  flexDirection: 'column',
+  alignItems: 'center',
+  borderRadius: '0.3rem',
+  padding: '0.2rem',
+  transition: 'all 0.1s ease-in-out',
+  ':hover': {
+    bgcolor: '#EBECEE',
+  },
+});
 
 export default memo(BrowserDirectory);

@@ -42,14 +42,14 @@ const MojipSettingProvider = ({ children }: MojipSettingProviderProps) => {
     currentService?.serviceID
   );
   const [originalDetailData, setOriginalDetailData] = useState<
-    DetailPageData[]
+    DetailPageData[] | undefined
   >([]);
 
   // detailpage data 수정여부
   const hasChanges = useMemo(() => {
-    if (!data) return false;
+    if (!data || !originalDetailData) return false;
     const sortedDetailpageData = [...data].sort((a, b) => a.rowNum - b.rowNum),
-      sortedOriginalDetailpageData = [...originalDetailData].sort(
+      sortedOriginalDetailpageData = [...originalDetailData!].sort(
         (a, b) => a.rowNum - b.rowNum
       );
     return (
@@ -153,8 +153,9 @@ const MojipSettingProvider = ({ children }: MojipSettingProviderProps) => {
   );
 
   useEffect(() => {
-    if (data?.length) setOriginalDetailData(data);
-  }, [isSuccess]);
+    if (data?.length) setOriginalDetailData([...data]);
+    else setOriginalDetailData(data);
+  }, [isSuccess, currentService]);
 
   return (
     <MojipSettingContext.Provider

@@ -36,7 +36,7 @@ const ConditionRow = ({
   };
 
   return (
-    <Stack direction={'column'}>
+    <Stack direction={'column'} width={'100%'}>
       {condition.logic && (
         <Stack direction={'row'} justifyContent={'center'} sx={{ my: 1.5 }}>
           <Chip

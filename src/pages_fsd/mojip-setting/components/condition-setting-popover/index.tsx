@@ -5,14 +5,16 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import Chip from '@mui/material/Chip';
 import Popover from '@mui/material/Popover';
 import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { memo, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 
+import EmptyCover from '@/shared/components/ui/empty-cover';
+
 import { useMojipSetting } from '../../hooks';
 import { Condition } from '../../models';
 import ConditionRow from './condition-row';
-import EmptyConditionBox from './empty-condition-box';
 
 type ConditionSettingPopoverProps = {
   anchorEl: Element | null;
@@ -99,7 +101,7 @@ const ConditionSettingPopover = ({
   };
 
   return (
-    <Popover
+    <StyledPopover
       anchorEl={anchorEl}
       anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
       onClose={() => {
@@ -107,97 +109,113 @@ const ConditionSettingPopover = ({
         onClose();
       }}
       open={open}
-      slotProps={{
-        paper: { sx: { width: '540px', mt: 0.6, height: '380px' } },
-      }}
-      sx={{ overflowY: 'scroll' }}
     >
-      <Stack
-        direction={'column'}
-        sx={{
-          p: '16px 20px',
-          position: 'relative',
-          alignItems: 'center',
-          height: '100%',
-        }}
-      >
-        <Stack
-          direction={'row'}
-          justifyContent={'flex-end'}
-          spacing={1}
-          sx={{
-            top: 10,
-            padding: '0.8rem 0.5rem',
-            zIndex: 50,
-            bgcolor: 'rgba(250,249,245,0.85)',
-            position: 'sticky',
-            width: '100%',
-            borderRadius: '0.5rem',
-            boxShadow:
-              '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-          }}
-        >
-          <Chip
+      <WrapperStack>
+        <HeaderStack gap={1}>
+          <AddRowChip
             clickable
             onClick={handleClickAddRowBtn}
             icon={<AddCircleIcon color="inherit" />}
             label={
-              <Typography variant="button" fontWeight={'bold'}>
+              <Typography variant="button" fontWeight="bold">
                 행추가
               </Typography>
             }
-            sx={{
-              bgcolor: '#597D35',
-              '&:hover': {
-                bgcolor: '#597D35',
-              },
-              color: '#fff',
-            }}
           />
-          <Chip
+          <SaveRowChip
             clickable
             onClick={handleClickSaveBtn}
             disabled={!hasChanges}
             icon={<ExitToAppIcon color="inherit" />}
             label={
-              <Typography variant="button" fontWeight={'bold'}>
+              <Typography variant="button" fontWeight="bold">
                 {hasChanges ? '변경사항 반영' : '변경사항 없음'}
               </Typography>
             }
             color={hasChanges ? 'info' : 'default'}
-            sx={{
-              px: 1,
-              bgcolor: '#4863A0',
-              '&:hover': {
-                bgcolor: '#4863A0',
-              },
-              color: '#fff',
-              transition: 'all 0.2s ease',
-            }}
           />
-        </Stack>
+        </HeaderStack>
 
-        {currentCondition.length ? (
-          <Stack
-            direction={'column'}
-            spacing={0}
-            sx={{ p: '10px 0', mt: 2, width: '100%', height: '100%' }}
-          >
-            {currentCondition.map((item) => (
+        <ConditionContainer>
+          {currentCondition.length ? (
+            currentCondition.map((item) => (
               <ConditionRow
                 key={item.idx}
                 condition={item}
                 handleChangeRowData={handleChangeRowData}
                 handleClickDeleteRowBtn={handleClickDeleteRowBtn}
               />
-            ))}
-          </Stack>
-        ) : (
-          <EmptyConditionBox />
-        )}
-      </Stack>
-    </Popover>
+            ))
+          ) : (
+            <EmptyCover
+              message="등록된 표시조건이 없습니다"
+              sx={{
+                borderRadius: '0.5rem',
+                bgcolor: 'rgba(0,0,0,0.02)',
+              }}
+            />
+          )}
+        </ConditionContainer>
+      </WrapperStack>
+    </StyledPopover>
   );
 };
+
+const StyledPopover = styled(Popover)(({ theme }) => ({
+  '& .MuiPaper-root': {
+    width: '540px',
+    marginTop: theme.spacing(0.75),
+    height: '380px',
+  },
+}));
+
+const WrapperStack = styled(Stack)(({ theme }) => ({
+  flexDirection: 'column',
+  padding: theme.spacing(2),
+  position: 'relative',
+  alignItems: 'center',
+}));
+
+const HeaderStack = styled(Stack)(({ theme }) => ({
+  flexDirection: 'row',
+  justifyContent: 'flex-end',
+  top: theme.spacing(1.25),
+  padding: theme.spacing(1, 0.625),
+  zIndex: 50,
+  backgroundColor: 'rgba(250,249,245,0.85)',
+  position: 'sticky',
+  width: '100%',
+  borderRadius: theme.spacing(0.5),
+  boxShadow:
+    '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
+}));
+
+const AddRowChip = styled(Chip)(({ theme }) => ({
+  backgroundColor: '#597D35',
+  color: '#fff',
+  '&:hover': {
+    backgroundColor: '#597D35',
+  },
+}));
+
+const SaveRowChip = styled(Chip)(({ theme }) => ({
+  paddingLeft: theme.spacing(1),
+  paddingRight: theme.spacing(1),
+  backgroundColor: '#4863A0',
+  color: '#fff',
+  '&:hover': {
+    backgroundColor: '#4863A0',
+  },
+  transition: 'all 0.2s ease',
+}));
+
+const ConditionContainer = styled(Stack)(({ theme }) => ({
+  flexDirection: 'column',
+  position: 'relative',
+  padding: theme.spacing(1.25, 0),
+  marginTop: theme.spacing(2),
+  width: '100%',
+  minHeight: '260px',
+}));
 
 export default memo(ConditionSettingPopover);
