@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { useStatusBoardStore } from '../models';
 import { useGetConsultingAppStateAllQuery } from './use-get-consultingapp-state-all-query';
@@ -22,7 +22,12 @@ export const useHandleStatusBoard = () => {
         (appState) => appState.serviceYear.toString() === selectedServiceYear
       )
       .filter((appState) => appState.serviceType === selectedServiceType);
-  }, [selectedServiceYear, selectedServiceType, consultingAppStates]);
+  }, [
+    selectedServiceYear,
+    selectedServiceType,
+    consultingAppStates,
+    consultingAppStatesAll,
+  ]);
 
   const filteredConsultingAppStatesAll = useMemo(() => {
     return (
@@ -33,7 +38,12 @@ export const useHandleStatusBoard = () => {
         .filter((appState) => appState.serviceType === selectedServiceType) ??
       []
     );
-  }, [selectedServiceYear, selectedServiceType, consultingAppStates]);
+  }, [
+    selectedServiceYear,
+    selectedServiceType,
+    consultingAppStates,
+    consultingAppStatesAll,
+  ]);
 
   const isStatesLoading = useMemo(
     () => isConsultingAppStatesAllLoading || isConsultingAppStatesLoading,
