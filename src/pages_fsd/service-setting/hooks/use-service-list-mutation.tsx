@@ -30,8 +30,7 @@ export const useServiceListMutation = () => {
     onSuccess: (data, variables, context) => {
       queryClient
         .invalidateQueries({
-          queryKey: QUERY_KEYS.service['service-list'](variables.univID)
-            .queryKey,
+          queryKey: QUERY_KEYS.service['list'](variables.univID).queryKey,
         })
         .then(() => {
           toast.success(
