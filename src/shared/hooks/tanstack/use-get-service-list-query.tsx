@@ -5,7 +5,7 @@ import { QUERY_KEYS } from '@/shared/constants';
 
 export const useGetServiceListQuery = (univID: string | undefined) => {
   return useQuery({
-    queryKey: QUERY_KEYS.service['service-list'](univID!).queryKey,
+    queryKey: QUERY_KEYS.service['list'](univID!).queryKey,
     queryFn: () => getServiceList(univID!),
     enabled: !!univID,
   });

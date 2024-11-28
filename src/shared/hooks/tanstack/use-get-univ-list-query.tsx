@@ -13,7 +13,7 @@ export const useGetUnivListQuery = () => {
     : [];
 
   return useQuery({
-    queryKey: QUERY_KEYS.univ['univ-list'].queryKey,
+    queryKey: QUERY_KEYS.univ['list'].queryKey,
     queryFn: getUnivList,
     initialData: initialData,
     staleTime: 0,
