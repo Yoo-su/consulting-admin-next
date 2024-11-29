@@ -1,11 +1,13 @@
 import { Box, SxProps, Typography } from '@mui/material';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import candyCane from '@/shared/assets/svgs/candyCane.svg';
 import christmasDecorationDoor from '@/shared/assets/svgs/christmasDecorationDoor.svg';
 import hotChocoMug from '@/shared/assets/svgs/hotChocoMug.svg';
+import mockingbird from '@/shared/assets/svgs/mockingbird.svg';
 import snowSleigh from '@/shared/assets/svgs/snowSleigh.svg';
+import turtle from '@/shared/assets/svgs/turtle.svg';
 
 type EmptyCoverProps = {
   message: string;
@@ -13,7 +15,19 @@ type EmptyCoverProps = {
 };
 const EmptyCover = ({ message, sx }: EmptyCoverProps) => {
   const [selectedImage, setSelectedImage] = useState(0);
-  const images = [
+
+  const today = new Date();
+  const christmasSeason = [
+    new Date(today.getFullYear(), 10, 1),
+    new Date(today.getFullYear(), 11, 31),
+  ];
+
+  const isChristmas = useMemo(
+    () => christmasSeason[0] <= today && today <= christmasSeason[1],
+    [today]
+  );
+
+  const christmasImages = [
     {
       src: christmasDecorationDoor,
       alt: 'christmasDecorationDoor',
@@ -29,6 +43,16 @@ const EmptyCover = ({ message, sx }: EmptyCoverProps) => {
     {
       src: candyCane,
       alt: 'candyCane',
+    },
+  ];
+  const images = [
+    {
+      src: mockingbird,
+      alt: 'mockingbird',
+    },
+    {
+      src: turtle,
+      alt: 'turtle',
     },
   ];
 
@@ -53,8 +77,16 @@ const EmptyCover = ({ message, sx }: EmptyCoverProps) => {
       }}
     >
       <Image
-        src={images[selectedImage].src}
-        alt={images[selectedImage].alt}
+        src={
+          isChristmas
+            ? christmasImages[selectedImage].src
+            : images[selectedImage].src
+        }
+        alt={
+          isChristmas
+            ? christmasImages[selectedImage].alt
+            : images[selectedImage].alt
+        }
         width={64}
         height={64}
       />

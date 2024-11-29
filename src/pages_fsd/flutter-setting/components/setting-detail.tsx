@@ -1,8 +1,4 @@
 import { Stack, Typography } from '@mui/material';
-import Image from 'next/image';
-
-import christmasDecorationDoor from '@/shared/assets/svgs/christmasDecorationDoor.svg';
-import EmptyCover from '@/shared/components/ui/empty-cover';
 
 import { useFlutterSetting } from '../hooks';
 import { FlutterRowInfo, FlutterSetting } from '../models';
@@ -42,17 +38,6 @@ const SettingDetail = ({
           <Typography variant={'overline'}>{description}</Typography>
         )}
       </Stack>
-      {filteredSettingList.length == 0 && (
-        <Stack
-          sx={{
-            width: '100%',
-            minHeight: '400px',
-            position: 'relative',
-          }}
-        >
-          <EmptyCover message={'예외 설정이 없습니다'} />
-        </Stack>
-      )}
       <EditSetting
         settingList={settingList}
         path={path}
