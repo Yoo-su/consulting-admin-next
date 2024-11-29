@@ -14,7 +14,7 @@ const Page = () => {
   return (
     <UnivServiceCheckGuard>
       <FlutterSettingProvider>
-        <Box>
+        <Box sx={{ minWidth: '752px' }}>
           <DupServiceBtn />
           <FlutterSettingContainer />
         </Box>

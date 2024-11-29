@@ -1,4 +1,8 @@
 import { Stack, Typography } from '@mui/material';
+import Image from 'next/image';
+
+import christmasDecorationDoor from '@/shared/assets/svgs/christmasDecorationDoor.svg';
+import EmptyCover from '@/shared/components/ui/empty-cover';
 
 import { useFlutterSetting } from '../hooks';
 import { FlutterRowInfo, FlutterSetting } from '../models';
@@ -29,13 +33,26 @@ const SettingDetail = ({
   return (
     <Stack spacing={2} sx={{ minWidth: '100%', paddingBottom: '1rem' }}>
       <Stack>
-        <Typography variant={'h6'} sx={{ fontWeight: 'bold' }}>
-          {category}
-        </Typography>
+        {filteredSettingList.length > 0 && (
+          <Typography variant={'h6'} sx={{ fontWeight: 'bold' }}>
+            {category}
+          </Typography>
+        )}
         {description && (
           <Typography variant={'overline'}>{description}</Typography>
         )}
       </Stack>
+      {filteredSettingList.length == 0 && (
+        <Stack
+          sx={{
+            width: '100%',
+            minHeight: '400px',
+            position: 'relative',
+          }}
+        >
+          <EmptyCover message={'예외 설정이 없습니다'} />
+        </Stack>
+      )}
       <EditSetting
         settingList={settingList}
         path={path}
@@ -53,12 +70,12 @@ const getCategoryInfo = (
   category: string
 ) => {
   const filteredList = Array.isArray(list)
-    ? (list // path를 위한 Index 추가
+    ? list // path를 위한 Index 추가
         ?.map((item: any, index: number) => ({ ...item, Index: index }))
         // 대분류와 소분류에 따라 필터링
         .filter((item: any) =>
           item.Title ? item.Title === category : item.Category === category
-        )[0] ?? null)
+        )[0] ?? null
     : list;
   const description = filteredList?.Description;
   const children = filteredList?.children ?? filteredList;
