@@ -2,9 +2,11 @@ import { Box, Typography } from '@mui/material';
 import HashLoader from 'react-spinners/HashLoader';
 
 type LoadingCoverProps = {
-  loadingMessage: string;
+  loadingMessage?: string;
 };
-const LoadingCover = ({ loadingMessage }: LoadingCoverProps) => {
+const LoadingCover = ({
+  loadingMessage = '로딩중입니다...',
+}: LoadingCoverProps) => {
   return (
     <Box
       sx={{
