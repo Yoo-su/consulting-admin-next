@@ -2,6 +2,7 @@ import { Grid, styled } from '@mui/material';
 import { memo } from 'react';
 
 import EmptyCover from '@/shared/components/ui/empty-cover';
+import LoadingCover from '@/shared/components/ui/loadings/loading-cover';
 
 import { useHandleBrowserData } from '../../hooks';
 import BrowserFolder from '../atoms/browser-directory';
@@ -15,10 +16,16 @@ type FileListProps = {
 const FileList = ({ currentPath, browserQueueLen }: FileListProps) => {
   const {
     displayingBrowserData,
+    isBrowsing,
     handleClickDirectory,
     handleRenameFile,
     handleDeleteFile,
   } = useHandleBrowserData(currentPath);
+
+  if (isBrowsing)
+    return (
+      <LoadingCover loadingMessage={'폴더 및 파일을 불러오는 중입니다...'} />
+    );
 
   if (!browserQueueLen && !displayingBrowserData.length)
     return <EmptyCover message={'폴더 또는 파일이 없습니다'} />;

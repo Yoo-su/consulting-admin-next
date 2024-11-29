@@ -2,10 +2,12 @@ import { Typography } from '@mui/material';
 import { UseMutationResult, useQueryClient } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { ChangeEvent, DragEvent, useCallback, useMemo, useRef } from 'react';
+import { useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import { useShallow } from 'zustand/shallow';
 
 import { QUERY_KEYS } from '@/shared/constants';
+import { useUnivService } from '@/shared/hooks/context';
 
 import { useBrowserStore, useQueueStore } from '../models';
 
@@ -27,6 +29,7 @@ export const useHandleQueue = ({
   uploadMutation,
 }: UseHandleQueueProps) => {
   const queryClient = useQueryClient();
+  const { currentService } = useUnivService();
   const { basePath, currentPath } = useBrowserStore(
     useShallow((state) => ({
       basePath: state.basePath,
@@ -164,6 +167,10 @@ export const useHandleQueue = ({
     },
     [dialogQueue, uploadDirectory, currentPath]
   );
+
+  useEffect(() => {
+    resetBrowserQueue();
+  }, [currentService]);
 
   return {
     fileInputRef,

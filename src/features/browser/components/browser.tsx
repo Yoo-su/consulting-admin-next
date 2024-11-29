@@ -5,11 +5,9 @@ import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 import DropZoneContainer from '@/shared/components/ui/drop-zone-container';
-import EmptyCover from '@/shared/components/ui/empty-cover';
-import LoadingCover from '@/shared/components/ui/loadings/loading-cover';
 
 import { useHandleQueue } from '../hooks';
-import { useBrowserStore, useQueueStore } from '../models';
+import { useBrowserStore } from '../models';
 import UploadButton from './atoms/upload-button';
 import FileList from './molecules/file-list';
 import BrowserHeader from './molecules/header';
