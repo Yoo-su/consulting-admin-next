@@ -1,7 +1,7 @@
 import { Box, SxProps, Typography } from '@mui/material';
 import Image from 'next/image';
 
-import mockingbird from '@/shared/assets/svgs/mockingbird.svg';
+import christmasDecorationDoor from '@/shared/assets/svgs/christmasDecorationDoor.svg';
 
 type EmptyCoverProps = {
   message: string;
@@ -24,7 +24,12 @@ const EmptyCover = ({ message, sx }: EmptyCoverProps) => {
         ...sx,
       }}
     >
-      <Image src={mockingbird} alt={'empty-bird'} width={64} height={64} />
+      <Image
+        src={christmasDecorationDoor}
+        alt={'christmasDecorationDoor'}
+        width={64}
+        height={64}
+      />
       <Typography variant="body1" color="grey.600">
         {message}
       </Typography>

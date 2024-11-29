@@ -346,10 +346,16 @@ const CreateNewButton = ({
         size="small"
         variant="contained"
         endIcon={<Add />}
-        sx={{ verticalAlign: 'middle', backgroundColor: '#616161' }}
+        sx={{
+          verticalAlign: 'middle',
+          backgroundColor: '#616161',
+          padding: '2px 0',
+        }}
         onClick={handleAdd}
       >
-        <Typography variant="caption">추가</Typography>
+        <Typography variant="caption" sx={{ paddingTop: '3px' }}>
+          추가
+        </Typography>
       </Button>
     </Box>
   );
