@@ -163,6 +163,7 @@ const NavItem = ({ title, href, pathname, Icon }: NavItemProps) => {
           position: 'relative',
           textDecoration: 'none',
           whiteSpace: 'nowrap',
+          userSelect: 'none',
           ...(active && {
             bgcolor: '#fafafa',
             color: '#2C4059',
