@@ -36,6 +36,7 @@ const AppLogo = () => {
         borderRadius: '1rem 0 50% 0',
         padding: '0.3rem 0.1rem',
         transition: 'transform 0.08s ease-in-out',
+        userSelect: 'none',
         ':active': {
           transform: 'scale(0.98)',
         },

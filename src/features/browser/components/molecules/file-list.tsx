@@ -10,8 +10,9 @@ import FileIcon from '../atoms/file-icon';
 
 type FileListProps = {
   currentPath: string;
+  browserQueueLen: number;
 };
-const FileList = ({ currentPath }: FileListProps) => {
+const FileList = ({ currentPath, browserQueueLen }: FileListProps) => {
   const {
     displayingBrowserData,
     handleClickDirectory,
@@ -19,8 +20,8 @@ const FileList = ({ currentPath }: FileListProps) => {
     handleDeleteFile,
   } = useHandleBrowserData(currentPath);
 
-  if (!displayingBrowserData.length)
-    return <EmptyCover message={'폴더 및 파일이 없습니다'} />;
+  if (!browserQueueLen && !displayingBrowserData.length)
+    return <EmptyCover message={'폴더 또는 파일이 없습니다'} />;
 
   return displayingBrowserData.map((browserItem) =>
     browserItem.isDirectory ? (

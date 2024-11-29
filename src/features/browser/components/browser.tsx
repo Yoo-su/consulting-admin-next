@@ -1,13 +1,13 @@
 import { Grid, styled, SxProps } from '@mui/material';
 import { UseMutationResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 import DropZoneContainer from '@/shared/components/ui/drop-zone-container';
+import EmptyCover from '@/shared/components/ui/empty-cover';
 import LoadingCover from '@/shared/components/ui/loadings/loading-cover';
 
-import { useHandleBrowserData } from '../hooks';
 import { useHandleQueue } from '../hooks';
 import { useBrowserStore, useQueueStore } from '../models';
 import UploadButton from './atoms/upload-button';
@@ -43,7 +43,6 @@ const Browser = ({
       currentPath: state.currentPath,
     }))
   );
-
   const {
     browserQueueLen,
     fileInputRef,
@@ -74,7 +73,7 @@ const Browser = ({
       />
 
       <FileGrid container rowSpacing={2}>
-        <FileList currentPath={currentPath} />
+        <FileList currentPath={currentPath} browserQueueLen={browserQueueLen} />
         <Queue handleRemoveInputFile={handleRemoveInputFile} />
       </FileGrid>
 
