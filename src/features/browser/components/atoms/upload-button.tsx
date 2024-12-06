@@ -12,20 +12,21 @@ type UploadButtonProps = {
   queueLen: number;
   handleQueue: (...args: any[]) => any;
 };
-const UploadButton = ({ queueLen, handleQueue }: UploadButtonProps) => {
-  if (!queueLen) return;
+export const UploadButton = memo(
+  ({ queueLen, handleQueue }: UploadButtonProps) => {
+    if (!queueLen) return;
 
-  return (
-    <StyledFab
-      variant="extended"
-      color="info"
-      size="medium"
-      onClick={handleQueue}
-    >
-      <UploadIcon sx={{ mr: 1 }} />
-      <Typography variant="body2">{`${queueLen}개의 파일 업로드`}</Typography>
-    </StyledFab>
-  );
-};
-
-export default memo(UploadButton);
+    return (
+      <StyledFab
+        variant="extended"
+        color="info"
+        size="medium"
+        onClick={handleQueue}
+      >
+        <UploadIcon sx={{ mr: 1 }} />
+        <Typography variant="body2">{`${queueLen}개의 파일 업로드`}</Typography>
+      </StyledFab>
+    );
+  }
+);
+UploadButton.displayName = 'UploadButton';

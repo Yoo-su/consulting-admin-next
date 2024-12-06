@@ -1,8 +1,7 @@
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 
-import CalculationSettingContainer from '@/pages_fsd/calculation-setting/components/calculation-setting-container';
-import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
+import { CalculationSettingContainer } from '@/pages_fsd/calculation-setting/components';
+import { UnivServiceCheckGuard } from '@/shared/components';
 
 export const metadata = {
   title: '상담앱 관리자 | 성적 계산 설정',

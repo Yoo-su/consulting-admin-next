@@ -14,8 +14,8 @@ import {
   isValidHexColor,
   matchIsNumber,
 } from '../../services';
-import ColorSpace from './color-space';
-import HueSlider from './hue-slider';
+import { ColorSpace } from './color-space';
+import { HueSlider } from './hue-slider';
 
 type ColorPopoverProps = {
   hexText: string;
@@ -25,7 +25,7 @@ type ColorPopoverProps = {
   handleColorChange: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
-const ColorPopover = ({
+export const ColorPopover = ({
   hexText,
   setHexText,
   currentHsv,
@@ -114,8 +114,6 @@ const ColorPopover = ({
     </Paper>
   );
 };
-
-export default ColorPopover;
 
 const ColorSquareClass = {
   width: '93px',

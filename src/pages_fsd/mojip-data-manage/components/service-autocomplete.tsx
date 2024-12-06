@@ -19,7 +19,7 @@ type ServiceAutocompleteProps = {
   serviceID: string;
   serviceList: Service[];
 };
-const ServiceAutocomplete = ({
+export const ServiceAutocomplete = ({
   serviceID,
   serviceList,
 }: ServiceAutocompleteProps) => {
@@ -112,5 +112,3 @@ const ServiceAutocomplete = ({
     </Stack>
   );
 };
-
-export default ServiceAutocomplete;

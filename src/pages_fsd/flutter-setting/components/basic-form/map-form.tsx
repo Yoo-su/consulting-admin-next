@@ -31,7 +31,7 @@ type RowType = {
   value: string;
 };
 
-const MapForm = ({
+export const MapForm = ({
   item: originalItem,
   path,
   handleEdit: onEdit,
@@ -262,8 +262,6 @@ const MapForm = ({
     </>
   );
 };
-
-export default MapForm;
 
 type InputCellsProps = {
   index: string;

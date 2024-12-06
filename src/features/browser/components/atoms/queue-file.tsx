@@ -8,70 +8,67 @@ type QueueFileProps = {
   handleRemoveFile: (fileName: string) => void;
   imageChildren: ReactNode;
 };
-const QueueFile = ({
-  fileName,
-  imageChildren,
-  handleRemoveFile,
-}: QueueFileProps) => {
-  const [isHovered, setIsHovered] = useState(false);
+export const QueueFile = memo(
+  ({ fileName, imageChildren, handleRemoveFile }: QueueFileProps) => {
+    const [isHovered, setIsHovered] = useState(false);
 
-  return (
-    <Tooltip
-      title={`${fileName} _ 클릭 시 대기열에서 제거됩니다`}
-      open={isHovered}
-      followCursor
-    >
-      <Box
-        onMouseEnter={() => {
-          setIsHovered(true);
-        }}
-        onMouseLeave={() => {
-          setIsHovered(false);
-        }}
-        sx={{
-          borderRadius: '0.3rem',
-          animation: 'wiggle 2s infinite',
-          opacity: 0.75,
-          transition: 'all 0.1s ease-in-out',
-          padding: '0.08rem',
-          ':hover': {
-            bgcolor: 'rgba(188,84,72)',
-          },
-        }}
+    return (
+      <Tooltip
+        title={`${fileName} _ 클릭 시 대기열에서 제거됩니다`}
+        open={isHovered}
+        followCursor
       >
-        <Badge
-          invisible={!isHovered}
-          color={'error'}
-          badgeContent={'X'}
-          sx={{ cursor: 'pointer' }}
-          onClick={() => {
-            handleRemoveFile(fileName);
+        <Box
+          onMouseEnter={() => {
+            setIsHovered(true);
+          }}
+          onMouseLeave={() => {
+            setIsHovered(false);
+          }}
+          sx={{
+            borderRadius: '0.3rem',
+            animation: 'wiggle 2s infinite',
+            opacity: 0.75,
+            transition: 'all 0.1s ease-in-out',
+            padding: '0.08rem',
+            ':hover': {
+              bgcolor: 'rgba(188,84,72)',
+            },
           }}
         >
-          <Stack
-            direction={'column'}
-            alignItems={'center'}
-            gap={0.3}
-            sx={{
-              padding: '0.2rem',
+          <Badge
+            invisible={!isHovered}
+            color={'error'}
+            badgeContent={'X'}
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              handleRemoveFile(fileName);
             }}
           >
-            {imageChildren}
-            <Typography
-              variant={'caption'}
-              width={'64px'}
-              textAlign={'center'}
-              whiteSpace={'nowrap'}
-              overflow={'hidden'}
-              textOverflow={'ellipsis'}
+            <Stack
+              direction={'column'}
+              alignItems={'center'}
+              gap={0.3}
+              sx={{
+                padding: '0.2rem',
+              }}
             >
-              {fileName}
-            </Typography>
-          </Stack>
-        </Badge>
-      </Box>
-    </Tooltip>
-  );
-};
-
-export default memo(QueueFile);
+              {imageChildren}
+              <Typography
+                variant={'caption'}
+                width={'64px'}
+                textAlign={'center'}
+                whiteSpace={'nowrap'}
+                overflow={'hidden'}
+                textOverflow={'ellipsis'}
+              >
+                {fileName}
+              </Typography>
+            </Stack>
+          </Badge>
+        </Box>
+      </Tooltip>
+    );
+  }
+);
+QueueFile.displayName = 'QueueFile';

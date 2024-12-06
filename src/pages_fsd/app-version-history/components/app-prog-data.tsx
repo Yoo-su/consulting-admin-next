@@ -3,18 +3,18 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-import FileItemCard from '@/shared/components/ui/file-item-card';
+import { FileItemCard } from '@/shared/components';
 import { API_URLS } from '@/shared/constants';
 import { formatKoreanTextCompareDatesFromNow } from '@/shared/services';
 
 import { AppHistory } from '../models';
-import QrModal from './qr-modal';
+import { QrModal } from './qr-modal';
 
 type AppProgDataProps = {
   history: AppHistory;
 };
 
-const AppProgData = ({ history }: AppProgDataProps) => {
+export const AppProgData = ({ history }: AppProgDataProps) => {
   const [open, setOpen] = useState(false);
 
   const handleClickCard = (url: string) => {
@@ -68,7 +68,6 @@ const AppProgData = ({ history }: AppProgDataProps) => {
     </>
   );
 };
-export default AppProgData;
 
 export const getDownloadUrl = (history: AppHistory) => {
   return `${process.env.NEXT_PUBLIC_BASE_URL}${API_URLS.dashboard.getAppDownloadUrl}/${history.serviceID}/${history.osType}/${history.version}`;

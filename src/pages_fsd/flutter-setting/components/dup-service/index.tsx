@@ -4,9 +4,9 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import { Button, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
 
-import DupDialog from './dup-dialog';
+import { DupDialog } from './dup-dialog';
 
-const DupServiceBtn = () => {
+export const DupServiceBtn = () => {
   const [open, setOpen] = useState(false);
 
   const handleBtnClick = () => {
@@ -43,5 +43,3 @@ const DupServiceBtn = () => {
     </>
   );
 };
-
-export default DupServiceBtn;

@@ -1,8 +1,7 @@
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 
-import DataDeployContainer from '@/pages_fsd/data-deploy/components/data-deploy-container';
-import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
+import { DataDeployContainer } from '@/pages_fsd/data-deploy/components';
+import { UnivServiceCheckGuard } from '@/shared/components';
 
 export const metadata = {
   title: '상담앱 관리자 | 데이터 배포',

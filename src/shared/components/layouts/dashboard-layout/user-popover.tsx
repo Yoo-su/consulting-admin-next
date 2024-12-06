@@ -23,7 +23,7 @@ export type UserPopoverProps = {
   open: boolean;
 };
 
-const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
+export const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
   const { user, setUser } = useUser();
 
   const handleClickSignoutBtn = () => {
@@ -87,5 +87,3 @@ const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
     </Popover>
   );
 };
-
-export default UserPopover;

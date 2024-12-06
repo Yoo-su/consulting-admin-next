@@ -40,7 +40,9 @@ export type ChartSettingProviderProps = {
   children: ReactNode;
 };
 
-const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
+export const ChartSettingProvider = ({
+  children,
+}: ChartSettingProviderProps) => {
   const { currentService } = useUnivService();
   const {
     chartData,
@@ -180,5 +182,3 @@ const ChartSettingProvider = ({ children }: ChartSettingProviderProps) => {
     </ChartSettingContext.Provider>
   );
 };
-
-export default ChartSettingProvider;

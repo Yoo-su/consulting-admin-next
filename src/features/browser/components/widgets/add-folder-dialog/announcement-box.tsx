@@ -2,7 +2,7 @@ import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
 import { Stack, Typography } from '@mui/material';
 import { memo } from 'react';
 
-const AnnouncementBox = () => {
+export const AnnouncementBox = memo(() => {
   return (
     <Stack
       width="100%"
@@ -20,6 +20,5 @@ const AnnouncementBox = () => {
       </Typography>
     </Stack>
   );
-};
-
-export default memo(AnnouncementBox);
+});
+AnnouncementBox.displayName = 'AnnouncementBox';

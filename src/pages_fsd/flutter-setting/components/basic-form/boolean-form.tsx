@@ -13,7 +13,7 @@ import { getConvertedValue } from '@/shared/services';
 import { useFlutterSetting } from '../../hooks';
 import { FormItemProps } from '../../models';
 
-const BooleanForm = ({
+export const BooleanForm = ({
   item,
   path,
   handleEdit,
@@ -98,7 +98,6 @@ const BooleanForm = ({
     </>
   );
 };
-export default BooleanForm;
 
 const StyledTextField = styled(TextField)({
   width: '100%',

@@ -14,7 +14,7 @@ import { useFlutterSetting } from '../../hooks';
 import { FormItemProps } from '../../models';
 import FlutterColorPicker from '../flutter-color-picker';
 
-const BasicTextForm = ({
+export const BasicTextForm = ({
   item,
   path,
   handleEdit,
@@ -124,5 +124,3 @@ const BasicTextForm = ({
     />
   );
 };
-
-export default BasicTextForm;

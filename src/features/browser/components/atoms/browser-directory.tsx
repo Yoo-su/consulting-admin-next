@@ -10,24 +10,24 @@ type BrowserDirectoryProps = {
   browserItem: BrowserItem;
   handleClickDirectory: (Directory: BrowserItem) => void;
 };
-const BrowserDirectory = ({
-  browserItem,
-  handleClickDirectory,
-}: BrowserDirectoryProps) => {
-  return (
-    <Wrapper
-      gap={0.3}
-      onDoubleClick={() => {
-        handleClickDirectory(browserItem);
-      }}
-    >
-      <Image src={FolderIcon} alt={'folder'} width={48} height={48} />
-      <Typography variant={'caption'} width={'64px'} textAlign={'center'}>
-        {browserItem.name}
-      </Typography>
-    </Wrapper>
-  );
-};
+export const BrowserDirectory = memo(
+  ({ browserItem, handleClickDirectory }: BrowserDirectoryProps) => {
+    return (
+      <Wrapper
+        gap={0.3}
+        onDoubleClick={() => {
+          handleClickDirectory(browserItem);
+        }}
+      >
+        <Image src={FolderIcon} alt={'folder'} width={48} height={48} />
+        <Typography variant={'caption'} width={'64px'} textAlign={'center'}>
+          {browserItem.name}
+        </Typography>
+      </Wrapper>
+    );
+  }
+);
+BrowserDirectory.displayName = 'BrowserDirectory';
 
 const Wrapper = styled(Stack)({
   flexDirection: 'column',
@@ -39,5 +39,3 @@ const Wrapper = styled(Stack)({
     bgcolor: '#EBECEE',
   },
 });
-
-export default memo(BrowserDirectory);

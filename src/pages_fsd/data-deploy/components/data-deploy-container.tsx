@@ -15,14 +15,13 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { AxiosError } from 'axios';
 import PuffLoader from 'react-spinners/PuffLoader';
 
-import ContentWrapper from '@/shared/components/ui/content-wrapper';
+import { ContentWrapper } from '@/shared/components';
 import { useMuiAlert } from '@/shared/hooks';
 import { useUnivService } from '@/shared/hooks/context';
 
-import { useDeployTestDataMutation } from '../hooks/use-deploy-test-data-mutation';
-import { useSyncTestDevMutation } from '../hooks/use-sync-test-dev-mutation';
+import { useDeployTestDataMutation, useSyncTestDevMutation } from '../hooks';
 
-const DataDeployContainer = () => {
+export const DataDeployContainer = () => {
   const { currentService, currentUniv } = useUnivService();
   const { isPending: isRealDeploying, mutateAsync: deployToReal } =
     useDeployTestDataMutation();
@@ -190,5 +189,3 @@ const StyledButton = styled(Button, {
   height: '6rem',
   transition: 'all 0.1s ease-in-out',
 }));
-
-export default DataDeployContainer;

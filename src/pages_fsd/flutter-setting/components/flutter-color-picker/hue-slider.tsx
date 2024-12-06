@@ -2,11 +2,9 @@ import { Slider, SliderProps, styled } from '@mui/material';
 
 type HueSliderProps = SliderProps;
 
-const HueSlider = (props: HueSliderProps) => {
+export const HueSlider = (props: HueSliderProps) => {
   return <StyledSlider {...props} />;
 };
-
-export default HueSlider;
 
 const StyledSlider = styled(Slider)({
   height: 8,

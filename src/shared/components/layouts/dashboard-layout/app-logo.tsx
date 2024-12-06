@@ -3,12 +3,10 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import snail from '@/shared/assets/svgs/snail.svg';
-import orangeSnail from '@/shared/assets/svgs/snail_orange.svg';
 import snowman from '@/shared/assets/svgs/snowman.svg';
 import snowmansnow from '@/shared/assets/svgs/snowman_snow.svg';
 
-const AppLogo = () => {
+export const AppLogo = () => {
   const router = useRouter();
   const [logoSvg, setLogoSvg] = useState<any>(snowman);
 
@@ -59,5 +57,3 @@ const AppLogo = () => {
     </Box>
   );
 };
-
-export default AppLogo;

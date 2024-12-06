@@ -13,7 +13,7 @@ type EmptyCoverProps = {
   message: string;
   sx?: SxProps;
 };
-const EmptyCover = ({ message, sx }: EmptyCoverProps) => {
+export const EmptyCover = ({ message, sx }: EmptyCoverProps) => {
   const [selectedImage, setSelectedImage] = useState(0);
 
   const today = new Date();
@@ -96,5 +96,3 @@ const EmptyCover = ({ message, sx }: EmptyCoverProps) => {
     </Box>
   );
 };
-
-export default EmptyCover;

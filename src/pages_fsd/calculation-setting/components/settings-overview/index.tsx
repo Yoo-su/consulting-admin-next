@@ -1,8 +1,8 @@
 import { Stack } from '@mui/material';
 
-import ConfigPreviewCard from './config-preview-card';
-import ConversionTablePreviewCard from './conversion-table-preview-card';
-import MethodPreviewCard from './method-preview-card';
+import { ConfigPreviewCard } from './config-preview-card';
+import { ConversionTablePreviewCard } from './conversion-table-preview-card';
+import { MethodPreviewCard } from './method-preview-card';
 
 type SettingsOverviewProps = {
   serviceID: string;

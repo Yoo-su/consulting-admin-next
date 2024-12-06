@@ -12,13 +12,11 @@ import {
 import { DragEvent, useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import DropZoneContainer from '@/shared/components/ui/drop-zone-container';
+import { useQueueStore } from '@/features/browser/models';
+import { DropZoneContainer } from '@/shared/components';
 
-import { useQueueStore } from '../../../models';
-import FileIcon from '../../atoms/file-icon';
-import QueueFile from '../../atoms/queue-file';
-import UploadButton from '../../atoms/upload-button';
-import AnnouncementBox from './announcement-box';
+import { FileIcon, QueueFile, UploadButton } from '../../atoms';
+import { AnnouncementBox } from './announcement-box';
 import { directoryNameValidation } from './validation-rule';
 
 type FormValues = {
@@ -28,7 +26,9 @@ type AddFolderDialogProps = {
   handleUploadDialogQueue: (directory: string) => Promise<void>;
 };
 
-const AddFolderDialog = ({ handleUploadDialogQueue }: AddFolderDialogProps) => {
+export const AddFolderDialog = ({
+  handleUploadDialogQueue,
+}: AddFolderDialogProps) => {
   const {
     dialogQueue,
     isAddFolderModalOpen,
@@ -163,5 +163,3 @@ const DropZoneContainerStyles: SxProps = {
   flexDirection: 'column',
   position: 'relative',
 };
-
-export default AddFolderDialog;

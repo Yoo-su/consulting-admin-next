@@ -10,13 +10,13 @@ import Typography from '@mui/material/Typography';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import ContentWrapper from '@/shared/components/ui/content-wrapper';
+import { ContentWrapper } from '@/shared/components';
 import { useUser } from '@/shared/hooks/context/use-user';
 import { useMuiAlert } from '@/shared/hooks/ui/use-mui-alert';
 
 import { useUpdateProfileImageMutation } from '../hooks';
 
-const AccountSettingContainer = () => {
+export const AccountSettingContainer = () => {
   const { user } = useUser();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -83,7 +83,7 @@ const AccountSettingContainer = () => {
               followCursor
             >
               <Avatar
-                src={imageFile ? imagePreviewPath : (user?.profileImage ?? '')}
+                src={imageFile ? imagePreviewPath : user?.profileImage ?? ''}
                 alt={user?.userName + 'profile'}
                 sx={{ width: '10rem', height: '10rem', cursor: 'pointer' }}
                 onClick={handleAvatarClick}
@@ -139,5 +139,3 @@ const AccountSettingContainer = () => {
     </ContentWrapper>
   );
 };
-
-export default AccountSettingContainer;

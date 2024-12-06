@@ -2,14 +2,14 @@ import { Dialog, DialogContent } from '@mui/material';
 import { useCallback } from 'react';
 
 import { useCalculationSettingStore } from '../models';
-import ConfigSettingBox from './config-setting-box';
-import ConversionTableSettingBox from './conversion-table-setting-box';
-import MethodSettingBox from './method-setting-box';
+import { ConfigSettingBox } from './config-setting-box';
+import { ConversionTableSettingBox } from './conversion-table-setting-box';
+import { MethodSettingBox } from './method-setting-box';
 
 type CalculationSettingDialogProps = {
   serviceID: string;
 };
-const CalculationSettingDialog = ({
+export const CalculationSettingDialog = ({
   serviceID,
 }: CalculationSettingDialogProps) => {
   const {
@@ -38,5 +38,3 @@ const CalculationSettingDialog = ({
     </Dialog>
   );
 };
-
-export default CalculationSettingDialog;

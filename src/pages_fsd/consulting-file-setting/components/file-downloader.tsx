@@ -8,7 +8,7 @@ import { CustomWidthBoxCell } from './table-components';
 type FileDownloaderProps = {
   fileName: string;
 };
-const FileDownloader = ({ fileName }: FileDownloaderProps) => {
+export const FileDownloader = ({ fileName }: FileDownloaderProps) => {
   const { refetch, isFetching } = useGetConsultingFileDownloadQuery(fileName);
 
   const handleClick = async () => {
@@ -80,5 +80,3 @@ const FileDownloader = ({ fileName }: FileDownloaderProps) => {
     </CustomWidthBoxCell>
   );
 };
-
-export default FileDownloader;

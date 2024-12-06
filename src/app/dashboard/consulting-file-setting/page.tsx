@@ -1,9 +1,9 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import FileListTable from '@/pages_fsd/consulting-file-setting/components/file-list-table';
-import ConsultingFileSettingsProvider from '@/pages_fsd/consulting-file-setting/contexts';
-import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
+import { FileListTable } from '@/pages_fsd/consulting-file-setting/components';
+import { ConsultingFileSettingsProvider } from '@/pages_fsd/consulting-file-setting/contexts';
+import { UnivServiceCheckGuard } from '@/shared/components';
 
 export const metadata = {
   title: '상담앱 관리자 | 상담 자료 관리',

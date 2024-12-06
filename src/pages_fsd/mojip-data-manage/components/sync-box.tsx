@@ -17,7 +17,7 @@ type DetailPageDataDB = 'devDb' | 'testDb' | 'realDb' | '';
 type SyncBoxProps = {
   serviceID: string;
 };
-const SyncBox = ({ serviceID }: SyncBoxProps) => {
+export const SyncBox = ({ serviceID }: SyncBoxProps) => {
   const { mutateAsync, isPending } = useSyncDetailpageDataMutation();
   const { openConfirmToast } = useConfirmToast();
   const [source, setSource] = useState<DetailPageDataDB>('');
@@ -100,5 +100,3 @@ const SyncBox = ({ serviceID }: SyncBoxProps) => {
     </Stack>
   );
 };
-
-export default SyncBox;

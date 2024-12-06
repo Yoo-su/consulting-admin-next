@@ -7,13 +7,13 @@ import InputLabel from '@mui/material/InputLabel';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import ContentWrapper from '@/shared/components/ui/content-wrapper';
+import { ContentWrapper } from '@/shared/components';
 import { useUnivService } from '@/shared/hooks/context';
 
-import ServiceAutocomplete from './service-autocomplete';
-import SyncBox from './sync-box';
+import { ServiceAutocomplete } from './service-autocomplete';
+import { SyncBox } from './sync-box';
 
-const MojipDataManageBox = () => {
+export const MojipDataManageBox = () => {
   const { currentService, currentUniv, serviceList } = useUnivService();
 
   return (

@@ -2,16 +2,16 @@
 
 import { useState } from 'react';
 
-import ContentWrapper from '@/shared/components/ui/content-wrapper';
+import { ContentWrapper } from '@/shared/components';
 import { useUnivService } from '@/shared/hooks/context/use-univ-service';
 
 import { useGetAppVersionHistoryQuery } from '../hooks';
 import { ConsultingAppType } from '../models';
-import AppProgContainer from './app-prog-container';
-import AppPWAContainer from './app-pwa-container';
-import HeaderSelectRadio from './header-select-radio';
+import { AppProgContainer } from './app-prog-container';
+import { AppPWAContainer } from './app-pwa-container';
+import { HeaderSelectRadio } from './header-select-radio';
 
-const AppHistoryListContainer = () => {
+export const AppHistoryListContainer = () => {
   const { currentService } = useUnivService();
   const isNew = currentService?.isNew ?? false;
 
@@ -41,5 +41,3 @@ const AppHistoryListContainer = () => {
     </ContentWrapper>
   );
 };
-
-export default AppHistoryListContainer;

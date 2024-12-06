@@ -1,9 +1,8 @@
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 
-import ChartSettingContainer from '@/pages_fsd/chart-setting/components/chart-setting-container';
-import ChartSettingProvider from '@/pages_fsd/chart-setting/contexts';
-import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
+import { ChartSettingContainer } from '@/pages_fsd/chart-setting/components';
+import { ChartSettingProvider } from '@/pages_fsd/chart-setting/contexts';
+import { UnivServiceCheckGuard } from '@/shared/components';
 
 export const metadata = {
   title: '상담앱 관리자 | 차트 데이터 설정',

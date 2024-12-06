@@ -2,8 +2,8 @@
 
 import Stack from '@mui/material/Stack';
 
-import FileListData from './file-list-data';
-import FileUploader from './file-uploader';
+import { FileListData } from './file-list-data';
+import { FileUploader } from './file-uploader';
 import {
   CustomWidthBoxCell,
   TableBox,
@@ -11,7 +11,7 @@ import {
   TableRowBox,
 } from './table-components';
 
-const FileListTable = () => {
+export const FileListTable = () => {
   return (
     <Stack direction={'column'} sx={{ mt: 5 }}>
       <TableContainerBox aria-label="file-list-table">
@@ -40,5 +40,3 @@ const FileListTable = () => {
     </Stack>
   );
 };
-
-export default FileListTable;

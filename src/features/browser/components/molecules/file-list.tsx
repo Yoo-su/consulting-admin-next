@@ -1,19 +1,16 @@
 import { Grid, styled } from '@mui/material';
 import { memo } from 'react';
 
-import EmptyCover from '@/shared/components/ui/empty-cover';
-import LoadingCover from '@/shared/components/ui/loadings/loading-cover';
+import { EmptyCover, LoadingCover } from '@/shared/components';
 
 import { useHandleBrowserData } from '../../hooks';
-import BrowserFolder from '../atoms/browser-directory';
-import BrowserFile from '../atoms/browser-file';
-import FileIcon from '../atoms/file-icon';
+import { BrowserDirectory, BrowserFile, FileIcon } from '../atoms';
 
 type FileListProps = {
   currentPath: string;
   browserQueueLen: number;
 };
-const FileList = ({ currentPath, browserQueueLen }: FileListProps) => {
+export const FileList = ({ currentPath, browserQueueLen }: FileListProps) => {
   const {
     displayingBrowserData,
     isBrowsing,
@@ -33,7 +30,7 @@ const FileList = ({ currentPath, browserQueueLen }: FileListProps) => {
   return displayingBrowserData.map((browserItem) =>
     browserItem.isDirectory ? (
       <GridItem item key={browserItem.name} xs={3} md={2} lg={1.2} xl={1}>
-        <BrowserFolder
+        <BrowserDirectory
           browserItem={browserItem}
           handleClickDirectory={handleClickDirectory}
         />

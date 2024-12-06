@@ -4,15 +4,14 @@ import { AxiosResponse } from 'axios';
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 
-import DropZoneContainer from '@/shared/components/ui/drop-zone-container';
+import { DropZoneContainer } from '@/shared/components';
 
 import { useHandleQueue } from '../hooks';
 import { useBrowserStore } from '../models';
-import UploadButton from './atoms/upload-button';
+import { UploadButton } from './atoms';
+import { BrowserHeader, Queue } from './molecules';
 import FileList from './molecules/file-list';
-import BrowserHeader from './molecules/header';
-import Queue from './molecules/queue';
-import AddFolderDialog from './widgets/add-folder-dialog';
+import { AddFolderDialog } from './widgets';
 
 type BrowserProps = {
   initialPath: string;
@@ -27,7 +26,7 @@ type BrowserProps = {
     unknown
   >;
 };
-const Browser = ({
+export const Browser = ({
   initialPath,
   appendDirectory = false,
   showCurrentPath = false,
@@ -110,5 +109,3 @@ const FileGrid = styled(Grid)(({ theme }) => ({
   border: '1px solid rgba(0,0,0,0.1)',
   backgroundColor: '#fff',
 }));
-
-export default Browser;

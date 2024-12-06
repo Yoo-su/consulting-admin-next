@@ -2,14 +2,18 @@ import { Stack, Switch, Typography } from '@mui/material';
 import { Dispatch, SetStateAction, SyntheticEvent } from 'react';
 
 import { FlutterSetting } from '../models';
-import TreeItemList from './tree-item-list';
+import { TreeItemList } from './tree-item-list';
 
 type SettingListProps = {
   toggle: boolean;
   setToggle: Dispatch<SetStateAction<boolean>>;
   filteredList: FlutterSetting[];
 };
-const SettingList = ({ toggle, setToggle, filteredList }: SettingListProps) => {
+export const SettingList = ({
+  toggle,
+  setToggle,
+  filteredList,
+}: SettingListProps) => {
   const handleChange = (event: SyntheticEvent, value: boolean) => {
     setToggle(value);
   };
@@ -48,8 +52,6 @@ const SettingList = ({ toggle, setToggle, filteredList }: SettingListProps) => {
     </Stack>
   );
 };
-
-export default SettingList;
 
 const SwitchClass = {
   '& .Mui-checked': {

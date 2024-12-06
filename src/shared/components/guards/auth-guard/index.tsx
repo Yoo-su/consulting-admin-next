@@ -6,13 +6,13 @@ import { ReactNode, useEffect, useState } from 'react';
 import { PATHS } from '@/shared/constants';
 import { useUser } from '@/shared/hooks/context';
 
-import AppBackdrop from '../../ui/loadings/app-backdrop';
+import { AppBackdrop } from '../../ui';
 
 export type AuthGuardProps = {
   children: ReactNode;
 };
 
-const AuthGuard = ({ children }: AuthGuardProps) => {
+export const AuthGuard = ({ children }: AuthGuardProps) => {
   const router = useRouter();
   const { user, isLoading } = useUser();
   const [isChecking, setIsChecking] = useState<boolean>(true);
@@ -34,5 +34,3 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
   if (isChecking) return <AppBackdrop />;
   return children;
 };
-
-export default AuthGuard;

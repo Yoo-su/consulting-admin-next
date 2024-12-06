@@ -2,13 +2,13 @@ import { Stack, Typography } from '@mui/material';
 
 import { useFlutterSetting } from '../hooks';
 import { FlutterRowInfo, FlutterSetting } from '../models';
-import EditSetting from './edit-setting';
+import { EditSetting } from './edit-setting';
 
 type SettingDetailProps = {
   filteredList: FlutterSetting[];
   isDisabled: boolean;
 };
-const SettingDetail = ({
+export const SettingDetail = ({
   filteredList: filteredSettingList,
   isDisabled,
 }: SettingDetailProps) => {
@@ -47,8 +47,6 @@ const SettingDetail = ({
     </Stack>
   );
 };
-
-export default SettingDetail;
 
 const getCategoryInfo = (
   list: FlutterSetting | FlutterRowInfo | (FlutterSetting | FlutterRowInfo)[],

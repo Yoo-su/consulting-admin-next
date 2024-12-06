@@ -9,15 +9,15 @@ import { AxiosResponse } from 'axios';
 import { Suspense } from 'react';
 import toast from 'react-hot-toast';
 
-import EmptyBox from '@/shared/components/ui/empty-box';
-import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
+import { EmptyBox } from '@/shared/components';
+import { ContentLoadingSkeleton } from '@/shared/components';
 import { useUnivService } from '@/shared/hooks/context/use-univ-service';
 
 import { AppHistory } from '../models';
-import AppProgData from './app-prog-data';
+import { AppProgData } from './app-prog-data';
 import { SerialNoTextField } from './copy-only-textfield';
 
-const AppProgContainer = ({
+export const AppProgContainer = ({
   histories,
 }: {
   histories: AxiosResponse<AppHistory[], any> | undefined;
@@ -87,5 +87,3 @@ const AppProgContainer = ({
     </Suspense>
   );
 };
-
-export default AppProgContainer;

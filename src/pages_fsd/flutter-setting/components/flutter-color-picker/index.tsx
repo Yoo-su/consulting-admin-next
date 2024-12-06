@@ -11,7 +11,7 @@ import {
 import { useFlutterSetting } from '../../hooks';
 import { FormItemProps, HSV } from '../../models';
 import { hexToHsv, hsvToHex } from '../../services';
-import ColorPopover from './color-popover';
+import { ColorPopover } from './color-popover';
 
 type FlutterColorPickerProps = {
   value: string;

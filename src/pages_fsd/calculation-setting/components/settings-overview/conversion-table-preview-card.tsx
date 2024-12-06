@@ -4,12 +4,11 @@ import { useCallback } from 'react';
 
 import { useGetCalcConversionTableQuery } from '../../hooks';
 import { useCalculationSettingStore } from '../../models';
-import AnimatedText from './animated-text';
 
 type ConversionTablePreviewCardProps = {
   serviceID: string;
 };
-const ConversionTablePreviewCard = ({
+export const ConversionTablePreviewCard = ({
   serviceID,
 }: ConversionTablePreviewCardProps) => {
   const { data } = useGetCalcConversionTableQuery(serviceID);
@@ -30,11 +29,9 @@ const ConversionTablePreviewCard = ({
       <Typography variant={'h6'}>등록된 설정 수: {data?.length}</Typography>
       <Divider sx={{ width: '100%', bgcolor: '#fff', mt: 5, mb: 2 }} />
       <Typography variant={'body2'}>
-        <AnimatedText>
-          서비스의 점수 변환 테이블을 관리합니다. ScoreConversionTable은
-          서비스별 점수 변환 규칙을 저장하고 관리하는 테이블입니다. 다양한
-          형태의 점수 체계를 표준화된 방식으로 변환하는 데 사용됩니다
-        </AnimatedText>
+        서비스의 점수 변환 테이블을 관리합니다. ScoreConversionTable은 서비스별
+        점수 변환 규칙을 저장하고 관리하는 테이블입니다. 다양한 형태의 점수
+        체계를 표준화된 방식으로 변환하는 데 사용됩니다
       </Typography>
     </Box>
   );
@@ -60,4 +57,3 @@ const previewCardStyles: SxProps = {
   },
   transition: 'transform 0.15s ease-in-out',
 };
-export default ConversionTablePreviewCard;

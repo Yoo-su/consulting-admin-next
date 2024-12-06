@@ -9,10 +9,10 @@ import {
 import Box from '@mui/material/Box';
 
 import { useConsultingFileSettings } from '../hooks';
-import EditFile from './edit-file';
+import { EditFile } from './edit-file';
 import { TableRowBox } from './table-components';
 
-const FileListData = () => {
+export const FileListData = () => {
   const { files, updateRefNo } = useConsultingFileSettings();
 
   const handleDragEnd = async (result: DropResult) => {
@@ -63,5 +63,3 @@ const FileListData = () => {
     </DragDropContext>
   );
 };
-
-export default FileListData;

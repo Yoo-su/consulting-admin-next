@@ -8,7 +8,7 @@ type ContentLoadingSkeletonProps = {
   width?: string;
   height?: string;
 };
-const ContentLoadingSkeleton = ({
+export const ContentLoadingSkeleton = ({
   isTitle = true,
   width = '100%',
   height = '450px',
@@ -33,5 +33,3 @@ const ContentLoadingSkeleton = ({
     </Stack>
   );
 };
-
-export default ContentLoadingSkeleton;

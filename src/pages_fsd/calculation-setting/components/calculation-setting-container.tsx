@@ -2,13 +2,13 @@
 
 import { Typography } from '@mui/material';
 
-import ContentWrapper from '@/shared/components/ui/content-wrapper';
+import { ContentWrapper } from '@/shared/components';
 import { useUnivService } from '@/shared/hooks/context';
 
-import CalculationSettingDialog from './calculation-setting-dialog';
+import { CalculationSettingDialog } from './calculation-setting-dialog';
 import SettingsOverview from './settings-overview';
 
-const CalculationSettingContainer = () => {
+export const CalculationSettingContainer = () => {
   const { currentUniv, currentService } = useUnivService();
 
   return (
@@ -25,5 +25,3 @@ const CalculationSettingContainer = () => {
     </ContentWrapper>
   );
 };
-
-export default CalculationSettingContainer;

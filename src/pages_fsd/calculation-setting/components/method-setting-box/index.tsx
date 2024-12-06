@@ -1,12 +1,12 @@
 import { Stack, styled } from '@mui/material';
 
 import { useGetCalcMethodQuery } from '../../hooks';
-import CalcMethodAccordion from './calc-method-accordion';
+import { CalcMethodAccordion } from './calc-method-accordion';
 
 type MethodSettingBoxProps = {
   serviceID: string;
 };
-const MethodSettingBox = ({ serviceID }: MethodSettingBoxProps) => {
+export const MethodSettingBox = ({ serviceID }: MethodSettingBoxProps) => {
   const { data } = useGetCalcMethodQuery(serviceID);
 
   return (
@@ -24,5 +24,3 @@ const MethodSettingBox = ({ serviceID }: MethodSettingBoxProps) => {
 const StyledBox = styled(Stack)({
   flexDirection: 'column',
 });
-
-export default MethodSettingBox;

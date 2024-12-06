@@ -10,7 +10,7 @@ type RadioIconLabelProps = {
   disabled?: boolean;
 };
 
-const RadioIconLabel = ({
+export const RadioIconLabel = ({
   label,
   value,
   Icon,
@@ -30,5 +30,3 @@ const RadioIconLabel = ({
     />
   );
 };
-
-export default RadioIconLabel;

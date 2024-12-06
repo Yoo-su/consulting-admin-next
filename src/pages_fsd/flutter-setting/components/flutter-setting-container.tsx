@@ -4,7 +4,7 @@ import { Grid, Stack } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
-import SaveDataButton from '@/shared/components/ui/save-data-button';
+import { SaveDataButton } from '@/shared/components';
 import { useInterceptAppRouter } from '@/shared/hooks';
 import { useUnivService } from '@/shared/hooks/context';
 import { useConfirmToast } from '@/shared/hooks/ui/use-confirm-toast';
@@ -13,10 +13,10 @@ import { useFlutterSetting } from '../hooks';
 import { useGetFlutterSettingsInfoQuery } from '../hooks';
 import { FlutterSetting as FlutterSettingType } from '../models';
 import { getFilteredCustomConfig } from '../services';
-import SettingDetail from './setting-detail';
-import SettingList from './setting-list';
+import { SettingDetail } from './setting-detail';
+import { SettingList } from './setting-list';
 
-const FlutterSettingContainer = () => {
+export const FlutterSettingContainer = () => {
   const { currentService } = useUnivService();
   const {
     flutterSettingList,
@@ -137,5 +137,3 @@ const FlutterSettingContainer = () => {
     </Stack>
   );
 };
-
-export default FlutterSettingContainer;

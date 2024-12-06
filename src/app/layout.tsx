@@ -3,9 +3,11 @@ import '@/shared/style/css/animation.css';
 
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 
-import MSWProvider from '@/shared/components/providers/msw-provider';
-import QueryProvider from '@/shared/components/providers/query-provider';
-import AppThemeProvider from '@/shared/components/providers/theme-provider';
+import {
+  AppThemeProvider,
+  MSWProvider,
+  QueryProvider,
+} from '@/shared/components';
 import { UserProvider } from '@/shared/contexts';
 
 export const metadata = {

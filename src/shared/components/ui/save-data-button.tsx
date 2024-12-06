@@ -7,7 +7,7 @@ import { animated, useSpring } from '@react-spring/web';
 type SaveDataButtonProps = {
   handleBtnClick: () => void;
 };
-const SaveDataButton = ({ handleBtnClick }: SaveDataButtonProps) => {
+export const SaveDataButton = ({ handleBtnClick }: SaveDataButtonProps) => {
   const theme = useTheme();
   const downsm = useMediaQuery(theme.breakpoints.down('sm'));
   const AnimatedFab = animated(Fab);
@@ -41,5 +41,3 @@ const SaveDataButton = ({ handleBtnClick }: SaveDataButtonProps) => {
     </AnimatedFab>
   );
 };
-
-export default SaveDataButton;

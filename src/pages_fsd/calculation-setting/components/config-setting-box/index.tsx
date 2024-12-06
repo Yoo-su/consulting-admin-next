@@ -1,13 +1,13 @@
 import { Divider, Stack } from '@mui/material';
 
 import { useGetCalcConfigQuery } from '../../hooks';
-import CalcConfigAccordion from './calc-config-accordion';
-import Header from './header';
+import { CalcConfigAccordion } from './calc-config-accordion';
+import { Header } from './header';
 
 type ConfigSettingBoxProps = {
   serviceID: string;
 };
-const ConfigSettingBox = ({ serviceID }: ConfigSettingBoxProps) => {
+export const ConfigSettingBox = ({ serviceID }: ConfigSettingBoxProps) => {
   const { data } = useGetCalcConfigQuery(serviceID);
 
   return (
@@ -23,5 +23,3 @@ const ConfigSettingBox = ({ serviceID }: ConfigSettingBoxProps) => {
     </Stack>
   );
 };
-
-export default ConfigSettingBox;

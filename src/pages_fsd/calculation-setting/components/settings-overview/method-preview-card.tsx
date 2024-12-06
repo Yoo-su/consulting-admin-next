@@ -4,12 +4,11 @@ import { useCallback } from 'react';
 
 import { useGetCalcMethodQuery } from '../../hooks';
 import { useCalculationSettingStore } from '../../models';
-import AnimatedText from './animated-text';
 
 type MethodPreviewCardProps = {
   serviceID: string;
 };
-const MethodPreviewCard = ({ serviceID }: MethodPreviewCardProps) => {
+export const MethodPreviewCard = ({ serviceID }: MethodPreviewCardProps) => {
   const { data } = useGetCalcMethodQuery(serviceID);
   const { openCalculationSettingDialog, setDialogType } =
     useCalculationSettingStore();
@@ -28,11 +27,9 @@ const MethodPreviewCard = ({ serviceID }: MethodPreviewCardProps) => {
       <Typography variant={'h6'}>등록된 설정 수: {data?.length}</Typography>
       <Divider sx={{ width: '100%', bgcolor: '#000', mt: 5, mb: 2 }} />
       <Typography variant={'body2'}>
-        <AnimatedText>
-          서비스의 점수 계산 메서드를 관리합니다. ScoreCalcMethodConfig는 점수
-          계산 방식의 상세 로직을 정의하는 테이블입니다. 학생부(HSB)와 수능(SAT)
-          점수 계산에 필요한 단계별 계산 방식을 JSON 형태로 저장하여 관리합니다.
-        </AnimatedText>
+        서비스의 점수 계산 메서드를 관리합니다. ScoreCalcMethodConfig는 점수
+        계산 방식의 상세 로직을 정의하는 테이블입니다. 학생부(HSB)와 수능(SAT)
+        점수 계산에 필요한 단계별 계산 방식을 JSON 형태로 저장하여 관리합니다.
       </Typography>
     </Box>
   );
@@ -57,4 +54,3 @@ const previewCardStyles: SxProps = {
   },
   transition: 'transform 0.15s ease-in-out',
 };
-export default MethodPreviewCard;

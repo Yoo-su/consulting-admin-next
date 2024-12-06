@@ -9,7 +9,7 @@ type SelectServiceProps = {
   selectedService: ServiceOption | null;
   setselectedService: (value: ServiceOption | null) => void;
 };
-const SelectService = ({
+export const SelectService = ({
   selectedService,
   setselectedService,
 }: SelectServiceProps) => {
@@ -85,5 +85,3 @@ const SelectService = ({
     />
   );
 };
-
-export default SelectService;

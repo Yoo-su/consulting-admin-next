@@ -6,7 +6,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 
 import { ConsultingAppType } from '../models';
-import RadioIconLabel from './radio-icon-label';
+import { RadioIconLabel } from './radio-icon-label';
 
 type HeaderSelectRadioProps = {
   appType: ConsultingAppType;
@@ -14,7 +14,7 @@ type HeaderSelectRadioProps = {
   isNew: boolean;
 };
 
-const HeaderSelectRadio = ({
+export const HeaderSelectRadio = ({
   appType,
   setAppType,
   isNew,
@@ -70,5 +70,3 @@ const HeaderSelectRadio = ({
     </FormControl>
   );
 };
-
-export default HeaderSelectRadio;

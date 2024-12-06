@@ -14,8 +14,8 @@ import { getGroupedData } from '@/shared/services';
 
 import { useChartSetting } from '../hooks';
 import { ChartData } from '../models';
-import ModelChartBox from './model-chart-box';
-import ModelLevelTable from './model-level-table';
+import { ModelChartBox } from './model-chart-box';
+import { ModelLevelTable } from './model-level-table';
 
 type ModelAccordionProps = {
   isSelected: boolean;
@@ -23,120 +23,121 @@ type ModelAccordionProps = {
   modelNum: number;
   modelChartData: ChartData[];
 };
-const ModelAccordion = ({
-  isSelected,
-  setSelectedModel,
-  modelNum,
-  modelChartData,
-}: ModelAccordionProps) => {
-  const { deleteModel, addNewModelLevel } = useChartSetting();
-  const { openConfirmToast } = useConfirmToast();
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+export const ModelAccordion = memo(
+  ({
+    isSelected,
+    setSelectedModel,
+    modelNum,
+    modelChartData,
+  }: ModelAccordionProps) => {
+    const { deleteModel, addNewModelLevel } = useChartSetting();
+    const { openConfirmToast } = useConfirmToast();
+    const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const setIsEditingTrue = useCallback(() => {
-    setIsEditing(true);
-  }, []);
+    const setIsEditingTrue = useCallback(() => {
+      setIsEditing(true);
+    }, []);
 
-  const setIsEditingFalse = useCallback(() => {
-    setIsEditing(false);
-  }, []);
+    const setIsEditingFalse = useCallback(() => {
+      setIsEditing(false);
+    }, []);
 
-  const modelLevels = useMemo(() => {
-    return Array.from(new Set(modelChartData.map((item) => item.level)));
-  }, [modelChartData]);
+    const modelLevels = useMemo(() => {
+      return Array.from(new Set(modelChartData.map((item) => item.level)));
+    }, [modelChartData]);
 
-  const levelGroupedChartData = useMemo(() => {
-    return getGroupedData(modelChartData, 'level', modelLevels);
-  }, [modelChartData]);
+    const levelGroupedChartData = useMemo(() => {
+      return getGroupedData(modelChartData, 'level', modelLevels);
+    }, [modelChartData]);
 
-  const handlClickTitle = useCallback(() => {
-    if (isSelected) setSelectedModel(null);
-    else setSelectedModel(modelNum);
-  }, [isSelected]);
+    const handlClickTitle = useCallback(() => {
+      if (isSelected) setSelectedModel(null);
+      else setSelectedModel(modelNum);
+    }, [isSelected]);
 
-  const handleClickDelete = () => {
-    openConfirmToast(`${modelNum + 1}번 모델을 삭제하시겠습니까?`, () => {
-      deleteModel(modelNum);
-    });
-  };
+    const handleClickDelete = () => {
+      openConfirmToast(`${modelNum + 1}번 모델을 삭제하시겠습니까?`, () => {
+        deleteModel(modelNum);
+      });
+    };
 
-  return (
-    <Accordion expanded={isSelected}>
-      <AccordionSummary aria-controls="chart-model-accordion">
-        <Typography
-          variant="h6"
-          sx={{
-            ':hover': {
-              bgcolor: 'rgba(0,0,0,0.04)',
-            },
-            flexGrow: 1,
-            borderRadius: '0.3rem',
-            px: 1,
-          }}
-          onClick={handlClickTitle}
-        >{`모델 ${modelNum + 1}`}</Typography>
-
-        {isSelected && (
-          <Stack
-            direction={'row'}
-            sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}
-          >
-            <Chip
-              icon={<DeleteIcon />}
-              label={<Typography variant="body2">모델삭제</Typography>}
-              size="small"
-              clickable
-              onClick={handleClickDelete}
-            />
-          </Stack>
-        )}
-      </AccordionSummary>
-      <AccordionDetails>
-        <ModelChartBox
-          modelNum={modelNum}
-          modelLevels={modelLevels}
-          modelChartData={modelChartData}
-        />
-
-        {modelLevels.map((ml) => (
-          <ModelLevelTable
-            key={`model-${modelNum}-level-${ml}-table`}
-            chartData={[...levelGroupedChartData[ml]]}
-            modelNum={modelNum}
-            level={ml}
-            isEditing={isEditing}
-            setIsEditingTrue={setIsEditingTrue}
-            setIsEditingFalse={setIsEditingFalse}
-          />
-        ))}
-        {!isEditing && (
-          <Box
+    return (
+      <Accordion expanded={isSelected}>
+        <AccordionSummary aria-controls="chart-model-accordion">
+          <Typography
+            variant="h6"
             sx={{
-              flexGrow: 1,
-              borderRadius: '0.5rem',
-              display: 'flex',
-              py: 2,
-              justifyContent: 'center',
-              alignItems: 'center',
               ':hover': {
-                bgcolor: '#E3F2FD',
+                bgcolor: 'rgba(0,0,0,0.04)',
               },
-              transition: 'all 0.2s linear',
-              cursor: 'pointer',
+              flexGrow: 1,
+              borderRadius: '0.3rem',
+              px: 1,
             }}
-            onClick={() => {
-              addNewModelLevel(modelNum);
-            }}
-          >
-            <AddCircleIcon sx={{ mr: 1, color: '#0069A0' }} />
-            <Typography variant="body2" sx={{ color: '#0069A0' }}>
-              단계 추가
-            </Typography>
-          </Box>
-        )}
-      </AccordionDetails>
-    </Accordion>
-  );
-};
+            onClick={handlClickTitle}
+          >{`모델 ${modelNum + 1}`}</Typography>
 
-export default memo(ModelAccordion);
+          {isSelected && (
+            <Stack
+              direction={'row'}
+              sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}
+            >
+              <Chip
+                icon={<DeleteIcon />}
+                label={<Typography variant="body2">모델삭제</Typography>}
+                size="small"
+                clickable
+                onClick={handleClickDelete}
+              />
+            </Stack>
+          )}
+        </AccordionSummary>
+        <AccordionDetails>
+          <ModelChartBox
+            modelNum={modelNum}
+            modelLevels={modelLevels}
+            modelChartData={modelChartData}
+          />
+
+          {modelLevels.map((ml) => (
+            <ModelLevelTable
+              key={`model-${modelNum}-level-${ml}-table`}
+              chartData={[...levelGroupedChartData[ml]]}
+              modelNum={modelNum}
+              level={ml}
+              isEditing={isEditing}
+              setIsEditingTrue={setIsEditingTrue}
+              setIsEditingFalse={setIsEditingFalse}
+            />
+          ))}
+          {!isEditing && (
+            <Box
+              sx={{
+                flexGrow: 1,
+                borderRadius: '0.5rem',
+                display: 'flex',
+                py: 2,
+                justifyContent: 'center',
+                alignItems: 'center',
+                ':hover': {
+                  bgcolor: '#E3F2FD',
+                },
+                transition: 'all 0.2s linear',
+                cursor: 'pointer',
+              }}
+              onClick={() => {
+                addNewModelLevel(modelNum);
+              }}
+            >
+              <AddCircleIcon sx={{ mr: 1, color: '#0069A0' }} />
+              <Typography variant="body2" sx={{ color: '#0069A0' }}>
+                단계 추가
+              </Typography>
+            </Box>
+          )}
+        </AccordionDetails>
+      </Accordion>
+    );
+  }
+);
+ModelAccordion.displayName = 'ModelAccordion';

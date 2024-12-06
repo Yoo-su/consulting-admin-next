@@ -3,14 +3,14 @@
 import { Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 
-import Browser from '@/features/browser/components/browser';
+import { Browser } from '@/features/browser/components';
 import { BROWSER_PATH } from '@/features/browser/constants';
-import ContentWrapper from '@/shared/components/ui/content-wrapper';
-import { useUnivService, useUser } from '@/shared/hooks/context';
+import { ContentWrapper } from '@/shared/components';
+import { useUnivService, useUser } from '@/shared/hooks';
 
 import { useUploadEtcLibraryMutation } from '../hooks';
 
-const EtcLibraryContainer = () => {
+export const EtcLibraryContainer = () => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
   const { currentUniv, currentService } = useUnivService();
@@ -52,5 +52,3 @@ const EtcLibraryContainer = () => {
     </ContentWrapper>
   );
 };
-
-export default EtcLibraryContainer;

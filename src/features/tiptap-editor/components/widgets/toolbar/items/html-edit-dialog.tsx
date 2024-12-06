@@ -15,7 +15,7 @@ type HtmlEditDialogProps = {
   onClose: () => void;
 };
 
-const HtmlEditDialog: React.FC<HtmlEditDialogProps> = ({
+export const HtmlEditDialog: React.FC<HtmlEditDialogProps> = ({
   editor,
   open,
   onClose,
@@ -57,5 +57,3 @@ const HtmlEditDialog: React.FC<HtmlEditDialogProps> = ({
     </Dialog>
   );
 };
-
-export default HtmlEditDialog;

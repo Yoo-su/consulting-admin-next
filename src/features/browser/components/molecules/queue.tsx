@@ -2,13 +2,12 @@ import { Grid, styled } from '@mui/material';
 import { memo } from 'react';
 
 import { useQueueStore } from '../../models';
-import FileIcon from '../atoms/file-icon';
-import QueueFile from '../atoms/queue-file';
+import { FileIcon, QueueFile } from '../atoms';
 
 type QueueProps = {
   handleRemoveInputFile: (fileName: string) => void;
 };
-const Queue = ({ handleRemoveInputFile }: QueueProps) => {
+export const Queue = memo(({ handleRemoveInputFile }: QueueProps) => {
   const { browserQueue, removeBrowserQueueFile } = useQueueStore();
 
   const handleRemoveFile = (fileName: string) => {
@@ -31,7 +30,8 @@ const Queue = ({ handleRemoveInputFile }: QueueProps) => {
       })}
     </>
   );
-};
+});
+Queue.displayName = 'Queue';
 
 const GridItem = styled(Grid)({
   display: 'flex',
@@ -40,5 +40,3 @@ const GridItem = styled(Grid)({
   height: 'fit-content',
   userSelect: 'none',
 });
-
-export default memo(Queue);

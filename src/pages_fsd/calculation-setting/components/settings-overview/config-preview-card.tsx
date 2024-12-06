@@ -4,12 +4,11 @@ import { useCallback } from 'react';
 
 import { useGetCalcConfigQuery } from '../../hooks';
 import { useCalculationSettingStore } from '../../models';
-import AnimatedText from './animated-text';
 
 type ConfigPreviewCardProps = {
   serviceID: string;
 };
-const ConfigPreviewCard = ({ serviceID }: ConfigPreviewCardProps) => {
+export const ConfigPreviewCard = ({ serviceID }: ConfigPreviewCardProps) => {
   const { data } = useGetCalcConfigQuery(serviceID);
   const { openCalculationSettingDialog, setDialogType } =
     useCalculationSettingStore();
@@ -28,11 +27,9 @@ const ConfigPreviewCard = ({ serviceID }: ConfigPreviewCardProps) => {
       <Typography variant={'h6'}>등록된 설정 수: {data?.length}</Typography>
       <Divider sx={{ width: '100%', bgcolor: '#fff', mt: 5, mb: 2 }} />
       <Typography variant={'body2'}>
-        <AnimatedText>
-          서비스의 점수 계산 설정을 관리합니다. 학생부(HSB)와 수능(SAT) 점수
-          계산에 필요한 설정을 정의하고, CalcMethodConfig를 참조하여 실제 계산
-          로직을 적용합니다
-        </AnimatedText>
+        서비스의 점수 계산 설정을 관리합니다. 학생부(HSB)와 수능(SAT) 점수
+        계산에 필요한 설정을 정의하고, CalcMethodConfig를 참조하여 실제 계산
+        로직을 적용합니다
       </Typography>
     </Box>
   );
@@ -58,4 +55,3 @@ const previewCardStyles: SxProps = {
   },
   transition: 'all 0.15s ease-in-out',
 };
-export default ConfigPreviewCard;

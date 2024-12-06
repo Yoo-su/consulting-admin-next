@@ -3,7 +3,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Stack, Typography } from '@mui/material';
 import { memo, useCallback } from 'react';
 
-import ButtonIcon from '@/shared/components/ui/button-icon';
+import { ButtonIcon } from '@/shared/components';
 import { useConfirmToast } from '@/shared/hooks';
 
 import { useCreateCalcConfigMutation } from '../../hooks';
@@ -11,7 +11,7 @@ import { useCreateCalcConfigMutation } from '../../hooks';
 type HeaderProps = {
   serviceID: string;
 };
-const Header = ({ serviceID }: HeaderProps) => {
+export const Header = ({ serviceID }: HeaderProps) => {
   const { mutateAsync } = useCreateCalcConfigMutation();
   const { openConfirmToast } = useConfirmToast();
 
@@ -39,5 +39,3 @@ const Header = ({ serviceID }: HeaderProps) => {
     </Stack>
   );
 };
-
-export default memo(Header);

@@ -1,6 +1,6 @@
 import { Accordion, AccordionSummary, Typography } from '@mui/material';
 
-const CalcConversionTableAccordion = () => {
+export const CalcConversionTableAccordion = () => {
   return (
     <Accordion>
       <AccordionSummary>
@@ -11,5 +11,3 @@ const CalcConversionTableAccordion = () => {
     </Accordion>
   );
 };
-
-export default CalcConversionTableAccordion;

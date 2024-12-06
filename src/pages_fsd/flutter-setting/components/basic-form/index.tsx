@@ -16,7 +16,7 @@ type BasicFormProps = {
   isDisabled: boolean;
 };
 
-const BasicForm = ({
+export const BasicForm = ({
   basicKey,
   item,
   path,
@@ -110,8 +110,6 @@ const BasicForm = ({
     </Stack>
   );
 };
-
-export default BasicForm;
 
 const subMenuSettings = {
   spacing: [1, 0, 0],

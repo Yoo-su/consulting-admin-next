@@ -21,15 +21,15 @@ import PulseLoader from 'react-spinners/PulseLoader';
 
 import apkIcon from '@/shared/assets/images/apk_64.png';
 import exeIcon from '@/shared/assets/images/exe_64.png';
-import ContentWrapper from '@/shared/components/ui/content-wrapper';
-import ColorlibStepIcon from '@/shared/components/ui/stepper/color-lib-step-icon';
+import { ContentWrapper } from '@/shared/components';
+import { ColorlibStepIcon } from '@/shared/components';
 import { ColorlibConnector } from '@/shared/components/ui/stepper/styled';
 import { useUnivService } from '@/shared/hooks/context/use-univ-service';
 
 import { APP_DEPLOY_STEPS } from '../constants';
 import { useHandleApp } from '../hooks';
 
-const AppDeployContainer = () => {
+export const AppDeployContainer = () => {
   const { currentUniv, currentService } = useUnivService();
   const {
     appType,
@@ -259,5 +259,3 @@ const AppDeployContainer = () => {
     </ContentWrapper>
   );
 };
-
-export default AppDeployContainer;
