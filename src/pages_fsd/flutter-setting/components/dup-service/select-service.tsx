@@ -1,7 +1,7 @@
 import { Autocomplete, TextField, Typography } from '@mui/material';
 import { HTMLAttributes, Key, SyntheticEvent, useState } from 'react';
 
-import { useUnivService } from '@/shared/hooks/context';
+import { useUnivService } from '@/shared/hooks';
 
 import { ServiceOption } from '../../constants';
 

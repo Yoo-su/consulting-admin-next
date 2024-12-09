@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 
-import MojipDataManageContainer from '@/pages_fsd/mojip-data-manage/components/mojip-data-manage-container';
+import { ManageContainer } from '@/pages_fsd/detail-page-data-manage/components';
 import { UnivServiceCheckGuard } from '@/shared/components';
 
 export const metadata = {
@@ -12,7 +12,7 @@ const Page = () => {
   return (
     <UnivServiceCheckGuard>
       <Box>
-        <MojipDataManageContainer />
+        <ManageContainer />
       </Box>
     </UnivServiceCheckGuard>
   );

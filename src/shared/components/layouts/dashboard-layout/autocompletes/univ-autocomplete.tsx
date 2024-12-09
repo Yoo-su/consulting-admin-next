@@ -4,7 +4,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { FilterOptionsState } from '@mui/material/useAutocomplete/useAutocomplete';
 
-import { useUnivService } from '@/shared/hooks/context';
+import { useUnivService } from '@/shared/hooks';
 import { Univ } from '@/shared/models';
 
 export const UnivAutocomplete = () => {

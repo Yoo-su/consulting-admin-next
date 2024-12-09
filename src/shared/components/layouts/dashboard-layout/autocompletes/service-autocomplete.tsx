@@ -8,7 +8,7 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import { useCallback } from 'react';
 
-import { useUnivService } from '@/shared/hooks/context';
+import { useUnivService } from '@/shared/hooks';
 import { Service } from '@/shared/models';
 
 export const ServiceAutocomplete = () => {

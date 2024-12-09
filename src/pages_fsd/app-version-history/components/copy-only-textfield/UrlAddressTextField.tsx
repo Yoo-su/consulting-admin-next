@@ -6,7 +6,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import { MouseEvent, useState } from 'react';
 
-import QrModal from '../qr-modal';
+import { QrModal } from '../qr-modal';
 
 type URlAddressTextFieldProps = {
   url: string;

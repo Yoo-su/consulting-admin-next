@@ -21,7 +21,12 @@ type SetAppTypeProps = {
   setIsNew: Dispatch<SetStateAction<boolean[]>>;
   service: Service;
 };
-const SetAppType = ({ isNew, index, setIsNew, service }: SetAppTypeProps) => {
+export const SetAppType = ({
+  isNew,
+  index,
+  setIsNew,
+  service,
+}: SetAppTypeProps) => {
   const { mutateAsync } = useUpdateServiceIsNewMutation();
 
   const currentServiceYear = getCurrentServiceYear();
@@ -108,8 +113,6 @@ const SetAppType = ({ isNew, index, setIsNew, service }: SetAppTypeProps) => {
     </ToggleButtonGroup>
   );
 };
-
-export default SetAppType;
 
 const ToggleButtonGroupClass = {
   '& .Mui-selected': {

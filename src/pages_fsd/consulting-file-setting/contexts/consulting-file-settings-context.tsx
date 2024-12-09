@@ -11,7 +11,7 @@ import {
 } from 'react';
 import toast from 'react-hot-toast';
 
-import { useUnivService } from '@/shared/hooks/context/use-univ-service';
+import { useUnivService } from '@/shared/hooks';
 
 import {
   useDeleteConsultingFileMutation,

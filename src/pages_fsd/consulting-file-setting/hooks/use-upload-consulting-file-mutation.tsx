@@ -2,7 +2,7 @@
 
 import { useMutation } from '@tanstack/react-query';
 
-import { useUser } from '@/shared/hooks/context';
+import { useUser } from '@/shared/hooks';
 
 import { uploadConsultingFile } from '../apis';
 import { UploadFile } from '../models';

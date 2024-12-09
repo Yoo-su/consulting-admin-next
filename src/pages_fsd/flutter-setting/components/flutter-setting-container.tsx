@@ -6,11 +6,9 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { SaveDataButton } from '@/shared/components';
 import { useInterceptAppRouter } from '@/shared/hooks';
-import { useUnivService } from '@/shared/hooks/context';
-import { useConfirmToast } from '@/shared/hooks/ui/use-confirm-toast';
+import { useConfirmToast,useUnivService } from '@/shared/hooks';
 
-import { useFlutterSetting } from '../hooks';
-import { useGetFlutterSettingsInfoQuery } from '../hooks';
+import { useFlutterSetting, useGetFlutterSettingsInfoQuery } from '../hooks';
 import { FlutterSetting as FlutterSettingType } from '../models';
 import { getFilteredCustomConfig } from '../services';
 import { SettingDetail } from './setting-detail';

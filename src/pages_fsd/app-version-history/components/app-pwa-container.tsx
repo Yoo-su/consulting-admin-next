@@ -7,7 +7,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { MouseEvent } from 'react';
 import toast from 'react-hot-toast';
 
-import { useUnivService } from '@/shared/hooks/context/use-univ-service';
+import { useUnivService } from '@/shared/hooks';
 import { isCurrentServiceYear } from '@/shared/services';
 
 import { SerialNoTextField, URlAddressTextField } from './copy-only-textfield';

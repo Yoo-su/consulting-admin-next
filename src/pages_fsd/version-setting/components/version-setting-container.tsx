@@ -5,10 +5,10 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useState } from 'react';
 
-import { useUnivService } from '@/shared/hooks/context';
+import { useUnivService } from '@/shared/hooks';
 
-import TableTitle from './table-title';
-import VersionListTable from './version-list-table';
+import { TableTitle } from './table-title';
+import { VersionListTable } from './version-list-table';
 
 export type VersionServer = { value: 'testDb' | 'realDb'; label: string };
 export const versionServer: VersionServer[] = [
@@ -16,7 +16,7 @@ export const versionServer: VersionServer[] = [
   { value: 'realDb', label: '리얼' },
 ];
 
-const VersionSettingContainer = () => {
+export const VersionSettingContainer = () => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -48,4 +48,3 @@ const VersionSettingContainer = () => {
     </Stack>
   );
 };
-export default VersionSettingContainer;

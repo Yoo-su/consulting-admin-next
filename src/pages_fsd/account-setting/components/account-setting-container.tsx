@@ -11,8 +11,8 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { ContentWrapper } from '@/shared/components';
-import { useUser } from '@/shared/hooks/context/use-user';
-import { useMuiAlert } from '@/shared/hooks/ui/use-mui-alert';
+import { useUser } from '@/shared/hooks';
+import { useMuiAlert } from '@/shared/hooks';
 
 import { useUpdateProfileImageMutation } from '../hooks';
 

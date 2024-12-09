@@ -14,7 +14,7 @@ import {
   EmptyBox,
   SaveDataButton,
 } from '@/shared/components';
-import { useUnivService } from '@/shared/hooks/context/use-univ-service';
+import { useUnivService } from '@/shared/hooks';
 import { getGroupedData } from '@/shared/services';
 
 import { useChartSetting, useUpdateChartDataMutation } from '../hooks';

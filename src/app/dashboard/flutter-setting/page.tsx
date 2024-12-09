@@ -1,8 +1,10 @@
 import Box from '@mui/material/Box';
 
-import { FlutterSettingContainer } from '@/pages_fsd/flutter-setting/components';
-import { DupServiceBtn } from '@/pages_fsd/flutter-setting/components/dup-service';
-import FlutterSettingProvider from '@/pages_fsd/flutter-setting/contexts';
+import {
+  DupServiceBtn,
+  FlutterSettingContainer,
+} from '@/pages_fsd/flutter-setting/components';
+import { FlutterSettingProvider } from '@/pages_fsd/flutter-setting/contexts';
 import { UnivServiceCheckGuard } from '@/shared/components';
 
 export const metadata = {

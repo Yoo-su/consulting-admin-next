@@ -15,9 +15,9 @@ import { ChangeEvent, MouseEvent, useState } from 'react';
 
 import { STATE_BOARD_DOMAIN_ITEMS } from '@/pages_fsd/overview/constants';
 import { useHandleStatusBoard } from '@/pages_fsd/overview/hooks';
-import { useUnivService } from '@/shared/hooks/context';
+import { useUnivService } from '@/shared/hooks';
 
-const TableBoard = () => {
+export const TableBoard = () => {
   const { univList } = useUnivService();
   const { filteredConsultingAppStatesAll } = useHandleStatusBoard();
   const [page, setPage] = useState(0);
@@ -102,5 +102,3 @@ const TableBoard = () => {
     </Paper>
   );
 };
-
-export default TableBoard;

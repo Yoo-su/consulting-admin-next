@@ -27,7 +27,7 @@ import { ReactNode } from 'react';
 import { STATE_BOARD_DOMAIN_ITEMS } from '../../constants';
 import { StateBoardDomainItems, useStatusBoardStore } from '../../models';
 
-const ConsultingAppStateDialog = () => {
+export const ConsultingAppStateDialog = () => {
   const { isDialogOpen, toggleDialog, dialogContentState } =
     useStatusBoardStore();
   if (!dialogContentState) return null;
@@ -153,5 +153,3 @@ const ConsultingAppStateDialog = () => {
     </Dialog>
   );
 };
-
-export default ConsultingAppStateDialog;

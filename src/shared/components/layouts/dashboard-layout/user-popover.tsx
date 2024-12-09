@@ -15,7 +15,7 @@ import {
 import RouterLink from 'next/link';
 import CircleLoader from 'react-spinners/CircleLoader';
 
-import { useUser } from '@/shared/hooks/context';
+import { useUser } from '@/shared/hooks';
 
 export type UserPopoverProps = {
   anchorEl: Element | null;

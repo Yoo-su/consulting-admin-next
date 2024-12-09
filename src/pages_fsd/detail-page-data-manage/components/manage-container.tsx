@@ -8,12 +8,12 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { ContentWrapper } from '@/shared/components';
-import { useUnivService } from '@/shared/hooks/context';
+import { useUnivService } from '@/shared/hooks';
 
 import { ServiceAutocomplete } from './service-autocomplete';
 import { SyncBox } from './sync-box';
 
-export const MojipDataManageBox = () => {
+export const ManageContainer = () => {
   const { currentService, currentUniv, serviceList } = useUnivService();
 
   return (
@@ -80,5 +80,3 @@ export const MojipDataManageBox = () => {
     </ContentWrapper>
   );
 };
-
-export default MojipDataManageBox;

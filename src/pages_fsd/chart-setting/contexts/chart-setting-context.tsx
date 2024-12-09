@@ -8,7 +8,7 @@ import {
   useMemo,
 } from 'react';
 
-import { useUnivService } from '@/shared/hooks/context';
+import { useUnivService } from '@/shared/hooks';
 
 import { useGetChartData } from '../hooks';
 import { ChartData } from '../models';

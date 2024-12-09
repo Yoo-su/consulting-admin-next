@@ -6,13 +6,14 @@ import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import ContentWrapper from '@/shared/components/ui/content-wrapper';
-import EmptyBox from '@/shared/components/ui/empty-box';
-import FileItemCard from '@/shared/components/ui/file-item-card';
-import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
-import { useDownloadFile } from '@/shared/hooks';
-import { useUnivService } from '@/shared/hooks/context';
-import { formatKoreanTextCompareDatesFromNow } from '@/shared/services/get-formatted-date';
+import {
+  ContentLoadingSkeleton,
+  ContentWrapper,
+  EmptyBox,
+  FileItemCard,
+} from '@/shared/components';
+import { useDownloadFile, useUnivService } from '@/shared/hooks';
+import { formatKoreanTextCompareDatesFromNow } from '@/shared/services';
 
 import { useGetFoundationLibrariesQuery } from './hooks';
 

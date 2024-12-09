@@ -10,11 +10,10 @@ import {
   Typography,
 } from '@mui/material';
 
-import AllBoardContainer from './all-board-container';
-import ServiceTypeSelect from './selects/service-type-select';
-import ServiceYearSelect from './selects/service-year-select';
+import { AllBoardContainer } from './all-board-container';
+import { ServiceTypeSelect, ServiceYearSelect } from './selects';
 
-const ConsultingAppStateBoard = () => {
+export const ConsultingAppStateBoard = () => {
   return (
     <Box>
       <Accordion
@@ -42,5 +41,3 @@ const ConsultingAppStateBoard = () => {
     </Box>
   );
 };
-
-export default ConsultingAppStateBoard;

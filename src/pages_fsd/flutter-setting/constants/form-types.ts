@@ -1,8 +1,8 @@
-import BasicTextForm from '../components/basic-form/basic-text-form';
-import BooleanForm from '../components/basic-form/boolean-form';
-import ListOrderForm from '../components/basic-form/list-order-form';
-import MapForm from '../components/basic-form/map-form';
-import SelectForm from '../components/basic-form/select-form';
+import { BasicTextForm } from '../components/basic-form/basic-text-form';
+import { BooleanForm } from '../components/basic-form/boolean-form';
+import { ListOrderForm } from '../components/basic-form/list-order-form';
+import { MapForm } from '../components/basic-form/map-form';
+import { SelectForm } from '../components/basic-form/select-form';
 import {
   BasicFormComponent,
   ComponentMappingType,

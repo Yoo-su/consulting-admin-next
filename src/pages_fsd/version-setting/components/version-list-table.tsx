@@ -10,21 +10,23 @@ import {
 import { MouseEvent, useEffect, useReducer, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
-import SaveDataButton from '@/shared/components/ui/save-data-button';
+import { ContentLoadingSkeleton, SaveDataButton } from '@/shared/components';
 
 import { VersionListParams } from '../apis';
 import { useGetVersionList, useUpdateVersionListMutation } from '../hooks';
 import { CurTBLVersion, VersionServer } from '../models';
-import VersionListBodyData from './version-list-body-data';
-import VersionListTableHead from './version-list-table-head';
+import { VersionListBodyData } from './version-list-body-data';
+import { VersionListTableHead } from './version-list-table-head';
 
 export type VersionListTableProps = {
   serviceID: string;
   type: VersionServer;
 };
 
-const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
+export const VersionListTable = ({
+  serviceID,
+  type,
+}: VersionListTableProps) => {
   const {
     isLoading,
     testVersionList,
@@ -148,8 +150,6 @@ const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
     </>
   );
 };
-
-export default VersionListTable;
 
 export const ArrowButtonClass = {
   borderRadius: '.2rem',

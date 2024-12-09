@@ -15,7 +15,10 @@ import {
 } from '@/shared/components';
 import { useUnivService } from '@/shared/hooks';
 
-import { useMojipSetting, useUpdateDetailpageDataMutation } from '../hooks';
+import {
+  useDetailPageSetting,
+  useUpdateDetailpageDataMutation,
+} from '../hooks';
 import { DetailPageDataAccordion } from './detail-page-data-accordion';
 
 export const DetailPageSettingContainer = () => {
@@ -27,7 +30,7 @@ export const DetailPageSettingContainer = () => {
     hasChanges,
     addNewDetailpageRow,
     syncDetailpageData,
-  } = useMojipSetting();
+  } = useDetailPageSetting();
   const { mutateAsync } = useUpdateDetailpageDataMutation();
 
   const handleChangeSelected = useCallback((selectedRow: number | null) => {

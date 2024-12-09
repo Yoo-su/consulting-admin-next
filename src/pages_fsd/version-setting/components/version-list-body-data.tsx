@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { MouseEvent } from 'react';
 
-import ButtonIcon from '@/shared/components/ui/button-icon';
+import { ButtonIcon } from '@/shared/components/ui/button-icon';
 
 import { CurTBLVersion } from '../models';
 import { ArrowButtonClass, TableCellClass } from './version-list-table';
@@ -19,7 +19,7 @@ type VersionListDataProps = {
   editedList: CurTBLVersion[];
   handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
 };
-const VersionListBodyData = ({
+export const VersionListBodyData = ({
   editedList,
   handleClick,
 }: VersionListDataProps) => {
@@ -93,8 +93,6 @@ const VersionListBodyData = ({
     </>
   );
 };
-
-export default VersionListBodyData;
 
 const TableBodyClass = {
   '& .MuiTableRow-root': {

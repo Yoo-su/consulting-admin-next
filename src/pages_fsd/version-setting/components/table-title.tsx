@@ -14,7 +14,7 @@ type TableTitleProps = {
   setServerType: React.Dispatch<React.SetStateAction<VersionServer>>;
 };
 
-const TableTitle = ({
+export const TableTitle = ({
   univName,
   serviceID,
   setServerType,
@@ -58,8 +58,6 @@ const TableTitle = ({
     </Stack>
   );
 };
-
-export default TableTitle;
 
 const SelectClass = {
   '& .MuiSelect-select': {

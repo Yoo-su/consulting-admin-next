@@ -2,18 +2,16 @@
 
 import Stack from '@mui/material/Stack';
 
-import { useUser } from '@/shared/hooks/context';
+import { useUser } from '@/shared/hooks';
 
 import { useHandleStatusBoard } from '../../hooks';
 import { useStatusBoardStore } from '../../models';
-import BasicBoard from './boards/basic-board';
-import DeveloperBoard from './boards/developer-board';
-import TableBoard from './boards/table-board';
-import ConsultingAppStateDialog from './consultingapp-state-dialog';
-import ConsultingAppStateBoardSkeleton from './skeleton';
-import Toolbar from './toolbar';
+import { BasicBoard, DeveloperBoard, TableBoard } from './boards';
+import { ConsultingAppStateDialog } from './consultingapp-state-dialog';
+import { ConsultingAppStateBoardSkeleton } from './skeleton';
+import { Toolbar } from './toolbar';
 
-const AllBoardContainer = () => {
+export const AllBoardContainer = () => {
   const { boardType, viewOption, isDialogOpen } = useStatusBoardStore();
   const { isStatesLoading } = useHandleStatusBoard();
 
@@ -31,5 +29,3 @@ const AllBoardContainer = () => {
     </Stack>
   );
 };
-
-export default AllBoardContainer;

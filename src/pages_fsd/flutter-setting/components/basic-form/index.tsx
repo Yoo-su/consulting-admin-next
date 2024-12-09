@@ -6,7 +6,7 @@ import { useFlutterSetting } from '../../hooks';
 import { FlutterRowInfo } from '../../models';
 import { FlutterSettingFormType, Path } from '../../models';
 import { checkChildEdited, getFilteredCustomConfig } from '../../services';
-import EditSetting from '../edit-setting';
+import { EditSetting } from '../edit-setting';
 
 type BasicFormProps = {
   basicKey?: string;

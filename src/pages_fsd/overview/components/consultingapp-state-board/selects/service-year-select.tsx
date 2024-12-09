@@ -4,7 +4,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useStatusBoardStore } from '@/pages_fsd/overview/models';
 import { getLastFiveServiceYears } from '@/pages_fsd/overview/services';
 
-const ServiceYearSelect = () => {
+export const ServiceYearSelect = () => {
   const { selectedServiceYear, setSelectedServiceYear } = useStatusBoardStore();
   const recentFiveServiceYears = getLastFiveServiceYears();
 
@@ -22,5 +22,3 @@ const ServiceYearSelect = () => {
     </Select>
   );
 };
-
-export default ServiceYearSelect;

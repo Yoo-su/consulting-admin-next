@@ -18,8 +18,7 @@ import {
 import { ChangeEvent, memo, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { useUnivService } from '@/shared/hooks/context/use-univ-service';
-import { useConfirmToast } from '@/shared/hooks/ui/use-confirm-toast';
+import { useConfirmToast,useUnivService } from '@/shared/hooks';
 
 import { useChartSetting } from '../hooks';
 import { ChartData } from '../models';

@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 
-import MojipSettingContainer from '@/pages_fsd/detail-page-setting/components/detail-page-setting-container';
-import MojipSettingProvider from '@/pages_fsd/detail-page-setting/contexts';
+import { DetailPageSettingContainer } from '@/pages_fsd/detail-page-setting/components';
+import { DetailPageSettingProvider } from '@/pages_fsd/detail-page-setting/contexts';
 import { UnivServiceCheckGuard } from '@/shared/components';
 
 export const metadata = {
@@ -12,11 +12,11 @@ export const metadata = {
 const Page = () => {
   return (
     <UnivServiceCheckGuard>
-      <MojipSettingProvider>
+      <DetailPageSettingProvider>
         <Box>
-          <MojipSettingContainer />
+          <DetailPageSettingContainer />
         </Box>
-      </MojipSettingProvider>
+      </DetailPageSettingProvider>
     </UnivServiceCheckGuard>
   );
 };

@@ -11,7 +11,7 @@ import {
 } from 'react';
 
 import { QUERY_KEYS } from '@/shared/constants';
-import { useUnivService } from '@/shared/hooks/context';
+import { useUnivService } from '@/shared/hooks';
 
 import { useGetDetailPageDataQuery } from '../hooks';
 import { DetailPageData } from '../models';

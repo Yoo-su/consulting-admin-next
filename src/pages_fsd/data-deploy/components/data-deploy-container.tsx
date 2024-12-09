@@ -16,8 +16,7 @@ import { AxiosError } from 'axios';
 import PuffLoader from 'react-spinners/PuffLoader';
 
 import { ContentWrapper } from '@/shared/components';
-import { useMuiAlert } from '@/shared/hooks';
-import { useUnivService } from '@/shared/hooks/context';
+import { useMuiAlert, useUnivService } from '@/shared/hooks';
 
 import { useDeployTestDataMutation, useSyncTestDevMutation } from '../hooks';
 

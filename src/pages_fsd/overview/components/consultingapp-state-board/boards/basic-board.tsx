@@ -18,16 +18,15 @@ import {
   CurrentState,
   ServiceType,
 } from '@/pages_fsd/overview/models';
-import EmptyBox from '@/shared/components/ui/empty-box';
+import { EmptyBox } from '@/shared/components';
 import { getGroupedData } from '@/shared/services';
 
-import StateCol from '../state-column';
+import { StateCol } from '../state-column';
 
 type BasicBoardContainerProps = {
   boardType: BoardType;
 };
-
-const BasicBoard = ({ boardType }: BasicBoardContainerProps) => {
+export const BasicBoard = ({ boardType }: BasicBoardContainerProps) => {
   const { mutateAsync: updateConsultingAppStateMutation } =
     useUpdateConsultingAppStateMutation();
   const { filteredConsultingAppStates, filteredConsultingAppStatesAll } =
@@ -109,5 +108,3 @@ const BasicBoard = ({ boardType }: BasicBoardContainerProps) => {
     </DragDropContext>
   );
 };
-
-export default BasicBoard;

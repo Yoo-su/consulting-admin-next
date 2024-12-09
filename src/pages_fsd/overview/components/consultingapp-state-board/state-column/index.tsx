@@ -8,9 +8,9 @@ import Typography from '@mui/material/Typography';
 
 import { ConsultingAppState, CurrentState } from '@/pages_fsd/overview/models';
 
-import StateCard from './state-card';
+import { StateCard } from './state-card';
 
-export type StateColProps = {
+type StateColProps = {
   groupedStates: ConsultingAppState[];
   currentStateKey: CurrentState;
   title: string;
@@ -18,7 +18,7 @@ export type StateColProps = {
   bgcolor: string;
   developer?: string;
 };
-const StateCol = ({
+export const StateCol = ({
   groupedStates,
   title,
   color,
@@ -127,5 +127,3 @@ const StateCol = ({
     </Stack>
   );
 };
-
-export default StateCol;

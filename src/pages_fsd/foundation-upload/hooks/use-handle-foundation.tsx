@@ -3,10 +3,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { read, utils } from 'xlsx';
 
-import { useUnivService } from '@/shared/hooks/context';
-import { useUser } from '@/shared/hooks/context';
-import { useMuiAlert } from '@/shared/hooks/ui/use-mui-alert';
-import { useStepper } from '@/shared/hooks/ui/use-stepper';
+import {
+  useMuiAlert,
+  useStepper,
+  useUnivService,
+  useUser,
+} from '@/shared/hooks';
 
 import { EXCEL_LAYOUT, SHEET_FLAG } from '../constants';
 import { useUploadFoundationLibraryFileOnlyMutation } from './use-upload-foundation-library-fileonly-mutation';

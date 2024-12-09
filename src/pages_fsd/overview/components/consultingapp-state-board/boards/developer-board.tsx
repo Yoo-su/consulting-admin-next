@@ -19,9 +19,9 @@ import { useHandleStatusBoard } from '@/pages_fsd/overview/hooks';
 import { CurrentState, ServiceType } from '@/pages_fsd/overview/models';
 import { getGroupedData } from '@/shared/services';
 
-import StateCol from '../state-column';
+import { StateCol } from '../state-column';
 
-const DeveloperBoard = () => {
+export const DeveloperBoard = () => {
   const { filteredConsultingAppStatesAll, developers } = useHandleStatusBoard();
 
   const { mutateAsync: updateConsultingAppStateMutation } =
@@ -151,5 +151,3 @@ const DeveloperBoard = () => {
     </Stack>
   );
 };
-
-export default DeveloperBoard;

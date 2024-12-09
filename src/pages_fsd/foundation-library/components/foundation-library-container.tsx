@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 import { Browser } from '@/features/browser/components';
 import { BROWSER_PATH } from '@/features/browser/constants';
 import { ContentWrapper } from '@/shared/components';
-import { useUnivService } from '@/shared/hooks/context';
+import { useUnivService } from '@/shared/hooks';
 
 export const FoundationLibraryContainer = () => {
   const { currentUniv, currentService } = useUnivService();

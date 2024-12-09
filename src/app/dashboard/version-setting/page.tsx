@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import VersionSettingContainer from '@/pages_fsd/version-setting/components/version-setting-container';
-import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
+import { VersionSettingContainer } from '@/pages_fsd/version-setting/components';
+import { UnivServiceCheckGuard } from '@/shared/components';
 
 export const metadata = {
   title: '상담앱 관리자 | 버전 설정',

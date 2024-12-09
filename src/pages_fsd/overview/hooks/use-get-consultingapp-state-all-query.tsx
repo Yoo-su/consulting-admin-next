@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '@/shared/constants';
-import { useUser } from '@/shared/hooks/context';
+import { useUser } from '@/shared/hooks';
 
 import { getConsultingAppStateAll } from '../apis';
 

@@ -3,7 +3,7 @@
 import { Typography } from '@mui/material';
 
 import { ContentWrapper } from '@/shared/components';
-import { useUnivService } from '@/shared/hooks/context';
+import { useUnivService } from '@/shared/hooks';
 
 import { CalculationSettingDialog } from './calculation-setting-dialog';
 import SettingsOverview from './settings-overview';

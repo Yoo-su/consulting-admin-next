@@ -3,7 +3,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import { ServiceType, useStatusBoardStore } from '@/pages_fsd/overview/models';
 
-const ServiceTypeSelect = () => {
+export const ServiceTypeSelect = () => {
   const { selectedServiceType, setSelectedServiceType } = useStatusBoardStore();
   const serviceMenus = [
     { title: '정시', value: 'J_A' },
@@ -24,5 +24,3 @@ const ServiceTypeSelect = () => {
     </Select>
   );
 };
-
-export default ServiceTypeSelect;

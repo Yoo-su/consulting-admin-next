@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 
 import { EmptyCover } from '@/shared/components';
 
-import { useMojipSetting } from '../../hooks';
+import { useDetailPageSetting } from '../../hooks';
 import { Condition } from '../../models';
 import { ConditionRow } from './condition-row';
 
@@ -31,7 +31,7 @@ export const ConditionSettingPopover = memo(
     rowNum,
     condition,
   }: ConditionSettingPopoverProps) => {
-    const { updateCondition } = useMojipSetting();
+    const { updateCondition } = useDetailPageSetting();
     const [currentCondition, setCurrentCondition] =
       useState<Condition[]>(condition);
     const [originalCondition, setOriginalCondition] =

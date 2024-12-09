@@ -39,7 +39,7 @@ export const DetailPageDataAccordion = memo(
   }: DetailPageDataAccordionProps) => {
     const queryClient = useQueryClient();
     const { openConfirmToast } = useConfirmToast();
-    const { updateRowMode, updateRowHtmlCard } = useMojipSetting();
+    const { updateRowMode, updateRowHtmlCard } = useDetailPageSetting();
     const conditionPopover = usePopover<HTMLDivElement>();
 
     const handleChangeValue = useCallback((newHtml: string) => {

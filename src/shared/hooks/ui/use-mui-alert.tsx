@@ -1,3 +1,5 @@
+'use client';
+
 import { AlertColor } from '@mui/material/Alert';
 import { useState } from 'react';
 

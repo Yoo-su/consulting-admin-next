@@ -3,12 +3,11 @@
 import 'react-calendar/dist/Calendar.css';
 
 import { useCallback, useState } from 'react';
-import Calendar from 'react-calendar';
 
-import Tiptap from '@/features/tiptap-editor/components';
-import ContentWrapper from '@/shared/components/ui/content-wrapper';
+import { TiptapEditor } from '@/features/tiptap-editor/components';
+import { ContentWrapper } from '@/shared/components';
 
-const CalendarBox = () => {
+export const CalendarBox = () => {
   const [text, setText] = useState<string>('');
 
   const handleChangeText = useCallback((newText: string) => {
@@ -17,9 +16,7 @@ const CalendarBox = () => {
 
   return (
     <ContentWrapper>
-      <Tiptap value={text} handleChangeValue={handleChangeText} />
+      <TiptapEditor value={text} handleChangeValue={handleChangeText} />
     </ContentWrapper>
   );
 };
-
-export default CalendarBox;

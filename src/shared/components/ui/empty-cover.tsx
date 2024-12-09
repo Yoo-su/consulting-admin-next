@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, SxProps, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';

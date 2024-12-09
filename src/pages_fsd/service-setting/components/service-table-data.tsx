@@ -5,14 +5,14 @@ import { useState } from 'react';
 
 import { Service } from '@/shared/models';
 
-import SetAppType from './set-app-type';
+import { SetAppType } from './set-app-type';
 
 type ServiceTableDataProps = {
   serviceList: Service[];
   page: number;
   rowsPerPage: number;
 };
-const ServiceTableData = ({
+export const ServiceTableData = ({
   serviceList,
   page,
   rowsPerPage,
@@ -62,8 +62,6 @@ const ServiceTableData = ({
     </>
   );
 };
-
-export default ServiceTableData;
 
 const ServiceTypeChip = {
   label: ['정시', '수시'],

@@ -24,7 +24,7 @@ import {
 type ToolbarProps = {
   boardType: BoardType;
 };
-const Toolbar = ({ boardType }: ToolbarProps) => {
+export const Toolbar = ({ boardType }: ToolbarProps) => {
   const { viewOption, setViewOption } = useStatusBoardStore();
   const theme = useTheme();
   const upmd = useMediaQuery(theme.breakpoints.up('md'));
@@ -184,5 +184,3 @@ const ViewOptions = ({
     </IconButton>
   );
 };
-
-export default Toolbar;

@@ -9,9 +9,8 @@ import { AxiosResponse } from 'axios';
 import { Suspense } from 'react';
 import toast from 'react-hot-toast';
 
-import { EmptyBox } from '@/shared/components';
-import { ContentLoadingSkeleton } from '@/shared/components';
-import { useUnivService } from '@/shared/hooks/context/use-univ-service';
+import { ContentLoadingSkeleton,EmptyBox } from '@/shared/components';
+import { useUnivService } from '@/shared/hooks';
 
 import { AppHistory } from '../models';
 import { AppProgData } from './app-prog-data';

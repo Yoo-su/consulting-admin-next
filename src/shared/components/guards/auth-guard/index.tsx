@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
 
 import { PATHS } from '@/shared/constants';
-import { useUser } from '@/shared/hooks/context';
+import { useUser } from '@/shared/hooks';
 
 import { AppBackdrop } from '../../ui';
 

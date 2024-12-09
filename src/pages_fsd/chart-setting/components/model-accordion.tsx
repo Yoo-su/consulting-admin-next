@@ -9,7 +9,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { memo, useCallback, useMemo, useState } from 'react';
 
-import { useConfirmToast } from '@/shared/hooks/ui/use-confirm-toast';
+import { useConfirmToast } from '@/shared/hooks';
 import { getGroupedData } from '@/shared/services';
 
 import { useChartSetting } from '../hooks';

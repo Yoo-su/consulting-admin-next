@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import { ContentWrapper } from '@/shared/components';
-import { useUnivService } from '@/shared/hooks/context/use-univ-service';
+import { useUnivService } from '@/shared/hooks';
 
 import { useGetAppVersionHistoryQuery } from '../hooks';
 import { ConsultingAppType } from '../models';
