@@ -1,3 +1,5 @@
+'use client';
+
 import { Dialog, DialogContent } from '@mui/material';
 import { useCallback } from 'react';
 

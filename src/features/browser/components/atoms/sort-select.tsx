@@ -1,3 +1,5 @@
+'use client';
+
 import { MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
 import { useShallow } from 'zustand/shallow';
 

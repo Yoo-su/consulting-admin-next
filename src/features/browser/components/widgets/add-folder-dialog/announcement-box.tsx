@@ -1,3 +1,5 @@
+'use client';
+
 import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
 import { Stack, Typography } from '@mui/material';
 import { memo } from 'react';

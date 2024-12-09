@@ -1,3 +1,5 @@
+'use client';
+
 import FunctionsIcon from '@mui/icons-material/Functions';
 import { Box, Divider, Stack, SxProps, Typography } from '@mui/material';
 import { useCallback } from 'react';

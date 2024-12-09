@@ -1,3 +1,5 @@
+'use client';
+
 import { Modal, Stack, Typography } from '@mui/material';
 import { QRCodeCanvas } from 'qrcode.react';
 

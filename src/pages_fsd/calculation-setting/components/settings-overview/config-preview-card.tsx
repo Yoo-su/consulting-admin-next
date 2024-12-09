@@ -1,3 +1,5 @@
+'use client';
+
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, Divider, Stack, SxProps, Typography } from '@mui/material';
 import { useCallback } from 'react';

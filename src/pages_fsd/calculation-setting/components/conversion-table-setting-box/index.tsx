@@ -1,3 +1,5 @@
+'use client';
+
 import { useGetCalcConversionTableQuery } from '../../hooks';
 
 type ConversionTableSettingBoxProps = {

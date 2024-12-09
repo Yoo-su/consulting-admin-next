@@ -20,7 +20,7 @@ type FlutterColorPickerProps = {
   InitialValue: string;
 } & Pick<FormItemProps, 'path' | 'handleEdit'>;
 
-const FlutterColorPicker = ({
+export const FlutterColorPicker = ({
   value,
   setTextValue,
   RowIdx,
@@ -94,5 +94,3 @@ const FlutterColorPicker = ({
     </>
   );
 };
-
-export default FlutterColorPicker;

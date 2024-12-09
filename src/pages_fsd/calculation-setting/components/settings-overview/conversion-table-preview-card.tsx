@@ -1,3 +1,5 @@
+'use client';
+
 import BackupTableIcon from '@mui/icons-material/BackupTable';
 import { Box, Divider, Stack, SxProps, Typography } from '@mui/material';
 import { useCallback } from 'react';

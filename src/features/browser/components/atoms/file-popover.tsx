@@ -1,3 +1,5 @@
+'use client';
+
 import { MenuItem, MenuList, Popover, Typography } from '@mui/material';
 import { memo } from 'react';
 

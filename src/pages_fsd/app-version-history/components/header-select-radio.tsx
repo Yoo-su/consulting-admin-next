@@ -1,3 +1,5 @@
+'use client';
+
 import AdbIcon from '@mui/icons-material/Adb';
 import AlternateEmailRoundedIcon from '@mui/icons-material/AlternateEmailRounded';
 import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';

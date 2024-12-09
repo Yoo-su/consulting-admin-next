@@ -17,7 +17,7 @@ import { formatKoreanTextCompareDatesFromNow } from '@/shared/services';
 
 import { useGetFoundationLibrariesQuery } from './hooks';
 
-const FoundationLibraryListBox = () => {
+export const FoundationLibraryListBox = () => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
   const { currentUniv, currentService } = useUnivService();
@@ -119,5 +119,3 @@ const FoundationLibraryListBox = () => {
     </ContentWrapper>
   );
 };
-
-export default FoundationLibraryListBox;

@@ -17,7 +17,7 @@ const gowun_dodum = Gowun_Dodum({ subsets: ['latin'], weight: ['400'] });
 const nanum_gothic = Nanum_Gothic({ subsets: ['latin'], weight: ['400'] });
 const nanum_myeongjo = Nanum_Myeongjo({ subsets: ['latin'], weight: ['400'] });
 
-const theme = extendTheme({
+export const theme = extendTheme({
   typography: {
     h6: {
       fontFamily: ibm_kr.style.fontFamily,
@@ -57,5 +57,3 @@ const theme = extendTheme({
     },
   },
 });
-
-export default theme;

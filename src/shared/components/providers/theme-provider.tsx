@@ -4,7 +4,7 @@ import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/s
 import { Fragment, ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
 
-import theme from '@/shared/style/theme';
+import { theme } from '@/shared/style/theme';
 
 type Props = {
   children: ReactNode;

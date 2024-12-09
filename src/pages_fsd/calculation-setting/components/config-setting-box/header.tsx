@@ -1,3 +1,5 @@
+'use client';
+
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Stack, Typography } from '@mui/material';

@@ -1,3 +1,5 @@
+'use client';
+
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
@@ -18,7 +20,7 @@ import {
 import { ChangeEvent, memo, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { useConfirmToast,useUnivService } from '@/shared/hooks';
+import { useConfirmToast, useUnivService } from '@/shared/hooks';
 
 import { useChartSetting } from '../hooks';
 import { ChartData } from '../models';

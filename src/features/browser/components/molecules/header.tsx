@@ -1,3 +1,5 @@
+'use client';
+
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import UploadFileIcon from '@mui/icons-material/UploadFile';

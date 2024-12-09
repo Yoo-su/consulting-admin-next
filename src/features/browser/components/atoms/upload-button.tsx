@@ -1,3 +1,5 @@
+'use client';
+
 import UploadIcon from '@mui/icons-material/Upload';
 import { Fab, styled, Typography } from '@mui/material';
 import { memo } from 'react';

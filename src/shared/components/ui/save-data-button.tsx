@@ -1,3 +1,5 @@
+'use client';
+
 import InfoIcon from '@mui/icons-material/Info';
 import { Fab, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';

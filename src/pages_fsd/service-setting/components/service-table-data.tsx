@@ -1,3 +1,5 @@
+'use client';
+
 import { Chip, TableCell, TableRow } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';

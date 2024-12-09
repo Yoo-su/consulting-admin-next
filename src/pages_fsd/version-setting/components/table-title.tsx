@@ -1,3 +1,5 @@
+'use client';
+
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';

@@ -1,3 +1,5 @@
+'use client';
+
 import FolderIcon from '@mui/icons-material/Folder';
 import {
   Dialog,

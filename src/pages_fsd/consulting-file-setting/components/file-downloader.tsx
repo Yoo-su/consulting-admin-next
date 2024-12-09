@@ -1,3 +1,5 @@
+'use client';
+
 import DownloadIcon from '@mui/icons-material/Download';
 import { Button, CircularProgress, Typography } from '@mui/material';
 import toast from 'react-hot-toast';

@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Button,
   Dialog,
@@ -7,7 +9,7 @@ import {
   TextField,
 } from '@mui/material';
 import { Editor } from '@tiptap/react';
-import React, { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 type HtmlEditDialogProps = {
   editor: Editor;
@@ -15,7 +17,7 @@ type HtmlEditDialogProps = {
   onClose: () => void;
 };
 
-export const HtmlEditDialog: React.FC<HtmlEditDialogProps> = ({
+export const HtmlEditDialog: FC<HtmlEditDialogProps> = ({
   editor,
   open,
   onClose,

@@ -1,3 +1,5 @@
+'use client';
+
 import { Divider, Stack } from '@mui/material';
 
 import { useGetCalcConfigQuery } from '../../hooks';

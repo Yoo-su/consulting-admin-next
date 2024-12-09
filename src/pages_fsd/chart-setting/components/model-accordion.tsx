@@ -1,3 +1,5 @@
+'use client';
+
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import Accordion from '@mui/material/Accordion';

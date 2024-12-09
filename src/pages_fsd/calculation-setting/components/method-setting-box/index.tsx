@@ -1,3 +1,5 @@
+'use client';
+
 import { Stack, styled } from '@mui/material';
 
 import { useGetCalcMethodQuery } from '../../hooks';

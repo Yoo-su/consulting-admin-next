@@ -1,3 +1,5 @@
+'use client';
+
 import { Stack, styled, Typography } from '@mui/material';
 import Image from 'next/image';
 import { memo } from 'react';

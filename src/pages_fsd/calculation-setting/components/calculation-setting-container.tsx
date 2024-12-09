@@ -6,7 +6,7 @@ import { ContentWrapper } from '@/shared/components';
 import { useUnivService } from '@/shared/hooks';
 
 import { CalculationSettingDialog } from './calculation-setting-dialog';
-import SettingsOverview from './settings-overview';
+import { SettingsOverview } from './settings-overview';
 
 export const CalculationSettingContainer = () => {
   const { currentUniv, currentService } = useUnivService();

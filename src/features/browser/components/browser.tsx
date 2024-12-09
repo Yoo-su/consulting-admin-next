@@ -1,3 +1,5 @@
+'use client';
+
 import { Grid, styled, SxProps } from '@mui/material';
 import { UseMutationResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
@@ -10,7 +12,7 @@ import { useHandleQueue } from '../hooks';
 import { useBrowserStore } from '../models';
 import { UploadButton } from './atoms';
 import { BrowserHeader, Queue } from './molecules';
-import FileList from './molecules/file-list';
+import { FileList } from './molecules/file-list';
 import { AddFolderDialog } from './widgets';
 
 type BrowserProps = {
