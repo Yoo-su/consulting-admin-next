@@ -1,3 +1,5 @@
+'use client';
+
 import { TextField, Typography } from '@mui/material';
 import {
   ChangeEvent,
@@ -12,9 +14,9 @@ import { useOutsideClick } from '@/shared/hooks';
 
 import { useFlutterSetting } from '../../hooks';
 import { FormItemProps } from '../../models';
-import FlutterColorPicker from '../flutter-color-picker';
+import { FlutterColorPicker } from '../flutter-color-picker';
 
-const BasicTextForm = ({
+export const BasicTextForm = ({
   item,
   path,
   handleEdit,
@@ -124,5 +126,3 @@ const BasicTextForm = ({
     />
   );
 };
-
-export default BasicTextForm;

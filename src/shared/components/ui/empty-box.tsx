@@ -10,7 +10,7 @@ type EmptyBoxProps = {
   text: string;
 } & DOMAttributes<HTMLDivElement>;
 
-const EmptyBox = ({ text, ...props }: EmptyBoxProps) => {
+export const EmptyBox = ({ text, ...props }: EmptyBoxProps) => {
   return (
     <Box
       sx={{
@@ -41,5 +41,3 @@ const EmptyBox = ({ text, ...props }: EmptyBoxProps) => {
     </Box>
   );
 };
-
-export default EmptyBox;

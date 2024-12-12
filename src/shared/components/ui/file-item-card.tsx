@@ -19,7 +19,7 @@ export type FileType =
   | 'txt'
   | 'none';
 
-const iconPathMap: {
+export const iconPathMap: {
   [key in FileType]: () => Promise<{ default: StaticImageData }>;
 } = {
   excel: () => import('@/shared/assets/images/xls_64.png'),
@@ -108,7 +108,7 @@ type FileItemCardProps = {
   sxProps?: SxProps;
 };
 
-const FileItemCard = ({
+export const FileItemCard = ({
   children,
   tooltipMsg,
   handleClick,
@@ -148,5 +148,3 @@ FileItemCard.IconBox = IconBox;
 FileItemCard.ContentBox = ContentBox;
 FileItemCard.TitleBox = TitleBox;
 FileItemCard.AdditionalInfo = AdditionalInfo;
-
-export default FileItemCard;

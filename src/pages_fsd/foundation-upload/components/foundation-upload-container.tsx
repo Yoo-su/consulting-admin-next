@@ -24,17 +24,19 @@ import Image from 'next/image';
 import { ChangeEvent, DragEvent, useRef, useState } from 'react';
 import PulseLoader from 'react-spinners/PulseLoader';
 
-import excelIcon from '@/shared/assets/images/xls_64.png';
+import excelIcon from '@/shared/assets/svgs/excel.svg';
 import starIcon from '@/shared/assets/svgs/star.svg';
-import ContentWrapper from '@/shared/components/ui/content-wrapper';
-import ColorlibStepIcon from '@/shared/components/ui/stepper/color-lib-step-icon';
-import { ColorlibConnector } from '@/shared/components/ui/stepper/styled';
-import { useUnivService } from '@/shared/hooks/context';
+import {
+  ColorlibConnector,
+  ColorlibStepIcon,
+  ContentWrapper,
+} from '@/shared/components';
+import { useUnivService } from '@/shared/hooks';
 
 import { EXCEL_UPLOAD_STEPS } from '../constants';
-import { useHandleFoundation } from '../hooks/use-handle-foundation';
+import { useHandleFoundation } from '../hooks';
 
-const FoundationUploadContainer = () => {
+export const FoundationUploadContainer = () => {
   const { currentUniv, currentService } = useUnivService();
   const title = `${currentUniv?.univName}(${currentService?.serviceID}) 기초데이터 업로드`;
   const {
@@ -253,8 +255,8 @@ const FoundationUploadContainer = () => {
                 {uploading
                   ? '엑셀 업로드중..'
                   : success
-                    ? '업로드 완료'
-                    : '엑셀 업로드'}
+                  ? '업로드 완료'
+                  : '엑셀 업로드'}
               </Typography>
             </Button>
           )}
@@ -271,5 +273,3 @@ const FoundationUploadContainer = () => {
     </ContentWrapper>
   );
 };
-
-export default FoundationUploadContainer;

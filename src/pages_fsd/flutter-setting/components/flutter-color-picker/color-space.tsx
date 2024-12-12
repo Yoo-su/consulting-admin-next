@@ -17,7 +17,7 @@ type ColorSpaceProps = {
   onChange: (args: { s: number; v: number }) => void;
 };
 
-const ColorSpace = (props: ColorSpaceProps) => {
+export const ColorSpace = (props: ColorSpaceProps) => {
   const { hsv, onChange, currentHue } = props;
   const isPointerDown = useRef<boolean>(false);
   const spaceRef = useRef<HTMLDivElement>(null);
@@ -105,7 +105,11 @@ const ColorSpace = (props: ColorSpaceProps) => {
         touchAction: 'none',
       }}
       role="slider"
-      aria-valuetext={`Saturation ${round(saturationInPercent, 0, 0)}%, Brightness ${round(valueInPercent, 0, 0)}%`}
+      aria-valuetext={`Saturation ${round(
+        saturationInPercent,
+        0,
+        0
+      )}%, Brightness ${round(valueInPercent, 0, 0)}%`}
       onKeyDown={handleKeyDown}
       tabIndex={0}
     >
@@ -120,8 +124,6 @@ const ColorSpace = (props: ColorSpaceProps) => {
     </SpaceBox>
   );
 };
-
-export default ColorSpace;
 
 const BG_IMAGE_SPACE =
   'linear-gradient(to top, #000000, transparent), linear-gradient(to right, #ffffff, transparent) /*! @noflip */';

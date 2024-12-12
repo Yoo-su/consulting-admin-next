@@ -12,18 +12,18 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { QUERY_KEYS } from '@/shared/constants';
-import { useUnivService } from '@/shared/hooks/context';
+import { useUnivService } from '@/shared/hooks';
 
 import { ServiceOption } from '../../constants';
-import { useSetDuplicateSettingMutation } from '../../hooks/use-set-duplicate-setting';
-import SelectService from './select-service';
+import { useSetDuplicateSettingMutation } from '../../hooks';
+import { SelectService } from './select-service';
 
 type DupDialogProps = {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const DupDialog = ({ open, setOpen }: DupDialogProps) => {
+export const DupDialog = ({ open, setOpen }: DupDialogProps) => {
   const { mutateAsync } = useSetDuplicateSettingMutation();
   const { currentService } = useUnivService();
   const queryClient = useQueryClient();
@@ -133,5 +133,3 @@ const DupDialog = ({ open, setOpen }: DupDialogProps) => {
     </Dialog>
   );
 };
-
-export default DupDialog;

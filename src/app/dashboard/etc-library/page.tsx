@@ -1,8 +1,7 @@
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 
-import EtcLibraryContainer from '@/pages_fsd/etc-library/components/etc-library-container';
-import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
+import { EtcLibraryContainer } from '@/pages_fsd/etc-library/components';
+import { UnivServiceCheckGuard } from '@/shared/components';
 
 export const metadata = {
   title: '상담앱 관리자 | 기타 자료실',

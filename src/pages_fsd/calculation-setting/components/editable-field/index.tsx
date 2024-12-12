@@ -1,5 +1,3 @@
-const EditableField = () => {
+export const EditableField = () => {
   return <></>;
 };
-
-export default EditableField;

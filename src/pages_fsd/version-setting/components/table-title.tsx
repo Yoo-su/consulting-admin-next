@@ -1,3 +1,5 @@
+'use client';
+
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
@@ -14,7 +16,7 @@ type TableTitleProps = {
   setServerType: React.Dispatch<React.SetStateAction<VersionServer>>;
 };
 
-const TableTitle = ({
+export const TableTitle = ({
   univName,
   serviceID,
   setServerType,
@@ -58,8 +60,6 @@ const TableTitle = ({
     </Stack>
   );
 };
-
-export default TableTitle;
 
 const SelectClass = {
   '& .MuiSelect-select': {

@@ -1,6 +1,6 @@
 import { Skeleton, Stack } from '@mui/material';
 
-const ConsultingAppStateBoardSkeleton = () => {
+export const ConsultingAppStateBoardSkeleton = () => {
   return (
     <Stack direction={'column'}>
       <Skeleton
@@ -17,5 +17,3 @@ const ConsultingAppStateBoardSkeleton = () => {
     </Stack>
   );
 };
-
-export default ConsultingAppStateBoardSkeleton;

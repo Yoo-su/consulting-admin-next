@@ -11,7 +11,7 @@ type DropZoneContainerProps = {
   onDragLeave?: (event: DragEvent<HTMLDivElement>) => void;
   onDrop?: (event: DragEvent<HTMLDivElement>) => void;
 };
-const DropZoneContainer = ({
+export const DropZoneContainer = ({
   children,
   sx,
   onDragEnter,
@@ -39,5 +39,3 @@ const DropZoneContainer = ({
     </Box>
   );
 };
-
-export default DropZoneContainer;

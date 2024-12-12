@@ -4,8 +4,8 @@ import { createContext, ReactNode, useEffect } from 'react';
 
 import { usePersistedState } from '@/shared/hooks';
 
-import AppBackdrop from '../components/ui/loadings/app-backdrop';
-import { useGetServiceListQuery, useGetUnivListQuery } from '../hooks/tanstack';
+import { AppBackdrop } from '../components';
+import { useGetServiceListQuery, useGetUnivListQuery } from '../hooks';
 import { Service, Univ } from '../models';
 
 export type UnivServiceContextValue = {

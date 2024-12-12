@@ -13,7 +13,7 @@ import { getConvertedValue } from '@/shared/services';
 import { useFlutterSetting } from '../../hooks';
 import { FormItemProps } from '../../models';
 
-const ListOrderForm = ({
+export const ListOrderForm = ({
   item,
   path,
   handleEdit,
@@ -105,5 +105,3 @@ const ListOrderForm = ({
     </Stack>
   );
 };
-
-export default ListOrderForm;

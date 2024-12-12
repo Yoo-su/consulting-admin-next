@@ -1,3 +1,5 @@
+'use client';
+
 import {
   DraggableProvidedDraggableProps,
   DraggableProvidedDragHandleProps,
@@ -97,10 +99,10 @@ export const CustomWidthBoxCell = ({
     size === 'xs'
       ? '14px'
       : size === 's'
-        ? '5%'
-        : size === 'm'
-          ? '50%'
-          : '100%';
+      ? '5%'
+      : size === 'm'
+      ? '50%'
+      : '100%';
   return (
     <Box sx={{ ...customWidthBoxCellStyle, width, justifyContent }} {...rest}>
       {typo ? <Typography>{children}</Typography> : <>{children}</>}

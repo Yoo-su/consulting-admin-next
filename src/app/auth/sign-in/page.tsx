@@ -1,4 +1,4 @@
-import SignInForm from '@/pages_fsd/auth/components/sign-in-form';
+import { SignInForm } from '@/pages_fsd/auth/components';
 
 export const metadata = {
   title: '상담앱 관리자 | 로그인',

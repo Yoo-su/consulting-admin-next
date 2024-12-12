@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { useMuiAlert } from '@/shared/hooks/ui/use-mui-alert';
-import { useStepper } from '@/shared/hooks/ui/use-stepper';
+import { useMuiAlert, useStepper } from '@/shared/hooks';
 
 import { useDeployAppMutation } from './use-deploy-app-mutation';
 

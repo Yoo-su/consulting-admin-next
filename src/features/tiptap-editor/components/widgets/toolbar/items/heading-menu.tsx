@@ -40,7 +40,7 @@ type Props = {
   anchorEl: null | HTMLElement;
   onClose: () => void;
 };
-const HeadingMenu = ({ editor, anchorEl, onClose }: Props) => {
+export const HeadingMenu = ({ editor, anchorEl, onClose }: Props) => {
   const handleSelectHeading = (heading: Level) => {
     editor.chain().focus().toggleHeading({ level: heading }).run();
     onClose();
@@ -68,5 +68,3 @@ const HeadingMenu = ({ editor, anchorEl, onClose }: Props) => {
     </Menu>
   );
 };
-
-export default HeadingMenu;

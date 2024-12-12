@@ -5,10 +5,10 @@ import Container from '@mui/material/Container';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import { Fragment, PropsWithChildren } from 'react';
 
-import AppHeader from './app-header';
-import AppSidebar from './app-sidebar';
+import { AppHeader } from './app-header';
+import { AppSidebar } from './app-sidebar';
 
-const DashboardLayout = ({ children }: PropsWithChildren) => {
+export const DashboardLayout = ({ children }: PropsWithChildren) => {
   return (
     <Fragment>
       <GlobalStyles
@@ -52,5 +52,3 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
     </Fragment>
   );
 };
-
-export default DashboardLayout;

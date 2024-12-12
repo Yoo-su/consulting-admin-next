@@ -1,3 +1,5 @@
+'use client';
+
 import Add from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DoneIcon from '@mui/icons-material/Done';
@@ -31,7 +33,7 @@ type RowType = {
   value: string;
 };
 
-const MapForm = ({
+export const MapForm = ({
   item: originalItem,
   path,
   handleEdit: onEdit,
@@ -262,8 +264,6 @@ const MapForm = ({
     </>
   );
 };
-
-export default MapForm;
 
 type InputCellsProps = {
   index: string;

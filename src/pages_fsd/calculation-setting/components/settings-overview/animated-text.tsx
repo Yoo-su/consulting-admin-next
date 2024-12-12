@@ -1,3 +1,5 @@
+'use client';
+
 import { animated, useSpring } from '@react-spring/web';
 
 type AnimatedTextProps = {
@@ -5,7 +7,7 @@ type AnimatedTextProps = {
   delay?: number;
 };
 
-const AnimatedText = ({ children, delay = 8 }: AnimatedTextProps) => {
+export const AnimatedText = ({ children, delay = 8 }: AnimatedTextProps) => {
   return (
     <>
       {children.split('').map((char, index) => {
@@ -25,5 +27,3 @@ const AnimatedText = ({ children, delay = 8 }: AnimatedTextProps) => {
     </>
   );
 };
-
-export default AnimatedText;

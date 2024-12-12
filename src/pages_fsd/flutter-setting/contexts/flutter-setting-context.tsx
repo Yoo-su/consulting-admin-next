@@ -12,7 +12,7 @@ import {
 import toast from 'react-hot-toast';
 
 import { QUERY_KEYS } from '@/shared/constants';
-import { useUnivService } from '@/shared/hooks/context';
+import { useUnivService } from '@/shared/hooks';
 
 import { SetFlutterCustomConfigParams } from '../apis';
 import { useSetFlutterSettingMutation } from '../hooks';
@@ -40,7 +40,7 @@ export const FlutterSettingContext = createContext<
   FlutterSettingContextValue | undefined
 >(undefined);
 
-const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
+export const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   const { currentService } = useUnivService();
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [flutterSettingList, setFlutterSettingList] = useState<
@@ -138,5 +138,3 @@ const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
     </FlutterSettingContext.Provider>
   );
 };
-
-export default FlutterSettingProvider;

@@ -5,7 +5,9 @@ import { CalcMethod } from '../../models';
 type CalcMethodAccordionProps = {
   calcMethod: CalcMethod;
 };
-const CalcMethodAccordion = ({ calcMethod }: CalcMethodAccordionProps) => {
+export const CalcMethodAccordion = ({
+  calcMethod,
+}: CalcMethodAccordionProps) => {
   return (
     <Accordion>
       <AccordionSummary>
@@ -16,5 +18,3 @@ const CalcMethodAccordion = ({ calcMethod }: CalcMethodAccordionProps) => {
     </Accordion>
   );
 };
-
-export default CalcMethodAccordion;

@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Accordion,
   AccordionDetails,
@@ -7,12 +9,14 @@ import {
 } from '@mui/material';
 
 import { CalcConfig, useCalculationSettingStore } from '../../models';
-import EditableField from '../editable-field';
+import { EditableField } from '../editable-field';
 
 type CalcConfigAccordionProps = {
   calcConfig: CalcConfig;
 };
-const CalcConfigAccordion = ({ calcConfig }: CalcConfigAccordionProps) => {
+export const CalcConfigAccordion = ({
+  calcConfig,
+}: CalcConfigAccordionProps) => {
   const { dialogType } = useCalculationSettingStore();
   return (
     <Accordion>
@@ -31,5 +35,3 @@ const CalcConfigAccordion = ({ calcConfig }: CalcConfigAccordionProps) => {
     </Accordion>
   );
 };
-
-export default CalcConfigAccordion;

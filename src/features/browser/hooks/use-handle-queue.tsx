@@ -7,7 +7,7 @@ import { toast } from 'react-hot-toast';
 import { useShallow } from 'zustand/shallow';
 
 import { QUERY_KEYS } from '@/shared/constants';
-import { useUnivService } from '@/shared/hooks/context';
+import { useUnivService } from '@/shared/hooks';
 
 import { useBrowserStore, useQueueStore } from '../models';
 

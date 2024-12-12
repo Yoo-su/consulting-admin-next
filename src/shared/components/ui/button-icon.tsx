@@ -6,7 +6,7 @@ type ButtonIconProps = IconButtonProps &
   ButtonHTMLAttributes<HTMLButtonElement> & {
     Icon: ComponentType<SvgIconProps>;
   };
-const ButtonIcon = forwardRef<HTMLButtonElement, ButtonIconProps>(
+export const ButtonIcon = forwardRef<HTMLButtonElement, ButtonIconProps>(
   ({ Icon, ...props }, ref) => {
     return (
       <IconButton ref={ref} size="small" aria-label="add" {...props}>
@@ -15,6 +15,4 @@ const ButtonIcon = forwardRef<HTMLButtonElement, ButtonIconProps>(
     );
   }
 );
-
 ButtonIcon.displayName = 'ButtonIcon';
-export default memo(ButtonIcon);

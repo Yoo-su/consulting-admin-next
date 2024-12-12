@@ -8,7 +8,7 @@ type Props = {
   editor: Editor;
   downlg: boolean;
 };
-const ColorPicker = ({ editor, downlg }: Props) => {
+export const ColorPicker = ({ editor, downlg }: Props) => {
   const handleInput = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     editor.chain().focus().setColor(event.target.value).run();
   }, []);
@@ -47,5 +47,3 @@ const ColorPicker = ({ editor, downlg }: Props) => {
     </Box>
   );
 };
-
-export default ColorPicker;

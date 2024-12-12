@@ -6,12 +6,12 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { useUnivService } from '@/shared/hooks/context';
+import { useUnivService } from '@/shared/hooks';
 
-import AddServiceForm from './add-service-form';
-import ServiceListTable from './service-table';
+import { AddServiceForm } from './add-service-form';
+import { ServiceListTable } from './service-table';
 
-const ServiceSettingBox = () => {
+export const ServiceSettingContainer = () => {
   const { serviceList, currentUniv } = useUnivService();
 
   return (
@@ -51,4 +51,3 @@ const ServiceSettingBox = () => {
     </>
   );
 };
-export default ServiceSettingBox;

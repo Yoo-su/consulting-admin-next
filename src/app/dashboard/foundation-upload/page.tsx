@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 
-import FoundationUploadContainer from '@/pages_fsd/foundation-upload/components/foundation-upload-container';
-import UnivServiceCheckGuard from '@/shared/components/guards/univ-service-check-guard';
+import { FoundationUploadContainer } from '@/pages_fsd/foundation-upload/components';
+import { UnivServiceCheckGuard } from '@/shared/components';
 
 export const metadata = {
   title: '상담앱 관리자 | 기초데이터 업로드',

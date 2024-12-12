@@ -27,16 +27,13 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { Editor } from '@tiptap/react';
 import { MouseEvent, useCallback, useState } from 'react';
 
-import ColorPicker from './items/color-picker';
-import HeadingMenu from './items/heading-menu';
-import HtmlEditDialog from './items/html-edit-dialog';
-import TableMenu from './items/table-menu';
+import { ColorPicker, HeadingMenu, HtmlEditDialog, TableMenu } from './items';
 
 type ToolbarProps = {
   editor: Editor;
 };
 
-const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
+export const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
   const theme = useTheme();
   const downlg = useMediaQuery(theme.breakpoints.down('lg'));
   const [headingAnchorEl, setHeadingAnchorEl] = useState<null | HTMLElement>(
@@ -266,5 +263,3 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
     </Box>
   );
 };
-
-export default Toolbar;

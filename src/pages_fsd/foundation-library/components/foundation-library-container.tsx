@@ -3,12 +3,12 @@
 import { Stack, Typography } from '@mui/material';
 import { useMemo } from 'react';
 
-import Browser from '@/features/browser/components/browser';
+import { Browser } from '@/features/browser/components';
 import { BROWSER_PATH } from '@/features/browser/constants';
-import ContentWrapper from '@/shared/components/ui/content-wrapper';
-import { useUnivService } from '@/shared/hooks/context';
+import { ContentWrapper } from '@/shared/components';
+import { useUnivService } from '@/shared/hooks';
 
-const FoundationLibraryContainer = () => {
+export const FoundationLibraryContainer = () => {
   const { currentUniv, currentService } = useUnivService();
   const initialPath = useMemo(
     () => `${BROWSER_PATH.foundationLibrary}/${currentService?.serviceID}`,
@@ -33,5 +33,3 @@ const FoundationLibraryContainer = () => {
     </ContentWrapper>
   );
 };
-
-export default FoundationLibraryContainer;

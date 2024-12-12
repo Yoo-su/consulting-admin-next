@@ -7,12 +7,12 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { MouseEvent } from 'react';
 import toast from 'react-hot-toast';
 
-import { useUnivService } from '@/shared/hooks/context/use-univ-service';
+import { useUnivService } from '@/shared/hooks';
 import { isCurrentServiceYear } from '@/shared/services';
 
 import { SerialNoTextField, URlAddressTextField } from './copy-only-textfield';
 
-const AppPWAContainer = () => {
+export const AppPWAContainer = () => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
   const { currentUniv, currentService } = useUnivService();
@@ -29,15 +29,14 @@ const AppPWAContainer = () => {
 
   const handleClickCopy = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    console.log('inside handleClickCopy');
 
     const id = event.currentTarget.id;
     const copiedText =
       id === 'serialnumber'
-        ? (serialNo ?? '시리얼번호가 존재하지 않습니다.')
+        ? serialNo ?? '시리얼번호가 존재하지 않습니다.'
         : id.includes('test')
-          ? testUrl
-          : realUrl;
+        ? testUrl
+        : realUrl;
     try {
       navigator.clipboard.writeText(copiedText);
       toast.success(<Typography variant="body2">복사되었습니다</Typography>);
@@ -91,5 +90,3 @@ const AppPWAContainer = () => {
     </Stack>
   );
 };
-
-export default AppPWAContainer;

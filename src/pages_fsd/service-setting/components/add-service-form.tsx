@@ -16,7 +16,7 @@ const serviceTypeList = [
   { label: '정시', value: '0' },
 ];
 
-const AddServiceForm = ({ univID }: { univID: string }) => {
+export const AddServiceForm = ({ univID }: { univID: string }) => {
   const { addService, isAddServiceLoading } = useServiceListMutation();
   const [serviceType, setServiceType] = useState('1');
   const currentServiceYear = getCurrentServiceYear();
@@ -87,8 +87,6 @@ const AddServiceForm = ({ univID }: { univID: string }) => {
     </Paper>
   );
 };
-
-export default AddServiceForm;
 
 const textFieldStyle = {
   '& .MuiInputBase-root': {

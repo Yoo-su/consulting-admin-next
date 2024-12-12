@@ -19,13 +19,13 @@ import {
   ConsultingAppState,
   useStatusBoardStore,
 } from '@/pages_fsd/overview/models';
-import { useUnivService } from '@/shared/hooks/context';
+import { useUnivService } from '@/shared/hooks';
 
-export type StateCardProps = {
+type StateCardProps = {
   state: ConsultingAppState;
   index: number;
 };
-const StateCard = ({ state, index }: StateCardProps) => {
+export const StateCard = memo(({ state, index }: StateCardProps) => {
   const {
     univList,
     serviceList,
@@ -209,9 +209,8 @@ const StateCard = ({ state, index }: StateCardProps) => {
       )}
     </Draggable>
   );
-};
-
-export default memo(StateCard);
+});
+StateCard.displayName = 'StateCard';
 
 const iconDetailStyle = {
   fontSize: '.5rem',

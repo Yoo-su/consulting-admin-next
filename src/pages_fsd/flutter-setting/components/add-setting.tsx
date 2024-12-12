@@ -34,7 +34,7 @@ type SettingForm = Pick<
   | 'children'
 >;
 
-const AddSetting = ({ category }: { category: string }) => {
+export const AddSetting = ({ category }: { category: string }) => {
   const [isAdd, setIsAdd] = useState(false);
   const [options, setOptions] = useState('');
   const [form, setForm] = useState<SettingForm>({
@@ -224,8 +224,6 @@ const AddSetting = ({ category }: { category: string }) => {
     </Stack>
   );
 };
-
-export default AddSetting;
 
 const TextFieldClass = {
   '& .MuiInputBase-input': {

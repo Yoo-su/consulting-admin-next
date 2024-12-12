@@ -1,3 +1,5 @@
+'use client';
+
 import { Modal, Stack, Typography } from '@mui/material';
 import { QRCodeCanvas } from 'qrcode.react';
 
@@ -8,7 +10,7 @@ type QrModalProps = {
   url: string;
 };
 
-const QrModal = ({ open, handleClose, fileName, url }: QrModalProps) => {
+export const QrModal = ({ open, handleClose, fileName, url }: QrModalProps) => {
   return (
     <Modal open={open} onClose={handleClose}>
       <Stack
@@ -47,14 +49,11 @@ const QrModal = ({ open, handleClose, fileName, url }: QrModalProps) => {
   );
 };
 
-export default QrModal;
-
 type QRCodeBoxProps = {
   url: string;
   fileName: string;
 };
-
-const QRCodeBox = ({ url, fileName }: QRCodeBoxProps) => {
+export const QRCodeBox = ({ url, fileName }: QRCodeBoxProps) => {
   const handleClick = () => {
     const canvas = document.querySelector('canvas');
     const url = canvas

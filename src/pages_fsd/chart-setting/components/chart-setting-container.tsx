@@ -8,17 +8,19 @@ import Typography from '@mui/material/Typography';
 import { Fragment, memo, useCallback, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import ContentWrapper from '@/shared/components/ui/content-wrapper';
-import EmptyBox from '@/shared/components/ui/empty-box';
-import ContentLoadingSkeleton from '@/shared/components/ui/loadings/loading-skeleton';
-import SaveDataButton from '@/shared/components/ui/save-data-button';
-import { useUnivService } from '@/shared/hooks/context/use-univ-service';
+import {
+  ContentLoadingSkeleton,
+  ContentWrapper,
+  EmptyBox,
+  SaveDataButton,
+} from '@/shared/components';
+import { useUnivService } from '@/shared/hooks';
 import { getGroupedData } from '@/shared/services';
 
 import { useChartSetting, useUpdateChartDataMutation } from '../hooks';
-import ModelAccordion from './model-accordion';
+import { ModelAccordion } from './model-accordion';
 
-const ChartSettingContainer = () => {
+export const ChartSettingContainer = memo(() => {
   const { currentUniv, currentService } = useUnivService();
   const {
     isLoading,
@@ -122,6 +124,5 @@ const ChartSettingContainer = () => {
       )}
     </ContentWrapper>
   );
-};
-
-export default memo(ChartSettingContainer);
+});
+ChartSettingContainer.displayName = 'ChartSettingContainer';

@@ -100,13 +100,13 @@ const flutterItems: NavItemType[] = [
   {
     navkey: 'detailpage-setting',
     title: '상세페이지 설정',
-    href: PATHS.dashboard.mojipSetting,
+    href: PATHS.dashboard.detailPageSetting,
     Icon: NoteAltIcon,
   },
   {
     navkey: 'detailpage-data-manage',
     title: '상세페이지 데이터 관리',
-    href: PATHS.dashboard.mojipDataManage,
+    href: PATHS.dashboard.detailPageDataManage,
     Icon: StorageIcon,
   },
   {

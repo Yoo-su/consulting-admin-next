@@ -15,10 +15,10 @@ import { useConfirmToast } from '@/shared/hooks';
 import { useConsultingFileSettings } from '../hooks';
 import { ConsultingFile } from '../models';
 import { getFileNoFromEvent } from '../services';
-import FileDownloader from './file-downloader';
+import { FileDownloader } from './file-downloader';
 import { CustomWidthBoxCell, StyledTextField } from './table-components';
 
-const EditFile = ({ file }: { file: ConsultingFile }) => {
+export const EditFile = ({ file }: { file: ConsultingFile }) => {
   const {
     files,
     setFiles,
@@ -104,7 +104,7 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
 
   const handleDeleteFile = (event: MouseEvent<HTMLElement>) => {
     const fileIndex = getFileNoFromEvent(event.currentTarget.id);
-    console.log('files', files, fileIndex);
+    //console.log('files', files, fileIndex);
     openConfirmToast(
       `"${files[fileIndex - 1].FileName}" 를 삭제하시겠습니까?`,
       () => deleteFile(files, fileIndex)
@@ -172,5 +172,3 @@ const EditFile = ({ file }: { file: ConsultingFile }) => {
     </>
   );
 };
-
-export default EditFile;

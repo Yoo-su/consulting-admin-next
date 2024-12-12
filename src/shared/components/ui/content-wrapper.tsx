@@ -9,7 +9,7 @@ type HeaderProps = {
   bottomDivider?: boolean;
   sxProps?: SxProps;
 };
-const Header = ({ children, bottomDivider, sxProps }: HeaderProps) => {
+export const Header = ({ children, bottomDivider, sxProps }: HeaderProps) => {
   return (
     <>
       <Stack width={'100%'} sx={{ ...sxProps }}>
@@ -34,7 +34,7 @@ type ContentWrapperProps = {
   children: ReactNode;
   sxProps?: SxProps;
 };
-const ContentWrapper = ({ children, sxProps }: ContentWrapperProps) => {
+export const ContentWrapper = ({ children, sxProps }: ContentWrapperProps) => {
   return (
     <Stack
       direction={'column'}
@@ -56,5 +56,3 @@ const ContentWrapper = ({ children, sxProps }: ContentWrapperProps) => {
 
 ContentWrapper.Header = Header;
 ContentWrapper.MainContent = MainContent;
-
-export default ContentWrapper;

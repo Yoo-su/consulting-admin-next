@@ -32,7 +32,7 @@ const defaultValues = {
   userPassword: '',
 } satisfies Values;
 
-const SignInForm = () => {
+export const SignInForm = () => {
   const { isPending, mutate, isSuccess } = useSigninMutation();
 
   const [showPassword, setShowPassword] = useState<boolean>();
@@ -136,5 +136,3 @@ const SignInForm = () => {
     </Stack>
   );
 };
-
-export default SignInForm;

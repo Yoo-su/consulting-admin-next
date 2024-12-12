@@ -1,3 +1,5 @@
+'use client';
+
 import { DragEvent, useCallback, useState } from 'react';
 
 type UseDragAndDropProps = {

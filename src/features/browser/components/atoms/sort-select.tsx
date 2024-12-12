@@ -1,3 +1,5 @@
+'use client';
+
 import { MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
 import { useShallow } from 'zustand/shallow';
 
@@ -5,7 +7,7 @@ import { BROWSER_SORT_OPTIONS } from '@/features/browser/constants/browser-sort-
 
 import { useBrowserStore } from '../../models';
 
-const SortSelect = () => {
+export const SortSelect = () => {
   const { sortOption, setSortOption } = useBrowserStore(
     useShallow((state) => ({
       sortOption: state.sortOption,
@@ -39,5 +41,3 @@ const SortSelect = () => {
     </Select>
   );
 };
-
-export default SortSelect;

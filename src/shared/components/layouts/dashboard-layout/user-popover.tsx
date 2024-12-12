@@ -15,7 +15,7 @@ import {
 import RouterLink from 'next/link';
 import CircleLoader from 'react-spinners/CircleLoader';
 
-import { useUser } from '@/shared/hooks/context';
+import { useUser } from '@/shared/hooks';
 
 export type UserPopoverProps = {
   anchorEl: Element | null;
@@ -23,7 +23,7 @@ export type UserPopoverProps = {
   open: boolean;
 };
 
-const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
+export const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
   const { user, setUser } = useUser();
 
   const handleClickSignoutBtn = () => {
@@ -87,5 +87,3 @@ const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
     </Popover>
   );
 };
-
-export default UserPopover;

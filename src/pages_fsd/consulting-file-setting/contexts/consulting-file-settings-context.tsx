@@ -7,12 +7,11 @@ import {
   PropsWithChildren,
   SetStateAction,
   useCallback,
-  useEffect,
   useState,
 } from 'react';
 import toast from 'react-hot-toast';
 
-import { useUnivService } from '@/shared/hooks/context/use-univ-service';
+import { useUnivService } from '@/shared/hooks';
 
 import {
   useDeleteConsultingFileMutation,
@@ -44,7 +43,9 @@ export type ConsultingFileSettingsContextValue = {
 export const ConsultingFileSettingsContext =
   createContext<ConsultingFileSettingsContextValue | null>(null);
 
-const ConsultingFileSettingsProvider = ({ children }: PropsWithChildren) => {
+export const ConsultingFileSettingsProvider = ({
+  children,
+}: PropsWithChildren) => {
   const { mutateAsync: uploadMutation } = useUploadConsultingFileMutation();
   const { mutateAsync: updateRefNoMutation } =
     useUpdateConsultingRefNoMutation();
@@ -233,8 +234,6 @@ const ConsultingFileSettingsProvider = ({ children }: PropsWithChildren) => {
     </ConsultingFileSettingsContext.Provider>
   );
 };
-
-export default ConsultingFileSettingsProvider;
 
 const StyledTextField = ({ title }: { title: string }) => {
   return (

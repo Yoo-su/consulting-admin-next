@@ -9,7 +9,12 @@ import { useEffect, useState } from 'react';
 import { useFlutterSetting } from '../../hooks';
 import { FormItemProps } from '../../models';
 
-const SelectForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) => {
+export const SelectForm = ({
+  item,
+  path,
+  handleEdit,
+  isDisabled,
+}: FormItemProps) => {
   const {
     transferDefaultValue,
     children,
@@ -74,5 +79,3 @@ const SelectForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) => {
     </>
   );
 };
-
-export default SelectForm;

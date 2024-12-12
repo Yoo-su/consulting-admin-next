@@ -12,10 +12,10 @@ import { Fragment, useEffect, useState } from 'react';
 
 import { usePopover } from '@/shared/hooks';
 
-import AppSideDrawer from './app-side-drawer';
-import UserPopover from './user-popover';
+import { AppSideDrawer } from './app-side-drawer';
+import { UserPopover } from './user-popover';
 
-const AppHeader = () => {
+export const AppHeader = () => {
   const [openAppSideDrawer, setOpenAppSideDrawer] = useState<boolean>(false);
   const userPopover = usePopover<HTMLDivElement>();
   const theme = useTheme();
@@ -81,5 +81,3 @@ const AppHeader = () => {
     </Fragment>
   );
 };
-
-export default AppHeader;

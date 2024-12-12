@@ -17,16 +17,15 @@ import * as React from 'react';
 import { NavItemType } from '@/shared/models';
 import { isNavItemActive } from '@/shared/services';
 
-import AppLogo from './app-logo';
-import ServiceAutocomplete from './autocompletes/service';
-import UnivAutocomplete from './autocompletes/univ';
+import { AppLogo } from './app-logo';
+import { ServiceAutocomplete, UnivAutocomplete } from './autocompletes';
 import { sideNavGroup } from './side-nav-items';
 
 export type AppSideDrawerProps = {
   onClose?: () => void;
   open?: boolean;
 };
-const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
+export const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
   const pathname = usePathname();
 
   return (
@@ -212,5 +211,3 @@ const NavItem = ({ title, href, pathname, Icon }: NavItemProps) => {
     </li>
   );
 };
-
-export default AppSideDrawer;

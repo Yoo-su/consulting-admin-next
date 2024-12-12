@@ -1,3 +1,5 @@
+'use client';
+
 import { MutableRefObject, useCallback, useRef, useState } from 'react';
 
 interface PopoverController<T> {

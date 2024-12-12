@@ -13,7 +13,7 @@ import {
   UploadDivWrapper,
 } from './table-components';
 
-const FileUploader = () => {
+export const FileUploader = () => {
   const { addToFiles } = useConsultingFileSettings();
   const [fileEnter, setFileEnter] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -96,5 +96,3 @@ const FileUploader = () => {
     </CustomWidthBoxCell>
   );
 };
-
-export default FileUploader;

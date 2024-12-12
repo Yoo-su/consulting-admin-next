@@ -1,3 +1,5 @@
+'use client';
+
 import { animated, useSpring } from '@react-spring/web';
 import Image from 'next/image';
 import { memo } from 'react';
@@ -14,7 +16,7 @@ type FileIconProps = {
   contentType: string;
 };
 
-const FileIcon = ({ contentType }: FileIconProps) => {
+export const FileIcon = memo(({ contentType }: FileIconProps) => {
   const fadeIn = useSpring({
     from: { opacity: 0 },
     to: { opacity: 1 },
@@ -55,6 +57,5 @@ const FileIcon = ({ contentType }: FileIconProps) => {
       <Image src={icon} alt="file icon" width={48} height={48} />
     </animated.div>
   );
-};
-
-export default memo(FileIcon);
+});
+FileIcon.displayName = 'FileIcon';

@@ -1,7 +1,7 @@
 import { Autocomplete, TextField, Typography } from '@mui/material';
 import { HTMLAttributes, Key, SyntheticEvent, useState } from 'react';
 
-import { useUnivService } from '@/shared/hooks/context';
+import { useUnivService } from '@/shared/hooks';
 
 import { ServiceOption } from '../../constants';
 
@@ -9,7 +9,7 @@ type SelectServiceProps = {
   selectedService: ServiceOption | null;
   setselectedService: (value: ServiceOption | null) => void;
 };
-const SelectService = ({
+export const SelectService = ({
   selectedService,
   setselectedService,
 }: SelectServiceProps) => {
@@ -85,5 +85,3 @@ const SelectService = ({
     />
   );
 };
-
-export default SelectService;

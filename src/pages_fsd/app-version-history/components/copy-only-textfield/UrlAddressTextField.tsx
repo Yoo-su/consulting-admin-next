@@ -1,3 +1,5 @@
+'use client';
+
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { Tooltip } from '@mui/material';
@@ -6,7 +8,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import { MouseEvent, useState } from 'react';
 
-import QrModal from '../qr-modal';
+import { QrModal } from '../qr-modal';
 
 type URlAddressTextFieldProps = {
   url: string;

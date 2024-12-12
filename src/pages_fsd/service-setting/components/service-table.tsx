@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Paper,
   Table,
@@ -12,12 +14,12 @@ import { ChangeEvent, MouseEvent, useState } from 'react';
 
 import { Service } from '@/shared/models';
 
-import ServiceTableData from './service-table-data';
+import { ServiceTableData } from './service-table-data';
 
 type ServiceListTableProps = {
   serviceList: Service[];
 };
-const ServiceListTable = ({ serviceList }: ServiceListTableProps) => {
+export const ServiceListTable = ({ serviceList }: ServiceListTableProps) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -67,5 +69,3 @@ const ServiceListTable = ({ serviceList }: ServiceListTableProps) => {
     </TableContainer>
   );
 };
-
-export default ServiceListTable;
