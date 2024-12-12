@@ -24,7 +24,7 @@ import Image from 'next/image';
 import { ChangeEvent, DragEvent, useRef, useState } from 'react';
 import PulseLoader from 'react-spinners/PulseLoader';
 
-import excelIcon from '@/shared/assets/images/xls_64.png';
+import excelIcon from '@/shared/assets/svgs/excel.svg';
 import starIcon from '@/shared/assets/svgs/star.svg';
 import {
   ColorlibConnector,
