@@ -40,7 +40,7 @@ export const BasicTextForm = ({
     ? OriginalRowValue
     : transferDefaultValue;
 
-  const isColorItem = Title.endsWith('Color');
+  const isColorItem = Title.toLowerCase().includes('color');
 
   const updateEditedValue = () => {
     handleEdit(path, textValue);
