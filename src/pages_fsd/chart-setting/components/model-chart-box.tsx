@@ -24,9 +24,9 @@ export const ModelChartBox = memo(
     function transformDataForChart(chartData: ChartData[]) {
       return chartData.map((data) => {
         return {
-          id: data.label,
+          id: data.label ?? '',
           value: data.percentage,
-          label: data.chartLabel,
+          label: data.chartLabel ?? '',
         };
       });
     }
