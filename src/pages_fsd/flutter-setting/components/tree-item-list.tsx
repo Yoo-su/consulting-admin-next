@@ -1,12 +1,12 @@
 import { Stack, Typography } from '@mui/material';
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
-import { TreeItem2 } from '@mui/x-tree-view/TreeItem2';
-import { SyntheticEvent } from 'react';
+import { TreeItem2, TreeItem2Props } from '@mui/x-tree-view/TreeItem2';
+import { ReactNode, SyntheticEvent } from 'react';
 
 import { EmptyCover } from '@/shared/components';
 
 import { useFlutterSetting } from '../hooks';
-import { FlutterSetting } from '../models';
+import { FlutterRowInfo, FlutterSetting } from '../models';
 import { checkChildEdited } from '../services';
 
 type TreeItemListProps = {
@@ -47,21 +47,13 @@ export const TreeItemList = ({ filteredList }: TreeItemListProps) => {
                     c.Type === 'list-order' ||
                     c.Type === 'select'
                 ).length;
-                console.log('child', child, child.children);
+
                 return (
-                  <TreeItem2
-                    itemId={`${child.Category}/${child.Title}`}
-                    label={
-                      <TreeItemLable
-                        category={child.Title}
-                        description={child.Description}
-                        koreanTitle={child.KoreanTitle}
-                      />
-                    }
+                  <CustomTreeItem
                     key={childIndex}
-                    style={{
-                      backgroundColor: isChildEdited ? '#FAFAFA' : 'inherit',
-                    }}
+                    item={child}
+                    itemId={`${child.Category}/${child.Title}`}
+                    isEdited={isChildEdited}
                   >
                     {child.children &&
                       objectLength > 1 &&
@@ -71,26 +63,16 @@ export const TreeItemList = ({ filteredList }: TreeItemListProps) => {
                           filteredSettingList
                         );
                         return (
-                          <TreeItem2
-                            itemId={`${child.Category}/${child.Title}/${grandChild.Title}`}
-                            label={
-                              <TreeItemLable
-                                category={grandChild.Title}
-                                description={grandChild.Description}
-                                koreanTitle={grandChild.KoreanTitle}
-                                isGrand
-                              />
-                            }
+                          <CustomTreeItem
                             key={grandChildIndex}
-                            style={{
-                              backgroundColor: isGrandChildEdited
-                                ? '#FAFAFA'
-                                : 'inherit',
-                            }}
+                            item={grandChild}
+                            itemId={`${child.Category}/${child.Title}/${grandChild.Title}`}
+                            isEdited={isGrandChildEdited}
+                            isGrand
                           />
                         );
                       })}
-                  </TreeItem2>
+                  </CustomTreeItem>
                 );
               })}
           </TreeItem2>
@@ -136,5 +118,39 @@ const TreeItemLable = ({
         </Typography>
       )}
     </Stack>
+  );
+};
+
+const CustomTreeItem = ({
+  children,
+  item,
+  isGrand,
+  isEdited,
+  ...props
+}: {
+  children?: ReactNode;
+  item: FlutterRowInfo;
+  isGrand?: boolean;
+  isEdited?: boolean;
+} & TreeItem2Props) => {
+  const { style: propStyle, ...other } = props;
+  return (
+    <TreeItem2
+      label={
+        <TreeItemLable
+          category={item.Title}
+          description={item.Description}
+          koreanTitle={item.KoreanTitle}
+          isGrand={isGrand}
+        />
+      }
+      style={{
+        ...propStyle,
+        backgroundColor: isEdited ? '#FAFAFA' : 'inherit',
+      }}
+      {...other}
+    >
+      {children}
+    </TreeItem2>
   );
 };

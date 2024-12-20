@@ -3,6 +3,7 @@ import { Stack, Typography } from '@mui/material';
 import { useFlutterSetting } from '../hooks';
 import { FlutterRowInfo, FlutterSetting } from '../models';
 import { EditSetting } from './edit-setting';
+import { useMemo } from 'react';
 
 type SettingDetailProps = {
   filteredList: FlutterSetting[];
@@ -24,11 +25,15 @@ export const SettingDetail = ({
     ? getCategoryInfo(filteredList.children, subSubCategory)
     : { filteredList: null };
 
-  const settingList = subSubCategory
-    ? grandFilteredList
-    : subCategory
-    ? filteredList
-    : children;
+  const settingList = useMemo(
+    () =>
+      subSubCategory
+        ? grandFilteredList
+        : subCategory
+        ? filteredList
+        : children,
+    [subCategory, subSubCategory]
+  );
 
   const path = subCategory
     ? [index, 'children', settingList?.Index ?? 0]
