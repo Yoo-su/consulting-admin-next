@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { SaveDataButton } from '@/shared/components';
 import { useInterceptAppRouter } from '@/shared/hooks';
-import { useConfirmToast,useUnivService } from '@/shared/hooks';
+import { useConfirmToast, useUnivService } from '@/shared/hooks';
 
 import { useFlutterSetting, useGetFlutterSettingsInfoQuery } from '../hooks';
 import { FlutterSetting as FlutterSettingType } from '../models';
@@ -111,6 +111,7 @@ export const FlutterSettingContainer = () => {
           '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
         borderRadius: '1rem',
         p: 2,
+        maxHeight: '75vh',
       }}
     >
       <Grid container sx={{ minHeight: '500px' }}>

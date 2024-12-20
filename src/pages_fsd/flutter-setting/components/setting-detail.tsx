@@ -13,21 +13,37 @@ export const SettingDetail = ({
   isDisabled,
 }: SettingDetailProps) => {
   const { selectedCategory } = useFlutterSetting();
-  const [category, subCategory] = selectedCategory.split('/');
+  const [category, subCategory, subSubCategory] = selectedCategory.split('/');
 
   const { index, description, children } = getCategoryInfo(
     filteredSettingList,
     category
   );
   const { filteredList } = getCategoryInfo(children, subCategory);
+  const { filteredList: grandFilteredList } = subSubCategory
+    ? getCategoryInfo(filteredList.children, subSubCategory)
+    : { filteredList: null };
 
-  const settingList = subCategory ? filteredList : children;
+  const settingList = subSubCategory
+    ? grandFilteredList
+    : subCategory
+    ? filteredList
+    : children;
+
   const path = subCategory
     ? [index, 'children', settingList?.Index ?? 0]
     : [index];
 
   return (
-    <Stack spacing={2} sx={{ minWidth: '100%', paddingBottom: '1rem' }}>
+    <Stack
+      spacing={2}
+      sx={{
+        minWidth: '100%',
+        height: '73vh',
+        overflowY: 'auto',
+        paddingBottom: '1rem',
+      }}
+    >
       <Stack>
         {filteredSettingList.length > 0 && (
           <Typography variant={'h6'} sx={{ fontWeight: 'bold' }}>
