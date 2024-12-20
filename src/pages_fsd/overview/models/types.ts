@@ -50,3 +50,13 @@ export type StateBoardDomainItem = {
 export type StateBoardDomainItems = {
   [key in CurrentState]: StateBoardDomainItem;
 };
+
+export type TableBoardType = Pick<
+  Required<ConsultingAppState>,
+  | 'univID'
+  | 'serviceID'
+  | 'developerName'
+  | 'managerName'
+  | 'currentState'
+  | 'isNew'
+>;
