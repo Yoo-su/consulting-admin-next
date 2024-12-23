@@ -1,4 +1,4 @@
-import { Stack, Typography } from '@mui/material';
+import { Stack, styled, Typography } from '@mui/material';
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem2, TreeItem2Props } from '@mui/x-tree-view/TreeItem2';
 import { ReactNode, SyntheticEvent } from 'react';
@@ -37,37 +37,35 @@ export const TreeItemList = ({ filteredList }: TreeItemListProps) => {
           >
             {children &&
               children.map((child, childIndex) => {
-                const isChildEdited = checkChildEdited(
-                  child,
-                  filteredSettingList
-                );
                 const objectLength = child.children.filter(
                   (c) =>
                     c.Type === 'object' ||
                     c.Type === 'list-order' ||
                     c.Type === 'select'
                 ).length;
-
+                const newList = filteredSettingList.filter(
+                  (list) => list.Category == child.Category
+                );
                 return (
                   <CustomTreeItem
                     key={childIndex}
                     item={child}
                     itemId={`${child.Category}/${child.Title}`}
-                    isEdited={isChildEdited}
+                    filteredList={newList}
+                    isDeep
                   >
                     {child.children &&
                       objectLength > 1 &&
                       child.children.map((grandChild, grandChildIndex) => {
-                        const isGrandChildEdited = checkChildEdited(
-                          grandChild,
-                          filteredSettingList
+                        const newGrandChildList = newList[0]?.children.filter(
+                          (list) => list.RowIdx == grandChild.ParentIdx
                         );
                         return (
                           <CustomTreeItem
                             key={grandChildIndex}
                             item={grandChild}
                             itemId={`${child.Category}/${child.Title}/${grandChild.Title}`}
-                            isEdited={isGrandChildEdited}
+                            filteredList={newGrandChildList}
                             isGrand
                           />
                         );
@@ -98,14 +96,16 @@ const TreeItemLable = ({
   description,
   koreanTitle,
   isGrand,
+  style,
 }: {
   category: string;
   description: string;
   koreanTitle?: string;
   isGrand?: boolean;
+  style?: React.CSSProperties;
 }) => {
   return (
-    <Stack>
+    <Stack style={{ ...style }}>
       <Typography
         variant={isGrand ? 'body2' : koreanTitle ? 'subtitle2' : 'body1'}
         sx={{ fontWeight: !isGrand && !koreanTitle ? 'bold' : 'normal' }}
@@ -124,18 +124,20 @@ const TreeItemLable = ({
 const CustomTreeItem = ({
   children,
   item,
-  isGrand,
-  isEdited,
+  isGrand = false,
+  isDeep = false,
+  filteredList,
   ...props
 }: {
   children?: ReactNode;
   item: FlutterRowInfo;
   isGrand?: boolean;
-  isEdited?: boolean;
+  isDeep?: boolean;
+  filteredList: (FlutterSetting | FlutterRowInfo)[];
 } & TreeItem2Props) => {
-  const { style: propStyle, ...other } = props;
+  const isEdited = checkChildEdited(item, filteredList, isDeep);
   return (
-    <TreeItem2
+    <StyledTreeItem
       label={
         <TreeItemLable
           category={item.Title}
@@ -144,13 +146,20 @@ const CustomTreeItem = ({
           isGrand={isGrand}
         />
       }
-      style={{
-        ...propStyle,
-        backgroundColor: isEdited ? '#FAFAFA' : 'inherit',
-      }}
-      {...other}
+      className={`custom-tree-item ${isEdited ? 'edited' : ''}`}
+      {...props}
     >
       {children}
-    </TreeItem2>
+    </StyledTreeItem>
   );
 };
+
+const StyledTreeItem = styled(TreeItem2)`
+  &.custom-tree-item > .MuiTreeItem-content {
+    background-color: inherit;
+  }
+
+  &.custom-tree-item.edited > .MuiTreeItem-content {
+    background-color: #fafafa;
+  }
+`;

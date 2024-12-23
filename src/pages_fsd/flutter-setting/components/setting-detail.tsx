@@ -22,7 +22,7 @@ export const SettingDetail = ({
   );
   const { filteredList } = getCategoryInfo(children, subCategory);
   const { filteredList: grandFilteredList } = subSubCategory
-    ? getCategoryInfo(filteredList.children, subSubCategory)
+    ? getCategoryInfo(filteredList?.children, subSubCategory)
     : { filteredList: null };
 
   const settingList = useMemo(
