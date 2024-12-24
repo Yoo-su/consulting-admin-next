@@ -3,12 +3,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { read, utils } from 'xlsx';
 
-import {
-  useMuiAlert,
-  useStepper,
-  useUnivService,
-  useUser,
-} from '@/shared/hooks';
+import { useMuiAlert, useStepper, useUser } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { EXCEL_LAYOUT, SHEET_FLAG } from '../constants';
 import { useUploadFoundationLibraryFileOnlyMutation } from './use-upload-foundation-library-fileonly-mutation';
@@ -20,7 +16,7 @@ type JsonExcel = {
 };
 export const useHandleFoundation = () => {
   const { user } = useUser();
-  const { currentService } = useUnivService();
+  const { currentService } = useSharedStore();
   const [excel, setExcel] = useState<File | null>(null);
   const [fileOnly, setFileOnly] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>(new FormData());

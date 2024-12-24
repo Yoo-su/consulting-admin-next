@@ -11,7 +11,7 @@ import {
 } from 'react';
 import toast from 'react-hot-toast';
 
-import { useUnivService } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import {
   useDeleteConsultingFileMutation,
@@ -53,7 +53,7 @@ export const ConsultingFileSettingsProvider = ({
   const { mutateAsync: updateRefTitleMutation } =
     useUpdateConsultingRefTitleMutation();
 
-  const { currentService } = useUnivService();
+  const { currentService } = useSharedStore();
   const serviceID = currentService?.serviceID || '';
   const { files, setFiles, execute } = useGetConsultingFileList(serviceID);
 

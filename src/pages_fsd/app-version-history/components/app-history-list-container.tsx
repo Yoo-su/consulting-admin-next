@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import { ContentWrapper } from '@/shared/components';
-import { useUnivService } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { useGetAppVersionHistoryQuery } from '../hooks';
 import { ConsultingAppType } from '../models';
@@ -12,7 +12,7 @@ import { AppPWAContainer } from './app-pwa-container';
 import { HeaderSelectRadio } from './header-select-radio';
 
 export const AppHistoryListContainer = () => {
-  const { currentService } = useUnivService();
+  const { currentService } = useSharedStore();
   const isNew = currentService?.isNew ?? false;
 
   const [appType, setAppType] = useState<ConsultingAppType>(isNew ? 'A' : 'O');

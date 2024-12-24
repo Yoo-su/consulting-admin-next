@@ -26,13 +26,13 @@ import {
   ColorlibStepIcon,
   ContentWrapper,
 } from '@/shared/components';
-import { useUnivService } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { APP_DEPLOY_STEPS } from '../constants';
 import { useHandleApp } from '../hooks';
 
 export const AppDeployContainer = () => {
-  const { currentUniv, currentService } = useUnivService();
+  const { currentUniv, currentService } = useSharedStore();
   const {
     appType,
     setAppType,

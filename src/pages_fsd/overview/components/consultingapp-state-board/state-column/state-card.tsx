@@ -19,27 +19,25 @@ import {
   ConsultingAppState,
   useStatusBoardStore,
 } from '@/pages_fsd/overview/models';
-import { useUnivService } from '@/shared/hooks';
+import { useGetServiceListQuery, useGetUnivListQuery } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 type StateCardProps = {
   state: ConsultingAppState;
   index: number;
 };
 export const StateCard = memo(({ state, index }: StateCardProps) => {
-  const {
-    univList,
-    serviceList,
-    setCurrentService,
-    setCurrentUniv,
-    isServiceListLoading,
-  } = useUnivService();
+  const { currentUniv, setCurrentService, setCurrentUniv } = useSharedStore();
+  const { data: univList } = useGetUnivListQuery();
+  const { data: serviceList, isLoading: isServiceListLoading } =
+    useGetServiceListQuery(currentUniv?.univID);
   const { toggleDialog, setDialogContentState } = useStatusBoardStore();
   const [isHover, setIsHover] = useState(false);
   const [isSelectBtnClicked, setIsSelectBtnClicked] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const currentUniv = univList.filter((univ) => univ.univID == state.univID)[0];
-  const univName = currentUniv?.univName || '새대학';
+  const cardUniv = univList.filter((univ) => univ.univID == state.univID)[0];
+  const univName = cardUniv?.univName || '새대학';
   const serviceID = state.serviceID ? state.serviceID : `${state.univID}-미정`;
 
   const handleIconClick = () => {
@@ -48,7 +46,7 @@ export const StateCard = memo(({ state, index }: StateCardProps) => {
   };
 
   const handleCardClick = () => {
-    setCurrentUniv(currentUniv);
+    setCurrentUniv(cardUniv);
     setCurrentService(null);
     setIsSelectBtnClicked(true);
   };
@@ -56,7 +54,7 @@ export const StateCard = memo(({ state, index }: StateCardProps) => {
   useEffect(() => {
     if (isSelectBtnClicked && !isServiceListLoading) {
       const currentService =
-        serviceList.find((service) => service.serviceID == state.serviceID) ??
+        serviceList?.find((service) => service.serviceID == state.serviceID) ??
         null;
       if (currentService) {
         setCurrentService(currentService);

@@ -2,14 +2,15 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { useMuiAlert,useUnivService, useUser } from '@/shared/hooks';
+import { useMuiAlert, useUser } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { useUploadEtcLibraryMutation } from './use-upload-etc-library-mutation';
 
 export const useHandleEtcLibrary = () => {
   const [file, setFile] = useState<File | null>(null);
   const { user } = useUser();
-  const { currentService } = useUnivService();
+  const { currentService } = useSharedStore();
   const { alertData, setAlertData } = useMuiAlert();
 
   const formData = useMemo(() => {

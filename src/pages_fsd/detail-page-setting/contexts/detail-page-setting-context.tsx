@@ -11,7 +11,7 @@ import {
 } from 'react';
 
 import { QUERY_KEYS } from '@/shared/constants';
-import { useUnivService } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { useGetDetailPageDataQuery } from '../hooks';
 import { DetailPageData } from '../models';
@@ -39,7 +39,7 @@ export const DetailPageSettingProvider = ({
   children,
 }: DetailPageSettingProviderProps) => {
   const queryClient = useQueryClient();
-  const { currentService } = useUnivService();
+  const { currentService } = useSharedStore();
   const { data, isPending, isSuccess } = useGetDetailPageDataQuery(
     currentService?.serviceID
   );

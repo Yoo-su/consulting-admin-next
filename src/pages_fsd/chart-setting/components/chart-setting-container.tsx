@@ -14,14 +14,14 @@ import {
   EmptyBox,
   SaveDataButton,
 } from '@/shared/components';
-import { useUnivService } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 import { getGroupedData } from '@/shared/services';
 
 import { useChartSetting, useUpdateChartDataMutation } from '../hooks';
 import { ModelAccordion } from './model-accordion';
 
 export const ChartSettingContainer = memo(() => {
-  const { currentUniv, currentService } = useUnivService();
+  const { currentUniv, currentService } = useSharedStore();
   const {
     isLoading,
     chartData,

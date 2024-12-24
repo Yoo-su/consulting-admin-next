@@ -5,7 +5,7 @@ import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import { ReactNode, useMemo } from 'react';
 
-import { useUnivService } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 type ServiceCheckGuardProps = {
   children: ReactNode;
@@ -15,7 +15,7 @@ export const UnivServiceCheckGuard = ({
   children,
   checkService = true,
 }: ServiceCheckGuardProps) => {
-  const { currentUniv, currentService } = useUnivService();
+  const { currentUniv, currentService } = useSharedStore();
 
   const checkFlag = useMemo(() => {
     return checkService ? currentUniv && currentService : currentUniv;

@@ -13,7 +13,7 @@ import {
   EmptyBox,
   SaveDataButton,
 } from '@/shared/components';
-import { useUnivService } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import {
   useDetailPageSetting,
@@ -23,7 +23,7 @@ import { DetailPageDataAccordion } from './detail-page-data-accordion';
 
 export const DetailPageSettingContainer = () => {
   const [selected, setSelected] = useState<number | null>(null);
-  const { currentService, currentUniv } = useUnivService();
+  const { currentService, currentUniv } = useSharedStore();
   const {
     detailpageData,
     isPending,

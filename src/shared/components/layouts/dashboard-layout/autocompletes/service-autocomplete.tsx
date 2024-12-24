@@ -8,17 +8,13 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import { useCallback } from 'react';
 
-import { useUnivService } from '@/shared/hooks';
-import { Service } from '@/shared/models';
+import { useGetServiceListQuery } from '@/shared/hooks';
+import { Service, useSharedStore } from '@/shared/models';
 
 export const ServiceAutocomplete = () => {
-  const {
-    setCurrentService,
-    serviceList,
-    currentService,
-    currentUniv,
-    isServiceListLoading,
-  } = useUnivService();
+  const { currentUniv, currentService, setCurrentService } = useSharedStore();
+  const { data: serviceList, isLoading: isServiceListLoading } =
+    useGetServiceListQuery(currentUniv?.univID);
 
   const getServiceMenuTitle = useCallback((service: Service) => {
     return (
@@ -46,7 +42,7 @@ export const ServiceAutocomplete = () => {
         return option.serviceID === value.serviceID;
       }}
       id="service-select"
-      options={serviceList}
+      options={serviceList ?? []}
       getOptionLabel={(option) => option.serviceID.toString()}
       renderOption={(props, option) => (
         <Box component="li" {...props} key={option.serviceID}>

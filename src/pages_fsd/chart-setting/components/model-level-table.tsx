@@ -20,29 +20,19 @@ import {
 import { ChangeEvent, memo, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { useConfirmToast, useUnivService } from '@/shared/hooks';
+import { useConfirmToast } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
-import { useChartSetting } from '../hooks';
-import { ChartData } from '../models';
+import { ChartData, useChartSettingStore } from '../models';
 
 type ModelLevelTableProps = {
-  chartData: ChartData[];
   modelNum: number;
-  level: number;
-  isEditing: boolean;
-  setIsEditingTrue: () => void;
-  setIsEditingFalse: () => void;
+  levelNum: number;
 };
 export const ModelLevelTable = memo(
-  ({
-    chartData,
-    modelNum,
-    level,
-    isEditing,
-    setIsEditingTrue,
-    setIsEditingFalse,
-  }: ModelLevelTableProps) => {
-    const { currentService } = useUnivService();
+  ({ modelNum, levelNum }: ModelLevelTableProps) => {
+    const { currentService } = useSharedStore();
+    const { isEditing, setIsEditing } = useChartSettingStore();
     const { shiftModelRows, deleteModelLevel } = useChartSetting();
     const [tmpChartData, setTmpChartData] = useState<ChartData[]>(chartData);
     const { openConfirmToast } = useConfirmToast();
@@ -51,7 +41,7 @@ export const ModelLevelTable = memo(
     // 편집 모드에 진입합니다
     const enterEditMode = () => {
       if (!isEditing) {
-        setIsEditingTrue();
+        setIsEditing(true);
         setEditMode(true);
       }
     };

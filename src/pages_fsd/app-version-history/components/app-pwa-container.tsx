@@ -7,7 +7,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { MouseEvent } from 'react';
 import toast from 'react-hot-toast';
 
-import { useUnivService } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 import { isCurrentServiceYear } from '@/shared/services';
 
 import { SerialNoTextField, URlAddressTextField } from './copy-only-textfield';
@@ -15,7 +15,7 @@ import { SerialNoTextField, URlAddressTextField } from './copy-only-textfield';
 export const AppPWAContainer = () => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
-  const { currentUniv, currentService } = useUnivService();
+  const { currentUniv, currentService } = useSharedStore();
   const { univEngName, univName } = currentUniv || {};
   const { schoolYear, isSusi, serviceID, serialNo } = currentService || {};
 

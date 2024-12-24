@@ -7,7 +7,7 @@ import { toast } from 'react-hot-toast';
 import { useShallow } from 'zustand/shallow';
 
 import { QUERY_KEYS } from '@/shared/constants';
-import { useUnivService } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { useBrowserStore, useQueueStore } from '../models';
 
@@ -29,7 +29,7 @@ export const useHandleQueue = ({
   uploadMutation,
 }: UseHandleQueueProps) => {
   const queryClient = useQueryClient();
-  const { currentService } = useUnivService();
+  const { currentService } = useSharedStore();
   const { basePath, currentPath } = useBrowserStore(
     useShallow((state) => ({
       basePath: state.basePath,

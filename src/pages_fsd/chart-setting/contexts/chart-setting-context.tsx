@@ -8,7 +8,7 @@ import {
   useMemo,
 } from 'react';
 
-import { useUnivService } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { useGetChartData } from '../hooks';
 import { ChartData } from '../models';
@@ -43,7 +43,7 @@ export type ChartSettingProviderProps = {
 export const ChartSettingProvider = ({
   children,
 }: ChartSettingProviderProps) => {
-  const { currentService } = useUnivService();
+  const { currentService } = useSharedStore();
   const {
     chartData,
     originalData,

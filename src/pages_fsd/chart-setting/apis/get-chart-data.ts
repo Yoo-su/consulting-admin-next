@@ -13,7 +13,7 @@ type GetChartDataResponse = {
 };
 
 export const getChartData = async (serviceID: string) => {
-  return await apiInstance.get<ChartData[]>(
+  const { data } = await apiInstance.get<ChartData[]>(
     `${API_URLS.dashboard.chartData}/${serviceID}`,
     {
       transformResponse: (data) => {
@@ -29,4 +29,5 @@ export const getChartData = async (serviceID: string) => {
       },
     }
   );
+  return data;
 };

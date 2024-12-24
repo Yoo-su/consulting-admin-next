@@ -15,10 +15,11 @@ export const updateChartData = async (
     Level: item.level,
     ChartLabel: item.chartLabel,
   }));
-  return await apiInstance.post<ChartData[]>(
+  const { data } = await apiInstance.post<ChartData[]>(
     `${API_URLS.dashboard.chartData}/${serviceID}`,
     {
       chartData: transformedChartData,
     }
   );
+  return data;
 };

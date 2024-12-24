@@ -15,10 +15,10 @@ import { ChangeEvent, MouseEvent, useState } from 'react';
 
 import { STATE_BOARD_DOMAIN_ITEMS } from '@/pages_fsd/overview/constants';
 import { useHandleStatusBoard } from '@/pages_fsd/overview/hooks';
-import { useUnivService } from '@/shared/hooks';
+import { useGetUnivListQuery } from '@/shared/hooks';
 
 export const TableBoard = () => {
-  const { univList } = useUnivService();
+  const { data: univList } = useGetUnivListQuery();
   const { filteredConsultingAppStatesAll } = useHandleStatusBoard();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);

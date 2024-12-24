@@ -6,14 +6,15 @@ import { useEffect, useMemo, useState } from 'react';
 import { Browser } from '@/features/browser/components';
 import { BROWSER_PATH } from '@/features/browser/constants';
 import { ContentWrapper } from '@/shared/components';
-import { useUnivService, useUser } from '@/shared/hooks';
+import { useUser } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { useUploadEtcLibraryMutation } from '../hooks';
 
 export const EtcLibraryContainer = () => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
-  const { currentUniv, currentService } = useUnivService();
+  const { currentUniv, currentService } = useSharedStore();
   const { user } = useUser();
   const mutation = useUploadEtcLibraryMutation();
 
