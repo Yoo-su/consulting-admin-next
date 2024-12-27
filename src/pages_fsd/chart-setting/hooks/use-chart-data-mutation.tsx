@@ -1,3 +1,5 @@
+'use client';
+
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useRef } from 'react';
 
@@ -14,7 +16,10 @@ type PostChartDataParams = {
 
 type UseChartDataMutationReturn = {
   isPostChartDataLoading: boolean;
-  postChartData: ({ serviceID, chartData }: PostChartDataParams) => void;
+  postChartData: ({
+    serviceID,
+    chartData,
+  }: PostChartDataParams) => Promise<unknown>;
   setChartData: (newData: ChartData[]) => void;
 };
 
@@ -39,13 +44,15 @@ export const useChartDataMutation: UseChartDataMutation = () => {
       },
     });
 
-  const setChartData = useCallback((newData: ChartData[]) => {
+  const setChartData = (newData: ChartData[]) => {
     queryClient.setQueryData(
       QUERY_KEYS['chart-setting']['chart-data'](currentService?.serviceID ?? '')
         .queryKey,
-      newData
+      () => {
+        return newData;
+      }
     );
-  }, []);
+  };
 
   _return.current.isPostChartDataLoading = isPostChartDataLoading;
   _return.current.postChartData = postChartData;

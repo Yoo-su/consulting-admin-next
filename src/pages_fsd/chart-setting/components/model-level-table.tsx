@@ -17,158 +17,48 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { ChangeEvent, memo, useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import { styled } from '@mui/material/styles';
+import { memo } from 'react';
 
-import { useConfirmToast } from '@/shared/hooks';
-import { useSharedStore } from '@/shared/models';
-
-import { ChartData, useChartSettingStore } from '../models';
+import { useModelLevelTable } from '../hooks';
+import { useChartSettingStore } from '../models';
 
 type ModelLevelTableProps = {
   modelNum: number;
   levelNum: number;
 };
+
 export const ModelLevelTable = memo(
   ({ modelNum, levelNum }: ModelLevelTableProps) => {
-    const { currentService } = useSharedStore();
-    const { isEditing, setIsEditing } = useChartSettingStore();
-    const { shiftModelRows, deleteModelLevel } = useChartSetting();
-    const [tmpChartData, setTmpChartData] = useState<ChartData[]>(chartData);
-    const { openConfirmToast } = useConfirmToast();
-    const [editMode, setEditMode] = useState<boolean>(false);
+    const { isEditing } = useChartSettingStore();
+    const {
+      editMode,
+      tempChartData,
+      levelChartData,
+      addNewModelLevel,
+      enterEditMode,
+      deleteModelLevel,
+      handleClickDeleteLevelRowBtn,
+      handleFieldChange,
+      cancelEdit,
+      saveEdited,
+    } = useModelLevelTable({
+      modelNum,
+      levelNum,
+    });
 
-    // 편집 모드에 진입합니다
-    const enterEditMode = () => {
-      if (!isEditing) {
-        setIsEditing(true);
-        setEditMode(true);
-      }
-    };
-    // 편집 내용을 저장하고 편집모드를 종료합니다
-    const saveEditContent = () => {
-      if (
-        JSON.stringify([...chartData]) === JSON.stringify([...tmpChartData])
-      ) {
-        setIsEditingFalse();
-        setEditMode(false);
-        return;
-      }
-      const labelsSet = new Set();
-
-      for (const item of tmpChartData) {
-        if (labelsSet.has(item.label)) {
-          toast.error(
-            <Typography variant="body2">
-              [{item.label}] label이 중복되었습니다
-            </Typography>
-          );
-          return;
-        }
-        labelsSet.add(item.label);
-      }
-      shiftModelRows(tmpChartData, modelNum, level);
-      setIsEditingFalse();
-      setEditMode(false);
-    };
-    // 편집 내용을 취소하고 편집모드를 종료합니다
-    const cancleEdit = () => {
-      setTmpChartData(chartData);
-      setIsEditingFalse();
-      setEditMode(false);
-    };
-
-    /**
-     * 특정 모델의 특정 단계에 새로운 행을 추가합니다
-     * @param modelNum
-     * @param level
-     */
-    const handleClickAddLevelRowBtn = (modelNum: number, level: number) => {
-      if ([...tmpChartData].length >= 5) {
-        toast.error(
-          <Typography variant="body2">
-            최대 다섯개까지 추가 가능합니다
-          </Typography>
-        );
-        return;
-      }
-      const newItem: ChartData = {
-        serviceID: currentService?.serviceID ?? '',
-        modelNum: modelNum,
-        label: `새 레이블${[...tmpChartData].length + 1}`,
-        percentage: 100,
-        level: level,
-        chartLabel: '새 차트 레이블',
-      };
-      const newChartData = [...tmpChartData, newItem];
-      setTmpChartData(newChartData);
-    };
-
-    /**
-     * 단계 테이블의 특정 행을 삭제합니다
-     * @param deleteRowLabel 삭제할 행 label
-     */
-    const handleClickDeleteLevelRowBtn = (deleteRowLabel: string) => {
-      const newItems = tmpChartData.filter(
-        (item, idx) => item.label !== deleteRowLabel
-      );
-      shiftModelRows(newItems, modelNum, level);
-    };
-
-    /**
-     * 입력 필드 값 변경 처리
-     * @param event
-     * @param index
-     */
-    const handleFieldChange = (
-      event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-      index: number
-    ) => {
-      const { name, value } = event.target;
-      let parsed: string | number = value;
-      if (name === 'percentage') parsed = parseInt(value);
-      setTmpChartData((prevData) =>
-        prevData.map((item, i) =>
-          i === index ? { ...item, [name]: parsed } : item
-        )
-      );
-    };
-
-    useEffect(() => {
-      setTmpChartData(chartData);
-    }, [chartData]);
-
-    useEffect(() => {
-      return () => {
-        setIsEditingFalse();
-      };
-    }, []);
-
-    useEffect(() => {
-      setEditMode(false);
-    }, [currentService]);
     return (
-      <Stack
-        sx={{
-          my: 2,
-          ...(editMode && {
-            filter: 'drop-shadow(0 25px 25px rgb(0 0 0 / 0.15))',
-            p: 1,
-          }),
-          transition: 'all 0.1s ease',
-        }}
-      >
-        <Stack
+      <StyledStack className={editMode ? 'editMode' : ''}>
+        <HeaderStack
           direction={'row'}
           alignItems={'center'}
           justifyContent={'space-between'}
-          sx={{ mb: 1 }}
         >
           <Stack direction={'row'} spacing={1} alignItems="center">
             <Typography
               variant="body2"
               fontSize={16}
-            >{`단계 ${chartData[0].level}`}</Typography>
+            >{`단계 ${levelChartData[0].level}`}</Typography>
           </Stack>
           {editMode ? (
             <Stack direction={'row'} spacing={0.5}>
@@ -176,7 +66,7 @@ export const ModelLevelTable = memo(
                 size="small"
                 color="success"
                 variant="contained"
-                onClick={saveEditContent}
+                onClick={saveEdited}
                 sx={{ color: 'white' }}
               >
                 <Typography variant="body1" fontSize={12}>
@@ -187,7 +77,7 @@ export const ModelLevelTable = memo(
                 size="small"
                 color="inherit"
                 variant="outlined"
-                onClick={cancleEdit}
+                onClick={cancelEdit}
               >
                 <Typography variant="body1" fontSize={12}>
                   취소
@@ -212,14 +102,7 @@ export const ModelLevelTable = memo(
                   <Typography
                     variant="body1"
                     fontSize={12}
-                    onClick={() => {
-                      openConfirmToast(
-                        `모델${
-                          modelNum + 1
-                        }의 ${level}단계를 삭제하시겠습니까?`,
-                        () => deleteModelLevel(modelNum, level)
-                      );
-                    }}
+                    onClick={() => deleteModelLevel(modelNum, levelNum)}
                   >
                     단계삭제
                   </Typography>
@@ -227,7 +110,7 @@ export const ModelLevelTable = memo(
               </Stack>
             )
           )}
-        </Stack>
+        </HeaderStack>
         <TableContainer component={Paper} sx={{ mt: 0.1 }}>
           <Table size="small" aria-label="model-level-table">
             <TableHead>
@@ -239,7 +122,7 @@ export const ModelLevelTable = memo(
               </TableRow>
             </TableHead>
             <TableBody>
-              {tmpChartData.map((data, idx) => (
+              {tempChartData.map((data, idx) => (
                 <TableRow
                   key={`model-${data.modelNum}-level-${data.level}-row-${idx}`}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -286,23 +169,9 @@ export const ModelLevelTable = memo(
                   </TableCell>
                   <TableCell align="right">
                     {!editMode ? (
-                      <DeleteIcon
+                      <DeleteIconStyled
                         fontSize="small"
-                        sx={{
-                          cursor: 'pointer',
-                          color: 'rgba(0,0,0,0.6)',
-                          ':hover': { color: '#BC544B' },
-                        }}
-                        onClick={() => {
-                          openConfirmToast(
-                            `모델${modelNum + 1} 단계${data.level}의 [${
-                              data.label
-                            }]행을 삭제하시겠습니까?`,
-                            () => {
-                              handleClickDeleteLevelRowBtn(data.label);
-                            }
-                          );
-                        }}
+                        onClick={() => handleClickDeleteLevelRowBtn(data.label)}
                       />
                     ) : (
                       '-'
@@ -315,39 +184,58 @@ export const ModelLevelTable = memo(
               <TableFooter>
                 <TableRow>
                   <TableCell align="center" colSpan={4}>
-                    <Box
-                      sx={{
-                        cursor: 'pointer',
-                        ':hover': {
-                          bgcolor: '#E3F2FD',
-                        },
-                        transition: 'background-color 0.1s ease',
-                        borderRadius: '0.5rem',
-                      }}
-                      onClick={() => {
-                        handleClickAddLevelRowBtn(modelNum, level);
-                      }}
-                    >
-                      <Stack
-                        direction={'row'}
-                        alignItems={'center'}
-                        justifyContent={'center'}
-                        sx={{ py: 1 }}
-                      >
-                        <AddCircleIcon sx={{ color: '#0069A0', mr: 1 }} />
+                    <AddRowBox onClick={() => addNewModelLevel(modelNum)}>
+                      <AddRowStack direction={'row'}>
+                        <AddCircleIcon
+                          sx={{ color: '#0069A0', marginRight: 1 }}
+                        />
                         <Typography variant="body2" sx={{ color: '#0069A0' }}>
                           행추가
                         </Typography>
-                      </Stack>
-                    </Box>
+                      </AddRowStack>
+                    </AddRowBox>
                   </TableCell>
                 </TableRow>
               </TableFooter>
             )}
           </Table>
         </TableContainer>
-      </Stack>
+      </StyledStack>
     );
   }
 );
 ModelLevelTable.displayName = 'ModelLevelTable';
+
+const StyledStack = styled(Stack)(({ theme }) => ({
+  marginY: theme.spacing(2),
+  transition: 'all 0.1s ease',
+  '&.editMode': {
+    filter: 'drop-shadow(0 25px 25px rgba(0, 0, 0, 0.15))',
+    padding: theme.spacing(1),
+  },
+}));
+
+const HeaderStack = styled(Stack)(({ theme }) => ({
+  marginBottom: theme.spacing(1),
+}));
+
+const AddRowBox = styled(Box)(({ theme }) => ({
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  transition: 'background-color 0.1s ease',
+  borderRadius: theme.shape.borderRadius,
+}));
+
+const AddRowStack = styled(Stack)(({ theme }) => ({
+  paddingY: theme.spacing(1),
+  justifyContent: 'center',
+  alignItems: 'center',
+}));
+
+const DeleteIconStyled = styled(DeleteIcon)(({ theme }) => ({
+  cursor: 'pointer',
+  color: 'rgba(0,0,0,0.6)',
+  ':hover': { color: theme.palette.error.main },
+}));

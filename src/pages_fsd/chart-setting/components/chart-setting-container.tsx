@@ -5,8 +5,7 @@ import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { Fragment, memo, useCallback, useMemo, useState } from 'react';
-import toast from 'react-hot-toast';
+import { Fragment, memo, useCallback, useState } from 'react';
 
 import {
   ContentLoadingSkeleton,
@@ -15,64 +14,24 @@ import {
   SaveDataButton,
 } from '@/shared/components';
 import { useSharedStore } from '@/shared/models';
-import { getGroupedData } from '@/shared/services';
 
-import { useChartSetting, useUpdateChartDataMutation } from '../hooks';
+import { useChartSettingContainer, useUpdateChartDataMutation } from '../hooks';
 import { ModelAccordion } from './model-accordion';
 
 export const ChartSettingContainer = memo(() => {
   const { currentUniv, currentService } = useSharedStore();
   const {
-    isLoading,
-    chartData,
+    hasChanges,
+    isChartDataLoading,
+    isChartDataExist,
     modelNumbers,
     addNewModel,
-    hasChanges,
-    syncChartData,
-  } = useChartSetting();
-  const [selectedModel, setSelectedModel] = useState<number | null>(null);
-  const { mutateAsync } = useUpdateChartDataMutation();
-
-  const handleSelectModel = useCallback((modelNum: number | null) => {
-    setSelectedModel(modelNum);
-  }, []);
-
-  /**
-   *  모델 번호로 그룹핑된 데이터
-   */
-  const groupedByModelNum = useMemo(() => {
-    return getGroupedData(chartData, 'modelNum', modelNumbers);
-  }, [chartData]);
-
-  const handleSaveBtnClick = useCallback(() => {
-    toast.promise(
-      mutateAsync({
-        serviceID: currentService?.serviceID ?? '',
-        chartData: chartData,
-      }).then(() => {
-        syncChartData();
-      }),
-      {
-        loading: (
-          <Typography variant="body2">
-            차트 정보를 업데이트하는 중입니다...
-          </Typography>
-        ),
-        success: (
-          <Typography variant="body2">차트정보 업데이트 완료!</Typography>
-        ),
-        error: (
-          <Typography variant="body2">
-            차트정보 업데이트 중 문제가 발생했습니다
-          </Typography>
-        ),
-      }
-    );
-  }, [chartData]);
+    handleSaveBtnClick,
+  } = useChartSettingContainer();
 
   return (
     <ContentWrapper>
-      {isLoading ? (
+      {isChartDataLoading ? (
         <ContentLoadingSkeleton />
       ) : (
         <Fragment>
@@ -96,17 +55,14 @@ export const ChartSettingContainer = memo(() => {
           </ContentWrapper.Header>
           <ContentWrapper.MainContent>
             <Fragment>
-              {chartData.length ? (
+              {isChartDataExist ? (
                 <Fragment>
                   <Box sx={{ mt: 4, width: '100%' }}>
                     {modelNumbers.map((mn) => {
                       return (
                         <ModelAccordion
                           key={`model-${mn}-accordion`}
-                          isSelected={selectedModel === mn}
-                          setSelectedModel={handleSelectModel}
                           modelNum={mn}
-                          modelChartData={groupedByModelNum[mn]}
                         />
                       );
                     })}

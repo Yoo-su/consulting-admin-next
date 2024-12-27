@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 
 import { ChartSettingContainer } from '@/pages_fsd/chart-setting/components';
-import { ChartSettingProvider } from '@/pages_fsd/chart-setting/contexts';
 import { UnivServiceCheckGuard } from '@/shared/components';
 
 export const metadata = {
@@ -12,11 +11,9 @@ export const metadata = {
 const Page = () => {
   return (
     <UnivServiceCheckGuard>
-      <ChartSettingProvider>
-        <Box>
-          <ChartSettingContainer />
-        </Box>
-      </ChartSettingProvider>
+      <Box>
+        <ChartSettingContainer />
+      </Box>
     </UnivServiceCheckGuard>
   );
 };

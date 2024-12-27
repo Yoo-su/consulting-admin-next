@@ -19,74 +19,72 @@ import { ModelLevelTable } from './model-level-table';
 
 type ModelAccordionProps = {
   modelNum: number;
-  modelChartData: ChartData[];
 };
-export const ModelAccordion = memo(
-  ({ modelNum, modelChartData }: ModelAccordionProps) => {
-    const isEditing = useChartSettingStore((state) => state.isEditing);
-    const {
-      isExpanded,
-      modelLevels,
-      handleClickTitle,
-      handleClickDelete,
-      addNewModelLevel,
-    } = useModelAccordion({
-      modelNum,
-    });
+export const ModelAccordion = memo(({ modelNum }: ModelAccordionProps) => {
+  const isEditing = useChartSettingStore((state) => state.isEditing);
+  const {
+    isExpanded,
+    modelLevels,
+    modelChartData,
+    handleClickTitle,
+    handleClickDelete,
+    addNewModelLevel,
+  } = useModelAccordion({
+    modelNum,
+  });
 
-    return (
-      <Accordion expanded={isExpanded}>
-        <AccordionSummary aria-controls="chart-model-accordion">
-          <ModelAccordionTitle variant="h6" onClick={handleClickTitle}>{`모델 ${
-            modelNum + 1
-          }`}</ModelAccordionTitle>
+  return (
+    <Accordion expanded={isExpanded}>
+      <AccordionSummary aria-controls="chart-model-accordion">
+        <ModelAccordionTitle variant="h6" onClick={handleClickTitle}>{`모델 ${
+          modelNum + 1
+        }`}</ModelAccordionTitle>
 
-          {isExpanded && (
-            <Stack
-              direction={'row'}
-              sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}
-            >
-              <Chip
-                icon={<DeleteIcon />}
-                label={<Typography variant="body2">모델삭제</Typography>}
-                size="small"
-                clickable
-                onClick={handleClickDelete}
-              />
-            </Stack>
-          )}
-        </AccordionSummary>
-        <AccordionDetails>
-          <ModelChartBox
-            modelNum={modelNum}
-            modelLevels={modelLevels}
-            modelChartData={modelChartData}
-          />
-
-          {modelLevels.map((ml) => (
-            <ModelLevelTable
-              key={`model-${modelNum}-level-${ml}-table`}
-              modelNum={modelNum}
-              levelNum={ml}
+        {isExpanded && (
+          <Stack
+            direction={'row'}
+            sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}
+          >
+            <Chip
+              icon={<DeleteIcon />}
+              label={<Typography variant="body2">모델삭제</Typography>}
+              size="small"
+              clickable
+              onClick={handleClickDelete}
             />
-          ))}
-          {!isEditing && (
-            <AddLevelBox
-              onClick={() => {
-                addNewModelLevel();
-              }}
-            >
-              <AddCircleIcon sx={{ mr: 1, color: '#0069A0' }} />
-              <Typography variant="body2" sx={{ color: '#0069A0' }}>
-                단계 추가
-              </Typography>
-            </AddLevelBox>
-          )}
-        </AccordionDetails>
-      </Accordion>
-    );
-  }
-);
+          </Stack>
+        )}
+      </AccordionSummary>
+      <AccordionDetails>
+        <ModelChartBox
+          modelNum={modelNum}
+          modelLevels={modelLevels}
+          modelChartData={modelChartData}
+        />
+
+        {modelLevels.map((ml) => (
+          <ModelLevelTable
+            key={`model-${modelNum}-level-${ml}-table`}
+            modelNum={modelNum}
+            levelNum={ml}
+          />
+        ))}
+        {!isEditing && (
+          <AddLevelBox
+            onClick={() => {
+              addNewModelLevel();
+            }}
+          >
+            <AddCircleIcon sx={{ mr: 1, color: '#0069A0' }} />
+            <Typography variant="body2" sx={{ color: '#0069A0' }}>
+              단계 추가
+            </Typography>
+          </AddLevelBox>
+        )}
+      </AccordionDetails>
+    </Accordion>
+  );
+});
 ModelAccordion.displayName = 'ModelAccordion';
 
 const ModelAccordionTitle = styled(Typography)({

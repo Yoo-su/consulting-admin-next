@@ -1,22 +1,23 @@
+'use client';
+
 import { Typography } from '@mui/material';
-import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 import { toast } from 'react-hot-toast';
 
-import { QUERY_KEYS } from '@/shared/constants';
 import { useSharedStore } from '@/shared/models';
 
 import { ChartData, useChartSettingStore } from '../models';
-import { useUpdateChartDataMutation } from '.';
+import { useChartDataMutation } from './use-chart-data-mutation';
 import { useGetChartDataQuery } from './use-get-chart-data-query';
 
-export const useChartSettingState = () => {
-  const queryClient = useQueryClient();
+export const useChartSettingContainer = () => {
   const { currentService } = useSharedStore();
   const { data: chartData, isLoading: isChartDataLoading } =
     useGetChartDataQuery(currentService?.serviceID ?? '');
-  const { mutateAsync: updateChartData } = useUpdateChartDataMutation();
+  const { setChartData, postChartData } = useChartDataMutation();
   const { copiedChartData } = useChartSettingStore();
+
+  const isChartDataExist = useMemo(() => chartData?.length > 0, [chartData]);
 
   // 변경사항 유무
   const hasChanges = useMemo(() => {
@@ -36,7 +37,7 @@ export const useChartSettingState = () => {
     );
   }, [chartData]);
 
-  const addNewModel = useCallback(() => {
+  const addNewModel = () => {
     const newModelNum = chartData.length ? Math.max(...modelNumbers) + 1 : 0;
     const newChartData: ChartData[] = [
       ...chartData,
@@ -49,18 +50,12 @@ export const useChartSettingState = () => {
         chartLabel: '새 차트 레이블',
       },
     ];
-    queryClient.setQueryData(
-      QUERY_KEYS['chart-setting']['chart-data'](currentService?.serviceID ?? '')
-        .queryKey,
-      () => {
-        return newChartData;
-      }
-    );
-  }, [chartData]);
+    setChartData(newChartData);
+  };
 
   const handleSaveBtnClick = useCallback(() => {
     toast.promise(
-      updateChartData({
+      postChartData({
         serviceID: currentService?.serviceID ?? '',
         chartData: chartData,
       }),
@@ -84,6 +79,7 @@ export const useChartSettingState = () => {
 
   return {
     chartData,
+    isChartDataExist,
     isChartDataLoading,
     modelNumbers,
     hasChanges,

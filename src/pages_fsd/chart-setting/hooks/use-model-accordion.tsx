@@ -1,3 +1,5 @@
+'use client';
+
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 
@@ -73,7 +75,7 @@ export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
         return newChartData;
       }
     );
-  }, []);
+  }, [chartData]);
   // #endregion
 
   return {
