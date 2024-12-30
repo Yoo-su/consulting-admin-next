@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import { memo } from 'react';
 
 import { useModelAccordion } from '../hooks';
-import { ChartData, useChartSettingStore } from '../models';
+import { useChartSettingStore } from '../models';
 import { ModelChartBox } from './model-chart-box';
 import { ModelLevelTable } from './model-level-table';
 

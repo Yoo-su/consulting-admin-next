@@ -10,7 +10,6 @@ export const useGetChartDataQuery = (serviceID: string) => {
   return useQuery({
     queryKey: QUERY_KEYS['chart-setting']['chart-data'](serviceID).queryKey,
     queryFn: () => getChartData(serviceID),
-    initialData: [],
     enabled: !!serviceID,
   });
 };

@@ -1,7 +1,7 @@
 'use client';
 
 import { Typography } from '@mui/material';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { toast } from 'react-hot-toast';
 
 import { useSharedStore } from '@/shared/models';
@@ -12,19 +12,27 @@ import { useGetChartDataQuery } from './use-get-chart-data-query';
 
 export const useChartSettingContainer = () => {
   const { currentService } = useSharedStore();
-  const { data: chartData, isLoading: isChartDataLoading } =
-    useGetChartDataQuery(currentService?.serviceID ?? '');
+  const {
+    data: chartData,
+    isLoading: isChartDataLoading,
+    isSuccess,
+  } = useGetChartDataQuery(currentService?.serviceID ?? '');
   const { setChartData, postChartData } = useChartDataMutation();
-  const { copiedChartData } = useChartSettingStore();
+  const { copiedChartData, setCopiedChartData } = useChartSettingStore();
 
-  const isChartDataExist = useMemo(() => chartData?.length > 0, [chartData]);
+  const isChartDataExist = useMemo(
+    () => (chartData?.length ?? 0) > 0,
+    [chartData]
+  );
 
   // 변경사항 유무
   const hasChanges = useMemo(() => {
     const sortedOriginalData = [...copiedChartData].sort(
         (a, b) => a.modelNum - b.modelNum
       ),
-      sortedChartData = [...chartData].sort((a, b) => a.modelNum - b.modelNum);
+      sortedChartData = [...(chartData ?? [])].sort(
+        (a, b) => a.modelNum - b.modelNum
+      );
     return (
       JSON.stringify(sortedOriginalData) !== JSON.stringify(sortedChartData)
     );
@@ -32,15 +40,15 @@ export const useChartSettingContainer = () => {
 
   // 모델 번호 목록
   const modelNumbers = useMemo(() => {
-    return Array.from(new Set(chartData.map((item) => item.modelNum))).sort(
-      (a, b) => a - b
-    );
+    return Array.from(
+      new Set((chartData ?? []).map((item) => item.modelNum))
+    ).sort((a, b) => a - b);
   }, [chartData]);
 
   const addNewModel = () => {
-    const newModelNum = chartData.length ? Math.max(...modelNumbers) + 1 : 0;
+    const newModelNum = chartData?.length ? Math.max(...modelNumbers) + 1 : 0;
     const newChartData: ChartData[] = [
-      ...chartData,
+      ...(chartData ?? []),
       {
         serviceID: currentService?.serviceID ?? '',
         modelNum: newModelNum,
@@ -57,7 +65,7 @@ export const useChartSettingContainer = () => {
     toast.promise(
       postChartData({
         serviceID: currentService?.serviceID ?? '',
-        chartData: chartData,
+        chartData: chartData ?? [],
       }),
       {
         loading: (
@@ -76,6 +84,10 @@ export const useChartSettingContainer = () => {
       }
     );
   }, [chartData]);
+
+  useEffect(() => {
+    if (chartData) setCopiedChartData([...chartData]);
+  }, [isSuccess]);
 
   return {
     chartData,

@@ -1,7 +1,6 @@
 'use client';
 
 import { Typography } from '@mui/material';
-import { useQueryClient } from '@tanstack/react-query';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
@@ -19,7 +18,6 @@ export const useModelLevelTable = ({
   modelNum,
   levelNum,
 }: UseModelLevelTableProps) => {
-  const queryClient = useQueryClient();
   const { currentService } = useSharedStore();
   const setIsEditing = useChartSettingStore((state) => state.setIsEditing);
   const { setChartData } = useChartDataMutation();
@@ -31,8 +29,10 @@ export const useModelLevelTable = ({
   const [tempChartData, setTempChartData] = useState<ChartData[]>([]);
 
   const levelChartData = useMemo(() => {
-    return chartData.filter(
-      (item) => item.modelNum === modelNum && item.level === levelNum
+    return (
+      chartData?.filter(
+        (item) => item.modelNum === modelNum && item.level === levelNum
+      ) ?? []
     );
   }, [chartData, modelNum, levelNum]);
 
@@ -70,9 +70,10 @@ export const useModelLevelTable = ({
   // 특정 모델에 포함된 특정 단계의 행들을 새로운 행들로 치환합니다
   const shiftModelRows = useCallback(
     (newItems: ChartData[], modelNum: number, level: number) => {
-      const filtered = chartData.filter(
-        (item) => !(item.modelNum === modelNum && item.level === level)
-      );
+      const filtered =
+        chartData?.filter(
+          (item) => !(item.modelNum === modelNum && item.level === level)
+        ) ?? [];
       setTempChartData(
         [...filtered, ...newItems].sort((a, b) => a.level - b.level)
       );
@@ -86,9 +87,10 @@ export const useModelLevelTable = ({
       openConfirmToast(
         `모델${modelNum + 1}의 ${level}단계를 삭제하시겠습니까?`,
         () => {
-          const filtered = chartData.filter(
-            (item) => !(item.modelNum === modelNum && item.level === level)
-          );
+          const filtered =
+            chartData?.filter(
+              (item) => !(item.modelNum === modelNum && item.level === level)
+            ) ?? [];
           setChartData([...filtered]);
         }
       );
@@ -111,7 +113,7 @@ export const useModelLevelTable = ({
         level: newLevel,
         chartLabel: '새 차트 레이블',
       };
-      setChartData([...chartData, newLevelItem]);
+      setChartData([...(chartData ?? []), newLevelItem]);
     },
     [chartData]
   );

@@ -16,24 +16,24 @@ type UseModelAccordionProps = {
 export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
   const queryClient = useQueryClient();
   const { currentService } = useSharedStore();
-  const { selectedModel, setSelectedModel } = useChartSettingStore((state) => ({
-    selectedModel: state.selectedModel,
-    setSelectedModel: state.setSelectedModel,
-  }));
+  const { selectedModel, setSelectedModel } = useChartSettingStore();
   const { data: chartData } = useGetChartDataQuery(
     currentService?.serviceID ?? ''
   );
   const { openConfirmToast } = useConfirmToast();
 
   // #region memoized values
-  const isExpanded = useMemo(() => selectedModel === modelNum, [selectedModel]);
+  const isExpanded = useMemo(
+    () => selectedModel === modelNum,
+    [selectedModel, modelNum]
+  );
   const modelChartData = useMemo(() => {
-    return chartData.filter((item) => item.modelNum === modelNum);
-  }, [chartData]);
+    return chartData?.filter((item) => item.modelNum === modelNum) ?? [];
+  }, [chartData, modelNum]);
 
   const modelLevels = useMemo(() => {
     return Array.from(new Set(modelChartData.map((item) => item.level)));
-  }, [modelChartData]);
+  }, [chartData]);
   // #endregion
 
   // #region methods
@@ -58,7 +58,7 @@ export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
   const addNewModelLevel = useCallback(() => {
     const newLevel = modelLevels.length ? Math.max(...modelLevels) + 1 : 1;
     const newChartData = [
-      ...chartData,
+      ...(chartData ?? []),
       {
         serviceID: currentService?.serviceID ?? '',
         modelNum,
