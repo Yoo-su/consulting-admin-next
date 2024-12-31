@@ -17,14 +17,17 @@ const checkRowEdited = (
   isDeep: boolean
 ): boolean => {
   return rowList.some((item) => {
-    const { RowIdx, RowValue, transferDefaultValue, children } = item;
+    const { RowIdx, RowValue, transferDefaultValue, children, ParentIdx } =
+      item;
     const rowValue = getConvertedRowValue(transferDefaultValue, RowValue);
     const defaultValue = getConvertedRowValue(transferDefaultValue);
-
     if (isDeep && item.children.length > 0 && item.Type !== 'select') {
       return checkRowEdited(row, children, isDeep);
     }
 
-    return RowIdx === row.RowIdx && rowValue !== defaultValue;
+    return (
+      (RowIdx === row.RowIdx || ParentIdx === row.RowIdx) &&
+      rowValue !== defaultValue
+    );
   });
 };

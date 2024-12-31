@@ -16,7 +16,7 @@ import { SettingDetail } from './setting-detail';
 import { SettingList } from './setting-list';
 
 export const FlutterSettingContainer = () => {
-  const { currentService } = useSharedStore();
+  const currentService = useSharedStore((state) => state.currentService);
   const {
     flutterSettingList,
     setFlutterSettingList,
@@ -112,6 +112,7 @@ export const FlutterSettingContainer = () => {
           '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
         borderRadius: '1rem',
         p: 2,
+        maxHeight: '75vh',
       }}
     >
       <Grid container sx={{ minHeight: '500px' }}>
