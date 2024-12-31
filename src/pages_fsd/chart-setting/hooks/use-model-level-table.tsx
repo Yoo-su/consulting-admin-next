@@ -95,23 +95,6 @@ export const useModelLevelTable = ({
     );
   }, [chartData, modelNum, levelNum]);
 
-  // 특정 모델에 새로운 단계를 추가합니다
-  const addNewModelLevel = useCallback(() => {
-    const modelLevels = Array.from(
-      new Set(levelChartData.map((item) => item.level))
-    );
-    const newLevel = Math.max(...modelLevels) + 1;
-    const newLevelItem: ChartData = {
-      serviceID: currentService?.serviceID ?? '',
-      modelNum: modelNum,
-      label: '새 레이블',
-      percentage: 100,
-      level: newLevel,
-      chartLabel: '새 차트 레이블',
-    };
-    setChartData([...(chartData ?? []), newLevelItem]);
-  }, [chartData]);
-
   /**
    * 특정 모델의 특정 단계에 새로운 행을 추가합니다
    * @param modelNum
@@ -187,7 +170,6 @@ export const useModelLevelTable = ({
     enterEditMode,
     saveEdited,
     cancelEdit,
-    addNewModelLevel,
     handleFieldChange,
     handleClickDeleteLevelRowBtn,
     handleClickAddLevelRowBtn,

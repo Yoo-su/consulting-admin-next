@@ -35,7 +35,6 @@ export const ModelLevelTable = memo(
       editMode,
       tempChartData,
       levelChartData,
-      addNewModelLevel,
       enterEditMode,
       deleteModelLevel,
       handleClickAddLevelRowBtn,
