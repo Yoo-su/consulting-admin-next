@@ -57,9 +57,10 @@ export const TreeItemList = ({ filteredList }: TreeItemListProps) => {
                     {child.children &&
                       objectLength > 1 &&
                       child.children.map((grandChild, grandChildIndex) => {
-                        const newGrandChildList = newList[0]?.children.filter(
-                          (list) => list.RowIdx == grandChild.ParentIdx
-                        );
+                        const newGrandChildList =
+                          newList[0]?.children.filter(
+                            (list) => list.RowIdx == grandChild.ParentIdx
+                          ) ?? [];
                         return (
                           <CustomTreeItem
                             key={grandChildIndex}
