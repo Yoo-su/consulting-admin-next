@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { Fragment, memo, useCallback, useState } from 'react';
+import { Fragment, memo } from 'react';
 
 import {
   ContentLoadingSkeleton,
@@ -15,7 +15,7 @@ import {
 } from '@/shared/components';
 import { useSharedStore } from '@/shared/models';
 
-import { useChartSettingContainer, useUpdateChartDataMutation } from '../hooks';
+import { useChartSettingContainer } from '../hooks';
 import { ModelAccordion } from './model-accordion';
 
 export const ChartSettingContainer = memo(() => {
