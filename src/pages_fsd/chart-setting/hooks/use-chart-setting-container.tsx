@@ -93,7 +93,7 @@ export const useChartSettingContainer = () => {
 
   useEffect(() => {
     if (chartData) setCopiedChartData([...chartData]);
-  }, [isSuccess]);
+  }, [isSuccess, currentService]);
 
   return {
     chartData,

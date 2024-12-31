@@ -6,6 +6,7 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Fragment, memo } from 'react';
+import { useShallow } from 'zustand/shallow';
 
 import {
   ContentLoadingSkeleton,
@@ -19,7 +20,12 @@ import { useChartSettingContainer } from '../hooks';
 import { ModelAccordion } from './model-accordion';
 
 export const ChartSettingContainer = memo(() => {
-  const { currentUniv, currentService } = useSharedStore();
+  const { currentUniv, currentService } = useSharedStore(
+    useShallow((state) => ({
+      currentUniv: state.currentUniv,
+      currentService: state.currentService,
+    }))
+  );
   const {
     hasChanges,
     isChartDataLoading,
