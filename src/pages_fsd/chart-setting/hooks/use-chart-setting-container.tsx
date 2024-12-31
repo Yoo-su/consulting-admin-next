@@ -3,6 +3,7 @@
 import { Typography } from '@mui/material';
 import { useCallback, useEffect, useMemo } from 'react';
 import { toast } from 'react-hot-toast';
+import { useShallow } from 'zustand/shallow';
 
 import { useSharedStore } from '@/shared/models';
 
@@ -11,14 +12,19 @@ import { useChartDataMutation } from './use-chart-data-mutation';
 import { useGetChartDataQuery } from './use-get-chart-data-query';
 
 export const useChartSettingContainer = () => {
-  const { currentService } = useSharedStore();
+  const currentService = useSharedStore((state) => state.currentService);
   const {
     data: chartData,
     isLoading: isChartDataLoading,
     isSuccess,
   } = useGetChartDataQuery(currentService?.serviceID ?? '');
   const { setChartData, postChartData } = useChartDataMutation();
-  const { copiedChartData, setCopiedChartData } = useChartSettingStore();
+  const { copiedChartData, setCopiedChartData } = useChartSettingStore(
+    useShallow((state) => ({
+      copiedChartData: state.copiedChartData,
+      setCopiedChartData: state.setCopiedChartData,
+    }))
+  );
 
   const isChartDataExist = useMemo(
     () => (chartData?.length ?? 0) > 0,
@@ -27,10 +33,10 @@ export const useChartSettingContainer = () => {
 
   // 변경사항 유무
   const hasChanges = useMemo(() => {
-    const sortedOriginalData = [...copiedChartData].sort(
+    const sortedOriginalData = [...copiedChartData].toSorted(
         (a, b) => a.modelNum - b.modelNum
       ),
-      sortedChartData = [...(chartData ?? [])].sort(
+      sortedChartData = [...(chartData ?? [])].toSorted(
         (a, b) => a.modelNum - b.modelNum
       );
     return (

@@ -1,7 +1,7 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useCallback, useRef } from 'react';
+import { useRef } from 'react';
 
 import { QUERY_KEYS } from '@/shared/constants';
 import { useSharedStore } from '@/shared/models';
@@ -36,8 +36,8 @@ export const useChartDataMutation: UseChartDataMutation = () => {
     useMutation({
       mutationFn: ({ serviceID, chartData }: PostChartDataParams) =>
         updateChartData(serviceID, chartData),
-      onSuccess: (data) => {
-        setCopiedChartData(data);
+      onSuccess: (data, variables) => {
+        setCopiedChartData(variables.chartData);
       },
       onError: (err) => {
         console.error(err);

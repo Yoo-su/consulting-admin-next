@@ -1,25 +1,30 @@
 'use client';
 
-import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
+import { useShallow } from 'zustand/shallow';
 
-import { QUERY_KEYS } from '@/shared/constants';
 import { useConfirmToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
 import { useChartSettingStore } from '../models';
+import { useChartDataMutation } from './use-chart-data-mutation';
 import { useGetChartDataQuery } from './use-get-chart-data-query';
 
 type UseModelAccordionProps = {
   modelNum: number;
 };
 export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
-  const queryClient = useQueryClient();
-  const { currentService } = useSharedStore();
-  const { selectedModel, setSelectedModel } = useChartSettingStore();
+  const currentService = useSharedStore((state) => state.currentService);
+  const { selectedModel, setSelectedModel } = useChartSettingStore(
+    useShallow((state) => ({
+      selectedModel: state.selectedModel,
+      setSelectedModel: state.setSelectedModel,
+    }))
+  );
   const { data: chartData } = useGetChartDataQuery(
     currentService?.serviceID ?? ''
   );
+  const { setChartData } = useChartDataMutation();
   const { openConfirmToast } = useConfirmToast();
 
   // #region memoized values
@@ -33,7 +38,7 @@ export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
 
   const modelLevels = useMemo(() => {
     return Array.from(new Set(modelChartData.map((item) => item.level)));
-  }, [chartData]);
+  }, [modelChartData]);
   // #endregion
 
   // #region methods
@@ -44,16 +49,12 @@ export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
 
   const handleClickDelete = useCallback(() => {
     openConfirmToast(`${modelNum + 1}번 모델을 삭제하시겠습니까?`, () => {
-      queryClient.setQueryData(
-        QUERY_KEYS['chart-setting']['chart-data'](
-          currentService?.serviceID ?? ''
-        ).queryKey,
-        (oldData: any) => {
-          return oldData.filter((item: any) => item.modelNum !== modelNum);
-        }
+      const newChartData = [...(chartData ?? [])].filter(
+        (item) => item.modelNum !== modelNum
       );
+      setChartData(newChartData);
     });
-  }, [modelNum]);
+  }, [chartData, modelNum]);
 
   const addNewModelLevel = useCallback(() => {
     const newLevel = modelLevels.length ? Math.max(...modelLevels) + 1 : 1;
@@ -68,14 +69,8 @@ export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
         chartLabel: '새 차트 레이블',
       },
     ];
-    queryClient.setQueryData(
-      QUERY_KEYS['chart-setting']['chart-data'](currentService?.serviceID ?? '')
-        .queryKey,
-      () => {
-        return newChartData;
-      }
-    );
-  }, [chartData]);
+    setChartData(newChartData);
+  }, [modelLevels, modelNum]);
   // #endregion
 
   return {

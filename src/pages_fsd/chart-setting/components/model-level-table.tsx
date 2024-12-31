@@ -38,6 +38,7 @@ export const ModelLevelTable = memo(
       addNewModelLevel,
       enterEditMode,
       deleteModelLevel,
+      handleClickAddLevelRowBtn,
       handleClickDeleteLevelRowBtn,
       handleFieldChange,
       cancelEdit,
@@ -102,7 +103,7 @@ export const ModelLevelTable = memo(
                   <Typography
                     variant="body1"
                     fontSize={12}
-                    onClick={() => deleteModelLevel(modelNum, levelNum)}
+                    onClick={deleteModelLevel}
                   >
                     단계삭제
                   </Typography>
@@ -184,7 +185,7 @@ export const ModelLevelTable = memo(
               <TableFooter>
                 <TableRow>
                   <TableCell align="center" colSpan={4}>
-                    <AddRowBox onClick={() => addNewModelLevel(modelNum)}>
+                    <AddRowBox onClick={handleClickAddLevelRowBtn}>
                       <AddRowStack direction={'row'}>
                         <AddCircleIcon
                           sx={{ color: '#0069A0', marginRight: 1 }}
@@ -207,16 +208,16 @@ export const ModelLevelTable = memo(
 ModelLevelTable.displayName = 'ModelLevelTable';
 
 const StyledStack = styled(Stack)(({ theme }) => ({
-  marginY: theme.spacing(2),
+  margin: '1rem 0',
   transition: 'all 0.1s ease',
   '&.editMode': {
     filter: 'drop-shadow(0 25px 25px rgba(0, 0, 0, 0.15))',
-    padding: theme.spacing(1),
+    padding: '0.5rem',
   },
 }));
 
 const HeaderStack = styled(Stack)(({ theme }) => ({
-  marginBottom: theme.spacing(1),
+  marginBottom: '0.5rem',
 }));
 
 const AddRowBox = styled(Box)(({ theme }) => ({
@@ -229,7 +230,7 @@ const AddRowBox = styled(Box)(({ theme }) => ({
 }));
 
 const AddRowStack = styled(Stack)(({ theme }) => ({
-  paddingY: theme.spacing(1),
+  padding: '0.5rem 0',
   justifyContent: 'center',
   alignItems: 'center',
 }));
