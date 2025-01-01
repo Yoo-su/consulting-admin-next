@@ -36,7 +36,7 @@ export const ModelLevelTable = memo(
       tempChartData,
       levelChartData,
       enterEditMode,
-      deleteModelLevel,
+      handleClickDeleteLevelBtn,
       handleClickAddLevelRowBtn,
       handleClickDeleteLevelRowBtn,
       handleFieldChange,
@@ -102,7 +102,7 @@ export const ModelLevelTable = memo(
                   <Typography
                     variant="body1"
                     fontSize={12}
-                    onClick={deleteModelLevel}
+                    onClick={handleClickDeleteLevelBtn}
                   >
                     단계삭제
                   </Typography>

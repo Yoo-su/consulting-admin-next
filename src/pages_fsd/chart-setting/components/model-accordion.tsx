@@ -26,9 +26,9 @@ export const ModelAccordion = memo(({ modelNum }: ModelAccordionProps) => {
     isExpanded,
     modelLevels,
     modelChartData,
-    handleClickTitle,
-    handleClickDelete,
-    addNewModelLevel,
+    handleClickAccordionTitle,
+    handleClickDeleteModelBtn,
+    handleClickAddNewLevelBtn,
   } = useModelAccordion({
     modelNum,
   });
@@ -36,9 +36,10 @@ export const ModelAccordion = memo(({ modelNum }: ModelAccordionProps) => {
   return (
     <Accordion expanded={isExpanded}>
       <AccordionSummary aria-controls="chart-model-accordion">
-        <ModelAccordionTitle variant="h6" onClick={handleClickTitle}>{`모델 ${
-          modelNum + 1
-        }`}</ModelAccordionTitle>
+        <ModelAccordionTitle
+          variant="h6"
+          onClick={handleClickAccordionTitle}
+        >{`모델 ${modelNum + 1}`}</ModelAccordionTitle>
 
         {isExpanded && (
           <Stack
@@ -50,7 +51,7 @@ export const ModelAccordion = memo(({ modelNum }: ModelAccordionProps) => {
               label={<Typography variant="body2">모델삭제</Typography>}
               size="small"
               clickable
-              onClick={handleClickDelete}
+              onClick={handleClickDeleteModelBtn}
             />
           </Stack>
         )}
@@ -70,11 +71,7 @@ export const ModelAccordion = memo(({ modelNum }: ModelAccordionProps) => {
           />
         ))}
         {!isEditing && (
-          <AddLevelBox
-            onClick={() => {
-              addNewModelLevel();
-            }}
-          >
+          <AddLevelBox onClick={handleClickAddNewLevelBtn}>
             <AddCircleIcon sx={{ mr: 1, color: '#0069A0' }} />
             <Typography variant="body2" sx={{ color: '#0069A0' }}>
               단계 추가

@@ -1,7 +1,14 @@
 'use client';
 
 import { Typography } from '@mui/material';
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { toast } from 'react-hot-toast';
 
 import { useConfirmToast } from '@/shared/hooks';
@@ -14,10 +21,27 @@ type UseModelLevelTableProps = {
   modelNum: number;
   levelNum: number;
 };
+type UseModelLevelTableReturn = {
+  editMode: boolean;
+  tempChartData: ChartData[];
+  levelChartData: ChartData[];
+  enterEditMode: () => void;
+  saveEdited: () => void;
+  cancelEdit: () => void;
+  handleFieldChange: (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index: number
+  ) => void;
+  handleClickDeleteLevelRowBtn: (deleteRowLabel: string) => void;
+  handleClickAddLevelRowBtn: () => void;
+  handleClickDeleteLevelBtn: () => void;
+};
+
 export const useModelLevelTable = ({
   modelNum,
   levelNum,
 }: UseModelLevelTableProps) => {
+  const _return = useRef({} as UseModelLevelTableReturn);
   const currentService = useSharedStore((state) => state.currentService);
   const setIsEditing = useChartSettingStore((state) => state.setIsEditing);
   const { setChartData } = useChartDataMutation();
@@ -36,11 +60,13 @@ export const useModelLevelTable = ({
     );
   }, [chartData, modelNum, levelNum]);
 
+  // 편집 모드로 진입합니다
   const enterEditMode = useCallback(() => {
     setIsEditing(true);
     setEditMode(true);
   }, []);
 
+  // 테이블 변경 내용을 적용용하고 편집모드를 종료합니다
   const saveEdited = useCallback(() => {
     const labelsSet = new Set();
 
@@ -67,7 +93,11 @@ export const useModelLevelTable = ({
     setEditMode(false);
   }, [levelChartData]);
 
-  // 특정 모델에 포함된 특정 단계의 행들을 새로운 행들로 치환합니다
+  /**
+   * 변경된 model-level chartData를 적용합니다.
+   * 기존 chartData에서 변경된 model-level chartData만
+   * 교체합니다다
+   */
   const shiftModelRows = useCallback(
     (newItems: ChartData[]) => {
       const filtered =
@@ -81,8 +111,8 @@ export const useModelLevelTable = ({
     [chartData, modelNum, levelNum]
   );
 
-  // 특정 모델의 특정 단계를 제거합니다
-  const deleteModelLevel = useCallback(() => {
+  // 모델의 특정 단계를 제거합니다
+  const handleClickDeleteLevelBtn = useCallback(() => {
     openConfirmToast(
       `모델${modelNum + 1}의 ${levelNum}단계를 삭제하시겠습니까?`,
       () => {
@@ -163,7 +193,7 @@ export const useModelLevelTable = ({
     setTempChartData([...levelChartData]);
   }, [levelChartData]);
 
-  return {
+  _return.current = {
     editMode,
     tempChartData,
     levelChartData,
@@ -173,6 +203,7 @@ export const useModelLevelTable = ({
     handleFieldChange,
     handleClickDeleteLevelRowBtn,
     handleClickAddLevelRowBtn,
-    deleteModelLevel,
+    handleClickDeleteLevelBtn,
   };
+  return _return.current;
 };

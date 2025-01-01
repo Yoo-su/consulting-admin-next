@@ -1,19 +1,28 @@
 'use client';
 
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 import { useConfirmToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
-import { useChartSettingStore } from '../models';
+import { ChartData, useChartSettingStore } from '../models';
 import { useChartDataMutation } from './use-chart-data-mutation';
 import { useGetChartDataQuery } from './use-get-chart-data-query';
 
 type UseModelAccordionProps = {
   modelNum: number;
 };
+type UseModelAccordionReturn = {
+  isExpanded: boolean;
+  modelChartData: ChartData[];
+  modelLevels: number[];
+  handleClickAccordionTitle: () => void;
+  handleClickDeleteModelBtn: () => void;
+  handleClickAddNewLevelBtn: () => void;
+};
 export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
+  const _return = useRef<UseModelAccordionReturn>();
   const currentService = useSharedStore((state) => state.currentService);
   const { selectedModel, setSelectedModel } = useChartSettingStore(
     useShallow((state) => ({
@@ -42,12 +51,12 @@ export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
   // #endregion
 
   // #region methods
-  const handleClickTitle = useCallback(() => {
+  const handleClickAccordionTitle = useCallback(() => {
     if (selectedModel === modelNum) setSelectedModel(null);
     else setSelectedModel(modelNum);
   }, [selectedModel, modelNum]);
 
-  const handleClickDelete = useCallback(() => {
+  const handleClickDeleteModelBtn = useCallback(() => {
     openConfirmToast(`${modelNum + 1}번 모델을 삭제하시겠습니까?`, () => {
       const newChartData = [...(chartData ?? [])].filter(
         (item) => item.modelNum !== modelNum
@@ -56,7 +65,7 @@ export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
     });
   }, [chartData, modelNum]);
 
-  const addNewModelLevel = useCallback(() => {
+  const handleClickAddNewLevelBtn = useCallback(() => {
     const newLevel = modelLevels.length ? Math.max(...modelLevels) + 1 : 1;
     const newChartData = [
       ...(chartData ?? []),
@@ -73,12 +82,13 @@ export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
   }, [modelLevels, modelNum]);
   // #endregion
 
-  return {
+  _return.current = {
     isExpanded,
     modelChartData,
     modelLevels,
-    handleClickTitle,
-    handleClickDelete,
-    addNewModelLevel,
+    handleClickAccordionTitle,
+    handleClickDeleteModelBtn,
+    handleClickAddNewLevelBtn,
   };
+  return _return.current;
 };

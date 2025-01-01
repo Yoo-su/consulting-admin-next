@@ -1,7 +1,7 @@
 'use client';
 
 import { Typography } from '@mui/material';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { toast } from 'react-hot-toast';
 import { useShallow } from 'zustand/shallow';
 
@@ -11,21 +11,35 @@ import { ChartData, useChartSettingStore } from '../models';
 import { useChartDataMutation } from './use-chart-data-mutation';
 import { useGetChartDataQuery } from './use-get-chart-data-query';
 
+type UseChartSettingContainerReturn = {
+  chartData: ChartData[] | undefined;
+  isChartDataExist: boolean;
+  isChartDataLoading: boolean;
+  modelNumbers: number[];
+  hasChanges: boolean;
+  handleSaveBtnClick: () => void;
+  handleClickAddNewModelBtn: () => void;
+};
 export const useChartSettingContainer = () => {
+  const _return = useRef<UseChartSettingContainerReturn>();
   const currentService = useSharedStore((state) => state.currentService);
   const {
     data: chartData,
     isLoading: isChartDataLoading,
     isSuccess,
+    refetch,
   } = useGetChartDataQuery(currentService?.serviceID ?? '');
   const { setChartData, postChartData } = useChartDataMutation();
-  const { copiedChartData, setCopiedChartData } = useChartSettingStore(
-    useShallow((state) => ({
-      copiedChartData: state.copiedChartData,
-      setCopiedChartData: state.setCopiedChartData,
-    }))
-  );
+  const { copiedChartData, setCopiedChartData, setSelectedModel } =
+    useChartSettingStore(
+      useShallow((state) => ({
+        copiedChartData: state.copiedChartData,
+        setCopiedChartData: state.setCopiedChartData,
+        setSelectedModel: state.setSelectedModel,
+      }))
+    );
 
+  // 차트 데이터 존재 여부
   const isChartDataExist = useMemo(
     () => (chartData?.length ?? 0) > 0,
     [chartData]
@@ -42,7 +56,7 @@ export const useChartSettingContainer = () => {
     return (
       JSON.stringify(sortedOriginalData) !== JSON.stringify(sortedChartData)
     );
-  }, [chartData, copiedChartData]);
+  }, [chartData, copiedChartData, currentService]);
 
   // 모델 번호 목록
   const modelNumbers = useMemo(() => {
@@ -51,7 +65,10 @@ export const useChartSettingContainer = () => {
     ).sort((a, b) => a - b);
   }, [chartData]);
 
-  const addNewModel = () => {
+  /**
+   * 새로운 모델 추가
+   */
+  const handleClickAddNewModelBtn = useCallback(() => {
     const newModelNum = chartData?.length ? Math.max(...modelNumbers) + 1 : 0;
     const newChartData: ChartData[] = [
       ...(chartData ?? []),
@@ -65,8 +82,11 @@ export const useChartSettingContainer = () => {
       },
     ];
     setChartData(newChartData);
-  };
+  }, [modelNumbers]);
 
+  /**
+   * 변경사항 저장 버튼 클릭 처리리
+   */
   const handleSaveBtnClick = useCallback(() => {
     toast.promise(
       postChartData({
@@ -91,17 +111,31 @@ export const useChartSettingContainer = () => {
     );
   }, [chartData]);
 
+  /**
+   * 컴포넌트 언마운트 처리
+   * query data를 직접 수정하기 때문에 변경사항 반영 없이
+   * 서비스아이디를 변경하는 경우를 위해 refetch를 호출
+   */
   useEffect(() => {
-    if (chartData) setCopiedChartData([...chartData]);
+    return () => {
+      refetch();
+      setSelectedModel(null);
+      setCopiedChartData([]);
+    };
+  }, [currentService]);
+
+  useEffect(() => {
+    setCopiedChartData([...(chartData ?? [])]);
   }, [isSuccess, currentService]);
 
-  return {
+  _return.current = {
     chartData,
     isChartDataExist,
     isChartDataLoading,
     modelNumbers,
     hasChanges,
     handleSaveBtnClick,
-    addNewModel,
+    handleClickAddNewModelBtn,
   };
+  return _return.current;
 };

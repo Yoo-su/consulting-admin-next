@@ -31,7 +31,7 @@ export const ChartSettingContainer = memo(() => {
     isChartDataLoading,
     isChartDataExist,
     modelNumbers,
-    addNewModel,
+    handleClickAddNewModelBtn,
     handleSaveBtnClick,
   } = useChartSettingContainer();
 
@@ -55,7 +55,7 @@ export const ChartSettingContainer = memo(() => {
                 icon={<AddCircleIcon fontSize="inherit" />}
                 label={<Typography variant="button">모델 추가</Typography>}
                 clickable
-                onClick={addNewModel}
+                onClick={handleClickAddNewModelBtn}
               />
             </Stack>
           </ContentWrapper.Header>
