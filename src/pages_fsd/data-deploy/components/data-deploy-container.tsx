@@ -16,12 +16,13 @@ import { AxiosError } from 'axios';
 import PuffLoader from 'react-spinners/PuffLoader';
 
 import { ContentWrapper } from '@/shared/components';
-import { useMuiAlert, useUnivService } from '@/shared/hooks';
+import { useMuiAlert } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { useDeployTestDataMutation, useSyncTestDevMutation } from '../hooks';
 
 export const DataDeployContainer = () => {
-  const { currentService, currentUniv } = useUnivService();
+  const { currentService, currentUniv } = useSharedStore();
   const { isPending: isRealDeploying, mutateAsync: deployToReal } =
     useDeployTestDataMutation();
   const { isPending: isSynchronizingTestDev, mutateAsync: syncFromTestToDev } =

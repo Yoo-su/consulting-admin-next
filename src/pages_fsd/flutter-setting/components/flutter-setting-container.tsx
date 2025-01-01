@@ -6,7 +6,8 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { SaveDataButton } from '@/shared/components';
 import { useInterceptAppRouter } from '@/shared/hooks';
-import { useConfirmToast, useUnivService } from '@/shared/hooks';
+import { useConfirmToast } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { useFlutterSetting, useGetFlutterSettingsInfoQuery } from '../hooks';
 import { FlutterSetting as FlutterSettingType } from '../models';
@@ -15,7 +16,7 @@ import { SettingDetail } from './setting-detail';
 import { SettingList } from './setting-list';
 
 export const FlutterSettingContainer = () => {
-  const { currentService } = useUnivService();
+  const currentService = useSharedStore((state) => state.currentService);
   const {
     flutterSettingList,
     setFlutterSettingList,

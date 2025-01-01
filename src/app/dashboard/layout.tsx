@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 
 import { AuthGuard, DashboardLayout } from '@/shared/components';
-import { UnivServiceProvider } from '@/shared/contexts';
 
 type Props = {
   children: ReactNode;
@@ -9,9 +8,7 @@ type Props = {
 const Layout = ({ children }: Props) => {
   return (
     <AuthGuard>
-      <UnivServiceProvider>
-        <DashboardLayout>{children}</DashboardLayout>
-      </UnivServiceProvider>
+      <DashboardLayout>{children}</DashboardLayout>
     </AuthGuard>
   );
 };

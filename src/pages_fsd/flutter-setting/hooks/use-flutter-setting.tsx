@@ -8,7 +8,7 @@ export const useFlutterSetting = (): FlutterSettingContextValue => {
   const context = useContext(FlutterSettingContext);
 
   if (!context) {
-    throw new Error('useUnivService must be used within a Provider');
+    throw new Error('useFlutterSetting must be used within a Provider');
   }
 
   return context;

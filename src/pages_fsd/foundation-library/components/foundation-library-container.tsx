@@ -6,10 +6,10 @@ import { useMemo } from 'react';
 import { Browser } from '@/features/browser/components';
 import { BROWSER_PATH } from '@/features/browser/constants';
 import { ContentWrapper } from '@/shared/components';
-import { useUnivService } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 export const FoundationLibraryContainer = () => {
-  const { currentUniv, currentService } = useUnivService();
+  const { currentUniv, currentService } = useSharedStore();
   const initialPath = useMemo(
     () => `${BROWSER_PATH.foundationLibrary}/${currentService?.serviceID}`,
     [currentService]

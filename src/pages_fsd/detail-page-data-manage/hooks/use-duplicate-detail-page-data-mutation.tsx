@@ -17,7 +17,7 @@ export const useDuplicateDetailpageDataMutation = () => {
     onSuccess: (data, variables) => {
       const serviceID = variables.targetServiceID as string;
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS['chart-setting'].data(serviceID).queryKey,
+        queryKey: QUERY_KEYS['chart-setting']['chart-data'](serviceID).queryKey,
       });
     },
   });

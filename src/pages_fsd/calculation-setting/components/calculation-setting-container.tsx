@@ -3,13 +3,13 @@
 import { Typography } from '@mui/material';
 
 import { ContentWrapper } from '@/shared/components';
-import { useUnivService } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { CalculationSettingDialog } from './calculation-setting-dialog';
 import { SettingsOverview } from './settings-overview';
 
 export const CalculationSettingContainer = () => {
-  const { currentUniv, currentService } = useUnivService();
+  const { currentUniv, currentService } = useSharedStore();
 
   return (
     <ContentWrapper>

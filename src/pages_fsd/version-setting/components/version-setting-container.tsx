@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useState } from 'react';
 
-import { useUnivService } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { TableTitle } from './table-title';
 import { VersionListTable } from './version-list-table';
@@ -20,7 +20,7 @@ export const VersionSettingContainer = () => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
 
-  const { currentUniv, currentService } = useUnivService();
+  const { currentUniv, currentService } = useSharedStore();
   const [serverType, setServerType] = useState<VersionServer>(versionServer[0]);
   const { univName } = currentUniv!;
   const { serviceID } = currentService!;

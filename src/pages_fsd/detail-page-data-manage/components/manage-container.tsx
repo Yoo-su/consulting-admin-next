@@ -8,13 +8,15 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { ContentWrapper } from '@/shared/components';
-import { useUnivService } from '@/shared/hooks';
+import { useGetServiceListQuery } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { ServiceAutocomplete } from './service-autocomplete';
 import { SyncBox } from './sync-box';
 
 export const ManageContainer = () => {
-  const { currentService, currentUniv, serviceList } = useUnivService();
+  const { currentService, currentUniv } = useSharedStore();
+  const { data: serviceList } = useGetServiceListQuery(currentUniv?.univID);
 
   return (
     <ContentWrapper>
@@ -70,7 +72,7 @@ export const ManageContainer = () => {
                 </Stack>
                 <ServiceAutocomplete
                   serviceID={currentService?.serviceID}
-                  serviceList={serviceList}
+                  serviceList={serviceList ?? []}
                 />
               </Stack>
             </Stack>

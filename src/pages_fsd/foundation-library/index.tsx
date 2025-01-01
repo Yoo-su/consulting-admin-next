@@ -12,7 +12,8 @@ import {
   EmptyBox,
   FileItemCard,
 } from '@/shared/components';
-import { useDownloadFile, useUnivService } from '@/shared/hooks';
+import { useDownloadFile } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 import { formatKoreanTextCompareDatesFromNow } from '@/shared/services';
 
 import { useGetFoundationLibrariesQuery } from './hooks';
@@ -20,7 +21,7 @@ import { useGetFoundationLibrariesQuery } from './hooks';
 export const FoundationLibraryListBox = () => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
-  const { currentUniv, currentService } = useUnivService();
+  const { currentUniv, currentService } = useSharedStore();
   const { data: libraries, isLoading } = useGetFoundationLibrariesQuery(
     currentService?.serviceID
   );

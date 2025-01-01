@@ -9,8 +9,8 @@ import { AxiosResponse } from 'axios';
 import { Suspense } from 'react';
 import toast from 'react-hot-toast';
 
-import { ContentLoadingSkeleton,EmptyBox } from '@/shared/components';
-import { useUnivService } from '@/shared/hooks';
+import { ContentLoadingSkeleton, EmptyBox } from '@/shared/components';
+import { useSharedStore } from '@/shared/models';
 
 import { AppHistory } from '../models';
 import { AppProgData } from './app-prog-data';
@@ -23,7 +23,7 @@ export const AppProgContainer = ({
 }) => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
-  const { currentUniv, currentService } = useUnivService();
+  const { currentUniv, currentService } = useSharedStore();
   const { serviceID, serialNo } = currentService || {};
 
   const handleClickCopy = () => {

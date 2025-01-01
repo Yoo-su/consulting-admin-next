@@ -12,7 +12,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { QUERY_KEYS } from '@/shared/constants';
-import { useUnivService } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { ServiceOption } from '../../constants';
 import { useSetDuplicateSettingMutation } from '../../hooks';
@@ -25,7 +25,7 @@ type DupDialogProps = {
 
 export const DupDialog = ({ open, setOpen }: DupDialogProps) => {
   const { mutateAsync } = useSetDuplicateSettingMutation();
-  const { currentService } = useUnivService();
+  const { currentService } = useSharedStore();
   const queryClient = useQueryClient();
 
   const [selectedService, setselectedService] = useState<ServiceOption | null>(

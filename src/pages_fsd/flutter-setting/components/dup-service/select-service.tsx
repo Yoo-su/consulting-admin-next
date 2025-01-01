@@ -1,7 +1,8 @@
 import { Autocomplete, TextField, Typography } from '@mui/material';
 import { HTMLAttributes, Key, SyntheticEvent, useState } from 'react';
 
-import { useUnivService } from '@/shared/hooks';
+import { useGetServiceListQuery } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { ServiceOption } from '../../constants';
 
@@ -13,7 +14,8 @@ export const SelectService = ({
   selectedService,
   setselectedService,
 }: SelectServiceProps) => {
-  const { serviceList, currentService } = useUnivService();
+  const { currentUniv, currentService } = useSharedStore();
+  const { data: serviceList } = useGetServiceListQuery(currentUniv?.univID);
   const [inputValue, setInputValue] = useState<string>('');
 
   const handleChange = (
@@ -29,15 +31,16 @@ export const SelectService = ({
   ) => {
     setInputValue(newInputValue);
   };
-  const options = serviceList.map((service) => {
-    return {
-      serviceYear: service.schoolYear + '학년도',
-      isSusi: service.isSusi,
-      schoolYear: service.schoolYear,
-      serviceID: service.serviceID,
-      serviceName: service.serviceName,
-    };
-  });
+  const options =
+    serviceList?.map((service) => {
+      return {
+        serviceYear: service.schoolYear + '학년도',
+        isSusi: service.isSusi,
+        schoolYear: service.schoolYear,
+        serviceID: service.serviceID,
+        serviceName: service.serviceName,
+      };
+    }) ?? [];
 
   return (
     <Autocomplete<ServiceOption, false, false, false>

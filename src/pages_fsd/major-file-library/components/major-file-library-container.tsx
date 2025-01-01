@@ -6,13 +6,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { Browser } from '@/features/browser/components';
 import { BROWSER_PATH } from '@/features/browser/constants';
 import { ContentWrapper } from '@/shared/components';
-import { useUnivService, useUser } from '@/shared/hooks';
+import { useUser } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { useUploadMajorFileMutation } from '../hooks';
 
 export const MajorFileLibraryContainer = () => {
   const { user } = useUser();
-  const { currentUniv } = useUnivService();
+  const { currentUniv } = useSharedStore();
   const mutation = useUploadMajorFileMutation();
   const [formData] = useState<FormData>(new FormData());
 

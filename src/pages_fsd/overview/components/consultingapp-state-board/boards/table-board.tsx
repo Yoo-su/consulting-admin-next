@@ -1,6 +1,7 @@
 'use client';
 
 import CheckIcon from '@mui/icons-material/Check';
+import { TableSortLabel } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -15,16 +16,15 @@ import { ChangeEvent, MouseEvent, useMemo, useState } from 'react';
 
 import { STATE_BOARD_DOMAIN_ITEMS } from '@/pages_fsd/overview/constants';
 import { useHandleStatusBoard } from '@/pages_fsd/overview/hooks';
-import { useUnivService } from '@/shared/hooks';
 import {
   ConsultingAppState,
   TableBoardType,
 } from '@/pages_fsd/overview/models';
-import { TableSortLabel } from '@mui/material';
+import { useGetUnivListQuery } from '@/shared/hooks';
 
 type Order = 'asc' | 'desc';
 export const TableBoard = () => {
-  const { univList } = useUnivService();
+  const { data: univList } = useGetUnivListQuery();
   const { filteredConsultingAppStatesAll } = useHandleStatusBoard();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);

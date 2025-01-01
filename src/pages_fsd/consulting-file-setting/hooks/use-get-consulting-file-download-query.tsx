@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '@/shared/constants';
-import { useUnivService } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import {
   getConsultingFileDownload,
@@ -11,7 +11,7 @@ import {
 } from '../apis';
 
 export const useGetConsultingFileDownloadQuery = (fileName: string) => {
-  const { currentService } = useUnivService();
+  const { currentService } = useSharedStore();
 
   const params: GetConsultingFileDownloadParams = {
     serviceID: currentService!.serviceID,

@@ -31,13 +31,13 @@ import {
   ColorlibStepIcon,
   ContentWrapper,
 } from '@/shared/components';
-import { useUnivService } from '@/shared/hooks';
+import { useSharedStore } from '@/shared/models';
 
 import { EXCEL_UPLOAD_STEPS } from '../constants';
 import { useHandleFoundation } from '../hooks';
 
 export const FoundationUploadContainer = () => {
-  const { currentUniv, currentService } = useUnivService();
+  const { currentUniv, currentService } = useSharedStore();
   const title = `${currentUniv?.univName}(${currentService?.serviceID}) 기초데이터 업로드`;
   const {
     excel,

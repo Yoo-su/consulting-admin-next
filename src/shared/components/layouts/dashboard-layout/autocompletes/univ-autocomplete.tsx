@@ -4,12 +4,13 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { FilterOptionsState } from '@mui/material/useAutocomplete/useAutocomplete';
 
-import { useUnivService } from '@/shared/hooks';
+import { useGetUnivListQuery } from '@/shared/hooks';
 import { Univ } from '@/shared/models';
+import { useSharedStore } from '@/shared/models';
 
 export const UnivAutocomplete = () => {
-  const { univList, setCurrentUniv, setCurrentService, currentUniv } =
-    useUnivService();
+  const { data: univList } = useGetUnivListQuery();
+  const { currentUniv, setCurrentUniv, setCurrentService } = useSharedStore();
 
   const handleChange = (event: any, newValue: Univ | null) => {
     if (newValue) {
