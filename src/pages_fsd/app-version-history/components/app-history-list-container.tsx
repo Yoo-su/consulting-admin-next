@@ -10,15 +10,18 @@ import { ConsultingAppType } from '../models';
 import { AppProgContainer } from './app-prog-container';
 import { AppPWAContainer } from './app-pwa-container';
 import { HeaderSelectRadio } from './header-select-radio';
+import { OsType } from '../constants';
 
 export const AppHistoryListContainer = () => {
   const { currentService } = useSharedStore();
   const isNew = currentService?.isNew ?? false;
 
-  const [appType, setAppType] = useState<ConsultingAppType>(isNew ? 'A' : 'O');
+  const [appType, setAppType] = useState<ConsultingAppType>(
+    isNew ? OsType.APK : OsType.PWA
+  );
   const { data: histories } = useGetAppVersionHistoryQuery(
     currentService?.serviceID,
-    appType === 'O' ? null : appType
+    appType === OsType.PWA ? null : appType
   );
 
   return (
@@ -32,7 +35,7 @@ export const AppHistoryListContainer = () => {
       </ContentWrapper.Header>
 
       <ContentWrapper.MainContent>
-        {appType == 'O' ? (
+        {appType == OsType.PWA ? (
           <AppPWAContainer />
         ) : (
           <AppProgContainer histories={histories} />

@@ -11,6 +11,7 @@ import { formatKoreanTextCompareDatesFromNow } from '@/shared/services';
 
 import { AppHistory } from '../models';
 import { QrModal } from './qr-modal';
+import { OsType } from '../constants';
 
 type AppProgDataProps = {
   history: AppHistory;
@@ -44,7 +45,9 @@ export const AppProgData = ({ history }: AppProgDataProps) => {
           tooltipMsg={'다운로드 링크 복사'}
           handleClick={() => handleClickCard(getDownloadUrl(history))}
         >
-          <FileItemCard.IconBox file={history.osType === 'A' ? 'apk' : 'exe'} />
+          <FileItemCard.IconBox
+            file={history.osType === OsType.APK ? 'apk' : 'exe'}
+          />
           <FileItemCard.ContentBox>
             {history.packageFileName && (
               <FileItemCard.TitleBox title={history.packageFileName} />

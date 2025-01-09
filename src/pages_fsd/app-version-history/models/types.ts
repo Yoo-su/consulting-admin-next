@@ -1,6 +1,10 @@
+import { OsType } from '../constants';
+
+export type OsTypeValues = (typeof OsType)[keyof typeof OsType];
+
 export type AppHistory = {
   serviceID: string;
-  osType: 'A' | 'P';
+  osType: Exclude<OsTypeValues, 'O'>;
   version: number;
   packageFileName: string | null;
   provisionFileName: string | null;
@@ -9,4 +13,4 @@ export type AppHistory = {
   manualFileName: string | null;
 };
 
-export type ConsultingAppType = 'O' | 'A' | 'P';
+export type ConsultingAppType = OsTypeValues;

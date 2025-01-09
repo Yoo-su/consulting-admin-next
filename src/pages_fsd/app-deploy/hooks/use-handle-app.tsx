@@ -5,9 +5,13 @@ import { useEffect, useState } from 'react';
 import { useMuiAlert, useStepper } from '@/shared/hooks';
 
 import { useDeployAppMutation } from './use-deploy-app-mutation';
+import { OsType } from '@/pages_fsd/app-version-history/constants';
+import { OsTypeValues } from '@/pages_fsd/app-version-history/models';
 
 export const useHandleApp = () => {
-  const [appType, setAppType] = useState<'P' | 'A'>('A');
+  const [appType, setAppType] = useState<Exclude<OsTypeValues, 'O'>>(
+    OsType.APK
+  );
   const [appFile, setAppFile] = useState<File | null>(null);
   const [formData, setFormData] = useState<FormData>(new FormData());
   const {

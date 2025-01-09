@@ -1,10 +1,13 @@
-import { AppHistory } from '@/pages_fsd/app-version-history/models';
+import {
+  AppHistory,
+  OsTypeValues,
+} from '@/pages_fsd/app-version-history/models';
 import { API_URLS } from '@/shared/constants/api-urls';
 import { apiInstance } from '@/shared/plugin/axios';
 
 export type GetAppVersionHistoryResponse = {
   ServiceID: string;
-  OsType: 'A' | 'P';
+  OsType: Exclude<OsTypeValues, 'O'>;
   Version: number;
   PackageFileName: string | null;
   ProvisionFileName: string | null;
@@ -15,7 +18,7 @@ export type GetAppVersionHistoryResponse = {
 
 export const getAppVersionHistory = async (
   serviceID: string,
-  osType: 'P' | 'A'
+  osType: Exclude<OsTypeValues, 'O'>
 ) => {
   return await apiInstance.get<AppHistory[]>(
     `${API_URLS.dashboard.getAppVersionHistory}/${serviceID}/${osType}`,

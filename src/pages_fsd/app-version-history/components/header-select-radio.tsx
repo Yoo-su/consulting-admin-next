@@ -9,6 +9,7 @@ import { Dispatch, SetStateAction, useEffect } from 'react';
 
 import { ConsultingAppType } from '../models';
 import { RadioIconLabel } from './radio-icon-label';
+import { OsType } from '../constants';
 
 type HeaderSelectRadioProps = {
   appType: ConsultingAppType;
@@ -23,9 +24,9 @@ export const HeaderSelectRadio = ({
 }: HeaderSelectRadioProps) => {
   useEffect(() => {
     if (isNew) {
-      setAppType('A');
+      setAppType(OsType.APK);
     } else {
-      setAppType('O');
+      setAppType(OsType.PWA);
     }
   }, [isNew]);
   return (
@@ -40,7 +41,7 @@ export const HeaderSelectRadio = ({
       >
         <RadioIconLabel
           label="PWA 주소"
-          value="O"
+          value={OsType.PWA}
           disabled={isNew}
           Icon={
             <AlternateEmailRoundedIcon
@@ -51,7 +52,7 @@ export const HeaderSelectRadio = ({
         />
         <RadioIconLabel
           label="안드로이드 APK"
-          value="A"
+          value={OsType.APK}
           disabled={!isNew}
           Icon={
             <AdbIcon fontSize="large" sx={{ color: '#7CB342', mr: '0.1rem' }} />
@@ -59,7 +60,7 @@ export const HeaderSelectRadio = ({
         />
         <RadioIconLabel
           label="데스크탑 APP"
-          value="P"
+          value={OsType.PC}
           disabled={!isNew}
           Icon={
             <DesktopWindowsIcon

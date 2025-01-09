@@ -30,6 +30,7 @@ import { useSharedStore } from '@/shared/models';
 
 import { APP_DEPLOY_STEPS } from '../constants';
 import { useHandleApp } from '../hooks';
+import { OsType } from '@/pages_fsd/app-version-history/constants';
 
 export const AppDeployContainer = () => {
   const { currentUniv, currentService } = useSharedStore();
@@ -112,7 +113,7 @@ export const AppDeployContainer = () => {
             onChange={handleAppTypeChange}
           >
             <FormControlLabel
-              value="A"
+              value={OsType.APK}
               control={<Radio size="medium" />}
               label={
                 <Stack direction={'row'} alignItems={'center'}>
@@ -125,7 +126,7 @@ export const AppDeployContainer = () => {
               }
             />
             <FormControlLabel
-              value="P"
+              value={OsType.PC}
               control={<Radio size="medium" />}
               label={
                 <Stack direction={'row'} alignItems={'center'}>
@@ -199,7 +200,7 @@ export const AppDeployContainer = () => {
             }}
           >
             <Image
-              src={appType === 'A' ? apkIcon : exeIcon}
+              src={appType === OsType.APK ? apkIcon : exeIcon}
               width={'48'}
               height={'48'}
               alt="apk-image"
@@ -253,7 +254,7 @@ export const AppDeployContainer = () => {
             key={appFile?.name ?? '' + appFile?.lastModified ?? ''}
             ref={fileInputRef}
             style={{ display: 'none' }}
-            accept={appType === 'A' ? '.apk' : '.exe'}
+            accept={appType === OsType.APK ? '.apk' : '.exe'}
             onChange={handleFileChange}
           />
         </Stack>
