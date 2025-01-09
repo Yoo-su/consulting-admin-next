@@ -23,11 +23,7 @@ export const HeaderSelectRadio = ({
   isNew,
 }: HeaderSelectRadioProps) => {
   useEffect(() => {
-    if (isNew) {
-      setAppType(OsType.APK);
-    } else {
-      setAppType(OsType.PWA);
-    }
+    setAppType(isNew ? OsType.APK : OsType.PWA);
   }, [isNew]);
   return (
     <FormControl sx={{ alignItems: 'center' }}>

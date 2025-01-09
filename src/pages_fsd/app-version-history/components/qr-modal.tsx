@@ -2,6 +2,7 @@
 
 import { Modal, Stack, Typography } from '@mui/material';
 import { QRCodeCanvas } from 'qrcode.react';
+import { useMemo } from 'react';
 
 type QrModalProps = {
   open: boolean;
@@ -72,20 +73,26 @@ export const QRCodeBox = ({ url, fileName }: QRCodeBoxProps) => {
     link.click();
     document.body.removeChild(link);
   };
-  return (
-    <QRCodeCanvas
-      value={url}
-      size={250}
-      onClick={handleClick}
-      style={{ cursor: 'pointer' }}
-      imageSettings={{
-        src: '/logo-nopadding.png',
-        x: undefined,
-        y: undefined,
-        height: 40,
-        width: 32,
-        excavate: false,
-      }}
-    />
+
+  const QRCodeMemoized = useMemo(
+    () => (
+      <QRCodeCanvas
+        value={url}
+        size={250}
+        onClick={handleClick}
+        style={{ cursor: 'pointer' }}
+        imageSettings={{
+          src: '/logo-nopadding.png',
+          x: undefined,
+          y: undefined,
+          height: 40,
+          width: 32,
+          excavate: false,
+        }}
+      />
+    ),
+    [url]
   );
+
+  return QRCodeMemoized;
 };

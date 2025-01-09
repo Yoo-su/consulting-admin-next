@@ -3,3 +3,6 @@ export const OsType = {
   APK: 'A',
   PC: 'P',
 } as const;
+
+export const TestURL = 'https://vapplytest.jinhakapply.com/ConsultingHtmlV4';
+export const RealURL = 'https://consultingapp.jinhakapply.com/ConsultingHtml';

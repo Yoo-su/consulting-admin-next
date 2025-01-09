@@ -4,13 +4,14 @@ import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { MouseEvent } from 'react';
+import { MouseEvent, useMemo } from 'react';
 import toast from 'react-hot-toast';
 
 import { useSharedStore } from '@/shared/models';
 import { isCurrentServiceYear } from '@/shared/services';
 
 import { SerialNoTextField, URlAddressTextField } from './copy-only-textfield';
+import { RealURL, TestURL } from '../constants';
 
 export const AppPWAContainer = () => {
   const theme = useTheme();
@@ -18,27 +19,32 @@ export const AppPWAContainer = () => {
   const { currentUniv, currentService } = useSharedStore();
   const { univEngName, univName } = currentUniv || {};
   const { schoolYear, isSusi, serviceID, serialNo } = currentService || {};
-
   // 현 서비스학년도와 비교하여 현재 서비스 중인지 확인
   const isCurrentYear = isCurrentServiceYear(schoolYear ?? '');
   const prevLocation = isCurrentYear
     ? ''
     : `/${schoolYear}${isSusi === '1' ? 'susi' : 'jungsi'}`;
-  const testUrl = `https://vapplytest.jinhakapply.com/consultinghtmlv4${prevLocation}/${univEngName}-pwa.html`;
-  const realUrl = `https://consultingapp.jinhakapply.com/ConsultingHtml${prevLocation}/${univEngName}-pwa.html`;
+  const [testUrl, realUrl] = useMemo(
+    () => [
+      `${TestURL}${prevLocation}/${univEngName}-pwa.html`,
+      `${RealURL}${prevLocation}/${univEngName}-pwa.html`,
+    ],
+    [prevLocation, univEngName]
+  );
 
-  const handleClickCopy = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleClickCopy = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     const id = event.currentTarget.id;
+    if (id === 'serialnumber' && !serialNo) return;
     const copiedText =
       id === 'serialnumber'
-        ? serialNo ?? '시리얼번호가 존재하지 않습니다.'
+        ? serialNo!
         : id.includes('test')
         ? testUrl
         : realUrl;
     try {
-      navigator.clipboard.writeText(copiedText);
+      await navigator.clipboard.writeText(copiedText);
       toast.success(<Typography variant="body2">복사되었습니다</Typography>);
     } catch (e) {
       toast.error(<Typography variant="body2">복사에 실패했습니다</Typography>);
@@ -65,7 +71,7 @@ export const AppPWAContainer = () => {
         </Typography>
         <SerialNoTextField
           serviceID={serviceID ?? ''}
-          value={`${serialNo ?? '시리얼번호가 존재하지 않습니다.'}`}
+          value={serialNo ?? '시리얼번호가 존재하지 않습니다.'}
           handleClick={handleClickCopy}
         />
       </Stack>
