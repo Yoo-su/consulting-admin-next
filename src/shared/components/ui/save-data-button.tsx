@@ -8,10 +8,12 @@ import { animated, useSpring } from '@react-spring/web';
 
 type SaveDataButtonProps = {
   label?: string;
+  disabled?: boolean;
   handleBtnClick: () => void;
 };
 export const SaveDataButton = ({
   label = '변경사항이 존재합니다. 버튼을 눌러 변경내용을 적용해주세요',
+  disabled = false,
   handleBtnClick,
 }: SaveDataButtonProps) => {
   const theme = useTheme();
@@ -32,6 +34,7 @@ export const SaveDataButton = ({
       color="primary"
       size={downsm ? 'small' : 'large'}
       style={{ ...props }}
+      disabled={disabled}
       sx={{
         width: 'fit-content',
         ...(downsm

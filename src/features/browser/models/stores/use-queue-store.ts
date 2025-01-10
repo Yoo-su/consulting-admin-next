@@ -4,20 +4,20 @@ export type QueueType = 'browser' | 'dialog';
 type QueueStore = {
   browserQueue: File[];
   dialogQueue: File[];
-  isAddDirectoryModalOpen: boolean;
+  isAddDirectoryDialogOpen: boolean;
   addBrowserQueueFiles: (files: File[]) => void;
   addDialogQueueFiles: (files: File[]) => void;
   removeBrowserQueueFile: (fileName: string) => void;
   removeDialogQueueFile: (fileName: string) => void;
   resetBrowserQueue: () => void;
   resetDialogQueue: () => void;
-  openAddDirectoryModal: () => void;
-  closeAddDirectoryModal: () => void;
+  openAddDirectoryDialog: () => void;
+  closeAddDirectoryDialog: () => void;
 };
 export const useQueueStore = create<QueueStore>((set) => ({
   browserQueue: [],
   dialogQueue: [],
-  isAddDirectoryModalOpen: false,
+  isAddDirectoryDialogOpen: false,
   addBrowserQueueFiles: (files) =>
     set((state) => {
       const existingFileNames = new Set(
@@ -53,7 +53,7 @@ export const useQueueStore = create<QueueStore>((set) => ({
   resetBrowserQueue: () => set(() => ({ browserQueue: [] })),
   resetDialogQueue: () => set(() => ({ dialogQueue: [] })),
 
-  openAddDirectoryModal: () => set(() => ({ isAddDirectoryModalOpen: true })),
-  closeAddDirectoryModal: () =>
-    set(() => ({ dialogQueue: [], isAddDirectoryModalOpen: false })),
+  openAddDirectoryDialog: () => set(() => ({ isAddDirectoryDialogOpen: true })),
+  closeAddDirectoryDialog: () =>
+    set(() => ({ dialogQueue: [], isAddDirectoryDialogOpen: false })),
 }));

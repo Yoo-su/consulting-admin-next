@@ -32,7 +32,6 @@ export const Queue = memo(({ handleRemoveInputFile }: QueueProps) => {
   return (
     <>
       {browserQueue.map((item) => {
-        console.log(item, typeof item);
         return (
           <GridItem
             item

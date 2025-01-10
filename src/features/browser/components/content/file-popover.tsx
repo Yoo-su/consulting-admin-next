@@ -42,6 +42,7 @@ export const FilePopover = memo(
           vertical: 'bottom',
           horizontal: 'left',
         }}
+        aria-hidden={!open}
         onClose={onClose}
         open={open}
         slotProps={{ paper: { sx: { width: 'fit-content' } } }}
@@ -67,5 +68,4 @@ export const FilePopover = memo(
     );
   }
 );
-
 FilePopover.displayName = 'FilePopover';

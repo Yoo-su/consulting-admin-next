@@ -1,3 +1,4 @@
+// React Component for Add Directory Dialog
 'use client';
 
 import DirectoryIcon from '@mui/icons-material/Folder';
@@ -11,7 +12,7 @@ import {
   SxProps,
   TextField,
 } from '@mui/material';
-import { DragEvent, useCallback, useMemo } from 'react';
+import { DragEvent, useCallback, useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useShallow } from 'zustand/shallow';
 
@@ -22,27 +23,34 @@ import { QueueFile } from '../queue/queue-file';
 import { AnnouncementBox } from './announcement-box';
 import { directoryNameValidation } from './validation-rule';
 
+// Type Definitions
 type FormValues = {
   directoryName: string;
 };
+
 type AddDirectoryDialogProps = {
+  isUploadPending?: boolean;
   handleUploadDialogQueue: (directory: string) => Promise<void>;
 };
 
+// Main Component
 export const AddDirectoryDialog = ({
+  isUploadPending,
   handleUploadDialogQueue,
 }: AddDirectoryDialogProps) => {
+  // State Management
   const {
     dialogQueue,
-    isAddDirectoryModalOpen,
-    closeAddDirectoryModal,
+    isAddDirectoryDialogOpen,
+    closeAddDirectoryDialog,
     addDialogQueueFiles,
     removeDialogQueueFile,
   } = useQueueStore();
+
   const {
     control,
     handleSubmit,
-    getValues,
+    watch,
     reset: resetDirectoryName,
     formState: { errors },
   } = useForm<FormValues>({
@@ -50,55 +58,65 @@ export const AddDirectoryDialog = ({
       directoryName: '',
     },
   });
+
+  const directoryName = watch('directoryName');
   const itemAppearance = useBrowserStore(
     useShallow((state) => state.browserOption.itemAppearance)
   );
 
+  // Event Handlers
   const onSubmit = handleSubmit(async (data) => {
     if (!dialogQueue.length) return;
-    await handleUploadDialogQueue(getValues('directoryName'));
-    resetDirectoryName();
-    closeAddDirectoryModal();
+    await handleUploadDialogQueue(directoryName);
+    closeAddDirectoryDialog();
   });
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.stopPropagation();
     const arrayFiles = Array.from(event.dataTransfer.files);
     if (!arrayFiles.length) return;
-    else {
-      const existingFileNames = new Set(dialogQueue.map((file) => file.name));
-      const uniqueFiles = arrayFiles.filter(
-        (file) => !existingFileNames.has(file.name)
-      );
-      addDialogQueueFiles(uniqueFiles);
-    }
+
+    const existingFileNames = new Set(dialogQueue.map((file) => file.name));
+    const uniqueFiles = arrayFiles.filter(
+      (file) => !existingFileNames.has(file.name)
+    );
+    addDialogQueueFiles(uniqueFiles);
   };
+  const handleCloseDialog = useCallback(() => {
+    resetDirectoryName();
+    closeAddDirectoryDialog();
+  }, []);
 
   const handleUploadQueue = useCallback(async () => {
-    await handleUploadDialogQueue(getValues('directoryName'));
+    await handleUploadDialogQueue(directoryName);
     resetDirectoryName();
-    closeAddDirectoryModal();
+    closeAddDirectoryDialog();
   }, [
-    getValues,
-    resetDirectoryName,
-    closeAddDirectoryModal,
+    directoryName,
     handleUploadDialogQueue,
+    resetDirectoryName,
+    closeAddDirectoryDialog,
   ]);
 
+  // Memoized Values
   const xsGridItemSize = useMemo(() => {
-    if (itemAppearance === 'card') return 3;
-    else return 2;
-  }, [itemAppearance]);
-  const smGridItemSize = useMemo(() => {
-    if (itemAppearance === 'card') return 4;
-    else return 2;
+    return itemAppearance === 'card' ? 3 : 2;
   }, [itemAppearance]);
 
+  const smGridItemSize = useMemo(() => {
+    return itemAppearance === 'card' ? 4 : 2;
+  }, [itemAppearance]);
+
+  // Render
   return (
-    <Dialog open={isAddDirectoryModalOpen} onClose={closeAddDirectoryModal}>
+    <Dialog
+      open={isAddDirectoryDialogOpen}
+      onClose={handleCloseDialog}
+      aria-hidden={!isAddDirectoryDialogOpen}
+    >
       <form onSubmit={onSubmit}>
         <DialogTitle>
-          <Stack direction={'row'} alignItems={'center'} gap={1}>
+          <Stack direction="row" alignItems="center" gap={1}>
             <DirectoryIcon />
             <Controller
               name="directoryName"
@@ -125,8 +143,8 @@ export const AddDirectoryDialog = ({
                 dialogQueue.map((item) => (
                   <Grid
                     item
-                    display="flex"
                     key={item.name}
+                    display="flex"
                     justifyContent="center"
                     alignItems="center"
                     height="fit-content"
@@ -146,9 +164,10 @@ export const AddDirectoryDialog = ({
               )}
             </GridBox>
 
-            {!!dialogQueue.length && getValues('directoryName') && (
+            {!!dialogQueue.length && directoryName && (
               <SaveDataButton
                 label={`${dialogQueue.length}개의 파일 업로드`}
+                disabled={isUploadPending}
                 handleBtnClick={handleUploadQueue}
               />
             )}
@@ -159,6 +178,7 @@ export const AddDirectoryDialog = ({
   );
 };
 
+// Styled Components
 const GridBox = styled(Grid)(({ theme }) => ({
   rowGap: 10,
   position: 'relative',
