@@ -91,6 +91,7 @@ export const EmptyCover = ({ message, sx }: EmptyCoverProps) => {
         }
         width={64}
         height={64}
+        draggable={false}
       />
       <Typography variant="body1" color="grey.600">
         {message}

@@ -7,9 +7,13 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { animated, useSpring } from '@react-spring/web';
 
 type SaveDataButtonProps = {
+  label?: string;
   handleBtnClick: () => void;
 };
-export const SaveDataButton = ({ handleBtnClick }: SaveDataButtonProps) => {
+export const SaveDataButton = ({
+  label = '변경사항이 존재합니다. 버튼을 눌러 변경내용을 적용해주세요',
+  handleBtnClick,
+}: SaveDataButtonProps) => {
   const theme = useTheme();
   const downsm = useMediaQuery(theme.breakpoints.down('sm'));
   const AnimatedFab = animated(Fab);
@@ -38,7 +42,7 @@ export const SaveDataButton = ({ handleBtnClick }: SaveDataButtonProps) => {
     >
       <InfoIcon fontSize="inherit" sx={{ mr: 1 }} />
       <Typography variant="body1" fontSize="inherit">
-        변경사항이 존재합니다. 버튼을 눌러 변경내용을 적용해주세요
+        {label}
       </Typography>
     </AnimatedFab>
   );

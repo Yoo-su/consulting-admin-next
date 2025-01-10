@@ -9,8 +9,12 @@ export const renameBrowserFile = async ({
   oldName,
   newName,
 }: RenameBrowserFileProps) => {
-  return await apiInstance.post(API_URLS.dashboard.renameBrowserFile, {
-    fileName: oldName,
-    newFileName: newName,
-  });
+  const { data } = await apiInstance.post(
+    API_URLS.dashboard.renameBrowserFile,
+    {
+      fileName: oldName,
+      newFileName: newName,
+    }
+  );
+  return data;
 };

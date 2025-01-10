@@ -5,25 +5,19 @@ import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { Stack, styled, Tooltip, Typography } from '@mui/material';
 import { memo } from 'react';
+import { useShallow } from 'zustand/shallow';
 
 import { ButtonIcon } from '@/shared/components';
 
 import { useBrowserHeader } from '../../hooks';
-import { SortSelect } from '../atoms';
+import { useBrowserStore } from '../../models';
+import { SortSelect } from './sort-select';
 
 type BrowserHeaderProps = {
-  showCurrentPath: boolean;
-  isDropZone: boolean;
-  appendDirectory: boolean;
   handleClickInput: () => void;
 };
 export const BrowserHeader = memo(
-  ({
-    showCurrentPath = true,
-    isDropZone = false,
-    appendDirectory = false,
-    handleClickInput,
-  }: BrowserHeaderProps) => {
+  ({ handleClickInput }: BrowserHeaderProps) => {
     const {
       displayingPath,
       dataCnt,
@@ -31,11 +25,12 @@ export const BrowserHeader = memo(
       handleClickFolderBtn,
       handleClickPrevBtn,
     } = useBrowserHeader();
+    const { browserOption } = useBrowserStore();
 
     return (
       <Stack direction="row" alignItems="center" flexWrap="wrap" height="35px">
         <Stack direction="row" alignItems="center" gap={2} ml={1}>
-          {showCurrentPath && (
+          {browserOption.showCurrentPath && (
             <CurrentPathBox direction="row">
               <Typography variant="caption" color="grey.700">
                 현재경로: <b>{displayingPath}</b>
@@ -54,7 +49,7 @@ export const BrowserHeader = memo(
           gap={1.5}
           sx={{ flexGrow: 1, justifyContent: 'flex-end' }}
         >
-          {appendDirectory && (
+          {browserOption.appendDirectory && (
             <Tooltip title={'폴더추가'}>
               <ButtonIcon
                 Icon={CreateNewFolderIcon}
@@ -62,7 +57,7 @@ export const BrowserHeader = memo(
               />
             </Tooltip>
           )}
-          {isDropZone && (
+          {browserOption.isDropZone && (
             <Tooltip title={'파일추가'}>
               <ButtonIcon Icon={UploadFileIcon} onClick={handleClickInput} />
             </Tooltip>

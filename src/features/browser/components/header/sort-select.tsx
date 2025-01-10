@@ -1,13 +1,14 @@
 'use client';
 
 import { MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
+import { memo } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 import { BROWSER_SORT_OPTIONS } from '@/features/browser/constants/browser-sort-options';
 
 import { useBrowserStore } from '../../models';
 
-export const SortSelect = () => {
+export const SortSelect = memo(() => {
   const { sortOption, setSortOption } = useBrowserStore(
     useShallow((state) => ({
       sortOption: state.sortOption,
@@ -40,4 +41,5 @@ export const SortSelect = () => {
       ))}
     </Select>
   );
-};
+});
+SortSelect.displayName = 'SortSelect';

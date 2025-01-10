@@ -24,7 +24,7 @@ export const iconPathMap: {
 } = {
   excel: () => import('@/shared/assets/images/xls_64.png'),
   apk: () => import('@/shared/assets/images/apk_64.png'),
-  exe: () => import('@/shared/assets/images/exe_64.png'),
+  exe: () => import('@/shared/assets/svgs/exe.svg'),
   jpg: () => import('@/shared/assets/images/jpg_64.png'),
   png: () => import('@/shared/assets/images/png_64.png'),
   ppt: () => import('@/shared/assets/images/ppt_64.png'),
