@@ -1,6 +1,6 @@
 'use client';
 
-import FolderIcon from '@mui/icons-material/Folder';
+import DirectoryIcon from '@mui/icons-material/Folder';
 import {
   Dialog,
   DialogContent,
@@ -11,30 +11,31 @@ import {
   SxProps,
   TextField,
 } from '@mui/material';
-import { DragEvent, useCallback } from 'react';
+import { DragEvent, useCallback, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useShallow } from 'zustand/shallow';
 
-import { useQueueStore } from '@/features/browser/models';
-import { DropZoneContainer } from '@/shared/components';
+import { useBrowserStore, useQueueStore } from '@/features/browser/models';
+import { DropZoneContainer, SaveDataButton } from '@/shared/components';
 
-import { FileIcon, QueueFile, UploadButton } from '../../atoms';
+import { QueueFile } from '../queue/queue-file';
 import { AnnouncementBox } from './announcement-box';
 import { directoryNameValidation } from './validation-rule';
 
 type FormValues = {
   directoryName: string;
 };
-type AddFolderDialogProps = {
+type AddDirectoryDialogProps = {
   handleUploadDialogQueue: (directory: string) => Promise<void>;
 };
 
-export const AddFolderDialog = ({
+export const AddDirectoryDialog = ({
   handleUploadDialogQueue,
-}: AddFolderDialogProps) => {
+}: AddDirectoryDialogProps) => {
   const {
     dialogQueue,
-    isAddFolderModalOpen,
-    closeAddFolderModal,
+    isAddDirectoryModalOpen,
+    closeAddDirectoryModal,
     addDialogQueueFiles,
     removeDialogQueueFile,
   } = useQueueStore();
@@ -49,12 +50,15 @@ export const AddFolderDialog = ({
       directoryName: '',
     },
   });
+  const itemAppearance = useBrowserStore(
+    useShallow((state) => state.browserOption.itemAppearance)
+  );
 
   const onSubmit = handleSubmit(async (data) => {
     if (!dialogQueue.length) return;
     await handleUploadDialogQueue(getValues('directoryName'));
     resetDirectoryName();
-    closeAddFolderModal();
+    closeAddDirectoryModal();
   });
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
@@ -73,20 +77,29 @@ export const AddFolderDialog = ({
   const handleUploadQueue = useCallback(async () => {
     await handleUploadDialogQueue(getValues('directoryName'));
     resetDirectoryName();
-    closeAddFolderModal();
+    closeAddDirectoryModal();
   }, [
     getValues,
     resetDirectoryName,
-    closeAddFolderModal,
+    closeAddDirectoryModal,
     handleUploadDialogQueue,
   ]);
 
+  const xsGridItemSize = useMemo(() => {
+    if (itemAppearance === 'card') return 3;
+    else return 2;
+  }, [itemAppearance]);
+  const smGridItemSize = useMemo(() => {
+    if (itemAppearance === 'card') return 4;
+    else return 2;
+  }, [itemAppearance]);
+
   return (
-    <Dialog open={isAddFolderModalOpen} onClose={closeAddFolderModal}>
+    <Dialog open={isAddDirectoryModalOpen} onClose={closeAddDirectoryModal}>
       <form onSubmit={onSubmit}>
         <DialogTitle>
           <Stack direction={'row'} alignItems={'center'} gap={1}>
-            <FolderIcon />
+            <DirectoryIcon />
             <Controller
               name="directoryName"
               control={control}
@@ -118,16 +131,13 @@ export const AddFolderDialog = ({
                     alignItems="center"
                     height="fit-content"
                     sx={{ userSelect: 'none' }}
-                    md={4}
-                    lg={2}
-                    xl={2}
+                    xs={xsGridItemSize}
+                    sm={smGridItemSize}
                   >
                     <QueueFile
-                      fileName={item.name}
-                      imageChildren={<FileIcon contentType={item.type} />}
-                      handleRemoveFile={() => {
-                        removeDialogQueueFile(item.name);
-                      }}
+                      name={item.name}
+                      type={item.type}
+                      handleRemoveFile={removeDialogQueueFile}
                     />
                   </Grid>
                 ))
@@ -136,10 +146,12 @@ export const AddFolderDialog = ({
               )}
             </GridBox>
 
-            <UploadButton
-              queueLen={dialogQueue.length}
-              handleQueue={handleUploadQueue}
-            />
+            {!!dialogQueue.length && getValues('directoryName') && (
+              <SaveDataButton
+                label={`${dialogQueue.length}개의 파일 업로드`}
+                handleBtnClick={handleUploadQueue}
+              />
+            )}
           </DropZoneContainer>
         </DialogContent>
       </form>

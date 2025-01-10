@@ -1,16 +1,28 @@
 'use client';
 
 import { Grid, styled } from '@mui/material';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
+import { useShallow } from 'zustand/shallow';
 
-import { useQueueStore } from '../../models';
-import { FileIcon, QueueFile } from '../atoms';
+import { useBrowserStore, useQueueStore } from '../../models';
+import { QueueFile } from './queue-file';
 
 type QueueProps = {
   handleRemoveInputFile: (fileName: string) => void;
 };
 export const Queue = memo(({ handleRemoveInputFile }: QueueProps) => {
   const { browserQueue, removeBrowserQueueFile } = useQueueStore();
+  const itemAppearance = useBrowserStore(
+    useShallow((state) => state.browserOption.itemAppearance)
+  );
+  const xsGridItemSize = useMemo(() => {
+    if (itemAppearance === 'card') return 3;
+    else return 2;
+  }, [itemAppearance]);
+  const smGridItemSize = useMemo(() => {
+    if (itemAppearance === 'card') return 3;
+    else return 1.5;
+  }, [itemAppearance]);
 
   const handleRemoveFile = (fileName: string) => {
     removeBrowserQueueFile(fileName);
@@ -20,11 +32,17 @@ export const Queue = memo(({ handleRemoveInputFile }: QueueProps) => {
   return (
     <>
       {browserQueue.map((item) => {
+        console.log(item, typeof item);
         return (
-          <GridItem item key={item.name} xs={3} md={2} lg={1.2} xl={1}>
+          <GridItem
+            item
+            key={item.name}
+            xs={xsGridItemSize}
+            sm={smGridItemSize}
+          >
             <QueueFile
-              fileName={item.name}
-              imageChildren={<FileIcon contentType={item.type} />}
+              name={item.name}
+              type={item.type}
               handleRemoveFile={handleRemoveFile}
             />
           </GridItem>

@@ -1,6 +1,7 @@
 'use client';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { Stack } from '@mui/material';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { ChangeEvent, DragEvent, useRef, useState } from 'react';
@@ -12,7 +13,6 @@ import {
   HiddenFileInput,
   UploadDivWrapper,
 } from './table-components';
-import { Stack } from '@mui/material';
 
 export const FileUploader = () => {
   const { addToFiles } = useConsultingFileSettings();

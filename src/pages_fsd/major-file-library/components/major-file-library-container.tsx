@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { Browser } from '@/features/browser/components';
 import { BROWSER_PATH } from '@/features/browser/constants';
+import { BrowserOptionOptional } from '@/features/browser/models';
 import { ContentWrapper } from '@/shared/components';
 import { useUser } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
@@ -13,13 +14,23 @@ import { useUploadMajorFileMutation } from '../hooks';
 
 export const MajorFileLibraryContainer = () => {
   const { user } = useUser();
-  const { currentUniv } = useSharedStore();
+  const currentUniv = useSharedStore((state) => state.currentUniv);
   const mutation = useUploadMajorFileMutation();
   const [formData] = useState<FormData>(new FormData());
 
   const initialPath = useMemo(
     () => `${BROWSER_PATH.subjectLibrary}/${currentUniv?.univID}`,
     [currentUniv]
+  );
+
+  const browserOption: BrowserOptionOptional = useMemo(
+    () => ({
+      isDropZone: true,
+      showCurrentPath: true,
+      appendDirectory: true,
+      itemAppearance: 'card',
+    }),
+    []
   );
 
   const title = `${currentUniv?.univName} 학과 자료실`;
@@ -42,11 +53,9 @@ export const MajorFileLibraryContainer = () => {
       <ContentWrapper.MainContent>
         <Browser
           initialPath={initialPath}
-          showCurrentPath
-          isDropZone={true}
+          browserOption={browserOption}
           formData={formData}
           uploadMutation={mutation}
-          appendDirectory
         />
       </ContentWrapper.MainContent>
     </ContentWrapper>

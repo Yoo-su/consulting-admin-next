@@ -12,12 +12,12 @@ import toast from 'react-hot-toast';
 
 import { useConfirmToast } from '@/shared/hooks';
 
+import { MAX_TITLE_LENGTH } from '../constants';
 import { useConsultingFileSettings } from '../hooks';
 import { ConsultingFile } from '../models';
 import { getFileNoFromEvent } from '../services';
 import { FileDownloader } from './file-downloader';
 import { CustomWidthBoxCell, StyledTextField } from './table-components';
-import { MAX_TITLE_LENGTH } from '../constants';
 
 export const EditFile = ({ file }: { file: ConsultingFile }) => {
   const {

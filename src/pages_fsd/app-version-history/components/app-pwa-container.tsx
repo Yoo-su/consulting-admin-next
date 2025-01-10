@@ -10,8 +10,8 @@ import toast from 'react-hot-toast';
 import { useSharedStore } from '@/shared/models';
 import { isCurrentServiceYear } from '@/shared/services';
 
-import { SerialNoTextField, URlAddressTextField } from './copy-only-textfield';
 import { RealURL, TestURL } from '../constants';
+import { SerialNoTextField, URlAddressTextField } from './copy-only-textfield';
 
 export const AppPWAContainer = () => {
   const theme = useTheme();

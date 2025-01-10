@@ -1,9 +1,9 @@
 import { Stack, Typography } from '@mui/material';
+import { useMemo } from 'react';
 
 import { useFlutterSetting } from '../hooks';
 import { FlutterRowInfo, FlutterSetting } from '../models';
 import { EditSetting } from './edit-setting';
-import { useMemo } from 'react';
 
 type SettingDetailProps = {
   filteredList: FlutterSetting[];

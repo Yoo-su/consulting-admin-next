@@ -1,12 +1,21 @@
 import { useCallback, useMemo } from 'react';
+import { useShallow } from 'zustand/shallow';
 
 import { useBrowserStore, useQueueStore } from '../models';
 import { useGetBrowserListQuery } from './use-get-browser-list-query';
 
 export const useBrowserHeader = () => {
-  const { currentPath, basePath, setCurrentPath } = useBrowserStore();
+  const { currentPath, basePath, setCurrentPath } = useBrowserStore(
+    useShallow((state) => ({
+      currentPath: state.currentPath,
+      basePath: state.basePath,
+      setCurrentPath: state.setCurrentPath,
+    }))
+  );
   const browserQueue = useQueueStore((state) => state.browserQueue);
-  const openAddFolderModal = useQueueStore((state) => state.openAddFolderModal);
+  const openAddDirectoryModal = useQueueStore(
+    useShallow((state) => state.openAddDirectoryModal)
+  );
   const { data } = useGetBrowserListQuery(currentPath);
 
   // 현재 경로의 아이템 수
@@ -30,7 +39,7 @@ export const useBrowserHeader = () => {
   // 폴더 아이콘 클릭처리
   const handleClickFolderBtn = useCallback(() => {
     if (browserQueue.length) return;
-    openAddFolderModal();
+    openAddDirectoryModal();
   }, [browserQueue]);
 
   // 이전 버튼 클릭 처리
@@ -44,7 +53,7 @@ export const useBrowserHeader = () => {
     isNotRoot,
     displayingPath,
     dataCnt,
-    openAddFolderModal,
+    openAddDirectoryModal,
     handleClickFolderBtn,
     handleClickPrevBtn,
   };

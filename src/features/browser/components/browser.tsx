@@ -1,50 +1,35 @@
 'use client';
 
 import { Grid, styled, SxProps } from '@mui/material';
-import { UseMutationResult } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 
-import { DropZoneContainer } from '@/shared/components';
+import { DropZoneContainer, SaveDataButton } from '@/shared/components';
 
+import { DEFAULT_BROWSER_OPTION } from '../constants';
 import { useHandleQueue } from '../hooks';
-import { useBrowserStore } from '../models';
-import { UploadButton } from './atoms';
-import { BrowserHeader, Queue } from './molecules';
-import { FileList } from './molecules/file-list';
-import { AddFolderDialog } from './widgets';
+import { BrowserOptionOptional, useBrowserStore } from '../models';
+import { AddDirectoryDialog } from './add-directory-dialog';
+import { Content } from './content';
+import { BrowserHeader } from './header';
+import { Queue } from './queue';
 
 type BrowserProps = {
   initialPath: string;
-  appendDirectory?: boolean;
-  showCurrentPath?: boolean;
-  isDropZone?: boolean;
+  browserOption?: BrowserOptionOptional;
   formData?: FormData;
-  uploadMutation?: UseMutationResult<
-    AxiosResponse<any, any>,
-    Error,
-    FormData,
-    unknown
-  >;
+  uploadMutation?: any;
 };
 export const Browser = ({
   initialPath,
-  appendDirectory = false,
-  showCurrentPath = false,
-  isDropZone = false,
+  browserOption = DEFAULT_BROWSER_OPTION,
   formData,
   uploadMutation,
 }: BrowserProps) => {
-  const { initPath, currentPath } = useBrowserStore(
-    useShallow((state) => ({
-      initPath: state.initPath,
-      currentPath: state.currentPath,
-    }))
-  );
+  const { initPath, setBrowserOption } = useBrowserStore();
   const {
-    browserQueueLen,
     fileInputRef,
+    browserQueueLen,
     handleChangeFileInput,
     handleClickInput,
     handleUploadBrowserQueue,
@@ -52,35 +37,31 @@ export const Browser = ({
     handleOnDrop,
     handleRemoveInputFile,
   } = useHandleQueue({
-    isDropZone,
-    appendDirectory,
     formData: formData!,
     uploadMutation: uploadMutation!,
   });
 
   useEffect(() => {
     initPath(initialPath);
+    setBrowserOption({ ...DEFAULT_BROWSER_OPTION, ...browserOption });
   }, [initialPath]);
 
   return (
     <DropZoneContainer onDrop={handleOnDrop} sx={BrowserContainerStyles}>
-      <BrowserHeader
-        showCurrentPath={showCurrentPath}
-        appendDirectory={appendDirectory}
-        isDropZone={isDropZone}
-        handleClickInput={handleClickInput}
-      />
+      <BrowserHeader handleClickInput={handleClickInput} />
 
       <FileGrid container rowSpacing={2}>
-        <FileList currentPath={currentPath} browserQueueLen={browserQueueLen} />
+        <Content />
         <Queue handleRemoveInputFile={handleRemoveInputFile} />
       </FileGrid>
 
-      <UploadButton
-        queueLen={browserQueueLen}
-        handleQueue={handleUploadBrowserQueue}
-      />
-      <AddFolderDialog handleUploadDialogQueue={handleUploadDialogQueue} />
+      {!!browserQueueLen && (
+        <SaveDataButton
+          label={`${browserQueueLen}개의 파일 업로드`}
+          handleBtnClick={handleUploadBrowserQueue}
+        />
+      )}
+      <AddDirectoryDialog handleUploadDialogQueue={handleUploadDialogQueue} />
       <input
         style={{ display: 'none' }}
         type={'file'}

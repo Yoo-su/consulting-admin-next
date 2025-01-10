@@ -1,6 +1,7 @@
 'use client';
 
 import Stack from '@mui/material/Stack';
+import { memo } from 'react';
 
 import { FileListData } from './file-list-data';
 import { FileUploader } from './file-uploader';
@@ -10,7 +11,6 @@ import {
   TableContainerBox,
   TableRowBox,
 } from './table-components';
-import { memo } from 'react';
 
 export const FileListTable = () => {
   return (
@@ -45,3 +45,4 @@ const TableHeader = memo(() => (
     <CustomWidthBoxCell size="s">삭제</CustomWidthBoxCell>
   </TableRowBox>
 ));
+TableHeader.displayName = 'TableHeader';

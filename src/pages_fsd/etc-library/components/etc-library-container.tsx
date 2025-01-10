@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { Browser } from '@/features/browser/components';
 import { BROWSER_PATH } from '@/features/browser/constants';
+import { BrowserOptionOptional } from '@/features/browser/models';
 import { ContentWrapper } from '@/shared/components';
 import { useUser } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
@@ -22,6 +23,10 @@ export const EtcLibraryContainer = () => {
     () => `${BROWSER_PATH.etcLibrary}/${currentService?.serviceID}`,
     [currentService]
   );
+  const browserOption: BrowserOptionOptional = useMemo(() => {
+    return { isDropZone: true, itemAppearance: 'card' };
+  }, [currentService]);
+
   const [formData] = useState(new FormData());
 
   useEffect(() => {
@@ -45,7 +50,7 @@ export const EtcLibraryContainer = () => {
       <ContentWrapper.MainContent>
         <Browser
           initialPath={initialPath}
-          isDropZone
+          browserOption={browserOption}
           uploadMutation={mutation}
           formData={formData}
         />
