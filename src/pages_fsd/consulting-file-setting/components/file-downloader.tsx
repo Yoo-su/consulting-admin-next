@@ -19,16 +19,14 @@ export const FileDownloader = ({ fileName }: FileDownloaderProps) => {
       if (!fileContent) {
         throw new Error('DownloadFailed: Invalid or empty file received');
       }
-      const blob = new Blob([fileContent], { type: 'application/pdf' });
+      const fileType = getFileType(fileName);
+      const blob = new Blob([fileContent], { type: fileType });
 
       // Create a download link
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute(
-        'download',
-        fileName.endsWith('.pdf') ? fileName : `${fileName}.pdf`
-      );
+      link.setAttribute('download', fileName);
       document.body.appendChild(link);
       link.click();
 
@@ -81,4 +79,24 @@ export const FileDownloader = ({ fileName }: FileDownloaderProps) => {
       </Button>
     </CustomWidthBoxCell>
   );
+};
+
+const getFileType = (fileName: string) => {
+  const extension = fileName.split('.').pop()?.toLowerCase();
+  if (extension === 'pdf') {
+    return 'application/pdf';
+  } else {
+    switch (extension) {
+      case 'jpg':
+      case 'jpeg':
+        return 'image/jpeg';
+      case 'tiff':
+      case 'tif':
+        return 'image/tiff';
+      case 'svg':
+        return 'image/svg+xml';
+      default:
+        return `image/${extension}`;
+    }
+  }
 };
