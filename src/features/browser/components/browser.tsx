@@ -8,7 +8,11 @@ import { DropZoneContainer, SaveDataButton } from '@/shared/components';
 
 import { DEFAULT_BROWSER_OPTION } from '../constants';
 import { useHandleQueue } from '../hooks';
-import { BrowserOptionOptional, useBrowserStore } from '../models';
+import {
+  BrowserOptionOptional,
+  UploadMutationType,
+  useBrowserStore,
+} from '../models';
 import { AddDirectoryDialog } from './add-directory-dialog';
 import { Content } from './content';
 import { BrowserHeader } from './header';
@@ -18,7 +22,7 @@ type BrowserProps = {
   initialPath: string;
   browserOption?: BrowserOptionOptional;
   formData?: FormData;
-  uploadMutation?: any;
+  uploadMutation?: UploadMutationType;
 };
 export const Browser = ({
   initialPath,
@@ -58,10 +62,14 @@ export const Browser = ({
       {!!browserQueueLen && (
         <SaveDataButton
           label={`${browserQueueLen}개의 파일 업로드`}
+          disabled={uploadMutation?.isPending}
           handleBtnClick={handleUploadBrowserQueue}
         />
       )}
-      <AddDirectoryDialog handleUploadDialogQueue={handleUploadDialogQueue} />
+      <AddDirectoryDialog
+        isUploadPending={uploadMutation?.isPending}
+        handleUploadDialogQueue={handleUploadDialogQueue}
+      />
       <input
         style={{ display: 'none' }}
         type={'file'}

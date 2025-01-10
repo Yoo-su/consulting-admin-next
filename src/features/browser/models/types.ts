@@ -1,3 +1,13 @@
+import { UseMutationResult } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
+
+export type UploadMutationType = UseMutationResult<
+  AxiosResponse<any, any>,
+  Error,
+  FormData,
+  unknown
+>;
+
 export type BrowserItem = {
   name: string;
   path: string;

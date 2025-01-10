@@ -24,7 +24,7 @@ export const EtcLibraryContainer = () => {
     [currentService]
   );
   const browserOption: BrowserOptionOptional = useMemo(() => {
-    return { isDropZone: true, itemAppearance: 'card' };
+    return { isDropZone: true };
   }, [currentService]);
 
   const [formData] = useState(new FormData());

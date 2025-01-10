@@ -10,16 +10,11 @@ import { QUERY_KEYS } from '@/shared/constants';
 import { useSharedStore } from '@/shared/models';
 import { handleToastPromise } from '@/shared/services/handle-toast-promise';
 
-import { useBrowserStore, useQueueStore } from '../models';
+import { UploadMutationType, useBrowserStore, useQueueStore } from '../models';
 
 type UseHandleQueueProps = {
   formData: FormData;
-  uploadMutation: UseMutationResult<
-    AxiosResponse<any, any>,
-    Error,
-    FormData,
-    unknown
-  >;
+  uploadMutation: UploadMutationType;
 };
 type UseHandleQueueReturn = {
   fileInputRef: React.RefObject<HTMLInputElement>;

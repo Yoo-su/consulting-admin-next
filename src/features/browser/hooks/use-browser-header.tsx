@@ -13,8 +13,8 @@ export const useBrowserHeader = () => {
     }))
   );
   const browserQueue = useQueueStore((state) => state.browserQueue);
-  const openAddDirectoryModal = useQueueStore(
-    useShallow((state) => state.openAddDirectoryModal)
+  const openAddDirectoryDialog = useQueueStore(
+    useShallow((state) => state.openAddDirectoryDialog)
   );
   const { data } = useGetBrowserListQuery(currentPath);
 
@@ -39,7 +39,7 @@ export const useBrowserHeader = () => {
   // 폴더 아이콘 클릭처리
   const handleClickFolderBtn = useCallback(() => {
     if (browserQueue.length) return;
-    openAddDirectoryModal();
+    openAddDirectoryDialog();
   }, [browserQueue]);
 
   // 이전 버튼 클릭 처리
@@ -53,7 +53,7 @@ export const useBrowserHeader = () => {
     isNotRoot,
     displayingPath,
     dataCnt,
-    openAddDirectoryModal,
+    openAddDirectoryDialog,
     handleClickFolderBtn,
     handleClickPrevBtn,
   };

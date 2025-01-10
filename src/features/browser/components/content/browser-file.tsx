@@ -1,3 +1,4 @@
+import BuildIcon from '@mui/icons-material/Build';
 import { Badge, Tooltip, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { memo, useCallback, useState } from 'react';
@@ -52,7 +53,7 @@ export const BrowserFile = memo(
             <StyledBadge
               invisible={!isHovered && !filePopover.open}
               color={'default'}
-              badgeContent={<Typography fontSize={'26px'}>🔧</Typography>}
+              badgeContent={<BuildIcon color={'action'} fontSize={'medium'} />}
               ref={filePopover.anchorRef}
             >
               <FileIcon contentType={contentType ?? ''} />

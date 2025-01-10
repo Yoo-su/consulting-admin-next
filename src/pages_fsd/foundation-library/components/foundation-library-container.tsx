@@ -5,6 +5,7 @@ import { useMemo } from 'react';
 
 import { Browser } from '@/features/browser/components';
 import { BROWSER_PATH } from '@/features/browser/constants';
+import { BrowserOptionOptional } from '@/features/browser/models';
 import { ContentWrapper } from '@/shared/components';
 import { useSharedStore } from '@/shared/models';
 
@@ -17,6 +18,12 @@ export const FoundationLibraryContainer = () => {
 
   const title = `${currentUniv?.univName}(${currentService?.serviceID}) 기초데이터 자료실`;
 
+  const browserOption: BrowserOptionOptional = useMemo(() => {
+    return {
+      itemAppearance: 'card',
+    };
+  }, []);
+
   return (
     <ContentWrapper>
       <ContentWrapper.Header bottomDivider>
@@ -28,7 +35,7 @@ export const FoundationLibraryContainer = () => {
       </ContentWrapper.Header>
 
       <ContentWrapper.MainContent>
-        <Browser initialPath={initialPath} />
+        <Browser initialPath={initialPath} browserOption={browserOption} />
       </ContentWrapper.MainContent>
     </ContentWrapper>
   );
