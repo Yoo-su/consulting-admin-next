@@ -8,12 +8,11 @@ import { useShallow } from 'zustand/shallow';
 
 import { QUERY_KEYS } from '@/shared/constants';
 import { useSharedStore } from '@/shared/models';
+import { handleToastPromise } from '@/shared/services/handle-toast-promise';
 
 import { useBrowserStore, useQueueStore } from '../models';
 
 type UseHandleQueueProps = {
-  isDropZone: boolean;
-  appendDirectory: boolean;
   formData: FormData;
   uploadMutation: UseMutationResult<
     AxiosResponse<any, any>,
@@ -22,20 +21,24 @@ type UseHandleQueueProps = {
     unknown
   >;
 };
+type UseHandleQueueReturn = {
+  fileInputRef: React.RefObject<HTMLInputElement>;
+  browserQueueLen: number;
+  handleUploadBrowserQueue: () => Promise<void>;
+  handleUploadDialogQueue: (directory: string) => Promise<void>;
+  handleOnDrop: (event: DragEvent<HTMLDivElement>) => void;
+  handleRemoveInputFile: (fileName: string) => void;
+  handleChangeFileInput: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleClickInput: () => void;
+};
 export const useHandleQueue = ({
-  isDropZone,
-  appendDirectory,
   formData,
   uploadMutation,
 }: UseHandleQueueProps) => {
+  const _return = useRef<UseHandleQueueReturn>();
   const queryClient = useQueryClient();
-  const { currentService } = useSharedStore();
-  const { basePath, currentPath } = useBrowserStore(
-    useShallow((state) => ({
-      basePath: state.basePath,
-      currentPath: state.currentPath,
-    }))
-  );
+  const currentService = useSharedStore((state) => state.currentService);
+  const { basePath, currentPath, browserOption } = useBrowserStore();
   const { browserQueue, dialogQueue, addBrowserQueueFiles, resetBrowserQueue } =
     useQueueStore(
       useShallow((state) => ({
@@ -56,10 +59,6 @@ export const useHandleQueue = ({
   const browserQueueLen = useMemo(() => {
     return browserQueue.length;
   }, [browserQueue]);
-
-  const dialogQueueLen = useMemo(() => {
-    return dialogQueue.length;
-  }, [dialogQueue]);
 
   const handleClickInput = useCallback(() => {
     fileInputRef?.current?.click();
@@ -88,51 +87,44 @@ export const useHandleQueue = ({
     }
   }, []);
 
-  const handleOnDrop = useCallback((event: DragEvent<HTMLDivElement>) => {
-    if (!isDropZone) {
-      toast.error(
-        <Typography variant={'caption'}>
-          {'드롭 허용 영역이 아닙니다.'}
-        </Typography>
-      );
-      return;
-    }
-    const arrayFiles = Array.from(event.dataTransfer.files);
-    if (!arrayFiles.length) return;
-    else addBrowserQueueFiles(arrayFiles);
-  }, []);
+  const handleOnDrop = useCallback(
+    (event: DragEvent<HTMLDivElement>) => {
+      if (!browserOption.isDropZone) {
+        toast.error(
+          <Typography variant={'caption'}>
+            {'드롭 허용 영역이 아닙니다.'}
+          </Typography>
+        );
+        return;
+      }
+      const arrayFiles = Array.from(event.dataTransfer.files);
+      if (!arrayFiles.length) return;
+      else addBrowserQueueFiles(arrayFiles);
+    },
+    [browserOption]
+  );
 
   const handleUploadBrowserQueue = useCallback(async () => {
-    if (appendDirectory) formData?.set('Directory', uploadDirectory);
+    if (browserOption.appendDirectory) {
+      formData?.set('Directory', uploadDirectory);
+    }
     browserQueue.forEach((file) => {
       formData?.append('files', file);
     });
-    await toast
-      .promise(uploadMutation!.mutateAsync(formData!), {
-        loading: (
-          <Typography variant={'caption'}>업로드 중입니다...</Typography>
-        ),
-        success: (
-          <Typography variant={'caption'}>
-            성공적으로 업로드되었습니다.
-          </Typography>
-        ),
-        error: (
-          <Typography variant={'caption'}>
-            업로드 중 에러가 발생했습니다.
-          </Typography>
-        ),
-      })
-      .finally(() => {
-        formData?.delete('files');
-        resetBrowserQueue();
-        queryClient.invalidateQueries({
-          queryKey: QUERY_KEYS.browser.data(currentPath).queryKey,
-        });
+
+    await handleToastPromise(uploadMutation!.mutateAsync(formData!), {
+      loading: '업로드 중입니다...',
+      success: '성공적으로 업로드되었습니다.',
+      error: '업로드 중 에러가 발생했습니다.',
+    }).finally(() => {
+      formData?.delete('files');
+      resetBrowserQueue();
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.browser.data(currentPath).queryKey,
       });
+    });
   }, [browserQueue, uploadDirectory, currentPath]);
 
-  // dialog queue 업로드 메서드
   const handleUploadDialogQueue = useCallback(
     async (directory: string) => {
       const refinedDirectory = uploadDirectory
@@ -142,28 +134,17 @@ export const useHandleQueue = ({
       dialogQueue.forEach((file) => {
         formData?.append('files', file);
       });
-      await toast
-        .promise(uploadMutation!.mutateAsync(formData!), {
-          loading: (
-            <Typography variant={'caption'}>업로드 중입니다...</Typography>
-          ),
-          success: (
-            <Typography variant={'caption'}>
-              성공적으로 업로드되었습니다.
-            </Typography>
-          ),
-          error: (
-            <Typography variant={'caption'}>
-              업로드 중 에러가 발생했습니다.
-            </Typography>
-          ),
-        })
-        .finally(() => {
-          formData?.delete('files');
-          queryClient.invalidateQueries({
-            queryKey: QUERY_KEYS.browser.data(currentPath).queryKey,
-          });
+
+      await handleToastPromise(uploadMutation!.mutateAsync(formData!), {
+        loading: '업로드 중입니다...',
+        success: '성공적으로 업로드되었습니다.',
+        error: '업로드 중 에러가 발생했습니다.',
+      }).finally(() => {
+        formData?.delete('files');
+        queryClient.invalidateQueries({
+          queryKey: QUERY_KEYS.browser.data(currentPath).queryKey,
         });
+      });
     },
     [dialogQueue, uploadDirectory, currentPath]
   );
@@ -172,10 +153,9 @@ export const useHandleQueue = ({
     resetBrowserQueue();
   }, [currentService]);
 
-  return {
+  _return.current = {
     fileInputRef,
     browserQueueLen,
-    dialogQueueLen,
     handleUploadBrowserQueue,
     handleUploadDialogQueue,
     handleOnDrop,
@@ -183,4 +163,6 @@ export const useHandleQueue = ({
     handleChangeFileInput,
     handleClickInput,
   };
+
+  return _return.current;
 };

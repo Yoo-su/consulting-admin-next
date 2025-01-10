@@ -6,6 +6,8 @@ import { memo } from 'react';
 
 import DocIcon from '@/shared/assets/svgs/doc.svg';
 import ExcelIcon from '@/shared/assets/svgs/excel.svg';
+import ExeIcon from '@/shared/assets/svgs/exe.svg';
+import DirectoryIcon from '@/shared/assets/svgs/folder.svg';
 import ImageIcon from '@/shared/assets/svgs/image.svg';
 import PdfIcon from '@/shared/assets/svgs/pdf.svg';
 import PptIcon from '@/shared/assets/svgs/ppt.svg';
@@ -45,6 +47,10 @@ export const FileIcon = memo(({ contentType }: FileIconProps) => {
       case 'application/vnd.ms-powerpoint':
       case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
         return PptIcon;
+      case 'application/octet-stream':
+        return ExeIcon;
+      case 'directory':
+        return DirectoryIcon;
       default:
         return UnknownIcon;
     }
@@ -54,7 +60,13 @@ export const FileIcon = memo(({ contentType }: FileIconProps) => {
 
   return (
     <animated.div style={fadeIn}>
-      <Image src={icon} alt="file icon" width={48} height={48} />
+      <Image
+        draggable={false}
+        src={icon}
+        alt="file icon"
+        width={48}
+        height={48}
+      />
     </animated.div>
   );
 });

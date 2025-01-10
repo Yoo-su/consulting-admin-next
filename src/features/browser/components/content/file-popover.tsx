@@ -1,10 +1,9 @@
 'use client';
 
 import { MenuItem, MenuList, Popover, Typography } from '@mui/material';
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 
-import { API_URLS } from '@/shared/constants';
-import { useDownloadFile } from '@/shared/hooks';
+import { useHandleBrowserItem } from '../../hooks';
 
 export type FilePopoverProps = {
   anchorEl: Element | null;
@@ -13,8 +12,8 @@ export type FilePopoverProps = {
   name: string;
   onClose: () => void;
   handleSetIsEditMode: (modeState: boolean) => void;
-  handleDeleteFile: (filePath: string) => Promise<void>;
 };
+
 export const FilePopover = memo(
   ({
     anchorEl,
@@ -23,24 +22,17 @@ export const FilePopover = memo(
     name,
     onClose,
     handleSetIsEditMode,
-    handleDeleteFile,
   }: FilePopoverProps) => {
-    const { downloadFile } = useDownloadFile();
+    const { handleDeleteBrowserFile, handleDownloadFile } =
+      useHandleBrowserItem();
 
-    const handleDownloadFile = async () => {
-      const encoded = encodeURIComponent(decodeURIComponent(path));
-      const url = `${
-        process.env.NEXT_PUBLIC_BASE_URL +
-        API_URLS.dashboard.downloadBrowserFile
-      }/${encoded}`;
-      await downloadFile(url, name);
-      onClose();
-    };
-
-    const handleEnterEditMode = () => {
-      handleSetIsEditMode(true);
-      onClose();
-    };
+    const handleClick = useCallback(
+      (action: () => void) => {
+        action();
+        onClose();
+      },
+      [onClose]
+    );
 
     return (
       <Popover
@@ -55,22 +47,25 @@ export const FilePopover = memo(
         slotProps={{ paper: { sx: { width: 'fit-content' } } }}
       >
         <MenuList>
-          <MenuItem onClick={handleDownloadFile}>
+          <MenuItem
+            onClick={() => handleClick(() => handleDownloadFile(path, name))}
+          >
             <Typography variant="caption">다운로드</Typography>
           </MenuItem>
           <MenuItem
-            onClick={() => {
-              handleDeleteFile(path);
-            }}
+            onClick={() => handleClick(() => handleSetIsEditMode(true))}
+          >
+            <Typography variant="caption">파일명수정</Typography>
+          </MenuItem>
+          <MenuItem
+            onClick={() => handleClick(() => handleDeleteBrowserFile(path))}
           >
             <Typography variant="caption">자료삭제</Typography>
-          </MenuItem>
-          <MenuItem onClick={handleEnterEditMode}>
-            <Typography variant="caption">파일명수정</Typography>
           </MenuItem>
         </MenuList>
       </Popover>
     );
   }
 );
+
 FilePopover.displayName = 'FilePopover';
