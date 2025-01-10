@@ -7,9 +7,9 @@ import FormControl from '@mui/material/FormControl';
 import RadioGroup from '@mui/material/RadioGroup';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 
+import { OsType } from '../constants';
 import { ConsultingAppType } from '../models';
 import { RadioIconLabel } from './radio-icon-label';
-import { OsType } from '../constants';
 
 type HeaderSelectRadioProps = {
   appType: ConsultingAppType;

@@ -5,12 +5,12 @@ import { useState } from 'react';
 import { ContentWrapper } from '@/shared/components';
 import { useSharedStore } from '@/shared/models';
 
+import { OsType } from '../constants';
 import { useGetAppVersionHistoryQuery } from '../hooks';
 import { ConsultingAppType } from '../models';
 import { AppProgContainer } from './app-prog-container';
 import { AppPWAContainer } from './app-pwa-container';
 import { HeaderSelectRadio } from './header-select-radio';
-import { OsType } from '../constants';
 
 export const AppHistoryListContainer = () => {
   const { currentService } = useSharedStore();

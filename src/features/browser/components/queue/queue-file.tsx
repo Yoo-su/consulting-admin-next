@@ -2,9 +2,10 @@ import { Badge, Box, Stack, Tooltip, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { memo, useState } from 'react';
 
-import { FileIcon } from '../file-icon';
 import { useHandleHoverState } from '@/shared/hooks';
+
 import { useItemStyle } from '../../hooks';
+import { FileIcon } from '../file-icon';
 
 type QueueFileProps = {
   name: string;

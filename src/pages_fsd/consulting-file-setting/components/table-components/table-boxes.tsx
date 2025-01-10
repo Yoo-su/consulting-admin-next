@@ -7,6 +7,7 @@ import {
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { ComponentPropsWithoutRef, PropsWithChildren, Ref } from 'react';
+
 import {
   CustomWidthBoxCellStyle,
   TableBoxStyle,
