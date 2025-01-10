@@ -48,11 +48,12 @@ export const FlutterSettingContainer = () => {
     if (isBlocked) {
       window.history.pushState(null, '', window.location.href); // preventing forward button
       const listener = () => {
-        openConfirmToast(
-          '저장되지 않은 데이터가 있습니다.\n이동하시겠습니까?',
-          () => router.back(),
-          () => window.history.pushState(null, '', window.location.href)
-        );
+        openConfirmToast({
+          message: '저장되지 않은 데이터가 있습니다.\n이동하시겠습니까?',
+          callbackConfirm: () => router.back(),
+          callbackCancel: () =>
+            window.history.pushState(null, '', window.location.href),
+        });
       };
 
       window.addEventListener('popstate', listener);
@@ -66,10 +67,10 @@ export const FlutterSettingContainer = () => {
   const handleViewTransition = useCallback(
     (originalMethod: () => void) => {
       if (isBlocked) {
-        openConfirmToast(
-          '저장되지 않은 데이터가 있습니다.\n이동하시겠습니까?',
-          originalMethod
-        );
+        openConfirmToast({
+          message: '저장되지 않은 데이터가 있습니다.\n이동하시겠습니까?',
+          callbackConfirm: originalMethod,
+        });
       } else {
         originalMethod();
       }

@@ -57,11 +57,14 @@ export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
   }, [selectedModel, modelNum]);
 
   const handleClickDeleteModelBtn = useCallback(() => {
-    openConfirmToast(`${modelNum + 1}번 모델을 삭제하시겠습니까?`, () => {
-      const newChartData = [...(chartData ?? [])].filter(
-        (item) => item.modelNum !== modelNum
-      );
-      setChartData(newChartData);
+    openConfirmToast({
+      message: `${modelNum + 1}번 모델을 삭제하시겠습니까?`,
+      callbackConfirm: () => {
+        const newChartData = [...(chartData ?? [])].filter(
+          (item) => item.modelNum !== modelNum
+        );
+        setChartData(newChartData);
+      },
     });
   }, [chartData, modelNum]);
 

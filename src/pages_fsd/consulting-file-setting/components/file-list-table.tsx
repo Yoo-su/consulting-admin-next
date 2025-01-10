@@ -10,25 +10,14 @@ import {
   TableContainerBox,
   TableRowBox,
 } from './table-components';
+import { memo } from 'react';
 
 export const FileListTable = () => {
   return (
     <Stack direction={'column'} sx={{ mt: 5 }}>
       <TableContainerBox aria-label="file-list-table">
         <TableBox>
-          <TableRowBox>
-            <CustomWidthBoxCell size="xs" style={{ width: '8px' }} />
-            <CustomWidthBoxCell typo={true} size="s">
-              순서
-            </CustomWidthBoxCell>
-            <CustomWidthBoxCell typo={true} size="m">
-              자료명
-            </CustomWidthBoxCell>
-            <CustomWidthBoxCell typo={true} size="m">
-              파일명
-            </CustomWidthBoxCell>
-            <CustomWidthBoxCell size="s">삭제</CustomWidthBoxCell>
-          </TableRowBox>
+          <TableHeader />
           <TableRowBox>
             <FileListData />
           </TableRowBox>
@@ -40,3 +29,19 @@ export const FileListTable = () => {
     </Stack>
   );
 };
+
+const TableHeader = memo(() => (
+  <TableRowBox>
+    <CustomWidthBoxCell size="xs" style={{ width: '8px' }} />
+    <CustomWidthBoxCell typo={true} size="s">
+      순서
+    </CustomWidthBoxCell>
+    <CustomWidthBoxCell typo={true} size="m">
+      자료명
+    </CustomWidthBoxCell>
+    <CustomWidthBoxCell typo={true} size="m">
+      파일명
+    </CustomWidthBoxCell>
+    <CustomWidthBoxCell size="s">삭제</CustomWidthBoxCell>
+  </TableRowBox>
+));

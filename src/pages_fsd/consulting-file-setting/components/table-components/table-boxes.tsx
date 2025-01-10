@@ -7,33 +7,13 @@ import {
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { ComponentPropsWithoutRef, PropsWithChildren, Ref } from 'react';
+import {
+  CustomWidthBoxCellStyle,
+  TableBoxStyle,
+  TableContainerBoxStyle,
+  TableRowBoxStyle,
+} from '../../constants';
 
-const TableContainerBoxStyle = {
-  backgroundColor: 'var(--mui-palette-background-paper)',
-  color: 'var(--mui-palette-text-primary)',
-  WebkitTransition: 'box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-  transition: 'box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-  borderRadius: '4px',
-  boxShadow: 'var(--mui-shadows-1)',
-  backgroundImage: 'var(--mui-overlays-1)',
-  width: '100%',
-  overflowX: 'auto',
-};
-const TableBoxStyle = {
-  display: 'table',
-  width: '100%',
-  borderCollapse: 'collapse',
-  borderSpacing: '0',
-};
-const TableRowBoxStyle = {
-  color: 'inherit',
-  display: 'flex',
-  verticalAlign: 'middle',
-  justifyContent: 'space-between',
-  outline: '0',
-  width: '100%',
-  backgroundColor: 'var(--mui-palette-background-paper)',
-};
 export const TableContainerBox = ({ children }: PropsWithChildren) => {
   return <Box sx={{ ...TableContainerBoxStyle }}>{children}</Box>;
 };
@@ -76,18 +56,14 @@ type CustomWidthBoxCellProps = PropsWithChildren & {
     | 'flex-start'
     | 'flex-end';
 } & ComponentPropsWithoutRef<'div'>;
-const customWidthBoxCellStyle = {
-  padding: '16px ',
-  display: 'flex',
-  alignItems: 'center',
-  fontWeight: '400',
-  fontSize: '0.875rem',
-  lineHeight: '1.43',
-  letterSpacing: '0.01071em',
-  verticalAlign: 'inherit',
-  borderBottom: '1px solid var(--mui-palette-TableCell-border)',
-  color: 'var(--mui-palette-text-primary)',
-};
+
+const SIZE_MAPPINGS = {
+  xs: '14px',
+  s: '5%',
+  m: '50%',
+  l: '100%',
+} as const;
+
 export const CustomWidthBoxCell = ({
   children = null,
   size = 'l',
@@ -95,16 +71,9 @@ export const CustomWidthBoxCell = ({
   justifyContent = 'flex-start',
   ...rest
 }: CustomWidthBoxCellProps) => {
-  const width =
-    size === 'xs'
-      ? '14px'
-      : size === 's'
-      ? '5%'
-      : size === 'm'
-      ? '50%'
-      : '100%';
+  const width = SIZE_MAPPINGS[size];
   return (
-    <Box sx={{ ...customWidthBoxCellStyle, width, justifyContent }} {...rest}>
+    <Box sx={{ ...CustomWidthBoxCellStyle, width, justifyContent }} {...rest}>
       {typo ? <Typography>{children}</Typography> : <>{children}</>}
     </Box>
   );

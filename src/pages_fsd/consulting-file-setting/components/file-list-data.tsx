@@ -11,22 +11,26 @@ import Box from '@mui/material/Box';
 import { useConsultingFileSettings } from '../hooks';
 import { EditFile } from './edit-file';
 import { TableRowBox } from './table-components';
+import { useCallback } from 'react';
 
 export const FileListData = () => {
   const { files, updateRefNo } = useConsultingFileSettings();
 
-  const handleDragEnd = async (result: DropResult) => {
-    const { source, destination, type } = result;
-    if (!destination) return;
-    if (
-      source.droppableId === destination.droppableId &&
-      source.index === destination.index
-    )
-      return;
-    if (type === 'group') {
-      await updateRefNo(files, source.index + 1, destination.index + 1);
-    }
-  };
+  const handleDragEnd = useCallback(
+    (result: DropResult) => {
+      const { source, destination, type } = result;
+      if (!destination) return;
+      if (
+        source.droppableId === destination.droppableId &&
+        source.index === destination.index
+      )
+        return;
+      if (type === 'group') {
+        updateRefNo(files, source.index + 1, destination.index + 1);
+      }
+    },
+    [files, updateRefNo]
+  );
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>

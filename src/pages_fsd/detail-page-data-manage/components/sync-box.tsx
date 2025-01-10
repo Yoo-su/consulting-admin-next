@@ -33,9 +33,9 @@ export const SyncBox = ({ serviceID }: SyncBoxProps) => {
 
   const handleSyncBtnClick = () => {
     if (!source || !target) return;
-    openConfirmToast(
-      `${source}의 내용을 ${target}으로 동기화하시겠습니까?`,
-      () => {
+    openConfirmToast({
+      message: `${source}의 내용을 ${target}으로 동기화하시겠습니까?`,
+      callbackConfirm: () => {
         mutateAsync({
           serviceID: serviceID,
           sourceServerType: source,
@@ -53,8 +53,8 @@ export const SyncBox = ({ serviceID }: SyncBoxProps) => {
               </Typography>
             );
           });
-      }
-    );
+      },
+    });
   };
 
   return (

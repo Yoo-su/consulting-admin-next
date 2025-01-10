@@ -38,7 +38,12 @@ export const UploadDivWrapper = styled('div')({
   textAlign: 'center',
 });
 
-export const HiddenFileInput = styled('input')({
+interface DirectoryInputProps {
+  webkitdirectory?: string | boolean;
+  directory?: string | boolean;
+}
+
+export const HiddenFileInput = styled('input')<DirectoryInputProps>({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
   height: 1,

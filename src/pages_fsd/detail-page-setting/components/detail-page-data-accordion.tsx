@@ -50,9 +50,9 @@ export const DetailPageDataAccordion = memo(
      * 상세 페이지 데이터 삭제
      */
     const handleClickDeleteBtn = useCallback(() => {
-      openConfirmToast(
-        `${detailpageData.rowNum}번 데이터를 삭제하시겠습니까?`,
-        () => {
+      openConfirmToast({
+        message: `${detailpageData.rowNum}번 데이터를 삭제하시겠습니까?`,
+        callbackConfirm: () => {
           queryClient.setQueryData(
             QUERY_KEYS['detail-page-setting']['data'](serviceID).queryKey,
             (oldData: DetailPageData[]) => {
@@ -63,8 +63,8 @@ export const DetailPageDataAccordion = memo(
             }
           );
           handleSelectRow(null);
-        }
-      );
+        },
+      });
     }, [serviceID]);
 
     return (

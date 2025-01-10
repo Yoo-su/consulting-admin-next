@@ -17,6 +17,7 @@ import { ConsultingFile } from '../models';
 import { getFileNoFromEvent } from '../services';
 import { FileDownloader } from './file-downloader';
 import { CustomWidthBoxCell, StyledTextField } from './table-components';
+import { MAX_TITLE_LENGTH } from '../constants';
 
 export const EditFile = ({ file }: { file: ConsultingFile }) => {
   const {
@@ -60,10 +61,10 @@ export const EditFile = ({ file }: { file: ConsultingFile }) => {
       )?.value;
       const trimmedValue = title.trim();
       if (!trimmedValue || trimmedValue === origTitle) return;
-      if (trimmedValue.length > 30) {
+      if (trimmedValue.length > MAX_TITLE_LENGTH) {
         toast.error(
           <Typography variant="body2">
-            자료명은 30자 이내로 입력해주세요
+            자료명은 {MAX_TITLE_LENGTH}자 이내로 입력해주세요
           </Typography>
         );
         setOrigTitle(origTitle);
@@ -105,10 +106,11 @@ export const EditFile = ({ file }: { file: ConsultingFile }) => {
   const handleDeleteFile = (event: MouseEvent<HTMLElement>) => {
     const fileIndex = getFileNoFromEvent(event.currentTarget.id);
     //console.log('files', files, fileIndex);
-    openConfirmToast(
-      `"${files[fileIndex - 1].FileName}" 를 삭제하시겠습니까?`,
-      () => deleteFile(files, fileIndex)
-    );
+    openConfirmToast({
+      id: (fileIndex - 1).toString(),
+      message: `"${files[fileIndex - 1].FileName}" 를 삭제하시겠습니까?`,
+      callbackConfirm: () => deleteFile(files, fileIndex),
+    });
   };
 
   return (

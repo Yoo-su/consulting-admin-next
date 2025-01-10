@@ -99,12 +99,12 @@ export const ServiceAutocomplete = ({
         loading={isDuplicateDetailpageDataPending}
         disabled={!selectedService}
         onClick={() => {
-          openConfirmToast(
-            `[${serviceID}] 서비스의 상세페이지 데이터를\n [${
+          openConfirmToast({
+            message: `[${serviceID}] 서비스의 상세페이지 데이터를\n [${
               selectedService?.serviceID ?? ''
             }] 서비스에 복제합니다`,
-            handleClickDuplicateBtn
-          );
+            callbackConfirm: handleClickDuplicateBtn,
+          });
         }}
       >
         <Typography variant="body1">복제</Typography>

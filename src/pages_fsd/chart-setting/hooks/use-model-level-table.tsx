@@ -113,16 +113,16 @@ export const useModelLevelTable = ({
 
   // 모델의 특정 단계를 제거합니다
   const handleClickDeleteLevelBtn = useCallback(() => {
-    openConfirmToast(
-      `모델${modelNum + 1}의 ${levelNum}단계를 삭제하시겠습니까?`,
-      () => {
+    openConfirmToast({
+      message: `모델${modelNum + 1}의 ${levelNum}단계를 삭제하시겠습니까?`,
+      callbackConfirm: () => {
         const filtered =
           chartData?.filter(
             (item) => !(item.modelNum === modelNum && item.level === levelNum)
           ) ?? [];
         setChartData([...filtered]);
-      }
-    );
+      },
+    });
   }, [chartData, modelNum, levelNum]);
 
   /**
@@ -155,17 +155,17 @@ export const useModelLevelTable = ({
    */
   const handleClickDeleteLevelRowBtn = useCallback(
     (deleteRowLabel: string) => {
-      openConfirmToast(
-        `모델${
+      openConfirmToast({
+        message: `모델${
           modelNum + 1
         } 단계${levelNum}의 [${deleteRowLabel}]행을 삭제하시겠습니까?`,
-        () => {
+        callbackConfirm: () => {
           const newChartData = tempChartData.filter(
             (item, idx) => item.label !== deleteRowLabel
           );
           shiftModelRows(newChartData);
-        }
-      );
+        },
+      });
     },
     [tempChartData, modelNum, levelNum]
   );

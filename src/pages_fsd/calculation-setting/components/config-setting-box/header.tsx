@@ -19,10 +19,10 @@ export const Header = ({ serviceID }: HeaderProps) => {
 
   const handleClickAddBtn = useCallback(
     () =>
-      openConfirmToast(
-        '새로운 Config를 추가하시겠습니까?',
-        async () => await mutateAsync(serviceID)
-      ),
+      openConfirmToast({
+        message: '새로운 Config를 추가하시겠습니까?',
+        callbackConfirm: async () => await mutateAsync(serviceID),
+      }),
     [serviceID]
   );
 
