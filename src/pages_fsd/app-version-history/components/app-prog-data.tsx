@@ -9,9 +9,9 @@ import { FileItemCard } from '@/shared/components';
 import { API_URLS } from '@/shared/constants';
 import { formatKoreanTextCompareDatesFromNow } from '@/shared/services';
 
+import { OsType } from '../constants';
 import { AppHistory } from '../models';
 import { QrModal } from './qr-modal';
-import { OsType } from '../constants';
 
 type AppProgDataProps = {
   history: AppHistory;

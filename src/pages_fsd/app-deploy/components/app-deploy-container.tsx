@@ -19,6 +19,7 @@ import Image from 'next/image';
 import { ChangeEvent, DragEvent, useEffect, useRef, useState } from 'react';
 import PulseLoader from 'react-spinners/PulseLoader';
 
+import { OsType } from '@/pages_fsd/app-version-history/constants';
 import apkIcon from '@/shared/assets/images/apk_64.png';
 import exeIcon from '@/shared/assets/images/exe_64.png';
 import {
@@ -30,7 +31,6 @@ import { useSharedStore } from '@/shared/models';
 
 import { APP_DEPLOY_STEPS } from '../constants';
 import { useHandleApp } from '../hooks';
-import { OsType } from '@/pages_fsd/app-version-history/constants';
 
 export const AppDeployContainer = () => {
   const { currentUniv, currentService } = useSharedStore();

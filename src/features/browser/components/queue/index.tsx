@@ -2,10 +2,10 @@
 
 import { Grid, styled } from '@mui/material';
 import { memo, useMemo } from 'react';
+import { useShallow } from 'zustand/shallow';
 
 import { useBrowserStore, useQueueStore } from '../../models';
 import { QueueFile } from './queue-file';
-import { useShallow } from 'zustand/shallow';
 
 type QueueProps = {
   handleRemoveInputFile: (fileName: string) => void;

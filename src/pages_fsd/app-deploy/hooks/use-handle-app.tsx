@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react';
 
+import { OsType } from '@/pages_fsd/app-version-history/constants';
+import { OsTypeValues } from '@/pages_fsd/app-version-history/models';
 import { useMuiAlert, useStepper } from '@/shared/hooks';
 
 import { useDeployAppMutation } from './use-deploy-app-mutation';
-import { OsType } from '@/pages_fsd/app-version-history/constants';
-import { OsTypeValues } from '@/pages_fsd/app-version-history/models';
 
 export const useHandleApp = () => {
   const [appType, setAppType] = useState<Exclude<OsTypeValues, 'O'>>(

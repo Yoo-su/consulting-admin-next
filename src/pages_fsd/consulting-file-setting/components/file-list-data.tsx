@@ -7,11 +7,11 @@ import {
   DropResult,
 } from '@hello-pangea/dnd';
 import Box from '@mui/material/Box';
+import { useCallback } from 'react';
 
 import { useConsultingFileSettings } from '../hooks';
 import { EditFile } from './edit-file';
 import { TableRowBox } from './table-components';
-import { useCallback } from 'react';
 
 export const FileListData = () => {
   const { files, updateRefNo } = useConsultingFileSettings();

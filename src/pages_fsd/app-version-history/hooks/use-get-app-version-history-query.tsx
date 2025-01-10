@@ -5,8 +5,8 @@ import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '@/shared/constants';
 
 import { getAppVersionHistory } from '../apis';
-import { OsTypeValues } from '../models';
 import { OsType } from '../constants';
+import { OsTypeValues } from '../models';
 
 export const useGetAppVersionHistoryQuery = (
   serviceID: string | undefined,

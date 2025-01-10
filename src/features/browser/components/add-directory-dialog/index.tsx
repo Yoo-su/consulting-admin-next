@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { DragEvent, useCallback, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useShallow } from 'zustand/shallow';
 
 import { useBrowserStore, useQueueStore } from '@/features/browser/models';
 import { DropZoneContainer, SaveDataButton } from '@/shared/components';
@@ -20,7 +21,6 @@ import { DropZoneContainer, SaveDataButton } from '@/shared/components';
 import { QueueFile } from '../queue/queue-file';
 import { AnnouncementBox } from './announcement-box';
 import { directoryNameValidation } from './validation-rule';
-import { useShallow } from 'zustand/shallow';
 
 type FormValues = {
   directoryName: string;
