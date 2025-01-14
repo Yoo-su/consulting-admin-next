@@ -1,9 +1,9 @@
 import { Box, SxProps } from '@mui/material';
-import { DragEvent, ReactNode } from 'react';
+import { DragEvent, HTMLAttributes, ReactNode } from 'react';
 
 import { useFileDropZone } from '@/shared/hooks';
 
-type DropZoneContainerProps = {
+type DropZoneContainerProps = HTMLAttributes<HTMLDivElement> & {
   children: ReactNode;
   sx?: SxProps;
   onDragEnter?: (event: DragEvent<HTMLDivElement>) => void;
@@ -18,6 +18,7 @@ export const DropZoneContainer = ({
   onDragOver,
   onDragLeave,
   onDrop,
+  ...rest
 }: DropZoneContainerProps) => {
   const { handleDragEnter, handleDragOver, handleDragLeave, handleDrop } =
     useFileDropZone({
@@ -34,6 +35,7 @@ export const DropZoneContainer = ({
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
+      {...rest}
     >
       {children}
     </Box>

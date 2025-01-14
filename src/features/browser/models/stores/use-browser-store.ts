@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { BROWSER_SORT_OPTIONS } from '@/features/browser/constants/browser-sort-options';
 
 import { DEFAULT_BROWSER_OPTION } from '../../constants';
-import { BrowserOption, BrowserOptionOptional, SortOption } from '../types';
+import { BrowserOption, SortOption } from '../types';
 
 type BrowserStoreState = {
   basePath: string;
