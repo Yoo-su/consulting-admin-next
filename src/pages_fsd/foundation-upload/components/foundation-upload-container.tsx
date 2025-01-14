@@ -1,205 +1,69 @@
 'use client';
 
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import {
-  ArrowCircleDown as ArrowCircleDownIcon,
-  Check as CheckIcon,
-  Upload as UploadIcon,
-} from '@mui/icons-material';
-import {
-  Alert,
-  Box,
-  Button,
-  Chip,
-  FormControlLabel,
   Stack,
-  Step,
-  StepLabel,
-  Stepper,
-  Switch,
+  styled,
+  SxProps,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Image from 'next/image';
-import { ChangeEvent, DragEvent, useRef, useState } from 'react';
-import PulseLoader from 'react-spinners/PulseLoader';
 
 import excelIcon from '@/shared/assets/svgs/excel.svg';
 import starIcon from '@/shared/assets/svgs/star.svg';
-import {
-  ColorlibConnector,
-  ColorlibStepIcon,
-  ContentWrapper,
-} from '@/shared/components';
+import { ContentWrapper, DropZoneContainer } from '@/shared/components';
 import { useSharedStore } from '@/shared/models';
 
-import { EXCEL_UPLOAD_STEPS } from '../constants';
-import { useHandleFoundation } from '../hooks';
+import { useHandleFoundationData } from '../hooks';
+import { DataCheckButton } from './data-check-button';
+import { LayoutDownloadButton } from './layout-download-button';
+import { LoadingCover } from './loading-cover';
+import { UploadButton } from './upload-button';
+import { UploadStateAlert } from './upload-state-alert';
+import { UploadStateStepper } from './upload-state-stepper';
+import { UploadTypeToggler } from './upload-type-toggler';
 
 export const FoundationUploadContainer = () => {
   const { currentUniv, currentService } = useSharedStore();
   const title = `${currentUniv?.univName}(${currentService?.serviceID}) 기초데이터 업로드`;
+
   const {
-    excel,
-    setExcel,
-    activeStep,
-    startVerify,
-    isVerified,
-    alertData,
-    upload,
-    success,
-    uploading,
-    fileOnly,
-    setFileOnly,
-  } = useHandleFoundation();
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+    inputRef,
+    inputElKey,
+    uploadInputTitle,
+    handleClickInput,
+    handleDropExcel,
+    handleInputChange,
+  } = useHandleFoundationData();
   const theme = useTheme();
   const downsm = useMediaQuery(theme.breakpoints.down('sm'));
-
-  // 업로드 버튼 클릭 처리
-  const handleClickUploadBtn = () => {
-    if (uploading) return;
-    fileInputRef?.current?.click();
-  };
-
-  // 데이터 검증 수행
-  const handleClickVerify = async () => {
-    await startVerify();
-  };
-
-  // file input 값 변경 처리
-  const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0] || null;
-    setExcel(selectedFile);
-  };
-
-  const [isDragging, setIsDragging] = useState(false);
-
-  const handleDragEnter = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragging(false);
-  };
-
-  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-  };
-
-  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragging(false);
-
-    const droppedFile = event.dataTransfer.files[0];
-    if (droppedFile) {
-      setExcel(droppedFile);
-    }
-  };
 
   return (
     <ContentWrapper>
       <ContentWrapper.Header bottomDivider>
-        <Stack
-          direction={'row'}
-          justifyContent={'space-between'}
-          sx={{ flexGrow: 1 }}
-        >
-          <FormControlLabel
-            control={
-              <Switch
-                size={downsm ? 'small' : 'medium'}
-                value={fileOnly}
-                onChange={(e) => {
-                  setFileOnly(!fileOnly);
-                }}
-              />
-            }
-            label={
-              <Typography fontSize={downsm ? '12px' : '16px'}>
-                파일만 업로드하기
-              </Typography>
-            }
-          />
-          <Chip
-            color="default"
-            size={downsm ? 'small' : 'medium'}
-            clickable
-            icon={<ArrowCircleDownIcon />}
-            label={
-              <Typography fontSize={downsm ? '12px' : '16px'} variant="body1">
-                기초 레이아웃 다운로드
-              </Typography>
-            }
-          />
-        </Stack>
+        <HeaderContent>
+          <UploadTypeToggler />
+          <LayoutDownloadButton />
+        </HeaderContent>
       </ContentWrapper.Header>
+
       <ContentWrapper.MainContent>
         <Stack direction={'row'} alignItems={'center'} gap={0.5}>
-          <Image src={starIcon} alt={'star'} width={30} height={30} />
+          <AutoAwesomeIcon fontSize={'medium'} sx={{ color: '#ffe500' }} />
           <Typography variant={downsm ? 'body1' : 'h4'}>{title}</Typography>
         </Stack>
 
-        <Stepper
-          alternativeLabel
-          connector={<ColorlibConnector />}
-          activeStep={activeStep}
-          sx={{ mt: { xs: 4, sm: 4, md: 8, lg: 8, xl: 8 }, mb: 1.5 }}
-        >
-          {EXCEL_UPLOAD_STEPS.map((label, index) => (
-            <Step key={label}>
-              <StepLabel StepIconComponent={ColorlibStepIcon}>
-                {label}
-              </StepLabel>
-            </Step>
-          ))}
-        </Stepper>
+        <UploadStateStepper />
 
-        {alertData && (
-          <Alert
-            severity={alertData.color}
-            color={alertData.color}
-            sx={{ mt: 4, mx: 'auto', width: '65%' }}
-          >
-            {alertData.message}
-          </Alert>
-        )}
+        <UploadStateAlert />
 
-        <Stack
-          direction={'column'}
-          alignItems={'center'}
-          justifyContent={'center'}
-          spacing={2}
-          sx={{ position: 'relative', my: 2 }}
-        >
-          <Stack
-            onClick={handleClickUploadBtn}
-            onDragEnter={handleDragEnter}
-            onDragLeave={handleDragLeave}
-            onDragOver={handleDragOver}
-            onDrop={handleDrop}
-            direction={'column'}
-            spacing={3}
-            sx={{
-              cursor: 'pointer',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: '1rem',
-              position: 'relative',
-              minWidth: {
-                xs: '90%',
-                sm: '70%',
-                md: '70%',
-                lg: '70%',
-                xl: '70%',
-              },
-              height: '280px',
-              px: 1,
-              boxShadow:
-                '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-            }}
+        <FileControllerBox spacing={2}>
+          <DropZoneContainer
+            onClick={handleClickInput}
+            onDrop={handleDropExcel}
+            sx={dropzoneStyle}
           >
             <Image
               src={excelIcon}
@@ -207,69 +71,70 @@ export const FoundationUploadContainer = () => {
               height={'48'}
               alt="excel-image"
             />
-            <Typography
-              variant="body2"
-              color="grey.700"
-              sx={{
-                textAlign: 'center',
-                width: '100%',
-                overflow: 'hidden',
-                whiteSpace: 'nowrap',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              {excel?.name ?? '기초데이터 엑셀을 올려주세요'}
-            </Typography>
-            {uploading && (
-              <Box
-                sx={{
-                  position: 'absolute',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  minWidth: '70%',
-                  height: '280px',
-                  bgcolor: 'rgba(255,255,255,0.5)',
-                }}
-              >
-                <PulseLoader color={'#36D7B7'} />
-              </Box>
-            )}
-          </Stack>
-          {excel && !isVerified && (
-            <Button variant="contained" onClick={handleClickVerify}>
-              <CheckIcon />
-              <Typography variant="body1">데이터 검증하기</Typography>
-            </Button>
-          )}
+            <UploadInputTitle variant="body2" color="grey.700">
+              {uploadInputTitle}
+            </UploadInputTitle>
 
-          {isVerified && (
-            <Button
-              color="success"
-              variant="contained"
-              onClick={upload}
-              disabled={success || uploading}
-            >
-              {success ? <CheckIcon /> : <UploadIcon />}
-              <Typography variant="body1">
-                {uploading
-                  ? '엑셀 업로드중..'
-                  : success
-                  ? '업로드 완료'
-                  : '엑셀 업로드'}
-              </Typography>
-            </Button>
-          )}
-          <input
-            type="file"
-            key={excel?.name ?? '' + excel?.lastModified ?? ''}
-            ref={fileInputRef}
-            style={{ display: 'none' }}
-            onChange={handleFileInputChange}
-            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-          />
-        </Stack>
+            <LoadingCover />
+          </DropZoneContainer>
+
+          <DataCheckButton />
+
+          <UploadButton />
+        </FileControllerBox>
+
+        <input
+          type="file"
+          key={inputElKey}
+          ref={inputRef}
+          style={{ display: 'none' }}
+          onChange={handleInputChange}
+          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        />
       </ContentWrapper.MainContent>
     </ContentWrapper>
   );
+};
+
+const HeaderContent = styled(Stack)({
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  flexGrow: 1,
+});
+
+const UploadInputTitle = styled(Typography)({
+  textAlign: 'center',
+  width: '100%',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
+});
+
+const FileControllerBox = styled(Stack)({
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'relative',
+  margin: '1rem 0',
+});
+
+const dropzoneStyle: SxProps = {
+  display: 'flex',
+  cursor: 'pointer',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: '1rem',
+  position: 'relative',
+  height: '280px',
+  padding: '0 0.5rem',
+  boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+  gap: 3,
+  minWidth: {
+    xs: '90%',
+    sm: '70%',
+    md: '70%',
+    lg: '70%',
+    xl: '70%',
+  },
 };

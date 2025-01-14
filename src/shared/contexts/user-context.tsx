@@ -74,7 +74,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
           sessionStorage.removeItem('token');
           setUser(null);
           toast.error(
-            <Typography variant="body2">인증되지 않은 사용자입니다</Typography>
+            <Typography variant="caption">
+              인증되지 않은 사용자입니다
+            </Typography>
           );
         });
     } else setUser(null);

@@ -10,9 +10,10 @@ import { SAT_SELECT_SHEET } from './sat-select-sheet';
 import { SCHEDULE_SHEET } from './schedule-sheet';
 import { SELTYPE_SHEET } from './seltype-sheet';
 import { SERVICE_SHEET } from './service-sheet';
-
+export { BASE_LAYOUT_URL } from './base-layout-url';
 export { EXCEL_UPLOAD_STEPS } from './excel-upload-steps';
 export { SHEET_FLAG } from './sheet-flag';
+export { SHEET_NAME_MAP } from './sheet-name-map';
 
 export const EXCEL_LAYOUT: any = {
   Service: SERVICE_SHEET,

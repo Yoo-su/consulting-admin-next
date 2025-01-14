@@ -1,7 +1,6 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
-import router from 'next/router';
 import toast from 'react-hot-toast';
 
 import { signin, SigninParams } from '../apis';
@@ -23,7 +22,7 @@ export const useSigninMutation = () => {
           window.location.href = redirectPath; // Use window.location instead of router
         }
       } catch (error) {
-        console.log('error', error);
+        console.error('error', error);
         toast.error('로그인 정보를 확인해주세요');
       }
     },
