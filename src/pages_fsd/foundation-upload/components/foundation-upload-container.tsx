@@ -1,6 +1,5 @@
 'use client';
 
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import {
   Stack,
   styled,
@@ -14,7 +13,6 @@ import Image from 'next/image';
 import excelIcon from '@/shared/assets/svgs/excel.svg';
 import starIcon from '@/shared/assets/svgs/star.svg';
 import { ContentWrapper, DropZoneContainer } from '@/shared/components';
-import { useSharedStore } from '@/shared/models';
 
 import { useHandleFoundationData } from '../hooks';
 import { DataCheckButton } from './data-check-button';
@@ -26,12 +24,10 @@ import { UploadStateStepper } from './upload-state-stepper';
 import { UploadTypeToggler } from './upload-type-toggler';
 
 export const FoundationUploadContainer = () => {
-  const { currentUniv, currentService } = useSharedStore();
-  const title = `${currentUniv?.univName}(${currentService?.serviceID}) 기초데이터 업로드`;
-
   const {
     inputRef,
     inputElKey,
+    containerTitle,
     uploadInputTitle,
     handleClickInput,
     handleDropExcel,
@@ -51,8 +47,10 @@ export const FoundationUploadContainer = () => {
 
       <ContentWrapper.MainContent>
         <Stack direction={'row'} alignItems={'center'} gap={0.5}>
-          <AutoAwesomeIcon fontSize={'medium'} sx={{ color: '#ffe500' }} />
-          <Typography variant={downsm ? 'body1' : 'h4'}>{title}</Typography>
+          <Image src={starIcon} width={'32'} height={'32'} alt="star" />
+          <Typography variant={downsm ? 'body1' : 'h4'}>
+            {containerTitle}
+          </Typography>
         </Stack>
 
         <UploadStateStepper />
