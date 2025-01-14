@@ -1,29 +1,14 @@
 'use client';
 
 import Stack from '@mui/material/Stack';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useState } from 'react';
 
-import { useSharedStore } from '@/shared/models';
-
+import { useVersionSetting } from '../hooks';
 import { TableTitle } from './table-title';
 import { VersionListTable } from './version-list-table';
 
-export type VersionServer = { value: 'testDb' | 'realDb'; label: string };
-export const versionServer: VersionServer[] = [
-  { value: 'testDb', label: '테스트' },
-  { value: 'realDb', label: '리얼' },
-];
-
 export const VersionSettingContainer = () => {
-  const theme = useTheme();
-  const downmd = useMediaQuery(theme.breakpoints.down('md'));
-
-  const { currentUniv, currentService } = useSharedStore();
-  const [serverType, setServerType] = useState<VersionServer>(versionServer[0]);
-  const { univName } = currentUniv!;
-  const { serviceID } = currentService!;
+  const { downmd, univName, serviceID, serverType, setServerType } =
+    useVersionSetting();
 
   return (
     <Stack

@@ -25,7 +25,9 @@ export const BrowserHeader = memo(
       handleClickFolderBtn,
       handleClickPrevBtn,
     } = useBrowserHeader();
-    const { browserOption } = useBrowserStore();
+    const browserOption = useBrowserStore(
+      useShallow((state) => state.browserOption)
+    );
 
     return (
       <Stack direction="row" alignItems="center" flexWrap="wrap" height="35px">
