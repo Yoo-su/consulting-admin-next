@@ -36,7 +36,7 @@ export const ServiceTableData = ({
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
           >
             <TableCell component="th" scope="row">
-              {service.serviceID}
+              <b>{service.serviceID}</b>
             </TableCell>
             <TableCell>{service.schoolYear}</TableCell>
             <TableCell>
@@ -44,13 +44,11 @@ export const ServiceTableData = ({
                 label={ServiceTypeChip.label[parseInt(service.isSusi)]}
                 size={downmd ? 'small' : 'medium'}
                 sx={{
-                  color: 'white',
+                  color: ServiceTypeChip.color[parseInt(service.isSusi)],
                   bgcolor: ServiceTypeChip.bgcolor[parseInt(service.isSusi)],
                 }}
               />
             </TableCell>
-            <TableCell align="center">{service.developer ?? '미정'}</TableCell>
-            <TableCell align="center">{service.manager ?? '미정'}</TableCell>
             <TableCell align="center" sx={{ padding: 0 }}>
               <SetAppType
                 isNew={isNew}
@@ -59,6 +57,8 @@ export const ServiceTableData = ({
                 service={service}
               />
             </TableCell>
+            {/* <TableCell align="center">{service.developer ?? '-'}</TableCell> */}
+            {/* <TableCell align="center">{service.manager ?? '-'}</TableCell> */}
           </TableRow>
         ))}
     </>
@@ -67,5 +67,6 @@ export const ServiceTableData = ({
 
 const ServiceTypeChip = {
   label: ['정시', '수시'],
-  bgcolor: ['#E66245', '#1C6A7D'],
+  bgcolor: ['#1b5db7', '#ffc00d'], // #db5a09, #394056
+  color: ['white', '#2c4059'],
 };

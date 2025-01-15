@@ -43,9 +43,9 @@ export const ServiceListTable = ({ serviceList }: ServiceListTableProps) => {
             <TableCell>서비스ID</TableCell>
             <TableCell>서비스년도</TableCell>
             <TableCell>서비스유형</TableCell>
-            <TableCell align="center">담당 개발자</TableCell>
-            <TableCell align="center">담당 운영자</TableCell>
             <TableCell align="center">앱 타입</TableCell>
+            {/* <TableCell align="center">담당 개발자</TableCell> */}
+            {/* <TableCell align="center">담당 운영자</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
