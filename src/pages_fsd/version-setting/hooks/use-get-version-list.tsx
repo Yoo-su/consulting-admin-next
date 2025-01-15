@@ -3,7 +3,7 @@
 import { useCallback, useState } from 'react';
 
 import { getVersionList } from '../apis';
-import { CurTBLVersion } from '../models';
+import { CurTBLVersion, VersionServer } from '../models';
 
 export const useGetVersionList = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,12 +31,33 @@ export const useGetVersionList = () => {
       });
   };
 
+  const setVersionList = (
+    label: VersionServer['label'],
+    editedList: CurTBLVersion[]
+  ) => {
+    if (label === '테스트') {
+      setTestVersionList(editedList);
+    } else {
+      setRealVersionList(editedList);
+    }
+  };
+
+  const getCurrentVersionList = (label: VersionServer['label']) => {
+    if (label === '테스트') {
+      return testVersionList;
+    } else {
+      return realVersionList;
+    }
+  };
+
   return {
     isLoading,
     testVersionList,
     setTestVersionList,
     realVersionList,
     setRealVersionList,
+    setVersionList,
+    getCurrentVersionList,
     execute: useCallback(execute, []),
   };
 };

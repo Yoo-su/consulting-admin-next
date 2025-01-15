@@ -1,7 +1,7 @@
 import { API_URLS } from '@/shared/constants/api-urls';
 import { apiInstance } from '@/shared/plugin/axios';
 
-import { CurTBLVersion } from '../models';
+import { CurTBLVersion, VersionServer } from '../models';
 
 type UpdateVersionListResponse = {
   statusCode: number;
@@ -9,8 +9,8 @@ type UpdateVersionListResponse = {
   errorMessage?: string;
 };
 export type VersionListParams = {
-  server: 'testDb' | 'realDb';
-  tables: Pick<CurTBLVersion, 'TableName' | 'Version'>[];
+  server: VersionServer['value'];
+  tables: Omit<CurTBLVersion, 'ServiceID'>[];
 };
 export type UpdateVersionListParams = {
   serviceID: string;

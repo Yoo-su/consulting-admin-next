@@ -1,14 +1,6 @@
 'use client';
 
-import {
-  Box,
-  Paper,
-  Table,
-  TableBody,
-  TableContainer,
-  TableHead,
-  Typography,
-} from '@mui/material';
+import { Box, Paper, Table, TableContainer, Typography } from '@mui/material';
 import { MouseEvent, useEffect, useReducer, useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -19,6 +11,7 @@ import { useGetVersionList, useUpdateVersionListMutation } from '../hooks';
 import { CurTBLVersion, VersionServer } from '../models';
 import { VersionListBodyData } from './version-list-body-data';
 import { VersionListTableHead } from './version-list-table-head';
+import { reducer } from '../services';
 
 export type VersionListTableProps = {
   serviceID: string;
@@ -29,59 +22,44 @@ export const VersionListTable = ({
   serviceID,
   type,
 }: VersionListTableProps) => {
-  const {
-    isLoading,
-    testVersionList,
-    setTestVersionList,
-    realVersionList,
-    setRealVersionList,
-    execute,
-  } = useGetVersionList();
+  const { isLoading, setVersionList, getCurrentVersionList, execute } =
+    useGetVersionList();
   const { mutateAsync } = useUpdateVersionListMutation();
   const [editedList, dispatch] = useReducer(reducer, []);
   const [isEdited, setIsEdited] = useState(false);
+
+  const currentVersionList = getCurrentVersionList(type.label);
 
   useEffect(() => {
     execute(serviceID);
   }, [serviceID]);
 
   useEffect(() => {
-    if (type.label === '테스트') {
-      dispatch({ type: 'SET_STATE', payload: testVersionList });
-    }
-    if (type.label === '리얼') {
-      dispatch({ type: 'SET_STATE', payload: realVersionList });
-    }
+    dispatch({ type: 'SET_STATE', payload: currentVersionList });
   }, [type, isLoading]);
 
   useEffect(() => {
-    const currentVersionList =
-      type.label === '테스트' ? testVersionList : realVersionList;
     const isUpdated =
       JSON.stringify(editedList) !== JSON.stringify(currentVersionList);
     setIsEdited(isUpdated);
   }, [editedList]);
 
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+  // 전부 업데이트
+  const handleHeadClick = (event: MouseEvent<HTMLButtonElement>) => {
+    const [_, arrowDirection] = event.currentTarget.id.split('-');
+    const type =
+      arrowDirection === 'up' ? 'ADD_ALL_VERSION' : 'SUB_ALL_VERSION';
+    dispatch({ type });
+  };
+
+  // 특정 테이블만 업데이트
+  const handleBodyClick = (event: MouseEvent<HTMLButtonElement>) => {
     const [tableName, arrowDirection] = event.currentTarget.id.split('-');
-    // 전부 업데이트
-    if (tableName === 'all') {
-      if (arrowDirection === 'up') {
-        dispatch({ type: 'ADD_ALL_VERSION' });
-      } else {
-        dispatch({ type: 'SUB_ALL_VERSION' });
-      }
-    } else {
-      // 특정 테이블만 업데이트
-      const targetIndex = editedList.findIndex(
-        (version) => version.TableName === tableName
-      );
-      if (arrowDirection === 'up') {
-        dispatch({ type: 'ADD_VERSION', payload: targetIndex });
-      } else {
-        dispatch({ type: 'SUB_VERSION', payload: targetIndex });
-      }
-    }
+    const targetIndex = editedList.findIndex(
+      (version) => version.TableName === tableName
+    );
+    const type = arrowDirection === 'up' ? 'ADD_VERSION' : 'SUB_VERSION';
+    dispatch({ type, payload: targetIndex });
   };
 
   const handleDataSaveBtnClick = () => {
@@ -95,12 +73,8 @@ export const VersionListTable = ({
     };
     toast.promise(
       mutateAsync({ serviceID, params: updateParam }).then(() => {
-        if (type.label === '테스트') {
-          setTestVersionList(editedList);
-        }
-        if (type.label === '리얼') {
-          setRealVersionList(editedList);
-        }
+        setVersionList(type.label, editedList);
+
         setIsEdited(false);
       }),
       {
@@ -137,79 +111,14 @@ export const VersionListTable = ({
     <>
       <TableContainer component={Paper} sx={{ width: '500px' }}>
         <Table aria-label="service-list-table">
-          <TableHead>
-            <VersionListTableHead handleClick={handleClick} />
-          </TableHead>
-          <TableBody sx={TableBodyClass}>
-            <VersionListBodyData
-              editedList={editedList}
-              handleClick={handleClick}
-            />
-          </TableBody>
+          <VersionListTableHead handleClick={handleHeadClick} />
+          <VersionListBodyData
+            editedList={editedList}
+            handleClick={handleBodyClick}
+          />
         </Table>
       </TableContainer>
       {isEdited && <SaveDataButton handleBtnClick={handleDataSaveBtnClick} />}
     </>
   );
-};
-
-export const ArrowButtonClass = {
-  borderRadius: '.2rem',
-  width: '1.3em',
-  height: '1.3em',
-  '&:hover': {
-    backgroundColor: '#E0E0E0',
-  },
-};
-
-const TableBodyClass = {
-  '& .MuiTableRow-root': {
-    '&:nth-of-type(odd)': {
-      backgroundColor: '#FDFDFD',
-    },
-  },
-};
-
-export const TableCellClass = {
-  padding: '8px 10px',
-};
-
-type ActionType =
-  | { type: 'SET_STATE'; payload: CurTBLVersion[] }
-  | { type: 'ADD_VERSION' | 'SUB_VERSION'; payload: number }
-  | { type: 'ADD_ALL_VERSION' | 'SUB_ALL_VERSION' };
-
-const reducer = (state: CurTBLVersion[], action: ActionType) => {
-  switch (action.type) {
-    case 'SET_STATE':
-      return action.payload;
-    case 'ADD_VERSION':
-      return state.map((version, idx) => {
-        if (idx === action.payload) {
-          return { ...version, Version: version.Version + 1 };
-        }
-        return { ...version };
-      });
-    case 'SUB_VERSION':
-      return state.map((version, idx) => {
-        if (idx === action.payload && version.Version > 0) {
-          return { ...version, Version: version.Version - 1 };
-        }
-        return { ...version };
-      });
-    case 'ADD_ALL_VERSION':
-      return state.map((version) => ({
-        ...version,
-        Version: version.Version + 1,
-      }));
-    case 'SUB_ALL_VERSION':
-      return state.map((version) => {
-        if (version.Version > 0) {
-          return { ...version, Version: version.Version - 1 };
-        }
-        return { ...version };
-      });
-    default:
-      return state;
-  }
 };

@@ -5,6 +5,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import {
   Box,
   Stack,
+  TableBody,
   TableCell,
   TableRow,
   Tooltip,
@@ -15,7 +16,7 @@ import { MouseEvent } from 'react';
 import { ButtonIcon } from '@/shared/components/ui/button-icon';
 
 import { CurTBLVersion } from '../models';
-import { ArrowButtonClass, TableCellClass } from './version-list-table';
+import { ArrowButtonClass, TableBodyClass, TableCellClass } from '../constants';
 
 type VersionListDataProps = {
   editedList: CurTBLVersion[];
@@ -39,7 +40,7 @@ export const VersionListBodyData = ({
     );
   }
   return (
-    <>
+    <TableBody sx={TableBodyClass}>
       {editedList?.map((version, index) => {
         return (
           <TableRow
@@ -92,14 +93,6 @@ export const VersionListBodyData = ({
           </TableRow>
         );
       })}
-    </>
+    </TableBody>
   );
-};
-
-const TableBodyClass = {
-  '& .MuiTableRow-root': {
-    '&:nth-of-type(odd)': {
-      backgroundColor: '#FDFDFD',
-    },
-  },
 };

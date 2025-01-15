@@ -1,4 +1,10 @@
-export type VersionServer = { value: 'testDb' | 'realDb'; label: string };
+export type Server = 'realDb' | 'testDb' | 'devDb';
+export type ServerName = '테스트' | '리얼' | '개발';
+
+export type VersionServer = {
+  value: Omit<Server, 'devDb'>;
+  label: Omit<ServerName, '개발'>;
+};
 
 export type CurTBLVersion = {
   ServiceID: string;
@@ -7,6 +13,6 @@ export type CurTBLVersion = {
 };
 
 export type CurTBLVersionList = {
-  server: 'realDb' | 'testDb' | 'devDb';
+  server: Server;
   curTBLVersion: CurTBLVersion[];
 };

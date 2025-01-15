@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { VERSION_SERVER } from '../constants';
+import { SelectClass, VERSION_SERVER } from '../constants';
 import { VersionServer } from '../models';
 
 type TableTitleProps = {
@@ -59,17 +59,4 @@ export const TableTitle = ({
       </Stack>
     </Stack>
   );
-};
-
-const SelectClass = {
-  '& .MuiSelect-select': {
-    padding: '2px 4px',
-    margin: 0,
-    fontFamily: '__IBM_Plex_Sans_KR_e39452,__IBM_Plex_Sans_KR_Fallback_e39452',
-    fontSize: '1.25rem',
-    lineHeight: '1.6',
-    letterSpacing: '0.0075em',
-    fontWeight: '700',
-    minWidth: '55px !important',
-  },
 };
