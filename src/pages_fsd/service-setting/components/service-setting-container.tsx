@@ -3,15 +3,13 @@
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { useGetServiceListQuery } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
-import { AddServiceForm } from './add-service-form';
-import { ServiceListTable } from './service-table';
+import { AddServiceForm } from './add-service';
+import { ServiceListTable } from './service-list-table/service-table';
 
 export const ServiceSettingContainer = () => {
   const currentUniv = useSharedStore((state) => state.currentUniv);
-  const { data: serviceList } = useGetServiceListQuery(currentUniv?.univID);
 
   return (
     <Stack
@@ -27,7 +25,7 @@ export const ServiceSettingContainer = () => {
         <Typography variant="h4">
           {currentUniv?.univName}({currentUniv?.univID}) 서비스 목록
         </Typography>
-        <ServiceListTable serviceList={serviceList ?? []} />
+        <ServiceListTable univID={currentUniv?.univID} />
       </Stack>
     </Stack>
   );
