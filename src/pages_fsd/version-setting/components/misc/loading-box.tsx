@@ -1,5 +1,6 @@
-import { ContentLoadingSkeleton } from '@/shared/components';
 import { Box } from '@mui/material';
+
+import { ContentLoadingSkeleton } from '@/shared/components';
 
 export const LoadingBox = () => {
   return (

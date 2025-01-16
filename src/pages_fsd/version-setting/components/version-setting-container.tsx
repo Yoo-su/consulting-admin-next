@@ -4,8 +4,8 @@ import Stack from '@mui/material/Stack';
 
 import { TableContainerClass } from '../constants';
 import { useVersionSetting } from '../hooks';
+import { VersionListTable } from './table-list';
 import { TableTitle } from './table-title';
-import { VersionListTable } from './version-list-table';
 
 export const VersionSettingContainer = () => {
   const { downmd, univName, serviceID, serverType, setServerType } =

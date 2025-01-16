@@ -5,7 +5,8 @@ import { MouseEvent } from 'react';
 
 import { ButtonIcon } from '@/shared/components';
 
-import { ArrowButtonClass } from '../constants';
+import { ArrowButtonClass } from '../../constants';
+
 type ArrowIconButtonProps = {
   handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
   classes?: SxProps<Theme>;
