@@ -12,3 +12,14 @@ export const allArrowButtonList = [
     isUp: true,
   },
 ] as const;
+
+export const arrowButtonList = {
+  down: {
+    title: '버전을 1씩 내립니다.',
+    isUp: false,
+  },
+  up: {
+    title: '버전을 1씩 추가합니다.',
+    isUp: true,
+  },
+} as const;

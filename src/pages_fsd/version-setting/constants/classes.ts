@@ -1,3 +1,5 @@
+import { MIN_LIST_LENGTH } from './version-server';
+
 export const TableContainerClass = {
   mt: { xs: 1, sm: 3, md: 3, lg: 3, xl: 5 },
   boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
@@ -37,4 +39,10 @@ export const SelectClass = {
     fontWeight: '700',
     minWidth: '55px !important',
   },
+};
+
+export const TableRowClass = (listLength: number) => {
+  return {
+    height: listLength < MIN_LIST_LENGTH ? `${200 / listLength}px` : 0,
+  };
 };

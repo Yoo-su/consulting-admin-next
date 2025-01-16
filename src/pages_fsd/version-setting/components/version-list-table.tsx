@@ -1,10 +1,10 @@
 'use client';
 
-import { Box, Paper, Table, TableContainer, Typography } from '@mui/material';
-import { MouseEvent, useEffect, useReducer, useState } from 'react';
+import { Paper, Table, TableContainer, Typography } from '@mui/material';
+import { useEffect, useReducer, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { ContentLoadingSkeleton, SaveDataButton } from '@/shared/components';
+import { SaveDataButton } from '@/shared/components';
 
 import { VersionListParams } from '../apis';
 import { useGetVersionList, useUpdateVersionListMutation } from '../hooks';
@@ -12,6 +12,7 @@ import { CurTBLVersion, VersionServer } from '../models';
 import { reducer } from '../services';
 import { VersionListBodyData } from './version-list-body-data';
 import { VersionListTableHead } from './version-list-table-head';
+import { LoadingBox } from './empty/loading-box';
 
 export type VersionListTableProps = {
   serviceID: string;
@@ -87,15 +88,7 @@ export const VersionListTable = ({
   };
 
   if (isLoading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <ContentLoadingSkeleton
-          isTitle={false}
-          width={'500px'}
-          height={'700px'}
-        />
-      </Box>
-    );
+    return <LoadingBox />;
   }
 
   return (

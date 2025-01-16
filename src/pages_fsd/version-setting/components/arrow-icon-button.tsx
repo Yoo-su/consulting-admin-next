@@ -8,7 +8,7 @@ import { ButtonIcon } from '@/shared/components';
 import { ArrowButtonClass } from '../constants';
 type ArrowIconButtonProps = {
   handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
-  classes: SxProps<Theme>;
+  classes?: SxProps<Theme>;
   isUp: boolean;
   title: string;
   id: string;
@@ -16,7 +16,7 @@ type ArrowIconButtonProps = {
 
 export const ArrowIconButton = ({
   handleClick,
-  classes,
+  classes = {},
   isUp,
   title,
   id,
