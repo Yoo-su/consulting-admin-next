@@ -1,6 +1,7 @@
 import { InputLabel, MenuItem, Stack, TextField } from '@mui/material';
-import { serviceTypeList, ServiceTypeNum } from '../../constants';
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+
+import { serviceTypeList, ServiceTypeNum } from '../../constants';
 
 type InputServiceTypeProps = {
   serviceType: ServiceTypeNum;

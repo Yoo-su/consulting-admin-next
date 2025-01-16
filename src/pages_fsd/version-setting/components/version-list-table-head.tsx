@@ -11,16 +11,29 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { memo, MouseEvent } from 'react';
+import { Dispatch, memo, MouseEvent } from 'react';
 
 import { ButtonIcon } from '@/shared/components/ui/button-icon';
-import { ArrowButtonClass, TableCellClass } from '../constants';
+
+import {
+  allArrowButtonList,
+  ArrowButtonClass,
+  TableCellClass,
+} from '../constants';
+import { ActionType } from '../services';
+import { ArrowIconButton } from './arrow-icon-button';
 
 type VersionListTableHeadProps = {
-  handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
+  dispatch: Dispatch<ActionType>;
 };
 export const VersionListTableHead = memo(
-  ({ handleClick }: VersionListTableHeadProps) => {
+  ({ dispatch }: VersionListTableHeadProps) => {
+    const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+      const [_, arrowDirection] = event.currentTarget.id.split('-');
+      const type =
+        arrowDirection === 'up' ? 'ADD_ALL_VERSION' : 'SUB_ALL_VERSION';
+      dispatch({ type });
+    };
     return (
       <TableHead>
         <TableRow>
@@ -40,26 +53,13 @@ export const VersionListTableHead = memo(
               <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
                 전체 버전 관리
               </Typography>
-              <Tooltip title="전체 버전을 1씩 내립니다." placement="top">
-                <Box>
-                  <ButtonIcon
-                    onClick={handleClick}
-                    id={'all-down'}
-                    sx={{ ...ArrowButtonClass, backgroundColor: '#FAFAFA' }}
-                    Icon={ArrowDropDownIcon}
-                  />
-                </Box>
-              </Tooltip>
-              <Tooltip title="전체 버전을 1씩 추가합니다." placement="top">
-                <Box>
-                  <ButtonIcon
-                    onClick={handleClick}
-                    id={'all-up'}
-                    sx={{ ...ArrowButtonClass, backgroundColor: '#FAFAFA' }}
-                    Icon={ArrowDropUpIcon}
-                  />
-                </Box>
-              </Tooltip>
+              {allArrowButtonList.map((button, index) => (
+                <ArrowIconButton
+                  key={index}
+                  handleClick={handleClick}
+                  {...button}
+                />
+              ))}
             </Stack>
           </TableCell>
         </TableRow>
@@ -67,4 +67,5 @@ export const VersionListTableHead = memo(
     );
   }
 );
+
 VersionListTableHead.displayName = 'VersionListTableHead';

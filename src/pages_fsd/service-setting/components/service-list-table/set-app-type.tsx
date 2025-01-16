@@ -13,8 +13,8 @@ import toast from 'react-hot-toast';
 import { Service } from '@/shared/models';
 import { getCurrentServiceYear } from '@/shared/services';
 
-import { useUpdateServiceIsNewMutation } from '../../hooks';
 import { ButtonValues, unselectedIconFilter } from '../../constants';
+import { useUpdateServiceIsNewMutation } from '../../hooks';
 
 type SetAppTypeProps = {
   service: Service;
@@ -59,8 +59,9 @@ export const SetAppType = ({ service }: SetAppTypeProps) => {
       size="small"
       sx={ToggleButtonGroupClass(isCurrent)}
     >
-      {ButtonValues.map((button) => (
+      {ButtonValues.map((button, index) => (
         <Tooltip
+          key={index}
           title={<Typography variant="caption">{button.title}</Typography>}
           placement="top"
         >

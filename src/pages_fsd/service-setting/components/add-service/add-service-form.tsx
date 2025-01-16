@@ -4,11 +4,11 @@ import { useState } from 'react';
 
 import { getCurrentServiceYear } from '@/shared/services';
 
-import { useServiceListMutation } from '../../hooks';
 import { ServiceTypeNum } from '../../constants';
-import { InputServiceYear } from './input-service-year';
-import { InputServiceType } from './input-service-type';
+import { useServiceListMutation } from '../../hooks';
 import { AddFormButton } from './add-form-button';
+import { InputServiceType } from './input-service-type';
+import { InputServiceYear } from './input-service-year';
 
 export const AddServiceForm = ({ univID }: { univID: string }) => {
   const { addService, isAddServiceLoading } = useServiceListMutation();

@@ -1,5 +1,6 @@
-import LoadingButton from '@mui/lab/LoadingButton';
 import AddIcon from '@mui/icons-material/Add';
+import LoadingButton from '@mui/lab/LoadingButton';
+
 import { loadingButtonStyle } from '../../constants';
 type AddFormButtonProps = {
   handleSubmit: () => void;

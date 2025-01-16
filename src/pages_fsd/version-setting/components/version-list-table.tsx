@@ -9,9 +9,9 @@ import { ContentLoadingSkeleton, SaveDataButton } from '@/shared/components';
 import { VersionListParams } from '../apis';
 import { useGetVersionList, useUpdateVersionListMutation } from '../hooks';
 import { CurTBLVersion, VersionServer } from '../models';
+import { reducer } from '../services';
 import { VersionListBodyData } from './version-list-body-data';
 import { VersionListTableHead } from './version-list-table-head';
-import { reducer } from '../services';
 
 export type VersionListTableProps = {
   serviceID: string;
@@ -30,37 +30,28 @@ export const VersionListTable = ({
 
   const currentVersionList = getCurrentVersionList(type.label);
 
-  useEffect(() => {
-    execute(serviceID);
-  }, [serviceID]);
+  useEffect(
+    function initListData() {
+      execute(serviceID);
+    },
+    [serviceID]
+  );
 
-  useEffect(() => {
-    dispatch({ type: 'SET_STATE', payload: currentVersionList });
-  }, [type, isLoading]);
+  useEffect(
+    function getTestOrReal() {
+      dispatch({ type: 'SET_STATE', payload: currentVersionList });
+    },
+    [type, isLoading]
+  );
 
-  useEffect(() => {
-    const isUpdated =
-      JSON.stringify(editedList) !== JSON.stringify(currentVersionList);
-    setIsEdited(isUpdated);
-  }, [editedList]);
-
-  // 전부 업데이트
-  const handleHeadClick = (event: MouseEvent<HTMLButtonElement>) => {
-    const [_, arrowDirection] = event.currentTarget.id.split('-');
-    const type =
-      arrowDirection === 'up' ? 'ADD_ALL_VERSION' : 'SUB_ALL_VERSION';
-    dispatch({ type });
-  };
-
-  // 특정 테이블만 업데이트
-  const handleBodyClick = (event: MouseEvent<HTMLButtonElement>) => {
-    const [tableName, arrowDirection] = event.currentTarget.id.split('-');
-    const targetIndex = editedList.findIndex(
-      (version) => version.TableName === tableName
-    );
-    const type = arrowDirection === 'up' ? 'ADD_VERSION' : 'SUB_VERSION';
-    dispatch({ type, payload: targetIndex });
-  };
+  useEffect(
+    function getEditStatus() {
+      const isUpdated =
+        JSON.stringify(editedList) !== JSON.stringify(currentVersionList);
+      setIsEdited(isUpdated);
+    },
+    [editedList]
+  );
 
   const handleDataSaveBtnClick = () => {
     const updateList = editedList.map((version: CurTBLVersion) => ({
@@ -111,11 +102,8 @@ export const VersionListTable = ({
     <>
       <TableContainer component={Paper} sx={{ width: '500px' }}>
         <Table aria-label="service-list-table">
-          <VersionListTableHead handleClick={handleHeadClick} />
-          <VersionListBodyData
-            editedList={editedList}
-            handleClick={handleBodyClick}
-          />
+          <VersionListTableHead dispatch={dispatch} />
+          <VersionListBodyData editedList={editedList} dispatch={dispatch} />
         </Table>
       </TableContainer>
       {isEdited && <SaveDataButton handleBtnClick={handleDataSaveBtnClick} />}

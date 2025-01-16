@@ -11,21 +11,32 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { MouseEvent } from 'react';
+import { Dispatch, MouseEvent } from 'react';
 
 import { ButtonIcon } from '@/shared/components/ui/button-icon';
 
-import { CurTBLVersion } from '../models';
 import { ArrowButtonClass, TableBodyClass, TableCellClass } from '../constants';
+import { MIN_LIST_LENGTH } from '../constants';
+import { CurTBLVersion } from '../models';
+import { ActionType } from '../services';
 
 type VersionListDataProps = {
   editedList: CurTBLVersion[];
-  handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
+  dispatch: Dispatch<ActionType>;
 };
 export const VersionListBodyData = ({
   editedList,
-  handleClick,
+  dispatch,
 }: VersionListDataProps) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    const [tableName, arrowDirection] = event.currentTarget.id.split('-');
+    const targetIndex = editedList.findIndex(
+      (version) => version.TableName === tableName
+    );
+    const type = arrowDirection === 'up' ? 'ADD_VERSION' : 'SUB_VERSION';
+    dispatch({ type, payload: targetIndex });
+  };
+
   if (editedList.length === 0) {
     return (
       <TableRow sx={{ height: '200px' }}>
@@ -41,13 +52,15 @@ export const VersionListBodyData = ({
   }
   return (
     <TableBody sx={TableBodyClass}>
-      {editedList?.map((version, index) => {
+      {editedList?.map((version) => {
         return (
           <TableRow
             key={version.TableName}
             sx={{
               height:
-                editedList.length < 6 ? `${200 / editedList.length}px` : 0,
+                editedList.length < MIN_LIST_LENGTH
+                  ? `${200 / editedList.length}px`
+                  : 0,
             }}
           >
             <TableCell sx={TableCellClass}>{version.TableName}</TableCell>

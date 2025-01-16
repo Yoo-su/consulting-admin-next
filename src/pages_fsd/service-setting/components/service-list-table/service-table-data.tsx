@@ -4,8 +4,9 @@ import { TableBody, TableCell, TableRow } from '@mui/material';
 import { useState } from 'react';
 
 import { Service } from '@/shared/models';
-import { SetAppType } from './set-app-type';
+
 import { ServiceTypeCell } from './service-type-cell';
+import { SetAppType } from './set-app-type';
 
 type ServiceTableDataProps = {
   serviceList: Service[] | undefined;

@@ -1,5 +1,5 @@
 import { TablePagination } from '@mui/material';
-import { Dispatch, SetStateAction, MouseEvent, ChangeEvent } from 'react';
+import { ChangeEvent,Dispatch, MouseEvent, SetStateAction } from 'react';
 
 type ServiceTablePaginationProps = {
   count: number | undefined;

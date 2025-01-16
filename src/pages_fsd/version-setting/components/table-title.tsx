@@ -50,7 +50,10 @@ export const TableTitle = ({
           variant="standard"
         >
           {VERSION_SERVER.map((server) => (
-            <MenuItem key={server.value} value={server.value}>
+            <MenuItem
+              key={server.value as string}
+              value={server.value as string}
+            >
               {server.label}
             </MenuItem>
           ))}

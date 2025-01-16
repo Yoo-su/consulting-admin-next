@@ -1,3 +1,3 @@
-export * from './service-list';
-export * from './classes';
 export * from './app-type';
+export * from './classes';
+export * from './service-list';

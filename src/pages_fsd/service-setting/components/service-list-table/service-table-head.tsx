@@ -1,4 +1,5 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
+
 import { ServiceTableHeader } from '../../constants';
 
 export const ServiceTableHead = () => {
