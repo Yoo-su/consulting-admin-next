@@ -1,16 +1,14 @@
 'use client';
 
 import Stack from '@mui/material/Stack';
-import { memo } from 'react';
 
-import { FileListData } from './file-list-data';
-import { FileUploader } from './file-uploader';
+import { FileListData, TableHeader } from './core';
 import {
-  CustomWidthBoxCell,
+  FileUploader,
   TableBox,
   TableContainerBox,
   TableRowBox,
-} from './table-components';
+} from './elements';
 
 export const FileListTable = () => {
   return (
@@ -29,20 +27,3 @@ export const FileListTable = () => {
     </Stack>
   );
 };
-
-const TableHeader = memo(() => (
-  <TableRowBox>
-    <CustomWidthBoxCell size="xs" style={{ width: '8px' }} />
-    <CustomWidthBoxCell typo={true} size="s">
-      순서
-    </CustomWidthBoxCell>
-    <CustomWidthBoxCell typo={true} size="m">
-      자료명
-    </CustomWidthBoxCell>
-    <CustomWidthBoxCell typo={true} size="m">
-      파일명
-    </CustomWidthBoxCell>
-    <CustomWidthBoxCell size="s">삭제</CustomWidthBoxCell>
-  </TableRowBox>
-));
-TableHeader.displayName = 'TableHeader';

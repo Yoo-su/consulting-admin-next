@@ -18,8 +18,8 @@ import {
   useGetConsultingFileList,
   useUpdateConsultingRefNoMutation,
   useUpdateConsultingRefTitleMutation,
+  useUploadConsultingFileMutation,
 } from '../hooks';
-import { useUploadConsultingFileMutation } from '../hooks';
 import { ConsultingFile } from '../models';
 import { removeFileExtention } from '../services';
 
@@ -62,84 +62,80 @@ export const ConsultingFileSettingsProvider = ({
 
   const addToFiles = useCallback(
     (uploadedFile: File | undefined) => {
-      if (uploadedFile) {
-        const fileName = uploadedFile.name;
-        toast.promise(
-          uploadMutation({
-            ServiceID: serviceID,
-            RefTitle: removeFileExtention(fileName),
-            File: uploadedFile,
-          }),
-          {
-            loading: (
+      if (!uploadedFile) return;
+      const fileName = uploadedFile.name;
+      return toast.promise(
+        uploadMutation({
+          ServiceID: serviceID,
+          RefTitle: removeFileExtention(fileName),
+          File: uploadedFile,
+        }),
+        {
+          loading: (
+            <Typography variant="body2">
+              {fileName}을 업로드 중입니다
+            </Typography>
+          ),
+          success: () => {
+            execute();
+            setEditFileIndex((prev) => new Array(prev.length + 1).fill(false));
+            return (
               <Typography variant="body2">
-                {fileName}을 업로드 중입니다
+                {fileName}을 업로드하였습니다
               </Typography>
-            ),
-            success: () => {
-              execute();
-              setEditFileIndex((prev) =>
-                new Array(prev.length + 1).fill(false)
-              );
-              return (
-                <Typography variant="body2">
-                  {fileName}을 업로드하였습니다
-                </Typography>
-              );
-            },
-            error: (
-              <Typography variant="body2">
-                {fileName} 업로드 중 문제가 발생했습니다
-              </Typography>
-            ),
-          }
-        );
-      }
+            );
+          },
+          error: (
+            <Typography variant="body2">
+              {fileName} 업로드 중 문제가 발생했습니다
+            </Typography>
+          ),
+        }
+      );
     },
     [serviceID]
   );
 
   const updateRefTitle = useCallback(
     (refNo: number, refTitle: string, origTitle: string) => {
-      if (refTitle !== origTitle) {
-        toast.promise(
-          updateRefTitleMutation({
-            ServiceID: parseInt(serviceID),
-            RefNo: refNo,
-            RefTitle: refTitle,
-          }),
-          {
-            loading: (
+      if (refTitle === origTitle) return;
+      return toast.promise(
+        updateRefTitleMutation({
+          ServiceID: parseInt(serviceID),
+          RefNo: refNo,
+          RefTitle: refTitle,
+        }),
+        {
+          loading: (
+            <Typography variant="body2">
+              자료명 [{origTitle}]을 변경 중입니다
+            </Typography>
+          ),
+          success: () => {
+            execute();
+            setFiles(resetFileList(files, refNo, refTitle));
+            return customToast(refTitle, origTitle);
+          },
+          error: () => {
+            setFiles(resetFileList(files, refNo, origTitle));
+            return (
               <Typography variant="body2">
-                자료명 [{origTitle}]을 변경 중입니다
+                [ {origTitle} ] 을 {<br />}[ {refTitle} ] 으로 변경 중 문제가
+                발생했습니다
               </Typography>
-            ),
-            success: () => {
-              execute();
-              setFiles(resetFileList(files, refNo, refTitle));
-              return customToast(refTitle, origTitle);
-            },
-            error: () => {
-              setFiles(resetFileList(files, refNo, origTitle));
-              return (
-                <Typography variant="body2">
-                  [ {origTitle} ] 을 {<br />}[ {refTitle} ] 으로 변경 중 문제가
-                  발생했습니다
-                </Typography>
-              );
+            );
+          },
+        },
+        {
+          success: {
+            duration: 5000,
+            style: {
+              maxWidth: '500px',
+              width: '100%',
             },
           },
-          {
-            success: {
-              duration: 5000,
-              style: {
-                maxWidth: '500px',
-                width: '100%',
-              },
-            },
-          }
-        );
-      }
+        }
+      );
     },
     [files]
   );
@@ -152,7 +148,7 @@ export const ConsultingFileSettingsProvider = ({
         endIndex - 1
       );
       setFiles(newFiles);
-      toast.promise(
+      return toast.promise(
         updateRefNoMutation({
           ServiceID: parseInt(serviceID),
           oldRefNo: startIndex,
@@ -187,7 +183,7 @@ export const ConsultingFileSettingsProvider = ({
   const deleteFile = useCallback(
     (fileList: ConsultingFile[], refNo: number) => {
       const fileName = fileList.find((file) => file.RefNo === refNo)?.FileName;
-      toast.promise(
+      return toast.promise(
         deleteMutation({
           ServiceID: parseInt(serviceID),
           RefNo: refNo,

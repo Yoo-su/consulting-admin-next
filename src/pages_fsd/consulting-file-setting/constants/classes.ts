@@ -37,3 +37,12 @@ export const CustomWidthBoxCellStyle = {
   borderBottom: '1px solid var(--mui-palette-TableCell-border)',
   color: 'var(--mui-palette-text-primary)',
 };
+
+export const DownloaderClass = {
+  minWidth: '350px',
+  '& .MuiButton-icon': {
+    margin: 0,
+    paddingRight: '2px',
+    paddingTop: '2px',
+  },
+};
