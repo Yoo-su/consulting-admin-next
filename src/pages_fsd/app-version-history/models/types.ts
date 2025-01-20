@@ -1,6 +1,6 @@
-import { OsType } from '../constants';
+import { OS_TYPE } from '../constants';
 
-export type OsTypeValues = (typeof OsType)[keyof typeof OsType];
+export type OsTypeValues = (typeof OS_TYPE)[keyof typeof OS_TYPE];
 
 export type AppHistory = {
   serviceID: string;

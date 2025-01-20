@@ -19,7 +19,7 @@ import Image from 'next/image';
 import { ChangeEvent, DragEvent, useEffect, useRef, useState } from 'react';
 import PulseLoader from 'react-spinners/PulseLoader';
 
-import { OsType } from '@/pages_fsd/app-version-history/constants';
+import { OS_TYPE } from '@/pages_fsd/app-version-history/constants';
 import apkIcon from '@/shared/assets/images/apk_64.png';
 import exeIcon from '@/shared/assets/images/exe_64.png';
 import {
@@ -113,7 +113,7 @@ export const AppDeployContainer = () => {
             onChange={handleAppTypeChange}
           >
             <FormControlLabel
-              value={OsType.APK}
+              value={OS_TYPE.APK}
               control={<Radio size="medium" />}
               label={
                 <Stack direction={'row'} alignItems={'center'}>
@@ -126,7 +126,7 @@ export const AppDeployContainer = () => {
               }
             />
             <FormControlLabel
-              value={OsType.PC}
+              value={OS_TYPE.PC}
               control={<Radio size="medium" />}
               label={
                 <Stack direction={'row'} alignItems={'center'}>
@@ -200,7 +200,7 @@ export const AppDeployContainer = () => {
             }}
           >
             <Image
-              src={appType === OsType.APK ? apkIcon : exeIcon}
+              src={appType === OS_TYPE.APK ? apkIcon : exeIcon}
               width={'48'}
               height={'48'}
               alt="apk-image"
@@ -254,7 +254,7 @@ export const AppDeployContainer = () => {
             key={appFile?.name ?? '' + appFile?.lastModified ?? ''}
             ref={fileInputRef}
             style={{ display: 'none' }}
-            accept={appType === OsType.APK ? '.apk' : '.exe'}
+            accept={appType === OS_TYPE.APK ? '.apk' : '.exe'}
             onChange={handleFileChange}
           />
         </Stack>
