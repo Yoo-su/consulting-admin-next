@@ -5,23 +5,23 @@ import { useState } from 'react';
 import { ContentWrapper } from '@/shared/components';
 import { useSharedStore } from '@/shared/models';
 
-import { OsType } from '../constants';
+import { OS_TYPE } from '../constants';
 import { useGetAppVersionHistoryQuery } from '../hooks';
 import { ConsultingAppType } from '../models';
-import { AppProgContainer } from './app-prog-container';
-import { AppPWAContainer } from './app-pwa-container';
-import { HeaderSelectRadio } from './header-select-radio';
+import { HeaderSelectRadio } from './app-header';
+import { AppProgContainer } from './app-prog-containers';
+import { AppPWAContainer } from './app-pwa-containers';
 
 export const AppHistoryListContainer = () => {
   const { currentService } = useSharedStore();
   const isNew = currentService?.isNew ?? false;
 
   const [appType, setAppType] = useState<ConsultingAppType>(
-    isNew ? OsType.APK : OsType.PWA
+    isNew ? OS_TYPE.APK : OS_TYPE.PWA
   );
   const { data: histories } = useGetAppVersionHistoryQuery(
     currentService?.serviceID,
-    appType === OsType.PWA ? null : appType
+    appType === OS_TYPE.PWA ? null : appType
   );
 
   return (
@@ -35,7 +35,7 @@ export const AppHistoryListContainer = () => {
       </ContentWrapper.Header>
 
       <ContentWrapper.MainContent>
-        {appType == OsType.PWA ? (
+        {appType == OS_TYPE.PWA ? (
           <AppPWAContainer />
         ) : (
           <AppProgContainer histories={histories} />

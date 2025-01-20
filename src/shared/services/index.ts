@@ -1,5 +1,8 @@
 export { getConvertedValue } from './get-converted-value';
-export { getCurrentServiceYear } from './get-current-service-year';
+export {
+  getCurrentServiceType,
+  getCurrentServiceYear,
+} from './get-current-service-year';
 export { formatKoreanTextCompareDatesFromNow } from './get-formatted-date';
 export { getGroupedData } from './get-grouped-data';
 export * from './get-roman-value';
