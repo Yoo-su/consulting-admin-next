@@ -46,3 +46,12 @@ export const DownloaderClass = {
     paddingTop: '2px',
   },
 };
+
+export const NameEditorClass = {
+  '& .MuiInputBase-input': {
+    width: 'calc(100%)',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+  },
+};

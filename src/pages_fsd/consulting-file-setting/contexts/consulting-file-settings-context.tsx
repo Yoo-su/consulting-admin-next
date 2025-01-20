@@ -1,6 +1,6 @@
 'use client';
 
-import { Stack, TextField, Typography } from '@mui/material';
+import { Box, Stack, TextField, Typography } from '@mui/material';
 import {
   createContext,
   Dispatch,
@@ -243,7 +243,8 @@ const StyledTextField = ({ title }: { title: string }) => {
         wordBreak: 'break-all',
         paddingBottom: '1px',
         '& .Mui-disabled': { color: 'black !important', paddingLeft: '1px' },
-        marginLeft: '1rem',
+        '& .Mui-disabled:before': { borderBottomStyle: 'solid !important' },
+        marginLeft: '.5rem',
         '& input': { fontSize: '.8rem' },
       }}
     />
@@ -254,30 +255,39 @@ const customToast = (refTitle: string, origTitle: string) => {
   return (
     <Stack
       direction={'column'}
-      spacing={2}
-      sx={{ padding: '0 16px 8px 16px', width: '100%' }}
+      spacing={1}
+      sx={{ padding: '0 8px 8px 8px', width: '100%' }}
     >
-      <Typography variant="subtitle2">자료명을 수정하였습니다.</Typography>
-      <Stack
-        direction={'row'}
-        alignItems={'center'}
-        justifyContent={'space-between'}
-      >
-        <Typography variant="subtitle2" sx={{ width: '60px' }}>
-          이전 값:{' '}
-        </Typography>
-        <StyledTextField title={origTitle} />
-      </Stack>
-      <Stack
-        direction={'row'}
-        alignItems={'center'}
-        justifyContent={'space-between'}
-      >
-        <Typography variant="subtitle2" sx={{ width: '60px' }}>
-          수정 값:{' '}
-        </Typography>
-        <StyledTextField title={refTitle} />
-      </Stack>
+      <Typography variant="body1">자료명을 수정하였습니다.</Typography>
+      <Box sx={{ paddingLeft: '2px' }}>
+        <Stack
+          direction={'row'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          sx={{ paddingBottom: '8px' }}
+        >
+          <Typography
+            variant="caption"
+            sx={{ width: '60px', paddingTop: '3px' }}
+          >
+            이전 값:{' '}
+          </Typography>
+          <StyledTextField title={origTitle} />
+        </Stack>
+        <Stack
+          direction={'row'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+        >
+          <Typography
+            variant="caption"
+            sx={{ width: '60px', paddingTop: '3px' }}
+          >
+            수정 값:{' '}
+          </Typography>
+          <StyledTextField title={refTitle} />
+        </Stack>
+      </Box>
     </Stack>
   );
 };

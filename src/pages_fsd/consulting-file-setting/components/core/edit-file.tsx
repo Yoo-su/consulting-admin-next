@@ -1,25 +1,17 @@
 'use client';
 
-import ClearIcon from '@mui/icons-material/Clear';
-import DoneIcon from '@mui/icons-material/Done';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
-import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
 
-import { useConsultingFileSettings, useFileEditHandler } from '../../hooks';
 import { ConsultingFile } from '../../models';
 import {
   CustomWidthBoxCell,
+  FileDeleteOne,
   FileDownloader,
-  StyledTextField,
+  FileNameEditor,
 } from '../elements';
 
 export const EditFile = ({ file }: { file: ConsultingFile }) => {
-  const { editFileIndex } = useConsultingFileSettings();
-  const { handleTextInput, handleChange, handleKeyDown, handleDeleteFile } =
-    useFileEditHandler({ file });
-
   return (
     <>
       <CustomWidthBoxCell size="xs">
@@ -34,49 +26,11 @@ export const EditFile = ({ file }: { file: ConsultingFile }) => {
         size="m"
         style={{ minWidth: '350px', paddingLeft: '5px', paddingRight: '5px' }}
       >
-        <StyledTextField
-          id={`textField-${file.RefNo}`}
-          value={file.RefTitle}
-          fullWidth
-          disabled={!editFileIndex[file.RefNo - 1]}
-          size="small"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  disableRipple
-                  onClick={handleTextInput}
-                  edge="start"
-                  id={`${file.RefNo}`}
-                >
-                  {editFileIndex[file.RefNo - 1] ? <DoneIcon /> : <EditIcon />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-          variant="standard"
-          onBlur={handleTextInput}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          sx={{
-            '& .MuiInputBase-input': {
-              width: 'calc(100%)',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-            },
-          }}
-        />
+        <FileNameEditor file={file} />
       </CustomWidthBoxCell>
       <FileDownloader fileName={file.FileName} />
       <CustomWidthBoxCell size="s" style={{ paddingLeft: 0 }}>
-        <IconButton
-          disableRipple
-          onClick={handleDeleteFile}
-          id={`deleteFile-${file.RefNo}`}
-        >
-          <ClearIcon color="warning" fontSize="small" />
-        </IconButton>
+        <FileDeleteOne file={file} />
       </CustomWidthBoxCell>
     </>
   );

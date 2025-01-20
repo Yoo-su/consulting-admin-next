@@ -22,7 +22,6 @@ export const useFileEditHandler = ({ file }: UseFileEditHandlerProps) => {
     deleteFile,
   } = useConsultingFileSettings();
   const [origTitle, setOrigTitle] = useState<string>(file.RefTitle);
-
   const { openConfirmToast } = useConfirmToast();
 
   const resetFileList = (fileIndex: number, title: string) => {
@@ -45,32 +44,33 @@ export const useFileEditHandler = ({ file }: UseFileEditHandlerProps) => {
     setEditFileIndex(newEditFileIndex);
 
     if (!currentStatus) return;
-
-    // currentStatus가 true일 때만 title을 저장
-    if (currentStatus) {
-      const title = (
-        document.getElementById(`textField-${fileIndex}`) as HTMLInputElement
-      )?.value;
-      const trimmedValue = title.trim();
-      if (!trimmedValue || trimmedValue === origTitle) return;
-      if (trimmedValue.length > MAX_TITLE_LENGTH) {
+    const title = (
+      document.getElementById(`textField-${fileIndex}`) as HTMLInputElement
+    )?.value;
+    const trimmedValue = title.trim();
+    if (
+      !trimmedValue ||
+      trimmedValue === origTitle ||
+      trimmedValue.length > MAX_TITLE_LENGTH
+    ) {
+      if (trimmedValue !== origTitle) {
         toast.error(
           <Typography variant="body2">
-            자료명은 {MAX_TITLE_LENGTH}자 이내로 입력해주세요
+            자료명은 1 ~ {MAX_TITLE_LENGTH}자 이내로 입력해주세요
           </Typography>
         );
-        setOrigTitle(origTitle);
-        resetFileList(fileIndex, origTitle);
-        return;
       }
-      if (title !== trimmedValue) {
-        // title에 좌우공백만 추가된 경우 공백 없는 title로 변경
-        setOrigTitle(trimmedValue);
-        resetFileList(fileIndex, trimmedValue);
-        return;
-      }
-      updateRefTitle(fileIndex, trimmedValue, origTitle);
+      setOrigTitle(origTitle);
+      resetFileList(fileIndex, origTitle);
+      return;
     }
+    // title에 좌우공백만 추가된 경우 공백 없는 title로 변경
+    if (title !== trimmedValue) {
+      setOrigTitle(trimmedValue);
+      resetFileList(fileIndex, trimmedValue);
+      return;
+    }
+    updateRefTitle(fileIndex, trimmedValue, origTitle);
   };
 
   const handleTextInput = (
