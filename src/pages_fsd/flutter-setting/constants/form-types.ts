@@ -1,8 +1,8 @@
-import { BasicTextForm } from '../components/basic-form/basic-text-form';
-import { BooleanForm } from '../components/basic-form/boolean-form';
-import { ListOrderForm } from '../components/basic-form/list-order-form';
-import { MapForm } from '../components/basic-form/map-form';
-import { SelectForm } from '../components/basic-form/select-form';
+import { BooleanForm } from '../components/detail-panel-form/boolean-form';
+import { ListOrderForm } from '../components/detail-panel-form/list-order-form';
+import { MapForm } from '../components/detail-panel-form/map-form';
+import { SelectForm } from '../components/detail-panel-form/select-form';
+import { TextForm } from '../components/detail-panel-form/text-form';
 import {
   BasicFormComponent,
   ComponentMappingType,
@@ -24,15 +24,15 @@ export const FORM_TYPE_LIST: FlutterSettingFormType[] = [
   },
   {
     type: 'string',
-    component: 'BasicTextForm',
+    component: 'TextForm',
   },
   {
     type: 'double',
-    component: 'BasicTextForm',
+    component: 'TextForm',
   },
   {
     type: 'number',
-    component: 'BasicTextForm',
+    component: 'TextForm',
   },
   // {
   //   type: 'object',
@@ -49,6 +49,6 @@ export const COMPONENT_MAPPING: ComponentMappingType = {
   BooleanForm: BooleanForm as BasicFormComponent,
   SelectForm: SelectForm as BasicFormComponent,
   ListOrderForm: ListOrderForm as BasicFormComponent,
-  BasicTextForm: BasicTextForm as BasicFormComponent,
+  TextForm: TextForm as BasicFormComponent,
   MapForm: MapForm as BasicFormComponent,
 };
