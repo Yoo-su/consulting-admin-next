@@ -2,13 +2,11 @@ import { Stack, Typography } from '@mui/material';
 
 export const TreeItemLable = ({
   category,
-  description,
   koreanTitle,
   isGrand,
   style,
 }: {
   category: string;
-  description: string;
   koreanTitle?: string;
   isGrand?: boolean;
   style?: React.CSSProperties;

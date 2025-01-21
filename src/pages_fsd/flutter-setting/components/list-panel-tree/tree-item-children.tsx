@@ -1,37 +1,30 @@
-import { FlutterRowInfo, FlutterSetting } from '../../models';
+import { TreeItem2 } from '@mui/x-tree-view/TreeItem2';
+import { FlutterSetting } from '../../models';
+import { getListByCategory } from '../../services';
 import { TreeItemChildrenCustom } from './tree-item-children-custom';
+import { TreeItemLable } from './tree-item-children-label';
 
 type TreeItemChildrenProps = {
-  children: FlutterRowInfo[];
+  parent: FlutterSetting;
   filteredSettingList: FlutterSetting[];
 };
 
 export const TreeItemChildren = ({
-  children,
+  parent,
   filteredSettingList,
 }: TreeItemChildrenProps) => {
+  const { Category, children } = parent;
+
   if (!children) return null;
   return (
-    <>
-      {children.map((child, childIndex) => {
-        const objectLength = child.children.filter(
-          (c) =>
-            c.Type === 'object' ||
-            c.Type === 'list-order' ||
-            c.Type === 'select'
-        ).length;
-        const newList = filteredSettingList.filter(
-          (list) => list.Category == child.Category
-        );
-        return (
-          <TreeItemChildrenCustom
-            child={child}
-            newList={newList}
-            objectLength={objectLength}
-            key={childIndex}
-          />
-        );
-      })}
-    </>
+    <TreeItem2 itemId={Category} label={<TreeItemLable category={Category} />}>
+      {children.map((child, childIndex) => (
+        <TreeItemChildrenCustom
+          child={child}
+          newList={getListByCategory(filteredSettingList, child.Category)}
+          key={childIndex}
+        />
+      ))}
+    </TreeItem2>
   );
 };

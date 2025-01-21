@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 
 import {
-  DupServiceBtn,
+  DupService,
   FlutterSettingContainer,
 } from '@/pages_fsd/flutter-setting/components';
 import { FlutterSettingProvider } from '@/pages_fsd/flutter-setting/contexts';
@@ -17,7 +17,7 @@ const Page = () => {
     <UnivServiceCheckGuard>
       <FlutterSettingProvider>
         <Box sx={{ minWidth: '752px' }}>
-          <DupServiceBtn />
+          <DupService />
           <FlutterSettingContainer />
         </Box>
       </FlutterSettingProvider>

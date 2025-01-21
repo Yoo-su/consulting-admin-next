@@ -1,20 +1,27 @@
-import { Autocomplete, TextField, Typography } from '@mui/material';
-import { HTMLAttributes, Key, SyntheticEvent, useState } from 'react';
+import { Autocomplete, TextField } from '@mui/material';
+import { SyntheticEvent, useState } from 'react';
 
 import { useGetServiceListQuery } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
 import { ServiceOption } from '../../constants';
+import {
+  getOptionDisabled,
+  getOptionLabel,
+  getRenderOption,
+  isOptionEqualToValue,
+} from '../../services';
 
 type SelectServiceProps = {
   selectedService: ServiceOption | null;
-  setselectedService: (value: ServiceOption | null) => void;
+  setSelectedService: (value: ServiceOption | null) => void;
 };
 export const SelectService = ({
   selectedService,
-  setselectedService,
+  setSelectedService,
 }: SelectServiceProps) => {
   const { currentUniv, currentService } = useSharedStore();
+  const { serviceID } = currentService ?? {};
   const { data: serviceList } = useGetServiceListQuery(currentUniv?.univID);
   const [inputValue, setInputValue] = useState<string>('');
 
@@ -22,7 +29,7 @@ export const SelectService = ({
     _: SyntheticEvent<Element, Event>,
     value: ServiceOption | null
   ) => {
-    setselectedService(value ?? null);
+    setSelectedService(value ?? null);
   };
 
   const handleInputChange = (
@@ -31,16 +38,18 @@ export const SelectService = ({
   ) => {
     setInputValue(newInputValue);
   };
-  const options =
-    serviceList?.map((service) => {
-      return {
-        serviceYear: service.schoolYear + '학년도',
-        isSusi: service.isSusi,
-        schoolYear: service.schoolYear,
-        serviceID: service.serviceID,
-        serviceName: service.serviceName,
-      };
-    }) ?? [];
+  const defaultOptions =
+    serviceList?.map((service) => ({
+      serviceYear: service.schoolYear + '학년도',
+      isSusi: service.isSusi,
+      schoolYear: service.schoolYear,
+      serviceID: service.serviceID,
+      serviceName: service.serviceName,
+    })) ?? [];
+
+  const options = defaultOptions.sort(
+    (a, b) => Number(b.schoolYear) - Number(a.schoolYear)
+  );
 
   return (
     <Autocomplete<ServiceOption, false, false, false>
@@ -49,41 +58,14 @@ export const SelectService = ({
       onChange={handleChange}
       inputValue={inputValue}
       onInputChange={handleInputChange}
-      options={options.sort(
-        (a, b) => Number(b.schoolYear) - Number(a.schoolYear)
-      )}
+      options={options}
       groupBy={(option) => option.serviceYear}
-      getOptionLabel={(option) =>
-        `${option.isSusi === '1' ? '수시' : '정시'} ` + option.serviceID
-      }
-      getOptionDisabled={(option) =>
-        option.serviceID === currentService?.serviceID
-      }
-      renderOption={(
-        props: HTMLAttributes<HTMLLIElement> & { key?: Key },
-        option
-      ) => {
-        const { key, ...rest } = props;
-        return (
-          <li
-            key={key}
-            {...rest}
-            style={{
-              paddingLeft: option.serviceID ? '5rem' : '0',
-              display: 'flex',
-              gap: 5,
-            }}
-          >
-            <Typography variant="caption" sx={{ paddingTop: '2px' }}>
-              {option.isSusi === '1' ? '수시' : '정시'}
-            </Typography>
-            {option.serviceID}
-          </li>
-        );
-      }}
+      getOptionLabel={(option) => getOptionLabel(option)}
+      getOptionDisabled={(option) => getOptionDisabled(option, serviceID)}
+      renderOption={(props, option) => getRenderOption(props, option)}
       renderInput={(params) => <TextField {...params} label="서비스ID" />}
       isOptionEqualToValue={(option, value) =>
-        option.serviceID === value.serviceID
+        isOptionEqualToValue(option, value)
       }
     />
   );

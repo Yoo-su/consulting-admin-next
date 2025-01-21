@@ -1,1 +1,1 @@
-export { DupServiceBtn } from './dup-service-button';
+export { DupService } from './dup-service';

@@ -1,9 +1,9 @@
-import styled from '@emotion/styled';
-import { TreeItem2, TreeItem2Props } from '@mui/x-tree-view/TreeItem2';
+import { TreeItem2Props } from '@mui/x-tree-view/TreeItem2';
 import { ReactNode } from 'react';
 import { FlutterRowInfo, FlutterSetting } from '../../models';
 import { checkChildEdited } from '../../services';
-import { TreeItemLable } from './tree-item-label';
+import { StyledTreeItem } from './styled-tree-item.styled';
+import { TreeItemLable } from './tree-item-children-label';
 
 export const CustomTreeItem = ({
   children,
@@ -25,7 +25,6 @@ export const CustomTreeItem = ({
       label={
         <TreeItemLable
           category={item.Title}
-          description={item.Description}
           koreanTitle={item.KoreanTitle}
           isGrand={isGrand}
         />
@@ -37,13 +36,3 @@ export const CustomTreeItem = ({
     </StyledTreeItem>
   );
 };
-
-const StyledTreeItem = styled(TreeItem2)`
-  &.custom-tree-item > .MuiTreeItem-content {
-    background-color: inherit;
-  }
-
-  &.custom-tree-item.edited > .MuiTreeItem-content {
-    background-color: #fafafa;
-  }
-`;
