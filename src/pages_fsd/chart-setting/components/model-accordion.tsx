@@ -1,21 +1,21 @@
 'use client';
 
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import { styled } from '@mui/material';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Stack,
+  styled,
+  Typography,
+} from '@mui/material';
 import { memo } from 'react';
 
 import { useModelAccordion } from '../hooks';
 import { useChartSettingStore } from '../models';
+import { DeleteModelButton } from './delete-model-button';
 import { ModelChartBox } from './model-chart-box';
 import { ModelLevelTable } from './model-level-table';
+import { AddLevelButton } from './model-level-table/add-level-button';
 
 type ModelAccordionProps = {
   modelNum: number;
@@ -27,8 +27,8 @@ export const ModelAccordion = memo(({ modelNum }: ModelAccordionProps) => {
     modelLevels,
     modelChartData,
     handleClickAccordionTitle,
-    handleClickDeleteModelBtn,
-    handleClickAddNewLevelBtn,
+    handleDeleteModel,
+    handleAddNewLevel,
   } = useModelAccordion({
     modelNum,
   });
@@ -46,13 +46,7 @@ export const ModelAccordion = memo(({ modelNum }: ModelAccordionProps) => {
             direction={'row'}
             sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}
           >
-            <Chip
-              icon={<DeleteIcon />}
-              label={<Typography variant="body2">모델삭제</Typography>}
-              size="small"
-              clickable
-              onClick={handleClickDeleteModelBtn}
-            />
+            <DeleteModelButton handleDeleteModel={handleDeleteModel} />
           </Stack>
         )}
       </AccordionSummary>
@@ -70,14 +64,7 @@ export const ModelAccordion = memo(({ modelNum }: ModelAccordionProps) => {
             levelNum={ml}
           />
         ))}
-        {!isEditing && (
-          <AddLevelBox onClick={handleClickAddNewLevelBtn}>
-            <AddCircleIcon sx={{ mr: 1, color: '#0069A0' }} />
-            <Typography variant="body2" sx={{ color: '#0069A0' }}>
-              단계 추가
-            </Typography>
-          </AddLevelBox>
-        )}
+        {!isEditing && <AddLevelButton handleAddNewLevel={handleAddNewLevel} />}
       </AccordionDetails>
     </Accordion>
   );
@@ -91,18 +78,4 @@ const ModelAccordionTitle = styled(Typography)({
   flexGrow: 1,
   borderRadius: '0.3rem',
   px: 1,
-});
-
-const AddLevelBox = styled(Box)({
-  flexGrow: 1,
-  borderRadius: '0.5rem',
-  display: 'flex',
-  py: 2,
-  justifyContent: 'center',
-  alignItems: 'center',
-  ':hover': {
-    bgcolor: '#E3F2FD',
-  },
-  transition: 'all 0.2s linear',
-  cursor: 'pointer',
 });

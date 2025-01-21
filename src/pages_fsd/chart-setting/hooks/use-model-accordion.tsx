@@ -1,14 +1,17 @@
 'use client';
 
 import { useCallback, useMemo, useRef } from 'react';
-import { useShallow } from 'zustand/shallow';
 
 import { useConfirmToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
 import { ChartData, useChartSettingStore } from '../models';
-import { useChartDataMutation } from './use-chart-data-mutation';
-import { useGetChartDataQuery } from './use-get-chart-data-query';
+import {
+  getDistinctColumnValues,
+  getNewChartData,
+  getNewNumberColumnValue,
+} from '../utils';
+import { useChartDataMutation, useGetChartDataQuery } from './tanstack';
 
 type UseModelAccordionProps = {
   modelNum: number;
@@ -18,21 +21,18 @@ type UseModelAccordionReturn = {
   modelChartData: ChartData[];
   modelLevels: number[];
   handleClickAccordionTitle: () => void;
-  handleClickDeleteModelBtn: () => void;
-  handleClickAddNewLevelBtn: () => void;
+  handleDeleteModel: () => void;
+  handleAddNewLevel: () => void;
 };
 export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
   const _return = useRef<UseModelAccordionReturn>();
   const currentService = useSharedStore((state) => state.currentService);
-  const { selectedModel, setSelectedModel } = useChartSettingStore(
-    useShallow((state) => ({
-      selectedModel: state.selectedModel,
-      setSelectedModel: state.setSelectedModel,
-    }))
+  const serviceID = currentService?.serviceID ?? '';
+  const selectedModel = useChartSettingStore((state) => state.selectedModel);
+  const setSelectedModel = useChartSettingStore(
+    (state) => state.setSelectedModel
   );
-  const { data: chartData } = useGetChartDataQuery(
-    currentService?.serviceID ?? ''
-  );
+  const { data: chartDatas } = useGetChartDataQuery(serviceID);
   const { setChartData } = useChartDataMutation();
   const { openConfirmToast } = useConfirmToast();
 
@@ -42,11 +42,11 @@ export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
     [selectedModel, modelNum]
   );
   const modelChartData = useMemo(() => {
-    return chartData?.filter((item) => item.modelNum === modelNum) ?? [];
-  }, [chartData, modelNum]);
+    return chartDatas?.filter((item) => item.modelNum === modelNum) ?? [];
+  }, [chartDatas, modelNum]);
 
   const modelLevels = useMemo(() => {
-    return Array.from(new Set(modelChartData.map((item) => item.level)));
+    return getDistinctColumnValues(modelChartData, 'level') as number[];
   }, [modelChartData]);
   // #endregion
 
@@ -56,33 +56,30 @@ export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
     else setSelectedModel(modelNum);
   }, [selectedModel, modelNum]);
 
-  const handleClickDeleteModelBtn = useCallback(() => {
+  const handleDeleteModel = useCallback(() => {
     openConfirmToast({
       message: `${modelNum + 1}번 모델을 삭제하시겠습니까?`,
       callbackConfirm: () => {
-        const newChartData = [...(chartData ?? [])].filter(
+        const newChartData = [...(chartDatas ?? [])].filter(
           (item) => item.modelNum !== modelNum
         );
         setChartData(newChartData);
       },
     });
-  }, [chartData, modelNum]);
+  }, [chartDatas, modelNum]);
 
-  const handleClickAddNewLevelBtn = useCallback(() => {
-    const newLevel = modelLevels.length ? Math.max(...modelLevels) + 1 : 1;
+  const handleAddNewLevel = useCallback(() => {
+    const newLevel = getNewNumberColumnValue(modelChartData, 'level', 1);
     const newChartData = [
-      ...(chartData ?? []),
-      {
-        serviceID: currentService?.serviceID ?? '',
-        modelNum,
-        label: '새 레이블',
-        percentage: 100,
+      ...(chartDatas ?? []),
+      getNewChartData({
+        serviceID,
+        modelNum: modelNum,
         level: newLevel,
-        chartLabel: '새 차트 레이블',
-      },
+      }),
     ];
     setChartData(newChartData);
-  }, [modelLevels, modelNum]);
+  }, [modelChartData, modelNum]);
   // #endregion
 
   _return.current = {
@@ -90,8 +87,8 @@ export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
     modelChartData,
     modelLevels,
     handleClickAccordionTitle,
-    handleClickDeleteModelBtn,
-    handleClickAddNewLevelBtn,
+    handleDeleteModel,
+    handleAddNewLevel,
   };
   return _return.current;
 };

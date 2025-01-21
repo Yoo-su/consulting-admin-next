@@ -19,7 +19,7 @@ export const getDetailPageData = async (serviceID: string) => {
       transformResponse: (data) => {
         const parsedData = JSON.parse(data) as GetDetailPageDataResponse[];
         return parsedData.map((item) => ({
-          serviceID: item.ServiceID,
+          serviceID: item.ServiceID.toString(),
           rowNum: item.RowNum,
           condition: item.Condition,
           htmlCard: item.HtmlCard,

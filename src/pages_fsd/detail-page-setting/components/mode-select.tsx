@@ -2,20 +2,20 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { memo } from 'react';
 
 type ModeSelectProps = {
-  rowNum: number;
+  rowNumber: number;
   currentMode: 'calc' | 'detail';
-  handleModeChange: (rowNum: number, mode: 'calc' | 'detail') => void;
+  handleModeChange: (rowNumber: number, mode: 'calc' | 'detail') => void;
 };
 export const ModeSelect = memo(
-  ({ rowNum, currentMode, handleModeChange }: ModeSelectProps) => {
+  ({ rowNumber, currentMode, handleModeChange }: ModeSelectProps) => {
     return (
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
         <InputLabel sx={{ fontWeight: 'bold' }}>Mode</InputLabel>
         <Select
           value={currentMode}
-          onChange={(event) => {
-            handleModeChange(rowNum, event.target.value as 'calc' | 'detail');
-          }}
+          onChange={(event) =>
+            handleModeChange(rowNumber, event.target.value as 'calc' | 'detail')
+          }
           label="mode"
         >
           <MenuItem value="detail">detail</MenuItem>

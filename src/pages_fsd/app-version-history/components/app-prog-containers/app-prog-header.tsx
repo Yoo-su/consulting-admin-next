@@ -1,7 +1,9 @@
-import { useSharedStore } from '@/shared/models';
 import { Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { AxiosResponse } from 'axios';
 import { useCallback } from 'react';
+
+import { useSharedStore } from '@/shared/models';
+
 import { ContainerHeaderClass } from '../../constants';
 import { AppHistory } from '../../models';
 import { copyText } from '../../services';

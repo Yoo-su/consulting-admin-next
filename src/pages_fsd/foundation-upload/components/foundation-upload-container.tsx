@@ -16,12 +16,12 @@ import { ContentWrapper, DropZoneContainer } from '@/shared/components';
 
 import { useHandleFoundationData } from '../hooks';
 import { DataCheckButton } from './data-check-button';
-import { LayoutDownloadButton } from './layout-download-button';
+import { FileInput } from './file-input';
+import { Header } from './header';
 import { LoadingCover } from './loading-cover';
 import { UploadButton } from './upload-button';
 import { UploadStateAlert } from './upload-state-alert';
 import { UploadStateStepper } from './upload-state-stepper';
-import { UploadTypeToggler } from './upload-type-toggler';
 
 export const FoundationUploadContainer = () => {
   const {
@@ -39,10 +39,7 @@ export const FoundationUploadContainer = () => {
   return (
     <ContentWrapper>
       <ContentWrapper.Header bottomDivider>
-        <HeaderContent>
-          <UploadTypeToggler />
-          <LayoutDownloadButton />
-        </HeaderContent>
+        <Header />
       </ContentWrapper.Header>
 
       <ContentWrapper.MainContent>
@@ -81,24 +78,15 @@ export const FoundationUploadContainer = () => {
           <UploadButton />
         </FileControllerBox>
 
-        <input
-          type="file"
-          key={inputElKey}
-          ref={inputRef}
-          style={{ display: 'none' }}
-          onChange={handleInputChange}
-          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        <FileInput
+          inputKey={inputElKey}
+          inputRef={inputRef}
+          handleChange={handleInputChange}
         />
       </ContentWrapper.MainContent>
     </ContentWrapper>
   );
 };
-
-const HeaderContent = styled(Stack)({
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  flexGrow: 1,
-});
 
 const UploadInputTitle = styled(Typography)({
   textAlign: 'center',

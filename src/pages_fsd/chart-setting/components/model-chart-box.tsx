@@ -1,11 +1,13 @@
 'use client';
 
-import { Chip, Stack, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { Stack, SxProps, useTheme } from '@mui/material';
 import { PieChart } from '@mui/x-charts/PieChart';
-import { memo, useEffect, useMemo, useState } from 'react';
+import { memo } from 'react';
 
+import { CHART_COLORS } from '../constants';
+import { useModelChartBox } from '../hooks';
 import { ChartData } from '../models';
+import { SelectLevelButton } from './select-level-button';
 
 type ModelChartBoxProps = {
   modelNum: number;
@@ -15,72 +17,35 @@ type ModelChartBoxProps = {
 export const ModelChartBox = memo(
   ({ modelNum, modelLevels, modelChartData }: ModelChartBoxProps) => {
     const theme = useTheme();
-    const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
-
-    const displayingData = useMemo(() => {
-      if (!selectedLevel) return [];
-      const filtered = getLevelFilteredData(selectedLevel);
-      return transformDataForChart(filtered);
-    }, [modelChartData, selectedLevel]);
-
-    function transformDataForChart(chartData: ChartData[]) {
-      return chartData.map((data) => {
-        return {
-          id: data.label ?? '',
-          value: data.percentage,
-          label: data.chartLabel ?? '',
-        };
-      });
-    }
-
-    function getLevelFilteredData(level: number) {
-      return modelChartData.filter((data) => data.level === level);
-    }
-
-    useEffect(() => {
-      if (selectedLevel) {
-        modelLevels.findIndex((ml) => ml === selectedLevel) === -1
-          ? setSelectedLevel(modelLevels[0])
-          : setSelectedLevel(selectedLevel);
-      } else setSelectedLevel(modelLevels[0]);
-    }, [modelLevels]);
+    const { selectedLevel, chartData, handleSelectLevel } = useModelChartBox(
+      modelLevels,
+      modelChartData
+    );
 
     return (
       <Stack
-        direction={'column'}
+        direction="column"
         spacing={2}
-        alignItems={'center'}
-        sx={{
-          py: 4,
-          mt: 4,
-          boxShadow:
-            '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-        }}
+        alignItems="center"
+        sx={chartBoxStyle}
       >
-        <Stack direction={'row'} spacing={3}>
+        <Stack direction="row" spacing={3}>
           {modelLevels.map((level) => (
-            <Chip
+            <SelectLevelButton
               key={level}
-              size="small"
-              label={
-                <Typography variant="body1" fontSize={14}>
-                  단계{level}
-                </Typography>
-              }
-              color={selectedLevel === level ? 'info' : 'default'}
-              onClick={() => {
-                setSelectedLevel(level);
-              }}
+              level={level}
+              isSelected={selectedLevel === level}
+              handleClick={handleSelectLevel}
             />
           ))}
         </Stack>
 
         <PieChart
           key={`model-${modelNum}-level-${selectedLevel}-chart`}
-          colors={['#6D5C80', '#869F76', '#E9B665', '#0F497B', '#F5B19C']}
+          colors={CHART_COLORS}
           series={[
             {
-              data: displayingData,
+              data: chartData,
               innerRadius: 30,
               outerRadius: 100,
               paddingAngle: 5,
@@ -102,4 +67,11 @@ export const ModelChartBox = memo(
     );
   }
 );
+
 ModelChartBox.displayName = 'ModelChartBox';
+
+const chartBoxStyle: SxProps = {
+  py: 4,
+  mt: 4,
+  boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+};
