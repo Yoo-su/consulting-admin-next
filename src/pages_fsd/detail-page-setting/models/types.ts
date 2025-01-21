@@ -1,20 +1,23 @@
-import { COMPARISON_OPERATORS, DATA_TYPES } from '../constants';
+import { COMPARISON_OPERATORS } from '../constants';
 
 export type Operator = keyof typeof COMPARISON_OPERATORS;
 
+export type Mode = 'calc' | 'detail';
+
+export type ConditionLogic = 'and' | 'or' | '';
 export type Condition = {
   idx: number;
-  logic: 'and' | 'or' | '';
+  logic: ConditionLogic;
   dataType: string;
   value: any;
   eqValue: Operator;
 };
 
 export type DetailPageData = {
-  serviceID: number;
+  serviceID: string;
   rowNum: number;
   condition: string;
   htmlCard: string;
   conditionText: string;
-  mode: 'calc' | 'detail';
+  mode: Mode;
 };

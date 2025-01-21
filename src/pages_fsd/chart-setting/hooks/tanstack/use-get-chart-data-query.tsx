@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '@/shared/constants';
 
-import { getChartData } from '../apis';
+import { getChartData } from '../../apis';
 
 export const useGetChartDataQuery = (serviceID: string) => {
   return useQuery({

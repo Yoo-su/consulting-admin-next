@@ -1,5 +1,6 @@
 import { Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { MouseEvent } from 'react';
+
 import { ContainerHeaderClass } from '../../constants';
 import { copyText } from '../../services';
 import { SerialNoTextField } from '../copy-text-field';

@@ -1,12 +1,14 @@
+import DoneIcon from '@mui/icons-material/Done';
+import EditIcon from '@mui/icons-material/Edit';
+import { IconButton, InputAdornment } from '@mui/material';
+
 import { NameEditorClass } from '@/pages_fsd/consulting-file-setting/constants';
 import {
   useConsultingFileSettings,
   useFileEditHandler,
 } from '@/pages_fsd/consulting-file-setting/hooks';
 import { ConsultingFile } from '@/pages_fsd/consulting-file-setting/models';
-import DoneIcon from '@mui/icons-material/Done';
-import EditIcon from '@mui/icons-material/Edit';
-import { IconButton, InputAdornment } from '@mui/material';
+
 import { StyledTextField } from '../cells';
 
 type FileNameEditorProps = {
