@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 
 import { DetailPageSettingContainer } from '@/pages_fsd/detail-page-setting/components';
-import { DetailPageSettingProvider } from '@/pages_fsd/detail-page-setting/contexts';
 import { UnivServiceCheckGuard } from '@/shared/components';
 
 export const metadata = {
@@ -12,11 +11,9 @@ export const metadata = {
 const Page = () => {
   return (
     <UnivServiceCheckGuard>
-      <DetailPageSettingProvider>
-        <Box>
-          <DetailPageSettingContainer />
-        </Box>
-      </DetailPageSettingProvider>
+      <Box>
+        <DetailPageSettingContainer />
+      </Box>
     </UnivServiceCheckGuard>
   );
 };

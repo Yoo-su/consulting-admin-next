@@ -8,9 +8,9 @@ export const API_URLS = {
   },
   dashboard: {
     getConsultingAppState: '/admin/service-detail',
-    getConsultingAppStateAll: '/admin/service-detail-all',
-    updateConsultingAppState: '/admin/service-detail/current-state',
-    syncMoaNesinService: '/admin/sync-moa-nesin-service',
+    getConsultingAppStateAll: '/admin/service-details',
+    updateConsultingAppState: '/admin/service-detail/state',
+    syncMoaNesinService: '/admin/service-detail/sync/moa',
     createService: '/foundation/service/create',
     updateIsNew: '/foundation/service/update-is-new',
     versionList: '/foundation/cur-tbl-version',
@@ -65,7 +65,7 @@ export const API_URLS = {
       `/scoring/calc-method/${serviceID}/${methodID}`,
   },
   admin: {
-    getUnivList: '/admin/univlist',
+    getUnivList: '/admin/university/list',
     getServiceList: '/admin/service',
   },
 };

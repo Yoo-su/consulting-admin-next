@@ -11,9 +11,10 @@ import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { memo, useCallback } from 'react';
 
 import { COMPARISON_OPERATORS, DATA_TYPES } from '../../constants';
-import { Condition } from '../../models';
+import { Condition, ConditionLogic } from '../../models';
 
 type ConditionRowProps = {
   condition: Condition;
@@ -22,37 +23,26 @@ type ConditionRowProps = {
     columnType: 'dataType' | 'eqValue' | 'value' | 'logic',
     newData: any
   ) => void;
-  handleClickDeleteRowBtn: (idx: number) => void;
+  handleClickDeleteRow: (idx: number) => void;
 };
 export const ConditionRow = ({
   condition,
   handleChangeRowData,
-  handleClickDeleteRowBtn,
+  handleClickDeleteRow,
 }: ConditionRowProps) => {
-  const toggleConditionLogic = () => {
+  const toggleConditionLogic = useCallback(() => {
     if (condition.logic === 'and')
       handleChangeRowData(condition.idx, 'logic', 'or');
     else handleChangeRowData(condition.idx, 'logic', 'and');
-  };
+  }, [condition]);
 
   return (
     <Stack direction={'column'} width={'100%'}>
       {condition.logic && (
         <Stack direction={'row'} justifyContent={'center'} sx={{ my: 1.5 }}>
-          <Chip
-            size="small"
-            clickable
-            onClick={toggleConditionLogic}
-            label={
-              <Typography fontWeight={'bold'}>
-                {condition.logic === 'and' ? 'AND' : 'OR'}
-              </Typography>
-            }
-            sx={{
-              bgcolor: condition.logic === 'and' ? '#d18577' : '#81b1cd',
-              color: '#fff',
-              px: 2,
-            }}
+          <LogicButton
+            logic={condition.logic}
+            toggleConditionLogic={toggleConditionLogic}
           />
         </Stack>
       )}
@@ -61,9 +51,9 @@ export const ConditionRow = ({
         <Autocomplete
           size="small"
           defaultValue={condition.dataType}
-          onChange={(event, newDataType) => {
-            handleChangeRowData(condition.idx, 'dataType', newDataType);
-          }}
+          onChange={(event, newDataType) =>
+            handleChangeRowData(condition.idx, 'dataType', newDataType)
+          }
           options={DATA_TYPES}
           renderInput={(params) => <TextField {...params} label="조건" />}
           sx={{ flexGrow: 2 }}
@@ -92,18 +82,16 @@ export const ConditionRow = ({
           sx={{ width: '80px', flexGrow: 1 }}
           inputProps={{ style: { width: 'fit-content' } }}
           size="small"
-          onChange={(event) => {
-            handleChangeRowData(condition.idx, 'value', event.target.value);
-          }}
+          onChange={(event) =>
+            handleChangeRowData(condition.idx, 'value', event.target.value)
+          }
           defaultValue={condition.value}
         />
 
         <IconButton
           aria-label="delete"
           size="small"
-          onClick={() => {
-            handleClickDeleteRowBtn(condition.idx);
-          }}
+          onClick={() => handleClickDeleteRow(condition.idx)}
         >
           <DeleteIcon />
         </IconButton>
@@ -111,3 +99,30 @@ export const ConditionRow = ({
     </Stack>
   );
 };
+
+type LogicButtonProps = {
+  logic: ConditionLogic;
+  toggleConditionLogic: () => void;
+};
+const LogicButton = memo(
+  ({ logic, toggleConditionLogic }: LogicButtonProps) => {
+    return (
+      <Chip
+        size="small"
+        clickable
+        onClick={toggleConditionLogic}
+        label={
+          <Typography fontWeight={'bold'}>
+            {logic === 'and' ? 'AND' : 'OR'}
+          </Typography>
+        }
+        sx={{
+          bgcolor: logic === 'and' ? '#d18577' : '#81b1cd',
+          color: '#fff',
+          px: 2,
+        }}
+      />
+    );
+  }
+);
+LogicButton.displayName = 'LogicButton';

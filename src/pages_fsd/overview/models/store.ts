@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 
+import { getServiceYear } from '@/shared/lib/date';
+
 import {
   BoardType,
   ConsultingAppState,
@@ -28,7 +30,7 @@ export const useStatusBoardStore = create<StatusBoardStore>((set, get) => ({
   viewOption: 'basic',
   isDialogOpen: false,
   dialogContentState: null,
-  selectedServiceYear: (new Date().getFullYear() + 1).toString(),
+  selectedServiceYear: getServiceYear().toString(),
   selectedServiceType: new Date().getMonth() > 8 ? 'J_A' : 'S_A',
 
   setBoardType: (newBoardType: BoardType) =>

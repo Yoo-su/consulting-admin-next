@@ -1,4 +1,6 @@
+import { getServiceYear } from '@/shared/lib/date/service-year';
+
 export const getLastFiveServiceYears = (): string[] => {
-  const currentYear = new Date().getFullYear() + 1; // 현재 년도
+  const currentYear = getServiceYear();
   return Array.from({ length: 5 }, (_, i) => String(currentYear - 4 + i));
 };

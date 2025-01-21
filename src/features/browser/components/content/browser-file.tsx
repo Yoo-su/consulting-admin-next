@@ -26,7 +26,7 @@ export const BrowserFile = memo(
       useHandleHoverState();
     const { Wrapper, InfoArea, isBasicCard } = useItemStyle();
     const [isEditMode, setIsEditMode] = useState(false);
-    2;
+
     const handleSetIsEditMode = useCallback(
       (modeState: boolean) => {
         setIsEditMode(modeState);

@@ -1,10 +1,10 @@
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import { Dispatch, SetStateAction } from 'react';
 
 import { FileItemCard } from '@/shared/components';
 import { formatKoreanTextCompareDatesFromNow } from '@/shared/services';
 
-import { Dispatch, SetStateAction } from 'react';
 import { OS_TYPE } from '../../constants';
 import { AppHistory } from '../../models';
 import { copyText, getAppDownloadUrl } from '../../services';

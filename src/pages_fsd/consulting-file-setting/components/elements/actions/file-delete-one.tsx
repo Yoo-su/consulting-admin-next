@@ -1,7 +1,8 @@
-import { useFileEditHandler } from '@/pages_fsd/consulting-file-setting/hooks';
-import { ConsultingFile } from '@/pages_fsd/consulting-file-setting/models';
 import ClearIcon from '@mui/icons-material/Clear';
 import { IconButton } from '@mui/material';
+
+import { useFileEditHandler } from '@/pages_fsd/consulting-file-setting/hooks';
+import { ConsultingFile } from '@/pages_fsd/consulting-file-setting/models';
 
 type FileDeleteOneProps = {
   file: ConsultingFile;

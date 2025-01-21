@@ -1,104 +1,59 @@
 'use client';
 
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Chip from '@mui/material/Chip';
-import Divider from '@mui/material/Divider';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import { useQueryClient } from '@tanstack/react-query';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Divider,
+  InputLabel,
+  Stack,
+  styled,
+  Typography,
+} from '@mui/material';
 import { memo, useCallback } from 'react';
 
 import { TiptapEditor } from '@/features/tiptap-editor/components';
-import { QUERY_KEYS } from '@/shared/constants';
-import { useConfirmToast, usePopover } from '@/shared/hooks';
+import { usePopover } from '@/shared/hooks';
 
-import { useDetailPageSetting } from '../hooks';
+import { useHandleDetailPageData } from '../hooks';
+import { useDataAccordion } from '../hooks/use-data-accordion';
 import { DetailPageData } from '../models';
 import { ConditionSettingPopover } from './condition-setting-popover';
+import { DeleteDataButton } from './delete-data-button';
+import { ModeSelect } from './mode-select';
+import { PopoverToggler } from './popover-toggler';
 
-type DetailPageDataAccordionProps = {
-  serviceID: string;
-  detailpageData: DetailPageData;
-  isSelected: boolean;
-  handleSelectRow: (selectedIdx: number | null) => void;
-};
+type DetailPageDataAccordionProps = DetailPageData;
+
 export const DetailPageDataAccordion = memo(
-  ({
-    serviceID,
-    detailpageData,
-    isSelected,
-    handleSelectRow,
-  }: DetailPageDataAccordionProps) => {
-    const queryClient = useQueryClient();
-    const { openConfirmToast } = useConfirmToast();
-    const { updateRowMode, updateRowHtmlCard } = useDetailPageSetting();
-    const conditionPopover = usePopover<HTMLDivElement>();
+  ({ rowNum, condition, mode, htmlCard }: DetailPageDataAccordionProps) => {
+    const { isSelected, handleClickTitle } = useDataAccordion(rowNum);
+    const { handleDeleteData, handleUpdateHtmlCard, handleUpdateMode } =
+      useHandleDetailPageData();
+    const { anchorRef, handleOpen, open, handleClose } =
+      usePopover<HTMLDivElement>();
 
-    const handleChangeValue = useCallback((newHtml: string) => {
-      updateRowHtmlCard(detailpageData.rowNum, newHtml);
-    }, []);
-
-    /**
-     * 상세 페이지 데이터 삭제
-     */
-    const handleClickDeleteBtn = useCallback(() => {
-      openConfirmToast({
-        message: `${detailpageData.rowNum}번 데이터를 삭제하시겠습니까?`,
-        callbackConfirm: () => {
-          queryClient.setQueryData(
-            QUERY_KEYS['detail-page-setting']['data'](serviceID).queryKey,
-            (oldData: DetailPageData[]) => {
-              const filteredDetailpageData = oldData.filter(
-                (item) => item.rowNum != detailpageData.rowNum
-              );
-              return filteredDetailpageData;
-            }
-          );
-          handleSelectRow(null);
-        },
-      });
-    }, [serviceID]);
+    const handleUpdateTiptapValue = useCallback(
+      (newValue: string) => {
+        handleUpdateHtmlCard(rowNum, newValue);
+      },
+      [rowNum, handleUpdateHtmlCard]
+    );
 
     return (
       <Accordion expanded={isSelected} sx={{ width: '100%' }}>
         <AccordionSummary>
-          <Typography
-            variant="h6"
-            sx={{
-              ':hover': {
-                bgcolor: 'rgba(0,0,0,0.03)',
-              },
-              transition: 'background-color 0.2s ease',
-              flexGrow: 1,
-              borderRadius: '0.3rem',
-              px: 1,
-            }}
-            onClick={() => {
-              if (!isSelected) handleSelectRow(detailpageData.rowNum);
-              else handleSelectRow(null);
-            }}
-          >
-            상세 페이지 데이터 {detailpageData.rowNum}
-          </Typography>
+          <AccordionTitle variant="h6" onClick={handleClickTitle}>
+            상세 페이지 데이터 {rowNum}
+          </AccordionTitle>
           {isSelected && (
             <Stack
               direction={'row'}
               sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}
             >
-              <Chip
-                icon={<DeleteIcon />}
-                label={<Typography variant="body2">데이터 삭제</Typography>}
-                size="small"
-                clickable
-                onClick={handleClickDeleteBtn}
+              <DeleteDataButton
+                rowNumber={rowNum}
+                handleDeleteData={handleDeleteData}
               />
             </Stack>
           )}
@@ -112,41 +67,22 @@ export const DetailPageDataAccordion = memo(
               spacing={2}
             >
               <Stack direction={'row'} spacing={4} alignItems={'flex-end'}>
-                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                  <InputLabel sx={{ fontWeight: 'bold' }}>Mode</InputLabel>
-                  <Select
-                    value={detailpageData.mode}
-                    onChange={(event) => {
-                      updateRowMode(
-                        detailpageData.rowNum,
-                        event.target.value as 'calc' | 'detail'
-                      );
-                    }}
-                    label="mode"
-                  >
-                    <MenuItem value="detail">detail</MenuItem>
-                    <MenuItem value="calc">calc</MenuItem>
-                  </Select>
-                </FormControl>
-                <Chip
-                  onClick={conditionPopover.handleOpen}
-                  ref={conditionPopover.anchorRef}
-                  clickable
-                  icon={
-                    <TipsAndUpdatesIcon fontSize="medium" color="inherit" />
-                  }
-                  label={<Typography variant="body1">표시조건 설정</Typography>}
-                  sx={{
-                    bgcolor: '#2C4059',
-                    color: conditionPopover.open ? '#F5F1B7' : '#FFFDE9',
-                  }}
+                <ModeSelect
+                  rowNumber={rowNum}
+                  currentMode={mode}
+                  handleModeChange={handleUpdateMode}
+                />
+                <PopoverToggler
+                  anchorRef={anchorRef}
+                  open={open}
+                  handleOpen={handleOpen}
                 />
                 <ConditionSettingPopover
-                  anchorEl={conditionPopover.anchorRef.current}
-                  onClose={conditionPopover.handleClose}
-                  open={conditionPopover.open}
-                  rowNum={detailpageData.rowNum}
-                  condition={JSON.parse(detailpageData.condition)}
+                  anchorEl={anchorRef.current}
+                  handleClose={handleClose}
+                  open={open}
+                  rowNum={rowNum}
+                  conditions={JSON.parse(condition)}
                 />
               </Stack>
             </Stack>
@@ -157,8 +93,8 @@ export const DetailPageDataAccordion = memo(
                 HTML 카드 편집
               </InputLabel>
               <TiptapEditor
-                value={detailpageData.htmlCard}
-                handleChangeValue={handleChangeValue}
+                value={htmlCard}
+                handleChangeValue={handleUpdateTiptapValue}
               />
             </Stack>
           </Stack>
@@ -168,3 +104,13 @@ export const DetailPageDataAccordion = memo(
   }
 );
 DetailPageDataAccordion.displayName = 'DetailPageDataAccordion';
+
+const AccordionTitle = styled(Typography)({
+  ':hover': {
+    bgcolor: 'rgba(0,0,0,0.03)',
+  },
+  transition: 'background-color 0.2s ease',
+  flexGrow: 1,
+  borderRadius: '0.3rem',
+  px: 1,
+});

@@ -1,150 +1,74 @@
 'use client';
 
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import Chip from '@mui/material/Chip';
 import Popover from '@mui/material/Popover';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import { memo, useMemo, useState } from 'react';
-import toast from 'react-hot-toast';
+import { memo } from 'react';
 
 import { EmptyCover } from '@/shared/components';
 
-import { useDetailPageSetting } from '../../hooks';
+import { useConditionPopover } from '../../hooks';
 import { Condition } from '../../models';
+import { AddConditionRowButton } from './add-condition-row-button';
 import { ConditionRow } from './condition-row';
+import { SaveConditionButton } from './save-condition-button';
 
 type ConditionSettingPopoverProps = {
   anchorEl: Element | null;
-  onClose: () => void;
+  handleClose: () => void;
   open: boolean;
   rowNum: number;
-  condition: Condition[];
+  conditions: Condition[];
 };
 export const ConditionSettingPopover = memo(
   ({
     anchorEl,
-    onClose,
     open,
     rowNum,
-    condition,
+    conditions,
+    handleClose,
   }: ConditionSettingPopoverProps) => {
-    const { updateCondition } = useDetailPageSetting();
-    const [currentCondition, setCurrentCondition] =
-      useState<Condition[]>(condition);
-    const [originalCondition, setOriginalCondition] =
-      useState<Condition[]>(condition);
-
-    const hasChanges = useMemo(() => {
-      const sortedCurrentCondition = [...currentCondition].sort(
-          (a, b) => a.idx - b.idx
-        ),
-        sortedOriginalCondition = [...originalCondition].sort(
-          (a, b) => a.idx - b.idx
-        );
-      return (
-        JSON.stringify(sortedCurrentCondition) !==
-        JSON.stringify(sortedOriginalCondition)
-      );
-    }, [currentCondition, originalCondition]);
-
-    const handleClickSaveBtn = () => {
-      updateCondition(rowNum, JSON.stringify(currentCondition));
-      setOriginalCondition([...currentCondition]);
-      onClose();
-    };
-
-    const handleClickAddRowBtn = () => {
-      const newIdx = currentCondition.length
-        ? Math.max(...Array.from(currentCondition, (item) => item.idx)) + 1
-        : 0;
-      const newRow: Condition = {
-        idx: newIdx,
-        logic: currentCondition.length ? 'and' : '',
-        dataType: 'MajorNo',
-        value: '',
-        eqValue: 'EQ',
-      };
-      setCurrentCondition([...currentCondition, newRow]);
-    };
-
-    const handleChangeRowData = (
-      idx: number,
-      columnType: 'dataType' | 'eqValue' | 'value' | 'logic',
-      newData: string | number
-    ) => {
-      const newCondition = currentCondition.map((item) => {
-        if (item.idx !== idx) return item;
-        return {
-          ...item,
-          [columnType]: newData,
-        };
-      });
-      setCurrentCondition(newCondition);
-    };
-
-    const handleClickDeleteRowBtn = (idx: number) => {
-      if (idx === 0 && currentCondition.length > 1) {
-        toast.error(
-          <Typography variant="body2">
-            연결된 조건이 있어 삭제 불가합니다
-          </Typography>
-        );
-        return;
-      }
-
-      const newCondition = [...currentCondition].filter(
-        (item) => item.idx !== idx
-      );
-      setCurrentCondition(newCondition);
-    };
+    const {
+      isConditionChanged,
+      currentConditions,
+      originalConditions,
+      setCurrentConditions,
+      handleAddConditionRow,
+      handleChangeConditionRow,
+      handleSaveConditionChanges,
+      handleDeleteConditionRow,
+    } = useConditionPopover({
+      rowNumber: rowNum,
+      conditions: conditions,
+    });
 
     return (
       <StyledPopover
         anchorEl={anchorEl}
         anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
         onClose={() => {
-          setCurrentCondition(originalCondition);
-          onClose();
+          setCurrentConditions(originalConditions);
+          handleClose();
         }}
         open={open}
       >
         <WrapperStack>
           <HeaderStack gap={1}>
-            <AddRowChip
-              clickable
-              onClick={handleClickAddRowBtn}
-              icon={<AddCircleIcon color="inherit" />}
-              label={
-                <Typography variant="button" fontWeight="bold">
-                  행추가
-                </Typography>
-              }
-            />
-            <SaveRowChip
-              clickable
-              onClick={handleClickSaveBtn}
-              disabled={!hasChanges}
-              icon={<ExitToAppIcon color="inherit" />}
-              label={
-                <Typography variant="button" fontWeight="bold">
-                  {hasChanges ? '변경사항 반영' : '변경사항 없음'}
-                </Typography>
-              }
-              color={hasChanges ? 'info' : 'default'}
+            <AddConditionRowButton handleClickAddRow={handleAddConditionRow} />
+            <SaveConditionButton
+              handleClickSave={handleSaveConditionChanges}
+              isConditionChanged={isConditionChanged}
             />
           </HeaderStack>
 
           <ConditionContainer>
-            {currentCondition.length ? (
-              currentCondition.map((item) => (
+            {currentConditions.length ? (
+              currentConditions.map((item) => (
                 <ConditionRow
                   key={item.idx}
                   condition={item}
-                  handleChangeRowData={handleChangeRowData}
-                  handleClickDeleteRowBtn={handleClickDeleteRowBtn}
+                  handleChangeRowData={handleChangeConditionRow}
+                  handleClickDeleteRow={handleDeleteConditionRow}
                 />
               ))
             ) : (
@@ -191,25 +115,6 @@ const HeaderStack = styled(Stack)(({ theme }) => ({
   borderRadius: theme.spacing(0.5),
   boxShadow:
     '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
-}));
-
-const AddRowChip = styled(Chip)(({ theme }) => ({
-  backgroundColor: '#597D35',
-  color: '#fff',
-  '&:hover': {
-    backgroundColor: '#597D35',
-  },
-}));
-
-const SaveRowChip = styled(Chip)(({ theme }) => ({
-  paddingLeft: theme.spacing(1),
-  paddingRight: theme.spacing(1),
-  backgroundColor: '#4863A0',
-  color: '#fff',
-  '&:hover': {
-    backgroundColor: '#4863A0',
-  },
-  transition: 'all 0.2s ease',
 }));
 
 const ConditionContainer = styled(Stack)(({ theme }) => ({

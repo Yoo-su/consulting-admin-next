@@ -1,6 +1,7 @@
 'use client';
 
 import { Modal, Stack, Typography } from '@mui/material';
+
 import { QrModalClass } from '../../constants';
 import { QRCodeBox } from './qr-code-box';
 

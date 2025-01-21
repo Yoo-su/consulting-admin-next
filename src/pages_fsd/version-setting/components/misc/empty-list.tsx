@@ -1,4 +1,5 @@
 import { TableBody, TableCell, TableRow, Typography } from '@mui/material';
+
 import { TableBodyClass } from '../../constants';
 
 export const EmptyList = () => {

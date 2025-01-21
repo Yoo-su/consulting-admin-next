@@ -40,7 +40,7 @@ export type ConsultingAppState = {
   currentState: CurrentState;
 };
 export type ServiceType = 'S_A' | 'J_A';
-2;
+
 export type StateBoardDomainItem = {
   key: CurrentState;
   title: string;

@@ -1,8 +1,9 @@
-import { useConsultingFileSettings } from '@/pages_fsd/consulting-file-setting/hooks';
-import { useConfirmToast } from '@/shared/hooks';
 import ClearIcon from '@mui/icons-material/Clear';
 import { IconButton, Tooltip } from '@mui/material';
 import { MouseEvent } from 'react';
+
+import { useConsultingFileSettings } from '@/pages_fsd/consulting-file-setting/hooks';
+import { useConfirmToast } from '@/shared/hooks';
 
 export const FileDeleteAll = () => {
   const { files, deleteFile } = useConsultingFileSettings();

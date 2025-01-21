@@ -4,7 +4,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-import { MouseEvent, memo } from 'react';
+import { memo,MouseEvent } from 'react';
 
 type CopyOnlyTextFieldProps = {
   serviceID: string;
