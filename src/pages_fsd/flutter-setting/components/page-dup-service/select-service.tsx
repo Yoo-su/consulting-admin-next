@@ -4,7 +4,7 @@ import { SyntheticEvent, useState } from 'react';
 import { useGetServiceListQuery } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
-import { ServiceOption } from '../../constants';
+import { ServiceOption } from '../../models';
 import {
   getOptionDisabled,
   getOptionLabel,

@@ -4,7 +4,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import { Button, Typography } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
 
-import { DupBtnClass } from '../../constants/classes';
+import { DupBtnClass } from '../../constants/';
 
 type DupServiceBtnProps = {
   setOpen: Dispatch<SetStateAction<boolean>>;

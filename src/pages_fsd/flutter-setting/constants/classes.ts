@@ -18,6 +18,13 @@ export const SwitchClass = {
   },
 };
 
+export const DetailClass = {
+  minWidth: '100%',
+  height: '73vh',
+  overflowY: 'auto',
+  paddingBottom: '1rem',
+};
+
 export const EmptyCoverClass = {
   width: '100%',
   minHeight: '400px',

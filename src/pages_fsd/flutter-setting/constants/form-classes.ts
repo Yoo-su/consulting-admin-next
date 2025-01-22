@@ -1,0 +1,31 @@
+export const BasicFormTitleClass = (isEdited: boolean) => ({
+  paddingBottom: '1px',
+  backgroundColor: isEdited ? '#EEEEEE' : '',
+});
+
+export const BasicFormKoreanTitleClass = { color: '#757575' };
+
+export const CheckBoxClass = {
+  '& .MuiButtonBase-root': {
+    padding: '0 .3rem 0 .5rem',
+  },
+  '& .MuiSvgIcon-root': {
+    fontSize: '1.2rem',
+    paddingTop: '2px',
+  },
+  '& .MuiTypography-root': {
+    fontSize: '.9rem',
+    width: '100%',
+  },
+};
+
+export const BooleanFromGroupClass = {
+  paddingLeft: '.5rem',
+  '& .MuiFormControlLabel-label.Mui-disabled': {
+    color: 'rgba(0, 0, 0, 0.77) !important',
+  },
+};
+
+export const BooleanFormCheckBoxClass = (isDisabled: boolean) => ({
+  color: isDisabled ? '#FAFAFA' : 'rgba(0, 0, 0, 0.87) !important',
+});

@@ -1,7 +1,7 @@
 import { Stack } from '@mui/material';
 
 import { FlutterRowInfo, FlutterSetting, Path } from '../../models';
-import { BasicForm } from '../detail-panel-form';
+import { BasicForm, BasicFormArray } from '../detail-panel-basic';
 
 export type EditSettingProps = {
   settingList: FlutterSetting | FlutterRowInfo | FlutterRowInfo[] | undefined;
@@ -13,22 +13,21 @@ export const EditSetting = ({
   path,
   isDisabled,
 }: EditSettingProps) => {
-  const isSub = Array.isArray(settingList) && settingList[0]?.level > 1;
+  if (!settingList) return null;
+
+  const spacing =
+    Array.isArray(settingList) && settingList[0]?.level > 1 ? 1 : 5;
+
   return (
     <>
-      {settingList && (
-        <Stack spacing={isSub ? 1 : 5}>
+      {
+        <Stack spacing={spacing}>
           {Array.isArray(settingList) ? (
-            settingList.map((item: FlutterRowInfo, index: number) => (
-              <BasicForm
-                key={item.RowIdx}
-                basicKey={item.Title}
-                item={item}
-                path={[...path, 'children', index]}
-                index={index}
-                isDisabled={isDisabled}
-              />
-            ))
+            <BasicFormArray
+              settingList={settingList}
+              path={path}
+              isDisabled={isDisabled}
+            />
           ) : (
             <BasicForm
               item={settingList as FlutterRowInfo}
@@ -38,7 +37,7 @@ export const EditSetting = ({
             />
           )}
         </Stack>
-      )}
+      }
     </>
   );
 };

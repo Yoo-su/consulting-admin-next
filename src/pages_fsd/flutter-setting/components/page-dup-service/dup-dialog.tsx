@@ -1,7 +1,7 @@
 import { Dialog, DialogTitle } from '@mui/material';
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import { ServiceOption } from '../../constants';
+import { ServiceOption } from '../../models';
 import { DupDialogActions } from './dup-dialog-actions';
 import { DupDialogContent } from './dup-dialog-content';
 

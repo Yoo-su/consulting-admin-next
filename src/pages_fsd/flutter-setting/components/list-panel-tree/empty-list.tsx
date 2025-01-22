@@ -1,6 +1,6 @@
 import { EmptyCover } from '@/shared/components';
 import { Stack } from '@mui/material';
-import { EmptyCoverClass } from '../../constants/classes';
+import { EmptyCoverClass } from '../../constants';
 
 type EmptyListProps = {
   isShow: boolean;

@@ -1,4 +1,5 @@
-import { EditSettingProps } from '../components/edit-setting';
+import { Service } from '@/shared/models';
+import { EditSettingProps } from '../components/detail-panel/edit-setting';
 
 export type Path = (number | string)[];
 export type FormItemProps = {
@@ -93,4 +94,16 @@ export type FlutterRowInfo = {
   RowValue?: string;
   Index?: number;
   OriginalRowValue?: string;
+};
+
+export type GetCategoryInfoList =
+  | FlutterSetting
+  | FlutterRowInfo
+  | (FlutterSetting | FlutterRowInfo)[];
+
+export type ServiceOption = Pick<
+  Service,
+  'isSusi' | 'schoolYear' | 'serviceID' | 'serviceName'
+> & {
+  serviceYear: string;
 };

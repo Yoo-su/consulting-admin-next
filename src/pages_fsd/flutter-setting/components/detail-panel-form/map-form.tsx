@@ -47,7 +47,7 @@ export const MapForm = ({
   } = originalItem ?? {};
   const dataObj = getConvertedValue(RowValue ?? transferDefaultValue ?? '{}');
   const { addToEditedList } = useFlutterSetting();
-
+  // TODO: 취소 했음에도 변경으로 처리되는 거 수정
   const [isAdd, setIsAdd] = useState(originalItem ? false : true);
   const [isEditObj, setIsEditObj] = useState<boolean[]>(
     Array(Object.keys(dataObj).length).fill(false)

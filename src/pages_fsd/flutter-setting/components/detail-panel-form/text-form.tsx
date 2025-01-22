@@ -41,7 +41,7 @@ export const TextForm = ({
     : transferDefaultValue;
 
   const isColorItem = Title.toLowerCase().includes('color');
-
+  // TODO: inputForm 예외처리 안 뜸
   const updateEditedValue = () => {
     handleEdit(path, textValue);
     addToEditedList({

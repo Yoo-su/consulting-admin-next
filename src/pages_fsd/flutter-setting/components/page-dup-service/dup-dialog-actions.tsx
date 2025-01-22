@@ -4,12 +4,12 @@ import { Button, DialogActions } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import { Dispatch, SetStateAction } from 'react';
 import toast from 'react-hot-toast';
-import { ServiceOption } from '../../constants';
 import {
   DupDialogCancelBtn,
   DupDialogConfirmBtn,
 } from '../../constants/classes';
 import { useSetDuplicateSettingMutation } from '../../hooks';
+import { ServiceOption } from '../../models';
 
 type DupDialogActionsProps = {
   isShowAlert: boolean;

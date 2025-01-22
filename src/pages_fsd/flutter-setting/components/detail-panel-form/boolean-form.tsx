@@ -1,15 +1,13 @@
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  styled,
-  TextField,
-} from '@mui/material';
+import { Box, Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import { getConvertedValue } from '@/shared/services';
 
+import {
+  BooleanFormCheckBoxClass,
+  BooleanFromGroupClass,
+  CheckBoxClass,
+} from '../../constants';
 import { useFlutterSetting } from '../../hooks';
 import { FormItemProps } from '../../models';
 
@@ -30,7 +28,6 @@ export const BooleanForm = ({
   const [checkValue, setCheckValue] = useState<boolean>(
     RowValue ? getConvertedValue(RowValue) : transferDefaultValue
   );
-  const [inputValue, setInputValue] = useState('');
   const initialValue = OriginalRowValue
     ? OriginalRowValue
     : transferDefaultValue;
@@ -47,9 +44,7 @@ export const BooleanForm = ({
       });
     }
   };
-  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
+
   useEffect(() => {
     if (RowValue) {
       setCheckValue(getConvertedValue(RowValue));
@@ -57,39 +52,19 @@ export const BooleanForm = ({
       setCheckValue(transferDefaultValue);
     }
   }, [RowValue]);
+
   return (
     <>
-      <FormGroup
-        sx={{
-          paddingLeft: '.5rem',
-          '& .MuiFormControlLabel-label.Mui-disabled': {
-            color: 'rgba(0, 0, 0, 0.77) !important',
-          },
-        }}
-      >
+      <FormGroup sx={BooleanFromGroupClass}>
         <FormControlLabel
-          label={
-            Description ? (
-              <Box component="span">{Description}</Box>
-            ) : (
-              <StyledTextField
-                variant="standard"
-                onChange={handleInput}
-                value={inputValue}
-              />
-            )
-          }
+          label={<Box component="span">{Description}</Box>}
           control={
             <Checkbox
               disableRipple
               checked={checkValue}
               onChange={handleBooleanChange}
               disabled={isDisabled}
-              sx={{
-                color: isDisabled
-                  ? '#FAFAFA'
-                  : 'rgba(0, 0, 0, 0.87) !important',
-              }}
+              sx={BooleanFormCheckBoxClass(isDisabled)}
             />
           }
           sx={CheckBoxClass}
@@ -97,29 +72,4 @@ export const BooleanForm = ({
       </FormGroup>
     </>
   );
-};
-
-const StyledTextField = styled(TextField)({
-  width: '100%',
-  '& .MuiInputBase-input': {
-    fontFamily: '__Gowun_Dodum_8e1aab, __Gowun_Dodum_Fallback_8e1aab',
-    fontWeight: '400',
-    lineHeight: '1.5',
-    letterSpacing: '0.00938em',
-    padding: 0,
-  },
-});
-
-const CheckBoxClass = {
-  '& .MuiButtonBase-root': {
-    padding: '0 .3rem 0 .5rem',
-  },
-  '& .MuiSvgIcon-root': {
-    fontSize: '1.2rem',
-    paddingTop: '2px',
-  },
-  '& .MuiTypography-root': {
-    fontSize: '.9rem',
-    width: '100%',
-  },
 };
