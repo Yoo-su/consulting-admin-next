@@ -1,5 +1,3 @@
-import { setDuplicateSetting } from '@/pages_fsd/flutter-setting/apis/set-duplicate-setting';
-
 export const API_URLS = {
   user: {
     signin: '/auth/login',
@@ -11,15 +9,15 @@ export const API_URLS = {
     getConsultingAppStateAll: '/admin/service-details',
     updateConsultingAppState: '/admin/service-detail/state',
     syncMoaNesinService: '/admin/service-detail/sync/moa',
-    createService: '/foundation/service/create',
+    createService: '/foundation/service',
     updateIsNew: '/foundation/service/update-is-new',
-    versionList: '/foundation/cur-tbl-version',
+    versionList: '/foundation/table-version',
     foundationLibrary: '/file/foundation-library',
     foundationLibraryFileOnly: '/file/foundation-library-file-only',
     etcLibrary: '/file/etc-library',
     deployApp: '/deploy/deploy-app',
-    deployTestData: '/foundation/sync-from-test',
-    syncFromTestToDev: '/foundation/sync-from-test-to-dev',
+    deployTestData: '/foundation/sync/from-test',
+    syncFromTestToDev: '/foundation/sync/from-test-to-dev',
     getAppVersionHistory: '/deploy/version-update-history',
     getAppDownloadUrl: '/deploy/download',
     getConsultingFileList: 'reflibrary/',

@@ -11,8 +11,9 @@ import {
 import { formatKoreanTextCompareDatesFromNow } from '@/shared/services';
 
 import { useItemStyle } from '../../hooks';
-import { BrowserItem, useBrowserStore } from '../../models';
+import { BrowserItem } from '../../models';
 import { FileIcon } from '../file-icon';
+import { GridItemWrapper } from '../grid-item-wrapper';
 import { FileNameInput } from './file-name-input';
 import { FilePopover } from './file-popover';
 
@@ -20,19 +21,11 @@ type BrowserFileProps = BrowserItem;
 export const BrowserFile = memo(
   ({ name, path, lastModified, contentType }: BrowserFileProps) => {
     const filePopover = usePopover();
-    const currentPath = useBrowserStore((state) => state.currentPath);
     const [originalFilename = '', extension = ''] = name.split(/\.(?=[^.]*$)/);
     const { isHovered, setHoverStateTrue, setHoverStateFalse } =
       useHandleHoverState();
-    const { Wrapper, InfoArea, isBasicCard } = useItemStyle();
+    const { Wrapper, InfoArea, isBasic } = useItemStyle();
     const [isEditMode, setIsEditMode] = useState(false);
-
-    const handleSetIsEditMode = useCallback(
-      (modeState: boolean) => {
-        setIsEditMode(modeState);
-      },
-      [isEditMode]
-    );
 
     const handleClosePopover = useCallback(() => {
       filePopover.handleClose();
@@ -41,7 +34,7 @@ export const BrowserFile = memo(
     const wrapperRef = useOutsideClick(() => setIsEditMode(false));
 
     return (
-      <>
+      <GridItemWrapper isBasic={isBasic}>
         <Tooltip title={originalFilename} open={isHovered} followCursor>
           <Wrapper
             className={'browser-item-wrapper'}
@@ -61,7 +54,6 @@ export const BrowserFile = memo(
             <InfoArea>
               {isEditMode ? (
                 <FileNameInput
-                  currentPath={currentPath}
                   path={path}
                   extension={extension}
                   originalFileName={originalFilename}
@@ -72,7 +64,7 @@ export const BrowserFile = memo(
                 </Typography>
               )}
 
-              {!isBasicCard && (
+              {!isBasic && (
                 <StyledModifiedDate variant={'caption'}>
                   {formatKoreanTextCompareDatesFromNow(lastModified)}
                 </StyledModifiedDate>
@@ -86,10 +78,10 @@ export const BrowserFile = memo(
           name={name}
           open={filePopover.open}
           anchorEl={filePopover.anchorRef.current}
-          handleSetIsEditMode={handleSetIsEditMode}
+          handleSetIsEditMode={setIsEditMode}
           onClose={handleClosePopover}
         />
-      </>
+      </GridItemWrapper>
     );
   }
 );

@@ -18,6 +18,10 @@ type UseHandleBrowserItemReturn = {
   handleDownloadFile: (filePath: string, fileName: string) => Promise<void>;
 };
 
+/**
+ * @description
+ * Browser 파일과 관련한 기능(삭제, 파일명변경, 다운로드 등) 메서드를 관리하는 hook
+ */
 export const useHandleBrowserItem = () => {
   const _return = useRef<UseHandleBrowserItemReturn>();
   const {

@@ -2,8 +2,12 @@ import { useCallback, useMemo } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 import { useBrowserStore, useQueueStore } from '../models';
-import { useGetBrowserListQuery } from './use-get-browser-list-query';
+import { useGetBrowserListQuery } from './tanstack';
 
+/**
+ * @description
+ * Browser Header에서 사용되는 값, 메서드를 관리하기 위한 hook
+ */
 export const useBrowserHeader = () => {
   const { currentPath, basePath, setCurrentPath } = useBrowserStore(
     useShallow((state) => ({
