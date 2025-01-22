@@ -13,16 +13,17 @@ import {
 } from 'react';
 
 import { useBrowserMutation } from '../../hooks';
+import { useBrowserStore } from '../../models';
 
 type FileNameInputProps = {
   originalFileName: string;
-  currentPath: string;
   extension: string;
   path: string;
 };
 export const FileNameInput = memo(
-  ({ originalFileName, currentPath, extension, path }: FileNameInputProps) => {
+  ({ originalFileName, extension, path }: FileNameInputProps) => {
     const inputRef = useRef<HTMLInputElement>(null);
+    const currentPath = useBrowserStore((state) => state.currentPath);
     const [newFileName, setNewFileName] = useState<string>(originalFileName);
     const { renameBrowserFile, isRenameBrowserFileLoading } =
       useBrowserMutation();
@@ -50,7 +51,7 @@ export const FileNameInput = memo(
 
     // Lodash debounce 적용
     const debouncedHandleChangeFileName = useMemo(
-      () => debounce(handleChangeNewFileName, 300), // 300ms 지연
+      () => debounce(handleChangeNewFileName, 500), // 300ms 지연
       [handleChangeNewFileName]
     );
 
@@ -73,7 +74,7 @@ export const FileNameInput = memo(
         style={{ width: '64px', border: 'none' }}
         defaultValue={originalFileName}
         onKeyDown={(event) => handleRenameBrowserFile(event, path, newFileName)}
-        onChange={handleChangeNewFileName}
+        onChange={debouncedHandleChangeFileName}
       />
     );
   }

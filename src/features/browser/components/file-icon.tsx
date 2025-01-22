@@ -17,7 +17,6 @@ import UnknownIcon from '@/shared/assets/svgs/unknown.svg';
 type FileIconProps = {
   contentType: string;
 };
-
 export const FileIcon = memo(({ contentType }: FileIconProps) => {
   const fadeIn = useSpring({
     from: { opacity: 0 },
