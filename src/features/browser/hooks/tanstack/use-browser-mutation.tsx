@@ -11,8 +11,8 @@ import {
   deleteBrowserFile,
   renameBrowserFile,
   RenameBrowserFileProps,
-} from '../apis';
-import { useBrowserStore } from '../models';
+} from '../../apis';
+import { useBrowserStore } from '../../models';
 
 type UseBrowserMutationReturn = {
   isRenameBrowserFileLoading: boolean;
@@ -71,10 +71,12 @@ export const useBrowserMutation: UseBrowserMutation = () => {
     },
   });
 
-  _return.current.isDeleteBrowserFileLoading = isDeleteBrowserFileLoading;
-  _return.current.isRenameBrowserFileLoading = isRenameBrowserFileLoading;
-  _return.current.deleteBrowserFile = mutateDeleteBrowserFile;
-  _return.current.renameBrowserFile = mutateRenameBrowserFile;
+  _return.current = {
+    isDeleteBrowserFileLoading,
+    isRenameBrowserFileLoading,
+    deleteBrowserFile: mutateDeleteBrowserFile,
+    renameBrowserFile: mutateRenameBrowserFile,
+  };
 
   return _return.current;
 };

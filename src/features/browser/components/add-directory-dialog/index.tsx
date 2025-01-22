@@ -12,33 +12,28 @@ import {
   SxProps,
   TextField,
 } from '@mui/material';
-import { DragEvent, useCallback, useEffect, useMemo } from 'react';
+import { DragEvent, useCallback, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useShallow } from 'zustand/shallow';
 
 import { useBrowserStore, useQueueStore } from '@/features/browser/models';
 import { DropZoneContainer, SaveDataButton } from '@/shared/components';
 
-import { QueueFile } from '../queue/queue-file';
+import { QueueFile } from '../queue-file';
 import { AnnouncementBox } from './announcement-box';
 import { directoryNameValidation } from './validation-rule';
 
-// Type Definitions
 type FormValues = {
   directoryName: string;
 };
-
 type AddDirectoryDialogProps = {
   isUploadPending?: boolean;
   handleUploadDialogQueue: (directory: string) => Promise<void>;
 };
-
-// Main Component
 export const AddDirectoryDialog = ({
   isUploadPending,
   handleUploadDialogQueue,
 }: AddDirectoryDialogProps) => {
-  // State Management
   const {
     dialogQueue,
     isAddDirectoryDialogOpen,
@@ -46,7 +41,6 @@ export const AddDirectoryDialog = ({
     addDialogQueueFiles,
     removeDialogQueueFile,
   } = useQueueStore();
-
   const {
     control,
     handleSubmit,
@@ -64,7 +58,6 @@ export const AddDirectoryDialog = ({
     useShallow((state) => state.browserOption.itemAppearance)
   );
 
-  // Event Handlers
   const onSubmit = handleSubmit(async (data) => {
     if (!dialogQueue.length) return;
     await handleUploadDialogQueue(directoryName);
@@ -98,7 +91,6 @@ export const AddDirectoryDialog = ({
     closeAddDirectoryDialog,
   ]);
 
-  // Memoized Values
   const xsGridItemSize = useMemo(() => {
     return itemAppearance === 'card' ? 3 : 2;
   }, [itemAppearance]);
@@ -107,7 +99,6 @@ export const AddDirectoryDialog = ({
     return itemAppearance === 'card' ? 4 : 2;
   }, [itemAppearance]);
 
-  // Render
   return (
     <Dialog
       open={isAddDirectoryDialogOpen}

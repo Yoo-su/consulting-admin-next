@@ -13,7 +13,6 @@ export type FilePopoverProps = {
   onClose: () => void;
   handleSetIsEditMode: (modeState: boolean) => void;
 };
-
 export const FilePopover = memo(
   ({
     anchorEl,

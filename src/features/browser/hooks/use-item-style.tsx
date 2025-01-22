@@ -1,26 +1,33 @@
-import { Box, styled, SxProps, Typography } from '@mui/material';
+import { Box, styled, SxProps } from '@mui/material';
 import { useMemo } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 import { useBrowserStore } from '../models';
 
+/**
+ * @description
+ * Browser에 표시되는 아이템(디렉토리, 파일)은
+ * browserOption의 itemAppearance 값에 따라
+ * 기본형, 카드형으로 그려진다.
+ * 기본형, 카드형 각각의 스타일을 관리하기 위한 hook
+ */
 export const useItemStyle = () => {
   const itemAppearance = useBrowserStore(
     useShallow((state) => state.browserOption.itemAppearance)
   );
 
-  const isBasicCard = useMemo(() => {
+  const isBasic = useMemo(() => {
     return itemAppearance === 'basic';
   }, [itemAppearance]);
 
   const Wrapper = useMemo(() => {
-    return isBasicCard ? BasicWrapper : CardWrapper;
-  }, [isBasicCard]);
+    return isBasic ? BasicWrapper : CardWrapper;
+  }, [isBasic]);
   const InfoArea = useMemo(() => {
-    return isBasicCard ? BasicInfoArea : CardInfoArea;
-  }, [isBasicCard]);
+    return isBasic ? BasicInfoArea : CardInfoArea;
+  }, [isBasic]);
 
-  return { Wrapper, InfoArea, isBasicCard };
+  return { Wrapper, InfoArea, isBasic };
 };
 
 const commonWrapperStyle: SxProps = {
