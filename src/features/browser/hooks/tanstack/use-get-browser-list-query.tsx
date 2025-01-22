@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '@/shared/constants';
 
-import { getBrowserList } from '../apis';
+import { getBrowserList } from '../../apis';
 
 export const useGetBrowserListQuery = (path: string) => {
   return useQuery({

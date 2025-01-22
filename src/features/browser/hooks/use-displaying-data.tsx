@@ -1,16 +1,16 @@
 import { useMemo } from 'react';
-import { useShallow } from 'zustand/shallow';
 
 import { useBrowserStore } from '../models';
-import { useGetBrowserListQuery } from './use-get-browser-list-query';
+import { useGetBrowserListQuery } from './tanstack';
 
+/**
+ * @description
+ * Browser에 실제로 렌더링 할 값을 관리하기 위한 hook
+ * 정렬 기준을 적용하고, 디렉토리 -> 파일 순서로 그린다.
+ */
 export const useDisplayingData = () => {
-  const { currentPath, sortOption } = useBrowserStore(
-    useShallow((state) => ({
-      currentPath: state.currentPath,
-      sortOption: state.sortOption,
-    }))
-  );
+  const currentPath = useBrowserStore((state) => state.currentPath);
+  const sortOption = useBrowserStore((state) => state.sortOption);
   const { data: browserQueryData, isLoading: isBrowsing } =
     useGetBrowserListQuery(currentPath);
 

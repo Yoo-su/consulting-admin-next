@@ -1,6 +1,5 @@
 import { Typography } from '@mui/material';
-import { UseMutationResult, useQueryClient } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { useQueryClient } from '@tanstack/react-query';
 import { ChangeEvent, DragEvent, useCallback, useMemo, useRef } from 'react';
 import { useEffect } from 'react';
 import { toast } from 'react-hot-toast';
@@ -8,7 +7,7 @@ import { useShallow } from 'zustand/shallow';
 
 import { QUERY_KEYS } from '@/shared/constants';
 import { useSharedStore } from '@/shared/models';
-import { handleToastPromise } from '@/shared/services/handle-toast-promise';
+import { handleToastPromise } from '@/shared/services';
 
 import { UploadMutationType, useBrowserStore, useQueueStore } from '../models';
 
@@ -26,6 +25,11 @@ type UseHandleQueueReturn = {
   handleChangeFileInput: (event: ChangeEvent<HTMLInputElement>) => void;
   handleClickInput: () => void;
 };
+
+/**
+ * @description
+ * 신규 파일 업로드와 관련한 값, 메서드를 관리하는 hook
+ */
 export const useHandleQueue = ({
   formData,
   uploadMutation,
