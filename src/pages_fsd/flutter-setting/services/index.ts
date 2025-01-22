@@ -5,6 +5,7 @@ export * from './get-array-to-object-form';
 export { getCategoryInfo } from './get-category-info';
 export * from './get-converted-row-value';
 export { getFilteredCustomConfig } from './get-filtered-custom-config';
+export { getInitialValue, getItemValue } from './get-item-initial-values';
 export * from './get-new-child-list';
 export { getSubMenuClass } from './get-sub-menu-class';
 export * from './select-service';

@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 
 import { useFlutterSetting } from '../../hooks';
 import { FormItemProps } from '../../models';
+import { getInitialValue, getItemValue } from '../../services';
 
 export const SelectForm = ({
   item,
@@ -15,20 +16,13 @@ export const SelectForm = ({
   handleEdit,
   isDisabled,
 }: FormItemProps) => {
-  const {
-    transferDefaultValue,
-    children,
-    RowIdx,
-    RowValue = null,
-    OriginalRowValue = null,
-  } = item;
+  const { transferDefaultValue, children, RowIdx, RowValue = null } = item;
   const { addToEditedList } = useFlutterSetting();
   const [selectedValue, setSelectedValue] = useState<string>(
-    RowValue ?? transferDefaultValue
+    getItemValue(item)
   );
-  const initialValue = OriginalRowValue
-    ? OriginalRowValue
-    : transferDefaultValue;
+
+  const initialValue = getInitialValue(item);
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     const value = event.target.value;

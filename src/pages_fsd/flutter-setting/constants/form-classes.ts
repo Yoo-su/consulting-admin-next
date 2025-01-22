@@ -29,3 +29,31 @@ export const BooleanFromGroupClass = {
 export const BooleanFormCheckBoxClass = (isDisabled: boolean) => ({
   color: isDisabled ? '#FAFAFA' : 'rgba(0, 0, 0, 0.87) !important',
 });
+
+export const MapTBLHeaderBorderClass = {
+  border: '1px solid rgba(224, 224, 224, 1)',
+  borderBottomColor: 'transparent',
+  borderRadius: '1rem',
+};
+export const MapTBLHeaderCellClass = { fontWeight: 'bolder', width: '35%' };
+export const MapTBLRowBorderClass = {
+  border: '1px solid rgba(224, 224, 224, 1)',
+  borderBottomColor: 'transparent',
+  borderTopColor: 'transparent',
+};
+export const MapTBLTextFieldClass = {
+  '& .MuiInputBase-root': {
+    fontSize: '.9rem',
+  },
+  '& .MuiInputBase-input': {
+    padding: '2px 4px',
+  },
+};
+
+export const MapCreateNewButtonClass = {
+  verticalAlign: 'middle',
+  backgroundColor: '#616161',
+  padding: '2px 0',
+};
+
+export const MapEditSaveButtonClass = { width: '.7em', height: '.7em' };

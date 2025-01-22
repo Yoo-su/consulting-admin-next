@@ -14,6 +14,7 @@ import { useOutsideClick } from '@/shared/hooks';
 
 import { useFlutterSetting } from '../../hooks';
 import { FormItemProps } from '../../models';
+import { getInitialValue, getItemValue } from '../../services';
 import { FlutterColorPicker } from '../detail-panel-form-color-picker';
 
 export const TextForm = ({
@@ -29,19 +30,16 @@ export const TextForm = ({
     transferDefaultValue,
     RowIdx,
     RowValue = null,
-    OriginalRowValue = null,
   } = item;
-  const [textValue, setTextValue] = useState<string>(
-    RowValue ? RowValue : transferDefaultValue
-  );
+  const [textValue, setTextValue] = useState<string>(getItemValue(item));
   const [isActive, setIsActive] = useState(false);
   const { addToEditedList } = useFlutterSetting();
-  const initialValue = OriginalRowValue
-    ? OriginalRowValue
-    : transferDefaultValue;
+
+  const initialValue = getInitialValue(item);
 
   const isColorItem = Title.toLowerCase().includes('color');
   // TODO: inputForm 예외처리 안 뜸
+  // TODO: a component is changing a controlled input to be uncontrolled
   const updateEditedValue = () => {
     handleEdit(path, textValue);
     addToEditedList({

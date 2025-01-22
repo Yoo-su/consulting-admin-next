@@ -5,4 +5,5 @@ export const getConvertedValue = (value: string) => {
   if (value.includes('[') && value.includes(']'))
     return value.replace(/[[\]'"]/g, '').split(',');
   if (value.includes('{') && value.includes('}')) return JSON.parse(value);
+  return value;
 };

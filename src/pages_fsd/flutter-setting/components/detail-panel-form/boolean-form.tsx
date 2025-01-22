@@ -1,8 +1,6 @@
 import { Box, Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import { getConvertedValue } from '@/shared/services';
-
 import {
   BooleanFormCheckBoxClass,
   BooleanFromGroupClass,
@@ -10,6 +8,7 @@ import {
 } from '../../constants';
 import { useFlutterSetting } from '../../hooks';
 import { FormItemProps } from '../../models';
+import { getInitialValue, getItemValue } from '../../services';
 
 export const BooleanForm = ({
   item,
@@ -17,20 +16,10 @@ export const BooleanForm = ({
   handleEdit,
   isDisabled,
 }: Partial<Pick<FormItemProps, 'item'>> & Omit<FormItemProps, 'item'>) => {
-  const {
-    transferDefaultValue = false,
-    Description,
-    RowValue = null,
-    RowIdx = null,
-    OriginalRowValue = null,
-  } = item ?? {};
+  const { Description, RowValue = null, RowIdx = null } = item ?? {};
   const { addToEditedList } = useFlutterSetting();
-  const [checkValue, setCheckValue] = useState<boolean>(
-    RowValue ? getConvertedValue(RowValue) : transferDefaultValue
-  );
-  const initialValue = OriginalRowValue
-    ? OriginalRowValue
-    : transferDefaultValue;
+  const [checkValue, setCheckValue] = useState<boolean>(getItemValue(item));
+  const initialValue = getInitialValue(item);
 
   const handleBooleanChange = (event: ChangeEvent<HTMLInputElement>) => {
     const booleanValue = event.target.checked;
@@ -46,11 +35,7 @@ export const BooleanForm = ({
   };
 
   useEffect(() => {
-    if (RowValue) {
-      setCheckValue(getConvertedValue(RowValue));
-    } else {
-      setCheckValue(transferDefaultValue);
-    }
+    setCheckValue(getItemValue(item));
   }, [RowValue]);
 
   return (

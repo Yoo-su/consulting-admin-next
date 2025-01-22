@@ -1,17 +1,11 @@
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-  DropResult,
-} from '@hello-pangea/dnd';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { Chip, Stack } from '@mui/material';
+import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
+import { Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
-
-import { getConvertedValue } from '@/shared/services';
 
 import { useFlutterSetting } from '../../hooks';
 import { FormItemProps } from '../../models';
+import { getInitialValue, getItemValue } from '../../services';
+import { ListOrderFormDraggable } from './list-order-form-draggable';
 
 export const ListOrderForm = ({
   item,
@@ -19,15 +13,11 @@ export const ListOrderForm = ({
   handleEdit,
   isDisabled,
 }: FormItemProps) => {
-  const { transferDefaultValue, RowIdx, RowValue, OriginalRowValue } = item;
+  const { RowIdx, RowValue } = item;
   const { addToEditedList } = useFlutterSetting();
-  const [orderList, setOrderList] = useState(
-    RowValue ? getConvertedValue(RowValue) : transferDefaultValue
-  );
+  const [orderList, setOrderList] = useState<string[]>(getItemValue(item));
 
-  const initialValue = OriginalRowValue
-    ? OriginalRowValue
-    : transferDefaultValue;
+  const initialValue = getInitialValue(item);
 
   const handleDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -48,13 +38,11 @@ export const ListOrderForm = ({
     });
     setOrderList(dupList);
   };
+
   useEffect(() => {
-    if (RowValue) {
-      setOrderList(getConvertedValue(RowValue));
-    } else {
-      setOrderList(transferDefaultValue);
-    }
+    setOrderList(getItemValue(item));
   }, [RowValue]);
+
   return (
     <Stack
       direction={'column'}
@@ -69,35 +57,11 @@ export const ListOrderForm = ({
               ref={provided.innerRef}
               spacing={1}
             >
-              {orderList.map((child: string, index: number) => (
-                <Draggable
-                  key={child}
-                  draggableId={child}
-                  index={index}
-                  isDragDisabled={isDisabled}
-                >
-                  {(provided) => (
-                    <Stack
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      ref={provided.innerRef}
-                      direction={'row'}
-                      alignItems={'center'}
-                      spacing={1}
-                    >
-                      {!isDisabled && (
-                        <FiberManualRecordIcon sx={{ fontSize: '.4rem' }} />
-                      )}
-                      <Chip
-                        label={`${child}`}
-                        size="small"
-                        sx={{ paddingRight: '.1rem' }}
-                      />
-                    </Stack>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
+              <ListOrderFormDraggable
+                provided={provided}
+                isDisabled={isDisabled}
+                orderList={orderList}
+              />
             </Stack>
           )}
         </Droppable>

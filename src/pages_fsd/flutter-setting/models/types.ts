@@ -107,3 +107,8 @@ export type ServiceOption = Pick<
 > & {
   serviceYear: string;
 };
+
+export type MapObject = {
+  item: string;
+  value: string;
+};
