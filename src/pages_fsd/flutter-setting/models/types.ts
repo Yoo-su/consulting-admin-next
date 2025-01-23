@@ -1,4 +1,5 @@
 import { Service } from '@/shared/models';
+
 import { EditSettingProps } from '../components/detail-panel/edit-setting';
 
 export type Path = (number | string)[];

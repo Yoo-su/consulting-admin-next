@@ -1,5 +1,6 @@
 import { Stack, Switch, Typography } from '@mui/material';
 import { Dispatch, SetStateAction, SyntheticEvent } from 'react';
+
 import { SwitchClass } from '../../constants';
 
 type ToggleSwitchProps = {

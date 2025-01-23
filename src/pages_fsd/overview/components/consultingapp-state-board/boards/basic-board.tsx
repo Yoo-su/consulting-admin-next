@@ -21,9 +21,9 @@ import {
   ServiceType,
 } from '@/pages_fsd/overview/models';
 import { EmptyBox } from '@/shared/components';
+import { useTypographyToast } from '@/shared/hooks';
 import { getGroupedData } from '@/shared/services';
 
-import { useTypographyToast } from '@/shared/hooks';
 import { StateCol } from '../state-column';
 
 type BasicBoardContainerProps = {

@@ -7,9 +7,9 @@ import {
   useState,
 } from 'react';
 
+import { useTypographyToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
-import { useTypographyToast } from '@/shared/hooks';
 import { Condition } from '../models';
 import { getNewCondition } from '../utils';
 import {

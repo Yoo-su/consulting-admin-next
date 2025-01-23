@@ -1,4 +1,5 @@
 import { Stack } from '@mui/material';
+
 import { DetailClass } from '../../constants';
 import { useFlutterSetting } from '../../hooks';
 import { FlutterSetting } from '../../models';

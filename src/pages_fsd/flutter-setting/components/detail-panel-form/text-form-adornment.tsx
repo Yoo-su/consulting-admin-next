@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
+
 import { FlutterRowInfo, Path } from '../../models';
 import { getInitialValue } from '../../services';
 import { FlutterColorPicker } from '../detail-panel-form-color-picker';

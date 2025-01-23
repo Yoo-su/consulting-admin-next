@@ -5,8 +5,8 @@ import { AxiosError } from 'axios';
 import { useRef } from 'react';
 
 import { QUERY_KEYS } from '@/shared/constants';
-
 import { useTypographyToast } from '@/shared/hooks';
+
 import { createNewService, CreateNewServiceParams } from '../apis';
 
 type UseServiceListMutationReturn = {

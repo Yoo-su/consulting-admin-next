@@ -10,10 +10,10 @@ import {
 import { useShallow } from 'zustand/shallow';
 
 import { QUERY_KEYS } from '@/shared/constants';
+import { useTypographyToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 import { handleToastPromise } from '@/shared/services';
 
-import { useTypographyToast } from '@/shared/hooks';
 import { UploadMutationType, useBrowserStore, useQueueStore } from '../models';
 
 type UseHandleQueueProps = {

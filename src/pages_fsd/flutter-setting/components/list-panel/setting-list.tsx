@@ -1,5 +1,6 @@
 import { Stack, Typography } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
+
 import { FlutterSetting } from '../../models';
 import { TreeItemList } from '../list-panel-tree/';
 import { ToggleSwitch } from './toggle-switch';

@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { useTypographyToast } from '@/shared/hooks';
+
 import { setDuplicateSetting, SetDuplicateSettingParams } from '../apis';
 import { DUP_MUTATION_MESSAGE } from '../constants';
 

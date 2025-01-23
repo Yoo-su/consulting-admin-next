@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { useTypographyToast } from '@/shared/hooks';
+
 import { setFlutterCustomConfig, SetFlutterCustomConfigParams } from '../apis';
 import { FLUTTER_SETTING_MESSAGE } from '../constants';
 

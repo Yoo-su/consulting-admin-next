@@ -1,7 +1,8 @@
-import { ServiceTypeChip } from '@/shared/constants';
 import { Chip } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+
+import { ServiceTypeChip } from '@/shared/constants';
 
 type ServiceTypeCellProps = {
   isSusi: number;

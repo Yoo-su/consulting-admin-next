@@ -21,9 +21,9 @@ import {
   useUpdateConsultingAppStateMutation,
 } from '@/pages_fsd/overview/hooks';
 import { CurrentState, ServiceType } from '@/pages_fsd/overview/models';
+import { useTypographyToast } from '@/shared/hooks';
 import { getGroupedData } from '@/shared/services';
 
-import { useTypographyToast } from '@/shared/hooks';
 import { StateCol } from '../state-column';
 
 export const DeveloperBoard = () => {

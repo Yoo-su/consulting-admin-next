@@ -1,4 +1,5 @@
 import { Stack, Typography } from '@mui/material';
+
 import { FILE_MESSAGE } from '../constants';
 
 export const getFileTypeErrorToastComponent = (fileName?: string) => {

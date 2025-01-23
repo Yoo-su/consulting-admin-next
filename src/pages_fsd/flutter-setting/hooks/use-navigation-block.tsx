@@ -1,6 +1,7 @@
-import { useConfirmToast } from '@/shared/hooks';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
+
+import { useConfirmToast } from '@/shared/hooks';
 
 type UseNavigationBlockProps = {
   isBlocked: boolean;

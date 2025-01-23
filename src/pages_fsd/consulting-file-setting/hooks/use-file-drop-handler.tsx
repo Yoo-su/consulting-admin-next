@@ -1,6 +1,7 @@
 import { DragEvent, RefObject, SetStateAction } from 'react';
 
 import { useTypographyToast } from '@/shared/hooks';
+
 import { FILE_MESSAGE } from '../constants';
 import { checkFileType, getFileTypeErrorToastComponent } from '../services';
 

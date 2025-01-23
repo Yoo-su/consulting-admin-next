@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import { ChangeEvent, useRef, useState } from 'react';
 
 import { useTypographyToast } from '@/shared/hooks';
+
 import { useConsultingFileSettings, useFileDropHandler } from '../../../hooks';
 import {
   checkFileType,

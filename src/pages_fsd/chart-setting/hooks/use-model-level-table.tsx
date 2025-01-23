@@ -12,10 +12,10 @@ import {
 import { useConfirmToast, useTypographyToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
-import { useChartDataMutation, useGetChartDataQuery } from '.';
 import { MAX_LEVEL_COUNT } from '../constants';
 import { ChartData, useChartSettingStore } from '../models';
 import { getNewChartData } from '../utils';
+import { useChartDataMutation, useGetChartDataQuery } from '.';
 
 type UseModelLevelTableProps = {
   modelNum: number;

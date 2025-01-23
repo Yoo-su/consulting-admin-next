@@ -1,5 +1,7 @@
-import { EmptyCover } from '@/shared/components';
 import { Stack } from '@mui/material';
+
+import { EmptyCover } from '@/shared/components';
+
 import { EmptyCoverClass } from '../../constants';
 
 type EmptyListProps = {

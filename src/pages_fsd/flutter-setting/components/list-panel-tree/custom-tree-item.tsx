@@ -1,9 +1,10 @@
 import { TreeItem2Props } from '@mui/x-tree-view/TreeItem2';
 import { ReactNode } from 'react';
+
 import { FlutterRowInfo, FlutterSetting } from '../../models';
 import { checkChildEdited } from '../../services';
-import { TreeItemLable } from './tree-item-children-label';
 import { StyledTreeItem } from './tree-item.styled';
+import { TreeItemLable } from './tree-item-children-label';
 
 export const CustomTreeItem = ({
   children,

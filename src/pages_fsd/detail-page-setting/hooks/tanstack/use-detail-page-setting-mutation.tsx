@@ -2,9 +2,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useRef } from 'react';
 
 import { QUERY_KEYS } from '@/shared/constants';
+import { useTypographyToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
-import { useTypographyToast } from '@/shared/hooks';
 import { updateDetailPageData } from '../../apis';
 import { DetailPageData } from '../../models';
 

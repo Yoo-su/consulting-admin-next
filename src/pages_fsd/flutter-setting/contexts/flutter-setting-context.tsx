@@ -11,9 +11,9 @@ import {
 } from 'react';
 
 import { QUERY_KEYS } from '@/shared/constants';
+import { useTypographyToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
-import { useTypographyToast } from '@/shared/hooks';
 import { SetFlutterCustomConfigParams } from '../apis';
 import { FLUTTER_SETTING_MESSAGE } from '../constants';
 import { useSetFlutterSettingMutation } from '../hooks';

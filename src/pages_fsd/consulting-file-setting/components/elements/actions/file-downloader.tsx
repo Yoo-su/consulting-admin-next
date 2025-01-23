@@ -4,6 +4,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import { Button, CircularProgress, Typography } from '@mui/material';
 
 import { useTypographyToast } from '@/shared/hooks';
+
 import { DownloaderClass, FILE_MESSAGE } from '../../../constants';
 import { useGetConsultingFileDownloadQuery } from '../../../hooks';
 import { getFileType } from '../../../services';

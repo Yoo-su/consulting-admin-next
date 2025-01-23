@@ -8,13 +8,13 @@ import {
   useState,
 } from 'react';
 
+import { useTypographyToast } from '@/shared/hooks';
 import { getConvertedValue } from '@/shared/services/get-converted-value';
 
-import { useTypographyToast } from '@/shared/hooks';
-import { useFlutterSetting } from '.';
 import { MAP_ERROR_MESSAGE } from '../constants';
 import { FlutterRowInfo, MapObject, Path } from '../models';
 import { getArrayToObjectForm, getInitialValue } from '../services';
+import { useFlutterSetting } from '.';
 
 type UseMapFormProps = {
   item?: FlutterRowInfo | undefined;

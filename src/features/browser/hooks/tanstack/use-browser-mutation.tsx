@@ -4,8 +4,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
 
 import { QUERY_KEYS } from '@/shared/constants';
-
 import { useTypographyToast } from '@/shared/hooks';
+
 import {
   deleteBrowserFile,
   renameBrowserFile,
