@@ -4,8 +4,9 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
+import { SelectFormClass } from '../../constants';
 import { useFlutterSetting } from '../../hooks';
 import { FormItemProps } from '../../models';
 import { getInitialValue, getItemValue } from '../../services';
@@ -16,60 +17,48 @@ export const SelectForm = ({
   handleEdit,
   isDisabled,
 }: FormItemProps) => {
-  const { transferDefaultValue, children, RowIdx, RowValue = null } = item;
+  const {
+    transferDefaultValue,
+    OriginalRowValue,
+    children,
+    RowIdx,
+    RowValue = null,
+  } = item;
   const { addToEditedList } = useFlutterSetting();
   const [selectedValue, setSelectedValue] = useState<string>(
-    getItemValue(item)
+    getItemValue(RowValue, transferDefaultValue)
   );
 
-  const initialValue = getInitialValue(item);
+  const initialValue = getInitialValue(transferDefaultValue, OriginalRowValue);
 
-  const handleSelectChange = (event: SelectChangeEvent) => {
-    const value = event.target.value;
-    handleEdit(path, value);
-    addToEditedList({ RowIdx, RowValue: value, InitialValue: initialValue });
-    setSelectedValue(value);
-  };
+  const handleSelectChange = useCallback(
+    (event: SelectChangeEvent) => {
+      const value = event.target.value;
+      handleEdit(path, value);
+      addToEditedList({ RowIdx, RowValue: value, InitialValue: initialValue });
+      setSelectedValue(value);
+    },
+    [handleEdit, initialValue, RowIdx, addToEditedList, setSelectedValue, path]
+  );
 
   useEffect(() => {
-    if (RowValue) {
-      setSelectedValue(RowValue);
-    } else {
-      setSelectedValue(transferDefaultValue);
-    }
+    setSelectedValue(getItemValue(RowValue, transferDefaultValue));
   }, [RowValue]);
 
   return (
-    <>
-      <FormControl
-        sx={{
-          '& .MuiInputBase-root': {
-            fontSize: '.9rem',
-          },
-          '& .Mui-disabled': {
-            WebkitTextFillColor: 'rgba(0, 0, 0, 0.87)',
-            backgroundColor: '#FAFAFA',
-          },
-          '& .MuiSvgIcon-root': {
-            display: isDisabled ? 'none' : 'block',
-          },
-        }}
+    <FormControl sx={SelectFormClass(isDisabled)}>
+      <Select
+        size="small"
+        value={selectedValue}
+        onChange={handleSelectChange}
+        disabled={isDisabled}
       >
-        <Select
-          size="small"
-          value={selectedValue}
-          onChange={handleSelectChange}
-          disabled={isDisabled}
-        >
-          {children.map((child) => {
-            return (
-              <MenuItem key={child.RowIdx} value={child.DefaultValue}>
-                {child.KoreanTitle}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
-    </>
+        {children.map((child) => (
+          <MenuItem key={child.RowIdx} value={child.DefaultValue}>
+            {child.KoreanTitle}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 };

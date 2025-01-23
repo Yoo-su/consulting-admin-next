@@ -1,8 +1,8 @@
-import { Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 
+import { useTypographyToast } from '@/shared/hooks';
 import { setDuplicateSetting, SetDuplicateSettingParams } from '../apis';
+import { DUP_MUTATION_MESSAGE } from '../constants';
 
 type ApiError = Error & {
   response?: {
@@ -12,22 +12,17 @@ type ApiError = Error & {
   };
 };
 export const useSetDuplicateSettingMutation = () => {
+  const { showError, showSuccess } = useTypographyToast();
   return useMutation({
     mutationKey: ['set-duplicate-setting'],
     mutationFn: (params: SetDuplicateSettingParams) =>
       setDuplicateSetting(params),
     onError: (error: ApiError) => {
       const { response } = error;
-      toast.error(
-        <Typography variant="body2">{response?.data.message}</Typography>
-      );
+      showError(response?.data.message);
     },
     onSuccess: (data) => {
-      toast.success(
-        <Typography variant="body2">
-          {data?.message ?? '변경 사항이 저장되었습니다.'}
-        </Typography>
-      );
+      showSuccess(data?.message ?? DUP_MUTATION_MESSAGE.MUTATION_SUCCESS);
     },
   });
 };

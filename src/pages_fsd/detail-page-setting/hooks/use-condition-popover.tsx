@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material';
 import {
   Dispatch,
   SetStateAction,
@@ -7,10 +6,10 @@ import {
   useRef,
   useState,
 } from 'react';
-import toast from 'react-hot-toast';
 
 import { useSharedStore } from '@/shared/models';
 
+import { useTypographyToast } from '@/shared/hooks';
 import { Condition } from '../models';
 import { getNewCondition } from '../utils';
 import {
@@ -48,6 +47,7 @@ export const useConditionPopover: UseConditionPopover = ({
   rowNumber,
   conditions,
 }: UseConditionPopoverProps) => {
+  const { showError } = useTypographyToast();
   const _return = useRef({} as UseConditionPopoverReturn);
   const currentService = useSharedStore((state) => state.currentService);
   const serviceID = currentService?.serviceID ?? '';
@@ -129,11 +129,7 @@ export const useConditionPopover: UseConditionPopover = ({
     (idx: number) => {
       const isChainedRow = idx === 0 && currentConditions.length > 1;
       if (isChainedRow) {
-        toast.error(
-          <Typography variant="body2">
-            연결된 조건이 있어 삭제 불가합니다
-          </Typography>
-        );
+        showError('연결된 조건이 있어 삭제 불가합니다');
         return;
       }
 

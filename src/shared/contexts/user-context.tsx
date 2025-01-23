@@ -1,13 +1,12 @@
 'use client';
 
-import Typography from '@mui/material/Typography';
 import { createContext, useCallback, useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 
 import { authInstance } from '@/shared/plugin/axios';
 
 import { getUserProfile, syncMoaNesinService } from '../apis';
 import { AuthEvents } from '../components/guards/auth-guard/auth-event-listener';
+import { useTypographyToast } from '../hooks';
 import { AdminGroup, User } from '../models';
 
 export type UserContextValue = {
@@ -23,6 +22,7 @@ export type UserProviderProps = {
   children: React.ReactNode;
 };
 export const UserProvider = ({ children }: UserProviderProps) => {
+  const { showError } = useTypographyToast();
   const [state, setState] = useState<
     Pick<UserContextValue, 'user' | 'isLoading'>
   >({
@@ -73,11 +73,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
           delete authInstance.defaults.headers.common['Authorization'];
           sessionStorage.removeItem('token');
           setUser(null);
-          toast.error(
-            <Typography variant="caption">
-              인증되지 않은 사용자입니다
-            </Typography>
-          );
+          showError('인증되지 않은 사용자입니다', 'caption');
         });
     } else setUser(null);
   }, []);

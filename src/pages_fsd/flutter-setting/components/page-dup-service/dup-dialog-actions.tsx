@@ -1,9 +1,10 @@
 import { QUERY_KEYS } from '@/shared/constants';
+import { useTypographyToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 import { Button, DialogActions } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import { Dispatch, SetStateAction } from 'react';
-import toast from 'react-hot-toast';
+import { DUP_ERROR_MESSAGE } from '../../constants';
 import {
   DupDialogCancelBtn,
   DupDialogConfirmBtn,
@@ -24,16 +25,18 @@ export const DupDialogActions = ({
   selectedService,
   setIsShowAlert,
 }: DupDialogActionsProps) => {
+  const { showError } = useTypographyToast();
   const { mutateAsync } = useSetDuplicateSettingMutation();
   const { currentService } = useSharedStore();
   const queryClient = useQueryClient();
 
   const isValid = () => {
     if (!selectedService || !currentService) {
-      toast.error(
+      showError(
         !selectedService
-          ? '복제할 서비스 아이디를 선택해주세요.'
-          : '대학 및 서비스가 선택되지 않았습니다. 사이드바에서 값을 선택해주세요',
+          ? DUP_ERROR_MESSAGE.NO_SERVICE_ID
+          : DUP_ERROR_MESSAGE.NO_UNIV_OR_SERVICE,
+        undefined,
         { id: !selectedService ? 'dup-serviceId-toast' : 'dup-service-toast' }
       );
       return false;

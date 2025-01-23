@@ -57,3 +57,26 @@ export const MapCreateNewButtonClass = {
 };
 
 export const MapEditSaveButtonClass = { width: '.7em', height: '.7em' };
+
+export const SelectFormClass = (isDisabled: boolean) => ({
+  '& .MuiInputBase-root': {
+    fontSize: '.9rem',
+  },
+  '& .Mui-disabled': {
+    WebkitTextFillColor: 'rgba(0, 0, 0, 0.87)',
+    backgroundColor: '#FAFAFA',
+  },
+  '& .MuiSvgIcon-root': {
+    display: isDisabled ? 'none' : 'block',
+  },
+});
+
+export const TextFormClass = {
+  '& .MuiInputBase-root': {
+    fontSize: '.9rem',
+  },
+  '& .Mui-disabled': {
+    WebkitTextFillColor: 'rgba(0, 0, 0, 0.87) !important',
+    backgroundColor: '#FAFAFA',
+  },
+};

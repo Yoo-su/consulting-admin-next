@@ -3,16 +3,18 @@
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import { useCallback, useMemo } from 'react';
-import toast from 'react-hot-toast';
 
 import {
   CURRENT_STATES,
+  ERROR_MESSAGE,
   STATE_BOARD_DOMAIN_ITEMS,
+  UPDATE_APP_STATE,
 } from '@/pages_fsd/overview/constants';
-import { useUpdateConsultingAppStateMutation } from '@/pages_fsd/overview/hooks';
-import { useHandleStatusBoard } from '@/pages_fsd/overview/hooks';
+import {
+  useHandleStatusBoard,
+  useUpdateConsultingAppStateMutation,
+} from '@/pages_fsd/overview/hooks';
 import {
   BoardType,
   CurrentState,
@@ -21,12 +23,14 @@ import {
 import { EmptyBox } from '@/shared/components';
 import { getGroupedData } from '@/shared/services';
 
+import { useTypographyToast } from '@/shared/hooks';
 import { StateCol } from '../state-column';
 
 type BasicBoardContainerProps = {
   boardType: BoardType;
 };
 export const BasicBoard = ({ boardType }: BasicBoardContainerProps) => {
+  const { showError, showSuccess } = useTypographyToast();
   const { mutateAsync: updateConsultingAppStateMutation } =
     useUpdateConsultingAppStateMutation();
   const { filteredConsultingAppStates, filteredConsultingAppStatesAll } =
@@ -69,24 +73,16 @@ export const BasicBoard = ({ boardType }: BasicBoardContainerProps) => {
 
       updateConsultingAppStateMutation(updateParams).then((res) => {
         if (res.status === 200) {
-          toast.success(
-            <Typography variant="body2">
-              상태가 성공적으로 업데이트 되었습니다
-            </Typography>
-          );
+          showSuccess(UPDATE_APP_STATE.UPDATE_SUCCESS);
         } else {
-          toast.error(
-            <Typography variant="body2">
-              상태 업데이트 중 문제가 발생했습니다
-            </Typography>
-          );
+          showError(UPDATE_APP_STATE.UPDATE_ERROR);
         }
       });
     },
     [groupedStates]
   );
 
-  if (!filteredState?.length) return <EmptyBox text={'데이터가 없습니다'} />;
+  if (!filteredState?.length) return <EmptyBox text={ERROR_MESSAGE.NO_DATA} />;
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>

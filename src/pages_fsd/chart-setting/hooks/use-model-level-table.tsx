@@ -1,6 +1,5 @@
 'use client';
 
-import { Typography } from '@mui/material';
 import {
   ChangeEvent,
   useCallback,
@@ -9,15 +8,14 @@ import {
   useRef,
   useState,
 } from 'react';
-import { toast } from 'react-hot-toast';
 
-import { useConfirmToast } from '@/shared/hooks';
+import { useConfirmToast, useTypographyToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
+import { useChartDataMutation, useGetChartDataQuery } from '.';
 import { MAX_LEVEL_COUNT } from '../constants';
 import { ChartData, useChartSettingStore } from '../models';
 import { getNewChartData } from '../utils';
-import { useChartDataMutation, useGetChartDataQuery } from '.';
 
 type UseModelLevelTableProps = {
   modelNum: number;
@@ -42,6 +40,7 @@ export const useModelLevelTable = ({
   modelNum,
   levelNum,
 }: UseModelLevelTableProps) => {
+  const { showError } = useTypographyToast();
   const _return = useRef({} as UseModelLevelTableReturn);
   const currentService = useSharedStore((state) => state.currentService);
   const serviceID = currentService?.serviceID ?? '';
@@ -73,11 +72,7 @@ export const useModelLevelTable = ({
 
     for (const item of [...tempChartData]) {
       if (labelsSet.has(item.label)) {
-        toast.error(
-          <Typography variant="caption">
-            [{item.label}] label이 중복되었습니다
-          </Typography>
-        );
+        showError(`[${item.label}] label이 중복되었습니다`, 'caption');
         return;
       }
       labelsSet.add(item.label);
@@ -137,7 +132,7 @@ export const useModelLevelTable = ({
   const handleAddLevelRow = useCallback(() => {
     if ([...tempChartData].length >= MAX_LEVEL_COUNT) {
       const toastMessage = `최대 ${MAX_LEVEL_COUNT}개까지 추가 가능합니다`;
-      toast.error(<Typography variant="body2">{toastMessage}</Typography>);
+      showError(toastMessage);
       return;
     }
     const newItem: ChartData = getNewChartData({

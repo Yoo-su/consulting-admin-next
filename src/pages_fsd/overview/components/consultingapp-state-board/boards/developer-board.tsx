@@ -8,20 +8,26 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useMemo } from 'react';
-import toast from 'react-hot-toast';
 
 import {
   CURRENT_STATES,
+  DeveloperChipClass,
+  ERROR_MESSAGE,
   STATE_BOARD_DOMAIN_ITEMS,
+  UPDATE_APP_STATE,
 } from '@/pages_fsd/overview/constants';
-import { useUpdateConsultingAppStateMutation } from '@/pages_fsd/overview/hooks';
-import { useHandleStatusBoard } from '@/pages_fsd/overview/hooks';
+import {
+  useHandleStatusBoard,
+  useUpdateConsultingAppStateMutation,
+} from '@/pages_fsd/overview/hooks';
 import { CurrentState, ServiceType } from '@/pages_fsd/overview/models';
 import { getGroupedData } from '@/shared/services';
 
+import { useTypographyToast } from '@/shared/hooks';
 import { StateCol } from '../state-column';
 
 export const DeveloperBoard = () => {
+  const { showError, showSuccess } = useTypographyToast();
   const { filteredConsultingAppStatesAll, developers } = useHandleStatusBoard();
 
   const { mutateAsync: updateConsultingAppStateMutation } =
@@ -38,9 +44,7 @@ export const DeveloperBoard = () => {
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
-      toast.error(
-        <Typography variant="body2">이동 범위가 아닙니다</Typography>
-      );
+      showError(ERROR_MESSAGE.NOT_DROPPABLE);
       return;
     }
     const { source, destination } = result;
@@ -82,17 +86,9 @@ export const DeveloperBoard = () => {
     // 상태 업데이트
     updateConsultingAppStateMutation(updateParams).then((res) => {
       if (res.status === 200) {
-        toast.success(
-          <Typography variant="body2">
-            상태가 성공적으로 업데이트 되었습니다
-          </Typography>
-        );
+        showSuccess(UPDATE_APP_STATE.UPDATE_SUCCESS);
       } else {
-        toast.error(
-          <Typography variant="body2">
-            상태 업데이트 중 문제가 발생했습니다
-          </Typography>
-        );
+        showError(UPDATE_APP_STATE.UPDATE_ERROR);
       }
     });
   };
@@ -112,12 +108,7 @@ export const DeveloperBoard = () => {
               <Chip
                 size="small"
                 label={developerStates[0]?.developerName}
-                sx={{
-                  marginLeft: '3px',
-                  width: 'fit-content',
-                  bgcolor: 'rgba(0,0,0,0.75)',
-                  color: '#fff',
-                }}
+                sx={DeveloperChipClass}
               />
               <Typography variant="caption" sx={{ marginLeft: 1 }}>
                 {developerStates.length}건

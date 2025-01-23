@@ -8,15 +8,14 @@ import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
 
 import { ContentWrapper } from '@/shared/components';
-import { useUser } from '@/shared/hooks';
-import { useMuiAlert } from '@/shared/hooks';
+import { useMuiAlert, useTypographyToast, useUser } from '@/shared/hooks';
 
 import { useUpdateProfileImageMutation } from '../hooks';
 
 export const AccountSettingContainer = () => {
+  const { showSuccess, showError } = useTypographyToast();
   const { user } = useUser();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -39,14 +38,10 @@ export const AccountSettingContainer = () => {
     mutateAsync(formData)
       .then((res) => {
         setImageFile(null);
-        toast.success(
-          <Typography variant="body2">성공적으로 반영되었습니다</Typography>
-        );
+        showSuccess('성공적으로 반영되었습니다');
       })
       .catch((err) => {
-        toast.error(
-          <Typography variant="body2">오류가 발생했습니다</Typography>
-        );
+        showError('오류가 발생했습니다');
       });
   };
 

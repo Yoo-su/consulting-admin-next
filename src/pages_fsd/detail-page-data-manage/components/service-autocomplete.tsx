@@ -8,9 +8,8 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { SyntheticEvent, useState } from 'react';
-import toast from 'react-hot-toast';
 
-import { useConfirmToast } from '@/shared/hooks';
+import { useConfirmToast, useTypographyToast } from '@/shared/hooks';
 import { Service } from '@/shared/models';
 
 import { useDuplicateDetailpageDataMutation } from '../hooks';
@@ -23,6 +22,7 @@ export const ServiceAutocomplete = ({
   serviceID,
   serviceList,
 }: ServiceAutocompleteProps) => {
+  const { showSuccess } = useTypographyToast();
   const { mutateAsync, isPending: isDuplicateDetailpageDataPending } =
     useDuplicateDetailpageDataMutation();
   const { openConfirmToast } = useConfirmToast();
@@ -52,11 +52,7 @@ export const ServiceAutocomplete = ({
         sourceServiceID: selectedService?.serviceID,
         targetServiceID: serviceID,
       }).then(() => {
-        toast.success(
-          <Typography variant="body2">
-            {selectedService.serviceID}에 성공적으로 복제되었습니다
-          </Typography>
-        );
+        showSuccess(`${selectedService.serviceID}에 성공적으로 복제되었습니다`);
       });
   };
 

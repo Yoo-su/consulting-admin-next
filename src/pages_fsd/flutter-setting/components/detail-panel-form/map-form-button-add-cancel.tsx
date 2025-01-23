@@ -8,15 +8,19 @@ import { MapFormInputCell } from './map-form-input-cell';
 
 type MapFormAddCancelButtonProps = {
   mapHookValues: UseMapFormReturn;
-  isDisabled: boolean;
 };
 
 export const MapFormAddCancelButton = ({
   mapHookValues,
-  isDisabled,
 }: MapFormAddCancelButtonProps) => {
-  const { isAdd, handleCancel, objValue, setObjValue, handleConfirm } =
-    mapHookValues;
+  const {
+    isAdd,
+    handleCancel,
+    objValue,
+    setObjValue,
+    handleConfirm,
+    isDisabled,
+  } = mapHookValues;
 
   if (!isAdd || isDisabled) return null;
   return (

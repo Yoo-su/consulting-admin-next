@@ -1,10 +1,8 @@
 import { DragEvent, RefObject, SetStateAction } from 'react';
 
-import {
-  checkFileType,
-  fileTypeErrorToast,
-  fileUploadErrorToast,
-} from '../services';
+import { useTypographyToast } from '@/shared/hooks';
+import { FILE_MESSAGE } from '../constants';
+import { checkFileType, getFileTypeErrorToastComponent } from '../services';
 
 type UseFileDropHandlerProps = {
   addToFiles: (uploadedFile: File | undefined) => void;
@@ -24,6 +22,7 @@ export const useFileDropHandler = ({
   setFileEnter,
   fileInputRef,
 }: UseFileDropHandlerProps): FileDropHandlerProps => {
+  const { showError } = useTypographyToast();
   const processFileSystemEntries = async (items: DataTransferItemList) => {
     const processEntry = async (entry: FileSystemEntry): Promise<void> => {
       if (!entry) return;
@@ -33,7 +32,8 @@ export const useFileDropHandler = ({
             if (checkFileType(file)) {
               addToFiles(file);
             } else {
-              fileTypeErrorToast(file.name);
+              const component = getFileTypeErrorToastComponent(file.name);
+              showError(component);
             }
             resolve();
           });
@@ -58,7 +58,7 @@ export const useFileDropHandler = ({
       await Promise.all(entries.map(processEntry));
     } catch (error) {
       console.error('Error processing files:', error);
-      fileUploadErrorToast();
+      showError(FILE_MESSAGE.ERROR_UPLOADING);
     }
   };
 

@@ -7,15 +7,11 @@ import { MapFormEditSaveButton } from './map-form-button-edit-save';
 import { MapFormInputCell } from './map-form-input-cell';
 
 type MapFormBodyProps = {
-  isDisabled: boolean;
   mapHookValues: UseMapFormReturn;
 };
 
-export const MapFormBody = ({
-  mapHookValues,
-  isDisabled,
-}: MapFormBodyProps) => {
-  const { rows, objValue, setObjValue, isEditObj } = mapHookValues;
+export const MapFormBody = ({ mapHookValues }: MapFormBodyProps) => {
+  const { rows, objValue, setObjValue, isEditObj, isDisabled } = mapHookValues;
 
   const isNotEdit = (index: number) => isEditObj[index] == false || isDisabled;
 
@@ -41,7 +37,6 @@ export const MapFormBody = ({
             <MapFormEditSaveButton
               mapHookValues={mapHookValues}
               index={index}
-              isDisabled={isDisabled}
             />
           </TableCell>
         </TableRow>

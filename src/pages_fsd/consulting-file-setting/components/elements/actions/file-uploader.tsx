@@ -4,8 +4,12 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Button from '@mui/material/Button';
 import { ChangeEvent, useRef, useState } from 'react';
 
+import { useTypographyToast } from '@/shared/hooks';
 import { useConsultingFileSettings, useFileDropHandler } from '../../../hooks';
-import { checkFileType, fileTypeErrorToast } from '../../../services';
+import {
+  checkFileType,
+  getFileTypeErrorToastComponent,
+} from '../../../services';
 import {
   CustomWidthBoxCell,
   HiddenFileInput,
@@ -13,6 +17,7 @@ import {
 } from '../cells/';
 
 export const FileUploader = () => {
+  const { showError } = useTypographyToast();
   const { addToFiles } = useConsultingFileSettings();
   const [fileEnter, setFileEnter] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -28,7 +33,8 @@ export const FileUploader = () => {
     if (checkFileType(file)) {
       addToFiles(file);
     } else {
-      fileTypeErrorToast();
+      const component = getFileTypeErrorToastComponent(file.name);
+      showError(component);
     }
     if (fileInputRef.current) {
       fileInputRef.current.value = '';

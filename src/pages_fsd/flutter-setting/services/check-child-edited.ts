@@ -21,6 +21,7 @@ const checkRowEdited = (
       item;
     const rowValue = getConvertedRowValue(transferDefaultValue, RowValue);
     const defaultValue = getConvertedRowValue(transferDefaultValue);
+
     if (isDeep && item.children.length > 0 && item.Type !== 'select') {
       return checkRowEdited(row, children, isDeep);
     }

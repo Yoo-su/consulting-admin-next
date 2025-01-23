@@ -1,11 +1,10 @@
-import { Typography } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useRef } from 'react';
-import toast from 'react-hot-toast';
 
 import { QUERY_KEYS } from '@/shared/constants';
 import { useSharedStore } from '@/shared/models';
 
+import { useTypographyToast } from '@/shared/hooks';
 import { updateDetailPageData } from '../../apis';
 import { DetailPageData } from '../../models';
 
@@ -18,6 +17,7 @@ type UseDetailPageSettingReturn = {
 type UseDetailPageSettingMutation = () => UseDetailPageSettingReturn;
 export const useDetailPageSettingMutation: UseDetailPageSettingMutation =
   () => {
+    const { showSuccess, showError } = useTypographyToast();
     const _return = useRef({} as UseDetailPageSettingReturn);
     const queryClient = useQueryClient();
     const currentService = useSharedStore((state) => state.currentService);
@@ -31,18 +31,10 @@ export const useDetailPageSettingMutation: UseDetailPageSettingMutation =
       mutationFn: (detailPageData: DetailPageData[]) =>
         updateDetailPageData(serviceID, detailPageData),
       onSuccess: () => {
-        toast.success(
-          <Typography variant="caption">
-            상세페이지 정보 업데이트 완료!
-          </Typography>
-        );
+        showSuccess('상세페이지 정보 업데이트 완료!', 'caption');
       },
       onError: () => {
-        toast.error(
-          <Typography variant="caption">
-            상세페이지 정보 업데이트 중 문제가 발생했습니다
-          </Typography>
-        );
+        showError('상세페이지 정보 업데이트 중 문제가 발생했습니다', 'caption');
       },
     });
 

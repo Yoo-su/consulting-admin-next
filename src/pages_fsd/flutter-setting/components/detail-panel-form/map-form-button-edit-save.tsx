@@ -6,22 +6,25 @@ import { MapEditSaveButtonClass } from '../../constants';
 import { UseMapFormReturn } from '../../hooks';
 
 type MapFormEditSaveButtonProps = {
-  isDisabled: boolean;
   mapHookValues: UseMapFormReturn;
   index: number;
 };
 
 export const MapFormEditSaveButton = ({
-  isDisabled,
   mapHookValues,
   index,
 }: MapFormEditSaveButtonProps) => {
+  const {
+    handleEditInput,
+    handleConfirm,
+    handleDelete,
+    isEditObj,
+    isDisabled,
+  } = mapHookValues;
+
   if (isDisabled) return null;
 
-  const { handleEditInput, handleConfirm, handleDelete, isEditObj } =
-    mapHookValues;
   const isEdit = !isEditObj[index];
-
   const buttonsMap = [
     {
       title: isEdit ? '수정' : '저장',
@@ -43,8 +46,8 @@ export const MapFormEditSaveButton = ({
 
   return (
     <Stack direction={'row'}>
-      {buttonsMap.map((button) => (
-        <Tooltip title={button.title} placement="top">
+      {buttonsMap.map((button, index) => (
+        <Tooltip title={button.title} placement="top" key={index}>
           <IconButton
             size="small"
             id={button.id}

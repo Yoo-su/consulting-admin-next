@@ -1,12 +1,11 @@
 'use client';
 
-import Typography from '@mui/material/Typography';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
-import toast from 'react-hot-toast';
 
 import { QUERY_KEYS } from '@/shared/constants';
 
+import { useTypographyToast } from '@/shared/hooks';
 import {
   deleteBrowserFile,
   renameBrowserFile,
@@ -27,6 +26,7 @@ type UseBrowserMutationReturn = {
 type UseBrowserMutation = () => UseBrowserMutationReturn;
 
 export const useBrowserMutation: UseBrowserMutation = () => {
+  const { showSuccess } = useTypographyToast();
   const queryClient = useQueryClient();
   const currentPath = useBrowserStore((state) => state.currentPath);
 
@@ -44,11 +44,7 @@ export const useBrowserMutation: UseBrowserMutation = () => {
           queryKey: QUERY_KEYS.browser.data(currentPath).queryKey,
         })
         .then(() => {
-          toast.success(
-            <Typography variant="caption">
-              성공적으로 변경되었습니다.
-            </Typography>
-          );
+          showSuccess('성공적으로 변경되었습니다.', 'caption');
         });
     },
     onError: (err) => {

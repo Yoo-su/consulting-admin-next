@@ -1,6 +1,6 @@
 'use client';
 
-import { TextField, Typography } from '@mui/material';
+import { TextField } from '@mui/material';
 import {
   ChangeEvent,
   KeyboardEvent,
@@ -8,14 +8,14 @@ import {
   useEffect,
   useState,
 } from 'react';
-import toast from 'react-hot-toast';
 
-import { useOutsideClick } from '@/shared/hooks';
+import { useOutsideClick, useTypographyToast } from '@/shared/hooks';
 
+import { TEXT_ERROR_MESSAGE, TextFormClass } from '../../constants';
 import { useFlutterSetting } from '../../hooks';
 import { FormItemProps } from '../../models';
 import { getInitialValue, getItemValue } from '../../services';
-import { FlutterColorPicker } from '../detail-panel-form-color-picker';
+import { TextFormAdornment } from './text-form-adornment';
 
 export const TextForm = ({
   item,
@@ -23,100 +23,88 @@ export const TextForm = ({
   handleEdit,
   isDisabled,
 }: FormItemProps) => {
+  const { showError } = useTypographyToast();
   const {
     IsRequired,
-    Title,
     Type,
     transferDefaultValue,
+    OriginalRowValue,
     RowIdx,
     RowValue = null,
   } = item;
-  const [textValue, setTextValue] = useState<string>(getItemValue(item));
+  const [textValue, setTextValue] = useState<string>(
+    getItemValue(RowValue, transferDefaultValue)
+  );
   const [isActive, setIsActive] = useState(false);
   const { addToEditedList } = useFlutterSetting();
 
-  const initialValue = getInitialValue(item);
+  const initialValue = getInitialValue(transferDefaultValue, OriginalRowValue);
 
-  const isColorItem = Title.toLowerCase().includes('color');
-  // TODO: inputForm 예외처리 안 뜸
-  // TODO: a component is changing a controlled input to be uncontrolled
-  const updateEditedValue = () => {
+  const updateEditedValue = useCallback(() => {
     handleEdit(path, textValue);
     addToEditedList({
       RowIdx,
       RowValue: textValue.toString(),
       InitialValue: initialValue?.toString() ?? '',
     });
-  };
+  }, [handleEdit, textValue, RowIdx, addToEditedList, path, initialValue]);
   const inputRef = useOutsideClick(() => {
     if (isActive) {
       updateEditedValue();
     }
     setIsActive(false);
   });
-  const handleInputKey = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+  const handleInputKey = useCallback(
+    (event: KeyboardEvent<HTMLInputElement>) => {
+      if (event.key !== 'Enter') return;
       updateEditedValue();
       setIsActive(false);
-    }
-  };
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const regex = /^((\d+(\.\d*)?)|(\.\d+))$/;
-    const value = event.target.value;
-
-    if (IsRequired && value === '') {
-      toast.error(<Typography variant="body2">필수 입력값입니다</Typography>);
-      return;
-    }
-    // type이 double이거나 number일 때 숫자만 입력 가능
-    if (
-      value !== '' &&
-      (Type === 'double' || Type === 'number') &&
-      !regex.test(value)
-    ) {
-      return event.preventDefault();
-    }
-    setIsActive(true);
-    setTextValue(value);
-  };
-  useEffect(() => {
-    if (RowValue) {
-      setTextValue(RowValue);
-    } else {
-      setTextValue(transferDefaultValue);
-    }
-  }, [RowValue]);
-  const startAdornment = useCallback(
-    () =>
-      isColorItem && (
-        <FlutterColorPicker
-          setTextValue={setTextValue}
-          value={textValue}
-          handleEdit={handleEdit}
-          path={path}
-          RowIdx={RowIdx}
-          InitialValue={initialValue}
-        />
-      ),
-    [textValue]
+    },
+    [updateEditedValue, setIsActive]
   );
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+
+      if (IsRequired && value === '') {
+        showError(TEXT_ERROR_MESSAGE.REQUIRED);
+        return;
+      }
+      // decimal point 포함하는 숫자 regex pattern
+      const regex = /^((\d+(\.\d*)?)|(\.\d+))$/;
+      // type이 double이거나 number일 때 숫자만 입력 가능
+      if (
+        value !== '' &&
+        ['double', 'number'].includes(Type) &&
+        !regex.test(value)
+      )
+        return event.preventDefault();
+
+      setIsActive(true);
+      setTextValue(value);
+    },
+    [IsRequired, Type]
+  );
+  useEffect(() => {
+    setTextValue(getItemValue(RowValue, transferDefaultValue));
+  }, [RowValue]);
 
   return (
     <TextField
       ref={inputRef}
       value={textValue}
       size="small"
-      sx={{
-        '& .MuiInputBase-root': {
-          fontSize: '.9rem',
-        },
-        '& .Mui-disabled': {
-          WebkitTextFillColor: 'rgba(0, 0, 0, 0.87) !important',
-          backgroundColor: '#FAFAFA',
-        },
-      }}
+      sx={TextFormClass}
       InputProps={{
-        startAdornment: startAdornment(),
+        startAdornment: (
+          <TextFormAdornment
+            path={path}
+            item={item}
+            textValue={textValue}
+            setTextValue={setTextValue}
+            handleEdit={handleEdit}
+          />
+        ),
       }}
       disabled={isDisabled}
       onChange={handleChange}

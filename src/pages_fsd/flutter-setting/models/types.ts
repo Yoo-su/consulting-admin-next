@@ -90,7 +90,7 @@ export type FlutterRowInfo = {
   DefaultValue: string;
   children: FlutterRowInfo[];
   level: number;
-  transferDefaultValue: any;
+  transferDefaultValue: unknown;
   RowValue?: string;
   Index?: number;
   OriginalRowValue?: string;

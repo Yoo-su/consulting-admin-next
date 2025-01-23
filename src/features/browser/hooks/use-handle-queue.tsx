@@ -1,14 +1,19 @@
-import { Typography } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
-import { ChangeEvent, DragEvent, useCallback, useMemo, useRef } from 'react';
-import { useEffect } from 'react';
-import { toast } from 'react-hot-toast';
+import {
+  ChangeEvent,
+  DragEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react';
 import { useShallow } from 'zustand/shallow';
 
 import { QUERY_KEYS } from '@/shared/constants';
 import { useSharedStore } from '@/shared/models';
 import { handleToastPromise } from '@/shared/services';
 
+import { useTypographyToast } from '@/shared/hooks';
 import { UploadMutationType, useBrowserStore, useQueueStore } from '../models';
 
 type UseHandleQueueProps = {
@@ -34,6 +39,7 @@ export const useHandleQueue = ({
   formData,
   uploadMutation,
 }: UseHandleQueueProps) => {
+  const { showError } = useTypographyToast();
   const _return = useRef<UseHandleQueueReturn>();
   const queryClient = useQueryClient();
   const currentService = useSharedStore((state) => state.currentService);
@@ -89,11 +95,7 @@ export const useHandleQueue = ({
   const handleOnDrop = useCallback(
     (event: DragEvent<HTMLDivElement>) => {
       if (!browserOption.isDropZone) {
-        toast.error(
-          <Typography variant={'caption'}>
-            {'드롭 허용 영역이 아닙니다.'}
-          </Typography>
-        );
+        showError('드롭 허용 영역이 아닙니다', 'caption');
         return;
       }
       const arrayFiles = Array.from(event.dataTransfer.files);

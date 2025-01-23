@@ -13,13 +13,23 @@ import Typography from '@mui/material/Typography';
 import { animated, useSpring } from '@react-spring/web';
 import Image from 'next/image';
 import { memo, useEffect, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
 
+import {
+  CURRENT_SERVICE_MESSAGE,
+  IconDetailClass,
+  IconToGoClass,
+  StateCardClass,
+  StateCardNameClass,
+} from '@/pages_fsd/overview/constants';
 import {
   ConsultingAppState,
   useStatusBoardStore,
 } from '@/pages_fsd/overview/models';
-import { useGetServiceListQuery, useGetUnivListQuery } from '@/shared/hooks';
+import {
+  useGetServiceListQuery,
+  useGetUnivListQuery,
+  useTypographyToast,
+} from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
 type StateCardProps = {
@@ -27,6 +37,7 @@ type StateCardProps = {
   index: number;
 };
 export const StateCard = memo(({ state, index }: StateCardProps) => {
+  const { showError, showSuccess } = useTypographyToast();
   const { currentUniv, setCurrentService, setCurrentUniv } = useSharedStore();
   const { data: univList } = useGetUnivListQuery();
   const { data: serviceList, isLoading: isServiceListLoading } =
@@ -58,13 +69,9 @@ export const StateCard = memo(({ state, index }: StateCardProps) => {
         null;
       if (currentService) {
         setCurrentService(currentService);
-        toast.success(
-          <Typography variant="body2">서비스가 선택되었습니다</Typography>
-        );
+        showSuccess(CURRENT_SERVICE_MESSAGE.SELECTED);
       } else {
-        toast.error(
-          <Typography variant="body2">서비스가 존재하지 않습니다</Typography>
-        );
+        showError(CURRENT_SERVICE_MESSAGE.NOT_SELECTED);
       }
       setIsSelectBtnClicked(false);
     }
@@ -99,22 +106,11 @@ export const StateCard = memo(({ state, index }: StateCardProps) => {
           {...provided.dragHandleProps}
           onMouseEnter={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
-          sx={{
-            p: 1,
-            cursor: 'pointer',
-            bgcolor: '#fff',
-            borderRadius: '.3rem',
-            borderColor: 'transparent',
-            '&:hover': {
-              border: '2px solid rgba(0,0,0,0.2)',
-            },
-            position: 'relative',
-            transition: 'border-color 0.3s ease-in-out',
-          }}
+          sx={StateCardClass}
         >
           <Tooltip title="자세히" placement="top">
             <IconButton
-              sx={{ ...iconDetailStyle }}
+              sx={IconDetailClass}
               onClick={handleIconClick}
               disableRipple
             >
@@ -134,25 +130,11 @@ export const StateCard = memo(({ state, index }: StateCardProps) => {
               </Typography>
             </Stack>
             <Stack direction={'row'} justifyContent={'space-between'}>
-              <Box
-                sx={{
-                  bgcolor: '#f3f4f6',
-                  borderRadius: '5px',
-                  padding: 0.5,
-                  width: 'fit-content',
-                }}
-              >
+              <Box sx={StateCardNameClass}>
                 <Typography variant="caption">{state.developerName}</Typography>
               </Box>
               {state.managerName && (
-                <Box
-                  sx={{
-                    bgcolor: '#f3f4f6',
-                    borderRadius: '5px',
-                    padding: 0.5,
-                    width: 'fit-content',
-                  }}
-                >
+                <Box sx={StateCardNameClass}>
                   <Typography variant="caption">{state.managerName}</Typography>
                 </Box>
               )}
@@ -169,7 +151,7 @@ export const StateCard = memo(({ state, index }: StateCardProps) => {
                     alignItems={'center'}
                     justifyContent={'center'}
                     spacing={1}
-                    sx={iconToGoStyle}
+                    sx={IconToGoClass}
                     onClick={handleCardClick}
                   >
                     {isServiceListLoading ? (
@@ -209,35 +191,6 @@ export const StateCard = memo(({ state, index }: StateCardProps) => {
   );
 });
 StateCard.displayName = 'StateCard';
-
-const iconDetailStyle = {
-  fontSize: '.5rem',
-  position: 'absolute',
-  right: 0,
-  top: 0,
-  padding: '.3rem .2rem',
-  cursor: 'pointer',
-  '& .MuiSvgIcon-root': {
-    fontSize: '1rem',
-  },
-  '&:hover': {
-    color: 'black',
-  },
-};
-
-const iconToGoStyle = {
-  cursor: 'pointer',
-  margin: 0,
-  py: 0.5,
-  borderRadius: '.2rem',
-  '& .MuiSvgIcon-root': {
-    fontSize: '.9rem',
-  },
-  '&:hover': {
-    backgroundColor: '#EBFADB',
-  },
-  transition: 'all 0.1s ease-in-out',
-};
 
 const getAppIcon = (isNew: boolean) => {
   if (isNew) {

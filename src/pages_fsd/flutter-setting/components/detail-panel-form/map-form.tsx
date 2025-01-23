@@ -23,7 +23,7 @@ export const MapForm = ({
   handleEdit,
   isDisabled,
 }: Partial<Pick<FormItemProps, 'item'>> & Omit<FormItemProps, 'item'>) => {
-  const mapHookValues = useMapForm({ item, path, handleEdit });
+  const mapHookValues = useMapForm({ item, path, handleEdit, isDisabled });
 
   return (
     <>
@@ -37,21 +37,12 @@ export const MapForm = ({
             </TableRow>
           </TableHead>
           <TableBody sx={{ border: 0 }}>
-            <MapFormBody
-              mapHookValues={mapHookValues}
-              isDisabled={isDisabled}
-            />
-            <MapFormAddCancelButton
-              mapHookValues={mapHookValues}
-              isDisabled={isDisabled}
-            />
+            <MapFormBody mapHookValues={mapHookValues} />
+            <MapFormAddCancelButton mapHookValues={mapHookValues} />
           </TableBody>
         </Table>
       </TableContainer>
-      <MapFormCreateNewButton
-        mapHookValues={mapHookValues}
-        isDisabled={isDisabled}
-      />
+      <MapFormCreateNewButton mapHookValues={mapHookValues} />
     </>
   );
 };

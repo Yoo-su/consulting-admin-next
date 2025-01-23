@@ -5,14 +5,12 @@ import { UseMapFormReturn } from '../../hooks';
 
 type MapFormCreateNewButtonProps = {
   mapHookValues: UseMapFormReturn;
-  isDisabled: boolean;
 };
 
 export const MapFormCreateNewButton = ({
   mapHookValues,
-  isDisabled,
 }: MapFormCreateNewButtonProps) => {
-  const { setIsAdd, isAdd } = mapHookValues;
+  const { setIsAdd, isAdd, isDisabled } = mapHookValues;
   const handleAdd = () => {
     setIsAdd(true);
   };

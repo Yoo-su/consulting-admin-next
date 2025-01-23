@@ -3,3 +3,4 @@ export { useMuiAlert } from './use-mui-alert';
 export { useOutsideClick } from './use-outside-click';
 export { usePopover } from './use-popover';
 export { useStepper } from './use-stepper';
+export { useTypographyToast } from './use-typography-toast';

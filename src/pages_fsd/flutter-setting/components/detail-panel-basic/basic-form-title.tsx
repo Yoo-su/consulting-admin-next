@@ -1,4 +1,5 @@
 import { Stack, Typography } from '@mui/material';
+import { memo } from 'react';
 import {
   BasicFormKoreanTitleClass,
   BasicFormTitleClass,
@@ -12,10 +13,7 @@ type BasicFormTitleProps = {
   filteredSettingList: FlutterSetting[];
 };
 
-export const BasicFormTitle = ({
-  item,
-  filteredSettingList,
-}: BasicFormTitleProps) => {
+const BasicFormTitle = ({ item, filteredSettingList }: BasicFormTitleProps) => {
   const { IsRequired, Type, Title, KoreanTitle, Description, level } = item;
 
   const isEdited = checkChildEdited(item, filteredSettingList, true);
@@ -44,3 +42,5 @@ export const BasicFormTitle = ({
     </Stack>
   );
 };
+
+export default memo(BasicFormTitle);

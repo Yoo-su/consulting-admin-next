@@ -1,20 +1,21 @@
 'use client';
 
-import Typography from '@mui/material/Typography';
 import { useQueryClient } from '@tanstack/react-query';
 import {
   createContext,
   Dispatch,
   PropsWithChildren,
   SetStateAction,
+  useCallback,
   useState,
 } from 'react';
-import toast from 'react-hot-toast';
 
 import { QUERY_KEYS } from '@/shared/constants';
 import { useSharedStore } from '@/shared/models';
 
+import { useTypographyToast } from '@/shared/hooks';
 import { SetFlutterCustomConfigParams } from '../apis';
+import { FLUTTER_SETTING_MESSAGE } from '../constants';
 import { useSetFlutterSettingMutation } from '../hooks';
 import { FlutterSetting } from '../models';
 import { getArrayFromString } from '../services';
@@ -41,6 +42,7 @@ export const FlutterSettingContext = createContext<
 >(undefined);
 
 export const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
+  const { showSuccess } = useTypographyToast();
   const { currentService } = useSharedStore();
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [flutterSettingList, setFlutterSettingList] = useState<
@@ -56,35 +58,50 @@ export const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   const queryClient = useQueryClient();
   const serviceID = currentService!.serviceID;
 
-  const resetEditedSettingList = () => {
+  const resetEditedSettingList = useCallback(() => {
     setEditedSettingList([]);
-  };
+  }, []);
+
+  const isValueBackToOrig = useCallback(
+    (InitialValue: string | string[], RowValue: string) => {
+      const rowValueForChecking: string | string[] =
+        typeof InitialValue === 'object'
+          ? getArrayFromString(RowValue)
+          : RowValue;
+
+      switch (typeof InitialValue) {
+        case 'string':
+          return (rowValueForChecking as string).trim() === InitialValue.trim();
+        case 'object':
+          return (
+            [...(rowValueForChecking as string[])].toString() ==
+            [...InitialValue].toString()
+          );
+        default:
+          return rowValueForChecking === InitialValue;
+      }
+    },
+    []
+  );
   // 변경된 값 모음에 추가
-  const addToEditedList = (
-    editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'> & {
-      InitialValue: string | string[];
-    }
-  ) => {
-    const { RowIdx, RowValue, InitialValue } = editedSetting;
+  const addToEditedList = useCallback(
+    (
+      editedSetting: Pick<
+        SetFlutterCustomConfigParams,
+        'RowIdx' | 'RowValue'
+      > & {
+        InitialValue: string | string[];
+      }
+    ) => {
+      const { RowIdx, RowValue, InitialValue } = editedSetting;
+      const isOrig = isValueBackToOrig(InitialValue, RowValue);
 
-    const rowValueForChecking: string | string[] =
-      typeof InitialValue === 'object'
-        ? getArrayFromString(RowValue)
-        : RowValue;
-
-    const isBackToOrig =
-      typeof InitialValue === 'string'
-        ? (rowValueForChecking as string).trim() === InitialValue.trim()
-        : typeof InitialValue === 'object'
-        ? [...(rowValueForChecking as string[])].toString() ==
-          [...InitialValue].toString()
-        : rowValueForChecking === InitialValue;
-
-    if (isBackToOrig) {
-      setEditedSettingList((prev) =>
-        prev.filter((item) => item.RowIdx !== RowIdx)
-      );
-    } else {
+      if (isOrig) {
+        setEditedSettingList((prev) =>
+          prev.filter((item) => item.RowIdx !== RowIdx)
+        );
+        return;
+      }
       const newSetting: SetFlutterCustomConfigParams = {
         serviceID,
         RowIdx,
@@ -99,16 +116,15 @@ export const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
         }
         return [...prev, newSetting];
       });
-    }
-  };
+    },
+    []
+  );
   // 변경된 값 모음을 서버에 반영
-  const updateSettingList = () => {
+  const updateSettingList = useCallback(() => {
     editedSettingList.forEach((item) => {
       mutateAsync(item, {
         onSuccess: () => {
-          toast.success(
-            <Typography variant="body2">변경사항이 적용되었습니다</Typography>
-          );
+          showSuccess(FLUTTER_SETTING_MESSAGE.UPDATE_SUCCESS);
           queryClient.invalidateQueries({
             queryKey:
               QUERY_KEYS['flutter-setting']['custom-config'](serviceID)
@@ -118,7 +134,7 @@ export const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
       });
     });
     resetEditedSettingList();
-  };
+  }, [editedSettingList]);
   return (
     <FlutterSettingContext.Provider
       value={{

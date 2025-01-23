@@ -32,6 +32,7 @@ export const ColorPopover = ({
   setCurrentHsv,
   handleColorChange,
 }: ColorPopoverProps) => {
+  //TODO: blocked aria-hidden error + unique key
   const handleChangeText = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     if (value.length > 6) return;

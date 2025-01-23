@@ -7,9 +7,8 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useCallback, useState } from 'react';
-import toast from 'react-hot-toast';
 
-import { useConfirmToast } from '@/shared/hooks';
+import { useConfirmToast, useTypographyToast } from '@/shared/hooks';
 
 import { useSyncDetailpageDataMutation } from '../hooks';
 
@@ -18,6 +17,7 @@ type SyncBoxProps = {
   serviceID: string;
 };
 export const SyncBox = ({ serviceID }: SyncBoxProps) => {
+  const { showError, showSuccess } = useTypographyToast();
   const { mutateAsync, isPending } = useSyncDetailpageDataMutation();
   const { openConfirmToast } = useConfirmToast();
   const [source, setSource] = useState<DetailPageDataDB>('');
@@ -42,16 +42,10 @@ export const SyncBox = ({ serviceID }: SyncBoxProps) => {
           targetServerType: target,
         })
           .then(() => {
-            toast.success(
-              <Typography variant="body2">동기화가 완료되었습니다</Typography>
-            );
+            showSuccess('동기화가 완료되었습니다');
           })
           .catch((err) => {
-            toast.error(
-              <Typography variant="body2">
-                동기화 중 에러가 발생했습니다
-              </Typography>
-            );
+            showError('동기화 중 에러가 발생했습니다');
           });
       },
     });

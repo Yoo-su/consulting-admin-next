@@ -13,11 +13,13 @@ export const ListOrderForm = ({
   handleEdit,
   isDisabled,
 }: FormItemProps) => {
-  const { RowIdx, RowValue } = item;
+  const { transferDefaultValue, OriginalRowValue, RowIdx, RowValue } = item;
   const { addToEditedList } = useFlutterSetting();
-  const [orderList, setOrderList] = useState<string[]>(getItemValue(item));
+  const [orderList, setOrderList] = useState<string[]>(
+    getItemValue(RowValue, transferDefaultValue)
+  );
 
-  const initialValue = getInitialValue(item);
+  const initialValue = getInitialValue(transferDefaultValue, OriginalRowValue);
 
   const handleDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -40,7 +42,7 @@ export const ListOrderForm = ({
   };
 
   useEffect(() => {
-    setOrderList(getItemValue(item));
+    setOrderList(getItemValue(RowValue, transferDefaultValue));
   }, [RowValue]);
 
   return (

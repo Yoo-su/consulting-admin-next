@@ -1,10 +1,10 @@
 'use client';
 
-import Typography from '@mui/material/Typography';
 import { useCallback } from 'react';
-import toast from 'react-hot-toast';
+import { useTypographyToast } from '../ui';
 
 export const useDownloadFile = () => {
+  const { showError } = useTypographyToast();
   const downloadFile = useCallback(async (url: string, fileName: string) => {
     try {
       const response = await fetch(url);
@@ -20,11 +20,7 @@ export const useDownloadFile = () => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(downloadUrl);
     } catch (error) {
-      toast.error(
-        <Typography variant="body2">
-          파일 다운로드 중 오류가 발생했습니다
-        </Typography>
-      );
+      showError('파일 다운로드 중 오류가 발생했습니다');
     }
   }, []);
 

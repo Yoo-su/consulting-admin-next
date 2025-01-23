@@ -1,8 +1,6 @@
-import { Typography } from '@mui/material';
 import { FocusEvent, KeyboardEvent, MouseEvent, useState } from 'react';
-import toast from 'react-hot-toast';
 
-import { useConfirmToast } from '@/shared/hooks';
+import { useConfirmToast, useTypographyToast } from '@/shared/hooks';
 
 import { MAX_TITLE_LENGTH } from '../constants';
 import { ConsultingFile } from '../models';
@@ -13,6 +11,7 @@ type UseFileEditHandlerProps = {
 };
 
 export const useFileEditHandler = ({ file }: UseFileEditHandlerProps) => {
+  const { showError } = useTypographyToast();
   const {
     files,
     setFiles,
@@ -54,11 +53,7 @@ export const useFileEditHandler = ({ file }: UseFileEditHandlerProps) => {
       trimmedValue.length > MAX_TITLE_LENGTH
     ) {
       if (trimmedValue !== origTitle) {
-        toast.error(
-          <Typography variant="body2">
-            자료명은 1 ~ {MAX_TITLE_LENGTH}자 이내로 입력해주세요
-          </Typography>
-        );
+        showError(`자료명은 1 ~ ${MAX_TITLE_LENGTH}자 이내로 입력해주세요`);
       }
       setOrigTitle(origTitle);
       resetFileList(fileIndex, origTitle);
