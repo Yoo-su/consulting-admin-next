@@ -3,11 +3,11 @@
 import DownloadIcon from '@mui/icons-material/Download';
 import { Button, CircularProgress, Typography } from '@mui/material';
 
+import { DownloaderClass, FILE_MESSAGE } from '@/pages_fsd/consulting-file-setting/constants';
+import { useGetConsultingFileDownloadQuery } from '@/pages_fsd/consulting-file-setting/hooks';
+import { getFileType } from '@/pages_fsd/consulting-file-setting/services';
 import { useTypographyToast } from '@/shared/hooks';
 
-import { DownloaderClass, FILE_MESSAGE } from '../../constants';
-import { useGetConsultingFileDownloadQuery } from '../../hooks';
-import { getFileType } from '../../services';
 import { CellBoxCustomWidth } from '../table-customs/';
 
 type FileEditDownloadProps = {

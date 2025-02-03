@@ -20,8 +20,8 @@ import { ChangeEvent, DragEvent, useEffect, useRef, useState } from 'react';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 import { OS_TYPE } from '@/pages_fsd/app-version-history/constants';
-import apkIcon from '@/shared/assets/images/apk_64.png';
-import exeIcon from '@/shared/assets/images/exe_64.png';
+import apkIcon from '@/shared/assets/svgs/apk.svg';
+import exeIcon from '@/shared/assets/svgs/exe.svg';
 import { ColorlibConnector, ColorlibStepIcon, ContentWrapper } from '@/shared/components';
 import { useSharedStore } from '@/shared/models';
 
@@ -42,12 +42,10 @@ export const AppDeployContainer = () => {
     fileInputRef?.current?.click();
   };
 
-  // 앱 유형 변경 처리
   const handleAppTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
     setAppType(event.target.value as typeof appType);
   };
 
-  // 파일 변경처리
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0] ?? null;
     setAppFile(selectedFile);
@@ -84,11 +82,7 @@ export const AppDeployContainer = () => {
   return (
     <ContentWrapper>
       <ContentWrapper.Header bottomDivider>
-        <Stack direction={'row'} alignItems={'center'}>
-          <Typography variant="h4" textAlign={'left'} flexGrow={1}>
-            {title}
-          </Typography>
-        </Stack>
+        <ContentWrapper.Title title={title} />
       </ContentWrapper.Header>
 
       <ContentWrapper.MainContent>
@@ -145,7 +139,7 @@ export const AppDeployContainer = () => {
           <Stack
             onClick={handleClickUploadBtn}
             direction={'column'}
-            spacing={3}
+            spacing={1.5}
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}
             onDragOver={handleDragOver}
@@ -168,7 +162,7 @@ export const AppDeployContainer = () => {
               boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
             }}
           >
-            <Image src={appType === OS_TYPE.APK ? apkIcon : exeIcon} width={'48'} height={'48'} alt="apk-image" />
+            <Image src={appType === OS_TYPE.APK ? apkIcon : exeIcon} width={'48'} height={'48'} alt="app-icon" />
             <Typography
               variant="body2"
               color="grey.700"

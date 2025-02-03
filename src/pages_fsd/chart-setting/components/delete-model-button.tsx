@@ -2,6 +2,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Chip, Typography } from '@mui/material';
 import { memo } from 'react';
 
+import { DELETE_MODEL_TEXT } from '../constants';
+
 type DeleteModeButtonProps = {
   handleDeleteModel: () => void;
 };
@@ -9,7 +11,7 @@ export const DeleteModelButton = memo(({ handleDeleteModel }: DeleteModeButtonPr
   return (
     <Chip
       icon={<DeleteIcon />}
-      label={<Typography variant="body2">모델삭제</Typography>}
+      label={<Typography variant="body2">{DELETE_MODEL_TEXT}</Typography>}
       size="small"
       clickable
       onClick={handleDeleteModel}

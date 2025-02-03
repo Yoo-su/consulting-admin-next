@@ -1,6 +1,8 @@
 import { Stack, styled, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 
+import { getLevelTitle } from '../../utils';
+
 type BannerUtilBoxProps = {
   children: ReactNode;
 };
@@ -17,12 +19,11 @@ type LevelTableTopBannerProps = {
   children: ReactNode;
 };
 export const LevelTableTopBanner = ({ level, children }: LevelTableTopBannerProps) => {
-  const levelTitle = `단계 ${level}`;
   return (
     <Wrapper>
       <Stack direction={'row'} spacing={1} alignItems="center">
         <Typography variant="body2" fontSize={16}>
-          {levelTitle}
+          {getLevelTitle(level)}
         </Typography>
       </Stack>
       {children}

@@ -5,6 +5,7 @@ import { memo } from 'react';
 
 import { useModelAccordion } from '../hooks';
 import { useChartSettingStore } from '../models';
+import { getModelTitle } from '../utils';
 import { DeleteModelButton } from './delete-model-button';
 import { ModelChartBox } from './model-chart-box';
 import { ModelLevelTable } from './model-level-table';
@@ -23,10 +24,9 @@ export const ModelAccordion = memo(({ modelNum }: ModelAccordionProps) => {
   return (
     <Accordion expanded={isExpanded}>
       <AccordionSummary aria-controls="chart-model-accordion">
-        <ModelAccordionTitle
-          variant="h6"
-          onClick={handleClickAccordionTitle}
-        >{`모델 ${modelNum + 1}`}</ModelAccordionTitle>
+        <ModelAccordionTitle variant="h6" onClick={handleClickAccordionTitle}>
+          {getModelTitle(modelNum)}
+        </ModelAccordionTitle>
 
         {isExpanded && (
           <Stack direction={'row'} sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}>

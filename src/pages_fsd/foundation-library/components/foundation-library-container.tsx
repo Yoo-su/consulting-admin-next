@@ -1,7 +1,5 @@
 'use client';
 
-import { Stack, Typography } from '@mui/material';
-
 import { Browser } from '@/features/browser/components';
 import { ContentWrapper } from '@/shared/components';
 
@@ -13,11 +11,7 @@ export const FoundationLibraryContainer = () => {
   return (
     <ContentWrapper>
       <ContentWrapper.Header bottomDivider>
-        <Stack direction={'row'} alignItems={'center'}>
-          <Typography variant="h4" textAlign={'left'} flexGrow={1}>
-            {containerTitle}
-          </Typography>
-        </Stack>
+        <ContentWrapper.Title title={containerTitle} />
       </ContentWrapper.Header>
 
       <ContentWrapper.MainContent>
