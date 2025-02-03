@@ -1,25 +1,16 @@
 'use client';
 
-import {
-  AppRouterContext,
-  AppRouterInstance,
-} from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { AppRouterContext, AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { use, useEffect } from 'react';
 
 export function useInterceptAppRouter<TMethod extends keyof AppRouterInstance>(
   original: TMethod,
-  interceptFn: (
-    original: () => void,
-    args?: Parameters<AppRouterInstance[TMethod]>
-  ) => void
+  interceptFn: (original: () => void, args?: Parameters<AppRouterInstance[TMethod]>) => void
 ): void {
   const appRouter = use(AppRouterContext);
 
   useEffect(() => {
-    if (!appRouter)
-      throw new Error(
-        'useInterceptAppRouter must be used within an App Router context'
-      );
+    if (!appRouter) throw new Error('useInterceptAppRouter must be used within an App Router context');
 
     const originalMethod = appRouter[original];
 

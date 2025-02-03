@@ -7,13 +7,7 @@ import Typography from '@mui/material/Typography';
 import { ChangeEvent, Dispatch, MouseEvent, SetStateAction } from 'react';
 
 import { HSV } from '../../models';
-import {
-  clamp,
-  hexToHsv,
-  hsvToHex,
-  isValidHexColor,
-  matchIsNumber,
-} from '../../services';
+import { clamp, hexToHsv, hsvToHex, isValidHexColor, matchIsNumber } from '../../services';
 import { ColorSpace } from './color-space';
 import { HueSlider } from './hue-slider';
 
@@ -56,20 +50,13 @@ export const ColorPopover = ({
 
   return (
     <Paper sx={{ padding: '5px', width: '300px' }}>
-      <Stack
-        direction={'row'}
-        spacing={2}
-        alignItems={'center'}
-        justifyContent={'space-between'}
-      >
+      <Stack direction={'row'} spacing={2} alignItems={'center'} justifyContent={'space-between'}>
         <Typography variant="body1">선택된 색상</Typography>
         <Stack direction={'row'} alignItems={'center'}>
           {ColorSquareIcon(`#${hsvToHex(currentHsv)}`)}
           <FormControl>
             <InputBase
-              startAdornment={
-                <InputAdornment position="start">0xff</InputAdornment>
-              }
+              startAdornment={<InputAdornment position="start">0xff</InputAdornment>}
               size="small"
               sx={ColorSquareClass}
               value={hexText}
@@ -79,11 +66,7 @@ export const ColorPopover = ({
         </Stack>
       </Stack>
 
-      <ColorSpace
-        currentHue={currentHsv.h}
-        hsv={currentHsv}
-        onChange={handleChangeSpace}
-      />
+      <ColorSpace currentHue={currentHsv.h} hsv={currentHsv} onChange={handleChangeSpace} />
       <Box>
         <HueSlider
           min={0}
@@ -103,12 +86,7 @@ export const ColorPopover = ({
         )}
       </Box>
       <Stack direction={'row'}>
-        <Button
-          variant="contained"
-          disableElevation
-          sx={{ width: '100%' }}
-          onClick={handleColorChange}
-        >
+        <Button variant="contained" disableElevation sx={{ width: '100%' }} onClick={handleColorChange}>
           선택 완료
         </Button>
       </Stack>
@@ -132,21 +110,8 @@ const ColorSquareClass = {
   },
 };
 
-const preColors = [
-  'E03131',
-  'F2C94C',
-  '219653',
-  '2F80ED',
-  '9B51E0',
-  'F2994A',
-  'EB5757',
-  '56CCF2',
-  '2D9CDB',
-];
-const ColorSquareIcon = (
-  color: string,
-  onClick?: (event: MouseEvent<SVGSVGElement>) => void
-) => {
+const preColors = ['E03131', 'F2C94C', '219653', '2F80ED', '9B51E0', 'F2994A', 'EB5757', '56CCF2', '2D9CDB'];
+const ColorSquareIcon = (color: string, onClick?: (event: MouseEvent<SVGSVGElement>) => void) => {
   return (
     <SquareIcon
       sx={{

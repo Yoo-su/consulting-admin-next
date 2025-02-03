@@ -1,15 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
-import {
-  Box,
-  Divider,
-  FormGroup,
-  IconButton,
-  MenuItem,
-  Stack,
-  TextField,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, Divider, FormGroup, IconButton, MenuItem, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 
 import { FlutterRowInfo } from '../../models';
@@ -25,13 +15,7 @@ const Options = [
 
 type SettingForm = Pick<
   FlutterRowInfo,
-  | 'Category'
-  | 'Title'
-  | 'KoreanTitle'
-  | 'Type'
-  | 'Description'
-  | 'DefaultValue'
-  | 'children'
+  'Category' | 'Title' | 'KoreanTitle' | 'Type' | 'Description' | 'DefaultValue' | 'children'
 >;
 
 export const AddSetting = ({ category }: { category: string }) => {
@@ -183,10 +167,7 @@ export const AddSetting = ({ category }: { category: string }) => {
         <Stack>
           {!isAdd && (
             <Tooltip title="설정 카테고리 추가" placement="top">
-              <IconButton
-                sx={{ borderRadius: '5%', backgroundColor: '#FAFAFA' }}
-                onClick={handleIsAdd}
-              >
+              <IconButton sx={{ borderRadius: '5%', backgroundColor: '#FAFAFA' }} onClick={handleIsAdd}>
                 <AddIcon />
               </IconButton>
             </Tooltip>

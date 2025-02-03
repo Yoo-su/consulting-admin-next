@@ -6,16 +6,9 @@ type DeleteLevelRowButtonProps = {
   label: string;
   handleDeleteLevelRow: (deleteRowLabel: string) => void;
 };
-export const DeleteLevelRowButton = memo(
-  ({ label, handleDeleteLevelRow }: DeleteLevelRowButtonProps) => {
-    return (
-      <StyledDeleteIcon
-        fontSize="small"
-        onClick={() => handleDeleteLevelRow(label)}
-      />
-    );
-  }
-);
+export const DeleteLevelRowButton = memo(({ label, handleDeleteLevelRow }: DeleteLevelRowButtonProps) => {
+  return <StyledDeleteIcon fontSize="small" onClick={() => handleDeleteLevelRow(label)} />;
+});
 DeleteLevelRowButton.displayName = 'DeleteLevelRowButton';
 const StyledDeleteIcon = styled(DeleteIcon)(({ theme }) => ({
   cursor: 'pointer',

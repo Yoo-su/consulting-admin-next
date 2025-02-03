@@ -1,14 +1,7 @@
 'use client';
 
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
-import {
-  Gowun_Batang,
-  Gowun_Dodum,
-  Hahmlet,
-  IBM_Plex_Sans_KR,
-  Nanum_Gothic,
-  Nanum_Myeongjo,
-} from 'next/font/google';
+import { Gowun_Batang, Gowun_Dodum, Hahmlet, IBM_Plex_Sans_KR, Nanum_Gothic, Nanum_Myeongjo } from 'next/font/google';
 
 const gowun_batang = Gowun_Batang({ subsets: ['latin'], weight: ['400'] });
 const hahmlet = Hahmlet({ subsets: ['latin'], weight: ['400'] });

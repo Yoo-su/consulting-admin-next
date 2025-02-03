@@ -18,31 +18,19 @@ type ServiceAutocompleteProps = {
   serviceID: string;
   serviceList: Service[];
 };
-export const ServiceAutocomplete = ({
-  serviceID,
-  serviceList,
-}: ServiceAutocompleteProps) => {
+export const ServiceAutocomplete = ({ serviceID, serviceList }: ServiceAutocompleteProps) => {
   const { showSuccess } = useTypographyToast();
-  const { mutateAsync, isPending: isDuplicateDetailpageDataPending } =
-    useDuplicateDetailpageDataMutation();
+  const { mutateAsync, isPending: isDuplicateDetailpageDataPending } = useDuplicateDetailpageDataMutation();
   const { openConfirmToast } = useConfirmToast();
   const [selectedService, setSelectedService] = useState<Service | null>(null);
 
   const getServiceMenuTitle = (service: Service) => {
     return (
-      service.schoolYear +
-      '학년도' +
-      ' ' +
-      (service.isSusi === '1' ? '수시' : '정시') +
-      ' ' +
-      `(${service.serviceID})`
+      service.schoolYear + '학년도' + ' ' + (service.isSusi === '1' ? '수시' : '정시') + ' ' + `(${service.serviceID})`
     );
   };
 
-  const handleChange = (
-    event: SyntheticEvent<Element, Event>,
-    service: Service | null
-  ) => {
+  const handleChange = (event: SyntheticEvent<Element, Event>, service: Service | null) => {
     setSelectedService(service ?? null);
   };
 
@@ -64,9 +52,7 @@ export const ServiceAutocomplete = ({
         disablePortal
         autoHighlight
         value={selectedService}
-        options={
-          serviceList.filter((item) => item.serviceID !== serviceID) ?? []
-        }
+        options={serviceList.filter((item) => item.serviceID !== serviceID) ?? []}
         loadingText={
           <Stack direction={'row'} alignItems={'center'}>
             <CircularProgress size={18} sx={{ mr: 1.5 }} />
@@ -83,9 +69,7 @@ export const ServiceAutocomplete = ({
             {getServiceMenuTitle(option)}
           </Box>
         )}
-        renderInput={(params) => (
-          <TextField {...params} label={'대상 ServiceID'} />
-        )}
+        renderInput={(params) => <TextField {...params} label={'대상 ServiceID'} />}
       />
 
       <LoadingButton

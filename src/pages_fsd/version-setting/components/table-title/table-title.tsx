@@ -14,11 +14,7 @@ type TableTitleProps = {
   setServerType: React.Dispatch<React.SetStateAction<VersionServer>>;
 };
 
-export const TableTitle = ({
-  univName,
-  serviceID,
-  setServerType,
-}: TableTitleProps) => {
+export const TableTitle = ({ univName, serviceID, setServerType }: TableTitleProps) => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
 

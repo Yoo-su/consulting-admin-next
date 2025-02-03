@@ -1,9 +1,6 @@
 import { FlutterSetting } from '../models';
 
-export const getListByCategory = (
-  originalList: FlutterSetting[],
-  category: string
-) => {
+export const getListByCategory = (originalList: FlutterSetting[], category: string) => {
   return originalList.filter((list) => list.Category === category);
 };
 

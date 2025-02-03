@@ -19,8 +19,7 @@ export const useSigninMutation = () => {
 
         // 토큰 만료로 로그아웃된 경우 이전 페이지로 리다이렉트
         if (typeof window !== 'undefined') {
-          const redirectPath =
-            sessionStorage.getItem('redirectPath') || '/dashboard';
+          const redirectPath = sessionStorage.getItem('redirectPath') || '/dashboard';
           sessionStorage.removeItem('redirectPath');
           window.location.href = redirectPath; // Use window.location instead of router
         }

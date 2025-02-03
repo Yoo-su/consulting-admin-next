@@ -19,12 +19,8 @@ export type VersionListTableProps = {
   type: VersionServer;
 };
 
-export const VersionListTable = ({
-  serviceID,
-  type,
-}: VersionListTableProps) => {
-  const { isLoading, setVersionList, getCurrentVersionList, execute } =
-    useGetVersionList();
+export const VersionListTable = ({ serviceID, type }: VersionListTableProps) => {
+  const { isLoading, setVersionList, getCurrentVersionList, execute } = useGetVersionList();
   const { mutateAsync } = useUpdateVersionListMutation();
   const [editedList, dispatch] = useReducer(reducer, []);
   const [isEdited, setIsEdited] = useState(false);
@@ -47,8 +43,7 @@ export const VersionListTable = ({
 
   useEffect(
     function getEditStatus() {
-      const isUpdated =
-        JSON.stringify(editedList) !== JSON.stringify(currentVersionList);
+      const isUpdated = JSON.stringify(editedList) !== JSON.stringify(currentVersionList);
       setIsEdited(isUpdated);
     },
     [editedList]
@@ -70,19 +65,9 @@ export const VersionListTable = ({
         setIsEdited(false);
       }),
       {
-        loading: (
-          <Typography variant="body2">
-            버전 정보를 업데이트하는 중입니다...
-          </Typography>
-        ),
-        success: (
-          <Typography variant="body2">버전 정보 업데이트 완료!</Typography>
-        ),
-        error: (
-          <Typography variant="body2">
-            버전 정보 업데이트 중 문제가 발생했습니다
-          </Typography>
-        ),
+        loading: <Typography variant="body2">버전 정보를 업데이트하는 중입니다...</Typography>,
+        success: <Typography variant="body2">버전 정보 업데이트 완료!</Typography>,
+        error: <Typography variant="body2">버전 정보 업데이트 중 문제가 발생했습니다</Typography>,
       }
     );
   };

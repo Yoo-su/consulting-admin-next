@@ -2,18 +2,9 @@
 
 import ProfileIcon from '@mui/icons-material/AccountBox';
 import SignoutIcon from '@mui/icons-material/ExitToApp';
-import {
-  Box,
-  Divider,
-  ListItemIcon,
-  MenuItem,
-  MenuList,
-  Popover,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Divider, ListItemIcon, MenuItem, MenuList, Popover, Stack, Typography } from '@mui/material';
 import RouterLink from 'next/link';
-import CircleLoader from 'react-spinners/CircleLoader';
+import DotLoader from 'react-spinners/DotLoader';
 
 import { useUser } from '@/shared/hooks';
 
@@ -43,18 +34,14 @@ export const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
         <>
           <Box sx={{ p: '16px 20px ' }}>
             <Typography variant="body1" fontSize={20}>
-              {user?.userName} |{' '}
-              {user?.departmentID === 2 ? '개발자' : '운영자'}
+              {user?.userName} | {user?.departmentID === 2 ? '개발자' : '운영자'}
             </Typography>
             <Typography variant="body2" sx={{ mt: 0.5 }}>
               사용자ID: {user?.sub}
             </Typography>
           </Box>
           <Divider />
-          <MenuList
-            disablePadding
-            sx={{ p: '8px', '& .MuiMenuItem-root': { borderRadius: 1 } }}
-          >
+          <MenuList disablePadding sx={{ p: '8px', '& .MuiMenuItem-root': { borderRadius: 1 } }}>
             <MenuItem component={RouterLink} href="/dashboard/account-setting">
               <ListItemIcon>
                 <ProfileIcon />
@@ -80,7 +67,7 @@ export const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps) => {
             alignItems: 'center',
           }}
         >
-          <CircleLoader color={'rgba(0,0,0,0.4'} size={50} />
+          <DotLoader color={'rgba(0,0,0,0.4'} size={50} />
           <Typography variant="body2">로그아웃중...</Typography>
         </Stack>
       )}

@@ -4,7 +4,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-import { memo,MouseEvent } from 'react';
+import { memo, MouseEvent } from 'react';
 
 type CopyOnlyTextFieldProps = {
   serviceID: string;
@@ -12,11 +12,7 @@ type CopyOnlyTextFieldProps = {
   handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
-const SerialNoTextField = ({
-  serviceID,
-  value,
-  handleClick,
-}: CopyOnlyTextFieldProps) => {
+const SerialNoTextField = ({ serviceID, value, handleClick }: CopyOnlyTextFieldProps) => {
   return (
     <TextField
       disabled
@@ -32,12 +28,7 @@ const SerialNoTextField = ({
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton
-              disableRipple
-              aria-label="copy text"
-              onClick={handleClick}
-              id="serialnumber"
-            >
+            <IconButton disableRipple aria-label="copy text" onClick={handleClick} id="serialnumber">
               <ContentCopyIcon />
             </IconButton>
           </InputAdornment>

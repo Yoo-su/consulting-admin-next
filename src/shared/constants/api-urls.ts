@@ -40,27 +40,18 @@ export const API_URLS = {
     downloadBrowserFile: '/file/download',
     deleteBrowserFile: '/file/delete',
     renameBrowserFile: '/file/rename',
-    getConversionTable: (serviceID: string) =>
-      `/scoring/conversion/${serviceID}`,
-    createConversionTable: (serviceID: string) =>
-      `/scoring/conversion/${serviceID}`,
-    updateConversionTable: (serviceID: string, tableID: string) =>
-      `/scoring/conversion/${serviceID}/${tableID}`,
+    getConversionTable: (serviceID: string) => `/scoring/conversion/${serviceID}`,
+    createConversionTable: (serviceID: string) => `/scoring/conversion/${serviceID}`,
+    updateConversionTable: (serviceID: string, tableID: string) => `/scoring/conversion/${serviceID}/${tableID}`,
     deleeteConversionTable: '/scoring/conversion',
     getCalcConfig: (serviceID: string) => `/scoring/calc-config/${serviceID}`,
-    createCalcConfig: (serviceID: string) =>
-      `/scoring/calc-config/${serviceID}`,
-    updateCalcConfig: (serviceID: string, configID: string) =>
-      `/scoring/calc-config/${serviceID}/${configID}`,
-    deleteCalcConfig: (serviceID: string, configID: string) =>
-      `/scoring/calc-config/${serviceID}/${configID}`,
+    createCalcConfig: (serviceID: string) => `/scoring/calc-config/${serviceID}`,
+    updateCalcConfig: (serviceID: string, configID: string) => `/scoring/calc-config/${serviceID}/${configID}`,
+    deleteCalcConfig: (serviceID: string, configID: string) => `/scoring/calc-config/${serviceID}/${configID}`,
     getCalcMethod: (serviceID: string) => `/scoring/calc-method/${serviceID}`,
-    createCalcMethod: (serviceID: string) =>
-      `/scoring/calc-method/${serviceID}`,
-    updateCalcMethod: (serviceID: string, methodID: string) =>
-      `/scoring/calc-method/${serviceID}/${methodID}`,
-    deleteCalcMethod: (serviceID: string, methodID: string) =>
-      `/scoring/calc-method/${serviceID}/${methodID}`,
+    createCalcMethod: (serviceID: string) => `/scoring/calc-method/${serviceID}`,
+    updateCalcMethod: (serviceID: string, methodID: string) => `/scoring/calc-method/${serviceID}/${methodID}`,
+    deleteCalcMethod: (serviceID: string, methodID: string) => `/scoring/calc-method/${serviceID}/${methodID}`,
   },
   admin: {
     getUnivList: '/admin/university/list',

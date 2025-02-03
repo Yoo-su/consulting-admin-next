@@ -7,10 +7,7 @@ export const ServiceTableHead = () => {
     <TableHead>
       <TableRow>
         {ServiceTableHeader.map((header) => (
-          <TableCell
-            key={header.value}
-            align={header.align ? header.align : 'left'}
-          >
+          <TableCell key={header.value} align={header.align ? header.align : 'left'}>
             {header.label}
           </TableCell>
         ))}

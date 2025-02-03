@@ -6,13 +6,9 @@ export type UpdateProfileImageResponse = {
 };
 
 export const updateProfileImage = async (formData: FormData) => {
-  return await apiInstance.post<UpdateProfileImageResponse>(
-    API_URLS.user.updateProfileImage,
-    formData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    }
-  );
+  return await apiInstance.post<UpdateProfileImageResponse>(API_URLS.user.updateProfileImage, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 };

@@ -12,13 +12,7 @@ type TextFormAdornmentProps = {
   setTextValue: Dispatch<SetStateAction<string>>;
 };
 
-export const TextFormAdornment = ({
-  path,
-  handleEdit,
-  textValue,
-  setTextValue,
-  item,
-}: TextFormAdornmentProps) => {
+export const TextFormAdornment = ({ path, handleEdit, textValue, setTextValue, item }: TextFormAdornmentProps) => {
   const { Title, transferDefaultValue, OriginalRowValue, RowIdx } = item;
 
   const isColorItem = Title.toLowerCase().includes('color');

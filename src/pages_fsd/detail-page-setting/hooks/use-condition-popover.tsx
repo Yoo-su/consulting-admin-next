@@ -1,21 +1,13 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { Typography } from '@mui/material';
+import { Dispatch, SetStateAction, useCallback, useMemo, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { useTypographyToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
 import { Condition } from '../models';
 import { getNewCondition } from '../utils';
-import {
-  useDetailPageSettingMutation,
-  useGetDetailPageDataQuery,
-} from './tanstack';
+import { useDetailPageSettingMutation, useGetDetailPageDataQuery } from './tanstack';
 
 // region - types
 type UseConditionPopoverReturn = {
@@ -37,39 +29,24 @@ type UseConditionPopoverProps = {
   rowNumber: number;
   conditions: Condition[];
 };
-type UseConditionPopover = ({
-  rowNumber,
-  conditions,
-}: UseConditionPopoverProps) => UseConditionPopoverReturn;
+type UseConditionPopover = ({ rowNumber, conditions }: UseConditionPopoverProps) => UseConditionPopoverReturn;
 // region - types end
 
-export const useConditionPopover: UseConditionPopover = ({
-  rowNumber,
-  conditions,
-}: UseConditionPopoverProps) => {
+export const useConditionPopover: UseConditionPopover = ({ rowNumber, conditions }: UseConditionPopoverProps) => {
   const { showError } = useTypographyToast();
   const _return = useRef({} as UseConditionPopoverReturn);
   const currentService = useSharedStore((state) => state.currentService);
   const serviceID = currentService?.serviceID ?? '';
   const { data: detailPageDatas } = useGetDetailPageDataQuery(serviceID);
   const { setDetailPageData } = useDetailPageSettingMutation();
-  const [currentConditions, setCurrentConditions] =
-    useState<Condition[]>(conditions);
-  const [originalConditions, setOriginalConditions] =
-    useState<Condition[]>(conditions);
+  const [currentConditions, setCurrentConditions] = useState<Condition[]>(conditions);
+  const [originalConditions, setOriginalConditions] = useState<Condition[]>(conditions);
 
   // 표시조건 변경 여부
   const isConditionChanged = useMemo(() => {
-    const sortedCurrentCondition = [...currentConditions].sort(
-        (a, b) => a.idx - b.idx
-      ),
-      sortedOriginalCondition = [...originalConditions].sort(
-        (a, b) => a.idx - b.idx
-      );
-    return (
-      JSON.stringify(sortedCurrentCondition) !==
-      JSON.stringify(sortedOriginalCondition)
-    );
+    const sortedCurrentCondition = [...currentConditions].sort((a, b) => a.idx - b.idx),
+      sortedOriginalCondition = [...originalConditions].sort((a, b) => a.idx - b.idx);
+    return JSON.stringify(sortedCurrentCondition) !== JSON.stringify(sortedOriginalCondition);
   }, [currentConditions, originalConditions]);
 
   // 특정 행 Condition 변경
@@ -95,9 +72,7 @@ export const useConditionPopover: UseConditionPopover = ({
 
   // 표시조건 행 추가
   const handleAddConditionRow = useCallback(() => {
-    const maxConditionIdx = Math.max(
-      ...Array.from(currentConditions, (item) => item.idx)
-    );
+    const maxConditionIdx = Math.max(...Array.from(currentConditions, (item) => item.idx));
     const newIdx = currentConditions.length ? maxConditionIdx + 1 : 0;
     const logic = currentConditions.length ? 'and' : '';
     const newRow = getNewCondition(newIdx, logic);
@@ -107,11 +82,7 @@ export const useConditionPopover: UseConditionPopover = ({
 
   // 표시조건 행 내용 변경 처리
   const handleChangeConditionRow = useCallback(
-    (
-      idx: number,
-      columnType: 'dataType' | 'eqValue' | 'value' | 'logic',
-      newData: string | number
-    ) => {
+    (idx: number, columnType: 'dataType' | 'eqValue' | 'value' | 'logic', newData: string | number) => {
       const newCondition = currentConditions.map((item) => {
         if (item.idx !== idx) return item;
         return {
@@ -133,9 +104,7 @@ export const useConditionPopover: UseConditionPopover = ({
         return;
       }
 
-      const newCondition = [...currentConditions].filter(
-        (item) => item.idx !== idx
-      );
+      const newCondition = [...currentConditions].filter((item) => item.idx !== idx);
       setCurrentConditions(newCondition);
     },
     [currentConditions]

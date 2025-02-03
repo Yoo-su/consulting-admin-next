@@ -81,9 +81,7 @@ export const AppSidebar = () => {
             }}
           >
             <AccordionSummary
-              expandIcon={
-                <ExpandMoreIcon sx={{ color: 'rgb(255,255,255, 0.5)' }} />
-              }
+              expandIcon={<ExpandMoreIcon sx={{ color: 'rgb(255,255,255, 0.5)' }} />}
               aria-controls={`${group.title}-content`}
             >
               <Typography
@@ -98,9 +96,7 @@ export const AppSidebar = () => {
                 {group.title}
               </Typography>
             </AccordionSummary>
-            <AccordionDetails>
-              {renderNavItems({ items: group.items, pathname })}
-            </AccordionDetails>
+            <AccordionDetails>{renderNavItems({ items: group.items, pathname })}</AccordionDetails>
           </Accordion>
         ))}
       </Stack>
@@ -108,23 +104,14 @@ export const AppSidebar = () => {
   );
 };
 
-function renderNavItems({
-  items = [],
-  pathname,
-}: {
-  items?: NavItemType[];
-  pathname: string;
-}) {
-  const children = items.reduce(
-    (acc: React.ReactNode[], curr: NavItemType): React.ReactNode[] => {
-      const { navkey, ...item } = curr;
+function renderNavItems({ items = [], pathname }: { items?: NavItemType[]; pathname: string }) {
+  const children = items.reduce((acc: React.ReactNode[], curr: NavItemType): React.ReactNode[] => {
+    const { navkey, ...item } = curr;
 
-      acc.push(<NavItem key={navkey} pathname={pathname} {...item} />);
+    acc.push(<NavItem key={navkey} pathname={pathname} {...item} />);
 
-      return acc;
-    },
-    []
-  );
+    return acc;
+  }, []);
 
   return (
     <Stack component="ul" spacing={1} sx={{ listStyle: 'none', m: 0, p: 0 }}>

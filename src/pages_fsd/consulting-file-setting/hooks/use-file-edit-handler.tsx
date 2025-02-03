@@ -12,14 +12,7 @@ type UseFileEditHandlerProps = {
 
 export const useFileEditHandler = ({ file }: UseFileEditHandlerProps) => {
   const { showError } = useTypographyToast();
-  const {
-    files,
-    setFiles,
-    editFileIndex,
-    setEditFileIndex,
-    updateRefTitle,
-    deleteFile,
-  } = useConsultingFileSettings();
+  const { files, setFiles, editFileIndex, setEditFileIndex, updateRefTitle, deleteFile } = useConsultingFileSettings();
   const [origTitle, setOrigTitle] = useState<string>(file.RefTitle);
   const { openConfirmToast } = useConfirmToast();
 
@@ -36,22 +29,14 @@ export const useFileEditHandler = ({ file }: UseFileEditHandlerProps) => {
 
   const editRefTitle = (fileIndex: number) => {
     const currentStatus = editFileIndex[fileIndex - 1];
-    const newEditFileIndex = currentStatus
-      ? [...editFileIndex]
-      : new Array(editFileIndex.length).fill(false);
+    const newEditFileIndex = currentStatus ? [...editFileIndex] : new Array(editFileIndex.length).fill(false);
     newEditFileIndex[fileIndex - 1] = !currentStatus;
     setEditFileIndex(newEditFileIndex);
 
     if (!currentStatus) return;
-    const title = (
-      document.getElementById(`textField-${fileIndex}`) as HTMLInputElement
-    )?.value;
+    const title = (document.getElementById(`textField-${fileIndex}`) as HTMLInputElement)?.value;
     const trimmedValue = title.trim();
-    if (
-      !trimmedValue ||
-      trimmedValue === origTitle ||
-      trimmedValue.length > MAX_TITLE_LENGTH
-    ) {
+    if (!trimmedValue || trimmedValue === origTitle || trimmedValue.length > MAX_TITLE_LENGTH) {
       if (trimmedValue !== origTitle) {
         showError(`자료명은 1 ~ ${MAX_TITLE_LENGTH}자 이내로 입력해주세요`);
       }
@@ -68,11 +53,7 @@ export const useFileEditHandler = ({ file }: UseFileEditHandlerProps) => {
     updateRefTitle(fileIndex, trimmedValue, origTitle);
   };
 
-  const handleTextInput = (
-    event:
-      | MouseEvent<HTMLElement>
-      | FocusEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleTextInput = (event: MouseEvent<HTMLElement> | FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const fileIndex = getFileNoFromEvent(event.currentTarget.id);
     editRefTitle(fileIndex);
   };

@@ -8,8 +8,7 @@ import { VersionListTable } from './table-list';
 import { TableTitle } from './table-title';
 
 export const VersionSettingContainer = () => {
-  const { downmd, univName, serviceID, serverType, setServerType } =
-    useVersionSetting();
+  const { downmd, univName, serviceID, serverType, setServerType } = useVersionSetting();
 
   return (
     <Stack
@@ -19,11 +18,7 @@ export const VersionSettingContainer = () => {
       alignItems={'center'}
       justifyContent={'space-evenly'}
     >
-      <TableTitle
-        univName={univName}
-        serviceID={serviceID}
-        setServerType={setServerType}
-      />
+      <TableTitle univName={univName} serviceID={serviceID} setServerType={setServerType} />
       <VersionListTable serviceID={serviceID} type={serverType} />
     </Stack>
   );

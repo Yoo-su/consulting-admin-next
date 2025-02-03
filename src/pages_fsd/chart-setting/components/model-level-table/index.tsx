@@ -20,66 +20,58 @@ type ModelLevelTableProps = {
   levelNum: number;
 };
 
-export const ModelLevelTable = memo(
-  ({ modelNum, levelNum }: ModelLevelTableProps) => {
-    const { isEditing } = useChartSettingStore();
-    const {
-      editMode,
-      tempChartData,
-      handleEnterEditMode,
-      handleDeleteLevelRow,
-      handleAddLevelRow,
-      handleDeleteLevel,
-      handleFieldChange,
-      handleCancelEdit,
-      handleSaveTableChanges,
-    } = useModelLevelTable({
-      modelNum,
-      levelNum,
-    });
+export const ModelLevelTable = memo(({ modelNum, levelNum }: ModelLevelTableProps) => {
+  const { isEditing } = useChartSettingStore();
+  const {
+    editMode,
+    tempChartData,
+    handleEnterEditMode,
+    handleDeleteLevelRow,
+    handleAddLevelRow,
+    handleDeleteLevel,
+    handleFieldChange,
+    handleCancelEdit,
+    handleSaveTableChanges,
+  } = useModelLevelTable({
+    modelNum,
+    levelNum,
+  });
 
-    return (
-      <Wrapper className={editMode ? 'editMode' : ''}>
-        <LevelTableTopBanner level={levelNum}>
-          <LevelTableTopBanner.Utils>
-            {editMode ? (
+  return (
+    <Wrapper className={editMode ? 'editMode' : ''}>
+      <LevelTableTopBanner level={levelNum}>
+        <LevelTableTopBanner.Utils>
+          {editMode ? (
+            <>
+              <SaveTableChangesButton handleSaveTableChanges={handleSaveTableChanges} />
+              <CancelEditTableButton handleCancelEdit={handleCancelEdit} />
+            </>
+          ) : (
+            !isEditing && (
               <>
-                <SaveTableChangesButton
-                  handleSaveTableChanges={handleSaveTableChanges}
-                />
-                <CancelEditTableButton handleCancelEdit={handleCancelEdit} />
-              </>
-            ) : (
-              !isEditing && (
-                <>
-                  <EnterEditModeButton
-                    handleEnterEditMode={handleEnterEditMode}
-                  />
+                <EnterEditModeButton handleEnterEditMode={handleEnterEditMode} />
 
-                  <DeleteLevelButton handleDeleteLevel={handleDeleteLevel} />
-                </>
-              )
-            )}
-          </LevelTableTopBanner.Utils>
-        </LevelTableTopBanner>
-        <TableContainer component={Paper} sx={{ mt: 0.1 }}>
-          <Table size="small" aria-label="model-level-table">
-            <LevelTableHeader />
-            <LevelTableBody
-              editMode={editMode}
-              tableChartDatas={tempChartData}
-              handleFieldChange={handleFieldChange}
-              handleDeleteLevelRow={handleDeleteLevelRow}
-            />
-            {editMode && (
-              <LevelTableFooter handleAddLevelRow={handleAddLevelRow} />
-            )}
-          </Table>
-        </TableContainer>
-      </Wrapper>
-    );
-  }
-);
+                <DeleteLevelButton handleDeleteLevel={handleDeleteLevel} />
+              </>
+            )
+          )}
+        </LevelTableTopBanner.Utils>
+      </LevelTableTopBanner>
+      <TableContainer component={Paper} sx={{ mt: 0.1 }}>
+        <Table size="small" aria-label="model-level-table">
+          <LevelTableHeader />
+          <LevelTableBody
+            editMode={editMode}
+            tableChartDatas={tempChartData}
+            handleFieldChange={handleFieldChange}
+            handleDeleteLevelRow={handleDeleteLevelRow}
+          />
+          {editMode && <LevelTableFooter handleAddLevelRow={handleAddLevelRow} />}
+        </Table>
+      </TableContainer>
+    </Wrapper>
+  );
+});
 ModelLevelTable.displayName = 'ModelLevelTable';
 
 const Wrapper = styled(Stack)(({ theme }) => ({

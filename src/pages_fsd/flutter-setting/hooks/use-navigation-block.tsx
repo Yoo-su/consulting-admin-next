@@ -17,8 +17,7 @@ export const useNavigationBlock = ({ isBlocked }: UseNavigationBlockProps) => {
         openConfirmToast({
           message: '저장되지 않은 데이터가 있습니다.\n이동하시겠습니까?',
           callbackConfirm: () => router.back(),
-          callbackCancel: () =>
-            window.history.pushState(null, '', window.location.href),
+          callbackCancel: () => window.history.pushState(null, '', window.location.href),
         });
       };
 

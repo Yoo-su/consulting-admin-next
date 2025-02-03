@@ -12,38 +12,20 @@ import {
   SportsMartialArts as SportsMartialArtsIcon,
   VpnKeyRounded as VpnKeyRoundedIcon,
 } from '@mui/icons-material';
-import {
-  Box,
-  Chip,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Chip, Dialog, DialogContent, DialogTitle, IconButton, Stack, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 
 import { STATE_BOARD_DOMAIN_ITEMS } from '../../constants';
 import { StateBoardDomainItems, useStatusBoardStore } from '../../models';
 
 export const ConsultingAppStateDialog = () => {
-  const { isDialogOpen, toggleDialog, dialogContentState } =
-    useStatusBoardStore();
+  const { isDialogOpen, toggleDialog, dialogContentState } = useStatusBoardStore();
   if (!dialogContentState) return null;
 
   const { bgcolor, color, title } =
-    STATE_BOARD_DOMAIN_ITEMS[
-      dialogContentState.currentState as keyof StateBoardDomainItems
-    ];
+    STATE_BOARD_DOMAIN_ITEMS[dialogContentState.currentState as keyof StateBoardDomainItems];
 
-  const StackContainer = ({
-    children,
-    typo,
-  }: {
-    children: ReactNode;
-    typo?: string;
-  }) => {
+  const StackContainer = ({ children, typo }: { children: ReactNode; typo?: string }) => {
     return (
       <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
         {children}
@@ -52,13 +34,7 @@ export const ConsultingAppStateDialog = () => {
     );
   };
 
-  const StackLabelContainer = ({
-    children,
-    label,
-  }: {
-    children: ReactNode;
-    label: string;
-  }) => {
+  const StackLabelContainer = ({ children, label }: { children: ReactNode; label: string }) => {
     return (
       <Stack
         direction={'row'}
@@ -74,12 +50,7 @@ export const ConsultingAppStateDialog = () => {
   };
 
   return (
-    <Dialog
-      open={isDialogOpen}
-      onClose={() => toggleDialog(false)}
-      maxWidth="sm"
-      fullWidth
-    >
+    <Dialog open={isDialogOpen} onClose={() => toggleDialog(false)} maxWidth="sm" fullWidth>
       <DialogTitle>
         <Box display={'flex'} justifyContent={'flex-end'} width={'100%'}>
           <IconButton size="small" onClick={() => toggleDialog(false)}>
@@ -89,12 +60,7 @@ export const ConsultingAppStateDialog = () => {
       </DialogTitle>
 
       <DialogContent>
-        <Stack
-          direction={'column'}
-          spacing={3}
-          px={6}
-          sx={{ paddingBottom: '1rem' }}
-        >
+        <Stack direction={'column'} spacing={3} px={6} sx={{ paddingBottom: '1rem' }}>
           <StackContainer typo={dialogContentState.univName}>
             <StackLabelContainer label="대학교">
               <AccountBalanceIcon />

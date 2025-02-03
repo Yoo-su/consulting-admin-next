@@ -9,10 +9,7 @@ type UploadConsultingFileResponse = {
   errorMessage?: string;
 };
 
-export const uploadConsultingFile = async (
-  uploadFile: UploadFile,
-  userID: string
-) => {
+export const uploadConsultingFile = async (uploadFile: UploadFile, userID: string) => {
   const refinedFileInfo = {
     serviceID: uploadFile.ServiceID,
     file: uploadFile.File,

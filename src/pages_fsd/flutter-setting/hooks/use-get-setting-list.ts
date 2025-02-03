@@ -6,18 +6,12 @@ export const useGetSettingList = (filteredSettingList: FlutterSetting[]) => {
   const { selectedCategory } = useFlutterSetting();
   const [category, subCategory, subSubCategory] = selectedCategory.split('/');
 
-  const { index, description, children } = getCategoryInfo(
-    filteredSettingList,
-    category
-  );
+  const { index, description, children } = getCategoryInfo(filteredSettingList, category);
   const { filteredList } = getCategoryInfo(children, subCategory);
 
   let list;
   if (subSubCategory) {
-    const { filteredList: grandFilteredList } = getCategoryInfo(
-      filteredList?.children,
-      subSubCategory
-    );
+    const { filteredList: grandFilteredList } = getCategoryInfo(filteredList?.children, subSubCategory);
     list = grandFilteredList;
   } else if (subCategory) {
     list = filteredList;

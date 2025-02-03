@@ -5,10 +5,7 @@ import { useConfirmToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
 import { Mode, useDetailPageSettingStore } from '../models';
-import {
-  useDetailPageSettingMutation,
-  useGetDetailPageDataQuery,
-} from './tanstack';
+import { useDetailPageSettingMutation, useGetDetailPageDataQuery } from './tanstack';
 
 type UseDataAccordionReturn = {
   isSelected: boolean;
@@ -43,8 +40,7 @@ export const useDataAccordion: UseDataAccordion = (rowNumber: number) => {
     openConfirmToast({
       message: `${rowNumber}번 데이터를 삭제하시겠습니까?`,
       callbackConfirm: () => {
-        const filteredData =
-          detailPageDatas?.filter((item) => item.rowNum !== rowNumber) ?? [];
+        const filteredData = detailPageDatas?.filter((item) => item.rowNum !== rowNumber) ?? [];
         setDetailPageData(filteredData);
         setSelectedRowNumber(null);
       },

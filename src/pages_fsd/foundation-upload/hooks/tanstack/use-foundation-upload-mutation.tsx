@@ -6,11 +6,8 @@ import { useShallow } from 'zustand/shallow';
 import { BROWSER_PATH } from '@/features/browser/constants';
 import { QUERY_KEYS } from '@/shared/constants';
 
-import {
-  uploadFoundationLibrary,
-  uploadFoundationLibraryFileOnly,
-} from '../apis';
-import { useOptionStore, useUiStore } from '../models';
+import { uploadFoundationLibrary, uploadFoundationLibraryFileOnly } from '../../apis';
+import { useOptionStore, useUiStore } from '../../models';
 
 type UseFoundationUploadMutionReturn = {
   isUploading: boolean;
@@ -25,15 +22,11 @@ export const useFoundationUploadMutation: UseFoundationUploadMutation = () => {
   const _return = useRef({} as UseFoundationUploadMutionReturn);
   const queryClient = useQueryClient();
   const isFileOnly = useOptionStore((state) => state.isFileOnly);
-  const setAlertOption = useUiStore(
-    useShallow((state) => state.setAlertOption)
-  );
+  const setAlertOption = useUiStore(useShallow((state) => state.setAlertOption));
 
   const handleMutationSuccess = useCallback(async (serviceID: string) => {
     await queryClient.invalidateQueries({
-      queryKey: QUERY_KEYS.browser.data(
-        `${BROWSER_PATH.foundationLibrary}/${serviceID}`
-      ).queryKey,
+      queryKey: QUERY_KEYS.browser.data(`${BROWSER_PATH.foundationLibrary}/${serviceID}`).queryKey,
     });
     setAlertOption({
       message: '파일 업로드를 성공적으로 마쳤습니다',

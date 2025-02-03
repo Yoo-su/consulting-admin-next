@@ -13,8 +13,7 @@ export const useGetAppVersionHistoryQuery = (
   osType: Exclude<OsTypeValues, 'O'> | null
 ) => {
   return useQuery({
-    queryKey: QUERY_KEYS['app-version-history'].history(serviceID!, osType!)
-      .queryKey,
+    queryKey: QUERY_KEYS['app-version-history'].history(serviceID!, osType!).queryKey,
     queryFn: () => getAppVersionHistory(serviceID!, osType!),
     enabled: !!serviceID && (osType === OS_TYPE.PC || osType === OS_TYPE.APK),
   });

@@ -18,21 +18,12 @@ import { Condition, ConditionLogic } from '../../models';
 
 type ConditionRowProps = {
   condition: Condition;
-  handleChangeRowData: (
-    idx: number,
-    columnType: 'dataType' | 'eqValue' | 'value' | 'logic',
-    newData: any
-  ) => void;
+  handleChangeRowData: (idx: number, columnType: 'dataType' | 'eqValue' | 'value' | 'logic', newData: any) => void;
   handleClickDeleteRow: (idx: number) => void;
 };
-export const ConditionRow = ({
-  condition,
-  handleChangeRowData,
-  handleClickDeleteRow,
-}: ConditionRowProps) => {
+export const ConditionRow = ({ condition, handleChangeRowData, handleClickDeleteRow }: ConditionRowProps) => {
   const toggleConditionLogic = useCallback(() => {
-    if (condition.logic === 'and')
-      handleChangeRowData(condition.idx, 'logic', 'or');
+    if (condition.logic === 'and') handleChangeRowData(condition.idx, 'logic', 'or');
     else handleChangeRowData(condition.idx, 'logic', 'and');
   }, [condition]);
 
@@ -40,10 +31,7 @@ export const ConditionRow = ({
     <Stack direction={'column'} width={'100%'}>
       {condition.logic && (
         <Stack direction={'row'} justifyContent={'center'} sx={{ my: 1.5 }}>
-          <LogicButton
-            logic={condition.logic}
-            toggleConditionLogic={toggleConditionLogic}
-          />
+          <LogicButton logic={condition.logic} toggleConditionLogic={toggleConditionLogic} />
         </Stack>
       )}
 
@@ -51,9 +39,7 @@ export const ConditionRow = ({
         <Autocomplete
           size="small"
           defaultValue={condition.dataType}
-          onChange={(event, newDataType) =>
-            handleChangeRowData(condition.idx, 'dataType', newDataType)
-          }
+          onChange={(event, newDataType) => handleChangeRowData(condition.idx, 'dataType', newDataType)}
           options={DATA_TYPES}
           renderInput={(params) => <TextField {...params} label="조건" />}
           sx={{ flexGrow: 2 }}
@@ -82,17 +68,11 @@ export const ConditionRow = ({
           sx={{ width: '80px', flexGrow: 1 }}
           inputProps={{ style: { width: 'fit-content' } }}
           size="small"
-          onChange={(event) =>
-            handleChangeRowData(condition.idx, 'value', event.target.value)
-          }
+          onChange={(event) => handleChangeRowData(condition.idx, 'value', event.target.value)}
           defaultValue={condition.value}
         />
 
-        <IconButton
-          aria-label="delete"
-          size="small"
-          onClick={() => handleClickDeleteRow(condition.idx)}
-        >
+        <IconButton aria-label="delete" size="small" onClick={() => handleClickDeleteRow(condition.idx)}>
           <DeleteIcon />
         </IconButton>
       </Stack>
@@ -104,25 +84,19 @@ type LogicButtonProps = {
   logic: ConditionLogic;
   toggleConditionLogic: () => void;
 };
-const LogicButton = memo(
-  ({ logic, toggleConditionLogic }: LogicButtonProps) => {
-    return (
-      <Chip
-        size="small"
-        clickable
-        onClick={toggleConditionLogic}
-        label={
-          <Typography fontWeight={'bold'}>
-            {logic === 'and' ? 'AND' : 'OR'}
-          </Typography>
-        }
-        sx={{
-          bgcolor: logic === 'and' ? '#d18577' : '#81b1cd',
-          color: '#fff',
-          px: 2,
-        }}
-      />
-    );
-  }
-);
+const LogicButton = memo(({ logic, toggleConditionLogic }: LogicButtonProps) => {
+  return (
+    <Chip
+      size="small"
+      clickable
+      onClick={toggleConditionLogic}
+      label={<Typography fontWeight={'bold'}>{logic === 'and' ? 'AND' : 'OR'}</Typography>}
+      sx={{
+        bgcolor: logic === 'and' ? '#d18577' : '#81b1cd',
+        color: '#fff',
+        px: 2,
+      }}
+    />
+  );
+});
 LogicButton.displayName = 'LogicButton';

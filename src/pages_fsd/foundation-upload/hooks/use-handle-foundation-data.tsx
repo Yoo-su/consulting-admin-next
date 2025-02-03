@@ -1,11 +1,4 @@
-import {
-  ChangeEvent,
-  DragEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react';
+import { ChangeEvent, DragEvent, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 import { useUser } from '@/shared/hooks';
@@ -41,14 +34,11 @@ export const useHandleFoundationData = () => {
   }, [file]);
 
   // file 변경 처리
-  const handleInputChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      const targetFile = event.target.files?.[0] ?? null;
-      setFile(targetFile);
-      targetFile ? formData.set('file', targetFile) : formData.delete('file');
-    },
-    []
-  );
+  const handleInputChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const targetFile = event.target.files?.[0] ?? null;
+    setFile(targetFile);
+    targetFile ? formData.set('file', targetFile) : formData.delete('file');
+  }, []);
 
   const handleClickInput = useCallback(() => {
     inputRef?.current?.click();

@@ -11,9 +11,7 @@ type DupDialogProps = {
 };
 
 export const DupDialog = ({ open, setOpen }: DupDialogProps) => {
-  const [selectedService, setSelectedService] = useState<ServiceOption | null>(
-    null
-  );
+  const [selectedService, setSelectedService] = useState<ServiceOption | null>(null);
   const [isShowAlert, setIsShowAlert] = useState(false);
 
   const handleClose = () => {
@@ -29,9 +27,7 @@ export const DupDialog = ({ open, setOpen }: DupDialogProps) => {
       closeAfterTransition={false}
       PaperProps={{ style: { width: '250px' } }}
     >
-      <DialogTitle sx={{ fontWeight: 'bold' }}>
-        이전 서비스 설정 복제
-      </DialogTitle>
+      <DialogTitle sx={{ fontWeight: 'bold' }}>이전 서비스 설정 복제</DialogTitle>
       <DupDialogContent
         selectedService={selectedService}
         setSelectedService={setSelectedService}

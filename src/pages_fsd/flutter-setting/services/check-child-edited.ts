@@ -6,19 +6,12 @@ export const checkChildEdited = (
   filteredSettingList: (FlutterSetting | FlutterRowInfo)[],
   isDeep: boolean = false
 ) => {
-  return filteredSettingList.some((parent) =>
-    checkRowEdited(child, parent.children, isDeep)
-  );
+  return filteredSettingList.some((parent) => checkRowEdited(child, parent.children, isDeep));
 };
 
-const checkRowEdited = (
-  row: FlutterRowInfo,
-  rowList: FlutterRowInfo[],
-  isDeep: boolean
-): boolean => {
+const checkRowEdited = (row: FlutterRowInfo, rowList: FlutterRowInfo[], isDeep: boolean): boolean => {
   return rowList.some((item) => {
-    const { RowIdx, RowValue, transferDefaultValue, children, ParentIdx } =
-      item;
+    const { RowIdx, RowValue, transferDefaultValue, children, ParentIdx } = item;
     const rowValue = getConvertedRowValue(transferDefaultValue, RowValue);
     const defaultValue = getConvertedRowValue(transferDefaultValue);
 
@@ -26,9 +19,6 @@ const checkRowEdited = (
       return checkRowEdited(row, children, isDeep);
     }
 
-    return (
-      (RowIdx === row.RowIdx || ParentIdx === row.RowIdx) &&
-      rowValue !== defaultValue
-    );
+    return (RowIdx === row.RowIdx || ParentIdx === row.RowIdx) && rowValue !== defaultValue;
   });
 };

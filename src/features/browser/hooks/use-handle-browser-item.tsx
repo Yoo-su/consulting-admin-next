@@ -9,11 +9,7 @@ import { useBrowserMutation } from '.';
 type UseHandleBrowserItemReturn = {
   isDeleteBrowserFileLoading: boolean;
   isRenameBrowserFileLoading: boolean;
-  handleRenameBrowserFile: (
-    event: KeyboardEvent<HTMLInputElement>,
-    oldName: string,
-    newName: string
-  ) => void;
+  handleRenameBrowserFile: (event: KeyboardEvent<HTMLInputElement>, oldName: string, newName: string) => void;
   handleDeleteBrowserFile: (filePath: string) => void;
   handleDownloadFile: (filePath: string, fileName: string) => Promise<void>;
 };
@@ -24,20 +20,12 @@ type UseHandleBrowserItemReturn = {
  */
 export const useHandleBrowserItem = () => {
   const _return = useRef<UseHandleBrowserItemReturn>();
-  const {
-    renameBrowserFile,
-    deleteBrowserFile,
-    isDeleteBrowserFileLoading,
-    isRenameBrowserFileLoading,
-  } = useBrowserMutation();
+  const { renameBrowserFile, deleteBrowserFile, isDeleteBrowserFileLoading, isRenameBrowserFileLoading } =
+    useBrowserMutation();
   const { downloadFile } = useDownloadFile();
 
   const handleRenameBrowserFile = useCallback(
-    (
-      event: KeyboardEvent<HTMLInputElement>,
-      oldName: string,
-      newName: string
-    ) => {
+    (event: KeyboardEvent<HTMLInputElement>, oldName: string, newName: string) => {
       if (event.key === 'Enter') {
         handleToastPromise(renameBrowserFile({ oldName, newName }), {
           loading: '파일명을 변경중입니다...',
@@ -63,10 +51,7 @@ export const useHandleBrowserItem = () => {
   const handleDownloadFile = useCallback(
     async (filePath: string, fileName: string) => {
       const encoded = encodeURIComponent(decodeURIComponent(filePath));
-      const url = `${
-        process.env.NEXT_PUBLIC_BASE_URL +
-        API_URLS.dashboard.downloadBrowserFile
-      }/${encoded}`;
+      const url = `${process.env.NEXT_PUBLIC_BASE_URL + API_URLS.dashboard.downloadBrowserFile}/${encoded}`;
       await downloadFile(url, fileName);
     },
     [downloadFile]

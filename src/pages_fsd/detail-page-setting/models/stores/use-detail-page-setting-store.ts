@@ -9,13 +9,10 @@ type DetailPageSettignState = {
   setSelectedRowNumber: (rowNumber: number | null) => void;
   setCopiedDetailPageDatas: (detailPageDatas: DetailPageData[]) => void;
 };
-export const useDetailPageSettingStore = create<DetailPageSettignState>(
-  (set) => ({
-    selectedRowNumber: null,
-    copiedDetailPageDatas: [],
+export const useDetailPageSettingStore = create<DetailPageSettignState>((set) => ({
+  selectedRowNumber: null,
+  copiedDetailPageDatas: [],
 
-    setSelectedRowNumber: (rowNumber) => set({ selectedRowNumber: rowNumber }),
-    setCopiedDetailPageDatas: (detailPageDatas) =>
-      set({ copiedDetailPageDatas: detailPageDatas }),
-  })
-);
+  setSelectedRowNumber: (rowNumber) => set({ selectedRowNumber: rowNumber }),
+  setCopiedDetailPageDatas: (detailPageDatas) => set({ copiedDetailPageDatas: detailPageDatas }),
+}));

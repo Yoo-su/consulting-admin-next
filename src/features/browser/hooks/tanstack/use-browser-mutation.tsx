@@ -6,21 +6,14 @@ import { useRef } from 'react';
 import { QUERY_KEYS } from '@/shared/constants';
 import { useTypographyToast } from '@/shared/hooks';
 
-import {
-  deleteBrowserFile,
-  renameBrowserFile,
-  RenameBrowserFileProps,
-} from '../../apis';
+import { deleteBrowserFile, renameBrowserFile, RenameBrowserFileProps } from '../../apis';
 import { useBrowserStore } from '../../models';
 
 type UseBrowserMutationReturn = {
   isRenameBrowserFileLoading: boolean;
   isDeleteBrowserFileLoading: boolean;
   deleteBrowserFile: (path: string) => Promise<void>;
-  renameBrowserFile: ({
-    oldName,
-    newName,
-  }: RenameBrowserFileProps) => Promise<void>;
+  renameBrowserFile: ({ oldName, newName }: RenameBrowserFileProps) => Promise<void>;
 };
 
 type UseBrowserMutation = () => UseBrowserMutationReturn;
@@ -32,12 +25,8 @@ export const useBrowserMutation: UseBrowserMutation = () => {
 
   const _return = useRef({} as UseBrowserMutationReturn);
 
-  const {
-    mutateAsync: mutateRenameBrowserFile,
-    isPending: isRenameBrowserFileLoading,
-  } = useMutation({
-    mutationFn: ({ oldName, newName }: RenameBrowserFileProps) =>
-      renameBrowserFile({ oldName, newName }),
+  const { mutateAsync: mutateRenameBrowserFile, isPending: isRenameBrowserFileLoading } = useMutation({
+    mutationFn: ({ oldName, newName }: RenameBrowserFileProps) => renameBrowserFile({ oldName, newName }),
     onSuccess: () => {
       queryClient
         .invalidateQueries({
@@ -52,10 +41,7 @@ export const useBrowserMutation: UseBrowserMutation = () => {
     },
   });
 
-  const {
-    mutateAsync: mutateDeleteBrowserFile,
-    isPending: isDeleteBrowserFileLoading,
-  } = useMutation({
+  const { mutateAsync: mutateDeleteBrowserFile, isPending: isDeleteBrowserFileLoading } = useMutation({
     mutationFn: (path: string) => deleteBrowserFile(path),
     onSuccess: () => {
       queryClient.invalidateQueries({

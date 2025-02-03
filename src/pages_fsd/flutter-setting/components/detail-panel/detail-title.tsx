@@ -6,11 +6,7 @@ type DetailTitleProps = {
   description: string;
 };
 
-export const DetailTitle = ({
-  isTitle,
-  category,
-  description,
-}: DetailTitleProps) => {
+export const DetailTitle = ({ isTitle, category, description }: DetailTitleProps) => {
   return (
     <Stack>
       {isTitle && (
@@ -18,9 +14,7 @@ export const DetailTitle = ({
           {category}
         </Typography>
       )}
-      {description && (
-        <Typography variant={'overline'}>{description}</Typography>
-      )}
+      {description && <Typography variant={'overline'}>{description}</Typography>}
     </Stack>
   );
 };

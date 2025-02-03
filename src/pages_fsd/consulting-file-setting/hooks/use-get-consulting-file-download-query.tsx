@@ -5,10 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '@/shared/constants';
 import { useSharedStore } from '@/shared/models';
 
-import {
-  getConsultingFileDownload,
-  GetConsultingFileDownloadParams,
-} from '../apis';
+import { getConsultingFileDownload, GetConsultingFileDownloadParams } from '../apis';
 
 export const useGetConsultingFileDownloadQuery = (fileName: string) => {
   const { currentService } = useSharedStore();
@@ -18,8 +15,7 @@ export const useGetConsultingFileDownloadQuery = (fileName: string) => {
     fileName: fileName,
   };
   return useQuery({
-    queryKey:
-      QUERY_KEYS['consulting-file-setting']['download-file'](params).queryKey,
+    queryKey: QUERY_KEYS['consulting-file-setting']['download-file'](params).queryKey,
     queryFn: () => getConsultingFileDownload(params),
     enabled: false,
     retry: false,

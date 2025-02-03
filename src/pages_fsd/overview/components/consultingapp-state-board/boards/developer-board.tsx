@@ -16,10 +16,7 @@ import {
   STATE_BOARD_DOMAIN_ITEMS,
   UPDATE_APP_STATE,
 } from '@/pages_fsd/overview/constants';
-import {
-  useHandleStatusBoard,
-  useUpdateConsultingAppStateMutation,
-} from '@/pages_fsd/overview/hooks';
+import { useHandleStatusBoard, useUpdateConsultingAppStateMutation } from '@/pages_fsd/overview/hooks';
 import { CurrentState, ServiceType } from '@/pages_fsd/overview/models';
 import { useTypographyToast } from '@/shared/hooks';
 import { getGroupedData } from '@/shared/services';
@@ -30,15 +27,10 @@ export const DeveloperBoard = () => {
   const { showError, showSuccess } = useTypographyToast();
   const { filteredConsultingAppStatesAll, developers } = useHandleStatusBoard();
 
-  const { mutateAsync: updateConsultingAppStateMutation } =
-    useUpdateConsultingAppStateMutation();
+  const { mutateAsync: updateConsultingAppStateMutation } = useUpdateConsultingAppStateMutation();
 
   const developerGroupedStates = useMemo(() => {
-    const result = getGroupedData(
-      filteredConsultingAppStatesAll ?? [],
-      'developer',
-      developers
-    );
+    const result = getGroupedData(filteredConsultingAppStatesAll ?? [], 'developer', developers);
     return result;
   }, [filteredConsultingAppStatesAll]);
 
@@ -49,27 +41,16 @@ export const DeveloperBoard = () => {
     }
     const { source, destination } = result;
     const [sourceDeveloper, sourceAreaState] = source.droppableId.split('/'),
-      [destinationDeveloper, destinationAreaState] =
-        destination.droppableId.split('/');
+      [destinationDeveloper, destinationAreaState] = destination.droppableId.split('/');
 
     const sourceDevList = developerGroupedStates[sourceDeveloper];
     const destinationDevList = developerGroupedStates[destinationDeveloper];
 
-    const sourceDevStateMap = getGroupedData(
-      sourceDevList,
-      'currentState',
-      CURRENT_STATES
-    );
-    const destinationDevStateMap = getGroupedData(
-      destinationDevList,
-      'currentState',
-      CURRENT_STATES
-    );
+    const sourceDevStateMap = getGroupedData(sourceDevList, 'currentState', CURRENT_STATES);
+    const destinationDevStateMap = getGroupedData(destinationDevList, 'currentState', CURRENT_STATES);
 
-    const sourceDevStateList =
-      sourceDevStateMap[sourceAreaState as CurrentState];
-    const destinationDevStateList =
-      destinationDevStateMap[destinationAreaState as CurrentState];
+    const sourceDevStateList = sourceDevStateMap[sourceAreaState as CurrentState];
+    const destinationDevStateList = destinationDevStateMap[destinationAreaState as CurrentState];
 
     // 다른 리스트 간 이동한 경우
 
@@ -97,19 +78,11 @@ export const DeveloperBoard = () => {
     <Stack direction={'column'} spacing={3}>
       {developers.map((developer) => {
         const developerStates = developerGroupedStates[developer];
-        const groupedByCurrentStates = getGroupedData(
-          developerStates,
-          'currentState',
-          CURRENT_STATES
-        );
+        const groupedByCurrentStates = getGroupedData(developerStates, 'currentState', CURRENT_STATES);
         return (
           <Stack key={developer} direction={'column'} spacing={1}>
             <Stack direction={'row'} alignItems={'center'}>
-              <Chip
-                size="small"
-                label={developerStates[0]?.developerName}
-                sx={DeveloperChipClass}
-              />
+              <Chip size="small" label={developerStates[0]?.developerName} sx={DeveloperChipClass} />
               <Typography variant="caption" sx={{ marginLeft: 1 }}>
                 {developerStates.length}건
               </Typography>
@@ -122,9 +95,7 @@ export const DeveloperBoard = () => {
                     <Grid item key={item.title} xs={6} md={2} lg={2} xl={2}>
                       <StateCol
                         currentStateKey={item.key}
-                        groupedStates={
-                          groupedByCurrentStates[item.key as CurrentState] ?? []
-                        }
+                        groupedStates={groupedByCurrentStates[item.key as CurrentState] ?? []}
                         title={item.title}
                         color={item.color}
                         bgcolor={item.bgcolor}

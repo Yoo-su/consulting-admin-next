@@ -10,26 +10,13 @@ type MapFormAddCancelButtonProps = {
   mapHookValues: UseMapFormReturn;
 };
 
-export const MapFormAddCancelButton = ({
-  mapHookValues,
-}: MapFormAddCancelButtonProps) => {
-  const {
-    isAdd,
-    handleCancel,
-    objValue,
-    setObjValue,
-    handleConfirm,
-    isDisabled,
-  } = mapHookValues;
+export const MapFormAddCancelButton = ({ mapHookValues }: MapFormAddCancelButtonProps) => {
+  const { isAdd, handleCancel, objValue, setObjValue, handleConfirm, isDisabled } = mapHookValues;
 
   if (!isAdd || isDisabled) return null;
   return (
     <TableRow sx={MapTBLRowBorderClass}>
-      <MapFormInputCell
-        index="new"
-        objValue={objValue}
-        setObjValue={setObjValue}
-      />
+      <MapFormInputCell index="new" objValue={objValue} setObjValue={setObjValue} />
       <TableCell>
         <Stack direction={'row'} spacing={1}>
           <Button
@@ -42,12 +29,7 @@ export const MapFormAddCancelButton = ({
           >
             <Typography variant="caption">등록</Typography>
           </Button>
-          <Button
-            onClick={handleCancel}
-            color="error"
-            variant="outlined"
-            size="small"
-          >
+          <Button onClick={handleCancel} color="error" variant="outlined" size="small">
             <Typography variant="caption">취소</Typography>
           </Button>
         </Stack>

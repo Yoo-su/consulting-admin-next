@@ -23,13 +23,7 @@ export const TreeItemList = ({ filteredList }: TreeItemListProps) => {
       sx={{ overflowY: 'auto', height: '68vh', paddingBottom: '1rem' }}
     >
       {filteredList.map((parent: FlutterSetting, parentIndex: number) => {
-        return (
-          <TreeItemChildren
-            parent={parent}
-            filteredSettingList={filteredSettingList}
-            key={parentIndex}
-          />
-        );
+        return <TreeItemChildren parent={parent} filteredSettingList={filteredSettingList} key={parentIndex} />;
       })}
       <EmptyList isShow={filteredList.length === 0} />
     </SimpleTreeView>

@@ -1,9 +1,7 @@
 import Typography from '@mui/material/Typography';
 import toast from 'react-hot-toast';
 
-const createToastMessage = (message: string) => (
-  <Typography variant="caption">{message}</Typography>
-);
+const createToastMessage = (message: string) => <Typography variant="caption">{message}</Typography>;
 
 export const handleToastPromise = (
   promise: Promise<any>,

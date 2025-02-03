@@ -11,9 +11,7 @@ export type UpdateConsultingRefNoParams = {
   oldRefNo: number;
   newRefNo: number;
 };
-export const updateConsultingRefNo = async (
-  updateConsultingRefNoParams: UpdateConsultingRefNoParams
-) => {
+export const updateConsultingRefNo = async (updateConsultingRefNoParams: UpdateConsultingRefNoParams) => {
   return await apiInstance.post<UpdateConsultingRefNoResponse>(
     API_URLS.dashboard.updateConsultingRefNo,
     updateConsultingRefNoParams

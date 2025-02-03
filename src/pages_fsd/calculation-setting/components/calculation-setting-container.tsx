@@ -9,7 +9,8 @@ import { CalculationSettingDialog } from './calculation-setting-dialog';
 import { SettingsOverview } from './settings-overview';
 
 export const CalculationSettingContainer = () => {
-  const { currentUniv, currentService } = useSharedStore();
+  const currentUniv = useSharedStore((state) => state.currentUniv);
+  const currentService = useSharedStore((state) => state.currentService);
 
   return (
     <ContentWrapper>
@@ -19,7 +20,7 @@ export const CalculationSettingContainer = () => {
         >{`${currentUniv?.univName}(${currentService?.serviceID}) 성적 계산 설정`}</Typography>
       </ContentWrapper.Header>
       <ContentWrapper.MainContent>
-        <SettingsOverview serviceID={currentService?.serviceID ?? ''} />
+        <SettingsOverview />
       </ContentWrapper.MainContent>
       <CalculationSettingDialog serviceID={currentService?.serviceID ?? ''} />
     </ContentWrapper>

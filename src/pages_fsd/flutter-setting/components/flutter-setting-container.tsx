@@ -8,11 +8,7 @@ import { useInterceptAppRouter } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
 import { ContainerClass } from '../constants/classes';
-import {
-  useFlutterSetting,
-  useGetFlutterSettingsInfoQuery,
-  useNavigationBlock,
-} from '../hooks';
+import { useFlutterSetting, useGetFlutterSettingsInfoQuery, useNavigationBlock } from '../hooks';
 import { FlutterSetting as FlutterSettingType } from '../models';
 import { getFilteredCustomConfig } from '../services';
 import { SettingDetail } from './detail-panel';
@@ -34,8 +30,7 @@ export const FlutterSettingContainer = () => {
   });
 
   const [toggle, setToggle] = useState(false);
-  const [filteredList, setFilteredList] =
-    useState<FlutterSettingType[]>(flutterSettingList);
+  const [filteredList, setFilteredList] = useState<FlutterSettingType[]>(flutterSettingList);
 
   //#region navigation block
   const [isBlocked, setIsBlocked] = useState(false);
@@ -75,21 +70,11 @@ export const FlutterSettingContainer = () => {
     <Stack direction={'column'} sx={ContainerClass}>
       <Grid container sx={{ minHeight: '500px' }}>
         <Grid item xs={4} sx={{ paddingRight: '.8rem' }}>
-          <SettingList
-            toggle={toggle}
-            setToggle={setToggle}
-            filteredList={filteredList}
-          />
+          <SettingList toggle={toggle} setToggle={setToggle} filteredList={filteredList} />
         </Grid>
-        <Grid
-          item
-          xs={8}
-          sx={{ borderLeft: '1px solid #FAFAFA', paddingLeft: '1rem' }}
-        >
+        <Grid item xs={8} sx={{ borderLeft: '1px solid #FAFAFA', paddingLeft: '1rem' }}>
           <SettingDetail filteredList={filteredList} isDisabled={toggle} />
-          {editedSettingList.length > 0 && (
-            <SaveDataButton handleBtnClick={handleBtnClick} />
-          )}
+          {editedSettingList.length > 0 && <SaveDataButton handleBtnClick={handleBtnClick} />}
         </Grid>
       </Grid>
     </Stack>

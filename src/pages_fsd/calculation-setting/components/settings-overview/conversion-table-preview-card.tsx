@@ -4,18 +4,17 @@ import BackupTableIcon from '@mui/icons-material/BackupTable';
 import { Box, Divider, Stack, SxProps, Typography } from '@mui/material';
 import { useCallback } from 'react';
 
+import { useSharedStore } from '@/shared/models';
+
+import { CONVERSION_TABLE_SETTING_DESCRIPTION } from '../../constants';
 import { useGetCalcConversionTableQuery } from '../../hooks';
 import { useCalculationSettingStore } from '../../models';
 
-type ConversionTablePreviewCardProps = {
-  serviceID: string;
-};
-export const ConversionTablePreviewCard = ({
-  serviceID,
-}: ConversionTablePreviewCardProps) => {
+export const ConversionTablePreviewCard = () => {
+  const currentService = useSharedStore((state) => state.currentService);
+  const serviceID = currentService?.serviceID ?? '';
   const { data } = useGetCalcConversionTableQuery(serviceID);
-  const { openCalculationSettingDialog, setDialogType } =
-    useCalculationSettingStore();
+  const { openCalculationSettingDialog, setDialogType } = useCalculationSettingStore();
 
   const handleClickCard = useCallback(() => {
     setDialogType('conversionTable');
@@ -30,11 +29,7 @@ export const ConversionTablePreviewCard = ({
       </Stack>
       <Typography variant={'h6'}>등록된 설정 수: {data?.length}</Typography>
       <Divider sx={{ width: '100%', bgcolor: '#fff', mt: 5, mb: 2 }} />
-      <Typography variant={'body2'}>
-        서비스의 점수 변환 테이블을 관리합니다. ScoreConversionTable은 서비스별
-        점수 변환 규칙을 저장하고 관리하는 테이블입니다. 다양한 형태의 점수
-        체계를 표준화된 방식으로 변환하는 데 사용됩니다
-      </Typography>
+      <Typography variant={'body2'}>{CONVERSION_TABLE_SETTING_DESCRIPTION}</Typography>
     </Box>
   );
 };
@@ -45,8 +40,7 @@ const previewCardStyles: SxProps = {
   justifyContent: 'flex-start',
   alignItems: 'flex-start',
   position: 'relative',
-  bgcolor: '#3d5168',
-  color: '#fff',
+  border: '0.5px solid rgba(0,0,0,0.1)',
   borderRadius: '1rem',
   padding: 2,
   userSelect: 'none',
@@ -55,7 +49,6 @@ const previewCardStyles: SxProps = {
   minHeight: '380px',
   ':hover': {
     transform: 'translateY(-10px) scale(1.02)',
-    animation: 'circle-pulse 1.8s infinite',
   },
   transition: 'transform 0.15s ease-in-out',
 };

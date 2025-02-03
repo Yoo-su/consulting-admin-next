@@ -1,12 +1,12 @@
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 
 import snowman from '@/shared/assets/svgs/snowman.svg';
 import snowmansnow from '@/shared/assets/svgs/snowman_snow.svg';
 
-export const AppLogo = () => {
+export const AppLogo = memo(() => {
   const router = useRouter();
   const [logoSvg, setLogoSvg] = useState<any>(snowman);
 
@@ -56,4 +56,5 @@ export const AppLogo = () => {
       />
     </Box>
   );
-};
+});
+AppLogo.displayName = 'AppLogo';

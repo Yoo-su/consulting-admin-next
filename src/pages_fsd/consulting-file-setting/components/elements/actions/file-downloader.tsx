@@ -46,15 +46,9 @@ export const FileDownloader = ({ fileName }: FileDownloaderProps) => {
   };
 
   return (
-    <CustomWidthBoxCell
-      size="m"
-      typo={true}
-      style={{ padding: '0 5px', justifyContent: 'flex-start !important' }}
-    >
+    <CustomWidthBoxCell size="m" typo={true} style={{ padding: '0 5px', justifyContent: 'flex-start !important' }}>
       <Button
-        startIcon={
-          isFetching ? <CircularProgress size={20} /> : <DownloadIcon />
-        }
+        startIcon={isFetching ? <CircularProgress size={20} /> : <DownloadIcon />}
         sx={DownloaderClass}
         onClick={handleClick}
         disabled={isFetching}

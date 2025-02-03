@@ -11,7 +11,4 @@ export type ConsultingFile = {
   IsNew?: boolean | null;
 };
 
-export type UploadFile = Pick<
-  ConsultingFile,
-  'ServiceID' | 'RefTitle' | 'File'
->;
+export type UploadFile = Pick<ConsultingFile, 'ServiceID' | 'RefTitle' | 'File'>;

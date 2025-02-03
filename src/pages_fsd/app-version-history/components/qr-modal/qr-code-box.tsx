@@ -8,9 +8,7 @@ type QRCodeBoxProps = {
 export const QRCodeBox = ({ url, fileName }: QRCodeBoxProps) => {
   const handleClick = () => {
     const canvas = document.querySelector('canvas');
-    const url = canvas
-      ? canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
-      : '';
+    const url = canvas ? canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream') : '';
     const link = document.createElement('a');
     link.href = url;
     link.download = `qr-${fileName}.png`;

@@ -10,9 +10,7 @@ export type DeleteConsultingFileParams = {
   ServiceID: number;
   RefNo: number;
 };
-export const deleteConsultingFile = async (
-  deleteConsultingFileParams: DeleteConsultingFileParams
-) => {
+export const deleteConsultingFile = async (deleteConsultingFileParams: DeleteConsultingFileParams) => {
   return await apiInstance.post<DeleteConsultingFileResponse>(
     API_URLS.dashboard.deleteConsultingFile,
     deleteConsultingFileParams

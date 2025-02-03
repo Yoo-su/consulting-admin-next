@@ -42,8 +42,7 @@ export const useServiceListMutation = () => {
         message?: string;
       };
       const errorResponse = err.response?.data as ErrorResponse;
-      const errorMessage =
-        errorResponse.message ?? '서비스 추가 중 에러가 발생했습니다';
+      const errorMessage = errorResponse.message ?? '서비스 추가 중 에러가 발생했습니다';
 
       showError(errorMessage);
     },

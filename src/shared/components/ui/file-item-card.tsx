@@ -7,17 +7,7 @@ import Typography from '@mui/material/Typography';
 import Image, { StaticImageData } from 'next/image';
 import { ReactNode, useEffect, useState } from 'react';
 
-export type FileType =
-  | 'excel'
-  | 'apk'
-  | 'exe'
-  | 'jpg'
-  | 'png'
-  | 'ppt'
-  | 'word'
-  | 'pdf'
-  | 'txt'
-  | 'none';
+export type FileType = 'excel' | 'apk' | 'exe' | 'jpg' | 'png' | 'ppt' | 'word' | 'pdf' | 'txt' | 'none';
 
 export const iconPathMap: {
   [key in FileType]: () => Promise<{ default: StaticImageData }>;
@@ -49,9 +39,7 @@ const IconBox = ({ file }: IconBoxProps) => {
     }
   }, [file]);
 
-  return (
-    iconSrc && <Image src={iconSrc} width={'32'} height={'32'} alt={file} />
-  );
+  return iconSrc && <Image src={iconSrc} width={'32'} height={'32'} alt={file} />;
 };
 
 type ContentBoxProps = {
@@ -60,10 +48,7 @@ type ContentBoxProps = {
 
 const ContentBox = ({ children }: ContentBoxProps) => {
   return (
-    <Stack
-      direction={'column'}
-      sx={{ overflow: 'hidden', justifyContent: 'space-between', flexGrow: 1 }}
-    >
+    <Stack direction={'column'} sx={{ overflow: 'hidden', justifyContent: 'space-between', flexGrow: 1 }}>
       {children}
     </Stack>
   );
@@ -108,24 +93,15 @@ type FileItemCardProps = {
   sxProps?: SxProps;
 };
 
-export const FileItemCard = ({
-  children,
-  tooltipMsg,
-  handleClick,
-  sxProps,
-}: FileItemCardProps) => {
+export const FileItemCard = ({ children, tooltipMsg, handleClick, sxProps }: FileItemCardProps) => {
   return (
-    <Tooltip
-      disableHoverListener={!tooltipMsg}
-      title={<Typography variant="caption">{tooltipMsg}</Typography>}
-    >
+    <Tooltip disableHoverListener={!tooltipMsg} title={<Typography variant="caption">{tooltipMsg}</Typography>}>
       <Stack
         direction={'row'}
         alignItems={'center'}
         spacing={2}
         sx={{
-          boxShadow:
-            '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+          boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
           borderRadius: '0.5rem',
           cursor: 'pointer',
           p: 1,

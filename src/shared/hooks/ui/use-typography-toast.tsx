@@ -7,22 +7,9 @@ type ToastMessage = string | ReactNode;
 type ToastVariant = TypographyTypeMap['props']['variant'];
 
 interface UseToastReturn {
-  showToast: (
-    type: ToastType,
-    message: ToastMessage,
-    variant?: ToastVariant,
-    options?: ToastOptions
-  ) => void;
-  showError: (
-    message: ToastMessage,
-    variant?: ToastVariant,
-    options?: ToastOptions
-  ) => void;
-  showSuccess: (
-    message: ToastMessage,
-    variant?: ToastVariant,
-    options?: ToastOptions
-  ) => void;
+  showToast: (type: ToastType, message: ToastMessage, variant?: ToastVariant, options?: ToastOptions) => void;
+  showError: (message: ToastMessage, variant?: ToastVariant, options?: ToastOptions) => void;
+  showSuccess: (message: ToastMessage, variant?: ToastVariant, options?: ToastOptions) => void;
 }
 
 export const useTypographyToast = (): UseToastReturn => {
@@ -33,10 +20,7 @@ export const useTypographyToast = (): UseToastReturn => {
     options?: ToastOptions
   ) => {
     if (typeof message === 'string') {
-      toast[type](
-        <Typography variant={variant}>{message}</Typography>,
-        options
-      );
+      toast[type](<Typography variant={variant}>{message}</Typography>, options);
     } else if (isValidElement(message)) {
       toast[type](message, options);
     } else {
@@ -45,9 +29,7 @@ export const useTypographyToast = (): UseToastReturn => {
   };
   return {
     showToast,
-    showError: (message, variant, options) =>
-      showToast('error', message, variant, options),
-    showSuccess: (message, variant, options) =>
-      showToast('success', message, variant, options),
+    showError: (message, variant, options) => showToast('error', message, variant, options),
+    showSuccess: (message, variant, options) => showToast('success', message, variant, options),
   };
 };

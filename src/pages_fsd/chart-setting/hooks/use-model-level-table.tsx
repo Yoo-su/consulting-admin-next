@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useConfirmToast, useTypographyToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
@@ -27,19 +20,13 @@ type UseModelLevelTableReturn = {
   handleEnterEditMode: () => void;
   handleSaveTableChanges: () => void;
   handleCancelEdit: () => void;
-  handleFieldChange: (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
-  ) => void;
+  handleFieldChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => void;
   handleDeleteLevelRow: (deleteRowLabel: string) => void;
   handleAddLevelRow: () => void;
   handleDeleteLevel: () => void;
 };
 
-export const useModelLevelTable = ({
-  modelNum,
-  levelNum,
-}: UseModelLevelTableProps) => {
+export const useModelLevelTable = ({ modelNum, levelNum }: UseModelLevelTableProps) => {
   const { showError } = useTypographyToast();
   const _return = useRef({} as UseModelLevelTableReturn);
   const currentService = useSharedStore((state) => state.currentService);
@@ -53,11 +40,7 @@ export const useModelLevelTable = ({
   const [tempChartData, setTempChartData] = useState<ChartData[]>([]);
 
   const levelChartData = useMemo(() => {
-    return (
-      chartDatas?.filter(
-        (item) => item.modelNum === modelNum && item.level === levelNum
-      ) ?? []
-    );
+    return chartDatas?.filter((item) => item.modelNum === modelNum && item.level === levelNum) ?? [];
   }, [chartDatas, modelNum, levelNum]);
 
   // 편집 모드로 진입합니다
@@ -96,29 +79,19 @@ export const useModelLevelTable = ({
    */
   const handleShiftModelRows = useCallback(
     (newItems: ChartData[]) => {
-      const filtered =
-        chartDatas?.filter(
-          (item) => !(item.modelNum === modelNum && item.level === levelNum)
-        ) ?? [];
-      setChartData(
-        [...filtered, ...newItems].sort((a, b) => a.level - b.level)
-      );
+      const filtered = chartDatas?.filter((item) => !(item.modelNum === modelNum && item.level === levelNum)) ?? [];
+      setChartData([...filtered, ...newItems].sort((a, b) => a.level - b.level));
     },
     [chartDatas, modelNum, levelNum]
   );
 
   // 모델의 특정 단계를 제거합니다
   const handleDeleteLevel = useCallback(() => {
-    const confirmMessage = `모델${
-      modelNum + 1
-    }의 ${levelNum}단계를 삭제하시겠습니까?`;
+    const confirmMessage = `모델${modelNum + 1}의 ${levelNum}단계를 삭제하시겠습니까?`;
     openConfirmToast({
       message: confirmMessage,
       callbackConfirm: () => {
-        const filtered =
-          chartDatas?.filter(
-            (item) => !(item.modelNum === modelNum && item.level === levelNum)
-          ) ?? [];
+        const filtered = chartDatas?.filter((item) => !(item.modelNum === modelNum && item.level === levelNum)) ?? [];
         setChartData([...filtered]);
       },
     });
@@ -151,16 +124,12 @@ export const useModelLevelTable = ({
    */
   const handleDeleteLevelRow = useCallback(
     (deleteRowLabel: string) => {
-      const confirmMessage = `모델${
-        modelNum + 1
-      } 단계${levelNum}의 [${deleteRowLabel}]행을 삭제하시겠습니까?`;
+      const confirmMessage = `모델${modelNum + 1} 단계${levelNum}의 [${deleteRowLabel}]행을 삭제하시겠습니까?`;
 
       openConfirmToast({
         message: confirmMessage,
         callbackConfirm: () => {
-          const newChartData = tempChartData.filter(
-            (item, idx) => item.label !== deleteRowLabel
-          );
+          const newChartData = tempChartData.filter((item, idx) => item.label !== deleteRowLabel);
           handleShiftModelRows(newChartData);
         },
       });
@@ -173,18 +142,11 @@ export const useModelLevelTable = ({
    * @param event
    * @param index
    */
-  const handleFieldChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
-  ) => {
+  const handleFieldChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
     const { name, value } = event.target;
     let parsed: string | number = value;
     if (name === 'percentage') parsed = parseInt(value);
-    setTempChartData((prevData) =>
-      prevData.map((item, i) =>
-        i === index ? { ...item, [name]: parsed } : item
-      )
-    );
+    setTempChartData((prevData) => prevData.map((item, i) => (i === index ? { ...item, [name]: parsed } : item)));
   };
 
   useEffect(() => {

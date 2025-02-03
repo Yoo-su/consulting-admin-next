@@ -22,11 +22,7 @@ import PulseLoader from 'react-spinners/PulseLoader';
 import { OS_TYPE } from '@/pages_fsd/app-version-history/constants';
 import apkIcon from '@/shared/assets/images/apk_64.png';
 import exeIcon from '@/shared/assets/images/exe_64.png';
-import {
-  ColorlibConnector,
-  ColorlibStepIcon,
-  ContentWrapper,
-} from '@/shared/components';
+import { ColorlibConnector, ColorlibStepIcon, ContentWrapper } from '@/shared/components';
 import { useSharedStore } from '@/shared/models';
 
 import { APP_DEPLOY_STEPS } from '../constants';
@@ -34,17 +30,8 @@ import { useHandleApp } from '../hooks';
 
 export const AppDeployContainer = () => {
   const { currentUniv, currentService } = useSharedStore();
-  const {
-    appType,
-    setAppType,
-    activeStep,
-    appFile,
-    setAppFile,
-    alertData,
-    deploy,
-    isDeploying,
-    deploySuccess,
-  } = useHandleApp();
+  const { appType, setAppType, activeStep, appFile, setAppFile, alertData, deploy, isDeploying, deploySuccess } =
+    useHandleApp();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const title = `${currentUniv?.univName}(${currentService?.serviceID}) 앱 배포`;
@@ -106,21 +93,13 @@ export const AppDeployContainer = () => {
 
       <ContentWrapper.MainContent>
         <FormControl sx={{ alignItems: 'center', my: 4, width: '100%' }}>
-          <RadioGroup
-            row
-            value={appType}
-            name="app-type-radio-group"
-            onChange={handleAppTypeChange}
-          >
+          <RadioGroup row value={appType} name="app-type-radio-group" onChange={handleAppTypeChange}>
             <FormControlLabel
               value={OS_TYPE.APK}
               control={<Radio size="medium" />}
               label={
                 <Stack direction={'row'} alignItems={'center'}>
-                  <AdbIcon
-                    fontSize="large"
-                    sx={{ color: '#7CB342', mr: '0.1rem' }}
-                  />
+                  <AdbIcon fontSize="large" sx={{ color: '#7CB342', mr: '0.1rem' }} />
                   <Typography variant="body2">안드로이드 APK</Typography>
                 </Stack>
               }
@@ -130,10 +109,7 @@ export const AppDeployContainer = () => {
               control={<Radio size="medium" />}
               label={
                 <Stack direction={'row'} alignItems={'center'}>
-                  <DesktopWindowsIcon
-                    fontSize="large"
-                    sx={{ color: '#1D2951', mr: '0.1rem' }}
-                  />
+                  <DesktopWindowsIcon fontSize="large" sx={{ color: '#1D2951', mr: '0.1rem' }} />
                   <Typography variant="body2">데스크탑 APP</Typography>
                 </Stack>
               }
@@ -148,19 +124,13 @@ export const AppDeployContainer = () => {
         >
           {APP_DEPLOY_STEPS.map((label, index) => (
             <Step key={label}>
-              <StepLabel StepIconComponent={ColorlibStepIcon}>
-                {label}
-              </StepLabel>
+              <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
             </Step>
           ))}
         </Stepper>
 
         {alertData && (
-          <Alert
-            severity={alertData.color}
-            color={alertData.color}
-            sx={{ mt: 4, mx: 'auto', width: '55%' }}
-          >
+          <Alert severity={alertData.color} color={alertData.color} sx={{ mt: 4, mx: 'auto', width: '55%' }}>
             {alertData.message}
           </Alert>
         )}
@@ -195,16 +165,10 @@ export const AppDeployContainer = () => {
               },
               height: '280px',
               px: 1,
-              boxShadow:
-                '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+              boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
             }}
           >
-            <Image
-              src={appType === OS_TYPE.APK ? apkIcon : exeIcon}
-              width={'48'}
-              height={'48'}
-              alt="apk-image"
-            />
+            <Image src={appType === OS_TYPE.APK ? apkIcon : exeIcon} width={'48'} height={'48'} alt="apk-image" />
             <Typography
               variant="body2"
               color="grey.700"
@@ -243,9 +207,7 @@ export const AppDeployContainer = () => {
               disabled={isDeploying || deploySuccess}
             >
               <CloudUploadIcon sx={{ mr: '0.3rem' }} />
-              <Typography variant="body1">
-                {deploySuccess ? '배포완료' : '배포하기'}
-              </Typography>
+              <Typography variant="body1">{deploySuccess ? '배포완료' : '배포하기'}</Typography>
             </Button>
           )}
 

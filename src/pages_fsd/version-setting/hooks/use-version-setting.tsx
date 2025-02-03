@@ -21,9 +21,7 @@ export const useVersionSetting = () => {
   const univName = currentUniv?.univName ?? '';
   const serviceID = currentService?.serviceID ?? '';
 
-  const [serverType, setServerType] = useState<VersionServer>(
-    VERSION_SERVER[0]
-  );
+  const [serverType, setServerType] = useState<VersionServer>(VERSION_SERVER[0]);
 
   return {
     downmd,

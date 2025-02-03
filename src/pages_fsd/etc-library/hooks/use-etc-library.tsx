@@ -20,10 +20,7 @@ export const useEtcLibrary = () => {
 
   const containerTitle = `${currentUniv?.univName}(${currentService?.serviceID}) 기타 자료실`;
 
-  const initialPath = useMemo(
-    () => `${BROWSER_PATH.etcLibrary}/${currentService?.serviceID}`,
-    [currentService]
-  );
+  const initialPath = useMemo(() => `${BROWSER_PATH.etcLibrary}/${currentService?.serviceID}`, [currentService]);
   const browserOption: BrowserOptionOptional = useMemo(() => {
     return { isDropZone: true };
   }, [currentService]);

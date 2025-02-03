@@ -10,8 +10,7 @@ export const TEXT_ERROR_MESSAGE = {
 
 export const DUP_ERROR_MESSAGE = {
   NO_SERVICE_ID: '복제할 서비스 아이디를 선택해주세요',
-  NO_UNIV_OR_SERVICE:
-    '대학 및 서비스가 선택되지 않았습니다. 사이드바에서 값을 선택해주세요',
+  NO_UNIV_OR_SERVICE: '대학 및 서비스가 선택되지 않았습니다. 사이드바에서 값을 선택해주세요',
 };
 
 export const DUP_MUTATION_MESSAGE = {

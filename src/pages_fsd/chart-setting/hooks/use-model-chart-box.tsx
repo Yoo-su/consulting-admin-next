@@ -2,13 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { ChartData } from '../models';
 
-export const useModelChartBox = (
-  modelLevels: number[],
-  modelChartData: ChartData[]
-) => {
-  const [selectedLevel, setSelectedLevel] = useState<number | null>(
-    modelLevels[0] || null
-  );
+export const useModelChartBox = (modelLevels: number[], modelChartData: ChartData[]) => {
+  const [selectedLevel, setSelectedLevel] = useState<number | null>(modelLevels[0] || null);
 
   const filteredData = useMemo(() => {
     if (!selectedLevel) return [];

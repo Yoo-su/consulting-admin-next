@@ -32,12 +32,7 @@ export const ManageContainer = () => {
           {currentUniv && currentService && (
             <Stack direction={'column'} spacing={8} mt={4} mb={6}>
               <Stack direction={'column'} spacing={2}>
-                <Stack
-                  direction={'row'}
-                  spacing={1.5}
-                  alignItems={'center'}
-                  sx={{ color: '#1F456E' }}
-                >
+                <Stack direction={'row'} spacing={1.5} alignItems={'center'} sx={{ color: '#1F456E' }}>
                   <CloudSyncIcon fontSize="large" />
                   <InputLabel
                     sx={{
@@ -53,12 +48,7 @@ export const ManageContainer = () => {
               </Stack>
 
               <Stack direction={'column'} spacing={2}>
-                <Stack
-                  direction={'row'}
-                  spacing={1.5}
-                  alignItems={'center'}
-                  sx={{ color: '#1F456E' }}
-                >
+                <Stack direction={'row'} spacing={1.5} alignItems={'center'} sx={{ color: '#1F456E' }}>
                   <ContentPasteGoIcon fontSize="large" color="inherit" />
                   <InputLabel
                     sx={{
@@ -70,10 +60,7 @@ export const ManageContainer = () => {
                     이전 서비스 데이터 복제
                   </InputLabel>
                 </Stack>
-                <ServiceAutocomplete
-                  serviceID={currentService?.serviceID}
-                  serviceList={serviceList ?? []}
-                />
+                <ServiceAutocomplete serviceID={currentService?.serviceID} serviceList={serviceList ?? []} />
               </Stack>
             </Stack>
           )}
