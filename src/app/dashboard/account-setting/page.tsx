@@ -1,10 +1,7 @@
 import Box from '@mui/material/Box';
 import dynamic from 'next/dynamic';
 const AccountSettingContainer = dynamic(
-  () =>
-    import('@/pages_fsd/account-setting/components').then(
-      (module) => module.AccountSettingContainer
-    ),
+  () => import('@/pages_fsd/account-setting/components').then((module) => module.AccountSettingContainer),
   { ssr: false }
 );
 

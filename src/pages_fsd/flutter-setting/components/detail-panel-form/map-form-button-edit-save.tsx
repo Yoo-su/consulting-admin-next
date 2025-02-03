@@ -11,17 +11,8 @@ type MapFormEditSaveButtonProps = {
   index: number;
 };
 
-export const MapFormEditSaveButton = ({
-  mapHookValues,
-  index,
-}: MapFormEditSaveButtonProps) => {
-  const {
-    handleEditInput,
-    handleConfirm,
-    handleDelete,
-    isEditObj,
-    isDisabled,
-  } = mapHookValues;
+export const MapFormEditSaveButton = ({ mapHookValues, index }: MapFormEditSaveButtonProps) => {
+  const { handleEditInput, handleConfirm, handleDelete, isEditObj, isDisabled } = mapHookValues;
 
   if (isDisabled) return null;
 
@@ -29,11 +20,7 @@ export const MapFormEditSaveButton = ({
   const buttonsMap = [
     {
       title: isEdit ? '수정' : '저장',
-      icon: isEdit ? (
-        <ModeEditIcon sx={MapEditSaveButtonClass} />
-      ) : (
-        <DoneIcon sx={MapEditSaveButtonClass} />
-      ),
+      icon: isEdit ? <ModeEditIcon sx={MapEditSaveButtonClass} /> : <DoneIcon sx={MapEditSaveButtonClass} />,
       id: isEdit ? `editID-${index}` : `confirmID-${index}`,
       onClick: isEdit ? handleEditInput : handleConfirm,
     },
@@ -49,12 +36,7 @@ export const MapFormEditSaveButton = ({
     <Stack direction={'row'}>
       {buttonsMap.map((button, index) => (
         <Tooltip title={button.title} placement="top" key={index}>
-          <IconButton
-            size="small"
-            id={button.id}
-            onClick={button.onClick}
-            disableRipple
-          >
+          <IconButton size="small" id={button.id} onClick={button.onClick} disableRipple>
             {button.icon}
           </IconButton>
         </Tooltip>

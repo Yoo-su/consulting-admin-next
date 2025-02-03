@@ -12,9 +12,7 @@ import { InputServiceYear } from './input-service-year';
 
 export const AddServiceForm = ({ univID }: { univID: string }) => {
   const { addService, isAddServiceLoading } = useServiceListMutation();
-  const [serviceType, setServiceType] = useState<ServiceTypeNum>(
-    ServiceTypeNum.SUSI
-  );
+  const [serviceType, setServiceType] = useState<ServiceTypeNum>(ServiceTypeNum.SUSI);
   const currentServiceYear = getCurrentServiceYear();
 
   const handleSubmit = () => {
@@ -27,20 +25,10 @@ export const AddServiceForm = ({ univID }: { univID: string }) => {
 
   return (
     <Paper sx={{ padding: '1rem' }}>
-      <Stack
-        direction={'row'}
-        justifyContent={'space-evenly'}
-        alignItems={'center'}
-      >
+      <Stack direction={'row'} justifyContent={'space-evenly'} alignItems={'center'}>
         <InputServiceYear currentServiceYear={currentServiceYear} />
-        <InputServiceType
-          serviceType={serviceType}
-          setServiceType={setServiceType}
-        />
-        <AddFormButton
-          handleSubmit={handleSubmit}
-          isAddServiceLoading={isAddServiceLoading}
-        />
+        <InputServiceType serviceType={serviceType} setServiceType={setServiceType} />
+        <AddFormButton handleSubmit={handleSubmit} isAddServiceLoading={isAddServiceLoading} />
       </Stack>
     </Paper>
   );

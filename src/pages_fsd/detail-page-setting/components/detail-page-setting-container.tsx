@@ -5,12 +5,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Fragment } from 'react';
 
-import {
-  ContentLoadingSkeleton,
-  ContentWrapper,
-  EmptyBox,
-  SaveDataButton,
-} from '@/shared/components';
+import { ContentLoadingSkeleton, ContentWrapper, EmptyBox, SaveDataButton } from '@/shared/components';
 
 import { useDetailPageContainer } from '../hooks';
 import { AddNewDataButton } from './add-new-data-button';
@@ -34,12 +29,7 @@ export const DetailPageSettingContainer = () => {
       ) : (
         <Fragment>
           <ContentWrapper.Header bottomDivider>
-            <Stack
-              width={'100%'}
-              direction={'row'}
-              justifyContent={'space-between'}
-              alignItems={'center'}
-            >
+            <Stack width={'100%'} direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
               <Typography variant="h4" textAlign={'left'} width={'100%'}>
                 {containerTitle}
               </Typography>
@@ -53,9 +43,7 @@ export const DetailPageSettingContainer = () => {
                   <Stack direction={'column'} width={'100%'}>
                     {detailPageDatas?.map((item) => {
                       const mapItemKey = `${item.serviceID}-detailPageDataRowNum-${item.rowNum}`;
-                      return (
-                        <DetailPageDataAccordion key={mapItemKey} {...item} />
-                      );
+                      return <DetailPageDataAccordion key={mapItemKey} {...item} />;
                     })}
                   </Stack>
                 </AccordionList>
@@ -64,12 +52,7 @@ export const DetailPageSettingContainer = () => {
               )}
             </Fragment>
 
-            {hasChanges && (
-              <SaveDataButton
-                disabled={isPostDetailPageDataLoading}
-                handleBtnClick={handleSaveChanges}
-              />
-            )}
+            {hasChanges && <SaveDataButton disabled={isPostDetailPageDataLoading} handleBtnClick={handleSaveChanges} />}
           </ContentWrapper.MainContent>
         </Fragment>
       )}

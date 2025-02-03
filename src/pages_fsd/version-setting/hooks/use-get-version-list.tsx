@@ -31,10 +31,7 @@ export const useGetVersionList = () => {
       });
   };
 
-  const setVersionList = (
-    label: VersionServer['label'],
-    editedList: CurTBLVersion[]
-  ) => {
+  const setVersionList = (label: VersionServer['label'], editedList: CurTBLVersion[]) => {
     if (label === '테스트') {
       setTestVersionList(editedList);
     } else {

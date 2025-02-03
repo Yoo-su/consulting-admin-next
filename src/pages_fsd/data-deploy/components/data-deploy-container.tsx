@@ -23,10 +23,8 @@ import { useDeployTestDataMutation, useSyncTestDevMutation } from '../hooks';
 
 export const DataDeployContainer = () => {
   const { currentService, currentUniv } = useSharedStore();
-  const { isPending: isRealDeploying, mutateAsync: deployToReal } =
-    useDeployTestDataMutation();
-  const { isPending: isSynchronizingTestDev, mutateAsync: syncFromTestToDev } =
-    useSyncTestDevMutation();
+  const { isPending: isRealDeploying, mutateAsync: deployToReal } = useDeployTestDataMutation();
+  const { isPending: isSynchronizingTestDev, mutateAsync: syncFromTestToDev } = useSyncTestDevMutation();
   const { alertData, setAlertData } = useMuiAlert();
 
   const theme = useTheme();
@@ -150,8 +148,7 @@ export const DataDeployContainer = () => {
               ) : (
                 <Typography variant="h6" fontWeight={'bold'}>
                   <Stack direction={'row'} alignItems={'center'}>
-                    <ArrowCircleUpIcon fontSize="inherit" sx={{ mr: 1 }} /> 리얼
-                    배포
+                    <ArrowCircleUpIcon fontSize="inherit" sx={{ mr: 1 }} /> 리얼 배포
                   </Stack>
                 </Typography>
               )}

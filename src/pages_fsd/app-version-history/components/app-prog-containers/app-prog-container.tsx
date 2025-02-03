@@ -10,11 +10,7 @@ import { AppHistory } from '../../models';
 import { AppProgData } from './app-prog-data';
 import { AppProgHeader } from './app-prog-header';
 
-export const AppProgContainer = ({
-  histories,
-}: {
-  histories: AxiosResponse<AppHistory[], any> | undefined;
-}) => {
+export const AppProgContainer = ({ histories }: { histories: AxiosResponse<AppHistory[], any> | undefined }) => {
   return (
     <Suspense fallback={<ContentLoadingSkeleton />}>
       <AppProgHeader histories={histories} />

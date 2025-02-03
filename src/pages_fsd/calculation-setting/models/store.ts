@@ -10,14 +10,10 @@ type CalculationSettingState = {
   closeCalculationSettingDialog: () => void;
 };
 
-export const useCalculationSettingStore = create<CalculationSettingState>(
-  (set) => ({
-    dialogType: null,
-    isCalculationSettingDialogOpen: false,
-    setDialogType: (dialogType) => set({ dialogType: dialogType }),
-    openCalculationSettingDialog: () =>
-      set({ isCalculationSettingDialogOpen: true }),
-    closeCalculationSettingDialog: () =>
-      set({ isCalculationSettingDialogOpen: false }),
-  })
-);
+export const useCalculationSettingStore = create<CalculationSettingState>((set) => ({
+  dialogType: null,
+  isCalculationSettingDialogOpen: false,
+  setDialogType: (dialogType) => set({ dialogType: dialogType }),
+  openCalculationSettingDialog: () => set({ isCalculationSettingDialogOpen: true }),
+  closeCalculationSettingDialog: () => set({ isCalculationSettingDialogOpen: false }),
+}));

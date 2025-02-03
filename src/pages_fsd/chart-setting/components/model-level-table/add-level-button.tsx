@@ -5,18 +5,16 @@ import { memo } from 'react';
 type AddLevelButtonProps = {
   handleAddNewLevel: () => void;
 };
-export const AddLevelButton = memo(
-  ({ handleAddNewLevel }: AddLevelButtonProps) => {
-    return (
-      <AddLevelBox onClick={handleAddNewLevel}>
-        <AddCircleIcon sx={{ mr: 1, color: '#0069A0' }} />
-        <Typography variant="body2" sx={{ color: '#0069A0' }}>
-          단계 추가
-        </Typography>
-      </AddLevelBox>
-    );
-  }
-);
+export const AddLevelButton = memo(({ handleAddNewLevel }: AddLevelButtonProps) => {
+  return (
+    <AddLevelBox onClick={handleAddNewLevel}>
+      <AddCircleIcon sx={{ mr: 1, color: '#0069A0' }} />
+      <Typography variant="body2" sx={{ color: '#0069A0' }}>
+        단계 추가
+      </Typography>
+    </AddLevelBox>
+  );
+});
 AddLevelButton.displayName = 'AddLevelButton';
 
 const AddLevelBox = styled(Box)({

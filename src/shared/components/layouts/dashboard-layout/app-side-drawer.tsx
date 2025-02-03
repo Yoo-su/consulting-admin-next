@@ -1,12 +1,7 @@
 'use client';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Drawer,
-} from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Drawer } from '@mui/material';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -45,8 +40,7 @@ export const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
           top: 0,
           width: 'var(--AppSidebar-width)',
           zIndex: 'var(--AppSidebar-zIndex)',
-          boxShadow:
-            '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+          boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
           '&::-webkit-scrollbar': { display: 'none' },
         },
       }}
@@ -94,9 +88,7 @@ export const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
             }}
           >
             <AccordionSummary
-              expandIcon={
-                <ExpandMoreIcon sx={{ color: 'rgb(255,255,255, 0.5)' }} />
-              }
+              expandIcon={<ExpandMoreIcon sx={{ color: 'rgb(255,255,255, 0.5)' }} />}
               aria-controls={`${group.title}-content`}
             >
               <Typography
@@ -111,9 +103,7 @@ export const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
                 {group.title}
               </Typography>
             </AccordionSummary>
-            <AccordionDetails>
-              {renderNavItems({ items: group.items, pathname })}
-            </AccordionDetails>
+            <AccordionDetails>{renderNavItems({ items: group.items, pathname })}</AccordionDetails>
           </Accordion>
         ))}
       </Stack>
@@ -121,23 +111,14 @@ export const AppSideDrawer = ({ open, onClose }: AppSideDrawerProps) => {
   );
 };
 
-function renderNavItems({
-  items = [],
-  pathname,
-}: {
-  items?: NavItemType[];
-  pathname: string;
-}) {
-  const children = items.reduce(
-    (acc: React.ReactNode[], curr: NavItemType): React.ReactNode[] => {
-      const { navkey, ...item } = curr;
+function renderNavItems({ items = [], pathname }: { items?: NavItemType[]; pathname: string }) {
+  const children = items.reduce((acc: React.ReactNode[], curr: NavItemType): React.ReactNode[] => {
+    const { navkey, ...item } = curr;
 
-      acc.push(<NavItem key={navkey} pathname={pathname} {...item} />);
+    acc.push(<NavItem key={navkey} pathname={pathname} {...item} />);
 
-      return acc;
-    },
-    []
-  );
+    return acc;
+  }, []);
 
   return (
     <Stack component="ul" spacing={1} sx={{ listStyle: 'none', m: 0, p: 0 }}>

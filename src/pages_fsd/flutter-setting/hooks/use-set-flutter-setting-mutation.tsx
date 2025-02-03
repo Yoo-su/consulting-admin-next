@@ -9,8 +9,7 @@ export const useSetFlutterSettingMutation = () => {
   const { showError } = useTypographyToast();
   return useMutation({
     mutationKey: ['set-flutter-setting'],
-    mutationFn: (params: SetFlutterCustomConfigParams) =>
-      setFlutterCustomConfig(params),
+    mutationFn: (params: SetFlutterCustomConfigParams) => setFlutterCustomConfig(params),
     onError: (error) => {
       showError(FLUTTER_SETTING_MESSAGE.UPDATE_ERROR);
       console.error('onError', error);

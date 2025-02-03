@@ -6,11 +6,7 @@ import { useConfirmToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
 import { ChartData, useChartSettingStore } from '../models';
-import {
-  getDistinctColumnValues,
-  getNewChartData,
-  getNewNumberColumnValue,
-} from '../utils';
+import { getDistinctColumnValues, getNewChartData, getNewNumberColumnValue } from '../utils';
 import { useChartDataMutation, useGetChartDataQuery } from './tanstack';
 
 type UseModelAccordionProps = {
@@ -29,18 +25,13 @@ export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
   const currentService = useSharedStore((state) => state.currentService);
   const serviceID = currentService?.serviceID ?? '';
   const selectedModel = useChartSettingStore((state) => state.selectedModel);
-  const setSelectedModel = useChartSettingStore(
-    (state) => state.setSelectedModel
-  );
+  const setSelectedModel = useChartSettingStore((state) => state.setSelectedModel);
   const { data: chartDatas } = useGetChartDataQuery(serviceID);
   const { setChartData } = useChartDataMutation();
   const { openConfirmToast } = useConfirmToast();
 
   // #region memoized values
-  const isExpanded = useMemo(
-    () => selectedModel === modelNum,
-    [selectedModel, modelNum]
-  );
+  const isExpanded = useMemo(() => selectedModel === modelNum, [selectedModel, modelNum]);
   const modelChartData = useMemo(() => {
     return chartDatas?.filter((item) => item.modelNum === modelNum) ?? [];
   }, [chartDatas, modelNum]);
@@ -60,9 +51,7 @@ export const useModelAccordion = ({ modelNum }: UseModelAccordionProps) => {
     openConfirmToast({
       message: `${modelNum + 1}번 모델을 삭제하시겠습니까?`,
       callbackConfirm: () => {
-        const newChartData = [...(chartDatas ?? [])].filter(
-          (item) => item.modelNum !== modelNum
-        );
+        const newChartData = [...(chartDatas ?? [])].filter((item) => item.modelNum !== modelNum);
         setChartData(newChartData);
       },
     });

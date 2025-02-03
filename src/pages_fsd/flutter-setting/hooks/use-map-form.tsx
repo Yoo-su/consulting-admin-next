@@ -1,12 +1,4 @@
-import {
-  Dispatch,
-  MouseEvent,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { Dispatch, MouseEvent, SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useTypographyToast } from '@/shared/hooks';
 import { getConvertedValue } from '@/shared/services/get-converted-value';
@@ -37,25 +29,13 @@ export type UseMapFormReturn = {
   isDisabled: boolean;
 };
 
-export const useMapForm = ({
-  item,
-  path,
-  handleEdit: onEdit,
-  isDisabled,
-}: UseMapFormProps): UseMapFormReturn => {
+export const useMapForm = ({ item, path, handleEdit: onEdit, isDisabled }: UseMapFormProps): UseMapFormReturn => {
   const { showError } = useTypographyToast();
   const { addToEditedList } = useFlutterSetting();
-  const {
-    transferDefaultValue = null,
-    OriginalRowValue = null,
-    RowIdx = null,
-    RowValue = null,
-  } = item ?? {};
+  const { transferDefaultValue = null, OriginalRowValue = null, RowIdx = null, RowValue = null } = item ?? {};
 
   const initObj = { item: '', value: '' };
-  const dataObj = getConvertedValue(
-    (RowValue ?? transferDefaultValue ?? '{}') as string
-  );
+  const dataObj = getConvertedValue((RowValue ?? transferDefaultValue ?? '{}') as string);
   const setRowsValue = useMemo(
     () =>
       Object.keys(dataObj).map((data) => ({
@@ -66,9 +46,7 @@ export const useMapForm = ({
   );
 
   const [isAdd, setIsAdd] = useState(item ? false : true);
-  const [isEditObj, setIsEditObj] = useState<boolean[]>(
-    Array(Object.keys(dataObj).length).fill(false)
-  );
+  const [isEditObj, setIsEditObj] = useState<boolean[]>(Array(Object.keys(dataObj).length).fill(false));
   const [objValue, setObjValue] = useState<MapObject>(initObj);
   const [rows, setRows] = useState<MapObject[]>(setRowsValue);
 
@@ -111,11 +89,7 @@ export const useMapForm = ({
   const validateInput = useCallback(
     (index: number) => {
       // 수정한 값이 원래 값과 같은 경우
-      if (
-        !isNaN(index) &&
-        rows[index].item === objValue.item &&
-        rows[index].value === objValue.value
-      ) {
+      if (!isNaN(index) && rows[index].item === objValue.item && rows[index].value === objValue.value) {
         setEditValue(index, false);
         resetValues();
         return false;
@@ -149,10 +123,7 @@ export const useMapForm = ({
     },
     [RowIdx, initialValue, onEdit, addToEditedList, path, initialValue, setRows]
   );
-  const getIndexFromId = useCallback(
-    (id: string): number => parseInt(id.split('-')[1]),
-    []
-  );
+  const getIndexFromId = useCallback((id: string): number => parseInt(id.split('-')[1]), []);
   //#endregion utilities
   //#region handle functions
   const handleCancel = useCallback(() => {

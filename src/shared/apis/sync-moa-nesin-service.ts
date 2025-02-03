@@ -9,11 +9,6 @@ export type SyncMoaNesinServiceParams = {
   userID: string;
   departmentID: 1 | 2 | undefined;
 };
-export const syncMoaNesinService = async (
-  params: SyncMoaNesinServiceParams
-) => {
-  return await apiInstance.post<SyncMoaNesinServiceResponse>(
-    API_URLS.dashboard.syncMoaNesinService,
-    params
-  );
+export const syncMoaNesinService = async (params: SyncMoaNesinServiceParams) => {
+  return await apiInstance.post<SyncMoaNesinServiceResponse>(API_URLS.dashboard.syncMoaNesinService, params);
 };

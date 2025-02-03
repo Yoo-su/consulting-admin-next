@@ -13,58 +13,42 @@ export type FilePopoverProps = {
   onClose: () => void;
   handleSetIsEditMode: (modeState: boolean) => void;
 };
-export const FilePopover = memo(
-  ({
-    anchorEl,
-    open,
-    path,
-    name,
-    onClose,
-    handleSetIsEditMode,
-  }: FilePopoverProps) => {
-    const { handleDeleteBrowserFile, handleDownloadFile } =
-      useHandleBrowserItem();
+export const FilePopover = memo(({ anchorEl, open, path, name, onClose, handleSetIsEditMode }: FilePopoverProps) => {
+  const { handleDeleteBrowserFile, handleDownloadFile } = useHandleBrowserItem();
 
-    const handleClick = useCallback(
-      (action: () => void) => {
-        action();
-        onClose();
-      },
-      [onClose]
-    );
+  const handleClick = useCallback(
+    (action: () => void) => {
+      action();
+      onClose();
+    },
+    [onClose]
+  );
 
-    return (
-      <Popover
-        anchorEl={anchorEl}
-        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-        transformOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        aria-hidden={!open}
-        onClose={onClose}
-        open={open}
-        slotProps={{ paper: { sx: { width: 'fit-content' } } }}
-      >
-        <MenuList>
-          <MenuItem
-            onClick={() => handleClick(() => handleDownloadFile(path, name))}
-          >
-            <Typography variant="caption">다운로드</Typography>
-          </MenuItem>
-          <MenuItem
-            onClick={() => handleClick(() => handleSetIsEditMode(true))}
-          >
-            <Typography variant="caption">파일명수정</Typography>
-          </MenuItem>
-          <MenuItem
-            onClick={() => handleClick(() => handleDeleteBrowserFile(path))}
-          >
-            <Typography variant="caption">자료삭제</Typography>
-          </MenuItem>
-        </MenuList>
-      </Popover>
-    );
-  }
-);
+  return (
+    <Popover
+      anchorEl={anchorEl}
+      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+      transformOrigin={{
+        vertical: 'bottom',
+        horizontal: 'left',
+      }}
+      aria-hidden={!open}
+      onClose={onClose}
+      open={open}
+      slotProps={{ paper: { sx: { width: 'fit-content' } } }}
+    >
+      <MenuList>
+        <MenuItem onClick={() => handleClick(() => handleDownloadFile(path, name))}>
+          <Typography variant="caption">다운로드</Typography>
+        </MenuItem>
+        <MenuItem onClick={() => handleClick(() => handleSetIsEditMode(true))}>
+          <Typography variant="caption">파일명수정</Typography>
+        </MenuItem>
+        <MenuItem onClick={() => handleClick(() => handleDeleteBrowserFile(path))}>
+          <Typography variant="caption">자료삭제</Typography>
+        </MenuItem>
+      </MenuList>
+    </Popover>
+  );
+});
 FilePopover.displayName = 'FilePopover';

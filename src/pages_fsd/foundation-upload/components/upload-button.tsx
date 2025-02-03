@@ -15,8 +15,7 @@ export const UploadButton = memo(() => {
   );
   const isFileOnly = useOptionStore((state) => state.isFileOnly);
   const isDataChecked = useUiStore((state) => state.isDataChecked);
-  const { isUploading, isSuccess, postFoundation, resetBasic, resetFileOnly } =
-    useFoundationUploadMutation();
+  const { isUploading, isSuccess, postFoundation, resetBasic, resetFileOnly } = useFoundationUploadMutation();
 
   const buttonText = useMemo(() => {
     if (isUploading) return '엑셀 업로드중..';

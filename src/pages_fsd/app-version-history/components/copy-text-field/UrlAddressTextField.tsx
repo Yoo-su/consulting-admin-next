@@ -16,11 +16,7 @@ type URlAddressTextFieldProps = {
   handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
-export const URlAddressTextField = ({
-  url,
-  id,
-  handleClick,
-}: URlAddressTextFieldProps) => {
+export const URlAddressTextField = ({ url, id, handleClick }: URlAddressTextFieldProps) => {
   const [open, setOpen] = useState(false);
   const handleQrClick = () => {
     setOpen(true);
@@ -36,24 +32,14 @@ export const URlAddressTextField = ({
             <>
               <Tooltip title="QR 코드" placement="top">
                 <InputAdornment position="end">
-                  <IconButton
-                    disableRipple
-                    aria-label="copy text"
-                    onClick={handleQrClick}
-                    id={id}
-                  >
+                  <IconButton disableRipple aria-label="copy text" onClick={handleQrClick} id={id}>
                     <QrCode2Icon />
                   </IconButton>
                 </InputAdornment>
               </Tooltip>
               <Tooltip title="주소 복사" placement="top">
                 <InputAdornment position="end">
-                  <IconButton
-                    disableRipple
-                    aria-label="copy text"
-                    onClick={handleClick}
-                    id={id}
-                  >
+                  <IconButton disableRipple aria-label="copy text" onClick={handleClick} id={id}>
                     <ContentCopyIcon />
                   </IconButton>
                 </InputAdornment>
@@ -62,12 +48,7 @@ export const URlAddressTextField = ({
           ),
         }}
       />
-      <QrModal
-        open={open}
-        handleClose={() => setOpen(false)}
-        fileName={`qr-pwa-${id}`}
-        url={url}
-      />
+      <QrModal open={open} handleClose={() => setOpen(false)} fileName={`qr-pwa-${id}`} url={url} />
     </>
   );
 };

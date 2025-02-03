@@ -13,20 +13,13 @@ type ServiceTableDataProps = {
   page: number;
   rowsPerPage: number;
 };
-export const ServiceTableData = ({
-  serviceList = [],
-  page,
-  rowsPerPage,
-}: ServiceTableDataProps) => {
+export const ServiceTableData = ({ serviceList = [], page, rowsPerPage }: ServiceTableDataProps) => {
   const pageRowsStart = page * rowsPerPage;
   const pageRowsEnd = pageRowsStart + rowsPerPage;
   return (
     <TableBody>
       {serviceList.slice(pageRowsStart, pageRowsEnd).map((service) => (
-        <TableRow
-          key={service.serviceID}
-          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-        >
+        <TableRow key={service.serviceID} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
           <TableCell component="th" scope="row">
             <b>{service.serviceID}</b>
           </TableCell>

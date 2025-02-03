@@ -10,10 +10,7 @@ export type SetDuplicateSettingParams = {
   sourceServiceID: number;
   targetServiceID: number;
 };
-export const setDuplicateSetting = async ({
-  sourceServiceID,
-  targetServiceID,
-}: SetDuplicateSettingParams) => {
+export const setDuplicateSetting = async ({ sourceServiceID, targetServiceID }: SetDuplicateSettingParams) => {
   if (!sourceServiceID || !targetServiceID) {
     return null;
   }

@@ -1,11 +1,6 @@
 import { MouseEvent } from 'react';
 
-import {
-  copyText,
-  getPrevLocation,
-  getPWADownloadUrl,
-  isCurrentServiceType,
-} from '../../services';
+import { copyText, getPrevLocation, getPWADownloadUrl, isCurrentServiceType } from '../../services';
 import { AppPWATextField } from './app-pwa-text-field';
 
 type AppPWABodyProps = {
@@ -14,11 +9,7 @@ type AppPWABodyProps = {
   isSusi: string | undefined;
 };
 
-export const AppPWABody = ({
-  univEngName,
-  schoolYear,
-  isSusi,
-}: AppPWABodyProps) => {
+export const AppPWABody = ({ univEngName, schoolYear, isSusi }: AppPWABodyProps) => {
   // 현재 서비스 중인지 확인
   const isCurrentService = isCurrentServiceType(schoolYear, isSusi);
   const prevLocation = getPrevLocation({
@@ -38,20 +29,8 @@ export const AppPWABody = ({
 
   return (
     <>
-      <AppPWATextField
-        title="Test"
-        url={testUrl}
-        id="test"
-        handleClick={handleClickCopy}
-      />
-      {isCurrentService && (
-        <AppPWATextField
-          title="Real"
-          url={realUrl}
-          id="real"
-          handleClick={handleClickCopy}
-        />
-      )}
+      <AppPWATextField title="Test" url={testUrl} id="test" handleClick={handleClickCopy} />
+      {isCurrentService && <AppPWATextField title="Real" url={realUrl} id="real" handleClick={handleClickCopy} />}
     </>
   );
 };

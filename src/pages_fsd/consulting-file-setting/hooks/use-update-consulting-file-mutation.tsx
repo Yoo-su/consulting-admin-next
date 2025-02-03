@@ -21,9 +21,7 @@ export const useUpdateConsultingRefNoMutation = () => {
 
 export const useUpdateConsultingRefTitleMutation = () => {
   return useMutation({
-    mutationFn: (
-      updateConsultingRefTitleParams: UpdateConsultingRefTitleParams
-    ) => {
+    mutationFn: (updateConsultingRefTitleParams: UpdateConsultingRefTitleParams) => {
       return updateConsultingRefTitle(updateConsultingRefTitleParams);
     },
   });

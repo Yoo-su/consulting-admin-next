@@ -23,11 +23,7 @@ export const FileDeleteAll = () => {
   };
   return (
     <Tooltip title="전체 삭제">
-      <IconButton
-        disableRipple
-        sx={{ paddingLeft: 0, marginLeft: '-8px' }}
-        onClick={handleDeleteFile}
-      >
+      <IconButton disableRipple sx={{ paddingLeft: 0, marginLeft: '-8px' }} onClick={handleDeleteFile}>
         <ClearIcon color="warning" fontSize="small" />
       </IconButton>
     </Tooltip>

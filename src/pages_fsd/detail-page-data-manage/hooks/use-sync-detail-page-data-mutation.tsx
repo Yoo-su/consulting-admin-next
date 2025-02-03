@@ -10,11 +10,7 @@ type MutationFnProps = {
 };
 export const useSyncDetailpageDataMutation = () => {
   return useMutation({
-    mutationFn: ({
-      serviceID,
-      sourceServerType,
-      targetServerType,
-    }: MutationFnProps) =>
+    mutationFn: ({ serviceID, sourceServerType, targetServerType }: MutationFnProps) =>
       syncDetailpageData(serviceID, sourceServerType, targetServerType),
   });
 };

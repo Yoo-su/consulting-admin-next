@@ -18,17 +18,8 @@ type StateColProps = {
   bgcolor: string;
   developer?: string;
 };
-export const StateCol = ({
-  groupedStates,
-  title,
-  color,
-  bgcolor,
-  currentStateKey,
-  developer,
-}: StateColProps) => {
-  const droppableId = developer
-    ? developer + '/' + currentStateKey
-    : currentStateKey;
+export const StateCol = ({ groupedStates, title, color, bgcolor, currentStateKey, developer }: StateColProps) => {
+  const droppableId = developer ? developer + '/' + currentStateKey : currentStateKey;
 
   return (
     <Stack
@@ -80,10 +71,7 @@ export const StateCol = ({
           </Box>
         </Tooltip>
 
-        <Stack
-          direction={'row'}
-          sx={{ flexGrow: 1, justifyContent: 'flex-end' }}
-        >
+        <Stack direction={'row'} sx={{ flexGrow: 1, justifyContent: 'flex-end' }}>
           <Typography
             variant="body1"
             sx={{
@@ -114,11 +102,7 @@ export const StateCol = ({
             spacing={1}
           >
             {groupedStates.map((consultingState, index) => (
-              <StateCard
-                key={`${consultingState.univID}${index}`}
-                state={consultingState}
-                index={index}
-              />
+              <StateCard key={`${consultingState.univID}${index}`} state={consultingState} index={index} />
             ))}
             {provided.placeholder}
           </Stack>

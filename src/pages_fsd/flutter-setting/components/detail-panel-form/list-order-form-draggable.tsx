@@ -8,20 +8,11 @@ type ListOrderFormDraggableProps = {
   orderList: string[];
 };
 
-export const ListOrderFormDraggable = ({
-  provided,
-  isDisabled,
-  orderList,
-}: ListOrderFormDraggableProps) => {
+export const ListOrderFormDraggable = ({ provided, isDisabled, orderList }: ListOrderFormDraggableProps) => {
   return (
     <>
       {orderList.map((child: string, index: number) => (
-        <Draggable
-          key={child}
-          draggableId={child}
-          index={index}
-          isDragDisabled={isDisabled}
-        >
+        <Draggable key={child} draggableId={child} index={index} isDragDisabled={isDisabled}>
           {(provided) => (
             <Stack
               {...provided.draggableProps}
@@ -31,14 +22,8 @@ export const ListOrderFormDraggable = ({
               alignItems={'center'}
               spacing={1}
             >
-              {!isDisabled && (
-                <FiberManualRecordIcon sx={{ fontSize: '.4rem' }} />
-              )}
-              <Chip
-                label={`${child}`}
-                size="small"
-                sx={{ paddingRight: '.1rem' }}
-              />
+              {!isDisabled && <FiberManualRecordIcon sx={{ fontSize: '.4rem' }} />}
+              <Chip label={`${child}`} size="small" sx={{ paddingRight: '.1rem' }} />
             </Stack>
           )}
         </Draggable>

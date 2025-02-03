@@ -11,21 +11,11 @@ export type FormItemProps = {
 };
 
 export type FlutterSettingFormType = {
-  type:
-    | 'object'
-    | 'boolean'
-    | 'select'
-    | 'list-order'
-    | 'string'
-    | 'double'
-    | 'map'
-    | 'number';
+  type: 'object' | 'boolean' | 'select' | 'list-order' | 'string' | 'double' | 'map' | 'number';
   component: string;
 };
 
-export type EditSettingComponent = ({
-  settingList,
-}: EditSettingProps) => JSX.Element;
+export type EditSettingComponent = ({ settingList }: EditSettingProps) => JSX.Element;
 
 export type BasicFormComponent = ({ item }: FormItemProps) => JSX.Element;
 
@@ -97,15 +87,9 @@ export type FlutterRowInfo = {
   OriginalRowValue?: string;
 };
 
-export type GetCategoryInfoList =
-  | FlutterSetting
-  | FlutterRowInfo
-  | (FlutterSetting | FlutterRowInfo)[];
+export type GetCategoryInfoList = FlutterSetting | FlutterRowInfo | (FlutterSetting | FlutterRowInfo)[];
 
-export type ServiceOption = Pick<
-  Service,
-  'isSusi' | 'schoolYear' | 'serviceID' | 'serviceName'
-> & {
+export type ServiceOption = Pick<Service, 'isSusi' | 'schoolYear' | 'serviceID' | 'serviceName'> & {
   serviceYear: string;
 };
 

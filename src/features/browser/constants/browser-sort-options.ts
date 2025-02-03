@@ -10,7 +10,6 @@ export const BROWSER_SORT_OPTIONS: SortOption[] = [
   {
     title: '이름순',
     keyAttribute: 'name',
-    sortFunction: (a: BrowserItem, b: BrowserItem) =>
-      a.name.localeCompare(b.name),
+    sortFunction: (a: BrowserItem, b: BrowserItem) => a.name.localeCompare(b.name),
   },
 ];

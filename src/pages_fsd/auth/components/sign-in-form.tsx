@@ -18,10 +18,7 @@ import { z as zod } from 'zod';
 import { useSigninMutation } from '../hooks';
 
 const schema = zod.object({
-  userID: zod
-    .string()
-    .min(1, { message: '사용자 ID를 입력해주세요' })
-    .max(20, { message: '20자 이내로 입력해주세요' }),
+  userID: zod.string().min(1, { message: '사용자 ID를 입력해주세요' }).max(20, { message: '20자 이내로 입력해주세요' }),
   userPassword: zod.string().min(1, { message: '패스워드를 입력해주세요' }),
 });
 
@@ -67,15 +64,8 @@ export const SignInForm = () => {
             render={({ field }) => (
               <FormControl error={Boolean(errors.userID)}>
                 <InputLabel>User ID</InputLabel>
-                <OutlinedInput
-                  {...field}
-                  label="User ID"
-                  type="text"
-                  disabled={isPending || isSuccess}
-                />
-                {errors.userID ? (
-                  <FormHelperText>{errors.userID.message}</FormHelperText>
-                ) : null}
+                <OutlinedInput {...field} label="User ID" type="text" disabled={isPending || isSuccess} />
+                {errors.userID ? <FormHelperText>{errors.userID.message}</FormHelperText> : null}
               </FormControl>
             )}
           />
@@ -109,15 +99,11 @@ export const SignInForm = () => {
                   label="Password"
                   type={showPassword ? 'text' : 'password'}
                 />
-                {errors.userPassword ? (
-                  <FormHelperText>{errors.userPassword.message}</FormHelperText>
-                ) : null}
+                {errors.userPassword ? <FormHelperText>{errors.userPassword.message}</FormHelperText> : null}
               </FormControl>
             )}
           />
-          {errors.root ? (
-            <Alert color="error">{errors.root.message}</Alert>
-          ) : null}
+          {errors.root ? <Alert color="error">{errors.root.message}</Alert> : null}
           <Button
             disabled={isPending || isSuccess}
             type="submit"

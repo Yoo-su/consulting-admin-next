@@ -7,19 +7,11 @@ import { DeleteLevelRowButton } from './delete-level-row-button';
 type TableBodyProps = {
   editMode: boolean;
   tableChartDatas: ChartData[];
-  handleFieldChange: (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
-  ) => void;
+  handleFieldChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => void;
   handleDeleteLevelRow: (deleteRowLabel: string) => void;
 };
 export const LevelTableBody = memo(
-  ({
-    editMode,
-    tableChartDatas,
-    handleFieldChange,
-    handleDeleteLevelRow,
-  }: TableBodyProps) => {
+  ({ editMode, tableChartDatas, handleFieldChange, handleDeleteLevelRow }: TableBodyProps) => {
     return (
       <TableBody>
         {tableChartDatas.map((data, idx) => (
@@ -69,10 +61,7 @@ export const LevelTableBody = memo(
             </TableCell>
             <TableCell align="right">
               {!editMode ? (
-                <DeleteLevelRowButton
-                  label={data.label}
-                  handleDeleteLevelRow={handleDeleteLevelRow}
-                />
+                <DeleteLevelRowButton label={data.label} handleDeleteLevelRow={handleDeleteLevelRow} />
               ) : (
                 '-'
               )}

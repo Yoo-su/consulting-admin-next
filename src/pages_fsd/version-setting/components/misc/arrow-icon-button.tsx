@@ -15,13 +15,7 @@ type ArrowIconButtonProps = {
   id: string;
 };
 
-export const ArrowIconButton = ({
-  handleClick,
-  classes = {},
-  isUp,
-  title,
-  id,
-}: ArrowIconButtonProps) => {
+export const ArrowIconButton = ({ handleClick, classes = {}, isUp, title, id }: ArrowIconButtonProps) => {
   return (
     <Tooltip title={title} placement="top">
       <Box>

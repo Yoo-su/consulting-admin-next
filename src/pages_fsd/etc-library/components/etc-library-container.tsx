@@ -5,11 +5,10 @@ import { Typography } from '@mui/material';
 import { Browser } from '@/features/browser/components';
 import { ContentWrapper } from '@/shared/components';
 
-import { useEtcLibrary,useUploadEtcLibraryMutation } from '../hooks';
+import { useEtcLibrary, useUploadEtcLibraryMutation } from '../hooks';
 
 export const EtcLibraryContainer = () => {
-  const { downmd, initialPath, browserOption, containerTitle, formData } =
-    useEtcLibrary();
+  const { downmd, initialPath, browserOption, containerTitle, formData } = useEtcLibrary();
   const mutation = useUploadEtcLibraryMutation();
 
   return (

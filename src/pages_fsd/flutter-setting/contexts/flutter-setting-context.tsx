@@ -1,14 +1,7 @@
 'use client';
 
 import { useQueryClient } from '@tanstack/react-query';
-import {
-  createContext,
-  Dispatch,
-  PropsWithChildren,
-  SetStateAction,
-  useCallback,
-  useState,
-} from 'react';
+import { createContext, Dispatch, PropsWithChildren, SetStateAction, useCallback, useState } from 'react';
 
 import { QUERY_KEYS } from '@/shared/constants';
 import { useTypographyToast } from '@/shared/hooks';
@@ -37,23 +30,15 @@ export type FlutterSettingContextValue = {
   updateSettingList: () => void;
 };
 
-export const FlutterSettingContext = createContext<
-  FlutterSettingContextValue | undefined
->(undefined);
+export const FlutterSettingContext = createContext<FlutterSettingContextValue | undefined>(undefined);
 
 export const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
   const { showSuccess } = useTypographyToast();
   const { currentService } = useSharedStore();
   const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [flutterSettingList, setFlutterSettingList] = useState<
-    FlutterSetting[]
-  >([]);
-  const [filteredSettingList, setFilteredSettingList] = useState<
-    FlutterSetting[]
-  >([]);
-  const [editedSettingList, setEditedSettingList] = useState<
-    SetFlutterCustomConfigParams[]
-  >([]);
+  const [flutterSettingList, setFlutterSettingList] = useState<FlutterSetting[]>([]);
+  const [filteredSettingList, setFilteredSettingList] = useState<FlutterSetting[]>([]);
+  const [editedSettingList, setEditedSettingList] = useState<SetFlutterCustomConfigParams[]>([]);
   const { mutateAsync } = useSetFlutterSettingMutation();
   const queryClient = useQueryClient();
   const serviceID = currentService!.serviceID;
@@ -62,34 +47,23 @@ export const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
     setEditedSettingList([]);
   }, []);
 
-  const isValueBackToOrig = useCallback(
-    (InitialValue: string | string[], RowValue: string) => {
-      const rowValueForChecking: string | string[] =
-        typeof InitialValue === 'object'
-          ? getArrayFromString(RowValue)
-          : RowValue;
+  const isValueBackToOrig = useCallback((InitialValue: string | string[], RowValue: string) => {
+    const rowValueForChecking: string | string[] =
+      typeof InitialValue === 'object' ? getArrayFromString(RowValue) : RowValue;
 
-      switch (typeof InitialValue) {
-        case 'string':
-          return (rowValueForChecking as string).trim() === InitialValue.trim();
-        case 'object':
-          return (
-            [...(rowValueForChecking as string[])].toString() ==
-            [...InitialValue].toString()
-          );
-        default:
-          return rowValueForChecking === InitialValue;
-      }
-    },
-    []
-  );
+    switch (typeof InitialValue) {
+      case 'string':
+        return (rowValueForChecking as string).trim() === InitialValue.trim();
+      case 'object':
+        return [...(rowValueForChecking as string[])].toString() == [...InitialValue].toString();
+      default:
+        return rowValueForChecking === InitialValue;
+    }
+  }, []);
   // 변경된 값 모음에 추가
   const addToEditedList = useCallback(
     (
-      editedSetting: Pick<
-        SetFlutterCustomConfigParams,
-        'RowIdx' | 'RowValue'
-      > & {
+      editedSetting: Pick<SetFlutterCustomConfigParams, 'RowIdx' | 'RowValue'> & {
         InitialValue: string | string[];
       }
     ) => {
@@ -97,9 +71,7 @@ export const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
       const isOrig = isValueBackToOrig(InitialValue, RowValue);
 
       if (isOrig) {
-        setEditedSettingList((prev) =>
-          prev.filter((item) => item.RowIdx !== RowIdx)
-        );
+        setEditedSettingList((prev) => prev.filter((item) => item.RowIdx !== RowIdx));
         return;
       }
       const newSetting: SetFlutterCustomConfigParams = {
@@ -110,9 +82,7 @@ export const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
       setEditedSettingList((prev) => {
         const isExist = prev.find((item) => item.RowIdx === newSetting.RowIdx);
         if (isExist) {
-          return prev.map((item) =>
-            item.RowIdx === newSetting.RowIdx ? newSetting : item
-          );
+          return prev.map((item) => (item.RowIdx === newSetting.RowIdx ? newSetting : item));
         }
         return [...prev, newSetting];
       });
@@ -126,9 +96,7 @@ export const FlutterSettingProvider = ({ children }: PropsWithChildren) => {
         onSuccess: () => {
           showSuccess(FLUTTER_SETTING_MESSAGE.UPDATE_SUCCESS);
           queryClient.invalidateQueries({
-            queryKey:
-              QUERY_KEYS['flutter-setting']['custom-config'](serviceID)
-                .queryKey,
+            queryKey: QUERY_KEYS['flutter-setting']['custom-config'](serviceID).queryKey,
           });
         },
       });

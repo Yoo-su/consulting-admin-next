@@ -3,10 +3,7 @@ import { apiInstance } from '@/shared/plugin/axios';
 
 import { DetailPageData } from '../models';
 
-export const updateDetailPageData = async (
-  serviceID: string,
-  detailPageData: DetailPageData[]
-) => {
+export const updateDetailPageData = async (serviceID: string, detailPageData: DetailPageData[]) => {
   const transformedDetailpageData = detailPageData.map((item) => {
     return {
       ServiceID: item.serviceID,
@@ -18,10 +15,7 @@ export const updateDetailPageData = async (
     };
   });
 
-  return await apiInstance.post(
-    `${API_URLS.dashboard.updateDetailpageData}/${serviceID}`,
-    {
-      detailPages: transformedDetailpageData,
-    }
-  );
+  return await apiInstance.post(`${API_URLS.dashboard.updateDetailpageData}/${serviceID}`, {
+    detailPages: transformedDetailpageData,
+  });
 };

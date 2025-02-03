@@ -4,16 +4,17 @@ import FunctionsIcon from '@mui/icons-material/Functions';
 import { Box, Divider, Stack, SxProps, Typography } from '@mui/material';
 import { useCallback } from 'react';
 
+import { useSharedStore } from '@/shared/models';
+
+import { METHOD_SETTING_DESCRIPTION } from '../../constants';
 import { useGetCalcMethodQuery } from '../../hooks';
 import { useCalculationSettingStore } from '../../models';
 
-type MethodPreviewCardProps = {
-  serviceID: string;
-};
-export const MethodPreviewCard = ({ serviceID }: MethodPreviewCardProps) => {
+export const MethodPreviewCard = () => {
+  const currentService = useSharedStore((state) => state.currentService);
+  const serviceID = currentService?.serviceID ?? '';
   const { data } = useGetCalcMethodQuery(serviceID);
-  const { openCalculationSettingDialog, setDialogType } =
-    useCalculationSettingStore();
+  const { openCalculationSettingDialog, setDialogType } = useCalculationSettingStore();
 
   const handleClickCard = useCallback(() => {
     setDialogType('method');
@@ -28,11 +29,7 @@ export const MethodPreviewCard = ({ serviceID }: MethodPreviewCardProps) => {
       </Stack>
       <Typography variant={'h6'}>등록된 설정 수: {data?.length}</Typography>
       <Divider sx={{ width: '100%', bgcolor: '#000', mt: 5, mb: 2 }} />
-      <Typography variant={'body2'}>
-        서비스의 점수 계산 메서드를 관리합니다. ScoreCalcMethodConfig는 점수
-        계산 방식의 상세 로직을 정의하는 테이블입니다. 학생부(HSB)와 수능(SAT)
-        점수 계산에 필요한 단계별 계산 방식을 JSON 형태로 저장하여 관리합니다.
-      </Typography>
+      <Typography variant={'body2'}>{METHOD_SETTING_DESCRIPTION}</Typography>
     </Box>
   );
 };
@@ -43,7 +40,7 @@ const previewCardStyles: SxProps = {
   justifyContent: 'flex-start',
   alignItems: 'flex-start',
   position: 'relative',
-  bgcolor: '#eae7d6',
+  border: '0.5px solid rgba(0,0,0,0.1)',
   borderRadius: '1rem',
   padding: 2,
   flexGrow: 1,
@@ -52,7 +49,6 @@ const previewCardStyles: SxProps = {
   minHeight: '380px',
   ':hover': {
     transform: 'translateY(-10px) scale(1.02)',
-    animation: 'circle-pulse 1.8s infinite',
   },
   transition: 'transform 0.15s ease-in-out',
 };

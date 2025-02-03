@@ -22,13 +22,7 @@ export const ServiceListTable = ({ univID }: ServiceListTableProps) => {
     <TableContainer component={Paper}>
       <Table aria-label="service-list-table">
         <ServiceTableHead />
-        {
-          <ServiceTableData
-            serviceList={serviceList}
-            page={page}
-            rowsPerPage={rowsPerPage}
-          />
-        }
+        {<ServiceTableData serviceList={serviceList} page={page} rowsPerPage={rowsPerPage} />}
       </Table>
       <ServiceTablePagination
         count={serviceList?.length}

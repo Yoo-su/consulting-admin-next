@@ -77,12 +77,7 @@ export type UseTextEditorInputProps = {
   value: string;
 } & Partial<EditorOptions>;
 
-export const useTextEditor = ({
-  placeholder,
-  onChange,
-  value,
-  ...editorOptions
-}: UseTextEditorInputProps) => {
+export const useTextEditor = ({ placeholder, onChange, value, ...editorOptions }: UseTextEditorInputProps) => {
   const editor = useEditor({
     content: value,
     extensions: [

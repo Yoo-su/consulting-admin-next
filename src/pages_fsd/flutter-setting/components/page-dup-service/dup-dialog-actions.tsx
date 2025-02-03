@@ -7,10 +7,7 @@ import { useTypographyToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
 import { DUP_ERROR_MESSAGE } from '../../constants';
-import {
-  DupDialogCancelBtn,
-  DupDialogConfirmBtn,
-} from '../../constants/classes';
+import { DupDialogCancelBtn, DupDialogConfirmBtn } from '../../constants/classes';
 import { useSetDuplicateSettingMutation } from '../../hooks';
 import { ServiceOption } from '../../models';
 
@@ -34,13 +31,9 @@ export const DupDialogActions = ({
 
   const isValid = () => {
     if (!selectedService || !currentService) {
-      showError(
-        !selectedService
-          ? DUP_ERROR_MESSAGE.NO_SERVICE_ID
-          : DUP_ERROR_MESSAGE.NO_UNIV_OR_SERVICE,
-        undefined,
-        { id: !selectedService ? 'dup-serviceId-toast' : 'dup-service-toast' }
-      );
+      showError(!selectedService ? DUP_ERROR_MESSAGE.NO_SERVICE_ID : DUP_ERROR_MESSAGE.NO_UNIV_OR_SERVICE, undefined, {
+        id: !selectedService ? 'dup-serviceId-toast' : 'dup-service-toast',
+      });
       return false;
     }
     if (!isShowAlert) {
@@ -60,9 +53,7 @@ export const DupDialogActions = ({
     await mutateAsync(params, {
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: QUERY_KEYS['flutter-setting']['custom-config'](
-            currentService!.serviceID
-          ).queryKey,
+          queryKey: QUERY_KEYS['flutter-setting']['custom-config'](currentService!.serviceID).queryKey,
         });
       },
       onError: () => {
@@ -79,12 +70,7 @@ export const DupDialogActions = ({
       <Button size="small" sx={DupDialogCancelBtn} onClick={handleClose}>
         취소
       </Button>
-      <Button
-        size="small"
-        sx={DupDialogConfirmBtn}
-        onClick={handleConfirm}
-        autoFocus
-      >
+      <Button size="small" sx={DupDialogConfirmBtn} onClick={handleConfirm} autoFocus>
         {isShowAlert ? '확인' : '복제'}
       </Button>
     </DialogActions>

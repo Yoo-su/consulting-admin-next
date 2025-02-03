@@ -17,21 +17,11 @@ export const useConfirmToast = () => {
     }) => {
       toast(
         (t) => (
-          <Stack
-            direction={'column'}
-            justifyContent={'center'}
-            alignItems={'center'}
-            spacing={1}
-          >
+          <Stack direction={'column'} justifyContent={'center'} alignItems={'center'} spacing={1}>
             <Typography variant="body2" textAlign={'center'}>
               {message}
             </Typography>
-            <Stack
-              direction={'row'}
-              justifyContent={'center'}
-              alignItems={'center'}
-              spacing={0.2}
-            >
+            <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} spacing={0.2}>
               <Button
                 variant="text"
                 color="info"

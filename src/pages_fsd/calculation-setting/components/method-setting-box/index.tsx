@@ -13,12 +13,7 @@ export const MethodSettingBox = ({ serviceID }: MethodSettingBoxProps) => {
 
   return (
     <StyledBox>
-      {data?.map((calcMethod) => (
-        <CalcMethodAccordion
-          key={calcMethod.CalcMethodID}
-          calcMethod={calcMethod}
-        />
-      ))}
+      {data?.map((calcMethod) => <CalcMethodAccordion key={calcMethod.CalcMethodID} calcMethod={calcMethod} />)}
     </StyledBox>
   );
 };

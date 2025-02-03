@@ -11,15 +11,8 @@ import {
   STATE_BOARD_DOMAIN_ITEMS,
   UPDATE_APP_STATE,
 } from '@/pages_fsd/overview/constants';
-import {
-  useHandleStatusBoard,
-  useUpdateConsultingAppStateMutation,
-} from '@/pages_fsd/overview/hooks';
-import {
-  BoardType,
-  CurrentState,
-  ServiceType,
-} from '@/pages_fsd/overview/models';
+import { useHandleStatusBoard, useUpdateConsultingAppStateMutation } from '@/pages_fsd/overview/hooks';
+import { BoardType, CurrentState, ServiceType } from '@/pages_fsd/overview/models';
 import { EmptyBox } from '@/shared/components';
 import { useTypographyToast } from '@/shared/hooks';
 import { getGroupedData } from '@/shared/services';
@@ -31,16 +24,11 @@ type BasicBoardContainerProps = {
 };
 export const BasicBoard = ({ boardType }: BasicBoardContainerProps) => {
   const { showError, showSuccess } = useTypographyToast();
-  const { mutateAsync: updateConsultingAppStateMutation } =
-    useUpdateConsultingAppStateMutation();
-  const { filteredConsultingAppStates, filteredConsultingAppStatesAll } =
-    useHandleStatusBoard();
+  const { mutateAsync: updateConsultingAppStateMutation } = useUpdateConsultingAppStateMutation();
+  const { filteredConsultingAppStates, filteredConsultingAppStatesAll } = useHandleStatusBoard();
 
   const filteredState = useMemo(
-    () =>
-      boardType === 'mainUser'
-        ? filteredConsultingAppStates ?? []
-        : filteredConsultingAppStatesAll ?? [],
+    () => (boardType === 'mainUser' ? (filteredConsultingAppStates ?? []) : (filteredConsultingAppStatesAll ?? [])),
     [boardType, filteredConsultingAppStates, filteredConsultingAppStatesAll]
   );
 
@@ -54,8 +42,7 @@ export const BasicBoard = ({ boardType }: BasicBoardContainerProps) => {
 
       const { source, destination } = result;
       const sourceList = groupedStates[source.droppableId as CurrentState];
-      const destinationList =
-        groupedStates[destination.droppableId as CurrentState];
+      const destinationList = groupedStates[destination.droppableId as CurrentState];
 
       // 같은 리스트 내에서 이동한 경우
       if (source.droppableId === destination.droppableId) return;

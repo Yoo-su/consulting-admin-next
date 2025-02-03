@@ -15,11 +15,7 @@ type MapFormInputCellProps = {
   >;
 };
 
-export const MapFormInputCell = ({
-  index,
-  objValue,
-  setObjValue,
-}: MapFormInputCellProps) => {
+export const MapFormInputCell = ({ index, objValue, setObjValue }: MapFormInputCellProps) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     const [type, _] = name.split('-');

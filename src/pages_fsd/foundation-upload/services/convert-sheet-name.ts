@@ -10,9 +10,7 @@ export const convertSheetName = (str: string, lang: 'eng' | 'kor') => {
   if (lang === 'eng') {
     return SHEET_NAME_MAP[str] || str;
   } else if (lang === 'kor') {
-    const korName = Object.keys(SHEET_NAME_MAP).find(
-      (key) => SHEET_NAME_MAP[key] === str
-    );
+    const korName = Object.keys(SHEET_NAME_MAP).find((key) => SHEET_NAME_MAP[key] === str);
     return korName || str;
   }
   return str;

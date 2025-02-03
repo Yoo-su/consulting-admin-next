@@ -3,12 +3,7 @@
 import Stack from '@mui/material/Stack';
 
 import { FileListData, TableHeader } from './core';
-import {
-  FileUploader,
-  TableBox,
-  TableContainerBox,
-  TableRowBox,
-} from './elements';
+import { FileUploader, TableBox, TableContainerBox, TableRowBox } from './elements';
 
 export const FileListTable = () => {
   return (

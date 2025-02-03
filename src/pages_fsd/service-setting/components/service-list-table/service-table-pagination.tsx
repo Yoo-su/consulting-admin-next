@@ -1,5 +1,5 @@
 import { TablePagination } from '@mui/material';
-import { ChangeEvent,Dispatch, MouseEvent, SetStateAction } from 'react';
+import { ChangeEvent, Dispatch, MouseEvent, SetStateAction } from 'react';
 
 type ServiceTablePaginationProps = {
   count: number | undefined;
@@ -16,10 +16,7 @@ export const ServiceTablePagination = ({
   rowsPerPage,
   setRowsPerPage,
 }: ServiceTablePaginationProps) => {
-  const handleChangePage = (
-    event: MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
+  const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
   };
 

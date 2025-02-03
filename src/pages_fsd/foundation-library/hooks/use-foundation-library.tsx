@@ -12,10 +12,7 @@ export const useFoundationLibrary = () => {
       currentUniv: state.currentUniv,
     }))
   );
-  const initialPath = useMemo(
-    () => `${BROWSER_PATH.foundationLibrary}/${currentService?.serviceID}`,
-    [currentService]
-  );
+  const initialPath = useMemo(() => `${BROWSER_PATH.foundationLibrary}/${currentService?.serviceID}`, [currentService]);
 
   const containerTitle = `${currentUniv?.univName}(${currentService?.serviceID}) 기초데이터 자료실`;
 

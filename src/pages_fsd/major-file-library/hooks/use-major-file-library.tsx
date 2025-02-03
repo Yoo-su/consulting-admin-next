@@ -10,10 +10,7 @@ export const useMajorFileLibrary = () => {
   const currentUniv = useSharedStore((state) => state.currentUniv);
   const [formData] = useState<FormData>(new FormData());
 
-  const initialPath = useMemo(
-    () => `${BROWSER_PATH.subjectLibrary}/${currentUniv?.univID}`,
-    [currentUniv]
-  );
+  const initialPath = useMemo(() => `${BROWSER_PATH.subjectLibrary}/${currentUniv?.univID}`, [currentUniv]);
 
   const browserOption: BrowserOptionOptional = useMemo(
     () => ({

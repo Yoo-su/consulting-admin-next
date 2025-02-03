@@ -5,7 +5,8 @@ import { useStatusBoardStore } from '@/pages_fsd/overview/models';
 import { getLastFiveServiceYears } from '@/pages_fsd/overview/services';
 
 export const ServiceYearSelect = () => {
-  const { selectedServiceYear, setSelectedServiceYear } = useStatusBoardStore();
+  const selectedServiceYear = useStatusBoardStore((state) => state.selectedServiceYear);
+  const setSelectedServiceYear = useStatusBoardStore((state) => state.setSelectedServiceYear);
   const recentFiveServiceYears = getLastFiveServiceYears();
 
   const handleChange = (event: SelectChangeEvent) => {

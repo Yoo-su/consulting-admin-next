@@ -5,11 +5,6 @@ export type UpdateIsNewParams = {
   serviceID: number;
   isNew: boolean;
 };
-export const updateServiceIsNew = async (
-  updateIsNewParams: UpdateIsNewParams
-) => {
-  return await apiInstance.post(
-    API_URLS.dashboard.updateIsNew,
-    updateIsNewParams
-  );
+export const updateServiceIsNew = async (updateIsNewParams: UpdateIsNewParams) => {
+  return await apiInstance.post(API_URLS.dashboard.updateIsNew, updateIsNewParams);
 };

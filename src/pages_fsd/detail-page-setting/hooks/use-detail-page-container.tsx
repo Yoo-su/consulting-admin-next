@@ -6,31 +6,18 @@ import { useSharedStore } from '@/shared/models';
 
 import { useDetailPageSettingStore } from '../models';
 import { getNewDetailPageData, getNewRowNumber } from '../utils';
-import {
-  useDetailPageSettingMutation,
-  useGetDetailPageDataQuery,
-} from './tanstack';
+import { useDetailPageSettingMutation, useGetDetailPageDataQuery } from './tanstack';
 
 export const useDetailPageContainer = () => {
   const currentUniv = useSharedStore((state) => state.currentUniv);
   const currentService = useSharedStore((state) => state.currentService);
   const univName = currentUniv?.univName ?? '';
   const serviceID = currentService?.serviceID ?? '';
-  const copiedDetailPageDatas = useDetailPageSettingStore(
-    (state) => state.copiedDetailPageDatas
-  );
-  const setSelectedData = useDetailPageSettingStore(
-    (state) => state.setSelectedRowNumber
-  );
-  const setCopiedDetailPageDatas = useDetailPageSettingStore(
-    (state) => state.setCopiedDetailPageDatas
-  );
-  const {
-    postDetailPageData,
-    isPostDetailPageDataLoading,
-    isPostDetailPageDataSuccess,
-    setDetailPageData,
-  } = useDetailPageSettingMutation();
+  const copiedDetailPageDatas = useDetailPageSettingStore((state) => state.copiedDetailPageDatas);
+  const setSelectedData = useDetailPageSettingStore((state) => state.setSelectedRowNumber);
+  const setCopiedDetailPageDatas = useDetailPageSettingStore((state) => state.setCopiedDetailPageDatas);
+  const { postDetailPageData, isPostDetailPageDataLoading, isPostDetailPageDataSuccess, setDetailPageData } =
+    useDetailPageSettingMutation();
   const {
     data: detailPageDatas,
     isLoading: isDetailPageDataLoading,
@@ -42,15 +29,9 @@ export const useDetailPageContainer = () => {
 
   // 변경사항 유무
   const hasChanges = useMemo(() => {
-    const sortedOriginalData = [...copiedDetailPageDatas].sort(
-        (a, b) => a.rowNum - b.rowNum
-      ),
-      sortedChartData = [...(detailPageDatas ?? [])].sort(
-        (a, b) => a.rowNum - b.rowNum
-      );
-    return (
-      JSON.stringify(sortedOriginalData) !== JSON.stringify(sortedChartData)
-    );
+    const sortedOriginalData = [...copiedDetailPageDatas].sort((a, b) => a.rowNum - b.rowNum),
+      sortedChartData = [...(detailPageDatas ?? [])].sort((a, b) => a.rowNum - b.rowNum);
+    return JSON.stringify(sortedOriginalData) !== JSON.stringify(sortedChartData);
   }, [detailPageDatas, copiedDetailPageDatas, currentService]);
 
   // 새로운 데이터 행 추가

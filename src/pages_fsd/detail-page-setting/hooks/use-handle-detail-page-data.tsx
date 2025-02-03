@@ -4,10 +4,7 @@ import { useConfirmToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
 import { Mode, useDetailPageSettingStore } from '../models';
-import {
-  useDetailPageSettingMutation,
-  useGetDetailPageDataQuery,
-} from './tanstack';
+import { useDetailPageSettingMutation, useGetDetailPageDataQuery } from './tanstack';
 
 type UseHandleDetailPageDataReturn = {
   handleDeleteData: (rowNumber: number) => void;
@@ -19,12 +16,8 @@ type UseHandleDetailPageData = () => UseHandleDetailPageDataReturn;
 export const useHandleDetailPageData: UseHandleDetailPageData = () => {
   const _return = useRef({} as UseHandleDetailPageDataReturn);
   const currentService = useSharedStore((state) => state.currentService);
-  const setSelectedRowNumber = useDetailPageSettingStore(
-    (state) => state.setSelectedRowNumber
-  );
-  const { data: detailPageDatas } = useGetDetailPageDataQuery(
-    currentService?.serviceID
-  );
+  const setSelectedRowNumber = useDetailPageSettingStore((state) => state.setSelectedRowNumber);
+  const { data: detailPageDatas } = useGetDetailPageDataQuery(currentService?.serviceID);
   const { setDetailPageData } = useDetailPageSettingMutation();
   const { openConfirmToast } = useConfirmToast();
 
@@ -34,8 +27,7 @@ export const useHandleDetailPageData: UseHandleDetailPageData = () => {
       openConfirmToast({
         message: `${rowNumber}번 데이터를 삭제하시겠습니까?`,
         callbackConfirm: () => {
-          const filteredData =
-            detailPageDatas?.filter((item) => item.rowNum !== rowNumber) ?? [];
+          const filteredData = detailPageDatas?.filter((item) => item.rowNum !== rowNumber) ?? [];
           setDetailPageData(filteredData);
           setSelectedRowNumber(null);
         },

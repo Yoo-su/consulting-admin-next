@@ -4,9 +4,7 @@ import HashLoader from 'react-spinners/HashLoader';
 type LoadingCoverProps = {
   loadingMessage?: string;
 };
-export const LoadingCover = ({
-  loadingMessage = '로딩중입니다...',
-}: LoadingCoverProps) => {
+export const LoadingCover = ({ loadingMessage = '로딩중입니다...' }: LoadingCoverProps) => {
   return (
     <Box
       sx={{

@@ -15,9 +15,7 @@ export const Header = ({ children, bottomDivider, sxProps }: HeaderProps) => {
       <Stack width={'100%'} sx={{ ...sxProps }}>
         {children}
       </Stack>
-      {bottomDivider && (
-        <Divider sx={{ my: 2, borderColor: 'rgba(0,0,0,0.05)' }} />
-      )}
+      {bottomDivider && <Divider sx={{ my: 2, borderColor: 'rgba(0,0,0,0.05)' }} />}
     </>
   );
 };
@@ -41,8 +39,7 @@ export const ContentWrapper = ({ children, sxProps }: ContentWrapperProps) => {
       sx={{
         mt: { xs: 4, sm: 6, md: 6, lg: 6, xl: 8 },
         p: 2,
-        boxShadow:
-          '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
         borderRadius: '1rem',
         justifyContent: 'center',
         alignItems: 'center',

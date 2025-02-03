@@ -14,10 +14,7 @@ type BasicFormTypeListProps = {
   Type: string;
 };
 
-export const BasicFormTypeList = ({
-  componentObj,
-  Type,
-}: BasicFormTypeListProps) => {
+export const BasicFormTypeList = ({ componentObj, Type }: BasicFormTypeListProps) => {
   const createComponent = (formType: FlutterSettingFormType) => {
     const { component } = formType;
     if (COMPONENT_MAPPING[component] !== undefined) {
@@ -25,11 +22,5 @@ export const BasicFormTypeList = ({
     }
     return null;
   };
-  return (
-    <>
-      {FORM_TYPE_LIST.filter((form) => form.type === Type).map((el) =>
-        createComponent(el)
-      )}
-    </>
-  );
+  return <>{FORM_TYPE_LIST.filter((form) => form.type === Type).map((el) => createComponent(el))}</>;
 };

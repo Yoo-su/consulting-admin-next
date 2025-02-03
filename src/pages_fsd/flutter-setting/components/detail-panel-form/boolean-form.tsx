@@ -1,11 +1,7 @@
 import { Box, Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import {
-  BooleanFormCheckBoxClass,
-  BooleanFromGroupClass,
-  CheckBoxClass,
-} from '../../constants';
+import { BooleanFormCheckBoxClass, BooleanFromGroupClass, CheckBoxClass } from '../../constants';
 import { useFlutterSetting } from '../../hooks';
 import { FormItemProps } from '../../models';
 import { getInitialValue, getItemValue } from '../../services';
@@ -24,9 +20,7 @@ export const BooleanForm = ({
     RowIdx = null,
   } = item ?? {};
   const { addToEditedList } = useFlutterSetting();
-  const [checkValue, setCheckValue] = useState<boolean>(
-    getItemValue(RowValue, transferDefaultValue)
-  );
+  const [checkValue, setCheckValue] = useState<boolean>(getItemValue(RowValue, transferDefaultValue));
   const initialValue = getInitialValue(transferDefaultValue, OriginalRowValue);
 
   const handleBooleanChange = (event: ChangeEvent<HTMLInputElement>) => {

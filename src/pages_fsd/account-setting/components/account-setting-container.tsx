@@ -65,20 +65,11 @@ export const AccountSettingContainer = () => {
         <Typography variant="h6">{`${user?.userName}님 계정 관리`}</Typography>
       </ContentWrapper.Header>
       <ContentWrapper.MainContent>
-        <Stack
-          direction={'row'}
-          justifyContent={'center'}
-          alignItems={'center'}
-          spacing={4}
-          sx={{ my: 4 }}
-        >
+        <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} spacing={4} sx={{ my: 4 }}>
           <Box>
-            <Tooltip
-              title={<Typography variant="body1">사진 변경</Typography>}
-              followCursor
-            >
+            <Tooltip title={<Typography variant="body1">사진 변경</Typography>} followCursor>
               <Avatar
-                src={imageFile ? imagePreviewPath : user?.profileImage ?? ''}
+                src={imageFile ? imagePreviewPath : (user?.profileImage ?? '')}
                 alt={user?.userName + 'profile'}
                 sx={{ width: '10rem', height: '10rem', cursor: 'pointer' }}
                 onClick={handleAvatarClick}
@@ -112,20 +103,10 @@ export const AccountSettingContainer = () => {
 
         {imageFile && !isSuccess && (
           <Stack direction={'row'} justifyContent={'flex-end'} spacing={2}>
-            <Button
-              variant="contained"
-              sx={{ width: 'fit-content' }}
-              disabled={isPending}
-              onClick={handleClickSaveBtn}
-            >
+            <Button variant="contained" sx={{ width: 'fit-content' }} disabled={isPending} onClick={handleClickSaveBtn}>
               변경하기
             </Button>
-            <Button
-              color="inherit"
-              variant="contained"
-              sx={{ width: 'fit-content' }}
-              disabled={isPending}
-            >
+            <Button color="inherit" variant="contained" sx={{ width: 'fit-content' }} disabled={isPending}>
               취소
             </Button>
           </Stack>

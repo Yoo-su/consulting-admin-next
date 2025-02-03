@@ -8,8 +8,7 @@ import { ContentWrapper } from '@/shared/components';
 import { useMajorFileLibrary, useUploadMajorFileMutation } from '../hooks';
 
 export const MajorFileLibraryContainer = () => {
-  const { containerTitle, initialPath, browserOption, formData } =
-    useMajorFileLibrary();
+  const { containerTitle, initialPath, browserOption, formData } = useMajorFileLibrary();
   const mutation = useUploadMajorFileMutation();
 
   return (

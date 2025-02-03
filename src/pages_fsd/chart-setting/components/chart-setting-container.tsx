@@ -3,12 +3,7 @@
 import { Box, Stack, styled, Typography } from '@mui/material';
 import { Fragment, memo } from 'react';
 
-import {
-  ContentLoadingSkeleton,
-  ContentWrapper,
-  EmptyBox,
-  SaveDataButton,
-} from '@/shared/components';
+import { ContentLoadingSkeleton, ContentWrapper, EmptyBox, SaveDataButton } from '@/shared/components';
 
 import { useChartSettingContainer } from '../hooks';
 import { AddModelButton } from './add-model-button';
@@ -43,19 +38,14 @@ export const ChartSettingContainer = memo(() => {
                 <Fragment>
                   <Box sx={{ mt: 4, width: '100%' }}>
                     {modelNumbers.map((mn) => (
-                      <ModelAccordion
-                        key={`model-${mn}-accordion`}
-                        modelNum={mn}
-                      />
+                      <ModelAccordion key={`model-${mn}-accordion`} modelNum={mn} />
                     ))}
                   </Box>
                 </Fragment>
               ) : (
                 <EmptyBox text={'등록된 모델이 없습니다'} />
               )}
-              {hasChanges && (
-                <SaveDataButton handleBtnClick={handleSaveChanges} />
-              )}
+              {hasChanges && <SaveDataButton handleBtnClick={handleSaveChanges} />}
             </Fragment>
           </ContentWrapper.MainContent>
         </Fragment>

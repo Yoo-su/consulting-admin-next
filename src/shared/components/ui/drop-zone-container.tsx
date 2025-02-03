@@ -20,13 +20,12 @@ export const DropZoneContainer = ({
   onDrop,
   ...rest
 }: DropZoneContainerProps) => {
-  const { handleDragEnter, handleDragOver, handleDragLeave, handleDrop } =
-    useFileDropZone({
-      onDragEnter: onDragEnter,
-      onDragOver: onDragOver,
-      onDragLeave: onDragLeave,
-      onDrop: onDrop,
-    });
+  const { handleDragEnter, handleDragOver, handleDragLeave, handleDrop } = useFileDropZone({
+    onDragEnter: onDragEnter,
+    onDragOver: onDragOver,
+    onDragLeave: onDragLeave,
+    onDrop: onDrop,
+  });
 
   return (
     <Box

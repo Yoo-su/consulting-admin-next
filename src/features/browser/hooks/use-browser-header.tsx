@@ -17,9 +17,7 @@ export const useBrowserHeader = () => {
     }))
   );
   const browserQueue = useQueueStore((state) => state.browserQueue);
-  const openAddDirectoryDialog = useQueueStore(
-    useShallow((state) => state.openAddDirectoryDialog)
-  );
+  const openAddDirectoryDialog = useQueueStore(useShallow((state) => state.openAddDirectoryDialog));
   const { data } = useGetBrowserListQuery(currentPath);
 
   // 현재 경로의 아이템 수

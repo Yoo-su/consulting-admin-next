@@ -10,11 +10,7 @@ export type SetFlutterCustomConfigParams = {
   RowIdx: number | null;
   RowValue: string;
 };
-export const setFlutterCustomConfig = async ({
-  serviceID,
-  RowIdx,
-  RowValue,
-}: SetFlutterCustomConfigParams) => {
+export const setFlutterCustomConfig = async ({ serviceID, RowIdx, RowValue }: SetFlutterCustomConfigParams) => {
   if (!serviceID || RowIdx === null) {
     return null;
   }

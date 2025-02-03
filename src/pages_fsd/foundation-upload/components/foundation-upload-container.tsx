@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  Stack,
-  styled,
-  SxProps,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { Stack, styled, SxProps, Typography, useMediaQuery, useTheme } from '@mui/material';
 import Image from 'next/image';
 
 import excelIcon from '@/shared/assets/svgs/excel.svg';
@@ -45,9 +38,7 @@ export const FoundationUploadContainer = () => {
       <ContentWrapper.MainContent>
         <Stack direction={'row'} alignItems={'center'} gap={0.5}>
           <Image src={starIcon} width={'32'} height={'32'} alt="star" />
-          <Typography variant={downsm ? 'body1' : 'h4'}>
-            {containerTitle}
-          </Typography>
+          <Typography variant={downsm ? 'body1' : 'h4'}>{containerTitle}</Typography>
         </Stack>
 
         <UploadStateStepper />
@@ -55,17 +46,8 @@ export const FoundationUploadContainer = () => {
         <UploadStateAlert />
 
         <FileControllerBox spacing={2}>
-          <DropZoneContainer
-            onClick={handleClickInput}
-            onDrop={handleDropExcel}
-            sx={dropzoneStyle}
-          >
-            <Image
-              src={excelIcon}
-              width={'48'}
-              height={'48'}
-              alt="excel-image"
-            />
+          <DropZoneContainer onClick={handleClickInput} onDrop={handleDropExcel} sx={dropzoneStyle}>
+            <Image src={excelIcon} width={'48'} height={'48'} alt="excel-image" />
             <UploadInputTitle variant="body2" color="grey.700">
               {uploadInputTitle}
             </UploadInputTitle>
@@ -78,11 +60,7 @@ export const FoundationUploadContainer = () => {
           <UploadButton />
         </FileControllerBox>
 
-        <FileInput
-          inputKey={inputElKey}
-          inputRef={inputRef}
-          handleChange={handleInputChange}
-        />
+        <FileInput inputKey={inputElKey} inputRef={inputRef} handleChange={handleInputChange} />
       </ContentWrapper.MainContent>
     </ContentWrapper>
   );

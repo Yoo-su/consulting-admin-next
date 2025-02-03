@@ -5,11 +5,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useSharedStore } from '@/shared/models';
 
 import { ChartData, useChartSettingStore } from '../models';
-import {
-  getDistinctColumnValues,
-  getNewChartData,
-  getNewNumberColumnValue,
-} from '../utils';
+import { getDistinctColumnValues, getNewChartData, getNewNumberColumnValue } from '../utils';
 import { useChartDataMutation, useGetChartDataQuery } from './tanstack';
 
 type UseChartSettingContainerReturn = {
@@ -28,59 +24,37 @@ export const useChartSettingContainer = () => {
   const currentService = useSharedStore((state) => state.currentService);
   const univName = currentUniv?.univName ?? '';
   const serviceID = currentService?.serviceID ?? '';
-  const copiedChartData = useChartSettingStore(
-    (state) => state.copiedChartData
-  );
-  const setCopiedChartData = useChartSettingStore(
-    (state) => state.setCopiedChartData
-  );
-  const setSelectedModel = useChartSettingStore(
-    (state) => state.setSelectedModel
-  );
+  const copiedChartData = useChartSettingStore((state) => state.copiedChartData);
+  const setCopiedChartData = useChartSettingStore((state) => state.setCopiedChartData);
+  const setSelectedModel = useChartSettingStore((state) => state.setSelectedModel);
   const {
     data: chartDatas,
     isLoading: isChartDataLoading,
     isSuccess: isChartDataSuccess,
     refetch,
   } = useGetChartDataQuery(serviceID);
-  const { setChartData, postChartData, isPostChartDataSuccess } =
-    useChartDataMutation();
+  const { setChartData, postChartData, isPostChartDataSuccess } = useChartDataMutation();
 
   const containerTitle = `${univName}(${serviceID}) 차트 데이터 설정`;
 
   // 차트 데이터 존재 여부
-  const isChartDataExist = useMemo(
-    () => (chartDatas?.length ?? 0) > 0,
-    [chartDatas]
-  );
+  const isChartDataExist = useMemo(() => (chartDatas?.length ?? 0) > 0, [chartDatas]);
 
   // 변경사항 유무
   const hasChanges = useMemo(() => {
-    const sortedOriginalData = [...copiedChartData].sort(
-        (a, b) => a.modelNum - b.modelNum
-      ),
-      sortedChartData = [...(chartDatas ?? [])].sort(
-        (a, b) => a.modelNum - b.modelNum
-      );
-    return (
-      JSON.stringify(sortedOriginalData) !== JSON.stringify(sortedChartData)
-    );
+    const sortedOriginalData = [...copiedChartData].sort((a, b) => a.modelNum - b.modelNum),
+      sortedChartData = [...(chartDatas ?? [])].sort((a, b) => a.modelNum - b.modelNum);
+    return JSON.stringify(sortedOriginalData) !== JSON.stringify(sortedChartData);
   }, [chartDatas, copiedChartData, currentService]);
 
   // 모델 번호 목록
   const modelNumbers = useMemo(() => {
-    return (
-      getDistinctColumnValues(chartDatas ?? [], 'modelNum') as number[]
-    ).sort((a, b) => a - b);
+    return (getDistinctColumnValues(chartDatas ?? [], 'modelNum') as number[]).sort((a, b) => a - b);
   }, [chartDatas]);
 
   // 새로운 모델 추가
   const handleAddNewModel = useCallback(() => {
-    const newModelNum = getNewNumberColumnValue(
-      chartDatas ?? [],
-      'modelNum',
-      0
-    );
+    const newModelNum = getNewNumberColumnValue(chartDatas ?? [], 'modelNum', 0);
     const newChartData: ChartData[] = [
       ...(chartDatas ?? []),
       getNewChartData({

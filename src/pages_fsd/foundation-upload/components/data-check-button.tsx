@@ -5,12 +5,7 @@ import { useShallow } from 'zustand/shallow';
 
 import { useSharedStore } from '@/shared/models';
 
-import {
-  JsonExcel,
-  useFoundationStore,
-  useOptionStore,
-  useUiStore,
-} from '../models';
+import { JsonExcel, useFoundationStore, useOptionStore, useUiStore } from '../models';
 import { checkExcelData, convertExcelToJson } from '../services';
 
 export const DataCheckButton = memo(() => {
@@ -42,11 +37,7 @@ export const DataCheckButton = memo(() => {
         try {
           const buffer = e.target?.result;
           const jsonExcel: JsonExcel = convertExcelToJson(buffer);
-          checkExcelData(
-            jsonExcel.data,
-            currentService?.serviceID ?? '',
-            currentUniv?.univID ?? ''
-          );
+          checkExcelData(jsonExcel.data, currentService?.serviceID ?? '', currentUniv?.univID ?? '');
           setAlertOption({
             message: '데이터 검증이 완료되었습니다. 업로드를 진행해주세요',
             color: 'info',

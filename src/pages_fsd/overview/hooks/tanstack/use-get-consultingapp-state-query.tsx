@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '@/shared/constants';
 
-import { getConsultingAppState } from '../apis';
+import { getConsultingAppState } from '../../apis';
 
 export const useGetConsultingAppStateQuery = () => {
   return useQuery({

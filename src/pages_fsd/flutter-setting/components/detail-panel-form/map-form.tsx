@@ -7,10 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-import {
-  MapTBLHeaderBorderClass,
-  MapTBLHeaderCellClass,
-} from '../../constants';
+import { MapTBLHeaderBorderClass, MapTBLHeaderCellClass } from '../../constants';
 import { useMapForm } from '../../hooks';
 import { FormItemProps } from '../../models';
 import { MapFormBody } from './map-form-body';

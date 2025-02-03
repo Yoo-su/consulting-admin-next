@@ -14,11 +14,7 @@ type HeaderSelectRadioProps = {
   isNew: boolean;
 };
 
-export const HeaderSelectRadio = ({
-  appType,
-  setAppType,
-  isNew,
-}: HeaderSelectRadioProps) => {
+export const HeaderSelectRadio = ({ appType, setAppType, isNew }: HeaderSelectRadioProps) => {
   useEffect(() => {
     setAppType(isNew ? OS_TYPE.APK : OS_TYPE.PWA);
   }, [isNew]);
@@ -33,29 +29,15 @@ export const HeaderSelectRadio = ({
         }}
         value={appType}
       >
-        {OS_OPTIONS.map(
-          ({
-            label,
-            value,
-            icon: Icon,
-            iconColor,
-            marginRight,
-            getDisabled,
-          }) => (
-            <RadioIconLabel
-              key={value}
-              label={label}
-              value={value}
-              disabled={getDisabled(isNew)}
-              Icon={
-                <Icon
-                  fontSize="large"
-                  sx={{ color: iconColor, mr: marginRight }}
-                />
-              }
-            />
-          )
-        )}
+        {OS_OPTIONS.map(({ label, value, icon: Icon, iconColor, marginRight, getDisabled }) => (
+          <RadioIconLabel
+            key={value}
+            label={label}
+            value={value}
+            disabled={getDisabled(isNew)}
+            Icon={<Icon fontSize="large" sx={{ color: iconColor, mr: marginRight }} />}
+          />
+        ))}
       </RadioGroup>
     </FormControl>
   );

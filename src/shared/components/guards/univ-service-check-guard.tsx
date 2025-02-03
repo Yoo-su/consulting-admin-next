@@ -11,10 +11,7 @@ type ServiceCheckGuardProps = {
   children: ReactNode;
   checkService?: boolean;
 };
-export const UnivServiceCheckGuard = ({
-  children,
-  checkService = true,
-}: ServiceCheckGuardProps) => {
+export const UnivServiceCheckGuard = ({ children, checkService = true }: ServiceCheckGuardProps) => {
   const { currentUniv, currentService } = useSharedStore();
 
   const checkFlag = useMemo(() => {
@@ -23,9 +20,7 @@ export const UnivServiceCheckGuard = ({
 
   if (!checkFlag)
     return (
-      <Box
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-      >
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Alert color="info" icon={<InfoOutlinedIcon />}>
           대학 및 서비스가 선택되지 않았습니다. 사이드바에서 값을 선택해주세요
         </Alert>

@@ -1,14 +1,7 @@
 'use client';
 
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Stack, Typography } from '@mui/material';
 
 import { AllBoardContainer } from './all-board-container';
 import { ServiceTypeSelect, ServiceYearSelect } from './selects';
@@ -16,10 +9,7 @@ import { ServiceTypeSelect, ServiceYearSelect } from './selects';
 export const ConsultingAppStateBoard = () => {
   return (
     <Box>
-      <Accordion
-        slotProps={{ transition: { unmountOnExit: true } }}
-        expanded={true}
-      >
+      <Accordion slotProps={{ transition: { unmountOnExit: true } }} expanded={true}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="consultingapp-states-content"

@@ -1,13 +1,7 @@
 'use client';
 
 import { TextField } from '@mui/material';
-import {
-  ChangeEvent,
-  KeyboardEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useState } from 'react';
 
 import { useOutsideClick, useTypographyToast } from '@/shared/hooks';
 
@@ -17,24 +11,10 @@ import { FormItemProps } from '../../models';
 import { getInitialValue, getItemValue } from '../../services';
 import { TextFormAdornment } from './text-form-adornment';
 
-export const TextForm = ({
-  item,
-  path,
-  handleEdit,
-  isDisabled,
-}: FormItemProps) => {
+export const TextForm = ({ item, path, handleEdit, isDisabled }: FormItemProps) => {
   const { showError } = useTypographyToast();
-  const {
-    IsRequired,
-    Type,
-    transferDefaultValue,
-    OriginalRowValue,
-    RowIdx,
-    RowValue = null,
-  } = item;
-  const [textValue, setTextValue] = useState<string>(
-    getItemValue(RowValue, transferDefaultValue)
-  );
+  const { IsRequired, Type, transferDefaultValue, OriginalRowValue, RowIdx, RowValue = null } = item;
+  const [textValue, setTextValue] = useState<string>(getItemValue(RowValue, transferDefaultValue));
   const [isActive, setIsActive] = useState(false);
   const { addToEditedList } = useFlutterSetting();
 
@@ -73,12 +53,7 @@ export const TextForm = ({
       // decimal point 포함하는 숫자 regex pattern
       const regex = /^((\d+(\.\d*)?)|(\.\d+))$/;
       // type이 double이거나 number일 때 숫자만 입력 가능
-      if (
-        value !== '' &&
-        ['double', 'number'].includes(Type) &&
-        !regex.test(value)
-      )
-        return event.preventDefault();
+      if (value !== '' && ['double', 'number'].includes(Type) && !regex.test(value)) return event.preventDefault();
 
       setIsActive(true);
       setTextValue(value);
