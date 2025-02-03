@@ -11,7 +11,7 @@ import {
   TableBoxStyle,
   TableContainerBoxStyle,
   TableRowBoxStyle,
-} from '../../../constants';
+} from '@/pages_fsd/consulting-file-setting/constants';
 
 export const TableContainerBox = ({ children }: PropsWithChildren) => {
   return <Box sx={{ ...TableContainerBoxStyle }}>{children}</Box>;

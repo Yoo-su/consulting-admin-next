@@ -2,6 +2,8 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, styled, Typography } from '@mui/material';
 import { memo } from 'react';
 
+import { ADD_LEVEL_TEXT } from '../../constants';
+
 type AddLevelButtonProps = {
   handleAddNewLevel: () => void;
 };
@@ -10,7 +12,7 @@ export const AddLevelButton = memo(({ handleAddNewLevel }: AddLevelButtonProps) 
     <AddLevelBox onClick={handleAddNewLevel}>
       <AddCircleIcon sx={{ mr: 1, color: '#0069A0' }} />
       <Typography variant="body2" sx={{ color: '#0069A0' }}>
-        단계 추가
+        {ADD_LEVEL_TEXT}
       </Typography>
     </AddLevelBox>
   );

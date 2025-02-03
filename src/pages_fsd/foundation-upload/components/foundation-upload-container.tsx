@@ -1,6 +1,6 @@
 'use client';
 
-import { Stack, styled, SxProps, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Stack, styled, SxProps, Typography } from '@mui/material';
 import Image from 'next/image';
 
 import excelIcon from '@/shared/assets/svgs/excel.svg';
@@ -26,8 +26,6 @@ export const FoundationUploadContainer = () => {
     handleDropExcel,
     handleInputChange,
   } = useHandleFoundationData();
-  const theme = useTheme();
-  const downsm = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <ContentWrapper>
@@ -36,11 +34,10 @@ export const FoundationUploadContainer = () => {
       </ContentWrapper.Header>
 
       <ContentWrapper.MainContent>
-        <Stack direction={'row'} alignItems={'center'} gap={0.5}>
+        <Stack direction={'row'} gap={0.5} alignItems={'center'}>
           <Image src={starIcon} width={'32'} height={'32'} alt="star" />
-          <Typography variant={downsm ? 'body1' : 'h4'}>{containerTitle}</Typography>
+          <ContentWrapper.Title title={containerTitle} />
         </Stack>
-
         <UploadStateStepper />
 
         <UploadStateAlert />

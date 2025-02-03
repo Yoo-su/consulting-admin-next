@@ -4,10 +4,10 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Button from '@mui/material/Button';
 import { ChangeEvent, useRef, useState } from 'react';
 
+import { useConsultingFileSettings, useFileDropHandler } from '@/pages_fsd/consulting-file-setting/hooks';
+import { checkFileType, getFileTypeErrorToastComponent } from '@/pages_fsd/consulting-file-setting/services';
 import { useTypographyToast } from '@/shared/hooks';
 
-import { useConsultingFileSettings, useFileDropHandler } from '../../../hooks';
-import { checkFileType, getFileTypeErrorToastComponent } from '../../../services';
 import { CustomWidthBoxCell, HiddenFileInput, UploadDivWrapper } from '../cells/';
 
 export const FileUploader = () => {

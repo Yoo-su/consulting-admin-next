@@ -1,10 +1,11 @@
 'use client';
 
-import { Box, Stack, styled, Typography } from '@mui/material';
+import { Box, Stack, styled } from '@mui/material';
 import { Fragment, memo } from 'react';
 
 import { ContentLoadingSkeleton, ContentWrapper, EmptyBox, SaveDataButton } from '@/shared/components';
 
+import { EMPTY_MESSAGE } from '../constants';
 import { useChartSettingContainer } from '../hooks';
 import { AddModelButton } from './add-model-button';
 import { ModelAccordion } from './model-accordion';
@@ -27,10 +28,10 @@ export const ChartSettingContainer = memo(() => {
       ) : (
         <Fragment>
           <ContentWrapper.Header bottomDivider>
-            <ContentHeader>
-              <Typography variant="h4">{containerTitle}</Typography>
+            <HeaderContent>
+              <ContentWrapper.Title title={containerTitle} />
               <AddModelButton handleAddNewModel={handleAddNewModel} />
-            </ContentHeader>
+            </HeaderContent>
           </ContentWrapper.Header>
           <ContentWrapper.MainContent>
             <Fragment>
@@ -43,7 +44,7 @@ export const ChartSettingContainer = memo(() => {
                   </Box>
                 </Fragment>
               ) : (
-                <EmptyBox text={'등록된 모델이 없습니다'} />
+                <EmptyBox text={EMPTY_MESSAGE} />
               )}
               {hasChanges && <SaveDataButton handleBtnClick={handleSaveChanges} />}
             </Fragment>
@@ -55,7 +56,7 @@ export const ChartSettingContainer = memo(() => {
 });
 ChartSettingContainer.displayName = 'ChartSettingContainer';
 
-const ContentHeader = styled(Stack)({
+const HeaderContent = styled(Stack)({
   width: '100%',
   flexDirection: 'row',
   alignItems: 'center',

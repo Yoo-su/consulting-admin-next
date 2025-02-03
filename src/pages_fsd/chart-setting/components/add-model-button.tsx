@@ -2,6 +2,8 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Chip, Typography } from '@mui/material';
 import { memo } from 'react';
 
+import { ADD_MODEL_TEXT } from '../constants';
+
 type AddModelButtonProps = {
   handleAddNewModel: () => void;
 };
@@ -11,7 +13,7 @@ export const AddModelButton = memo(({ handleAddNewModel }: AddModelButtonProps) 
       color="info"
       size="small"
       icon={<AddCircleIcon fontSize="inherit" />}
-      label={<Typography variant="button">모델 추가</Typography>}
+      label={<Typography variant="button">{ADD_MODEL_TEXT}</Typography>}
       clickable
       onClick={handleAddNewModel}
     />

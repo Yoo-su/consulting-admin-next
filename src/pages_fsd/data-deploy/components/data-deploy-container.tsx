@@ -79,11 +79,7 @@ export const DataDeployContainer = () => {
   return (
     <ContentWrapper>
       <ContentWrapper.Header bottomDivider>
-        <Typography
-          variant="h4"
-          textAlign={'left'}
-          width={'100%'}
-        >{`${currentUniv?.univName}(${currentService?.serviceID}) 데이터 배포`}</Typography>
+        <ContentWrapper.Title title={`${currentUniv?.univName}(${currentService?.serviceID}) 데이터 배포`} />
       </ContentWrapper.Header>
       <ContentWrapper.MainContent>
         <Box width={'100%'} display={'flex'} justifyContent={'center'}>

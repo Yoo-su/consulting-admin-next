@@ -1,4 +1,3 @@
-import { useMediaQuery, useTheme } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 
@@ -8,8 +7,6 @@ import { useUser } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
 export const useEtcLibrary = () => {
-  const theme = useTheme();
-  const downmd = useMediaQuery(theme.breakpoints.down('md'));
   const { currentUniv, currentService } = useSharedStore(
     useShallow((state) => ({
       currentService: state.currentService,
@@ -33,7 +30,6 @@ export const useEtcLibrary = () => {
   }, [user, currentService]);
 
   return {
-    downmd,
     containerTitle,
     initialPath,
     browserOption,

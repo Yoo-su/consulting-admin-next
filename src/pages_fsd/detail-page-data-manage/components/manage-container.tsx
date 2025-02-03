@@ -5,27 +5,24 @@ import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 
 import { ContentWrapper } from '@/shared/components';
 import { useGetServiceListQuery } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
+import { COPY_PREV_DATA_TEXT, SYNC_DATA_TEXT } from '../constants';
 import { ServiceAutocomplete } from './service-autocomplete';
 import { SyncBox } from './sync-box';
 
 export const ManageContainer = () => {
   const { currentService, currentUniv } = useSharedStore();
+  const containerTitle = `${currentUniv?.univName}(${currentService?.serviceID}) 상세페이지 데이터 관리`;
   const { data: serviceList } = useGetServiceListQuery(currentUniv?.univID);
 
   return (
     <ContentWrapper>
       <ContentWrapper.Header bottomDivider>
-        <Typography
-          variant="h4"
-          textAlign={'left'}
-          width={'100%'}
-        >{`${currentUniv?.univName}(${currentService?.serviceID}) 상세페이지 데이터 관리`}</Typography>
+        <ContentWrapper.Title title={containerTitle} />
       </ContentWrapper.Header>
       <ContentWrapper.MainContent>
         <Box width={'100%'} display={'flex'} justifyContent={'center'}>
@@ -41,7 +38,7 @@ export const ManageContainer = () => {
                       color: 'inherit',
                     }}
                   >
-                    서버간 데이터 동기화
+                    {SYNC_DATA_TEXT}
                   </InputLabel>
                 </Stack>
                 <SyncBox serviceID={currentService.serviceID} />
@@ -57,7 +54,7 @@ export const ManageContainer = () => {
                       color: 'inherit',
                     }}
                   >
-                    이전 서비스 데이터 복제
+                    {COPY_PREV_DATA_TEXT}
                   </InputLabel>
                 </Stack>
                 <ServiceAutocomplete serviceID={currentService?.serviceID} serviceList={serviceList ?? []} />
