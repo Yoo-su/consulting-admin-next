@@ -1,8 +1,8 @@
 import { Draggable } from '@hello-pangea/dnd';
 
 import { ConsultingFile } from '../../models';
-import { TableRowBox } from '../elements';
-import { EditFile } from './edit-file';
+import { FileEdit } from '../table-body-list-edit';
+import { TableRowBox } from '../table-customs';
 
 type FileListRowProps = {
   files: ConsultingFile[];
@@ -19,7 +19,7 @@ export const FileListRow = ({ files }: FileListRowProps) => {
               dragHandleProps={provided.dragHandleProps}
               innerRef={provided.innerRef}
             >
-              <EditFile file={file} />
+              <FileEdit file={file} />
             </TableRowBox>
           )}
         </Draggable>

@@ -2,8 +2,10 @@
 
 import Stack from '@mui/material/Stack';
 
-import { FileListData, TableHeader } from './core';
-import { FileUploader, TableBox, TableContainerBox, TableRowBox } from './elements';
+import { FileList } from './table-body-list';
+import { FileUploader } from './table-body-uploader';
+import { TableBox, TableContainerBox, TableRowBox } from './table-customs';
+import { TableHeader } from './table-header';
 
 export const FileListTable = () => {
   return (
@@ -12,7 +14,7 @@ export const FileListTable = () => {
         <TableBox>
           <TableHeader />
           <TableRowBox>
-            <FileListData />
+            <FileList />
           </TableRowBox>
           <TableRowBox>
             <FileUploader />

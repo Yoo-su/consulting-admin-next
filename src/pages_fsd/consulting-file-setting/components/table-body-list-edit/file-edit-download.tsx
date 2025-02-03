@@ -5,15 +5,15 @@ import { Button, CircularProgress, Typography } from '@mui/material';
 
 import { useTypographyToast } from '@/shared/hooks';
 
-import { DownloaderClass, FILE_MESSAGE } from '../../../constants';
-import { useGetConsultingFileDownloadQuery } from '../../../hooks';
-import { getFileType } from '../../../services';
-import { CustomWidthBoxCell } from '../cells/table-boxes';
+import { DownloaderClass, FILE_MESSAGE } from '../../constants';
+import { useGetConsultingFileDownloadQuery } from '../../hooks';
+import { getFileType } from '../../services';
+import { CellBoxCustomWidth } from '../table-customs/';
 
-type FileDownloaderProps = {
+type FileEditDownloadProps = {
   fileName: string;
 };
-export const FileDownloader = ({ fileName }: FileDownloaderProps) => {
+export const FileEditDownload = ({ fileName }: FileEditDownloadProps) => {
   const { showError } = useTypographyToast();
   const { refetch, isFetching } = useGetConsultingFileDownloadQuery(fileName);
 
@@ -46,7 +46,7 @@ export const FileDownloader = ({ fileName }: FileDownloaderProps) => {
   };
 
   return (
-    <CustomWidthBoxCell size="m" typo={true} style={{ padding: '0 5px', justifyContent: 'flex-start !important' }}>
+    <CellBoxCustomWidth size="m" typo={true} style={{ padding: '0 5px', justifyContent: 'flex-start !important' }}>
       <Button
         startIcon={isFetching ? <CircularProgress size={20} /> : <DownloadIcon />}
         sx={DownloaderClass}
@@ -64,6 +64,6 @@ export const FileDownloader = ({ fileName }: FileDownloaderProps) => {
           {fileName}
         </Typography>
       </Button>
-    </CustomWidthBoxCell>
+    </CellBoxCustomWidth>
   );
 };

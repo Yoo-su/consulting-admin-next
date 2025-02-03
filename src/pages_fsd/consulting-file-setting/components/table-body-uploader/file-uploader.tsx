@@ -5,10 +5,11 @@ import Button from '@mui/material/Button';
 import { ChangeEvent, useRef, useState } from 'react';
 
 import { useTypographyToast } from '@/shared/hooks';
-
-import { useConsultingFileSettings, useFileDropHandler } from '../../../hooks';
-import { checkFileType, getFileTypeErrorToastComponent } from '../../../services';
-import { CustomWidthBoxCell, HiddenFileInput, UploadDivWrapper } from '../cells/';
+import { useConsultingFileSettings, useFileDropHandler } from '../../hooks';
+import { checkFileType, getFileTypeErrorToastComponent } from '../../services';
+import { CellBoxCustomWidth } from '../table-customs';
+import { HiddenFileInput } from './hidden-file-input.styled';
+import { UploadDivWrapper } from './upload-div-wrapper.styled';
 
 export const FileUploader = () => {
   const { showError } = useTypographyToast();
@@ -36,21 +37,13 @@ export const FileUploader = () => {
   };
 
   return (
-    <CustomWidthBoxCell justifyContent="center">
-      <UploadDivWrapper {...dragHandlers} sx={{ backgroundColor: fileEnter ? '#E5F6FD' : 'white' }}>
-        <Button
-          component="label"
-          role={undefined}
-          tabIndex={-1}
-          sx={{
-            width: '100%',
-          }}
-          startIcon={<CloudUploadIcon />}
-        >
+    <CellBoxCustomWidth justifyContent="center">
+      <UploadDivWrapper {...dragHandlers} style={{ backgroundColor: fileEnter ? '#E5F6FD' : 'white' }}>
+        <Button component="label" role={undefined} tabIndex={-1} sx={{ width: '100%' }} startIcon={<CloudUploadIcon />}>
           자료 업로드
           <HiddenFileInput type="file" onChange={handleChangeEvent} ref={fileInputRef} webkitdirectory="" />
         </Button>
       </UploadDivWrapper>
-    </CustomWidthBoxCell>
+    </CellBoxCustomWidth>
   );
 };

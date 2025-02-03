@@ -5,9 +5,9 @@ import Box from '@mui/material/Box';
 import { useCallback } from 'react';
 
 import { useConsultingFileSettings } from '../../hooks';
-import { FileListRow } from '.';
+import { FileListRow } from './file-list-row';
 
-export const FileListData = () => {
+export const FileList = () => {
   const { files, updateRefNo } = useConsultingFileSettings();
 
   const handleDragEnd = useCallback(

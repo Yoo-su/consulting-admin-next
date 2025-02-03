@@ -1,25 +1,23 @@
 import DoneIcon from '@mui/icons-material/Done';
 import EditIcon from '@mui/icons-material/Edit';
-import { IconButton, InputAdornment } from '@mui/material';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
 
 import { NameEditorClass } from '@/pages_fsd/consulting-file-setting/constants';
 import { useConsultingFileSettings, useFileEditHandler } from '@/pages_fsd/consulting-file-setting/hooks';
 import { ConsultingFile } from '@/pages_fsd/consulting-file-setting/models';
 
-import { StyledTextField } from '../cells';
-
-type FileNameEditorProps = {
+type FileEditNameProps = {
   file: ConsultingFile;
 };
 
-export const FileNameEditor = ({ file }: FileNameEditorProps) => {
+export const FileEditName = ({ file }: FileEditNameProps) => {
   const { editFileIndex } = useConsultingFileSettings();
   const { handleTextInput, handleChange, handleKeyDown } = useFileEditHandler({
     file,
   });
 
   return (
-    <StyledTextField
+    <TextField
       id={`textField-${file.RefNo}`}
       value={file.RefTitle}
       fullWidth

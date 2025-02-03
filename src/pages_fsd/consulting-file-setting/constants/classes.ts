@@ -25,7 +25,7 @@ export const TableRowBoxStyle = {
   backgroundColor: 'var(--mui-palette-background-paper)',
 };
 
-export const CustomWidthBoxCellStyle = {
+export const CellBoxCustomWidthStyle = {
   padding: '16px ',
   display: 'flex',
   alignItems: 'center',
@@ -53,5 +53,34 @@ export const NameEditorClass = {
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
+  },
+  '& .MuiInput-root': {
+    '&.Mui-disabled:before': {
+      border: '0px solid black',
+    },
+    '&.Mui-disabled:hover:before': {
+      border: '0px solid black',
+    },
+    '&:before': {
+      borderBottom: '1px solid #1976d2',
+    },
+    '&:hover:not(.Mui-disabled):before': {
+      borderBottom: '2px solid #1976d2',
+    },
+  },
+  '& .MuiInput-input': {
+    fontSize: '0.875rem',
+  },
+  '& .Mui-disabled': {
+    WebkitTextFillColor: '#777 !important',
+    letterSpacing: '0.1rem',
+    '& .MuiSvgIcon-root': {
+      width: '.8rem',
+      color: '#9e9e9e',
+    },
+  },
+  '& .MuiSvgIcon-root': {
+    width: '1rem',
+    color: '#1976d2',
   },
 };
