@@ -16,10 +16,7 @@ type LevelTableTopBannerProps = {
   level: number;
   children: ReactNode;
 };
-export const LevelTableTopBanner = ({
-  level,
-  children,
-}: LevelTableTopBannerProps) => {
+export const LevelTableTopBanner = ({ level, children }: LevelTableTopBannerProps) => {
   const levelTitle = `단계 ${level}`;
   return (
     <Wrapper>

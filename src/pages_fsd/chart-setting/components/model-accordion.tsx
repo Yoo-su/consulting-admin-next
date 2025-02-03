@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Stack,
-  styled,
-  Typography,
-} from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Stack, styled, Typography } from '@mui/material';
 import { memo } from 'react';
 
 import { useModelAccordion } from '../hooks';
@@ -22,16 +15,10 @@ type ModelAccordionProps = {
 };
 export const ModelAccordion = memo(({ modelNum }: ModelAccordionProps) => {
   const isEditing = useChartSettingStore((state) => state.isEditing);
-  const {
-    isExpanded,
-    modelLevels,
-    modelChartData,
-    handleClickAccordionTitle,
-    handleDeleteModel,
-    handleAddNewLevel,
-  } = useModelAccordion({
-    modelNum,
-  });
+  const { isExpanded, modelLevels, modelChartData, handleClickAccordionTitle, handleDeleteModel, handleAddNewLevel } =
+    useModelAccordion({
+      modelNum,
+    });
 
   return (
     <Accordion expanded={isExpanded}>
@@ -42,27 +29,16 @@ export const ModelAccordion = memo(({ modelNum }: ModelAccordionProps) => {
         >{`모델 ${modelNum + 1}`}</ModelAccordionTitle>
 
         {isExpanded && (
-          <Stack
-            direction={'row'}
-            sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}
-          >
+          <Stack direction={'row'} sx={{ ml: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
             <DeleteModelButton handleDeleteModel={handleDeleteModel} />
           </Stack>
         )}
       </AccordionSummary>
       <AccordionDetails>
-        <ModelChartBox
-          modelNum={modelNum}
-          modelLevels={modelLevels}
-          modelChartData={modelChartData}
-        />
+        <ModelChartBox modelNum={modelNum} modelLevels={modelLevels} modelChartData={modelChartData} />
 
         {modelLevels.map((ml) => (
-          <ModelLevelTable
-            key={`model-${modelNum}-level-${ml}-table`}
-            modelNum={modelNum}
-            levelNum={ml}
-          />
+          <ModelLevelTable key={`model-${modelNum}-level-${ml}-table`} modelNum={modelNum} levelNum={ml} />
         ))}
         {!isEditing && <AddLevelButton handleAddNewLevel={handleAddNewLevel} />}
       </AccordionDetails>

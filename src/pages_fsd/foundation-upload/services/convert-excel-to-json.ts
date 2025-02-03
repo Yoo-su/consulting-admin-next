@@ -8,9 +8,7 @@ import { convertSheetName } from './convert-sheet-name';
  * @param buffer
  * @returns
  */
-export const convertExcelToJson = (
-  buffer: string | ArrayBuffer | null | undefined
-) => {
+export const convertExcelToJson = (buffer: string | ArrayBuffer | null | undefined) => {
   let sheetCheck: typeof SHEET_FLAG = SHEET_FLAG;
   let tmpResult: any = {};
   const returnVal: any = {};

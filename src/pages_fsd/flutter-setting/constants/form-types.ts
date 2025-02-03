@@ -3,11 +3,7 @@ import { ListOrderForm } from '../components/detail-panel-form/list-order-form';
 import { MapForm } from '../components/detail-panel-form/map-form';
 import { SelectForm } from '../components/detail-panel-form/select-form';
 import { TextForm } from '../components/detail-panel-form/text-form';
-import {
-  BasicFormComponent,
-  ComponentMappingType,
-  FlutterSettingFormType,
-} from '../models';
+import { BasicFormComponent, ComponentMappingType, FlutterSettingFormType } from '../models';
 
 export const FORM_TYPE_LIST: FlutterSettingFormType[] = [
   {

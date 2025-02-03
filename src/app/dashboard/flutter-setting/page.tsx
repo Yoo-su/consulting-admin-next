@@ -1,9 +1,6 @@
 import Box from '@mui/material/Box';
 
-import {
-  DupService,
-  FlutterSettingContainer,
-} from '@/pages_fsd/flutter-setting/components';
+import { DupService, FlutterSettingContainer } from '@/pages_fsd/flutter-setting/components';
 import { FlutterSettingProvider } from '@/pages_fsd/flutter-setting/contexts';
 import { UnivServiceCheckGuard } from '@/shared/components';
 

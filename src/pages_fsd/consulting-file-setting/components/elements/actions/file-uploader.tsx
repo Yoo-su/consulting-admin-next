@@ -7,15 +7,8 @@ import { ChangeEvent, useRef, useState } from 'react';
 import { useTypographyToast } from '@/shared/hooks';
 
 import { useConsultingFileSettings, useFileDropHandler } from '../../../hooks';
-import {
-  checkFileType,
-  getFileTypeErrorToastComponent,
-} from '../../../services';
-import {
-  CustomWidthBoxCell,
-  HiddenFileInput,
-  UploadDivWrapper,
-} from '../cells/';
+import { checkFileType, getFileTypeErrorToastComponent } from '../../../services';
+import { CustomWidthBoxCell, HiddenFileInput, UploadDivWrapper } from '../cells/';
 
 export const FileUploader = () => {
   const { showError } = useTypographyToast();
@@ -44,10 +37,7 @@ export const FileUploader = () => {
 
   return (
     <CustomWidthBoxCell justifyContent="center">
-      <UploadDivWrapper
-        {...dragHandlers}
-        sx={{ backgroundColor: fileEnter ? '#E5F6FD' : 'white' }}
-      >
+      <UploadDivWrapper {...dragHandlers} sx={{ backgroundColor: fileEnter ? '#E5F6FD' : 'white' }}>
         <Button
           component="label"
           role={undefined}
@@ -58,12 +48,7 @@ export const FileUploader = () => {
           startIcon={<CloudUploadIcon />}
         >
           자료 업로드
-          <HiddenFileInput
-            type="file"
-            onChange={handleChangeEvent}
-            ref={fileInputRef}
-            webkitdirectory=""
-          />
+          <HiddenFileInput type="file" onChange={handleChangeEvent} ref={fileInputRef} webkitdirectory="" />
         </Button>
       </UploadDivWrapper>
     </CustomWidthBoxCell>

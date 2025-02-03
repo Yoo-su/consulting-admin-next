@@ -10,21 +10,12 @@ type DupDialogContentProps = {
   isShowAlert: boolean;
 };
 
-export const DupDialogContent = ({
-  selectedService,
-  setSelectedService,
-  isShowAlert,
-}: DupDialogContentProps) => {
+export const DupDialogContent = ({ selectedService, setSelectedService, isShowAlert }: DupDialogContentProps) => {
   return (
     <DialogContent>
       <Stack gap={2}>
-        <Typography variant="subtitle2">
-          복제할 서비스를 선택해주세요.
-        </Typography>
-        <SelectService
-          selectedService={selectedService}
-          setSelectedService={setSelectedService}
-        />
+        <Typography variant="subtitle2">복제할 서비스를 선택해주세요.</Typography>
+        <SelectService selectedService={selectedService} setSelectedService={setSelectedService} />
         <Typography variant="caption" sx={{ color: '#ff0000' }}>
           {isShowAlert && '정말로 복제하시겠습니까?'}
         </Typography>

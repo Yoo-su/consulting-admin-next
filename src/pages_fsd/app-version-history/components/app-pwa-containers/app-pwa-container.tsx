@@ -14,16 +14,8 @@ export const AppPWAContainer = () => {
 
   return (
     <Stack direction={'column'} spacing={4} sx={{ paddingBottom: '.5rem' }}>
-      <AppPWAHeader
-        univName={univName}
-        serviceID={serviceID}
-        serialNo={serialNo}
-      />
-      <AppPWABody
-        univEngName={univEngName}
-        schoolYear={schoolYear}
-        isSusi={isSusi}
-      />
+      <AppPWAHeader univName={univName} serviceID={serviceID} serialNo={serialNo} />
+      <AppPWABody univEngName={univEngName} schoolYear={schoolYear} isSusi={isSusi} />
     </Stack>
   );
 };

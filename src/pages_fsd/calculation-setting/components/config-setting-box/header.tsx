@@ -33,11 +33,7 @@ export const Header = ({ serviceID }: HeaderProps) => {
         <Typography variant={'h4'}>Config 설정</Typography>
       </Stack>
 
-      <ButtonIcon
-        Icon={AddCircleOutlineIcon}
-        onClick={handleClickAddBtn}
-        size={'large'}
-      />
+      <ButtonIcon Icon={AddCircleOutlineIcon} onClick={handleClickAddBtn} size={'large'} />
     </Stack>
   );
 };

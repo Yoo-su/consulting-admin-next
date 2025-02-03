@@ -112,11 +112,7 @@ export const isValidHexColor = (input: string) => {
   return regex.test(input);
 };
 
-export function round(
-  value: number,
-  minimumFractionDigits?: number,
-  maximumFractionDigits?: number
-): number {
+export function round(value: number, minimumFractionDigits?: number, maximumFractionDigits?: number): number {
   const formattedValue = value.toLocaleString('en', {
     useGrouping: false,
     minimumFractionDigits,

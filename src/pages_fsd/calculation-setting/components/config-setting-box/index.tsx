@@ -17,10 +17,7 @@ export const ConfigSettingBox = ({ serviceID }: ConfigSettingBoxProps) => {
       <Header serviceID={serviceID} />
       <Divider sx={{ bgcolor: 'rgba(0,0,0,0.01)', my: 1 }} />
       {data?.map((calcConfigItem) => (
-        <CalcConfigAccordion
-          key={calcConfigItem.CalcConfigID}
-          calcConfig={calcConfigItem}
-        />
+        <CalcConfigAccordion key={calcConfigItem.CalcConfigID} calcConfig={calcConfigItem} />
       ))}
     </Stack>
   );

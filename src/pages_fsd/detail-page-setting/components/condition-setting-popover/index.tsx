@@ -21,13 +21,7 @@ type ConditionSettingPopoverProps = {
   conditions: Condition[];
 };
 export const ConditionSettingPopover = memo(
-  ({
-    anchorEl,
-    open,
-    rowNum,
-    conditions,
-    handleClose,
-  }: ConditionSettingPopoverProps) => {
+  ({ anchorEl, open, rowNum, conditions, handleClose }: ConditionSettingPopoverProps) => {
     const {
       isConditionChanged,
       currentConditions,
@@ -55,10 +49,7 @@ export const ConditionSettingPopover = memo(
         <WrapperStack>
           <HeaderStack gap={1}>
             <AddConditionRowButton handleClickAddRow={handleAddConditionRow} />
-            <SaveConditionButton
-              handleClickSave={handleSaveConditionChanges}
-              isConditionChanged={isConditionChanged}
-            />
+            <SaveConditionButton handleClickSave={handleSaveConditionChanges} isConditionChanged={isConditionChanged} />
           </HeaderStack>
 
           <ConditionContainer>
@@ -113,8 +104,7 @@ const HeaderStack = styled(Stack)(({ theme }) => ({
   position: 'sticky',
   width: '100%',
   borderRadius: theme.spacing(0.5),
-  boxShadow:
-    '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
+  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
 }));
 
 const ConditionContainer = styled(Stack)(({ theme }) => ({

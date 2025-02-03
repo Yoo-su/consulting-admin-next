@@ -15,8 +15,7 @@ export const useDeployAppMutation = () => {
       const osType = variables.get('osType') as string;
 
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS['app-version-history'].history(serviceID, osType)
-          .queryKey,
+        queryKey: QUERY_KEYS['app-version-history'].history(serviceID, osType).queryKey,
       });
     },
   });

@@ -27,17 +27,10 @@ export const MapFormBody = ({ mapHookValues }: MapFormBodyProps) => {
               <TableCell>{row.value}</TableCell>
             </>
           ) : (
-            <MapFormInputCell
-              index={`${index}`}
-              objValue={objValue}
-              setObjValue={setObjValue}
-            />
+            <MapFormInputCell index={`${index}`} objValue={objValue} setObjValue={setObjValue} />
           )}
           <TableCell>
-            <MapFormEditSaveButton
-              mapHookValues={mapHookValues}
-              index={index}
-            />
+            <MapFormEditSaveButton mapHookValues={mapHookValues} index={index} />
           </TableCell>
         </TableRow>
       ))}

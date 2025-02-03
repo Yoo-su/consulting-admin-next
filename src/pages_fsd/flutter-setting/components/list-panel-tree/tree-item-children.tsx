@@ -10,10 +10,7 @@ type TreeItemChildrenProps = {
   filteredSettingList: FlutterSetting[];
 };
 
-export const TreeItemChildren = ({
-  parent,
-  filteredSettingList,
-}: TreeItemChildrenProps) => {
+export const TreeItemChildren = ({ parent, filteredSettingList }: TreeItemChildrenProps) => {
   const { Category, children } = parent;
 
   if (!children) return null;

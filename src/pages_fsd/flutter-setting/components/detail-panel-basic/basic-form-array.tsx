@@ -7,11 +7,7 @@ type BasicFormArrayProps = {
   isDisabled: boolean;
 };
 
-export const BasicFormArray = ({
-  settingList,
-  path,
-  isDisabled,
-}: BasicFormArrayProps) => {
+export const BasicFormArray = ({ settingList, path, isDisabled }: BasicFormArrayProps) => {
   return (
     <>
       {settingList.map((item: FlutterRowInfo, index: number) => (

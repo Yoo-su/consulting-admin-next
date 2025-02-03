@@ -3,10 +3,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { IconButton, InputAdornment } from '@mui/material';
 
 import { NameEditorClass } from '@/pages_fsd/consulting-file-setting/constants';
-import {
-  useConsultingFileSettings,
-  useFileEditHandler,
-} from '@/pages_fsd/consulting-file-setting/hooks';
+import { useConsultingFileSettings, useFileEditHandler } from '@/pages_fsd/consulting-file-setting/hooks';
 import { ConsultingFile } from '@/pages_fsd/consulting-file-setting/models';
 
 import { StyledTextField } from '../cells';
@@ -31,12 +28,7 @@ export const FileNameEditor = ({ file }: FileNameEditorProps) => {
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton
-              disableRipple
-              onClick={handleTextInput}
-              edge="start"
-              id={`${file.RefNo}`}
-            >
+            <IconButton disableRipple onClick={handleTextInput} edge="start" id={`${file.RefNo}`}>
               {editFileIndex[file.RefNo - 1] ? <DoneIcon /> : <EditIcon />}
             </IconButton>
           </InputAdornment>

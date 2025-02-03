@@ -31,8 +31,7 @@ export const useChartDataMutation: UseChartDataMutation = () => {
     isPending: isPostChartDataLoading,
     isSuccess: isPostChartDataSuccess,
   } = useMutation({
-    mutationFn: (chartData: ChartData[]) =>
-      updateChartData(serviceID, chartData),
+    mutationFn: (chartData: ChartData[]) => updateChartData(serviceID, chartData),
     onSuccess: () => {
       showSuccess('차트정보 업데이트 완료!', 'caption');
     },
@@ -44,12 +43,9 @@ export const useChartDataMutation: UseChartDataMutation = () => {
 
   const setChartData = useCallback(
     (newData: ChartData[]) => {
-      queryClient.setQueryData(
-        QUERY_KEYS['chart-setting']['chart-data'](serviceID).queryKey,
-        () => {
-          return newData;
-        }
-      );
+      queryClient.setQueryData(QUERY_KEYS['chart-setting']['chart-data'](serviceID).queryKey, () => {
+        return newData;
+      });
     },
     [serviceID]
   );

@@ -11,11 +11,7 @@ type FileDeleteOneProps = {
 export const FileDeleteOne = ({ file }: FileDeleteOneProps) => {
   const { handleDeleteFile } = useFileEditHandler({ file });
   return (
-    <IconButton
-      disableRipple
-      onClick={handleDeleteFile}
-      id={`deleteFile-${file.RefNo}`}
-    >
+    <IconButton disableRipple onClick={handleDeleteFile} id={`deleteFile-${file.RefNo}`}>
       <ClearIcon color="warning" fontSize="small" />
     </IconButton>
   );

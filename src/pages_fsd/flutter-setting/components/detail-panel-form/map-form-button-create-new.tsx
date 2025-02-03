@@ -8,9 +8,7 @@ type MapFormCreateNewButtonProps = {
   mapHookValues: UseMapFormReturn;
 };
 
-export const MapFormCreateNewButton = ({
-  mapHookValues,
-}: MapFormCreateNewButtonProps) => {
+export const MapFormCreateNewButton = ({ mapHookValues }: MapFormCreateNewButtonProps) => {
   const { setIsAdd, isAdd, isDisabled } = mapHookValues;
   const handleAdd = () => {
     setIsAdd(true);

@@ -8,23 +8,14 @@ type InputServiceTypeProps = {
   setServiceType: Dispatch<SetStateAction<ServiceTypeNum>>;
 };
 
-export const InputServiceType = ({
-  serviceType,
-  setServiceType,
-}: InputServiceTypeProps) => {
+export const InputServiceType = ({ serviceType, setServiceType }: InputServiceTypeProps) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setServiceType(event.target.value as ServiceTypeNum);
   };
   return (
     <Stack direction={'row'} alignItems={'center'} spacing={2}>
       <InputLabel>서비스 유형</InputLabel>
-      <TextField
-        select
-        value={serviceType}
-        sx={{ minWidth: '150px' }}
-        size="small"
-        onChange={handleChange}
-      >
+      <TextField select value={serviceType} sx={{ minWidth: '150px' }} size="small" onChange={handleChange}>
         {serviceTypeList.map((option) => (
           <MenuItem key={option.label} value={option.value}>
             {option.label}

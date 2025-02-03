@@ -7,13 +7,7 @@ import { ChangeEvent, Dispatch, MouseEvent, SetStateAction } from 'react';
 
 import { ColorSquareClass, PRE_COLORS } from '../../constants';
 import { HSV } from '../../models';
-import {
-  clamp,
-  hexToHsv,
-  hsvToHex,
-  isValidHexColor,
-  matchIsNumber,
-} from '../../services';
+import { clamp, hexToHsv, hsvToHex, isValidHexColor, matchIsNumber } from '../../services';
 import { ColorSpace } from './color-space';
 import { ColorSquareIcon } from './color-square-icon';
 import { HueSlider } from './hue-slider';
@@ -56,20 +50,13 @@ export const ColorPopover = ({
 
   return (
     <Paper sx={{ padding: '5px', width: '300px' }}>
-      <Stack
-        direction={'row'}
-        spacing={2}
-        alignItems={'center'}
-        justifyContent={'space-between'}
-      >
+      <Stack direction={'row'} spacing={2} alignItems={'center'} justifyContent={'space-between'}>
         <Typography variant="body1">선택된 색상</Typography>
         <Stack direction={'row'} alignItems={'center'}>
           <ColorSquareIcon color={`#${hsvToHex(currentHsv)}`} />
           <FormControl>
             <InputBase
-              startAdornment={
-                <InputAdornment position="start">0xff</InputAdornment>
-              }
+              startAdornment={<InputAdornment position="start">0xff</InputAdornment>}
               size="small"
               sx={ColorSquareClass}
               value={hexText}
@@ -79,11 +66,7 @@ export const ColorPopover = ({
         </Stack>
       </Stack>
 
-      <ColorSpace
-        currentHue={currentHsv.h}
-        hsv={currentHsv}
-        onChange={handleChangeSpace}
-      />
+      <ColorSpace currentHue={currentHsv.h} hsv={currentHsv} onChange={handleChangeSpace} />
       <Box>
         <HueSlider
           min={0}
@@ -107,12 +90,7 @@ export const ColorPopover = ({
         ))}
       </Box>
       <Stack direction={'row'}>
-        <Button
-          variant="contained"
-          disableElevation
-          sx={{ width: '100%' }}
-          onClick={handleColorChange}
-        >
+        <Button variant="contained" disableElevation sx={{ width: '100%' }} onClick={handleColorChange}>
           선택 완료
         </Button>
       </Stack>

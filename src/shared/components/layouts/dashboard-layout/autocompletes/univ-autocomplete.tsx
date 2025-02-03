@@ -3,12 +3,13 @@
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { FilterOptionsState } from '@mui/material/useAutocomplete/useAutocomplete';
+import { memo } from 'react';
 
 import { useGetUnivListQuery } from '@/shared/hooks';
 import { Univ } from '@/shared/models';
 import { useSharedStore } from '@/shared/models';
 
-export const UnivAutocomplete = () => {
+export const UnivAutocomplete = memo(() => {
   const { data: univList } = useGetUnivListQuery();
   const { currentUniv, setCurrentUniv, setCurrentService } = useSharedStore();
 
@@ -18,16 +19,10 @@ export const UnivAutocomplete = () => {
       setCurrentUniv(newValue);
     }
   };
-  const filterOptions = (
-    options: Univ[],
-    { inputValue }: FilterOptionsState<Univ>
-  ) => {
-    return options.filter(
-      (item) =>
-        item.univName.includes(inputValue) ||
-        item.univID.toString().includes(inputValue)
-    );
+  const filterOptions = (options: Univ[], { inputValue }: FilterOptionsState<Univ>) => {
+    return options.filter((item) => item.univName.includes(inputValue) || item.univID.toString().includes(inputValue));
   };
+
   return (
     <Autocomplete
       size="small"
@@ -36,7 +31,7 @@ export const UnivAutocomplete = () => {
         return JSON.stringify(option) === JSON.stringify(value);
       }}
       id="univ-select"
-      options={univList}
+      options={univList ?? []}
       getOptionLabel={(option) => option.univName}
       value={currentUniv || null}
       onChange={handleChange}
@@ -78,4 +73,5 @@ export const UnivAutocomplete = () => {
       )}
     />
   );
-};
+});
+UnivAutocomplete.displayName = 'UnivAutocomplete';

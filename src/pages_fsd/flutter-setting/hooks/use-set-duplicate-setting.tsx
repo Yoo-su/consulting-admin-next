@@ -16,8 +16,7 @@ export const useSetDuplicateSettingMutation = () => {
   const { showError, showSuccess } = useTypographyToast();
   return useMutation({
     mutationKey: ['set-duplicate-setting'],
-    mutationFn: (params: SetDuplicateSettingParams) =>
-      setDuplicateSetting(params),
+    mutationFn: (params: SetDuplicateSettingParams) => setDuplicateSetting(params),
     onError: (error: ApiError) => {
       const { response } = error;
       showError(response?.data.message);

@@ -20,23 +20,15 @@ export const useQueueStore = create<QueueStore>((set) => ({
   isAddDirectoryDialogOpen: false,
   addBrowserQueueFiles: (files) =>
     set((state) => {
-      const existingFileNames = new Set(
-        state.browserQueue.map((file) => file.name)
-      );
-      const uniqueFiles = files.filter(
-        (file) => !existingFileNames.has(file.name)
-      );
+      const existingFileNames = new Set(state.browserQueue.map((file) => file.name));
+      const uniqueFiles = files.filter((file) => !existingFileNames.has(file.name));
       return { browserQueue: [...state.browserQueue, ...uniqueFiles] };
     }),
 
   addDialogQueueFiles: (files) =>
     set((state) => {
-      const existingFileNames = new Set(
-        state.dialogQueue.map((file) => file.name)
-      );
-      const uniqueFiles = files.filter(
-        (file) => !existingFileNames.has(file.name)
-      );
+      const existingFileNames = new Set(state.dialogQueue.map((file) => file.name));
+      const uniqueFiles = files.filter((file) => !existingFileNames.has(file.name));
       return { dialogQueue: [...state.dialogQueue, ...uniqueFiles] };
     }),
 
@@ -54,6 +46,5 @@ export const useQueueStore = create<QueueStore>((set) => ({
   resetDialogQueue: () => set(() => ({ dialogQueue: [] })),
 
   openAddDirectoryDialog: () => set(() => ({ isAddDirectoryDialogOpen: true })),
-  closeAddDirectoryDialog: () =>
-    set(() => ({ dialogQueue: [], isAddDirectoryDialogOpen: false })),
+  closeAddDirectoryDialog: () => set(() => ({ dialogQueue: [], isAddDirectoryDialogOpen: false })),
 }));

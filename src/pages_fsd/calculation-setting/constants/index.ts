@@ -1,1 +1,1 @@
-export const constants = '';
+export * from './messages';

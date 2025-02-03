@@ -16,27 +16,24 @@ type GetServiceListResponse = {
 };
 
 export const getServiceList = async (univID: string) => {
-  const { data } = await apiInstance.get<Service[]>(
-    `${API_URLS.admin.getServiceList}/${univID}`,
-    {
-      params: {
-        univID,
-      },
-      transformResponse: (data) => {
-        const parsedData = JSON.parse(data) as GetServiceListResponse[];
-        return parsedData.map((item) => ({
-          serviceID: item.ServiceID.toString(),
-          schoolYear: item.SchoolYear,
-          isSusi: item.IsSusi,
-          univID: item.UnivID,
-          serviceName: item.ServiceName,
-          developer: item.Developer,
-          manager: item.Manager,
-          serialNo: item.SerialNo,
-          isNew: item.isNew,
-        }));
-      },
-    }
-  );
+  const { data } = await apiInstance.get<Service[]>(`${API_URLS.admin.getServiceList}/${univID}`, {
+    params: {
+      univID,
+    },
+    transformResponse: (data) => {
+      const parsedData = JSON.parse(data) as GetServiceListResponse[];
+      return parsedData.map((item) => ({
+        serviceID: item.ServiceID.toString(),
+        schoolYear: item.SchoolYear,
+        isSusi: item.IsSusi,
+        univID: item.UnivID,
+        serviceName: item.ServiceName,
+        developer: item.Developer,
+        manager: item.Manager,
+        serialNo: item.SerialNo,
+        isNew: item.isNew,
+      }));
+    },
+  });
   return data;
 };

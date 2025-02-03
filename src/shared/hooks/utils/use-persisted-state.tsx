@@ -21,8 +21,7 @@ export const usePersistedState = <T,>(
   useEffect(() => {
     // 클라이언트 측에서만 실행되도록 조건문 추가
     if (typeof window !== 'undefined') {
-      const storage =
-        storageType === 'local' ? window.localStorage : window.sessionStorage;
+      const storage = storageType === 'local' ? window.localStorage : window.sessionStorage;
       const storageVal = storage.getItem(key);
       if (storageVal) setState(JSON.parse(storageVal));
     }
@@ -31,8 +30,7 @@ export const usePersistedState = <T,>(
   const setPersistedState = (value: T) => {
     // 클라이언트 측에서만 실행되도록 조건문 추가
     if (typeof window !== 'undefined') {
-      const storage =
-        storageType === 'local' ? window.localStorage : window.sessionStorage;
+      const storage = storageType === 'local' ? window.localStorage : window.sessionStorage;
       setState(value);
       storage.setItem(key, JSON.stringify(value));
     }

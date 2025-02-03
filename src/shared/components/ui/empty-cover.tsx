@@ -19,15 +19,9 @@ export const EmptyCover = ({ message, sx }: EmptyCoverProps) => {
   const [selectedImage, setSelectedImage] = useState(0);
 
   const today = new Date();
-  const christmasSeason = [
-    new Date(today.getFullYear(), 10, 1),
-    new Date(today.getFullYear(), 11, 31),
-  ];
+  const christmasSeason = [new Date(today.getFullYear(), 10, 1), new Date(today.getFullYear(), 11, 31)];
 
-  const isChristmas = useMemo(
-    () => christmasSeason[0] <= today && today <= christmasSeason[1],
-    [today]
-  );
+  const isChristmas = useMemo(() => christmasSeason[0] <= today && today <= christmasSeason[1], [today]);
 
   const christmasImages = [
     {
@@ -79,16 +73,8 @@ export const EmptyCover = ({ message, sx }: EmptyCoverProps) => {
       }}
     >
       <Image
-        src={
-          isChristmas
-            ? christmasImages[selectedImage].src
-            : images[selectedImage].src
-        }
-        alt={
-          isChristmas
-            ? christmasImages[selectedImage].alt
-            : images[selectedImage].alt
-        }
+        src={isChristmas ? christmasImages[selectedImage].src : images[selectedImage].src}
+        alt={isChristmas ? christmasImages[selectedImage].alt : images[selectedImage].alt}
         width={64}
         height={64}
         draggable={false}

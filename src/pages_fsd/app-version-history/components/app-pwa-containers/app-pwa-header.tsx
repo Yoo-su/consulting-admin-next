@@ -11,11 +11,7 @@ type AppPWAHeaderProps = {
   serialNo: string | undefined;
 };
 
-export const AppPWAHeader = ({
-  univName,
-  serviceID,
-  serialNo,
-}: AppPWAHeaderProps) => {
+export const AppPWAHeader = ({ univName, serviceID, serialNo }: AppPWAHeaderProps) => {
   const theme = useTheme();
   const downmd = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -27,11 +23,7 @@ export const AppPWAHeader = ({
   };
 
   return (
-    <Stack
-      direction={'row'}
-      alignItems={'center'}
-      justifyContent={'space-between'}
-    >
+    <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
       <Typography variant="h6" sx={{ ...(downmd && ContainerHeaderClass) }}>
         {`${univName}(${serviceID}) PWA 앱 주소`}
       </Typography>

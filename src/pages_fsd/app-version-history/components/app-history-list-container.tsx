@@ -16,9 +16,7 @@ export const AppHistoryListContainer = () => {
   const { currentService } = useSharedStore();
   const isNew = currentService?.isNew ?? false;
 
-  const [appType, setAppType] = useState<ConsultingAppType>(
-    isNew ? OS_TYPE.APK : OS_TYPE.PWA
-  );
+  const [appType, setAppType] = useState<ConsultingAppType>(isNew ? OS_TYPE.APK : OS_TYPE.PWA);
   const { data: histories } = useGetAppVersionHistoryQuery(
     currentService?.serviceID,
     appType === OS_TYPE.PWA ? null : appType
@@ -27,19 +25,11 @@ export const AppHistoryListContainer = () => {
   return (
     <ContentWrapper>
       <ContentWrapper.Header bottomDivider>
-        <HeaderSelectRadio
-          appType={appType}
-          setAppType={setAppType}
-          isNew={isNew}
-        />
+        <HeaderSelectRadio appType={appType} setAppType={setAppType} isNew={isNew} />
       </ContentWrapper.Header>
 
       <ContentWrapper.MainContent>
-        {appType == OS_TYPE.PWA ? (
-          <AppPWAContainer />
-        ) : (
-          <AppProgContainer histories={histories} />
-        )}
+        {appType == OS_TYPE.PWA ? <AppPWAContainer /> : <AppProgContainer histories={histories} />}
       </ContentWrapper.MainContent>
     </ContentWrapper>
   );

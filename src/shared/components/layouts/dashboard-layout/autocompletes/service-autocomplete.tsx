@@ -6,32 +6,26 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 
 import { useGetServiceListQuery } from '@/shared/hooks';
 import { Service, useSharedStore } from '@/shared/models';
 
-export const ServiceAutocomplete = () => {
+export const ServiceAutocomplete = memo(() => {
   const { currentUniv, currentService, setCurrentService } = useSharedStore();
-  const { data: serviceList, isLoading: isServiceListLoading } =
-    useGetServiceListQuery(currentUniv?.univID);
+  const { data: serviceList, isLoading: isServiceListLoading } = useGetServiceListQuery(currentUniv?.univID);
 
   const getServiceMenuTitle = useCallback((service: Service) => {
     return (
-      service.schoolYear +
-      '학년도' +
-      ' ' +
-      (service.isSusi === '1' ? '수시' : '정시') +
-      ' ' +
-      `(${service.serviceID})`
+      service.schoolYear + '학년도' + ' ' + (service.isSusi === '1' ? '수시' : '정시') + ' ' + `(${service.serviceID})`
     );
   }, []);
 
-  const handleChange = (event: any, newValue: Service | null) => {
+  const handleChange = useCallback((event: any, newValue: Service | null) => {
     if (newValue) {
       setCurrentService(newValue);
     }
-  };
+  }, []);
 
   return (
     <Autocomplete
@@ -101,4 +95,5 @@ export const ServiceAutocomplete = () => {
       )}
     />
   );
-};
+});
+ServiceAutocomplete.displayName = 'ServiceAutocomplete';

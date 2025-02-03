@@ -18,12 +18,7 @@ export const ToggleSwitch = ({ toggle, setToggle }: ToggleSwitchProps) => {
       <Typography variant="body2" sx={{ color: toggle ? '#969696' : 'black' }}>
         전체
       </Typography>
-      <Switch
-        size="small"
-        sx={SwitchClass}
-        checked={toggle}
-        onChange={handleChange}
-      />
+      <Switch size="small" sx={SwitchClass} checked={toggle} onChange={handleChange} />
       <Typography variant="body2" sx={{ color: toggle ? 'black' : '#969696' }}>
         예외
       </Typography>

@@ -1,12 +1,6 @@
 import SquareRoundedIcon from '@mui/icons-material/SquareRounded';
 import { Popover } from '@mui/material';
-import {
-  Dispatch,
-  MouseEvent,
-  SetStateAction,
-  useEffect,
-  useState,
-} from 'react';
+import { Dispatch, MouseEvent, SetStateAction, useEffect, useState } from 'react';
 
 import { useFlutterSetting } from '../../hooks';
 import { FormItemProps, HSV } from '../../models';
@@ -31,10 +25,7 @@ export const FlutterColorPicker = ({
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
   const [currentHsv, setCurrentHsv] = useState<HSV>(hexToHsv(value));
-  const [hexText, setHexText] = useState<string>(
-    value.replace('0xff', '').toUpperCase()
-  );
-  //TODO: blocked aria-hidden error
+  const [hexText, setHexText] = useState<string>(value.replace('0xff', '').toUpperCase());
   const { addToEditedList } = useFlutterSetting();
 
   const handleColorChange = (event: MouseEvent<HTMLButtonElement>) => {

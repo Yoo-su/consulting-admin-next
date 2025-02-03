@@ -22,11 +22,6 @@ export type UpdateConsultingAppStateParams = {
   serviceType: ServiceType;
   currentState: CurrentState;
 };
-export const updateConsultingAppState = async (
-  params: UpdateConsultingAppStateParams
-) => {
-  return await apiInstance.patch<UpdateConsultingAppStateResponse>(
-    API_URLS.dashboard.updateConsultingAppState,
-    params
-  );
+export const updateConsultingAppState = async (params: UpdateConsultingAppStateParams) => {
+  return await apiInstance.patch<UpdateConsultingAppStateResponse>(API_URLS.dashboard.updateConsultingAppState, params);
 };

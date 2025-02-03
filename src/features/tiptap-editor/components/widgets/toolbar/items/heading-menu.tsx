@@ -58,10 +58,7 @@ export const HeadingMenu = ({ editor, anchorEl, onClose }: Props) => {
       TransitionComponent={Fade}
     >
       {options.map((option, index) => (
-        <MenuItem
-          key={index}
-          onClick={() => handleSelectHeading(option.value as Level)}
-        >
+        <MenuItem key={index} onClick={() => handleSelectHeading(option.value as Level)}>
           {option.label}
         </MenuItem>
       ))}

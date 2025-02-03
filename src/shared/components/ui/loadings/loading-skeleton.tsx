@@ -15,21 +15,8 @@ export const ContentLoadingSkeleton = ({
 }: ContentLoadingSkeletonProps) => {
   return (
     <Stack direction={'column'} sx={{ width: '100%' }}>
-      {isTitle && (
-        <Skeleton
-          variant="text"
-          width={'65%'}
-          height={'50px'}
-          animation="wave"
-        />
-      )}
-      <Skeleton
-        variant="rectangular"
-        width={width}
-        height={height}
-        sx={{ mt: 3 }}
-        animation="wave"
-      />
+      {isTitle && <Skeleton variant="text" width={'65%'} height={'50px'} animation="wave" />}
+      <Skeleton variant="rectangular" width={width} height={height} sx={{ mt: 3 }} animation="wave" />
     </Stack>
   );
 };

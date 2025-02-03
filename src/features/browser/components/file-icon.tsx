@@ -59,13 +59,7 @@ export const FileIcon = memo(({ contentType }: FileIconProps) => {
 
   return (
     <animated.div style={fadeIn}>
-      <Image
-        draggable={false}
-        src={icon}
-        alt="file icon"
-        width={48}
-        height={48}
-      />
+      <Image draggable={false} src={icon} alt="file icon" width={48} height={48} />
     </animated.div>
   );
 });

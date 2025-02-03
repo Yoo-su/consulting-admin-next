@@ -1,9 +1,6 @@
 import { SUB_MENU_SETTING } from '../constants';
 
-export const getSubMenuClass = (
-  level: number,
-  properties: Array<keyof typeof SUB_MENU_SETTING>
-) => {
+export const getSubMenuClass = (level: number, properties: Array<keyof typeof SUB_MENU_SETTING>) => {
   return properties.reduce(
     (styles, property) => ({
       ...styles,

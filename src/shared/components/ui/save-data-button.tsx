@@ -37,9 +37,7 @@ export const SaveDataButton = ({
       disabled={disabled}
       sx={{
         width: 'fit-content',
-        ...(downsm
-          ? { my: 2, mx: 'auto' }
-          : { position: 'fixed', bottom: 35, right: 35 }),
+        ...(downsm ? { my: 2, mx: 'auto' } : { position: 'fixed', bottom: 35, right: 35 }),
       }}
       onClick={handleBtnClick}
     >

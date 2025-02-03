@@ -9,11 +9,7 @@ import { FlutterSetting } from '../models';
 import { setCustomConfig } from '../services';
 import { useGetFlutterBasicList } from './use-get-flutter-basic-list';
 
-export const useGetFlutterSettingsInfoQuery = ({
-  serviceID,
-}: {
-  serviceID: string;
-}) => {
+export const useGetFlutterSettingsInfoQuery = ({ serviceID }: { serviceID: string }) => {
   return useQueries({
     queries: [
       {
@@ -22,8 +18,7 @@ export const useGetFlutterSettingsInfoQuery = ({
         staleTime: Infinity,
       },
       {
-        queryKey:
-          QUERY_KEYS['flutter-setting']['custom-config'](serviceID).queryKey,
+        queryKey: QUERY_KEYS['flutter-setting']['custom-config'](serviceID).queryKey,
         queryFn: () => getFlutterCustomConfig({ serviceID }),
         staleTime: 0,
       },
@@ -32,17 +27,9 @@ export const useGetFlutterSettingsInfoQuery = ({
       const [BasicListData, CustomeConfigData] = results;
       const basicList = BasicListData.data || [];
       const customConfig = CustomeConfigData.data || [];
-      const categoryList = JSON.parse(
-        JSON.stringify(basicList)
-      ) as FlutterSetting[];
+      const categoryList = JSON.parse(JSON.stringify(basicList)) as FlutterSetting[];
       categoryList.forEach((category) => {
-        customConfig.forEach((config) =>
-          setCustomConfig(
-            category?.children ?? [],
-            config.RowIdx,
-            config.RowValue
-          )
-        );
+        customConfig.forEach((config) => setCustomConfig(category?.children ?? [], config.RowIdx, config.RowValue));
       });
       return { data: categoryList };
     },

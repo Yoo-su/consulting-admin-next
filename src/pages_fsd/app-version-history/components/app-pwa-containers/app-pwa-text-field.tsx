@@ -10,12 +10,7 @@ type AppPWATextFieldProps = {
   handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
-export const AppPWATextField = ({
-  title,
-  url,
-  id,
-  handleClick,
-}: AppPWATextFieldProps) => {
+export const AppPWATextField = ({ title, url, id, handleClick }: AppPWATextFieldProps) => {
   return (
     <Stack direction={'column'} spacing={1}>
       <Typography variant="overline">{title}</Typography>

@@ -7,10 +7,7 @@ type TreeItemChildrenCustomProps = {
   newList: FlutterSetting[];
 };
 
-export const TreeItemChildrenCustom = ({
-  child,
-  newList,
-}: TreeItemChildrenCustomProps) => {
+export const TreeItemChildrenCustom = ({ child, newList }: TreeItemChildrenCustomProps) => {
   const { children, Category, Title } = child;
   const countableTypes = ['object', 'list-order', 'select'];
   const getLength = (children: FlutterRowInfo[]) =>
@@ -19,12 +16,7 @@ export const TreeItemChildrenCustom = ({
   const isRender = getLength(children) > 1 && children;
 
   return (
-    <CustomTreeItem
-      item={child}
-      itemId={`${Category}/${Title}`}
-      filteredList={newList}
-      isDeep
-    >
+    <CustomTreeItem item={child} itemId={`${Category}/${Title}`} filteredList={newList} isDeep>
       {isRender &&
         children.map((grandChild, grandChildIndex) => (
           <CustomTreeItem

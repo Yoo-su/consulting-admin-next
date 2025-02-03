@@ -17,20 +17,10 @@ type BasicFormProps = {
   isDisabled: boolean;
 };
 
-export const BasicForm = ({
-  basicKey,
-  item,
-  path,
-  index = 0,
-  isDisabled,
-}: BasicFormProps) => {
+export const BasicForm = ({ basicKey, item, path, index = 0, isDisabled }: BasicFormProps) => {
   const { Type, level, children } = item;
-  const {
-    flutterSettingList,
-    filteredSettingList,
-    setFilteredSettingList,
-    setFlutterSettingList,
-  } = useFlutterSetting();
+  const { flutterSettingList, filteredSettingList, setFilteredSettingList, setFlutterSettingList } =
+    useFlutterSetting();
 
   // TODO: 깊이 2의 메뉴 클릭 시 예외처리 안 뜸 - path problem
 
@@ -69,11 +59,7 @@ export const BasicForm = ({
       <BasicFormTitle item={item} filteredSettingList={filteredSettingList} />
 
       {Type === 'object' ? (
-        <EditSetting
-          settingList={children}
-          path={path}
-          isDisabled={isDisabled}
-        />
+        <EditSetting settingList={children} path={path} isDisabled={isDisabled} />
       ) : (
         <BasicFormTypeList componentObj={componentObj} Type={Type} />
       )}

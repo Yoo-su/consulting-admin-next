@@ -7,10 +7,7 @@ type AddFormButtonProps = {
   isAddServiceLoading: boolean;
 };
 
-export const AddFormButton = ({
-  handleSubmit,
-  isAddServiceLoading,
-}: AddFormButtonProps) => {
+export const AddFormButton = ({ handleSubmit, isAddServiceLoading }: AddFormButtonProps) => {
   return (
     <LoadingButton
       variant="contained"

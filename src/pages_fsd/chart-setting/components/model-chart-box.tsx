@@ -14,59 +14,49 @@ type ModelChartBoxProps = {
   modelLevels: number[];
   modelChartData: ChartData[];
 };
-export const ModelChartBox = memo(
-  ({ modelNum, modelLevels, modelChartData }: ModelChartBoxProps) => {
-    const theme = useTheme();
-    const { selectedLevel, chartData, handleSelectLevel } = useModelChartBox(
-      modelLevels,
-      modelChartData
-    );
+export const ModelChartBox = memo(({ modelNum, modelLevels, modelChartData }: ModelChartBoxProps) => {
+  const theme = useTheme();
+  const { selectedLevel, chartData, handleSelectLevel } = useModelChartBox(modelLevels, modelChartData);
 
-    return (
-      <Stack
-        direction="column"
-        spacing={2}
-        alignItems="center"
-        sx={chartBoxStyle}
-      >
-        <Stack direction="row" spacing={3}>
-          {modelLevels.map((level) => (
-            <SelectLevelButton
-              key={level}
-              level={level}
-              isSelected={selectedLevel === level}
-              handleClick={handleSelectLevel}
-            />
-          ))}
-        </Stack>
-
-        <PieChart
-          key={`model-${modelNum}-level-${selectedLevel}-chart`}
-          colors={CHART_COLORS}
-          series={[
-            {
-              data: chartData,
-              innerRadius: 30,
-              outerRadius: 100,
-              paddingAngle: 5,
-              cornerRadius: 5,
-            },
-          ]}
-          slotProps={{
-            legend: {
-              labelStyle: {
-                fontFamily: theme.typography.body1.fontFamily,
-              },
-            },
-          }}
-          width={400}
-          height={200}
-          margin={{ right: 200 }}
-        />
+  return (
+    <Stack direction="column" spacing={2} alignItems="center" sx={chartBoxStyle}>
+      <Stack direction="row" spacing={3}>
+        {modelLevels.map((level) => (
+          <SelectLevelButton
+            key={level}
+            level={level}
+            isSelected={selectedLevel === level}
+            handleClick={handleSelectLevel}
+          />
+        ))}
       </Stack>
-    );
-  }
-);
+
+      <PieChart
+        key={`model-${modelNum}-level-${selectedLevel}-chart`}
+        colors={CHART_COLORS}
+        series={[
+          {
+            data: chartData,
+            innerRadius: 30,
+            outerRadius: 100,
+            paddingAngle: 5,
+            cornerRadius: 5,
+          },
+        ]}
+        slotProps={{
+          legend: {
+            labelStyle: {
+              fontFamily: theme.typography.body1.fontFamily,
+            },
+          },
+        }}
+        width={400}
+        height={200}
+        margin={{ right: 200 }}
+      />
+    </Stack>
+  );
+});
 
 ModelChartBox.displayName = 'ModelChartBox';
 

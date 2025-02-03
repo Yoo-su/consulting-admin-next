@@ -21,15 +21,8 @@ import {
   StateCardClass,
   StateCardNameClass,
 } from '@/pages_fsd/overview/constants';
-import {
-  ConsultingAppState,
-  useStatusBoardStore,
-} from '@/pages_fsd/overview/models';
-import {
-  useGetServiceListQuery,
-  useGetUnivListQuery,
-  useTypographyToast,
-} from '@/shared/hooks';
+import { ConsultingAppState, useStatusBoardStore } from '@/pages_fsd/overview/models';
+import { useGetServiceListQuery, useGetUnivListQuery, useTypographyToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
 type StateCardProps = {
@@ -40,14 +33,13 @@ export const StateCard = memo(({ state, index }: StateCardProps) => {
   const { showError, showSuccess } = useTypographyToast();
   const { currentUniv, setCurrentService, setCurrentUniv } = useSharedStore();
   const { data: univList } = useGetUnivListQuery();
-  const { data: serviceList, isLoading: isServiceListLoading } =
-    useGetServiceListQuery(currentUniv?.univID);
+  const { data: serviceList, isLoading: isServiceListLoading } = useGetServiceListQuery(currentUniv?.univID);
   const { toggleDialog, setDialogContentState } = useStatusBoardStore();
   const [isHover, setIsHover] = useState(false);
   const [isSelectBtnClicked, setIsSelectBtnClicked] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const cardUniv = univList.filter((univ) => univ.univID == state.univID)[0];
+  const cardUniv = univList?.filter((univ) => univ.univID == state.univID)[0];
   const univName = cardUniv?.univName || '새대학';
   const serviceID = state.serviceID ? state.serviceID : `${state.univID}-미정`;
 
@@ -57,16 +49,14 @@ export const StateCard = memo(({ state, index }: StateCardProps) => {
   };
 
   const handleCardClick = () => {
-    setCurrentUniv(cardUniv);
+    setCurrentUniv(cardUniv!);
     setCurrentService(null);
     setIsSelectBtnClicked(true);
   };
 
   useEffect(() => {
     if (isSelectBtnClicked && !isServiceListLoading) {
-      const currentService =
-        serviceList?.find((service) => service.serviceID == state.serviceID) ??
-        null;
+      const currentService = serviceList?.find((service) => service.serviceID == state.serviceID) ?? null;
       if (currentService) {
         setCurrentService(currentService);
         showSuccess(CURRENT_SERVICE_MESSAGE.SELECTED);
@@ -94,11 +84,7 @@ export const StateCard = memo(({ state, index }: StateCardProps) => {
   });
 
   return (
-    <Draggable
-      key={`${state.currentState}${index}`}
-      draggableId={`${state.currentState}${index}`}
-      index={index}
-    >
+    <Draggable key={`${state.currentState}${index}`} draggableId={`${state.currentState}${index}`} index={index}>
       {(provided, snapshot) => (
         <Box
           ref={provided.innerRef}
@@ -109,11 +95,7 @@ export const StateCard = memo(({ state, index }: StateCardProps) => {
           sx={StateCardClass}
         >
           <Tooltip title="자세히" placement="top">
-            <IconButton
-              sx={IconDetailClass}
-              onClick={handleIconClick}
-              disableRipple
-            >
+            <IconButton sx={IconDetailClass} onClick={handleIconClick} disableRipple>
               <MoreVertSharpIcon />
             </IconButton>
           </Tooltip>
@@ -140,9 +122,7 @@ export const StateCard = memo(({ state, index }: StateCardProps) => {
               )}
             </Stack>
 
-            <animated.div
-              style={snapshot.isDragging ? undefined : hoverAnimation}
-            >
+            <animated.div style={snapshot.isDragging ? undefined : hoverAnimation}>
               <Box ref={contentRef}>
                 <Stack direction={'column'} spacing={1}>
                   <Divider />
@@ -155,26 +135,15 @@ export const StateCard = memo(({ state, index }: StateCardProps) => {
                     onClick={handleCardClick}
                   >
                     {isServiceListLoading ? (
-                      <Stack
-                        direction={'row'}
-                        justifyContent={'center'}
-                        alignItems={'center'}
-                        spacing={1}
-                      >
-                        <Typography
-                          variant="caption"
-                          sx={{ paddingTop: '1px', color: 'rgba(0,0,0,0.8)' }}
-                        >
+                      <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} spacing={1}>
+                        <Typography variant="caption" sx={{ paddingTop: '1px', color: 'rgba(0,0,0,0.8)' }}>
                           선택중
                         </Typography>
                         <CircularProgress color="inherit" size={12} />
                       </Stack>
                     ) : (
                       <>
-                        <Typography
-                          variant="caption"
-                          sx={{ paddingTop: '1px' }}
-                        >
+                        <Typography variant="caption" sx={{ paddingTop: '1px' }}>
                           서비스 선택
                         </Typography>
                         <CheckIcon />
@@ -208,13 +177,7 @@ const getAppIcon = (isNew: boolean) => {
   }
   return (
     <Tooltip title={'PWA앱'} placement="top">
-      <Image
-        src="../pwa.svg"
-        alt="pwa-logo"
-        width={20}
-        height={20}
-        style={{ padding: '0 2px 1px 2px' }}
-      />
+      <Image src="../pwa.svg" alt="pwa-logo" width={20} height={20} style={{ padding: '0 2px 1px 2px' }} />
     </Tooltip>
   );
 };

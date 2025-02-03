@@ -10,19 +10,10 @@ type SettingListProps = {
   setToggle: Dispatch<SetStateAction<boolean>>;
   filteredList: FlutterSetting[];
 };
-export const SettingList = ({
-  toggle,
-  setToggle,
-  filteredList,
-}: SettingListProps) => {
+export const SettingList = ({ toggle, setToggle, filteredList }: SettingListProps) => {
   return (
     <Stack spacing={2}>
-      <Stack
-        direction={'row'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        sx={{ padding: '.5rem .8rem ' }}
-      >
+      <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} sx={{ padding: '.5rem .8rem ' }}>
         <Typography variant={'body1'}>카테고리 목록</Typography>
         <ToggleSwitch toggle={toggle} setToggle={setToggle} />
       </Stack>

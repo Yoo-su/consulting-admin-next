@@ -19,8 +19,5 @@ export const createNewService = async (params: CreateNewServiceParams) => {
     UnivID: params.univID,
   };
 
-  return await apiInstance.post<CreateNewServiceResponse>(
-    API_URLS.dashboard.createService,
-    transformedParams
-  );
+  return await apiInstance.post<CreateNewServiceResponse>(API_URLS.dashboard.createService, transformedParams);
 };

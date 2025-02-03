@@ -1,13 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import {
-  ChangeEvent,
-  DragEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react';
-import { useShallow } from 'zustand/shallow';
+import { ChangeEvent, DragEvent, useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { QUERY_KEYS } from '@/shared/constants';
 import { useTypographyToast } from '@/shared/hooks';
@@ -35,24 +27,17 @@ type UseHandleQueueReturn = {
  * @description
  * 신규 파일 업로드와 관련한 값, 메서드를 관리하는 hook
  */
-export const useHandleQueue = ({
-  formData,
-  uploadMutation,
-}: UseHandleQueueProps) => {
+export const useHandleQueue = ({ formData, uploadMutation }: UseHandleQueueProps) => {
   const { showError } = useTypographyToast();
   const _return = useRef<UseHandleQueueReturn>();
   const queryClient = useQueryClient();
   const currentService = useSharedStore((state) => state.currentService);
   const { basePath, currentPath, browserOption } = useBrowserStore();
-  const { browserQueue, dialogQueue, addBrowserQueueFiles, resetBrowserQueue } =
-    useQueueStore(
-      useShallow((state) => ({
-        browserQueue: state.browserQueue,
-        dialogQueue: state.dialogQueue,
-        addBrowserQueueFiles: state.addBrowserQueueFiles,
-        resetBrowserQueue: state.resetBrowserQueue,
-      }))
-    );
+  const browserQueue = useQueueStore((state) => state.browserQueue);
+  const dialogQueue = useQueueStore((state) => state.dialogQueue);
+  const isAddDirectoryDialogOpen = useQueueStore((state) => state.isAddDirectoryDialogOpen);
+  const addBrowserQueueFiles = useQueueStore((state) => state.addBrowserQueueFiles);
+  const resetBrowserQueue = useQueueStore((state) => state.resetBrowserQueue);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // formData에 directory키에 대한 값을 넘겨줄 경우 그 값
@@ -70,15 +55,10 @@ export const useHandleQueue = ({
   }, [fileInputRef]);
 
   // file input 값 변경 처리
-  const handleChangeFileInput = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      addBrowserQueueFiles(
-        event.target.files ? Array.from(event.target.files) : []
-      );
-      event.target.value = '';
-    },
-    []
-  );
+  const handleChangeFileInput = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    addBrowserQueueFiles(event.target.files ? Array.from(event.target.files) : []);
+    event.target.value = '';
+  }, []);
 
   // input 엘리먼트에 등록된 파일 제거
   const handleRemoveInputFile = useCallback((fileName: string) => {
@@ -92,12 +72,14 @@ export const useHandleQueue = ({
     }
   }, []);
 
+  // browser 영역에 파일 drop 처리리
   const handleOnDrop = useCallback(
     (event: DragEvent<HTMLDivElement>) => {
       if (!browserOption.isDropZone) {
         showError('드롭 허용 영역이 아닙니다', 'caption');
         return;
       }
+      //if (isAddDirectoryDialogOpen) return;
       const arrayFiles = Array.from(event.dataTransfer.files);
       if (!arrayFiles.length) return;
       else addBrowserQueueFiles(arrayFiles);
@@ -105,6 +87,7 @@ export const useHandleQueue = ({
     [browserOption]
   );
 
+  // browser queue에 등록된 파일들 업로드 처리리
   const handleUploadBrowserQueue = useCallback(async () => {
     if (browserOption.appendDirectory) {
       formData?.set('Directory', uploadDirectory);
@@ -126,11 +109,10 @@ export const useHandleQueue = ({
     });
   }, [browserQueue, uploadDirectory, currentPath]);
 
+  // dialog queue에 등록된 파일들 업로드 처리
   const handleUploadDialogQueue = useCallback(
     async (directory: string) => {
-      const refinedDirectory = uploadDirectory
-        ? uploadDirectory + '/'
-        : uploadDirectory;
+      const refinedDirectory = uploadDirectory ? uploadDirectory + '/' : uploadDirectory;
       formData?.set('Directory', refinedDirectory + directory);
       dialogQueue.forEach((file) => {
         formData?.append('files', file);

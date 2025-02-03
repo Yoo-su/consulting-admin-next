@@ -55,12 +55,7 @@ export const SyncBox = ({ serviceID }: SyncBoxProps) => {
     <Stack direction={'row'} alignItems={'flex-end'} spacing={1}>
       <FormControl variant="standard" sx={{ minWidth: 100 }}>
         <InputLabel>Source</InputLabel>
-        <Select
-          size="medium"
-          value={source}
-          onChange={handleChangeSource}
-          label="Source"
-        >
+        <Select size="medium" value={source} onChange={handleChangeSource} label="Source">
           <MenuItem value="devDb">DevDB</MenuItem>
           <MenuItem value="testDb">TestDB</MenuItem>
           <MenuItem value="realDb">RealDB</MenuItem>
@@ -68,12 +63,7 @@ export const SyncBox = ({ serviceID }: SyncBoxProps) => {
       </FormControl>
       <FormControl variant="standard" sx={{ minWidth: 100 }}>
         <InputLabel>Target</InputLabel>
-        <Select
-          size="medium"
-          value={target}
-          onChange={handleChangeTarget}
-          label="Target"
-        >
+        <Select size="medium" value={target} onChange={handleChangeTarget} label="Target">
           <MenuItem value="devDb">DevDB</MenuItem>
           <MenuItem value="testDb">TestDB</MenuItem>
           <MenuItem value="realDb">RealDB</MenuItem>

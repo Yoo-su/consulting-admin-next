@@ -23,13 +23,7 @@ export const CustomTreeItem = ({
   const isEdited = checkChildEdited(item, filteredList, isDeep);
   return (
     <StyledTreeItem
-      label={
-        <TreeItemLable
-          category={item.Title}
-          koreanTitle={item.KoreanTitle}
-          isGrand={isGrand}
-        />
-      }
+      label={<TreeItemLable category={item.Title} koreanTitle={item.KoreanTitle} isGrand={isGrand} />}
       className={`custom-tree-item ${isEdited ? 'edited' : ''}`}
       {...props}
     >

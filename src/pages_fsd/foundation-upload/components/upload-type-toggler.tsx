@@ -1,10 +1,4 @@
-import {
-  FormControlLabel,
-  Switch,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { FormControlLabel, Switch, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { memo } from 'react';
 import { useShallow } from 'zustand/shallow';
 
@@ -30,11 +24,7 @@ export const UploadTypeToggler = memo(() => {
           onChange={toggleIsFileOnly}
         />
       }
-      label={
-        <Typography fontSize={downsm ? '12px' : '16px'}>
-          파일만 업로드
-        </Typography>
-      }
+      label={<Typography fontSize={downsm ? '12px' : '16px'}>파일만 업로드</Typography>}
     />
   );
 });

@@ -9,24 +9,12 @@ import { useMuiAlert, useStepper } from '@/shared/hooks';
 import { useDeployAppMutation } from './use-deploy-app-mutation';
 
 export const useHandleApp = () => {
-  const [appType, setAppType] = useState<Exclude<OsTypeValues, 'O'>>(
-    OS_TYPE.APK
-  );
+  const [appType, setAppType] = useState<Exclude<OsTypeValues, 'O'>>(OS_TYPE.APK);
   const [appFile, setAppFile] = useState<File | null>(null);
   const [formData, setFormData] = useState<FormData>(new FormData());
-  const {
-    mutateAsync,
-    isPending: isDeploying,
-    isSuccess: deploySuccess,
-    reset,
-  } = useDeployAppMutation();
+  const { mutateAsync, isPending: isDeploying, isSuccess: deploySuccess, reset } = useDeployAppMutation();
   const { alertData, setAlertData } = useMuiAlert();
-  const {
-    activeStep,
-    goToStep,
-    handleNext,
-    handleReset: resetStep,
-  } = useStepper();
+  const { activeStep, goToStep, handleNext, handleReset: resetStep } = useStepper();
 
   // 앱 유형 변경 처리
   useEffect(() => {

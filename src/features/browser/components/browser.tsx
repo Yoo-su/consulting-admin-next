@@ -1,20 +1,17 @@
 'use client';
 
-import { SxProps } from '@mui/material';
-import { useEffect } from 'react';
+import { CSSProperties, useEffect } from 'react';
 
 import { DropZoneContainer, SaveDataButton } from '@/shared/components';
 
 import { DEFAULT_BROWSER_OPTION } from '../constants';
 import { useHandleQueue } from '../hooks';
-import {
-  BrowserOptionOptional,
-  UploadMutationType,
-  useBrowserStore,
-} from '../models';
+import { BrowserOptionOptional, UploadMutationType, useBrowserStore } from '../models';
 import { AddDirectoryDialog } from './add-directory-dialog';
+import { BrowserDisplayBoundary } from './display-boundary';
 import { BrowserHeader } from './header';
 import { ListRenderer } from './list-renderer';
+import { QueueRenderer } from './queue-renderer';
 
 type BrowserProps = {
   initialPath: string;
@@ -49,10 +46,17 @@ export const Browser = ({
   }, [initialPath]);
 
   return (
-    <DropZoneContainer onDrop={handleOnDrop} sx={browserContainerStyles}>
+    <div style={browserContainerStyles}>
+      {/* browser header - 정렬 기준 설정, 현재경로 확인, 파일추가, 폴더추가, 이전페이지 이동 */}
       <BrowserHeader handleClickInput={handleClickInput} />
 
-      <ListRenderer handleRemoveInputFile={handleRemoveInputFile} />
+      {/* browser item(디렉토리, 파일), queue item 렌더링 담당 */}
+      <DropZoneContainer onDrop={handleOnDrop}>
+        <BrowserDisplayBoundary>
+          <ListRenderer />
+          <QueueRenderer handleRemoveInputFile={handleRemoveInputFile} />
+        </BrowserDisplayBoundary>
+      </DropZoneContainer>
 
       {!!browserQueueLen && (
         <SaveDataButton
@@ -61,27 +65,18 @@ export const Browser = ({
           handleBtnClick={handleUploadBrowserQueue}
         />
       )}
-      <AddDirectoryDialog
-        isUploadPending={uploadMutation?.isPending}
-        handleUploadDialogQueue={handleUploadDialogQueue}
-      />
-      <input
-        style={{ display: 'none' }}
-        type={'file'}
-        multiple
-        ref={fileInputRef}
-        onChange={handleChangeFileInput}
-      />
-    </DropZoneContainer>
+      <AddDirectoryDialog isUploading={uploadMutation?.isPending} handleUploadDialogQueue={handleUploadDialogQueue} />
+      <input style={{ display: 'none' }} type={'file'} multiple ref={fileInputRef} onChange={handleChangeFileInput} />
+    </div>
   );
 };
 
-const browserContainerStyles: SxProps = {
+const browserContainerStyles: CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   position: 'relative',
-  backgroundColor: 'grey.50',
+  backgroundColor: '#FAFAFA',
   borderRadius: '0.2rem',
-  padding: 2,
-  gap: 3,
+  padding: '16px',
+  gap: '12px',
 };

@@ -23,9 +23,7 @@ export type UserProviderProps = {
 };
 export const UserProvider = ({ children }: UserProviderProps) => {
   const { showError } = useTypographyToast();
-  const [state, setState] = useState<
-    Pick<UserContextValue, 'user' | 'isLoading'>
-  >({
+  const [state, setState] = useState<Pick<UserContextValue, 'user' | 'isLoading'>>({
     user: null,
     isLoading: true,
   });
@@ -34,9 +32,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     setState((prev) => ({ ...prev, user: user, isLoading: false }));
   };
 
-  const isAdmin =
-    state.user?.groupIdList.includes(AdminGroup['ConsultingAdminDeveloper']) ??
-    false;
+  const isAdmin = state.user?.groupIdList.includes(AdminGroup['ConsultingAdminDeveloper']) ?? false;
 
   const handleLogout = useCallback(() => {
     sessionStorage.removeItem('token');
@@ -78,11 +74,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     } else setUser(null);
   }, []);
 
-  return (
-    <UserContext.Provider value={{ ...state, setUser, isAdmin, handleLogout }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={{ ...state, setUser, isAdmin, handleLogout }}>{children}</UserContext.Provider>;
 };
 
 const UserConsumer = UserContext.Consumer;

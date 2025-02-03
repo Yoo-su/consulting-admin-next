@@ -1,17 +1,9 @@
 'use client';
 
-import {
-  DraggableProvidedDraggableProps,
-  DraggableProvidedDragHandleProps,
-} from '@hello-pangea/dnd';
+import { DraggableProvidedDraggableProps, DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {
-  ComponentPropsWithoutRef,
-  CSSProperties,
-  PropsWithChildren,
-  Ref,
-} from 'react';
+import { ComponentPropsWithoutRef, CSSProperties, PropsWithChildren, Ref } from 'react';
 
 import {
   CustomWidthBoxCellStyle,
@@ -34,19 +26,9 @@ type TableRowBoxProps = PropsWithChildren & {
   draggableProps?: DraggableProvidedDraggableProps;
   dragHandleProps?: DraggableProvidedDragHandleProps | null | undefined;
 };
-export const TableRowBox = ({
-  children,
-  innerRef,
-  draggableProps,
-  dragHandleProps,
-}: TableRowBoxProps) => {
+export const TableRowBox = ({ children, innerRef, draggableProps, dragHandleProps }: TableRowBoxProps) => {
   return (
-    <Box
-      sx={{ ...TableRowBoxStyle }}
-      ref={innerRef}
-      {...draggableProps}
-      {...dragHandleProps}
-    >
+    <Box sx={{ ...TableRowBoxStyle }} ref={innerRef} {...draggableProps} {...dragHandleProps}>
       {children}
     </Box>
   );

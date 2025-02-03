@@ -1,8 +1,12 @@
-import { Box, styled, SxProps } from '@mui/material';
-import { useMemo } from 'react';
+import { Box, Grid, styled, SxProps } from '@mui/material';
+import { ReactNode, useCallback, useMemo } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 import { useBrowserStore } from '../models';
+
+type GridItemWrapperProps = {
+  children: ReactNode;
+};
 
 /**
  * @description
@@ -12,25 +16,39 @@ import { useBrowserStore } from '../models';
  * 기본형, 카드형 각각의 스타일을 관리하기 위한 hook
  */
 export const useItemStyle = () => {
-  const itemAppearance = useBrowserStore(
-    useShallow((state) => state.browserOption.itemAppearance)
+  const itemAppearance = useBrowserStore(useShallow((state) => state.browserOption.itemAppearance));
+  const isBasic = useMemo(() => itemAppearance === 'basic', [itemAppearance]);
+  const BrowserItemWrapper = isBasic ? BasicItemWrapper : CardItemWrapper;
+  const BrowserInfoArea = isBasic ? BasicInfoArea : CardInfoArea;
+
+  const GridItemWrapper = useCallback(
+    ({ children }: GridItemWrapperProps) => {
+      const xsGridItemSize = isBasic ? 2 : 3;
+      const smGridItemSize = isBasic ? 1.5 : 3;
+
+      return (
+        <GridItem item xs={xsGridItemSize} sm={smGridItemSize}>
+          {children}
+        </GridItem>
+      );
+    },
+    [isBasic]
   );
 
-  const isBasic = useMemo(() => {
-    return itemAppearance === 'basic';
-  }, [itemAppearance]);
-
-  const Wrapper = useMemo(() => {
-    return isBasic ? BasicWrapper : CardWrapper;
-  }, [isBasic]);
-  const InfoArea = useMemo(() => {
-    return isBasic ? BasicInfoArea : CardInfoArea;
-  }, [isBasic]);
-
-  return { Wrapper, InfoArea, isBasic };
+  return { GridItemWrapper, BrowserItemWrapper, BrowserInfoArea, isBasic };
 };
 
-const commonWrapperStyle: SxProps = {
+const GridItem = styled(Grid)({
+  flexBasis: '100%',
+  minWidth: 0,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: 'fit-content',
+  userSelect: 'none',
+});
+
+const commonItemWrapperStyle: SxProps = {
   display: 'flex',
   width: '80%',
   borderRadius: '0.3rem',
@@ -41,16 +59,16 @@ const commonWrapperStyle: SxProps = {
   },
 };
 
-const BasicWrapper = styled(Box)({
-  ...commonWrapperStyle,
+const BasicItemWrapper = styled(Box)({
+  ...commonItemWrapperStyle,
   justifyContent: 'center',
   alignItems: 'center',
   gap: 0.3,
   flexDirection: 'column',
 });
 
-const CardWrapper = styled(Box)({
-  ...commonWrapperStyle,
+const CardItemWrapper = styled(Box)({
+  ...commonItemWrapperStyle,
   padding: '.3rem',
   flexDirection: 'row',
   boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',

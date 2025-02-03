@@ -4,8 +4,6 @@ import { authInstance } from '@/shared/plugin/axios';
 import { FlutterSetting } from '../models';
 
 export const getFlutterCategory = async () => {
-  const { data } = await authInstance.get<FlutterSetting[]>(
-    API_URLS.dashboard.getFlutterCategory
-  );
+  const { data } = await authInstance.get<FlutterSetting[]>(API_URLS.dashboard.getFlutterCategory);
   return data;
 };
