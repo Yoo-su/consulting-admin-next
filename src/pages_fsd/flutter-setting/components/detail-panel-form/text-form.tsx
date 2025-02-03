@@ -48,12 +48,23 @@ export const TextForm = ({
       InitialValue: initialValue?.toString() ?? '',
     });
   }, [handleEdit, textValue, RowIdx, addToEditedList, path, initialValue]);
+  // type이 double이거나 number일 때 숫자만 입력 가능
+  const isNumbersOnly = useCallback((value: string) => {
+    // decimal point 포함하는 숫자 regex pattern
+    const regex = /^((\d+(\.\d*)?)|(\.\d+))$/;
+    return (
+      value !== '' && ['double', 'number'].includes(Type) && !regex.test(value)
+    );
+  }, []);
+
   const inputRef = useOutsideClick(() => {
     if (isActive) {
       updateEditedValue();
     }
     setIsActive(false);
   });
+
+  //#region handle functions
   const handleInputKey = useCallback(
     (event: KeyboardEvent<HTMLInputElement>) => {
       if (event.key !== 'Enter') return;
@@ -70,21 +81,15 @@ export const TextForm = ({
         showError(TEXT_ERROR_MESSAGE.REQUIRED);
         return;
       }
-      // decimal point 포함하는 숫자 regex pattern
-      const regex = /^((\d+(\.\d*)?)|(\.\d+))$/;
-      // type이 double이거나 number일 때 숫자만 입력 가능
-      if (
-        value !== '' &&
-        ['double', 'number'].includes(Type) &&
-        !regex.test(value)
-      )
-        return event.preventDefault();
+      if (isNumbersOnly(value)) return event.preventDefault();
 
       setIsActive(true);
       setTextValue(value);
     },
     [IsRequired, Type]
   );
+  //#endregion handle functions
+
   useEffect(() => {
     setTextValue(getItemValue(RowValue, transferDefaultValue));
   }, [RowValue]);

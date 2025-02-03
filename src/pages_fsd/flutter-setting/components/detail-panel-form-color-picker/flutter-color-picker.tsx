@@ -34,6 +34,7 @@ export const FlutterColorPicker = ({
   const [hexText, setHexText] = useState<string>(
     value.replace('0xff', '').toUpperCase()
   );
+  //TODO: blocked aria-hidden error
   const { addToEditedList } = useFlutterSetting();
 
   const handleColorChange = (event: MouseEvent<HTMLButtonElement>) => {
