@@ -2,6 +2,8 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, Stack, styled, TableCell, TableFooter, TableRow, Typography } from '@mui/material';
 import { memo } from 'react';
 
+import { ADD_ROW_TEXT } from '../../constants';
+
 type LevelTableFooterProps = {
   handleAddLevelRow: () => void;
 };
@@ -14,7 +16,7 @@ export const LevelTableFooter = memo(({ handleAddLevelRow }: LevelTableFooterPro
             <AddRowStack direction={'row'}>
               <AddCircleIcon sx={{ color: '#0069A0', marginRight: 1 }} />
               <Typography variant="body2" sx={{ color: '#0069A0' }}>
-                행추가
+                {ADD_ROW_TEXT}
               </Typography>
             </AddRowStack>
           </AddRowBox>

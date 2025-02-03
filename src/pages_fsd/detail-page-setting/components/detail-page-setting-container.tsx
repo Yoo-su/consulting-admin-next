@@ -30,9 +30,7 @@ export const DetailPageSettingContainer = () => {
         <Fragment>
           <ContentWrapper.Header bottomDivider>
             <Stack width={'100%'} direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
-              <Typography variant="h4" textAlign={'left'} width={'100%'}>
-                {containerTitle}
-              </Typography>
+              <ContentWrapper.Title title={containerTitle} />
               <AddNewDataButton handleClick={handleAddNewData} />
             </Stack>
           </ContentWrapper.Header>

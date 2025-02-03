@@ -1,7 +1,4 @@
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import Stack from '@mui/material/Stack';
-import { SxProps } from '@mui/material/styles';
+import { Box, Divider, Stack, SxProps, Typography, TypographyVariant, useMediaQuery, useTheme } from '@mui/material';
 import { ReactNode } from 'react';
 
 type HeaderProps = {
@@ -17,6 +14,29 @@ export const Header = ({ children, bottomDivider, sxProps }: HeaderProps) => {
       </Stack>
       {bottomDivider && <Divider sx={{ my: 2, borderColor: 'rgba(0,0,0,0.05)' }} />}
     </>
+  );
+};
+
+type TitleProps = {
+  title: string;
+  variant?: TypographyVariant;
+};
+export const Title = ({ title, variant = 'h4' }: TitleProps) => {
+  const theme = useTheme();
+  const downmd = useMediaQuery(theme.breakpoints.down('md'));
+
+  return (
+    <Typography
+      variant={variant}
+      sx={{
+        ...(downmd && {
+          width: '75%',
+          fontSize: '16px',
+        }),
+      }}
+    >
+      {title}
+    </Typography>
   );
 };
 
@@ -52,4 +72,5 @@ export const ContentWrapper = ({ children, sxProps }: ContentWrapperProps) => {
 };
 
 ContentWrapper.Header = Header;
+ContentWrapper.Title = Title;
 ContentWrapper.MainContent = MainContent;

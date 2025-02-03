@@ -50,7 +50,6 @@ export const ModelLevelTable = memo(({ modelNum, levelNum }: ModelLevelTableProp
             !isEditing && (
               <>
                 <EnterEditModeButton handleEnterEditMode={handleEnterEditMode} />
-
                 <DeleteLevelButton handleDeleteLevel={handleDeleteLevel} />
               </>
             )

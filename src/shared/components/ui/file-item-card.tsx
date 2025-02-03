@@ -13,7 +13,7 @@ export const iconPathMap: {
   [key in FileType]: () => Promise<{ default: StaticImageData }>;
 } = {
   excel: () => import('@/shared/assets/images/xls_64.png'),
-  apk: () => import('@/shared/assets/images/apk_64.png'),
+  apk: () => import('@/shared/assets/svgs/apk.svg'),
   exe: () => import('@/shared/assets/svgs/exe.svg'),
   jpg: () => import('@/shared/assets/images/jpg_64.png'),
   png: () => import('@/shared/assets/images/png_64.png'),

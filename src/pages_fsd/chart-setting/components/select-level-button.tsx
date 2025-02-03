@@ -1,6 +1,8 @@
 import { Chip, Typography } from '@mui/material';
 import { memo } from 'react';
 
+import { getLevelTitle } from '../utils';
+
 type SelectLevelButtonProps = {
   level: number;
   isSelected: boolean;
@@ -12,7 +14,7 @@ export const SelectLevelButton = memo(({ level, isSelected, handleClick }: Selec
       size="small"
       label={
         <Typography variant="body1" fontSize={14}>
-          단계{level}
+          {getLevelTitle(level)}
         </Typography>
       }
       color={isSelected ? 'info' : 'default'}
