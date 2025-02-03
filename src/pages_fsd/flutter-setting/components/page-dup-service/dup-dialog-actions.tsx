@@ -6,8 +6,7 @@ import { QUERY_KEYS } from '@/shared/constants';
 import { useTypographyToast } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
-import { DUP_ERROR_MESSAGE } from '../../constants';
-import { DupDialogCancelBtn, DupDialogConfirmBtn } from '../../constants/classes';
+import { DUP_ERROR_MESSAGE, DupDialogCancelBtn, DupDialogConfirmBtn } from '../../constants';
 import { useSetDuplicateSettingMutation } from '../../hooks';
 import { ServiceOption } from '../../models';
 

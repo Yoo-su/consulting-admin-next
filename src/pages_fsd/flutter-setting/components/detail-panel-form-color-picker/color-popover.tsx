@@ -1,16 +1,14 @@
-import { Box, Button, FormControl, InputBase } from '@mui/material';
-import InputAdornment from '@mui/material/InputAdornment';
+import { Button } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import { ChangeEvent, Dispatch, MouseEvent, SetStateAction } from 'react';
 
-import { ColorSquareClass, PRE_COLORS } from '../../constants';
-import { HSV } from '../../models';
-import { clamp, hexToHsv, hsvToHex, isValidHexColor, matchIsNumber } from '../../services';
-import { ColorSpace } from './color-space';
-import { ColorSquareIcon } from './color-square-icon';
-import { HueSlider } from './hue-slider';
+import { HSV, PreColors } from '../../models';
+import { clamp, hexToHsv, isValidHexColor, matchIsNumber } from '../../services';
+import { ColorPickerSpace } from './color-picker-space';
+import { ColorPopoverHeader } from './color-popover-header';
+import { ColorPopoverPrecolor } from './color-popover-precolor';
+import { HueSlider } from './hue-slider.styled';
 
 type ColorPopoverProps = {
   hexText: string;
@@ -40,55 +38,32 @@ export const ColorPopover = ({
     const { s, v } = args;
     setCurrentHsv((prevState) => ({ ...prevState, s, v }));
   };
-  const handleChangeHue = (event: Event, hue: number | number[]) => {
+  const handleChangeHue = (_: Event, hue: number | number[]) => {
     if (!matchIsNumber(hue)) {
       return;
     }
     const newHue = clamp((360 * hue) / 100, 0, 359);
     setCurrentHsv((prevState) => ({ ...prevState, h: newHue }));
   };
+  const handlePrecolorChange = (color: PreColors) => {
+    setHexText(color);
+    setCurrentHsv(hexToHsv(color));
+  };
 
   return (
     <Paper sx={{ padding: '5px', width: '300px' }}>
-      <Stack direction={'row'} spacing={2} alignItems={'center'} justifyContent={'space-between'}>
-        <Typography variant="body1">선택된 색상</Typography>
-        <Stack direction={'row'} alignItems={'center'}>
-          <ColorSquareIcon color={`#${hsvToHex(currentHsv)}`} />
-          <FormControl>
-            <InputBase
-              startAdornment={<InputAdornment position="start">0xff</InputAdornment>}
-              size="small"
-              sx={ColorSquareClass}
-              value={hexText}
-              onChange={handleChangeText}
-            />
-          </FormControl>
-        </Stack>
-      </Stack>
+      <ColorPopoverHeader hexText={hexText} currentHsv={currentHsv} handleChangeText={handleChangeText} />
 
-      <ColorSpace currentHue={currentHsv.h} hsv={currentHsv} onChange={handleChangeSpace} />
-      <Box>
-        <HueSlider
-          min={0}
-          max={100}
-          step={1}
-          onChange={handleChangeHue}
-          aria-label="hue"
-          value={(currentHsv.h * 100) / 360}
-        />
-      </Box>
-      <Box>
-        {PRE_COLORS.map((color, index) => (
-          <ColorSquareIcon
-            key={index}
-            color={`#${color}`}
-            onClick={() => {
-              setHexText(color);
-              setCurrentHsv(hexToHsv(color));
-            }}
-          />
-        ))}
-      </Box>
+      <ColorPickerSpace currentHue={currentHsv.h} hsv={currentHsv} onChange={handleChangeSpace} />
+      <HueSlider
+        min={0}
+        max={100}
+        step={1}
+        onChange={handleChangeHue}
+        aria-label="hue"
+        value={(currentHsv.h * 100) / 360}
+      />
+      <ColorPopoverPrecolor handlePrecolorChange={handlePrecolorChange} />
       <Stack direction={'row'}>
         <Button variant="contained" disableElevation sx={{ width: '100%' }} onClick={handleColorChange}>
           선택 완료

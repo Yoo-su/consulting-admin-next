@@ -1,5 +1,6 @@
 export * from './check-child-edited';
-export * from './color-utils';
+export * from './color-calculation';
+export * from './color-picker';
 export * from './get-array-from-string';
 export * from './get-array-to-object-form';
 export { getCategoryInfo } from './get-category-info';

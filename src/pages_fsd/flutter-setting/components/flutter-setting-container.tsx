@@ -7,7 +7,7 @@ import { SaveDataButton } from '@/shared/components';
 import { useInterceptAppRouter } from '@/shared/hooks';
 import { useSharedStore } from '@/shared/models';
 
-import { ContainerClass } from '../constants/classes';
+import { ContainerClass } from '../constants/main-classes';
 import { useFlutterSetting, useGetFlutterSettingsInfoQuery, useNavigationBlock } from '../hooks';
 import { FlutterSetting as FlutterSettingType } from '../models';
 import { getFilteredCustomConfig } from '../services';

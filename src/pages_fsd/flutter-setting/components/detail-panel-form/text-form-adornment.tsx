@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 
 import { FlutterRowInfo, Path } from '../../models';
 import { getInitialValue } from '../../services';
-import { FlutterColorPicker } from '../detail-panel-form-color-picker';
+import { FormColorPicker } from '../detail-panel-form-color-picker';
 
 type TextFormAdornmentProps = {
   item: FlutterRowInfo;
@@ -21,7 +21,7 @@ export const TextFormAdornment = ({ path, handleEdit, textValue, setTextValue, i
   const initialValue = getInitialValue(transferDefaultValue, OriginalRowValue);
 
   return (
-    <FlutterColorPicker
+    <FormColorPicker
       setTextValue={setTextValue}
       value={textValue}
       handleEdit={handleEdit}

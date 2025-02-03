@@ -1,6 +1,7 @@
 import { Service } from '@/shared/models';
 
 import { EditSettingProps } from '../components/detail-panel/edit-setting';
+import { KEYBOARD_KEY, PRE_COLORS } from '../constants';
 
 export type Path = (number | string)[];
 export type FormItemProps = {
@@ -23,37 +24,11 @@ export type ComponentMappingType = {
   [key: string]: EditSettingComponent | BasicFormComponent;
 };
 
-export const KEYBOARD_KEY: Record<string, KeyboardEvent['key']> = {
-  up: 'ArrowUp',
-  down: 'ArrowDown',
-  left: 'ArrowLeft',
-  right: 'ArrowRight',
-};
-
-type ArrowColorSpace = {
+export type ArrowColorSpace = {
   [key in (typeof KEYBOARD_KEY)[keyof typeof KEYBOARD_KEY]]: {
     type: 'hsvS' | 'hsvV';
     value: 1 | -1;
   };
-};
-
-export const ARROW_COLOR_SPACE: ArrowColorSpace = {
-  ArrowUp: {
-    type: 'hsvV',
-    value: +1,
-  },
-  ArrowDown: {
-    type: 'hsvV',
-    value: -1,
-  },
-  ArrowLeft: {
-    type: 'hsvS',
-    value: -1,
-  },
-  ArrowRight: {
-    type: 'hsvS',
-    value: +1,
-  },
 };
 
 export type HSV = { h: number; s: number; v: number };
@@ -97,3 +72,5 @@ export type MapObject = {
   item: string;
   value: string;
 };
+
+export type PreColors = (typeof PRE_COLORS)[number];

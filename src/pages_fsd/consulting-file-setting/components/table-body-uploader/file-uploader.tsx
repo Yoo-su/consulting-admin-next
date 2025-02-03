@@ -7,6 +7,7 @@ import { ChangeEvent, useRef, useState } from 'react';
 import { useConsultingFileSettings, useFileDropHandler } from '@/pages_fsd/consulting-file-setting/hooks';
 import { checkFileType, getFileTypeErrorToastComponent } from '@/pages_fsd/consulting-file-setting/services';
 import { useTypographyToast } from '@/shared/hooks';
+
 import { CellBoxCustomWidth } from '../table-customs';
 import { HiddenFileInput } from './hidden-file-input.styled';
 import { UploadDivWrapper } from './upload-div-wrapper.styled';

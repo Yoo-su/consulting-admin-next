@@ -1,16 +1,17 @@
-import { Box, styled } from '@mui/material';
 import { KeyboardEvent, MouseEvent, useCallback, useEffect, useRef, useState } from 'react';
 
-import { ARROW_COLOR_SPACE, KEYBOARD_KEY } from '../../models';
-import { clamp, round } from '../../services';
+import { ARROW_COLOR_SPACE } from '../../constants';
+import { clamp, getNewThumbPosition, matchIsArrowKey, round, useEvent } from '../../services';
+import { SpaceBox } from './color-picker-space-box.styled';
+import { ThumbBox } from './color-picker-thumb-box.styled';
 
-type ColorSpaceProps = {
+type ColorPickerSpaceProps = {
   hsv: { h: number; s: number; v: number };
   currentHue: number;
   onChange: (args: { s: number; v: number }) => void;
 };
 
-export const ColorSpace = (props: ColorSpaceProps) => {
+export const ColorPickerSpace = (props: ColorPickerSpaceProps) => {
   const { hsv, onChange, currentHue } = props;
   const isPointerDown = useRef<boolean>(false);
   const spaceRef = useRef<HTMLDivElement>(null);
@@ -86,7 +87,7 @@ export const ColorSpace = (props: ColorSpaceProps) => {
     <SpaceBox
       onPointerDown={handlePointerDown}
       ref={spaceRef}
-      className="MuiColorInput-ColorSpace"
+      className="MuiColorInput-ColorPickerSpace"
       style={{
         backgroundColor: `hsl(${currentHue} 100% 50%)`,
         touchAction: 'none',
@@ -107,69 +108,3 @@ export const ColorSpace = (props: ColorSpaceProps) => {
     </SpaceBox>
   );
 };
-
-const BG_IMAGE_SPACE =
-  'linear-gradient(to top, #000000, transparent), linear-gradient(to right, #ffffff, transparent) /*! @noflip */';
-const SpaceBox = styled(Box)({
-  width: '100%',
-  height: '180px',
-  boxSizing: 'border-box',
-  outline: 0,
-  position: 'relative',
-  backgroundImage: BG_IMAGE_SPACE,
-});
-const ThumbBox = styled(Box)({
-  position: 'absolute',
-  border: '3px solid #ffffff',
-  borderRadius: '50%',
-  width: '20px',
-  height: '20px',
-  marginLeft: '-10px /*! @noflip */',
-  marginBottom: '-10px /*! @noflip */',
-  outline: 0,
-  boxSizing: 'border-box',
-  willChange: 'left, bottom',
-  transition: 'box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-
-  '&:hover': {
-    boxShadow: `0px 0px 0px 4px rgba(255 255 255 / 0.16)`,
-  },
-
-  '&.MuiColorInput-Thumb-active': {
-    boxShadow: `0px 0px 0px 8px rgba(255 255 255 / 0.16)`,
-  },
-
-  '@media (hover: none)': {
-    boxShadow: 'none',
-  },
-});
-
-function matchIsArrowKey(key: string): key is keyof typeof ARROW_COLOR_SPACE {
-  return (
-    key === KEYBOARD_KEY.up || key === KEYBOARD_KEY.down || key === KEYBOARD_KEY.left || key === KEYBOARD_KEY.right
-  );
-}
-
-function getNewThumbPosition(colorSpace: HTMLDivElement, clientX: number, clientY: number): { x: number; y: number } {
-  const boundingClientRect = colorSpace.getBoundingClientRect();
-  const positionX = clientX - boundingClientRect.left;
-  const positionY = clientY - boundingClientRect.top;
-
-  return {
-    x: clamp(positionX / boundingClientRect.width, 0, 1),
-    y: clamp(1 - positionY / boundingClientRect.height, 0, 1),
-  };
-}
-
-type Fn = (...args: any[]) => void;
-
-function useEvent(fn: Fn): Fn {
-  const fnRef = useRef<Fn>();
-
-  fnRef.current = fn;
-
-  return useCallback((...args) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    return fnRef.current?.(...args);
-  }, []);
-}

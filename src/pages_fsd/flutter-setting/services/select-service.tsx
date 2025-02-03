@@ -1,7 +1,7 @@
 import { Chip } from '@mui/material';
 import { HTMLAttributes, Key } from 'react';
 
-import { DupDialogOptionLabelChipClass, DupDialogOptionLabelClass } from '../constants/classes';
+import { DupDialogOptionLabelChipClass, DupDialogOptionLabelClass } from '../constants';
 import { ServiceOption } from '../models';
 
 export const getRenderOption = (props: HTMLAttributes<HTMLLIElement> & { key?: Key }, option: ServiceOption) => {

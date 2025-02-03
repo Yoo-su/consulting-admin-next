@@ -1,1 +1,1 @@
-export { FlutterColorPicker } from './flutter-color-picker';
+export { FormColorPicker } from './form-color-picker';
