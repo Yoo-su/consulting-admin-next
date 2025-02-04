@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+
 import { PRE_COLORS } from '../../constants';
 import { PreColors } from '../../models';
 import { ColorSquareIcon } from './color-square-icon';

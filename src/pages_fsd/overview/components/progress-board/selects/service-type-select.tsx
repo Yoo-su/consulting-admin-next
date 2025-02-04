@@ -1,11 +1,11 @@
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-import { ServiceType, useStatusBoardStore } from '@/pages_fsd/overview/models';
+import { ServiceType, useBoardStore } from '@/pages_fsd/overview/models';
 
 export const ServiceTypeSelect = () => {
-  const selectedServiceType = useStatusBoardStore((state) => state.selectedServiceType);
-  const setSelectedServiceType = useStatusBoardStore((state) => state.setSelectedServiceType);
+  const selectedServiceType = useBoardStore((state) => state.selectedServiceType);
+  const setSelectedServiceType = useBoardStore((state) => state.setSelectedServiceType);
   const serviceMenus = [
     { title: '정시', value: 'J_A' },
     { title: '수시', value: 'S_A' },

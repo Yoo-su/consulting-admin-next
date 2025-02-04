@@ -1,1 +1,1 @@
-export { ConsultingAppStateBoard } from './consultingapp-state-board';
+export { ProgressBoard } from './progress-board';

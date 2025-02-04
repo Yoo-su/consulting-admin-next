@@ -1,6 +1,6 @@
 import { Skeleton, Stack } from '@mui/material';
 
-export const ConsultingAppStateBoardSkeleton = () => {
+export const BoardSkeleton = () => {
   return (
     <Stack direction={'column'}>
       <Skeleton variant="text" sx={{ fontSize: '2rem', my: 1 }} animation="pulse" />

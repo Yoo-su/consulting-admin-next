@@ -4,13 +4,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '@/shared/constants';
 
-import { updateConsultingAppState, UpdateConsultingAppStateParams } from '../apis';
+import { updateServiceDetail, UpdateServiceDetailParams } from '../../apis';
 
-export const useUpdateConsultingAppStateMutation = () => {
+export const useUpdateServiceDetailMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (params: UpdateConsultingAppStateParams) => updateConsultingAppState(params),
+    mutationFn: (params: UpdateServiceDetailParams) => updateServiceDetail(params),
     onSuccess() {
       return Promise.all([
         queryClient.invalidateQueries({

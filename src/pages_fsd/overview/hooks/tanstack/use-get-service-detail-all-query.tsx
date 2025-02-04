@@ -3,17 +3,14 @@ import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '@/shared/constants';
 import { useUser } from '@/shared/hooks';
 
-import { getConsultingAppStateAll } from '../../apis';
+import { getServiceDetailAll } from '../../apis';
 
-export const useGetConsultingAppStateAllQuery = () => {
+export const useGetServiceDetailAllQuery = () => {
   const { isAdmin } = useUser();
 
   return useQuery({
     queryKey: QUERY_KEYS.overview['work-status-all'].queryKey,
-    queryFn: () => getConsultingAppStateAll(),
+    queryFn: () => getServiceDetailAll(),
     enabled: isAdmin,
-    staleTime: 0,
-    refetchOnMount: 'always',
-    refetchOnWindowFocus: 'always',
   });
 };

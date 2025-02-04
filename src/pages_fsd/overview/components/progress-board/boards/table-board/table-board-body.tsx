@@ -1,19 +1,19 @@
 import CheckIcon from '@mui/icons-material/Check';
 import { Chip, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 
-import { STATE_BOARD_DOMAIN_ITEMS } from '@/pages_fsd/overview/constants';
-import { ConsultingAppState } from '@/pages_fsd/overview/models';
+import { PROGRESS_STATE_ITEMS } from '@/pages_fsd/overview/constants';
+import { ServiceDetail } from '@/pages_fsd/overview/models';
 import { useGetUnivListQuery } from '@/shared/hooks';
 
 type TableBoardBodyProps = {
-  visibleRows: ConsultingAppState[];
+  visibleRows: ServiceDetail[];
 };
 export const TableBoardBody = ({ visibleRows }: TableBoardBodyProps) => {
   const { data: univList } = useGetUnivListQuery();
   return (
     <TableBody>
-      {visibleRows.map((item: ConsultingAppState) => {
-        const { color, title } = STATE_BOARD_DOMAIN_ITEMS[item.currentState];
+      {visibleRows.map((item: ServiceDetail) => {
+        const { color, title } = PROGRESS_STATE_ITEMS[item.currentState];
         const currentUniv = univList?.find((univ) => univ.univID === item.univID);
         const univName = currentUniv?.univName || '새대학';
 

@@ -5,35 +5,27 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { useCallback, useMemo } from 'react';
 
-import {
-  CURRENT_STATES,
-  ERROR_MESSAGE,
-  STATE_BOARD_DOMAIN_ITEMS,
-  UPDATE_APP_STATE,
-} from '@/pages_fsd/overview/constants';
-import { useHandleStatusBoard, useUpdateConsultingAppStateMutation } from '@/pages_fsd/overview/hooks';
-import { BoardType, CurrentState, ServiceType } from '@/pages_fsd/overview/models';
-import { EmptyBox } from '@/shared/components';
+import { PROGRESS_STATE_ITEMS, PROGRESS_STATES, UPDATE_APP_STATE } from '@/pages_fsd/overview/constants';
+import { useFilteredBoardData, useUpdateServiceDetailMutation } from '@/pages_fsd/overview/hooks';
+import { ProgressState, ServiceType, useBoardStore } from '@/pages_fsd/overview/models';
 import { useTypographyToast } from '@/shared/hooks';
 import { getGroupedData } from '@/shared/services';
 
-import { StateCol } from '../state-column';
+import { CardListColumn } from '../card-list-column';
 
-type BasicBoardContainerProps = {
-  boardType: BoardType;
-};
-export const BasicBoard = ({ boardType }: BasicBoardContainerProps) => {
+export const BasicBoard = () => {
+  const boardType = useBoardStore((state) => state.boardType);
   const { showError, showSuccess } = useTypographyToast();
-  const { mutateAsync: updateConsultingAppStateMutation } = useUpdateConsultingAppStateMutation();
-  const { filteredConsultingAppStates, filteredConsultingAppStatesAll } = useHandleStatusBoard();
+  const { mutateAsync: updateServiceDetailMutation } = useUpdateServiceDetailMutation();
+  const { filteredServiceDetail, filteredServiceDetailAll } = useFilteredBoardData();
 
   const filteredState = useMemo(
-    () => (boardType === 'mainUser' ? (filteredConsultingAppStates ?? []) : (filteredConsultingAppStatesAll ?? [])),
-    [boardType, filteredConsultingAppStates, filteredConsultingAppStatesAll]
+    () => (boardType === 'mainUser' ? filteredServiceDetail ?? [] : filteredServiceDetailAll ?? []),
+    [boardType, filteredServiceDetail, filteredServiceDetailAll]
   );
 
   const groupedStates = useMemo(() => {
-    return getGroupedData(filteredState ?? [], 'currentState', CURRENT_STATES);
+    return getGroupedData(filteredState ?? [], 'currentState', PROGRESS_STATES);
   }, [filteredState]);
 
   const onDragEnd = useCallback(
@@ -41,8 +33,8 @@ export const BasicBoard = ({ boardType }: BasicBoardContainerProps) => {
       if (!result.destination) return;
 
       const { source, destination } = result;
-      const sourceList = groupedStates[source.droppableId as CurrentState];
-      const destinationList = groupedStates[destination.droppableId as CurrentState];
+      const sourceList = groupedStates[source.droppableId as ProgressState];
+      const destinationList = groupedStates[destination.droppableId as ProgressState];
 
       // 같은 리스트 내에서 이동한 경우
       if (source.droppableId === destination.droppableId) return;
@@ -52,13 +44,13 @@ export const BasicBoard = ({ boardType }: BasicBoardContainerProps) => {
         serviceYear: Number(removed.serviceYear),
         univID: Number(removed.univID),
         serviceType: removed.serviceType as ServiceType,
-        currentState: destination.droppableId as CurrentState,
+        currentState: destination.droppableId as ProgressState,
       };
 
-      removed.currentState = destination.droppableId as CurrentState;
+      removed.currentState = destination.droppableId as ProgressState;
       destinationList.splice(destination.index, 0, removed);
 
-      updateConsultingAppStateMutation(updateParams).then((res) => {
+      updateServiceDetailMutation(updateParams).then((res) => {
         if (res.status === 200) {
           showSuccess(UPDATE_APP_STATE.UPDATE_SUCCESS);
         } else {
@@ -69,17 +61,15 @@ export const BasicBoard = ({ boardType }: BasicBoardContainerProps) => {
     [groupedStates]
   );
 
-  if (!filteredState?.length) return <EmptyBox text={ERROR_MESSAGE.NO_DATA} />;
-
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Box>
         <Grid container spacing={1.5}>
-          {Object.values(STATE_BOARD_DOMAIN_ITEMS).map((item) => (
+          {Object.values(PROGRESS_STATE_ITEMS).map((item) => (
             <Grid item key={item.title} xs={6} md={2} lg={2} xl={2}>
-              <StateCol
-                currentStateKey={item.key}
-                groupedStates={groupedStates[item.key as CurrentState]}
+              <CardListColumn
+                progressStateKey={item.key}
+                serviceDetails={groupedStates[item.key as ProgressState]}
                 title={item.title}
                 color={item.color}
                 bgcolor={item.bgcolor}

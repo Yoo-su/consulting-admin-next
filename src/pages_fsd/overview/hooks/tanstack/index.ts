@@ -1,3 +1,3 @@
-export { useGetConsultingAppStateAllQuery } from './use-get-consultingapp-state-all-query';
-export { useGetConsultingAppStateQuery } from './use-get-consultingapp-state-query';
-export { useHandleStatusBoard } from './use-handle-status-board';
+export { useGetServiceDetailAllQuery } from './use-get-service-detail-all-query';
+export { useGetServiceDetailQuery } from './use-get-service-detail-query';
+export { useUpdateServiceDetailMutation } from './use-update-service-detail-mutation';

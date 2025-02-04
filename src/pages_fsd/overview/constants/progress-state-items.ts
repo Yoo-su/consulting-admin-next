@@ -1,15 +1,6 @@
-import { CurrentState } from '../models';
+import { ProgressStateColumns } from '../models';
 
-export type StateBoardDomainItem = {
-  key: CurrentState;
-  title: string;
-  color: string;
-  bgcolor: string;
-};
-export type StateBoardDomainItems = {
-  [key in CurrentState]: StateBoardDomainItem;
-};
-export const STATE_BOARD_DOMAIN_ITEMS: StateBoardDomainItems = {
+export const PROGRESS_STATE_ITEMS: ProgressStateColumns = {
   notStarted: {
     key: 'notStarted',
     title: '시작하지 않음',

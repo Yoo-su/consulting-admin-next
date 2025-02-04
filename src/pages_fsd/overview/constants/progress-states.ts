@@ -1,6 +1,6 @@
-import { CurrentState } from '../models';
+import { ProgressState } from '../models';
 
-export const CURRENT_STATES: CurrentState[] = [
+export const PROGRESS_STATES: ProgressState[] = [
   'notStarted',
   'dataRequested',
   'developing',

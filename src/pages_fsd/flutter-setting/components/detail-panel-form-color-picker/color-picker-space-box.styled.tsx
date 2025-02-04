@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Box } from '@mui/material';
+
 import { BG_IMAGE_SPACE } from '../../constants';
 
 export const SpaceBox = styled(Box)({

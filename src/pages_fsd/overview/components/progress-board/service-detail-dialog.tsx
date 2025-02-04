@@ -15,15 +15,14 @@ import {
 import { Box, Chip, Dialog, DialogContent, DialogTitle, IconButton, Stack, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 
-import { STATE_BOARD_DOMAIN_ITEMS } from '../../constants';
-import { StateBoardDomainItems, useStatusBoardStore } from '../../models';
+import { PROGRESS_STATE_ITEMS } from '../../constants';
+import { ProgressStateColumns, useBoardStore } from '../../models';
 
-export const ConsultingAppStateDialog = () => {
-  const { isDialogOpen, toggleDialog, dialogContentState } = useStatusBoardStore();
-  if (!dialogContentState) return null;
+export const ServiceDetailDialog = () => {
+  const { isDialogOpen, toggleDialog, dialogContent } = useBoardStore();
+  if (!dialogContent) return null;
 
-  const { bgcolor, color, title } =
-    STATE_BOARD_DOMAIN_ITEMS[dialogContentState.currentState as keyof StateBoardDomainItems];
+  const { bgcolor, color, title } = PROGRESS_STATE_ITEMS[dialogContent.currentState as keyof ProgressStateColumns];
 
   const StackContainer = ({ children, typo }: { children: ReactNode; typo?: string }) => {
     return (
@@ -61,13 +60,13 @@ export const ConsultingAppStateDialog = () => {
 
       <DialogContent>
         <Stack direction={'column'} spacing={3} px={6} sx={{ paddingBottom: '1rem' }}>
-          <StackContainer typo={dialogContentState.univName}>
+          <StackContainer typo={dialogContent.univName}>
             <StackLabelContainer label="대학교">
               <AccountBalanceIcon />
             </StackLabelContainer>
           </StackContainer>
 
-          <StackContainer typo={dialogContentState.serviceID}>
+          <StackContainer typo={dialogContent.serviceID}>
             <StackLabelContainer label="서비스ID">
               <EggIcon />
             </StackLabelContainer>
@@ -80,19 +79,19 @@ export const ConsultingAppStateDialog = () => {
             <Chip size="small" label={title} sx={{ bgcolor: color }} />
           </StackContainer>
 
-          <StackContainer typo={dialogContentState.developerName}>
+          <StackContainer typo={dialogContent.developerName}>
             <StackLabelContainer label="담당 개발자">
               <AccessibilityIcon />
             </StackLabelContainer>
           </StackContainer>
 
-          <StackContainer typo={dialogContentState.managerName ?? '미정'}>
+          <StackContainer typo={dialogContent.managerName ?? '미정'}>
             <StackLabelContainer label="담당 운영자">
               <EmojiPeopleIcon />
             </StackLabelContainer>
           </StackContainer>
 
-          <StackContainer typo={dialogContentState.salesPersonName ?? '미정'}>
+          <StackContainer typo={dialogContent.salesPersonName ?? '미정'}>
             <StackLabelContainer label="담당 영업자">
               <SportsMartialArtsIcon />
             </StackLabelContainer>
@@ -102,14 +101,10 @@ export const ConsultingAppStateDialog = () => {
             <StackLabelContainer label="신규앱 여부">
               <FiberNewIcon />
             </StackLabelContainer>
-            {dialogContentState.isNew ? (
-              <CheckIcon sx={{ color: '#1976D2' }} />
-            ) : (
-              <CloseIcon sx={{ color: '#FD5361' }} />
-            )}
+            {dialogContent.isNew ? <CheckIcon sx={{ color: '#1976D2' }} /> : <CloseIcon sx={{ color: '#FD5361' }} />}
           </StackContainer>
 
-          <StackContainer typo={dialogContentState.serialKey ?? '미정'}>
+          <StackContainer typo={dialogContent.serialKey ?? '미정'}>
             <StackLabelContainer label="시리얼넘버">
               <VpnKeyRoundedIcon />
             </StackLabelContainer>

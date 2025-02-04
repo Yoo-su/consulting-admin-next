@@ -9,28 +9,27 @@ import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { ReactNode } from 'react';
 
-import { toolbarMenuItems, viewOptions as toolbarViewOption } from '../../constants';
-import { BoardType, ToolbarMenuItem, ToolbarViewOption, useStatusBoardStore, ViewOption } from '../../models';
+import { TOOLBAR_MENU_ITEMS, VIEW_OPTIONS } from '../../constants';
+import { BoardType, ToolbarMenuItem, ToolbarViewOption, useBoardStore, ViewOption } from '../../models';
 
-type ToolbarProps = {
-  boardType: BoardType;
-};
-export const Toolbar = ({ boardType }: ToolbarProps) => {
-  const { viewOption, setViewOption } = useStatusBoardStore();
+export const Toolbar = () => {
+  const boardType = useBoardStore((state) => state.boardType);
+  const viewOption = useBoardStore((state) => state.viewOption);
+  const setViewOption = useBoardStore((state) => state.setViewOption);
   const theme = useTheme();
   const upmd = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
     <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
-      {renderMenuItems(toolbarMenuItems, upmd)}
-      {renderViewOptions(toolbarViewOption, boardType, viewOption, setViewOption)}
+      {renderMenuItems(TOOLBAR_MENU_ITEMS, upmd)}
+      {renderViewOptions(VIEW_OPTIONS, boardType, viewOption, setViewOption)}
     </Stack>
   );
 };
 
 const renderMenuItems = (items: ToolbarMenuItem[], upmd: boolean) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { boardType, setBoardType, setViewOption } = useStatusBoardStore();
+  const { boardType, setBoardType, setViewOption } = useBoardStore();
   const children = items.reduce((acc: ReactNode[], curr: ToolbarMenuItem): ReactNode[] => {
     const { title, displayType, Icon } = curr;
     acc.push(
