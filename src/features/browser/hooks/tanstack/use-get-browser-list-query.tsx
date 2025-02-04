@@ -16,5 +16,6 @@ export const useGetBrowserListQuery = (path: string) => {
       }),
       length: data.items.length,
     }),
+    enabled: !!path,
   });
 };

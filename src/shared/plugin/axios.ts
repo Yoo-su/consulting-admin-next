@@ -38,6 +38,7 @@ apiInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 authInstance.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem('token');

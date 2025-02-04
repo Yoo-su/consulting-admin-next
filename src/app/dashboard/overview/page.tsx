@@ -1,4 +1,4 @@
-import { ConsultingAppStateBoard } from '@/pages_fsd/overview/components';
+import { ProgressBoard } from '@/pages_fsd/overview/components';
 
 export const metadata = {
   title: '상담앱 관리자 | 홈 - 현황판',
@@ -6,7 +6,7 @@ export const metadata = {
 };
 
 const Page = () => {
-  return <ConsultingAppStateBoard />;
+  return <ProgressBoard />;
 };
 
 export default Page;

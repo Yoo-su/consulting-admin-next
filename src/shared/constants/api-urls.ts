@@ -5,9 +5,9 @@ export const API_URLS = {
     updateProfileImage: '/user/profile/upload',
   },
   dashboard: {
-    getConsultingAppState: '/admin/service-detail',
-    getConsultingAppStateAll: '/admin/service-details',
-    updateConsultingAppState: '/admin/service-detail/state',
+    getServiceDetail: '/admin/service-detail',
+    getServiceDetailAll: '/admin/service-details',
+    updateServiceDetail: '/admin/service-detail/state',
     syncMoaNesinService: '/admin/service-detail/sync/moa',
     createService: '/foundation/service',
     updateIsNew: '/foundation/service/update-is-new',

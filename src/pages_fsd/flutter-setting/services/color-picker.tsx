@@ -1,4 +1,5 @@
 import { useCallback, useRef } from 'react';
+
 import { ARROW_COLOR_SPACE, KEYBOARD_KEY } from '../constants';
 import { clamp } from './color-calculation';
 

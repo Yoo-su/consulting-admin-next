@@ -1,9 +1,9 @@
 import { API_URLS } from '@/shared/constants/api-urls';
 import { apiInstance } from '@/shared/plugin/axios';
 
-import { CurrentState, ServiceType } from '../models';
+import { ProgressState, ServiceType } from '../models';
 
-type UpdateConsultingAppStateResponse = {
+type UpdateServiceDetailResponse = {
   serviceYear: number;
   univID: number;
   serviceType: ServiceType;
@@ -11,17 +11,17 @@ type UpdateConsultingAppStateResponse = {
   developer: string;
   manager: string | null;
   salesPerson: string | null;
-  currentState: CurrentState;
+  currentState: ProgressState;
   isNew: boolean;
   createDate: Date;
   updateDate: Date;
 };
-export type UpdateConsultingAppStateParams = {
+export type UpdateServiceDetailParams = {
   serviceYear: number;
   univID: number;
   serviceType: ServiceType;
-  currentState: CurrentState;
+  currentState: ProgressState;
 };
-export const updateConsultingAppState = async (params: UpdateConsultingAppStateParams) => {
-  return await apiInstance.patch<UpdateConsultingAppStateResponse>(API_URLS.dashboard.updateConsultingAppState, params);
+export const updateServiceDetail = async (params: UpdateServiceDetailParams) => {
+  return await apiInstance.patch<UpdateServiceDetailResponse>(API_URLS.dashboard.updateServiceDetail, params);
 };

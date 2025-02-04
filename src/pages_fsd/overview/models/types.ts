@@ -16,8 +16,8 @@ export type BoardType = 'mainUser' | 'all';
 export type ViewOption = 'basic' | 'separated' | 'table';
 export type DialogType = 'create' | 'modify';
 
-export type CurrentState = 'notStarted' | 'dataRequested' | 'developing' | 'testing' | 'deployed' | 'running';
-export type ConsultingAppState = {
+export type ProgressState = 'notStarted' | 'dataRequested' | 'developing' | 'testing' | 'deployed' | 'running';
+export type ServiceDetail = {
   univID: string;
   serviceID: string;
   univName: string;
@@ -31,21 +31,21 @@ export type ConsultingAppState = {
   serviceType: ServiceType; //'susi' | 'jungsi';
   serialKey?: string;
   isNew?: boolean;
-  currentState: CurrentState;
+  currentState: ProgressState;
 };
 export type ServiceType = 'S_A' | 'J_A';
 
-export type StateBoardDomainItem = {
-  key: CurrentState;
+export type ProgressStateColumn = {
+  key: ProgressState;
   title: string;
   color: string;
   bgcolor: string;
 };
-export type StateBoardDomainItems = {
-  [key in CurrentState]: StateBoardDomainItem;
+export type ProgressStateColumns = {
+  [key in ProgressState]: ProgressStateColumn;
 };
 
 export type TableBoardType = Pick<
-  Required<ConsultingAppState>,
+  Required<ServiceDetail>,
   'univID' | 'serviceID' | 'developerName' | 'managerName' | 'currentState' | 'isNew'
 >;

@@ -1,3 +1,3 @@
-export { getConsultingAppState } from './get-consultingapp-state';
-export { getConsultingAppStateAll } from './get-consultingapp-state-all';
-export * from './update-consultingapp-state';
+export { getServiceDetail } from './get-service-detail';
+export { getServiceDetailAll } from './get-service-detail-all';
+export * from './update-service-detail';

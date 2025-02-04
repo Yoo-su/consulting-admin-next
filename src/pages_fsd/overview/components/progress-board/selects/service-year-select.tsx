@@ -1,12 +1,12 @@
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-import { useStatusBoardStore } from '@/pages_fsd/overview/models';
+import { useBoardStore } from '@/pages_fsd/overview/models';
 import { getLastFiveServiceYears } from '@/pages_fsd/overview/services';
 
 export const ServiceYearSelect = () => {
-  const selectedServiceYear = useStatusBoardStore((state) => state.selectedServiceYear);
-  const setSelectedServiceYear = useStatusBoardStore((state) => state.setSelectedServiceYear);
+  const selectedServiceYear = useBoardStore((state) => state.selectedServiceYear);
+  const setSelectedServiceYear = useBoardStore((state) => state.setSelectedServiceYear);
   const recentFiveServiceYears = getLastFiveServiceYears();
 
   const handleChange = (event: SelectChangeEvent) => {

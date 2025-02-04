@@ -6,7 +6,7 @@ import ViewWeekRoundedIcon from '@mui/icons-material/ViewWeekRounded';
 
 import { ToolbarMenuItem, ToolbarViewOption } from '../models';
 
-export const toolbarMenuItems: ToolbarMenuItem[] = [
+export const TOOLBAR_MENU_ITEMS: ToolbarMenuItem[] = [
   {
     title: '나의 진행현황',
     displayType: 'mainUser',
@@ -19,7 +19,7 @@ export const toolbarMenuItems: ToolbarMenuItem[] = [
   },
 ];
 
-export const viewOptions: ToolbarViewOption[] = [
+export const VIEW_OPTIONS: ToolbarViewOption[] = [
   {
     title: '기본',
     displayType: 'basic',

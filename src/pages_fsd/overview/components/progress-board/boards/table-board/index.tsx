@@ -1,14 +1,14 @@
 import { Paper, Table, TableContainer, TablePagination } from '@mui/material';
 import { ChangeEvent, MouseEvent, useMemo, useState } from 'react';
 
-import { useHandleStatusBoard } from '@/pages_fsd/overview/hooks';
-import { ConsultingAppState, TableBoardType } from '@/pages_fsd/overview/models';
+import { useFilteredBoardData } from '@/pages_fsd/overview/hooks';
+import { ServiceDetail, TableBoardType } from '@/pages_fsd/overview/models';
 
 import { TableBoardBody } from './table-board-body';
 import { TableBoardHeader } from './table-board-header';
 
 export const TableBoard = () => {
-  const { filteredConsultingAppStatesAll } = useHandleStatusBoard();
+  const { filteredServiceDetailAll } = useFilteredBoardData();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [orderBy, setOrderBy] = useState<keyof TableBoardType>('univID');
@@ -44,17 +44,17 @@ export const TableBoard = () => {
   function getComparator<Key extends keyof TableBoardType>(
     order: 'asc' | 'desc',
     orderBy: Key
-  ): (a: ConsultingAppState, b: ConsultingAppState) => number {
+  ): (a: ServiceDetail, b: ServiceDetail) => number {
     return order === 'desc'
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
   }
 
   const visibleRows = useMemo(() => {
-    return [...filteredConsultingAppStatesAll]
+    return [...filteredServiceDetailAll]
       .sort(getComparator(order, orderBy))
       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-  }, [filteredConsultingAppStatesAll, order, orderBy, page, rowsPerPage]);
+  }, [filteredServiceDetailAll, order, orderBy, page, rowsPerPage]);
 
   return (
     <Paper sx={{ width: '100%' }}>
@@ -67,7 +67,7 @@ export const TableBoard = () => {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 30]}
         component="div"
-        count={filteredConsultingAppStatesAll?.length ?? 0}
+        count={filteredServiceDetailAll?.length ?? 0}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
